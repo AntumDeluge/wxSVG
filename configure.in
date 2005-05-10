@@ -1,0 +1,91 @@
+dnl Process this file with autoconf to produce a configure script.
+
+dnl initialization
+AC_PREREQ(2.57)
+AC_INIT([wxsvgtest], [1.0], [wx-svg-users@lists.sourceforge.net])
+AM_INIT_AUTOMAKE
+AM_MAINTAINER_MODE
+
+dnl options
+AM_OPTIONS_WXCONFIG
+AC_ARG_ENABLE(debug, [  --enable-debug          Enable debugging information],
+              USE_DEBUG="$enableval", USE_DEBUG="no")
+
+AC_MSG_CHECKING(for install location)
+case "$prefix" in
+NONE)	AC_CACHE_VAL(m_cv_prefix,m_cv_prefix=$ac_default_prefix);;
+*)	m_cv_prefix=$prefix ;;
+esac
+AC_MSG_RESULT($m_cv_prefix)
+case "$m_cv_prefix" in /*) ;; *)
+	AC_MSG_WARN([--prefix=$prefix must be an absolute path name, using $ac_default_prefix])
+	m_cv_prefix=$ac_default_prefix
+esac
+prefix=$m_cv_prefix
+
+
+dnl Checks for programs.
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_RANLIB
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_CXXCPP
+AC_PROG_LIBTOOL
+
+dnl debug flags
+case "$USE_DEBUG" in
+yes)
+  DEBUG_FLAGS="-g -Wall -DDEBUG"
+  ;;    
+*)
+  DEBUG_FLAGS=""
+  ;;
+esac
+
+dnl check wxWidgets >= 2.4.2
+AM_PATH_WXCONFIG(2.4.2, WXFOUND=1)
+if test "$WXFOUND" != 1; then
+    AC_MSG_ERROR([
+        Please check that wx-config is in path, the directory
+        where wxWidgets libraries are installed (returned by
+        'wx-config --libs' command) is in LD_LIBRARY_PATH or
+        equivalent variable and wxWidgets is version 2.4.2 or above.
+    ])
+fi
+CXXFLAGS="$CXXFLAGS $DEBUG_FLAGS $WX_CXXFLAGS "
+LIBS="$LIBS $WX_LIBS "
+
+dnl check for libart library
+AC_CHECK_PROG(LIBART_CONFIG, libart2-config, yes, no)
+if test $LIBART_CONFIG = yes; then
+	LIBART_CFLAGS="`libart2-config --cflags` $CXXFLAGS"
+	LIBART_LIBS="`libart2-config --libs` $LIBS"
+fi
+AC_SUBST(LIBART_CFLAGS)
+AC_SUBST(LIBART_LIBS)
+
+dnl check for freetype library
+AC_CHECK_PROG(FREETYPE_CONFIG, freetype-config, yes, no)
+if test $FREETYPE_CONFIG = yes; then
+	FREETYPE_CFLAGS="`freetype-config --cflags` $CXXFLAGS"
+	FREETYPE_LIBS="`freetype-config --libs` $LIBS"
+fi
+AC_SUBST(FREETYPE_CFLAGS)
+AC_SUBST(FREETYPE_LIBS)
+
+dnl vars
+AC_SUBST(LDFLAGS)
+AC_SUBST(CFLAGS)
+AC_SUBST(CXXFLAGS)
+AC_SUBST(WX_CONFIG_NAME)
+
+dnl create Makefiles
+AC_OUTPUT([
+  Makefile
+  src/xml/Makefile
+  src/xml/expat/Makefile
+  src/Makefile
+  src/libart/Makefile
+  svgview/Makefile
+])

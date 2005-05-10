@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010719//EN"
+  "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="450" height="350">
+  <rect x="10" y="10" width="200" height="100"
+     fill="blue" stroke="red" stroke-width="2"/>
+  <rect x="220" y="10" width="200" height="100" rx="10" ry="10"
+     fill="blue" stroke="red"  stroke-width="2"/>
+  <line x1="20" y1="20" x2="200" y2="100"
+    stroke="red" stroke-width="10"/>
+  <line x1="20" y1="100" x2="200" y2="20"
+    stroke="red" stroke-width="10"/>
+  <circle cx="110" cy="220" r="90" style="fill:#8080FF; stroke:red;"/>
+  <ellipse cx="320" cy="220" rx="110" ry="70" style="fill:#80FF80; stroke:red;"/>
+</svg>
