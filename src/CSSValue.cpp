@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.cpp,v 1.1.1.1 2005-05-10 17:51:30 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.cpp,v 1.2 2005-05-11 03:12:36 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ wxRGBColor wxCSSPrimitiveValue::GetRGBColorValue()
 {
   if (!m_cssText.length() || m_cssText == wxT("none"))
 	return wxRGBColor();
-  else if (m_cssText[0] == wxT('#'))
+  else if (m_cssText.GetChar(0) == wxT('#'))
   {
 	long r = 0, g = 0, b = 0;
 	m_cssText.Mid(1,2).ToLong(&r,16);

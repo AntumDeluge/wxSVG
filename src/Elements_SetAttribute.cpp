@@ -1515,7 +1515,7 @@ bool wxSVGAnimatedPathData::SetAttribute(const wxString& attrName, const wxStrin
     {
       if (!s_commands.Contains(value.Left(1)))
         break;
-      type = value[0];
+      type = value.GetChar(0);
       value.Remove(0,1);
       
       while (value.Length())

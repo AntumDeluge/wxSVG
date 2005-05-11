@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSetAttribute.py,v 1.1.1.1 2005-05-10 17:51:21 ntalex Exp $
+## RCS-ID:      $Id: genSetAttribute.py,v 1.2 2005-05-11 03:12:36 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -188,7 +188,7 @@ def process(classdecl):
     {
       if (!s_commands.Contains(value.Left(1)))
         break;
-      type = value[0];
+      type = value.GetChar(0);
       value.Remove(0,1);
       
       while (value.Length())
