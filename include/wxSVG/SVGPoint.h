@@ -26,6 +26,7 @@ class wxSVGPoint
 
   public:
 	wxSVGPoint(): m_x(0), m_y(0) {}
+	wxSVGPoint(float x, float y): m_x(x), m_y(y) {}
 	virtual ~wxSVGPoint() {}
 	virtual wxSVGPoint MatrixTransform(const wxSVGMatrix& matrix);
 };

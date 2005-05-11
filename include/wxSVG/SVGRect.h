@@ -31,7 +31,7 @@ class wxSVGRect
 	inline void SetHeight(const float n) { m_height = n; }
 
   public:
-	wxSVGRect(): m_x(0), m_y(0), m_width(0), m_height(0) { }
+	wxSVGRect(): m_x(0), m_y(0), m_width(0), m_height(0) {}
 	wxSVGRect(float x, float y, float width, float height):
 	  m_x(x), m_y(y), m_width(width), m_height(height) {}
 };
