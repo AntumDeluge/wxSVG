@@ -3,7 +3,7 @@
 // Purpose:     wxXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: xml.h,v 1.1.1.1 2005-05-10 17:51:20 ntalex Exp $
+// RCS-ID:      $Id: xml.h,v 1.2 2005-05-11 03:02:09 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -19,14 +19,11 @@
 #include <wx/object.h>
 #include <wx/list.h>
 
-#ifdef WXMAKINGDLL_XML
-    #define WXDLLIMPEXP_XML WXEXPORT
-#elif defined(WXUSINGDLL)
-    #define WXDLLIMPEXP_XML WXIMPORT
-#else // not making nor using DLL
-    #define WXDLLIMPEXP_XML
+#ifndef WXDLLIMPEXP_BASE
+  #define WXDLLIMPEXP_BASE
 #endif
-
+#define WXDLLIMPEXP_XML
+	
 class WXDLLIMPEXP_XML wxXmlNode;
 class WXDLLIMPEXP_XML wxXmlProperty;
 class WXDLLIMPEXP_XML wxXmlDocument;

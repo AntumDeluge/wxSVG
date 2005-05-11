@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGLength.cpp,v 1.1.1.1 2005-05-10 17:51:39 ntalex Exp $
+// RCS-ID:      $Id: SVGLength.cpp,v 1.2 2005-05-11 03:02:08 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ void wxSVGLength::SetValueAsString(const wxString& n)
   if (unit.length() == 0);
   else if (unit == wxT("px"))
 	m_unitType = wxSVG_LENGTHTYPE_PX;
-  else if (unit[1] == wxT('%'))
+  else if (unit.Right(1) == wxT("%"))
 	m_unitType = wxSVG_LENGTHTYPE_PERCENTAGE;
   else if (unit == wxT("em"))
 	m_unitType = wxSVG_LENGTHTYPE_EMS;
