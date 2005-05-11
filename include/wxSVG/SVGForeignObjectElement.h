@@ -64,6 +64,7 @@ class wxSVGForeignObjectElement:
 	wxSVGForeignObjectElement(wxSVGDocument* doc, wxString tagName = wxT("foreignObject")):
 	  wxSVGElement(doc, tagName) {}
 	virtual ~wxSVGForeignObjectElement() {}
+	virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }
 	bool SetAttribute(const wxString& name, const wxString& value);
 	virtual const wxSVGDTD GetDtd() const { return wxSVG_FOREIGNOBJECT_ELEMENT; }
 };

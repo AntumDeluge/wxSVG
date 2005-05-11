@@ -31,6 +31,7 @@ class wxSVGGElement:
 	wxSVGGElement(wxSVGDocument* doc, wxString tagName = wxT("g")):
 	  wxSVGElement(doc, tagName) {}
 	virtual ~wxSVGGElement() {}
+	virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }
 	bool SetAttribute(const wxString& name, const wxString& value);
 	virtual const wxSVGDTD GetDtd() const { return wxSVG_G_ELEMENT; }
 };

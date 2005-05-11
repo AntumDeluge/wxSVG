@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.1.1.1 2005-05-10 17:51:39 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.2 2005-05-11 20:07:09 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -197,26 +197,36 @@ wxImage wxSVGDocument::Render(int width, int height)
   
   wxSVGMatrix matrix;
   
-  float w = GetRootElement()->GetWidth();
-  float h = GetRootElement()->GetHeight();
+  // graphic width and height
+  wxSVGRect bbox(0, 0, GetRootElement()->GetWidth(), GetRootElement()->GetHeight());
+  if (bbox.GetWidth()<=0 || bbox.GetHeight()<=0)
+	bbox = GetRootElement()->GetBBox();
+  
+  // scale it to fit in
   float scale = 1;
   if (width == -1 || height == -1)
   {
-	width = (int) w;
-	height = (int) h;
+	width = (int) bbox.GetWidth();
+	height = (int) bbox.GetHeight();
   }
-  else if (w>0 && h>0)
+  else if (bbox.GetWidth()>0 && bbox.GetHeight()>0)
   {
-	scale = width/w;
-	if (scale>height/h)
-	  scale = height/h;
+	scale = width/bbox.GetWidth();
+	if (scale>height/bbox.GetHeight())
+	  scale = height/bbox.GetHeight();
   }
   matrix = matrix.Scale(scale);
+  if (bbox.GetX()!=0 || bbox.GetY()!=0)
+	matrix = matrix.Translate(-bbox.GetX(), -bbox.GetY());
   
+  // view box
   wxSVGRect viewBox = GetRootElement()->GetViewBox();
+  if (viewBox.GetX()!=0 || viewBox.GetY()!=0)
+	matrix = matrix.Translate(-viewBox.GetX(), -viewBox.GetY());
   if (viewBox.GetWidth()>0 && viewBox.GetHeight()>0)
-    matrix = matrix.ScaleNonUniform(w/viewBox.GetWidth(), h/viewBox.GetHeight());
+    matrix = matrix.ScaleNonUniform(bbox.GetWidth()/viewBox.GetWidth(), bbox.GetHeight()/viewBox.GetHeight());
   
+  // render
   wxImage image(width, height);
   m_canvas->SetImage(&image);
   m_canvas->Clear();

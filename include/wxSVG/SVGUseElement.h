@@ -64,6 +64,7 @@ class wxSVGUseElement:
 	wxSVGUseElement(wxSVGDocument* doc, wxString tagName = wxT("use")):
 	  wxSVGElement(doc, tagName), m_instanceRoot(NULL), m_animatedInstanceRoot(NULL) {}
 	virtual ~wxSVGUseElement() {}
+	virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }
 	bool SetAttribute(const wxString& name, const wxString& value);
 	virtual const wxSVGDTD GetDtd() const { return wxSVG_USE_ELEMENT; }
 };
