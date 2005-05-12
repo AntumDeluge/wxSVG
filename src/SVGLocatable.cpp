@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGLocatable.cpp,v 1.2 2005-05-11 20:07:09 ntalex Exp $
+// RCS-ID:      $Id: SVGLocatable.cpp,v 1.3 2005-05-12 03:25:13 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -22,8 +22,8 @@ wxSVGRect TransformRect(wxSVGRect rect, wxSVGMatrix& matrix)
   
   rect.SetX(point1.GetX() < point2.GetX() ? point1.GetX() : point2.GetX());
   rect.SetY(point1.GetY() < point2.GetY() ? point1.GetY() : point2.GetY());
-  rect.SetWidth(point1.GetX() < point2.GetX() ? point2.GetX() - point1.GetX() : point1.GetX() - point2.GetX());
-  rect.SetWidth(point1.GetY() < point2.GetY() ? point2.GetY() - point1.GetY() : point1.GetY() - point2.GetY());
+  rect.SetWidth(point1.GetX() < point2.GetX() ? point2.GetX() - rect.GetX() : point1.GetX() - rect.GetX());
+  rect.SetHeight(point1.GetY() < point2.GetY() ? point2.GetY() - rect.GetY() : point1.GetY() - rect.GetY());
   return rect;
 }
 
