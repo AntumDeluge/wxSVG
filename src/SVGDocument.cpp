@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.3 2005-05-12 03:58:51 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.4 2005-05-12 04:01:25 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -197,13 +197,13 @@ wxImage wxSVGDocument::Render(int width, int height)
   
   wxSVGMatrix matrix;
   
-  // graphic width and height
-  wxSVGRect bbox = GetRootElement()->GetViewBox();
-  if (bbox.GetWidth()<=0 && bbox.GetHeight()<=0)
-    bbox = wxSVGRect(0, 0, GetRootElement()->GetWidth(), GetRootElement()->GetHeight());
-  if (bbox.GetWidth()<=0 || bbox.GetHeight()<=0)
+  // view box
+  wxSVGRect viewbox = GetRootElement()->GetViewBox();
+  if (viewbox.GetWidth()<=0 && viewbox.GetHeight()<=0)
+    viewbox = wxSVGRect(0, 0, GetRootElement()->GetWidth(), GetRootElement()->GetHeight());
+  if (viewbox.GetWidth()<=0 || viewbox.GetHeight()<=0)
   {
-	bbox = GetRootElement()->GetBBox();
+	viewbox = GetRootElement()->GetBBox();
 	matrix = matrix.Scale(0.95).Translate(width*0.025, height*0.025);
   }
   
@@ -211,18 +211,18 @@ wxImage wxSVGDocument::Render(int width, int height)
   float scale = 1;
   if (width == -1 || height == -1)
   {
-	width = (int) bbox.GetWidth();
-	height = (int) bbox.GetHeight();
+	width = (int) viewbox.GetWidth();
+	height = (int) viewbox.GetHeight();
   }
-  else if (bbox.GetWidth()>0 && bbox.GetHeight()>0)
+  else if (viewbox.GetWidth()>0 && viewbox.GetHeight()>0)
   {
-	scale = width/bbox.GetWidth();
-	if (scale>height/bbox.GetHeight())
-	  scale = height/bbox.GetHeight();
+	scale = width/viewbox.GetWidth();
+	if (scale>height/viewbox.GetHeight())
+	  scale = height/viewbox.GetHeight();
   }
   matrix = matrix.Scale(scale);
-  if (bbox.GetX()!=0 || bbox.GetY()!=0)
-	matrix = matrix.Translate(-bbox.GetX(), -bbox.GetY());
+  if (viewbox.GetX()!=0 || viewbox.GetY()!=0)
+	matrix = matrix.Translate(-viewbox.GetX(), -viewbox.GetY());
   
   // render
   wxImage image(width, height);
