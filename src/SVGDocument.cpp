@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.4 2005-05-12 04:01:25 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.5 2005-05-12 04:05:49 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -211,8 +211,13 @@ wxImage wxSVGDocument::Render(int width, int height)
   float scale = 1;
   if (width == -1 || height == -1)
   {
-	width = (int) viewbox.GetWidth();
-	height = (int) viewbox.GetHeight();
+	width = (int) GetRootElement()->GetWidth();
+	height = (int) GetRootElement()->GetHeight();
+	if (width <= 0 || height <= 0)
+	{
+	  width = (int) viewbox.GetWidth();
+	  height = (int) viewbox.GetHeight();
+	}
   }
   else if (viewbox.GetWidth()>0 && viewbox.GetHeight()>0)
   {
