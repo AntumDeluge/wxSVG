@@ -173,7 +173,6 @@ wxXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespaceURI,
   else if (qualifiedName == wxT("feMergeNode"))
     res = new wxSVGFEMergeNodeElement(this);
   else 
-  {
-  }
+	res = new wxSVGGElement(this);
   return res;
 }
