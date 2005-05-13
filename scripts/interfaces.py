@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.1.1.1 2005-05-10 17:51:21 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.2 2005-05-13 11:15:16 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -48,6 +48,9 @@ inter.user_defined_destructor=1
 inter = interface()
 interfaces["SVGLocatable"]=inter
 inter.include_get_set_attributes = [["wxSVGMatrix", "screenCTM", False, False]]
+inter.include_methods.append('\tvirtual wxSVGRect GetBBox() { return wxSVGRect(); }\n')
+inter.include_methods.append('\tstatic wxSVGRect GetBBox(wxSVGElement* parent);\n')
+inter.exclude_methods = ["GetBBox"]
 
 # SVGTransformable
 inter = interface()
@@ -87,10 +90,19 @@ inter.include_methods.append('\tinline operator float() { return GetValue(); }\n
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
+# SVGPoint
+inter = interface()
+interfaces["SVGPoint"]=inter
+inter.include_methods.append('\twxSVGPoint(): m_x(0), m_y(0) {}\n')
+inter.include_methods.append('\twxSVGPoint(float x, float y): m_x(x), m_y(y) {}\n')
+inter.include_methods.append('\tvirtual ~wxSVGPoint() {}\n')
+inter.user_defined_constructor=1
+inter.user_defined_destructor=1
+
 # SVGRect
 inter = interface()
 interfaces["SVGRect"]=inter
-inter.include_methods.append('\twxSVGRect(): m_x(0), m_y(0), m_width(0), m_height(0) { }\n')
+inter.include_methods.append('\twxSVGRect(): m_x(0), m_y(0), m_width(0), m_height(0) {}\n')
 inter.include_methods.append('\twxSVGRect(float x, float y, float width, float height):\n\t  m_x(x), m_y(y), m_width(width), m_height(height) {}\n')
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
@@ -121,8 +133,17 @@ inter.include_methods.append('\tvirtual ~wxSVGPathSeg() {}\n')
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
+## container elements
+for name in ["SVGSVGElement", "SVGGElement", "SVGDefsElement", "SVGUseElement",
+"SVGAElement", "SVGSwitchElement", "SVGForeignObjectElement"]:
+  inter = interface()
+  interfaces[name]=inter
+  inter.include_methods.append('\tvirtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }\n')
+
 ## visible elements
-for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement", "SVGRectElement", "SVGCircleElement", "SVGEllipseElement", "SVGPathElement"]:
+for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
+"SVGRectElement", "SVGCircleElement", "SVGEllipseElement", "SVGPathElement"]:
+##"SVGImageElement", "SVGTextElement", "SVGClipPathElement"]:
   inter = interface()
   interfaces[name]=inter
   inter.include_attributes.append('''
