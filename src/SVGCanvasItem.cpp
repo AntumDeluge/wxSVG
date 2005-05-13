@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.1.1.1 2005-05-10 17:51:39 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.2 2005-05-13 20:14:10 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -14,6 +14,12 @@
 //////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// wxSVGCanvasPath //////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
+
+wxSVGCanvasPath::wxSVGCanvasPath(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_PATH)
+{
+  m_fill = true;
+  m_curx = m_cury = m_cubicx = m_cubicy = m_quadx = m_quady = m_begx = m_begy = 0;
+}
 
 void wxSVGCanvasPath::Init(wxSVGLineElement& element)
 {
@@ -268,36 +274,136 @@ void wxSVGCanvasPath::Init(wxSVGPathElement& element)
   End();
 }
 
+void wxSVGCanvasPath::MoveTo(double x, double y, bool relative)
+{
+  if (relative)
+  {
+	x += m_curx;
+	y += m_cury;
+  }
+  MoveToImpl(x, y);
+  m_begx = m_curx = x;
+  m_begy = m_cury = y;
+}
+
+void wxSVGCanvasPath::LineTo(double x, double y, bool relative)
+{
+  if (relative)
+  {
+	x += m_curx;
+	y += m_cury;
+  }
+  LineToImpl(x, y);
+  m_curx = x;
+  m_cury = y;
+}
+
+void wxSVGCanvasPath::LineToHorizontal(double x, bool relative)
+{
+  if (relative)
+	x += m_curx;
+  LineToImpl(x, m_cury);
+  m_curx = x;
+}
+
+void wxSVGCanvasPath::LineToVertical(double y, bool relative)
+{
+  if (relative)
+	y += m_cury;
+  LineToImpl(m_curx, y);
+  m_cury = y;
+}
+
+void wxSVGCanvasPath::CurveToCubic(double x1, double y1, double x2, double y2, double x, double y, bool relative)
+{
+  if (relative)
+  {
+	x1 += m_curx;
+	y1 += m_cury;
+	x2 += m_curx;
+	y2 += m_cury;
+	x += m_curx;
+	y += m_cury;
+  }
+  CurveToCubicImpl(x1, y1, x2, y2, x, y);
+  m_curx = x;
+  m_cury = y;
+  m_cubicx = 2*m_curx - x2;
+  m_cubicy = 2*m_cury - y2;
+}
+
+void wxSVGCanvasPath::CurveToCubicSmooth(double x2, double y2, double x, double y, bool relative)
+{
+  if (relative)
+  {
+	x2 += m_curx;
+	y2 += m_cury;
+	x += m_curx;
+	y += m_cury;
+  }
+  CurveToCubicImpl(m_cubicx, m_cubicy, x2, y2, x, y);
+  m_curx = x;
+  m_cury = y;
+  m_cubicx = 2*m_curx - x2;
+  m_cubicy = 2*m_cury - y2;
+}
+
+void wxSVGCanvasPath::CurveToQuadratic(double x1, double y1, double x, double y, bool relative)
+{
+  if (relative)
+  {
+	x1 += m_curx;
+	y1 += m_cury;
+	x += m_curx;
+	y += m_cury;
+  }
+  m_quadx = 2*x - x1;
+  m_quady = 2*y - y1;
+  double x2 = (x + 2*x1)/3;
+  double y2 = (y + 2*y1)/3;
+  x1 = (m_curx + 2*x1)/3;
+  y1 = (m_cury + 2*y1)/3;
+  CurveToCubicImpl(x1, y1, x2, y2, x, y);
+  m_curx = x;
+  m_cury = y;
+}
+
+void wxSVGCanvasPath::CurveToQuadraticSmooth(double x, double y, bool relative)
+{
+  if (relative)
+  {
+	x += m_curx;
+	y += m_cury;
+  }
+  double x1 = (m_curx + 2*m_quadx)/3;
+  double y1 = (m_cury + 2*m_quady)/3;
+  double x2 = (x + 2*m_quadx)/3;
+  double y2 = (y + 2*m_quady)/3;
+  CurveToCubicImpl(x1, y1, x2, y2, x, y);
+  m_curx = x;
+  m_cury = y;
+  m_quadx = 2*x - m_quadx;
+  m_quady = 2*y - m_quady;
+}
+
 // This works by converting the SVG arc to "simple" beziers.
 // For each bezier found a svgToCurve call is done.
 // Adapted from Niko's code in kdelibs/kdecore/svgicons.
-void wxSVGCanvasPath::ArcToCubic(double x, double y, double r1, double r2,
+void wxSVGCanvasPath::Arc(double x, double y, double r1, double r2,
   double angle, bool largeArcFlag, bool sweepFlag,
-  bool relative, double curx, double cury)
+  bool relative)
 {
-  double sin_th, cos_th;
-  double a00, a01, a10, a11;
-  double x0, y0, x1, y1, xc, yc;
-  double d, sfactor, sfactor_sq;
-  double th0, th1, th_arc;
-  int i, n_segs;
+  if (relative)
+  {
+	x += m_curx;
+	y += m_cury;
+  }
+  
+  double sin_th = sin(angle*(M_PI/180.0));
+  double cos_th = cos(angle*(M_PI/180.0));
 
-  sin_th = sin(angle*(M_PI/180.0));
-  cos_th = cos(angle*(M_PI/180.0));
-
-  double dx;
-
-  if (!relative)
-	dx = (curx - x)/2.0;
-  else
-	dx = -x/2.0;
-
-  double dy;
-	  
-  if (!relative)
-	dy = (cury - y)/2.0;
-  else
-	dy = -y/2.0;
+  double dx = (m_curx - x)/2.0;
+  double dy = (m_cury - y)/2.0;
 	  
   double _x1 =  cos_th*dx + sin_th*dy;
   double _y1 = -sin_th*dx + cos_th*dy;
@@ -314,58 +420,49 @@ void wxSVGCanvasPath::ArcToCubic(double x, double y, double r1, double r2,
 	r2 = r2*sqrt(check);
   }
 
-  a00 = cos_th/r1;
-  a01 = sin_th/r1;
-  a10 = -sin_th/r2;
-  a11 = cos_th/r2;
+  double a00 = cos_th/r1;
+  double a01 = sin_th/r1;
+  double a10 = -sin_th/r2;
+  double a11 = cos_th/r2;
 
-  x0 = a00*curx + a01*cury;
-  y0 = a10*curx + a11*cury;
+  double x0 = a00*m_curx + a01*m_cury;
+  double y0 = a10*m_curx + a11*m_cury;
 
-  if (!relative)
-	x1 = a00*x + a01*y;
-  else
-	x1 = a00*(curx + x) + a01*(cury + y);
-	  
-  if (!relative)
-	y1 = a10*x + a11*y;
-  else
-	y1 = a10*(curx + x) + a11*(cury + y);
+  double x1 = a00*x + a01*y;
+  double y1 = a10*x + a11*y;
 
   /* (x0, y0) is current point in transformed coordinate space.
 	 (x1, y1) is new point in transformed coordinate space.
+	 The arc fits a unit-radius circle in this space. */
 
-	 The arc fits a unit-radius circle in this space.
-  */
+  double d = (x1 - x0)*(x1 - x0) + (y1 - y0)*(y1 - y0);
 
-  d = (x1 - x0)*(x1 - x0) + (y1 - y0)*(y1 - y0);
-
-  sfactor_sq = 1.0/d - 0.25;
+  double sfactor_sq = 1.0/d - 0.25;
 
   if (sfactor_sq < 0)
 	sfactor_sq = 0;
 
-  sfactor = sqrt(sfactor_sq);
+  double sfactor = sqrt(sfactor_sq);
 
   if (sweepFlag == largeArcFlag)
 	sfactor = -sfactor;
 
-  xc = 0.5*(x0 + x1) - sfactor*(y1 - y0);
-  yc = 0.5*(y0 + y1) + sfactor*(x1 - x0);
+  double xc = 0.5*(x0 + x1) - sfactor*(y1 - y0);
+  double yc = 0.5*(y0 + y1) + sfactor*(x1 - x0);
 
   /* (xc, yc) is center of the circle. */
-  th0 = atan2(y0 - yc, x0 - xc);
-  th1 = atan2(y1 - yc, x1 - xc);
+  double th0 = atan2(y0 - yc, x0 - xc);
+  double th1 = atan2(y1 - yc, x1 - xc);
 
-  th_arc = th1 - th0;
+  double th_arc = th1 - th0;
   if (th_arc < 0 && sweepFlag)
 	th_arc += 2*M_PI;
   else if (th_arc > 0 && !sweepFlag)
 	th_arc -= 2*M_PI;
 
-  n_segs = (int) (int) ceil(fabs(th_arc/(M_PI*0.5 + 0.001)));
+  int n_segs = (int) (int) ceil(fabs(th_arc/(M_PI*0.5 + 0.001)));
 
-  for (i = 0; i < n_segs; i++)
+  for (int i = 0; i < n_segs; i++)
   {
 	double sin_th, cos_th;
 	double a00, a01, a10, a11;
@@ -394,7 +491,17 @@ void wxSVGCanvasPath::ArcToCubic(double x, double y, double r1, double r2,
 	x2 = x3 + t*sin(_th1);
 	y2 = y3 - t*cos(_th1);
 
-	CurveToCubic(a00*x1 + a01*y1, a10*x1 + a11*y1, a00*x2 + a01*y2,
+	CurveToCubicImpl(a00*x1 + a01*y1, a10*x1 + a11*y1, a00*x2 + a01*y2,
 	  a10*x2 + a11*y2, a00*x3 + a01*y3, a10*x3 + a11*y3);
   }
+  m_curx = x;
+  m_cury = y;
+}
+
+bool wxSVGCanvasPath::ClosePath()
+{
+  bool isClosed = ClosePathImpl();
+  m_curx = m_begx;
+  m_cury = m_begy;
+  return isClosed;
 }

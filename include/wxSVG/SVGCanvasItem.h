@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.1.1.1 2005-05-10 17:51:20 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.2 2005-05-13 20:14:11 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -36,7 +36,7 @@ class wxSVGCanvasItem
 class wxSVGCanvasPath: public wxSVGCanvasItem
 {
   public:
-	wxSVGCanvasPath(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_PATH) { m_fill = true; }
+	wxSVGCanvasPath();
 	virtual ~wxSVGCanvasPath() {}
 	
 	void Init(wxSVGLineElement& element);
@@ -47,17 +47,18 @@ class wxSVGCanvasPath: public wxSVGCanvasItem
 	void Init(wxSVGEllipseElement& element);
 	void Init(wxSVGPathElement& element);
 	
-	virtual void MoveTo(double x, double y, bool relative = false) = 0;
-	virtual void LineTo(double x, double y, bool relative = false) = 0;
-	virtual void LineToHorizontal(double x, bool relative = false) = 0;
-	virtual void LineToVertical(double y, bool relative = false) = 0;
-	virtual void CurveToCubic(double x1, double y1, double x2, double y2, double x, double y, bool relative = false) = 0;
-	virtual void CurveToCubicSmooth(double x2, double y2, double x, double y, bool relative = false) = 0;
-	virtual void CurveToQuadratic(double x1, double y1, double x, double y, bool relative = false) = 0;
-	virtual void CurveToQuadraticSmooth(double x, double y, bool relative = false) = 0;
-	virtual void Arc(double x, double y, double r1, double r2, double angle,
-	  bool largeArcFlag, bool sweepFlag, bool relative = false) = 0;
-	virtual bool ClosePath() = 0;
+	void MoveTo(double x, double y, bool relative = false);
+	void LineTo(double x, double y, bool relative = false);
+	void LineToHorizontal(double x, bool relative = false);
+	void LineToVertical(double y, bool relative = false);
+	void CurveToCubic(double x1, double y1, double x2, double y2, double x, double y, bool relative = false);
+	void CurveToCubicSmooth(double x2, double y2, double x, double y, bool relative = false);
+	void CurveToQuadratic(double x1, double y1, double x, double y, bool relative = false);
+	void CurveToQuadraticSmooth(double x, double y, bool relative = false);
+	void Arc(double x, double y, double r1, double r2, double angle,
+	  bool largeArcFlag, bool sweepFlag, bool relative = false);
+	bool ClosePath();
+	
 	virtual void End() = 0;
 	
 	inline void SetFill(bool fill = true) { m_fill = fill; }
@@ -65,8 +66,11 @@ class wxSVGCanvasPath: public wxSVGCanvasItem
   
   protected:
 	bool m_fill;
-	void ArcToCubic(double x, double y, double r1, double r2, double angle,
-	  bool largeArcFlag, bool sweepFlag, bool relative, double curx, double cury);
+	double m_curx, m_cury, m_cubicx, m_cubicy, m_quadx, m_quady, m_begx, m_begy;
+	virtual void MoveToImpl(double x, double y) = 0;
+	virtual void LineToImpl(double x, double y) = 0;
+	virtual void CurveToCubicImpl(double x1, double y1, double x2, double y2, double x, double y) = 0;
+	virtual bool ClosePathImpl() = 0;
 };
 
 #endif // WX_SVG_CANVAS_ITEM_H
