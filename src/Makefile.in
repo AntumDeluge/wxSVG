@@ -94,6 +94,7 @@ LN_S = @LN_S@
 MAINT = @MAINT@
 OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
 RANLIB = @RANLIB@
 RC = @RC@
 STRIP = @STRIP@
@@ -112,7 +113,7 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-SUBDIRS = libart xml
+SUBDIRS = xml libart
 
 noinst_LTLIBRARIES = libwxsvg.la
 libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
@@ -130,7 +131,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp
 
 
-libwxsvg_la_LIBADD = libart/libwxsvg_libart.la xml/libwxxml.la
+libwxsvg_la_LIBADD = xml/libwxxml.la libart/libwxsvg_libart.la
 
 INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG $(LIBART_CFLAGS)
 subdir = src
@@ -139,7 +140,7 @@ CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libwxsvg_la_LDFLAGS =
-libwxsvg_la_DEPENDENCIES = libart/libwxsvg_libart.la xml/libwxxml.la
+libwxsvg_la_DEPENDENCIES = xml/libwxxml.la libart/libwxsvg_libart.la
 am_libwxsvg_la_OBJECTS = SVGDocument.lo svgctrl.lo \
 	SVGAnimationElement.lo SVGCircleElement.lo SVGEllipseElement.lo \
 	SVGFEGaussianBlurElement.lo SVGFilterElement.lo \

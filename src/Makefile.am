@@ -1,5 +1,5 @@
 
-SUBDIRS = libart xml
+SUBDIRS = xml libart
 
 noinst_LTLIBRARIES = libwxsvg.la
 libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
@@ -16,6 +16,6 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   Elements_SetAttribute.cpp CSSValue.cpp CSSStyleDeclaration.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp
 
-libwxsvg_la_LIBADD = libart/libwxsvg_libart.la xml/libwxxml.la
+libwxsvg_la_LIBADD = xml/libwxxml.la libart/libwxsvg_libart.la
 
 INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG $(LIBART_CFLAGS)

@@ -27,7 +27,7 @@ prefix=$m_cv_prefix
 dnl Checks for programs.
 AC_PROG_INSTALL
 AC_PROG_LN_S
-AC_PROG_RANLIB
+AC_PROG_LIBTOOL
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_CXXCPP
@@ -43,6 +43,33 @@ yes)
   ;;
 esac
 
+dnl check for libart library
+AC_CHECK_PROG(LIBART_CONFIG, libart2-config, yes, no)
+if test $LIBART_CONFIG = no; then
+  AC_MSG_ERROR([
+    wxSVG requires libart library.
+    Please check that libart2-config is in path.
+  ])
+fi
+LIBART_CFLAGS="`libart2-config --cflags` $CXXFLAGS"
+LIBART_LIBS="`libart2-config --libs` $LIBS"
+AC_SUBST(LIBART_CFLAGS)
+AC_SUBST(LIBART_LIBS)
+
+dnl check for freetype library
+PKG_CHECK_MODULES(FONTCONFIG, fontconfig)
+AC_CHECK_PROG(FREETYPE_CONFIG, freetype-config, yes, no)
+if test $FREETYPE_CONFIG = no; then
+  AC_MSG_ERROR([
+    wxSVG requires freetype library.
+    Please check that freetype-config is in path.
+  ])
+fi
+FREETYPE_CFLAGS="`freetype-config --cflags` $CXXFLAGS $FONTCONFIG_CFLAGS"
+FREETYPE_LIBS="`freetype-config --libs` $LIBS $FONTCONFIG_LIBS"
+AC_SUBST(FREETYPE_CFLAGS)
+AC_SUBST(FREETYPE_LIBS)
+
 dnl check wxWidgets >= 2.4.2
 AM_PATH_WXCONFIG(2.4.2, WXFOUND=1)
 if test "$WXFOUND" != 1; then
@@ -55,24 +82,6 @@ if test "$WXFOUND" != 1; then
 fi
 CXXFLAGS="$CXXFLAGS $DEBUG_FLAGS $WX_CXXFLAGS "
 LIBS="$LIBS $WX_LIBS "
-
-dnl check for libart library
-AC_CHECK_PROG(LIBART_CONFIG, libart2-config, yes, no)
-if test $LIBART_CONFIG = yes; then
-	LIBART_CFLAGS="`libart2-config --cflags` $CXXFLAGS"
-	LIBART_LIBS="`libart2-config --libs` $LIBS"
-fi
-AC_SUBST(LIBART_CFLAGS)
-AC_SUBST(LIBART_LIBS)
-
-dnl check for freetype library
-AC_CHECK_PROG(FREETYPE_CONFIG, freetype-config, yes, no)
-if test $FREETYPE_CONFIG = yes; then
-	FREETYPE_CFLAGS="`freetype-config --cflags` $CXXFLAGS"
-	FREETYPE_LIBS="`freetype-config --libs` $LIBS"
-fi
-AC_SUBST(FREETYPE_CFLAGS)
-AC_SUBST(FREETYPE_LIBS)
 
 dnl vars
 AC_SUBST(LDFLAGS)
