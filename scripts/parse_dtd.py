@@ -1,11 +1,14 @@
 ##############################################################################
 ## Name:        parse_dtd.py
-## Purpose:     
+## Purpose:     parses dtd file -> makes maps to get dtd names from idl class
+##              names or the other way round
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: parse_dtd.py,v 1.1.1.1 2005-05-10 17:51:21 ntalex Exp $
+## RCS-ID:      $Id: parse_dtd.py,v 1.2 2005-05-16 11:00:17 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
-## Notes:		some modules adapted from svgl project
+## Notes:		It must be rewritten, because can't parse dtd file from svg 1.1
+##              Now it use dtd file from svg 1.0
+##              -> xmlto library can be used to parse dtd
 ##############################################################################
 
 import re, string

@@ -1,11 +1,11 @@
 ##############################################################################
 ## Name:        genList.py
-## Purpose:     
+## Purpose:     generates all SVG*List.h/cpp
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genList.py,v 1.1.1.1 2005-05-10 17:51:21 ntalex Exp $
+## RCS-ID:      $Id: genList.py,v 1.2 2005-05-16 11:00:17 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
-## Notes:		some modules adapted from svgl project
+## Notes:       some modules adapted from svgl project
 ##############################################################################
 
 import config

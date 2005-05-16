@@ -1,11 +1,11 @@
 ##############################################################################
 ## Name:        genSvgElement.py
-## Purpose:     
+## Purpose:     generates svg.h, SVGDTD.h and SVGDocument_CreateElement.cpp
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSvgElement.py,v 1.2 2005-05-13 09:02:16 ntalex Exp $
+## RCS-ID:      $Id: genSvgElement.py,v 1.3 2005-05-16 11:00:17 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
-## Notes:		some modules adapted from svgl project
+## Notes:       some modules adapted from svgl project
 ##############################################################################
 
 import string

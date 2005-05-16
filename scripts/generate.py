@@ -1,11 +1,27 @@
 ##############################################################################
 ## Name:        generate.py
-## Purpose:     
+## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.1.1.1 2005-05-10 17:51:21 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.2 2005-05-16 11:00:17 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
-## Notes:		some modules adapted from svgl project
+## Notes:       some modules adapted from svgl project
+##############################################################################
+
+##############################################################################
+## generates the most headers from idl, but with some changes:
+##   - all properties in idl are "readonly", but I generate not only
+##     get methods, but also set methods.
+##     This allow you to call:
+##       rect->SetWidth(100)
+##     instead of
+##       rect->SetAttrubite("width", "100");
+##  - for animated properties (f.e.: SVGAnimatedLength width)
+##    2 methods are generated: GetWidth() and GetAnimatedWidth()
+##    So to get (or set) width you need to call
+##       rect->GetWidth()
+##    instead of 
+##       rect->GetWidth().GetBaseVal()
 ##############################################################################
 
 import parse_idl
@@ -495,7 +511,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.1.1.1 2005-05-10 17:51:21 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.2 2005-05-16 11:00:17 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

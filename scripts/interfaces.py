@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.2 2005-05-13 11:15:16 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.3 2005-05-16 11:00:17 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -142,8 +142,8 @@ for name in ["SVGSVGElement", "SVGGElement", "SVGDefsElement", "SVGUseElement",
 
 ## visible elements
 for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
-"SVGRectElement", "SVGCircleElement", "SVGEllipseElement", "SVGPathElement"]:
-##"SVGImageElement", "SVGTextElement", "SVGClipPathElement"]:
+"SVGRectElement", "SVGCircleElement", "SVGEllipseElement", "SVGPathElement",
+"SVGTextElement"]: ##"SVGImageElement", "SVGClipPathElement"]:
   inter = interface()
   interfaces[name]=inter
   inter.include_attributes.append('''

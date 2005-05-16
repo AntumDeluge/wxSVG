@@ -1,9 +1,10 @@
 ##############################################################################
 ## Name:        genSetAttribute.py
-## Purpose:     
+## Purpose:     generates Elements_SetAttribute.cpp
+##              -> SetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSetAttribute.py,v 1.2 2005-05-11 03:12:36 ntalex Exp $
+## RCS-ID:      $Id: genSetAttribute.py,v 1.3 2005-05-16 11:00:17 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -134,8 +135,11 @@ def process(classdecl):
     wxStringTokenizer tkz(attrValue, wxT(", \\t"));
     while (tkz.HasMoreTokens())
     {
-      wxSVGLength length;
-      length.SetValueAsString(tkz.GetNextToken());
+	  wxString token = tkz.GetNextToken();
+	  if (!token.length())
+		continue;
+      wxSVGLength* length = new wxSVGLength();
+      length->SetValueAsString(token);
       %s.Add(length);
     }
   }'''%set_attr
@@ -146,7 +150,7 @@ def process(classdecl):
     while (tkz.HasMoreTokens()) 
     { 
       wxString token = tkz.GetNextToken(); 
-      if (token.ToDouble(&value))
+      if (token.length() && token.ToDouble(&value))
         %s.Add(value); 
     }
   }'''%set_attr
@@ -158,7 +162,7 @@ def process(classdecl):
     while (tkz.HasMoreTokens()) 
     { 
       wxString token = tkz.GetNextToken(); 
-      if (token.ToDouble(&numbers[num]))
+      if (token.length() && token.ToDouble(&numbers[num]))
       {
         num++;
         if (num == 2)
