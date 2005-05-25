@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.1.1.1 2005-05-10 17:51:05 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.2 2005-05-25 12:25:03 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -71,7 +71,10 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos
     SetMenuBar(menuBar);
 
     m_svgCtrl = new wxSVGCtrl(this);
-	m_svgCtrl->Load(_T("tiger.svg"));
+	if (wxTheApp->argc > 1)
+	  m_svgCtrl->Load(wxTheApp->argv[1]);
+	else
+	  m_svgCtrl->Load(_T("tiger.svg"));
 	Show(true);
 }
 
