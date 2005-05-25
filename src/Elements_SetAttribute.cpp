@@ -338,7 +338,7 @@ bool wxSVGFEColorMatrixElement::SetAttribute(const wxString& attrName, const wxS
     while (tkz.HasMoreTokens()) 
     { 
       wxString token = tkz.GetNextToken(); 
-      if (token.ToDouble(&value))
+      if (token.length() && token.ToDouble(&value))
         m_values.GetBaseVal().Add(value); 
     }
   }
@@ -1193,8 +1193,11 @@ bool wxSVGTextPositioningElement::SetAttribute(const wxString& attrName, const w
     wxStringTokenizer tkz(attrValue, wxT(", \t"));
     while (tkz.HasMoreTokens())
     {
-      wxSVGLength length;
-      length.SetValueAsString(tkz.GetNextToken());
+	  wxString token = tkz.GetNextToken();
+	  if (!token.length())
+		continue;
+      wxSVGLength* length = new wxSVGLength();
+      length->SetValueAsString(token);
       m_x.GetBaseVal().Add(length);
     }
   }
@@ -1203,8 +1206,11 @@ bool wxSVGTextPositioningElement::SetAttribute(const wxString& attrName, const w
     wxStringTokenizer tkz(attrValue, wxT(", \t"));
     while (tkz.HasMoreTokens())
     {
-      wxSVGLength length;
-      length.SetValueAsString(tkz.GetNextToken());
+	  wxString token = tkz.GetNextToken();
+	  if (!token.length())
+		continue;
+      wxSVGLength* length = new wxSVGLength();
+      length->SetValueAsString(token);
       m_y.GetBaseVal().Add(length);
     }
   }
@@ -1213,8 +1219,11 @@ bool wxSVGTextPositioningElement::SetAttribute(const wxString& attrName, const w
     wxStringTokenizer tkz(attrValue, wxT(", \t"));
     while (tkz.HasMoreTokens())
     {
-      wxSVGLength length;
-      length.SetValueAsString(tkz.GetNextToken());
+	  wxString token = tkz.GetNextToken();
+	  if (!token.length())
+		continue;
+      wxSVGLength* length = new wxSVGLength();
+      length->SetValueAsString(token);
       m_dx.GetBaseVal().Add(length);
     }
   }
@@ -1223,8 +1232,11 @@ bool wxSVGTextPositioningElement::SetAttribute(const wxString& attrName, const w
     wxStringTokenizer tkz(attrValue, wxT(", \t"));
     while (tkz.HasMoreTokens())
     {
-      wxSVGLength length;
-      length.SetValueAsString(tkz.GetNextToken());
+	  wxString token = tkz.GetNextToken();
+	  if (!token.length())
+		continue;
+      wxSVGLength* length = new wxSVGLength();
+      length->SetValueAsString(token);
       m_dy.GetBaseVal().Add(length);
     }
   }
@@ -1235,7 +1247,7 @@ bool wxSVGTextPositioningElement::SetAttribute(const wxString& attrName, const w
     while (tkz.HasMoreTokens()) 
     { 
       wxString token = tkz.GetNextToken(); 
-      if (token.ToDouble(&value))
+      if (token.length() && token.ToDouble(&value))
         m_rotate.GetBaseVal().Add(value); 
     }
   }
@@ -2036,7 +2048,7 @@ bool wxSVGComponentTransferFunctionElement::SetAttribute(const wxString& attrNam
     while (tkz.HasMoreTokens()) 
     { 
       wxString token = tkz.GetNextToken(); 
-      if (token.ToDouble(&value))
+      if (token.length() && token.ToDouble(&value))
         m_tableValues.GetBaseVal().Add(value); 
     }
   }
@@ -2194,7 +2206,7 @@ bool wxSVGAnimatedPoints::SetAttribute(const wxString& attrName, const wxString&
     while (tkz.HasMoreTokens()) 
     { 
       wxString token = tkz.GetNextToken(); 
-      if (token.ToDouble(&numbers[num]))
+      if (token.length() && token.ToDouble(&numbers[num]))
       {
         num++;
         if (num == 2)
@@ -2471,7 +2483,7 @@ bool wxSVGFEConvolveMatrixElement::SetAttribute(const wxString& attrName, const 
     while (tkz.HasMoreTokens()) 
     { 
       wxString token = tkz.GetNextToken(); 
-      if (token.ToDouble(&value))
+      if (token.length() && token.ToDouble(&value))
         m_kernelMatrix.GetBaseVal().Add(value); 
     }
   }
