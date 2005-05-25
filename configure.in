@@ -56,7 +56,8 @@ LIBART_LIBS="`libart2-config --libs` $LIBS"
 AC_SUBST(LIBART_CFLAGS)
 AC_SUBST(LIBART_LIBS)
 
-dnl check for freetype library
+dnl check for pango and freetype library
+PKG_CHECK_MODULES(PANGO, pangoft2 >= 1.2.0)
 PKG_CHECK_MODULES(FONTCONFIG, fontconfig)
 AC_CHECK_PROG(FREETYPE_CONFIG, freetype-config, yes, no)
 if test $FREETYPE_CONFIG = no; then
@@ -65,8 +66,8 @@ if test $FREETYPE_CONFIG = no; then
     Please check that freetype-config is in path.
   ])
 fi
-FREETYPE_CFLAGS="`freetype-config --cflags` $CXXFLAGS $FONTCONFIG_CFLAGS"
-FREETYPE_LIBS="`freetype-config --libs` $LIBS $FONTCONFIG_LIBS"
+FREETYPE_CFLAGS="`freetype-config --cflags` $CXXFLAGS $FONTCONFIG_CFLAGS $PANGO_CFLAGS"
+FREETYPE_LIBS="`freetype-config --libs` $LIBS $FONTCONFIG_LIBS $PANGO_LIBS"
 AC_SUBST(FREETYPE_CFLAGS)
 AC_SUBST(FREETYPE_LIBS)
 
