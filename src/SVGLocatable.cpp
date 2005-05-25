@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGLocatable.cpp,v 1.3 2005-05-12 03:25:13 ntalex Exp $
+// RCS-ID:      $Id: SVGLocatable.cpp,v 1.4 2005-05-25 12:16:41 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -83,6 +83,13 @@ void UpdateBBox(wxSVGElement* parent, wxSVGRect& bbox, bool& empty, wxSVGMatrix&
 		case wxSVG_PATH_ELEMENT:
 		{
 		  wxSVGPathElement* element = (wxSVGPathElement*) elem;
+		  element->UpdateMatrix(matrix);
+		  elemBBox = TransformRect(element->GetBBox(), matrix);
+		  break;
+		}
+		case wxSVG_TEXT_ELEMENT:
+		{
+		  wxSVGTextElement* element = (wxSVGTextElement*) elem;
 		  element->UpdateMatrix(matrix);
 		  elemBBox = TransformRect(element->GetBBox(), matrix);
 		  break;

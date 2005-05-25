@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.2 2005-05-13 20:14:10 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.3 2005-05-25 12:16:41 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,8 @@
 wxSVGCanvasPath::wxSVGCanvasPath(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_PATH)
 {
   m_fill = true;
-  m_curx = m_cury = m_cubicx = m_cubicy = m_quadx = m_quady = m_begx = m_begy = 0;
+  m_curx = m_cury = m_cubicx = m_cubicy = m_quadx = m_quady = 0;
+  m_begx = m_begy = 0;
 }
 
 void wxSVGCanvasPath::Init(wxSVGLineElement& element)
@@ -274,6 +275,10 @@ void wxSVGCanvasPath::Init(wxSVGPathElement& element)
   End();
 }
 
+//////////////////////////////////////////////////////////////////////////////
+///////////////////////// Path functions /////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
 void wxSVGCanvasPath::MoveTo(double x, double y, bool relative)
 {
   if (relative)
@@ -504,4 +509,62 @@ bool wxSVGCanvasPath::ClosePath()
   m_curx = m_begx;
   m_cury = m_begy;
   return isClosed;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// wxSVGCanvasText //////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+wxSVGCanvasText::wxSVGCanvasText(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_TEXT)
+{
+  m_tx = m_ty = 0;
+}
+
+void wxSVGCanvasText::Init(wxSVGTextElement& element,
+  wxCSSStyleDeclaration& style)
+{
+  m_tx = element.GetX().Count() ? element.GetX()[0] : wxSVGLength(0);
+  m_ty = element.GetY().Count() ? element.GetY()[0] : wxSVGLength(0);
+  InitChildren(element, style);
+  EndChunk();
+}
+
+void wxSVGCanvasText::Init(wxSVGTSpanElement& element,
+  wxCSSStyleDeclaration& style)
+{
+  if (element.GetX().Count())
+	EndChunk();
+  
+  if (element.GetX().Count())
+	m_tx = element.GetX()[0];
+  if (element.GetY().Count())
+	m_ty = element.GetY()[0];
+  InitChildren(element, style);
+  
+  if (element.GetX().Count())
+	EndChunk();
+}
+
+void wxSVGCanvasText::InitChildren(wxSVGTextPositioningElement& element,
+  wxCSSStyleDeclaration& style)
+{
+  wxSVGElement* elem = (wxSVGElement*) element.GetChildren();
+  while (elem)
+  {
+	if (elem->GetType() == wxXML_TEXT_NODE)
+	{
+	  BeginChunk(style);
+	  wxString text = elem->GetContent();
+	  InitText(text);
+	}
+	if (elem->GetType() == wxXML_ELEMENT_NODE &&
+		elem->GetDtd() == wxSVG_TSPAN_ELEMENT)
+	{
+	  wxSVGTSpanElement& tElem = (wxSVGTSpanElement&)*elem;
+	  wxCSSStyleDeclaration tStyle(style);
+	  tStyle.Add(tElem.GetStyle());
+	  Init(tElem, tStyle);
+	}
+	elem = (wxSVGElement*) elem->GetNext();
+  }
 }

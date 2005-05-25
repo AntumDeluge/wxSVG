@@ -124,9 +124,10 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGRectElement.cpp SVGSVGElement.cpp SVGTextContentElement.cpp\
   SVGAngle.cpp SVGColor.cpp GetSVGDocument.cpp SVGLength.cpp\
   SVGMatrix.cpp SVGPaint.cpp SVGPoint.cpp SVGTests.cpp SVGTransform.cpp\
-  SVGStylable.cpp SVGTransformable.cpp\
+  SVGStylable.cpp SVGTextElement.cpp SVGTransformable.cpp\
   SVGElementInstanceList.cpp SVGLengthList.cpp SVGNumberList.cpp\
-  SVGPathSegList.cpp SVGPointList.cpp SVGStringList.cpp SVGTransformList.cpp\
+  SVGPathSegList.cpp SVGPointList.cpp SVGStringList.cpp\
+  SVGTextElement.cpp SVGTransformList.cpp\
   Elements_SetAttribute.cpp CSSValue.cpp CSSStyleDeclaration.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp
 
@@ -149,11 +150,12 @@ am_libwxsvg_la_OBJECTS = SVGDocument.lo svgctrl.lo \
 	SVGRectElement.lo SVGSVGElement.lo SVGTextContentElement.lo \
 	SVGAngle.lo SVGColor.lo GetSVGDocument.lo SVGLength.lo \
 	SVGMatrix.lo SVGPaint.lo SVGPoint.lo SVGTests.lo \
-	SVGTransform.lo SVGStylable.lo SVGTransformable.lo \
-	SVGElementInstanceList.lo SVGLengthList.lo SVGNumberList.lo \
-	SVGPathSegList.lo SVGPointList.lo SVGStringList.lo \
-	SVGTransformList.lo Elements_SetAttribute.lo CSSValue.lo \
-	CSSStyleDeclaration.lo SVGCanvas.lo SVGCanvasItem.lo
+	SVGTransform.lo SVGStylable.lo SVGTextElement.lo \
+	SVGTransformable.lo SVGElementInstanceList.lo SVGLengthList.lo \
+	SVGNumberList.lo SVGPathSegList.lo SVGPointList.lo \
+	SVGStringList.lo SVGTextElement.lo SVGTransformList.lo \
+	Elements_SetAttribute.lo CSSValue.lo CSSStyleDeclaration.lo \
+	SVGCanvas.lo SVGCanvasItem.lo
 libwxsvg_la_OBJECTS = $(am_libwxsvg_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -197,6 +199,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SVGStylable.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGTests.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGTextContentElement.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SVGTextElement.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGTransform.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGTransformList.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGTransformable.Plo \
@@ -281,6 +284,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGStylable.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGTests.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGTextContentElement.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGTextElement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGTransform.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGTransformList.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGTransformable.Plo@am__quote@
