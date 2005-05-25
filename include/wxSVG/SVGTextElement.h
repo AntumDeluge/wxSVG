@@ -9,6 +9,8 @@
 #ifndef WX_SVG_TEXT_ELEMENT_H
 #define WX_SVG_TEXT_ELEMENT_H
 
+class wxSVGCanvasItem;
+
 #include "SVGTextPositioningElement.h"
 #include "SVGTransformable.h"
 #include "String.h"
@@ -18,9 +20,18 @@ class wxSVGTextElement:
   public wxSVGTransformable
 {
   public:
+
+  protected:
+	wxSVGCanvasItem* m_canvasItem;
+  public:
+	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
+	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
+
+  public:
 	wxSVGTextElement(wxSVGDocument* doc, wxString tagName = wxT("text")):
-	  wxSVGTextPositioningElement(doc, tagName) {}
+	  wxSVGTextPositioningElement(doc, tagName), m_canvasItem(NULL) {}
 	virtual ~wxSVGTextElement() {}
+	wxSVGRect GetBBox();
 	bool SetAttribute(const wxString& name, const wxString& value);
 	virtual const wxSVGDTD GetDtd() const { return wxSVG_TEXT_ELEMENT; }
 };

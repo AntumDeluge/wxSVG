@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/02
-// RCS-ID:      $Id: SVGCanvas.h,v 1.1.1.1 2005-05-10 17:51:13 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.h,v 1.2 2005-05-25 12:19:04 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -30,24 +30,28 @@ class wxSVGCanvas: public wxObject
 	wxSVGCanvasItem* CreateItem(wxSVGCircleElement* element);
 	wxSVGCanvasItem* CreateItem(wxSVGEllipseElement* element);
 	wxSVGCanvasItem* CreateItem(wxSVGPathElement* element);
+	virtual wxSVGCanvasItem* CreateItem(wxSVGTextElement* element,
+	  wxCSSStyleDeclaration* style = NULL) = 0;
 	
 	virtual void DrawItem(wxSVGCanvasItem& item,
 	  wxSVGMatrix& matrix, wxCSSStyleDeclaration& style) = 0;
     
 	void DrawLine(wxSVGLineElement* element,
-	  wxSVGMatrix* matrix = NULL, wxCSSStyleDeclaration* style = NULL);
+	  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style = NULL);
 	void DrawPolyline(wxSVGPolylineElement* element,
-	  wxSVGMatrix* matrix = NULL, wxCSSStyleDeclaration* style = NULL);
+	  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style = NULL);
 	void DrawPolygon(wxSVGPolygonElement* element,
-	  wxSVGMatrix* matrix = NULL, wxCSSStyleDeclaration* style = NULL);
+	  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style = NULL);
 	void DrawRect(wxSVGRectElement* element,
-	  wxSVGMatrix* matrix = NULL, wxCSSStyleDeclaration* style = NULL);
+	  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style = NULL);
 	void DrawCircle(wxSVGCircleElement* element,
-	  wxSVGMatrix* matrix = NULL, wxCSSStyleDeclaration* style = NULL);
+	  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style = NULL);
 	void DrawEllipse(wxSVGEllipseElement* element,
-	  wxSVGMatrix* matrix = NULL, wxCSSStyleDeclaration* style = NULL);
+	  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style = NULL);
 	void DrawPath(wxSVGPathElement* element,
-	  wxSVGMatrix* matrix = NULL, wxCSSStyleDeclaration* style = NULL);
+	  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style = NULL);
+	void DrawText(wxSVGTextElement* element,
+	  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style = NULL);
 	
 	inline bool IsItemsCached() { return m_itemsCached; }
 	inline void EnableItemsCache(bool enable = true) { m_itemsCached = enable; }

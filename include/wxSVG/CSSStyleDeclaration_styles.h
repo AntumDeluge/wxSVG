@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: CSSStyleDeclaration_styles.h,v 1.1.1.1 2005-05-10 17:51:11 ntalex Exp $
+// RCS-ID:      $Id: CSSStyleDeclaration_styles.h,v 1.2 2005-05-25 12:19:04 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -23,7 +23,9 @@ ATTRDEF(wxString, GetStringValue, ClipPath, "clip-path", wxT(""))
 ATTRDEF(wxString, GetStringValue, FontFamily, "font-family", wxT(""))
 ATTRDEF(float, GetFloatValue, FontSize, "font-size", 20)
 ATTRDEF(wxString, GetStringValue, FontStyle, "font-style", wxT(""))
+ATTRDEF(wxString, GetStringValue, FontVariant, "font-variant", wxT(""))
 ATTRDEF(wxString, GetStringValue, FontWeight, "font-weight", wxT(""))
+ATTRDEF(wxString, GetStringValue, FontStretch, "font-stretch", wxT(""))
 ATTRDEF(wxString, GetStringValue, Filter, "filter", wxT(""))
 ATTRDEF(wxString, GetStringValue, Marker, "marker", wxT(""))
 ATTRDEF(wxString, GetStringValue, MarkerStart, "marker-start", wxT("none"))

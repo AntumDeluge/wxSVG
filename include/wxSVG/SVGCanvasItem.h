@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.2 2005-05-13 20:14:11 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.3 2005-05-25 12:19:04 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -19,6 +19,7 @@ class wxSVGCanvasItem
 	enum wxSVGCanvasItemType
 	{
 	  wxSVG_CANVAS_ITEM_PATH,
+	  wxSVG_CANVAS_ITEM_TEXT,
 	  wxSVG_CANVAS_ITEM_IMAGE
 	};
 	
@@ -46,7 +47,7 @@ class wxSVGCanvasPath: public wxSVGCanvasItem
 	void Init(wxSVGCircleElement& element);
 	void Init(wxSVGEllipseElement& element);
 	void Init(wxSVGPathElement& element);
-	
+		
 	void MoveTo(double x, double y, bool relative = false);
 	void LineTo(double x, double y, bool relative = false);
 	void LineToHorizontal(double x, bool relative = false);
@@ -71,6 +72,23 @@ class wxSVGCanvasPath: public wxSVGCanvasItem
 	virtual void LineToImpl(double x, double y) = 0;
 	virtual void CurveToCubicImpl(double x1, double y1, double x2, double y2, double x, double y) = 0;
 	virtual bool ClosePathImpl() = 0;
+};
+
+class wxSVGCanvasText: public wxSVGCanvasItem
+{
+  public:
+	wxSVGCanvasText();
+	virtual ~wxSVGCanvasText() {}
+	
+	virtual void Init(wxSVGTextElement& element, wxCSSStyleDeclaration& style);
+	
+  protected:
+    double m_tx, m_ty;
+	virtual void Init(wxSVGTSpanElement& element, wxCSSStyleDeclaration& style);
+	virtual void InitChildren(wxSVGTextPositioningElement& element, wxCSSStyleDeclaration& style);
+    virtual void InitText(const wxString& text) = 0;
+	virtual void BeginChunk(wxCSSStyleDeclaration& style) = 0;
+	virtual void EndChunk() = 0;
 };
 
 #endif // WX_SVG_CANVAS_ITEM_H
