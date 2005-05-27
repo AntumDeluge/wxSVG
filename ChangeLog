@@ -2,7 +2,7 @@ Version 0.8 <2005.05.27>
 ------------------------
 
   * implemented text element
-  * added agg backend (enabled by windows version)
+  * added agg backend (enabled in windows version)
 
 Version 0.7 <2005.05.23>
 ------------------------
