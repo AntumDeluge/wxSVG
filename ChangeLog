@@ -2,6 +2,7 @@ CVS
 ---
 
   * implemented text element
+  * added agg backend (enabled by windows version)
 
 Version 0.7 <2005.05.23>
 ------------------------
