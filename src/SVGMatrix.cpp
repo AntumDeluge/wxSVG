@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/05
-// RCS-ID:      $Id: SVGMatrix.cpp,v 1.1.1.1 2005-05-10 17:51:39 ntalex Exp $
+// RCS-ID:      $Id: SVGMatrix.cpp,v 1.2 2005-05-30 23:23:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -26,6 +26,14 @@ wxSVGMatrix wxSVGMatrix::Multiply(const wxSVGMatrix& secondMatrix)
 wxSVGMatrix wxSVGMatrix::Inverse()
 {
   wxSVGMatrix res;
+  double d = 1/(GetA()*GetD() - GetB()*GetC());
+  res.SetA(GetD()*d);
+  res.SetB(-GetB()*d);
+  res.SetC(-GetC()*d);
+  res.SetD(GetA()*d);
+  res.SetE(-GetE()*res.GetA() - GetF()*res.GetC());
+  res.SetF(-GetE()*res.GetB() - GetF()*res.GetD());
+
   return res;
 }
 
@@ -46,6 +54,7 @@ wxSVGMatrix wxSVGMatrix::ScaleNonUniform(float scaleFactorX, float scaleFactorY)
 
 wxSVGMatrix wxSVGMatrix::Rotate(float angle)
 {
+  angle = angle*M_PI/180;
   return Multiply(wxSVGMatrix(cos(angle), sin(angle), -sin(angle), cos(angle), 0, 0));
 }
 
@@ -66,11 +75,11 @@ wxSVGMatrix wxSVGMatrix::FlipY()
 
 wxSVGMatrix wxSVGMatrix::SkewX(float angle)
 {
-  return Multiply(wxSVGMatrix(1, 0, tan(angle), 1, 0, 0));
+  return Multiply(wxSVGMatrix(1, 0, tan(angle*M_PI/180), 1, 0, 0));
 }
 
 wxSVGMatrix wxSVGMatrix::SkewY(float angle)
 {
-  return Multiply(wxSVGMatrix(1, tan(angle), 0, 1, 0, 0));
+  return Multiply(wxSVGMatrix(1, tan(angle*M_PI/180), 0, 1, 0, 0));
 }
 

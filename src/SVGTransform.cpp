@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGTransform.cpp,v 1.1.1.1 2005-05-10 17:51:39 ntalex Exp $
+// RCS-ID:      $Id: SVGTransform.cpp,v 1.2 2005-05-30 23:23:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ void wxSVGTransform::SetRotate(float angle, float cx, float cy)
   m_type = wxSVG_TRANSFORM_ROTATE;
   m_angle = angle;
   m_matrix = wxSVGMatrix(1, 0, 0, 1, cx, cy);
-  m_matrix.Rotate(angle);
+  m_matrix = m_matrix.Rotate(angle);
   m_matrix.Translate(-cx, -cy);
 }
 
