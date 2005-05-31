@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.2 2005-05-25 12:16:41 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.3 2005-05-31 16:11:23 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -65,135 +65,44 @@ wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVGPathElement* element)
   return canvasPath;
 }
 
+wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVGImageElement* element)
+{
+  wxSVGCanvasImage* canvasImage = new wxSVGCanvasImage;
+  canvasImage->Init(*element);
+  return canvasImage;
+}
+
 //////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// Draw functions ////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
-void wxSVGCanvas::DrawLine(wxSVGLineElement* element,
-  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style)
-{
-  wxSVGCanvasItem* canvasItem = CreateItem(element);
-  if (style == NULL)
-	style = &element->GetStyle();
-  DrawItem(*canvasItem, *matrix, *style);
-  if (IsItemsCached())
-  {
-	if (element->GetCanvasItem())
-	  delete element->GetCanvasItem();
-	element->SetCanvasItem(canvasItem);
-	element->SetScreenCTM(*matrix);
-  }
-  else
-	delete canvasItem;
+#define WX_SVG_DRAW(elem_name)\
+void wxSVGCanvas::Draw##elem_name(wxSVG##elem_name##Element* element,\
+  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style)\
+{\
+  wxSVGCanvasItem* canvasItem = CreateItem(element);\
+  if (style == NULL)\
+	style = &element->GetStyle();\
+  DrawItem(*canvasItem, *matrix, *style);\
+  if (IsItemsCached())\
+  {\
+	if (element->GetCanvasItem())\
+	  delete element->GetCanvasItem();\
+	element->SetCanvasItem(canvasItem);\
+	element->SetScreenCTM(*matrix);\
+  }\
+  else\
+	delete canvasItem;\
 }
 
-void wxSVGCanvas::DrawPolyline(wxSVGPolylineElement* element,
-  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style)
-{
-  wxSVGCanvasItem* canvasItem = CreateItem(element);
-  if (style == NULL)
-	style = &element->GetStyle();
-  DrawItem(*canvasItem, *matrix, *style);
-  if (IsItemsCached())
-  {
-	if (element->GetCanvasItem())
-	  delete element->GetCanvasItem();
-	element->SetCanvasItem(canvasItem);
-	element->SetScreenCTM(*matrix);
-  }
-  else
-	delete canvasItem;
-}
-
-void wxSVGCanvas::DrawPolygon(wxSVGPolygonElement* element,
-  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style)
-{
-  wxSVGCanvasItem* canvasItem = CreateItem(element);
-  if (style == NULL)
-	style = &element->GetStyle();
-  DrawItem(*canvasItem, *matrix, *style);
-  if (IsItemsCached())
-  {
-	if (element->GetCanvasItem())
-	  delete element->GetCanvasItem();
-	element->SetCanvasItem(canvasItem);
-	element->SetScreenCTM(*matrix);
-  }
-  else
-	delete canvasItem;
-}
-
-void wxSVGCanvas::DrawRect(wxSVGRectElement* element,
-  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style)
-{
-  wxSVGCanvasItem* canvasItem = CreateItem(element);
-  if (style == NULL)
-	style = &element->GetStyle();
-  DrawItem(*canvasItem, *matrix, *style);
-  if (IsItemsCached())
-  {
-	if (element->GetCanvasItem())
-	  delete element->GetCanvasItem();
-	element->SetCanvasItem(canvasItem);
-	element->SetScreenCTM(*matrix);
-  }
-  else
-	delete canvasItem;
-}
-
-void wxSVGCanvas::DrawCircle(wxSVGCircleElement* element,
-  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style)
-{
-  wxSVGCanvasItem* canvasItem = CreateItem(element);
-  if (style == NULL)
-	style = &element->GetStyle();
-  DrawItem(*canvasItem, *matrix, *style);
-  if (IsItemsCached())
-  {
-	if (element->GetCanvasItem())
-	  delete element->GetCanvasItem();
-	element->SetCanvasItem(canvasItem);
-	element->SetScreenCTM(*matrix);
-  }
-  else
-	delete canvasItem;
-}
-
-void wxSVGCanvas::DrawEllipse(wxSVGEllipseElement* element,
-  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style)
-{
-  wxSVGCanvasItem* canvasItem = CreateItem(element);
-  if (style == NULL)
-	style = &element->GetStyle();
-  DrawItem(*canvasItem, *matrix, *style);
-  if (IsItemsCached())
-  {
-	if (element->GetCanvasItem())
-	  delete element->GetCanvasItem();
-	element->SetCanvasItem(canvasItem);
-	element->SetScreenCTM(*matrix);
-  }
-  else
-	delete canvasItem;
-}
-
-void wxSVGCanvas::DrawPath(wxSVGPathElement* element,
-  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style)
-{
-  wxSVGCanvasItem* canvasItem = CreateItem(element);
-  if (style == NULL)
-	style = &element->GetStyle();
-  DrawItem(*canvasItem, *matrix, *style);
-  if (IsItemsCached())
-  {
-	if (element->GetCanvasItem())
-	  delete element->GetCanvasItem();
-	element->SetCanvasItem(canvasItem);
-	element->SetScreenCTM(*matrix);
-  }
-  else
-	delete canvasItem;
-}
+WX_SVG_DRAW(Line)
+WX_SVG_DRAW(Polyline)
+WX_SVG_DRAW(Polygon)
+WX_SVG_DRAW(Rect)
+WX_SVG_DRAW(Circle)
+WX_SVG_DRAW(Ellipse)
+WX_SVG_DRAW(Path)
+WX_SVG_DRAW(Image)
 
 void wxSVGCanvas::DrawText(wxSVGTextElement* element,
   wxSVGMatrix* matrix, wxCSSStyleDeclaration* style)
@@ -212,3 +121,4 @@ void wxSVGCanvas::DrawText(wxSVGTextElement* element,
   else
 	delete canvasItem;
 }
+

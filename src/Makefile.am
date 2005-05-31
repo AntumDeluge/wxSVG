@@ -4,7 +4,7 @@ SUBDIRS = xml libart
 noinst_LTLIBRARIES = libwxsvg.la
 libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGAnimationElement.cpp SVGCircleElement.cpp SVGEllipseElement.cpp\
-  SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp\
+  SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp SVGImageElement.cpp\
   SVGLineElement.cpp SVGLocatable.cpp SVGMarkerElement.cpp SVGPathElement.cpp\
   SVGPolylineElement.cpp SVGPolygonElement.cpp\
   SVGRectElement.cpp SVGSVGElement.cpp SVGTextContentElement.cpp\

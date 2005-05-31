@@ -9,6 +9,8 @@
 #ifndef WX_SVG_IMAGE_ELEMENT_H
 #define WX_SVG_IMAGE_ELEMENT_H
 
+class wxSVGCanvasItem;
+
 #include "SVGElement.h"
 #include "SVGURIReference.h"
 #include "SVGTests.h"
@@ -70,10 +72,18 @@ class wxSVGImageElement:
 	inline wxSVGPreserveAspectRatio& GetAnimatedPreserveAspectRatio() { return m_preserveAspectRatio.GetAnimVal(); }
 	inline void SetAnimatedPreserveAspectRatio(const wxSVGPreserveAspectRatio& n) { m_preserveAspectRatio.GetAnimVal() = n; }
 
+
+  protected:
+	wxSVGCanvasItem* m_canvasItem;
+  public:
+	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
+	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
+
   public:
 	wxSVGImageElement(wxSVGDocument* doc, wxString tagName = wxT("image")):
-	  wxSVGElement(doc, tagName) {}
+	  wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
 	virtual ~wxSVGImageElement() {}
+	wxSVGRect GetBBox();
 	bool SetAttribute(const wxString& name, const wxString& value);
 	virtual const wxSVGDTD GetDtd() const { return wxSVG_IMAGE_ELEMENT; }
 };

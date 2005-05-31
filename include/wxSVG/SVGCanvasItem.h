@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.3 2005-05-25 12:19:04 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.4 2005-05-31 16:11:21 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -89,6 +89,19 @@ class wxSVGCanvasText: public wxSVGCanvasItem
     virtual void InitText(const wxString& text) = 0;
 	virtual void BeginChunk(wxCSSStyleDeclaration& style) = 0;
 	virtual void EndChunk() = 0;
+};
+
+class wxSVGCanvasImage: public wxSVGCanvasItem
+{
+  public:
+	wxSVGCanvasImage(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_IMAGE) {}
+	virtual ~wxSVGCanvasImage() {}
+	virtual void Init(wxSVGImageElement& element);
+	wxSVGRect GetBBox() { return wxSVGRect(); }
+  
+  public:
+	int m_x, m_y, m_width, m_height;
+	wxImage m_image;
 };
 
 #endif // WX_SVG_CANVAS_ITEM_H

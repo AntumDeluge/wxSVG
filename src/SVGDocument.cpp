@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.6 2005-05-25 12:16:41 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.7 2005-05-31 16:11:23 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -126,6 +126,14 @@ void RenderChilds(wxSVGCanvas* canvas, wxSVGElement* parent,
 		  element->UpdateMatrix(matrix);
 		  style.Add(element->GetStyle());
 		  canvas->DrawText(element, &matrix, &style);
+		  break;
+		}
+		case wxSVG_IMAGE_ELEMENT:
+		{
+		  wxSVGImageElement* element = (wxSVGImageElement*) elem;
+		  element->UpdateMatrix(matrix);
+		  style.Add(element->GetStyle());
+		  canvas->DrawImage(element, &matrix, &style);
 		  break;
 		}
 		default:

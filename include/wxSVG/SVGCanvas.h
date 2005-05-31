@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/02
-// RCS-ID:      $Id: SVGCanvas.h,v 1.2 2005-05-25 12:19:04 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.h,v 1.3 2005-05-31 16:11:21 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -32,6 +32,7 @@ class wxSVGCanvas: public wxObject
 	wxSVGCanvasItem* CreateItem(wxSVGPathElement* element);
 	virtual wxSVGCanvasItem* CreateItem(wxSVGTextElement* element,
 	  wxCSSStyleDeclaration* style = NULL) = 0;
+	wxSVGCanvasItem* CreateItem(wxSVGImageElement* element);
 	
 	virtual void DrawItem(wxSVGCanvasItem& item,
 	  wxSVGMatrix& matrix, wxCSSStyleDeclaration& style) = 0;
@@ -51,6 +52,8 @@ class wxSVGCanvas: public wxObject
 	void DrawPath(wxSVGPathElement* element,
 	  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style = NULL);
 	void DrawText(wxSVGTextElement* element,
+	  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style = NULL);
+	void DrawImage(wxSVGImageElement* element,
 	  wxSVGMatrix* matrix, wxCSSStyleDeclaration* style = NULL);
 	
 	inline bool IsItemsCached() { return m_itemsCached; }

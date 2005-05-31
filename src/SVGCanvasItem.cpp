@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.3 2005-05-25 12:16:41 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.4 2005-05-31 16:11:23 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -567,4 +567,17 @@ void wxSVGCanvasText::InitChildren(wxSVGTextPositioningElement& element,
 	}
 	elem = (wxSVGElement*) elem->GetNext();
   }
+}
+
+//////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// wxSVGCanvasText //////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+void wxSVGCanvasImage::Init(wxSVGImageElement& element)
+{
+  m_x = element.GetX();
+  m_y = element.GetY();
+  m_width = element.GetWidth();
+  m_height = element.GetHeight();
+  m_image.LoadFile(element.GetHref());
 }

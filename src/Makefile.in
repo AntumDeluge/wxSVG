@@ -118,7 +118,7 @@ SUBDIRS = xml libart
 noinst_LTLIBRARIES = libwxsvg.la
 libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGAnimationElement.cpp SVGCircleElement.cpp SVGEllipseElement.cpp\
-  SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp\
+  SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp SVGImageElement.cpp\
   SVGLineElement.cpp SVGLocatable.cpp SVGMarkerElement.cpp SVGPathElement.cpp\
   SVGPolylineElement.cpp SVGPolygonElement.cpp\
   SVGRectElement.cpp SVGSVGElement.cpp SVGTextContentElement.cpp\
@@ -145,17 +145,17 @@ libwxsvg_la_DEPENDENCIES = xml/libwxxml.la libart/libwxsvg_libart.la
 am_libwxsvg_la_OBJECTS = SVGDocument.lo svgctrl.lo \
 	SVGAnimationElement.lo SVGCircleElement.lo SVGEllipseElement.lo \
 	SVGFEGaussianBlurElement.lo SVGFilterElement.lo \
-	SVGLineElement.lo SVGLocatable.lo SVGMarkerElement.lo \
-	SVGPathElement.lo SVGPolylineElement.lo SVGPolygonElement.lo \
-	SVGRectElement.lo SVGSVGElement.lo SVGTextContentElement.lo \
-	SVGAngle.lo SVGColor.lo GetSVGDocument.lo SVGLength.lo \
-	SVGMatrix.lo SVGPaint.lo SVGPoint.lo SVGTests.lo \
-	SVGTransform.lo SVGStylable.lo SVGTextElement.lo \
-	SVGTransformable.lo SVGElementInstanceList.lo SVGLengthList.lo \
-	SVGNumberList.lo SVGPathSegList.lo SVGPointList.lo \
-	SVGStringList.lo SVGTextElement.lo SVGTransformList.lo \
-	Elements_SetAttribute.lo CSSValue.lo CSSStyleDeclaration.lo \
-	SVGCanvas.lo SVGCanvasItem.lo
+	SVGImageElement.lo SVGLineElement.lo SVGLocatable.lo \
+	SVGMarkerElement.lo SVGPathElement.lo SVGPolylineElement.lo \
+	SVGPolygonElement.lo SVGRectElement.lo SVGSVGElement.lo \
+	SVGTextContentElement.lo SVGAngle.lo SVGColor.lo \
+	GetSVGDocument.lo SVGLength.lo SVGMatrix.lo SVGPaint.lo \
+	SVGPoint.lo SVGTests.lo SVGTransform.lo SVGStylable.lo \
+	SVGTextElement.lo SVGTransformable.lo SVGElementInstanceList.lo \
+	SVGLengthList.lo SVGNumberList.lo SVGPathSegList.lo \
+	SVGPointList.lo SVGStringList.lo SVGTextElement.lo \
+	SVGTransformList.lo Elements_SetAttribute.lo CSSValue.lo \
+	CSSStyleDeclaration.lo SVGCanvas.lo SVGCanvasItem.lo
 libwxsvg_la_OBJECTS = $(am_libwxsvg_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -179,6 +179,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SVGEllipseElement.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGFEGaussianBlurElement.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGFilterElement.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SVGImageElement.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGLength.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGLengthList.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGLineElement.Plo \
@@ -264,6 +265,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGEllipseElement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGFEGaussianBlurElement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGFilterElement.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGImageElement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGLength.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGLengthList.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGLineElement.Plo@am__quote@
