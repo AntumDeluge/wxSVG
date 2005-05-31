@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.2 2005-05-25 12:25:03 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.3 2005-05-31 16:09:07 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -43,6 +43,7 @@ bool SVGViewApp::OnInit()
 #endif
   //wxLog::SetActiveTarget(new wxLogStderr);		
   
+  wxInitAllImageHandlers();
   new MainFrame(NULL, wxT("SVG Viewer"),
 	wxDefaultPosition, wxSize(500, 400));
   return true;
