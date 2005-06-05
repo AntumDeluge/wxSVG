@@ -8,8 +8,12 @@ AM_MAINTAINER_MODE
 
 dnl options
 AM_OPTIONS_WXCONFIG
-AC_ARG_ENABLE(debug, [  --enable-debug          Enable debugging information],
-              USE_DEBUG="$enableval", USE_DEBUG="no")
+AC_ARG_ENABLE(debug,
+ [  --enable-debug          Enable debugging information],
+ USE_DEBUG="$enableval", USE_DEBUG="no")
+AC_ARG_ENABLE(render,
+ [  --enable-render[=render]          Specify the render: libart (default) or agg],
+ [USE_RENDER=$enableval], [USE_RENDER=libart])
 
 AC_MSG_CHECKING(for install location)
 case "$prefix" in
@@ -25,6 +29,7 @@ prefix=$m_cv_prefix
 
 
 dnl Checks for programs.
+AC_LANG_CPLUSPLUS
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_LIBTOOL
@@ -43,18 +48,36 @@ yes)
   ;;
 esac
 
-dnl check for libart library
-AC_CHECK_PROG(LIBART_CONFIG, libart2-config, yes, no)
-if test $LIBART_CONFIG = no; then
-  AC_MSG_ERROR([
-    wxSVG requires libart library.
-    Please check that libart2-config is in path.
-  ])
-fi
-LIBART_CFLAGS="`libart2-config --cflags` $CXXFLAGS"
-LIBART_LIBS="`libart2-config --libs` $LIBS"
-AC_SUBST(LIBART_CFLAGS)
-AC_SUBST(LIBART_LIBS)
+dnl render
+AM_CONDITIONAL(USE_RENDER_AGG, [test "$USE_RENDER" = "agg"])
+case "$USE_RENDER" in
+libart)
+  dnl check for libart library
+  AC_CHECK_PROG(LIBART_CONFIG, libart2-config, yes, no)
+  if test $LIBART_CONFIG = no; then
+    AC_MSG_ERROR([
+      wxSVG requires libart library.
+      Please check that libart2-config is in path.
+    ])
+  fi
+  LIBART_CFLAGS="`libart2-config --cflags` $CXXFLAGS"
+  LIBART_LIBS="`libart2-config --libs` $LIBS"
+  AC_SUBST(LIBART_CFLAGS)
+  AC_SUBST(LIBART_LIBS)
+  CXXFLAGS="$CXXFLAGS -DUSE_RENDER_LIBART"
+  ;;
+agg)
+  dnl check for agg
+  AC_CHECK_LIB(agg, main, [AGG_LIBS=-lagg], [AC_MSG_ERROR([*** missing library AGG])])
+  AC_CHECK_HEADER([agg2/agg_color_rgba.h], [], [AC_MSG_ERROR([*** missing library AGG])])
+  AC_SUBST(AGG_CFLAGS)
+  AC_SUBST(AGG_LIBS)
+  CXXFLAGS="$CXXFLAGS -DUSE_RENDER_AGG"
+  ;;
+*)
+  AC_MSG_ERROR([*** Unknown render "$USE_RENDER"])
+  ;;
+esac
 
 dnl check for pango and freetype library
 PKG_CHECK_MODULES(PANGO, pangoft2 >= 1.2.0)
@@ -96,6 +119,8 @@ AC_OUTPUT([
   src/xml/Makefile
   src/xml/expat/Makefile
   src/Makefile
+  src/agg/Makefile
   src/libart/Makefile
+  src/freetype/Makefile
   svgview/Makefile
 ])
