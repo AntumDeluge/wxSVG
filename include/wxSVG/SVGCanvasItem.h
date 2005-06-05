@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.4 2005-05-31 16:11:21 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.5 2005-06-05 19:11:03 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -100,7 +100,7 @@ class wxSVGCanvasImage: public wxSVGCanvasItem
 	wxSVGRect GetBBox() { return wxSVGRect(); }
   
   public:
-	int m_x, m_y, m_width, m_height;
+	double m_x, m_y, m_width, m_height;
 	wxImage m_image;
 };
 
