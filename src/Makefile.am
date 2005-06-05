@@ -1,5 +1,13 @@
+if USE_RENDER_AGG
+RENDER_DIR = agg
+RENDER_LIB = agg/libwxsvg_agg.la
+else
+RENDER_DIR = libart
+RENDER_LIB = libart/libwxsvg_libart.la
+RENDER_CFLAGS = $(LIBART_CFLAGS)
+endif
 
-SUBDIRS = xml libart
+SUBDIRS = xml freetype $(RENDER_DIR)
 
 noinst_LTLIBRARIES = libwxsvg.la
 libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
@@ -17,6 +25,8 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   Elements_SetAttribute.cpp CSSValue.cpp CSSStyleDeclaration.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp
 
-libwxsvg_la_LIBADD = xml/libwxxml.la libart/libwxsvg_libart.la
+libwxsvg_la_LIBADD = xml/libwxxml.la freetype/libwxsvg_freetype.la\
+ $(RENDER_LIB)
 
-INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG $(LIBART_CFLAGS)
+INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG\
+ $(RENDER_CFLAGS)

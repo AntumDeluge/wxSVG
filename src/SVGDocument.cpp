@@ -3,18 +3,21 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.7 2005-05-31 16:11:23 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.8 2005-06-05 19:10:49 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGDocument.h"
 
-#ifdef USE_AGG
+#ifdef USE_RENDER_AGG
 #include "agg/SVGCanvasAgg.h"
-#else
+#define WX_SVG_CANVAS wxSVGCanvasAgg
+#else // USE_RENDER_LIBART
 #include "libart/SVGCanvasLibart.h"
+#define WX_SVG_CANVAS wxSVGCanvasLibart
 #endif
+
 #include <wx/log.h>
 
 wxSVGDocument::~wxSVGDocument()
@@ -24,11 +27,7 @@ wxSVGDocument::~wxSVGDocument()
 
 void wxSVGDocument::Init()
 {
-#ifdef USE_AGG
-  m_canvas = new wxSVGCanvasAgg;
-#else
-  m_canvas = new wxSVGCanvasLibart;
-#endif
+  m_canvas = new WX_SVG_CANVAS;
 }
 
 wxXmlElement* wxSVGDocument::CreateElement(const wxString& tagName)

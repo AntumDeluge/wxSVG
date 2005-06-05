@@ -65,6 +65,8 @@ host_triplet = @host@
 EXEEXT = @EXEEXT@
 OBJEXT = @OBJEXT@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+AGG_CFLAGS = @AGG_CFLAGS@
+AGG_LIBS = @AGG_LIBS@
 AMTAR = @AMTAR@
 AR = @AR@
 AS = @AS@
@@ -112,8 +114,13 @@ WX_VERSION = @WX_VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
+@USE_RENDER_AGG_TRUE@RENDER_DIR = agg
+@USE_RENDER_AGG_FALSE@RENDER_DIR = libart
+@USE_RENDER_AGG_TRUE@RENDER_LIB = agg/libwxsvg_agg.la
+@USE_RENDER_AGG_FALSE@RENDER_LIB = libart/libwxsvg_libart.la
+@USE_RENDER_AGG_FALSE@RENDER_CFLAGS = $(LIBART_CFLAGS)
 
-SUBDIRS = xml libart
+SUBDIRS = xml freetype $(RENDER_DIR)
 
 noinst_LTLIBRARIES = libwxsvg.la
 libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
@@ -132,16 +139,25 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp
 
 
-libwxsvg_la_LIBADD = xml/libwxxml.la libart/libwxsvg_libart.la
+libwxsvg_la_LIBADD = xml/libwxxml.la freetype/libwxsvg_freetype.la\
+ $(RENDER_LIB)
 
-INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG $(LIBART_CFLAGS)
+
+INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG\
+ $(RENDER_CFLAGS)
+
 subdir = src
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libwxsvg_la_LDFLAGS =
-libwxsvg_la_DEPENDENCIES = xml/libwxxml.la libart/libwxsvg_libart.la
+@USE_RENDER_AGG_TRUE@libwxsvg_la_DEPENDENCIES = xml/libwxxml.la \
+@USE_RENDER_AGG_TRUE@	freetype/libwxsvg_freetype.la \
+@USE_RENDER_AGG_TRUE@	agg/libwxsvg_agg.la
+@USE_RENDER_AGG_FALSE@libwxsvg_la_DEPENDENCIES = xml/libwxxml.la \
+@USE_RENDER_AGG_FALSE@	freetype/libwxsvg_freetype.la \
+@USE_RENDER_AGG_FALSE@	libart/libwxsvg_libart.la
 am_libwxsvg_la_OBJECTS = SVGDocument.lo svgctrl.lo \
 	SVGAnimationElement.lo SVGCircleElement.lo SVGEllipseElement.lo \
 	SVGFEGaussianBlurElement.lo SVGFilterElement.lo \
@@ -220,7 +236,7 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	install-exec-recursive installdirs-recursive install-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
 DIST_COMMON = Makefile.am Makefile.in
-DIST_SUBDIRS = $(SUBDIRS)
+DIST_SUBDIRS = xml freetype libart agg
 SOURCES = $(libwxsvg_la_SOURCES)
 
 all: all-recursive
@@ -445,7 +461,7 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-	list='$(SUBDIRS)'; for subdir in $$list; do \
+	list='$(DIST_SUBDIRS)'; for subdir in $$list; do \
 	  if test "$$subdir" = .; then :; else \
 	    test -d $(distdir)/$$subdir \
 	    || mkdir $(distdir)/$$subdir \
