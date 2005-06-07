@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.2 2005-05-16 11:00:17 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.3 2005-06-07 22:35:50 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -34,6 +34,7 @@ import interfaces
 import config
 import genAnimated
 import genList
+import genCSS
 import genFile
 import os
 
@@ -75,6 +76,16 @@ if len(parse_idl.class_decls):
 
         output = ''
         cpp_output = ''
+		
+		# enums
+        for enum in classdecl.enums:
+            output = output + '\nenum %s\n{\n'%(cpp.fix_typename(enum.name))
+            if len(enum.const_decls):
+                output = output + '  %s'%(cpp.fix_typename('%s'%enum.const_decls[0]))
+                if len(enum.const_decls[1:]):
+                    for const_decl in enum.const_decls[1:]:
+                        output = output + ',\n  %s'%(cpp.fix_typename('%s'%const_decl))
+            output = output + '\n};\n\n'
 
         # inheritance
         output = output + "class %s"%(cpp.fix_typename(classname))
@@ -91,21 +102,7 @@ if len(parse_idl.class_decls):
                     output = output + ',\n'
                 output = output + '  public %s'%(cpp.fix_typename(inherit))
                 includes.append(inherit)
-
-        # enums
         output = output + '\n{\n'
-        
-        if len(classdecl.enums):
-          output = output +'  public:\n'
-
-        for enum in classdecl.enums:
-            output = output + '\n\tenum %s\n\t{\n'%(cpp.fix_typename(enum.name))
-            if len(enum.const_decls):
-                output = output + '\t  %s'%(cpp.fix_typename('%s'%enum.const_decls[0]))
-                if len(enum.const_decls[1:]):
-                    for const_decl in enum.const_decls[1:]:
-                        output = output + ',\n\t  %s'%(cpp.fix_typename('%s'%const_decl))
-            output = output + '\n\t};\n\n'
         
         public = ''
         protected = ''
@@ -289,7 +286,22 @@ if len(parse_idl.class_decls):
             
         except KeyError:
             pass
-
+        
+        ################# wxSVGStylable ####################
+        if classname == "SVGStylable":
+            public = public + "  public:\n"
+            for attr in genCSS.attibutes:
+                valueType = attr.valueType
+                if valueType not in cpp.builtin_types:
+                    valueType = "const " + valueType + "&"
+                public = public + '    inline void Set%s(%s value) { m_style.Set%s(value); }\n'%(attr.name, valueType, attr.name)
+                valueType = attr.valueType
+                if len(attr.function) == 0:
+                    valueType = "const " + valueType + "&"
+                public = public + '    inline %s Get%s() { return m_style.Get%s(); }\n'%(valueType, attr.name, attr.name)
+                public = public + '    inline bool Has%s() { return m_style.Has%s(); }\n'%(attr.name, attr.name)
+                public = public + '    \n'
+        
 
         ################# constructor #######################
         methods_str = ''
@@ -342,7 +354,6 @@ if len(parse_idl.class_decls):
                 methods_str = methods_str + '\t%s():\n\t  wxSVGPathSeg(%s)%s {}\n'%(cname, seg_type, init_attibutes)
             elif len(init_attibutes)>0:
                 methods_str = methods_str + '\t%s(): %s {}\n'%(cname, init_attibutes[2:])
-            
         
         ################# destructor #######################
         has_destructor = 0
@@ -372,6 +383,8 @@ if len(parse_idl.class_decls):
                         includes.append(meth.return_type.name)
             if meth.return_type.name in ["SVGDocument", "Element"]:
                 method_ret = return_type + '* '
+            elif meth.return_type.name in ["css::CSSValue"]:
+                method_ret = 'const ' + return_type + '& '
             else:
                 method_ret = return_type + ' '
             
@@ -511,7 +524,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.2 2005-05-16 11:00:17 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.3 2005-06-07 22:35:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -527,7 +540,9 @@ for i in used_animated:
 
 for i in used_lists:
     name = string.replace(string.replace(i,'List',''),'SVG','')
-    genList.make(name)
+    genList.generate(name)
+
+genCSS.generate()
 
 import genSetAttribute
 import genSvgElement

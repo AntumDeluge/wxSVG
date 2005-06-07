@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.4 2005-05-31 16:11:22 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.5 2005-06-07 22:35:50 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -55,7 +55,28 @@ inter.exclude_methods = ["GetBBox"]
 # SVGTransformable
 inter = interface()
 interfaces["SVGTransformable"]=inter
-inter.include_methods.append('\tvoid UpdateMatrix(wxSVGMatrix& matrix);\n')
+inter.include_methods.append('''
+    inline void Transform(const wxSVGMatrix& matrix)
+    { m_transform.GetBaseVal().Add(new wxSVGTransform(matrix)); }''')
+inter.include_methods.append('''
+    inline void Translate(float tx, float ty)
+    { wxSVGTransform* t = new wxSVGTransform; t->SetTranslate(tx,ty); m_transform.GetBaseVal().Add(t); }''')
+inter.include_methods.append('''
+    inline void Scale(float s)
+    { wxSVGTransform* t = new wxSVGTransform; t->SetScale(s,s); m_transform.GetBaseVal().Add(t); }''')
+inter.include_methods.append('''
+    inline void Scale(float sx, float sy)
+    { wxSVGTransform* t = new wxSVGTransform; t->SetScale(sx,sy); m_transform.GetBaseVal().Add(t); }''')
+inter.include_methods.append('''
+    inline void Rotate(float angle, float cx = 0, float cy = 0)
+    { wxSVGTransform* t = new wxSVGTransform; t->SetRotate(angle, cx,cy); m_transform.GetBaseVal().Add(t); }''')
+inter.include_methods.append('''
+    inline void SkewX(float angle)
+    { wxSVGTransform* t = new wxSVGTransform; t->SetSkewX(angle); m_transform.GetBaseVal().Add(t); }''')
+inter.include_methods.append('''
+    inline void SkewY(float angle)
+    { wxSVGTransform* t = new wxSVGTransform; t->SetSkewY(angle); m_transform.GetBaseVal().Add(t); }\n\n''')
+inter.include_methods.append('    void UpdateMatrix(wxSVGMatrix& matrix);\n')
 
 # SVGStylable
 inter = interface()
@@ -67,6 +88,52 @@ inter = interface()
 interfaces["SVGElementInstance"]=inter
 inter.include_methods.append('\twxSVGElementInstance() {}\n')
 inter.include_methods.append('\tvirtual ~wxSVGElementInstance() {}\n')
+inter.user_defined_constructor=1
+inter.user_defined_destructor=1
+
+# wxSVGColor
+inter = interface()
+interfaces["SVGColor"]=inter
+inter.include_methods.append('\twxSVGColor(): m_colorType(wxSVG_COLORTYPE_UNKNOWN) {}\n')
+inter.include_methods.append('\twxSVGColor(unsigned char r, unsigned char g, unsigned char b):\n')
+inter.include_methods.append('\t  m_colorType(wxSVG_COLORTYPE_RGBCOLOR), m_rgbColor(r, g, b) {}\n')
+inter.include_methods.append('\tvirtual ~wxSVGColor() {}\n')
+inter.include_methods.append('\twxCSSValue* Clone() const { return new wxSVGColor(*this); }\n')
+inter.include_methods.append('\t\n')
+inter.include_methods.append('\twxString GetCSSText() const;\n')
+inter.include_methods.append('\t\n')
+inter.include_methods.append('\tinline wxRGBColor GetRGBColor() const { return m_rgbColor; }\n')
+inter.include_methods.append('\tvirtual void SetRGBColor(const wxRGBColor& rgbColor);\n')
+inter.include_methods.append('\t\n')
+inter.include_methods.append('\tinline wxSVGICCColor GetICCColor() const { return m_iccColor; }\n')
+inter.include_methods.append('\tvirtual void SetICCColor(const wxSVGICCColor& iccColor);\n')
+inter.include_methods.append('\t\n')
+inter.exclude_methods = ["GetRgbColor", "SetRgbColor", "GetIccColor", "SetIccColor"]
+inter.user_defined_constructor=1
+inter.user_defined_destructor=1
+
+# wxSVGPaint
+inter = interface()
+interfaces["SVGPaint"]=inter
+inter.include_methods.append('\twxSVGPaint(): m_paintType(wxSVG_PAINTTYPE_NONE) {}\n')
+inter.include_methods.append('\twxSVGPaint(unsigned char r, unsigned char g, unsigned char b):\n')
+inter.include_methods.append('\t  wxSVGColor(r, g, b), m_paintType(wxSVG_PAINTTYPE_RGBCOLOR) {}\n')
+inter.include_methods.append('\tvirtual ~wxSVGPaint() {}\n')
+inter.include_methods.append('\twxCSSValue* Clone() const { return new wxSVGPaint(*this); }\n')
+inter.include_methods.append('\t\n')
+inter.include_methods.append('\twxString GetCSSText() const;\n')
+inter.include_methods.append('\tinline wxString GetUri() const { return m_uri; }\n')
+inter.include_methods.append('\tvirtual void SetUri(const wxString& uri);\n')
+inter.include_methods.append('\tvirtual void SetRGBColor(const wxRGBColor& rgbColor);\n')
+inter.include_methods.append('\tvirtual void SetICCColor(const wxSVGICCColor& iccColor);\n')
+inter.include_methods.append('\t\n')
+inter.include_methods.append('''\tinline bool Ok() const
+    {
+	  return m_paintType != wxSVG_PAINTTYPE_UNKNOWN &&
+	         m_paintType != wxSVG_PAINTTYPE_NONE;
+	}\n''')
+inter.include_methods.append('\t\n')
+inter.exclude_methods = ["GetUri", "SetUri"]
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
