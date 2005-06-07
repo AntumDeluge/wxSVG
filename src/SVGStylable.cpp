@@ -3,22 +3,23 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGStylable.cpp,v 1.1.1.1 2005-05-10 17:51:39 ntalex Exp $
+// RCS-ID:      $Id: SVGStylable.cpp,v 1.2 2005-06-07 22:15:35 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGStylable.h"
 
-wxCSSValue wxSVGStylable::GetPresentationAttribute(const wxString& name)
+const wxCSSValue& wxSVGStylable::GetPresentationAttribute(const wxString& name)
 {
-  wxCSSValue res;
-  return res;
+  return m_style.GetPropertyCSSValue(name);
 }
 
 bool wxSVGStylable::SetCustomAttribute(const wxString& name, const wxString& value)
 {
-  if(!wxCSSStyleDeclaration::IsStyleAttribute(name))
+  wxCSS_PROPERTY id = wxCSSStyleDeclaration::GetPropertyId(name);
+  
+  if (id == wxCSS_PROPERTY_UNKNOWN)
     return false;
 	
   m_style.SetProperty(name, value);

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.cpp,v 1.2 2005-05-11 03:12:36 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.cpp,v 1.3 2005-06-07 22:15:35 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -11,71 +11,148 @@
 #include "CSSValue.h"
 #include <wx/tokenzr.h>
 
-void wxCSSPrimitiveValue::SetFloatValue(wxCSS_PRIMITIVE_TYPE unitType, float floatValue)
+wxCSSPrimitiveValue::wxCSSPrimitiveValue(const wxCSSPrimitiveValue& src)
 {
-  m_primitiveType = unitType;
-  m_cssText = wxString::Format(wxT("%f"), floatValue);
+  m_primitiveType = src.m_primitiveType;
+  if (m_primitiveType == wxCSS_UNKNOWN);
+  else if (int(m_primitiveType) >= int(wxCSS_NUMBER) &&
+		   int(m_primitiveType) <= int(wxCSS_DIMENSION))
+	m_number = src.m_number;
+  else if (m_primitiveType == wxCSS_IDENT)
+	m_ident = src.m_ident;
+  else if (m_primitiveType == wxCSS_STRING ||
+		   m_primitiveType == wxCSS_URI ||
+  		   m_primitiveType == wxCSS_ATTR)
+	m_string = new wxString(*src.m_string);
+  else if (m_primitiveType == wxCSS_RECT)
+	m_rect = new wxRect(*src.m_rect);
+  else if (m_primitiveType == wxCSS_RGBCOLOR)
+	m_color = new wxRGBColor(*src.m_color);
 }
 
-float wxCSSPrimitiveValue::GetFloatValue(wxCSS_PRIMITIVE_TYPE unitType)
+wxString wxCSSPrimitiveValue::GetCSSText()
 {
-  double value = 0;
-  m_cssText.ToDouble(&value);
-  return value;
+  return GetStringValue();
 }
 
 void wxCSSPrimitiveValue::SetStringValue(wxCSS_PRIMITIVE_TYPE stringType, const wxString& stringValue)
 {
-  m_primitiveType = stringType;
-  m_cssText = stringValue;
+  if (m_primitiveType != wxCSS_STRING &&
+	  m_primitiveType != wxCSS_URI &&
+	  m_primitiveType != wxCSS_ATTR)
+  {
+	CleanUp();
+	m_string = new wxString;
+  }
+  m_primitiveType = stringValue == wxCSS_STRING ||
+					stringValue == wxCSS_URI ||
+					stringValue == wxCSS_ATTR ? stringType : wxCSS_STRING;
+  *m_string = stringValue;
 }
 
-bool wxCSSPrimitiveValue::GetBooleanValue()
+wxString wxCSSPrimitiveValue::GetStringValue()
 {
-  return m_cssText.Upper() == wxT("true") || m_cssText == wxT("1");
+  switch (m_primitiveType)
+  {
+	case wxCSS_STRING:
+	case wxCSS_URI:
+	case wxCSS_ATTR:
+	  return *m_string;
+    case wxCSS_IDENT:
+	  break;
+	case wxCSS_COUNTER:
+	  break;
+	case wxCSS_RECT:
+	  break;
+	case wxCSS_RGBCOLOR:
+	  if (m_color->Ok())
+		return wxString::Format(_T("#%02x%02x%02x"),
+		  m_color->Red(), m_color->Green(), m_color->Blue());
+	  break;
+	case wxCSS_UNKNOWN:
+	  break;
+	default:
+	  return wxString::Format(wxT("%f"), m_number);
+  }
+  return wxT("");
+}
+
+void wxCSSPrimitiveValue::SetFloatValue(wxCSS_PRIMITIVE_TYPE unitType, double floatValue)
+{
+  CleanUp();
+  m_primitiveType =
+	int(unitType) >= int(wxCSS_NUMBER) &&
+	int(unitType) <= int(wxCSS_DIMENSION) ? unitType : wxCSS_NUMBER;
+  m_number = floatValue;
+}
+
+double wxCSSPrimitiveValue::GetFloatValue(wxCSS_PRIMITIVE_TYPE unitType)
+{
+  if (int(m_primitiveType) >= int(wxCSS_NUMBER) &&
+	  int(m_primitiveType) <= int(wxCSS_DIMENSION))
+	return m_number;
+  return 0;
+}
+
+void wxCSSPrimitiveValue::SetRectValue(wxRect rect)
+{
+  if (m_primitiveType != wxCSS_RECT)
+  {
+	CleanUp();
+	m_rect = new wxRect;
+  }
+  m_primitiveType = wxCSS_RECT;
+  *m_rect = rect;
 }
 
 wxRect wxCSSPrimitiveValue::GetRectValue()
 {
+  if (m_primitiveType == wxCSS_RECT)
+	return *m_rect;
   return wxRect();
 }
 
-static wxSortedArrayString s_colours;
-#include "CSSValue_colours.h"
+void wxCSSPrimitiveValue::SetRGBColorValue(wxRGBColor color)
+{
+  if (m_primitiveType != wxCSS_RGBCOLOR)
+  {
+	CleanUp();
+	m_color = new wxRGBColor;
+  }
+  m_primitiveType = wxCSS_RGBCOLOR;
+  *m_color = color;
+}
 
 wxRGBColor wxCSSPrimitiveValue::GetRGBColorValue()
 {
-  if (!m_cssText.length() || m_cssText == wxT("none"))
-	return wxRGBColor();
-  else if (m_cssText.GetChar(0) == wxT('#'))
-  {
-	long r = 0, g = 0, b = 0;
-	m_cssText.Mid(1,2).ToLong(&r,16);
-	m_cssText.Mid(3,2).ToLong(&g,16);
-	m_cssText.Mid(5,2).ToLong(&b,16);
-	return wxRGBColor(r,g,b);
-  }
-  else if (m_cssText.Left(3) == wxT("rgb"))
-  {
-	wxStringTokenizer tkz(m_cssText.Mid(3), wxT(",()"));
-	long rgb[3] = { 0, 0, 0 };
-	for (int i=0; tkz.HasMoreTokens() && i<3;)
-	{
-	  wxString token = tkz.GetNextToken().Strip(wxString::both);
-	  if (token.length())
-		token.ToLong(&rgb[i++]);
-	}
-	return wxRGBColor(rgb[0], rgb[1], rgb[2]);
-  }
-  else
-  {
-	if (s_colours.Count() == 0)
-	  for (unsigned int i=0; i<sizeof(s_namedColours)/sizeof(s_namedColours[0]); i++)
-		s_colours.Add(s_namedColours[i].name);
-	int num = s_colours.Index(m_cssText);
-	if (num>=0)
-	  return s_namedColours[num].colour;
-  }
+  if (m_primitiveType == wxCSS_RGBCOLOR)
+	return *m_color;
   return wxRGBColor();
 }
 
+void wxCSSPrimitiveValue::SetIdent(int ident)
+{
+  if (m_primitiveType != wxCSS_IDENT)
+	CleanUp();
+  m_primitiveType = wxCSS_IDENT;
+  m_ident = ident;
+}
+
+int wxCSSPrimitiveValue::GetIdent()
+{
+  if (m_primitiveType == wxCSS_IDENT)
+	return m_ident;
+  return 0;
+}
+
+void wxCSSPrimitiveValue::CleanUp()
+{
+  if (m_primitiveType == wxCSS_STRING ||
+	  m_primitiveType == wxCSS_URI ||
+	  m_primitiveType == wxCSS_ATTR)
+	delete m_string;
+  else if (m_primitiveType == wxCSS_RECT)
+	delete m_rect;
+  else if (m_primitiveType == wxCSS_RGBCOLOR)
+	delete m_color;
+}

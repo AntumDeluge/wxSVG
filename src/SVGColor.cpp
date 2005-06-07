@@ -3,12 +3,32 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGColor.cpp,v 1.1.1.1 2005-05-10 17:51:39 ntalex Exp $
+// RCS-ID:      $Id: SVGColor.cpp,v 1.2 2005-06-07 22:15:35 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGColor.h"
+
+wxString wxSVGColor::GetCSSText()
+{
+  if (m_colorType == wxSVG_COLORTYPE_UNKNOWN)
+	return wxT("");
+  return wxString::Format(_T("#%02x%02x%02x"),
+	m_rgbColor.Red(), m_rgbColor.Green(), m_rgbColor.Blue());
+}
+	
+void wxSVGColor::SetRGBColor(const wxRGBColor& rgbColor)
+{
+  m_rgbColor = rgbColor;
+  m_colorType = wxSVG_COLORTYPE_RGBCOLOR;
+}
+
+void wxSVGColor::SetICCColor(const wxSVGICCColor& iccColor)
+{
+  m_iccColor = iccColor;
+  m_colorType = wxSVG_COLORTYPE_RGBCOLOR_ICCCOLOR;
+}
 
 void wxSVGColor::SetRGBColor(const wxString& rgbColor)
 {

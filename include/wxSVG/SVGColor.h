@@ -14,19 +14,18 @@
 #include "SVGICCColor.h"
 #include "String.h"
 
+
+enum wxSVG_COLORTYPE
+{
+  wxSVG_COLORTYPE_UNKNOWN = 0,
+  wxSVG_COLORTYPE_RGBCOLOR = 1,
+  wxSVG_COLORTYPE_RGBCOLOR_ICCCOLOR = 2,
+  wxSVG_COLORTYPE_CURRENTCOLOR = 3
+};
+
 class wxSVGColor:
   public wxCSSValue
 {
-  public:
-
-	enum wxSVG_COLORTYPE
-	{
-	  wxSVG_COLORTYPE_UNKNOWN = 0,
-	  wxSVG_COLORTYPE_RGBCOLOR = 1,
-	  wxSVG_COLORTYPE_RGBCOLOR_ICCCOLOR = 2,
-	  wxSVG_COLORTYPE_CURRENTCOLOR = 3
-	};
-
   protected:
 	wxSVG_COLORTYPE m_colorType;
 	wxRGBColor m_rgbColor;
@@ -36,15 +35,21 @@ class wxSVGColor:
 	inline wxSVG_COLORTYPE GetColorType() const { return m_colorType; }
 	inline void SetColorType(const wxSVG_COLORTYPE& n) { m_colorType = n; }
 
-	inline wxRGBColor GetRgbColor() const { return m_rgbColor; }
-	inline void SetRgbColor(const wxRGBColor& n) { m_rgbColor = n; }
-
-	inline wxSVGICCColor& GetIccColor() { return m_iccColor; }
-	inline void SetIccColor(const wxSVGICCColor& n) { m_iccColor = n; }
-
   public:
-	wxSVGColor(): m_colorType(wxSVG_COLORTYPE(0)) {}
+	wxSVGColor(): m_colorType(wxSVG_COLORTYPE_UNKNOWN) {}
+	wxSVGColor(unsigned char r, unsigned char g, unsigned char b):
+	  m_colorType(wxSVG_COLORTYPE_RGBCOLOR), m_rgbColor(r, g, b) {}
 	virtual ~wxSVGColor() {}
+	wxCSSValue* Clone() const { return new wxSVGColor(*this); }
+	
+	wxString GetCSSText() const;
+	
+	inline wxRGBColor GetRGBColor() const { return m_rgbColor; }
+	virtual void SetRGBColor(const wxRGBColor& rgbColor);
+	
+	inline wxSVGICCColor GetICCColor() const { return m_iccColor; }
+	virtual void SetICCColor(const wxSVGICCColor& iccColor);
+	
 	virtual void SetRGBColor(const wxString& rgbColor);
 	virtual void SetRGBColorICCColor(const wxString& rgbColor, const wxString& iccColor);
 	virtual void SetColor(wxSVG_COLORTYPE colorType, const wxString& rgbColor, const wxString& iccColor);

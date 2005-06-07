@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.1.1.1 2005-05-10 17:51:30 ntalex Exp $
+// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.2 2005-06-07 22:15:35 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,11 +12,16 @@
 #include <wx/tokenzr.h>
 #include <wx/log.h>
 
+wxCSSValue* wxCSSStyleDeclaration::s_emptyCSSValue = new wxCSSPrimitiveValue;
+wxSVGColor* wxCSSStyleDeclaration::s_emptySVGColor = new wxSVGColor;
+wxSVGPaint* wxCSSStyleDeclaration::s_emptySVGPaint = new wxSVGPaint;
+wxSVGPaint* wxCSSStyleDeclaration::s_blackSVGPaint = new wxSVGPaint(0,0,0);
+
 void wxCSSStyleDeclaration::Add(wxCSSStyleDeclaration& style)
 {
   iterator it;
   for (it = style.begin(); it != style.end(); ++it)
-	SetProperty(it->first, it->second.GetCSSText());
+	(*this)[it->first] = it->second->Clone();
 }
 
 wxString wxCSSStyleDeclaration::GetCSSText()
@@ -24,7 +29,7 @@ wxString wxCSSStyleDeclaration::GetCSSText()
   wxString text;
   iterator it;
   for (it = begin(); it != end(); ++it) 
-	text = it->first + wxT(":") + it->second.GetCSSText() + wxT(";");
+	text = GetPropertyName(it->first) + wxT(":") + it->second->GetCSSText() + wxT(";");
   return text;
 }
 
@@ -41,10 +46,250 @@ void wxCSSStyleDeclaration::SetCSSText(const wxString& text)
   }
 }
 
-bool wxCSSStyleDeclaration::IsStyleAttribute(const wxString& propertyName)
-{
-#define ATTRDEF(type,func,name,value,defvalue) if (propertyName == wxT(value)) return true;
+static wxSortedArrayString* s_cssPropertyNames = NULL;
 #include "CSSStyleDeclaration_styles.h"
-#undef ATTRDEF
-  return false;
+
+wxCSS_PROPERTY wxCSSStyleDeclaration::GetPropertyId(const wxString& propertyName)
+{
+  if (s_cssPropertyNames == NULL)
+  {
+	s_cssPropertyNames = new wxSortedArrayString;
+	for (unsigned int i=0; i<sizeof(s_cssPropertys)/sizeof(s_cssPropertys[0]); i++)
+	  s_cssPropertyNames->Add(s_cssPropertys[i]);
+  }
+  int id = s_cssPropertyNames->Index(propertyName);
+  if (id >= 0)
+	return wxCSS_PROPERTY(id+1);
+  return wxCSS_PROPERTY_UNKNOWN;
 }
+
+wxString wxCSSStyleDeclaration::GetPropertyName(wxCSS_PROPERTY propertyId)
+{
+  if (propertyId == wxCSS_PROPERTY_UNKNOWN)
+	return wxT("");
+  return s_cssPropertys[int(propertyId)-1];
+}
+
+void wxCSSStyleDeclaration::SetProperty(wxCSS_PROPERTY propertyId, const wxString& svalue)
+{
+  if (propertyId == wxCSS_PROPERTY_UNKNOWN)
+    return;
+  wxString value = svalue.Strip(wxString::both);
+  wxCSSValue* cssValue = NULL;
+  iterator it = find(propertyId);
+  if (it != end())
+    cssValue = it->second;
+  switch (propertyId)
+  {
+    case wxCSS_PROPERTY_UNKNOWN:
+      break;
+    case wxCSS_PROPERTY_CLIP_PATH:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_COLOR:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+	  ((wxCSSPrimitiveValue*)cssValue)->SetRGBColorValue(ParseColor(value));
+      break;
+    case wxCSS_PROPERTY_DISPLAY:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+	  ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_FILL:
+      if (!cssValue)
+        cssValue = new wxSVGPaint;
+	  ParseSVGPaint(*(wxSVGPaint*)cssValue, value);
+      break;
+    case wxCSS_PROPERTY_FILL_OPACITY:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+	  ((wxCSSPrimitiveValue*)cssValue)->SetFloatValue(wxCSS_NUMBER, ParseNumber(value));
+      break;
+    case wxCSS_PROPERTY_FILL_RULE:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_FILTER:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_FONT_FAMILY:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_FONT_SIZE:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+	  ((wxCSSPrimitiveValue*)cssValue)->SetFloatValue(wxCSS_NUMBER, ParseNumber(value));
+      break;
+    case wxCSS_PROPERTY_FONT_STRETCH:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_FONT_STYLE:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_FONT_VARIANT:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_FONT_WEIGHT:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_MARKER:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_MARKER_END:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_MARKER_MID:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_MARKER_START:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_OPACITY:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+	  ((wxCSSPrimitiveValue*)cssValue)->SetFloatValue(wxCSS_NUMBER, ParseNumber(value));
+      break;
+    case wxCSS_PROPERTY_STOP_COLOR:
+      if (!cssValue)
+        cssValue = new wxSVGColor;
+	  ((wxSVGColor*)cssValue)->SetRGBColor(ParseColor(value));
+      break;
+    case wxCSS_PROPERTY_STOP_OPACITY:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+	  ((wxCSSPrimitiveValue*)cssValue)->SetFloatValue(wxCSS_NUMBER, ParseNumber(value));
+      break;
+    case wxCSS_PROPERTY_STROKE:
+      if (!cssValue)
+        cssValue = new wxSVGPaint;
+	  ParseSVGPaint(*(wxSVGPaint*)cssValue, value);
+      break;
+    case wxCSS_PROPERTY_STROKE_DASHOFFSET:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+	  ((wxCSSPrimitiveValue*)cssValue)->SetFloatValue(wxCSS_NUMBER, ParseNumber(value));
+      break;
+    case wxCSS_PROPERTY_STROKE_LINECAP:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_STROKE_LINEJOIN:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_STROKE_MITERLIMIT:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+	  ((wxCSSPrimitiveValue*)cssValue)->SetFloatValue(wxCSS_NUMBER, ParseNumber(value));
+      break;
+    case wxCSS_PROPERTY_STROKE_OPACITY:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+	  ((wxCSSPrimitiveValue*)cssValue)->SetFloatValue(wxCSS_NUMBER, ParseNumber(value));
+      break;
+    case wxCSS_PROPERTY_STROKE_WIDTH:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+	  ((wxCSSPrimitiveValue*)cssValue)->SetFloatValue(wxCSS_NUMBER, ParseNumber(value));
+      break;
+    case wxCSS_PROPERTY_TEXT_ANCHOR:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+    case wxCSS_PROPERTY_VISIBILITY:
+      if (!cssValue)
+        cssValue = new wxCSSPrimitiveValue;
+	  ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      break;
+  }
+  if (it == end())
+    (*this)[propertyId] = cssValue;
+}
+
+double wxCSSStyleDeclaration::ParseNumber(const wxString& value)
+{
+  double val = 0;
+  value.ToDouble(&val);
+  return val;
+}
+
+static wxSortedArrayString* s_colours = NULL;
+#include "CSSValue_colours.h"
+
+wxRGBColor wxCSSStyleDeclaration::ParseColor(const wxString& value)
+{
+  if (!value.length() || value == wxT("none"))
+	return wxRGBColor();
+  else if (value.GetChar(0) == wxT('#'))
+  {
+	long r = 0, g = 0, b = 0;
+	value.Mid(1,2).ToLong(&r,16);
+	value.Mid(3,2).ToLong(&g,16);
+	value.Mid(5,2).ToLong(&b,16);
+	return wxRGBColor(r,g,b);
+  }
+  else if (value.Left(3) == wxT("rgb"))
+  {
+	wxStringTokenizer tkz(value.Mid(3), wxT(",()"));
+	long rgb[3] = { 0, 0, 0 };
+	for (int i=0; tkz.HasMoreTokens() && i<3;)
+	{
+	  wxString token = tkz.GetNextToken().Strip(wxString::both);
+	  if (token.length())
+		token.ToLong(&rgb[i++]);
+	}
+	return wxRGBColor(rgb[0], rgb[1], rgb[2]);
+  }
+  else
+  {
+	if (s_colours == NULL)
+	{
+	  s_colours = new wxSortedArrayString;
+	  for (unsigned int i=0; i<sizeof(s_namedColours)/sizeof(s_namedColours[0]); i++)
+		s_colours->Add(s_namedColours[i].name);
+	}
+	int num = s_colours->Index(value);
+	if (num>=0)
+	  return s_namedColours[num].colour;
+  }
+  return wxRGBColor();
+}
+
+void wxCSSStyleDeclaration::ParseSVGPaint(wxSVGPaint& cssValue, const wxString& value)
+{
+  wxString val = value;
+  if (val.Left(3) == wxT("url"))
+  {
+	cssValue.SetUri(val.AfterFirst(wxT('(')).BeforeFirst(wxT(')')));
+	val = value.AfterFirst(wxT(')')).Strip(wxString::both);
+  }
+  cssValue.SetRGBColor(ParseColor(val));
+}
+
