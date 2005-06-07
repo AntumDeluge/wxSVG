@@ -29,7 +29,23 @@ class wxSVGTransformable:
 
   public:
 	virtual ~wxSVGTransformable() {}
-	void UpdateMatrix(wxSVGMatrix& matrix);
+
+    inline void Transform(const wxSVGMatrix& matrix)
+    { m_transform.GetBaseVal().Add(new wxSVGTransform(matrix)); }
+    inline void Translate(float tx, float ty)
+    { wxSVGTransform* t = new wxSVGTransform; t->SetTranslate(tx,ty); m_transform.GetBaseVal().Add(t); }
+    inline void Scale(float s)
+    { wxSVGTransform* t = new wxSVGTransform; t->SetScale(s,s); m_transform.GetBaseVal().Add(t); }
+    inline void Scale(float sx, float sy)
+    { wxSVGTransform* t = new wxSVGTransform; t->SetScale(sx,sy); m_transform.GetBaseVal().Add(t); }
+    inline void Rotate(float angle, float cx = 0, float cy = 0)
+    { wxSVGTransform* t = new wxSVGTransform; t->SetRotate(angle, cx,cy); m_transform.GetBaseVal().Add(t); }
+    inline void SkewX(float angle)
+    { wxSVGTransform* t = new wxSVGTransform; t->SetSkewX(angle); m_transform.GetBaseVal().Add(t); }
+    inline void SkewY(float angle)
+    { wxSVGTransform* t = new wxSVGTransform; t->SetSkewY(angle); m_transform.GetBaseVal().Add(t); }
+
+    void UpdateMatrix(wxSVGMatrix& matrix);
 	bool SetAttribute(const wxString& name, const wxString& value);
 };
 
