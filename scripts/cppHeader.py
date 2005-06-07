@@ -3,7 +3,7 @@
 ## Purpose:     generates c++ header and saves it
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: cppHeader.py,v 1.2 2005-05-16 11:00:17 ntalex Exp $
+## RCS-ID:      $Id: cppHeader.py,v 1.3 2005-06-07 22:07:05 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -14,7 +14,7 @@ import string
 
 def make_header_name(name):
 	pos = 0
-	if name[0:3] == "SVG":
+	if name[0:3] in ["SVG", "CSS"]:
 		pos = 3
 	while len(name)>pos:
 		if name[pos] == string.upper(name[pos]):
