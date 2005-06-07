@@ -23,10 +23,10 @@ class wxSVGColorProfileRule:
 	wxRENDERING_INTENT m_renderingIntent;
 
   public:
-	inline wxString GetSrc() const { return m_src; }
+	inline const wxString& GetSrc() { return m_src; }
 	inline void SetSrc(const wxString& n) { m_src = n; }
 
-	inline wxString GetName() const { return m_name; }
+	inline const wxString& GetName() { return m_name; }
 	inline void SetName(const wxString& n) { m_name = n; }
 
 	inline wxRENDERING_INTENT GetRenderingIntent() const { return m_renderingIntent; }

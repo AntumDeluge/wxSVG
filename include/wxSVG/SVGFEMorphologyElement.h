@@ -35,7 +35,7 @@ class wxSVGFEMorphologyElement:
 	wxSVGAnimatedLength m_radiusY;
 
   public:
-	inline wxString GetIn1() const { return m_in1.GetBaseVal(); }
+	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
 	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
 	inline char GetOperator() const { return m_operator.GetBaseVal(); }
@@ -48,7 +48,7 @@ class wxSVGFEMorphologyElement:
 	inline void SetRadiusY(const wxSVGLength& n) { m_radiusY.GetBaseVal() = n; }
 
   public:
-	inline wxString GetAnimatedIn1() const { return m_in1.GetAnimVal(); }
+	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
 	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
 
 	inline char GetAnimatedOperator() const { return m_operator.GetAnimVal(); }

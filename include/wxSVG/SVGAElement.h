@@ -34,11 +34,11 @@ class wxSVGAElement:
 	wxSVGAnimatedString m_target;
 
   public:
-	inline wxString GetTarget() const { return m_target.GetBaseVal(); }
+	inline const wxString& GetTarget() { return m_target.GetBaseVal(); }
 	inline void SetTarget(const wxString& n) { m_target.GetBaseVal() = n; }
 
   public:
-	inline wxString GetAnimatedTarget() const { return m_target.GetAnimVal(); }
+	inline const wxString& GetAnimatedTarget() { return m_target.GetAnimVal(); }
 	inline void SetAnimatedTarget(const wxString& n) { m_target.GetAnimVal() = n; }
 
   public:

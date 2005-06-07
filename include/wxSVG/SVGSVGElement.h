@@ -78,10 +78,10 @@ class wxSVGSVGElement:
 	inline wxSVGLength& GetHeight() { return m_height.GetBaseVal(); }
 	inline void SetHeight(const wxSVGLength& n) { m_height.GetBaseVal() = n; }
 
-	inline wxString GetContentScriptType() const { return m_contentScriptType; }
+	inline const wxString& GetContentScriptType() { return m_contentScriptType; }
 	inline void SetContentScriptType(const wxString& n) { m_contentScriptType = n; }
 
-	inline wxString GetContentStyleType() const { return m_contentStyleType; }
+	inline const wxString& GetContentStyleType() { return m_contentStyleType; }
 	inline void SetContentStyleType(const wxString& n) { m_contentStyleType = n; }
 
 	inline wxSVGRect& GetViewport() { return m_viewport; }

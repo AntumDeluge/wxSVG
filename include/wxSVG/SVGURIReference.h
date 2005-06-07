@@ -18,11 +18,11 @@ class wxSVGURIReference
 	wxSVGAnimatedString m_href;
 
   public:
-	inline wxString GetHref() const { return m_href.GetBaseVal(); }
+	inline const wxString& GetHref() { return m_href.GetBaseVal(); }
 	inline void SetHref(const wxString& n) { m_href.GetBaseVal() = n; }
 
   public:
-	inline wxString GetAnimatedHref() const { return m_href.GetAnimVal(); }
+	inline const wxString& GetAnimatedHref() { return m_href.GetAnimVal(); }
 	inline void SetAnimatedHref(const wxString& n) { m_href.GetAnimVal() = n; }
 
   public:

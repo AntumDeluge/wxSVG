@@ -20,11 +20,11 @@ class wxSVGFEMergeNodeElement:
 	wxSVGAnimatedString m_in1;
 
   public:
-	inline wxString GetIn1() const { return m_in1.GetBaseVal(); }
+	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
 	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
   public:
-	inline wxString GetAnimatedIn1() const { return m_in1.GetAnimVal(); }
+	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
 	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
 
   public:

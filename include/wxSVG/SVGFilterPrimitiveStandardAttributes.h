@@ -37,7 +37,7 @@ class wxSVGFilterPrimitiveStandardAttributes:
 	inline wxSVGLength& GetHeight() { return m_height.GetBaseVal(); }
 	inline void SetHeight(const wxSVGLength& n) { m_height.GetBaseVal() = n; }
 
-	inline wxString GetResult() const { return m_result.GetBaseVal(); }
+	inline const wxString& GetResult() { return m_result.GetBaseVal(); }
 	inline void SetResult(const wxString& n) { m_result.GetBaseVal() = n; }
 
   public:
@@ -53,7 +53,7 @@ class wxSVGFilterPrimitiveStandardAttributes:
 	inline wxSVGLength& GetAnimatedHeight() { return m_height.GetAnimVal(); }
 	inline void SetAnimatedHeight(const wxSVGLength& n) { m_height.GetAnimVal() = n; }
 
-	inline wxString GetAnimatedResult() const { return m_result.GetAnimVal(); }
+	inline const wxString& GetAnimatedResult() { return m_result.GetAnimVal(); }
 	inline void SetAnimatedResult(const wxString& n) { m_result.GetAnimVal() = n; }
 
   public:

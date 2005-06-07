@@ -25,7 +25,7 @@ class wxSVGFEGaussianBlurElement:
 	wxSVGAnimatedNumber m_stdDeviationY;
 
   public:
-	inline wxString GetIn1() const { return m_in1.GetBaseVal(); }
+	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
 	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
 	inline float GetStdDeviationX() const { return m_stdDeviationX.GetBaseVal(); }
@@ -35,7 +35,7 @@ class wxSVGFEGaussianBlurElement:
 	inline void SetStdDeviationY(const float n) { m_stdDeviationY.GetBaseVal() = n; }
 
   public:
-	inline wxString GetAnimatedIn1() const { return m_in1.GetAnimVal(); }
+	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
 	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
 
 	inline float GetAnimatedStdDeviationX() const { return m_stdDeviationX.GetAnimVal(); }

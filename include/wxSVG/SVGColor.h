@@ -44,10 +44,10 @@ class wxSVGColor:
 	
 	wxString GetCSSText() const;
 	
-	inline wxRGBColor GetRGBColor() const { return m_rgbColor; }
+	inline const wxRGBColor& GetRGBColor() const { return m_rgbColor; }
 	virtual void SetRGBColor(const wxRGBColor& rgbColor);
 	
-	inline wxSVGICCColor GetICCColor() const { return m_iccColor; }
+	inline const wxSVGICCColor& GetICCColor() const { return m_iccColor; }
 	virtual void SetICCColor(const wxSVGICCColor& iccColor);
 	
 	virtual void SetRGBColor(const wxString& rgbColor);

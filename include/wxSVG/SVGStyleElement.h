@@ -22,16 +22,16 @@ class wxSVGStyleElement:
 	wxString m_title;
 
   public:
-	inline wxString GetXmlspace() const { return m_xmlspace; }
+	inline const wxString& GetXmlspace() { return m_xmlspace; }
 	inline void SetXmlspace(const wxString& n) { m_xmlspace = n; }
 
-	inline wxString GetType() const { return m_type; }
+	inline const wxString& GetType() { return m_type; }
 	inline void SetType(const wxString& n) { m_type = n; }
 
-	inline wxString GetMedia() const { return m_media; }
+	inline const wxString& GetMedia() { return m_media; }
 	inline void SetMedia(const wxString& n) { m_media = n; }
 
-	inline wxString GetTitle() const { return m_title; }
+	inline const wxString& GetTitle() { return m_title; }
 	inline void SetTitle(const wxString& n) { m_title = n; }
 
   public:

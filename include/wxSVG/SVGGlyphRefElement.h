@@ -28,10 +28,10 @@ class wxSVGGlyphRefElement:
 	float m_dy;
 
   public:
-	inline wxString GetGlyphRef() const { return m_glyphRef; }
+	inline const wxString& GetGlyphRef() { return m_glyphRef; }
 	inline void SetGlyphRef(const wxString& n) { m_glyphRef = n; }
 
-	inline wxString GetFormat() const { return m_format; }
+	inline const wxString& GetFormat() { return m_format; }
 	inline void SetFormat(const wxString& n) { m_format = n; }
 
 	inline float GetX() const { return m_x; }

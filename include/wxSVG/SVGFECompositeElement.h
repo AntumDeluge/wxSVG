@@ -42,10 +42,10 @@ class wxSVGFECompositeElement:
 	wxSVGAnimatedNumber m_k4;
 
   public:
-	inline wxString GetIn1() const { return m_in1.GetBaseVal(); }
+	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
 	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
-	inline wxString GetIn2() const { return m_in2.GetBaseVal(); }
+	inline const wxString& GetIn2() { return m_in2.GetBaseVal(); }
 	inline void SetIn2(const wxString& n) { m_in2.GetBaseVal() = n; }
 
 	inline char GetOperator() const { return m_operator.GetBaseVal(); }
@@ -64,10 +64,10 @@ class wxSVGFECompositeElement:
 	inline void SetK4(const float n) { m_k4.GetBaseVal() = n; }
 
   public:
-	inline wxString GetAnimatedIn1() const { return m_in1.GetAnimVal(); }
+	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
 	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
 
-	inline wxString GetAnimatedIn2() const { return m_in2.GetAnimVal(); }
+	inline const wxString& GetAnimatedIn2() { return m_in2.GetAnimVal(); }
 	inline void SetAnimatedIn2(const wxString& n) { m_in2.GetAnimVal() = n; }
 
 	inline char GetAnimatedOperator() const { return m_operator.GetAnimVal(); }

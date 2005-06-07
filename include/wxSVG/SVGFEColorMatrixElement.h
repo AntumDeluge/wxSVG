@@ -36,7 +36,7 @@ class wxSVGFEColorMatrixElement:
 	wxSVGAnimatedNumberList m_values;
 
   public:
-	inline wxString GetIn1() const { return m_in1.GetBaseVal(); }
+	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
 	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
 	inline char GetType() const { return m_type.GetBaseVal(); }
@@ -46,7 +46,7 @@ class wxSVGFEColorMatrixElement:
 	inline void SetValues(const wxSVGNumberList& n) { m_values.GetBaseVal() = n; }
 
   public:
-	inline wxString GetAnimatedIn1() const { return m_in1.GetAnimVal(); }
+	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
 	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
 
 	inline char GetAnimatedType() const { return m_type.GetAnimVal(); }

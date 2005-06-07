@@ -46,7 +46,7 @@ class wxSVGPaint:
 	wxCSSValue* Clone() const { return new wxSVGPaint(*this); }
 	
 	wxString GetCSSText() const;
-	inline wxString GetUri() const { return m_uri; }
+	inline const wxString& GetUri() const { return m_uri; }
 	virtual void SetUri(const wxString& uri);
 	virtual void SetRGBColor(const wxRGBColor& rgbColor);
 	virtual void SetICCColor(const wxSVGICCColor& iccColor);

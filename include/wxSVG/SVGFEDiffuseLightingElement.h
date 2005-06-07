@@ -25,7 +25,7 @@ class wxSVGFEDiffuseLightingElement:
 	wxSVGAnimatedNumber m_diffuseConstant;
 
   public:
-	inline wxString GetIn1() const { return m_in1.GetBaseVal(); }
+	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
 	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
 	inline float GetSurfaceScale() const { return m_surfaceScale.GetBaseVal(); }
@@ -35,7 +35,7 @@ class wxSVGFEDiffuseLightingElement:
 	inline void SetDiffuseConstant(const float n) { m_diffuseConstant.GetBaseVal() = n; }
 
   public:
-	inline wxString GetAnimatedIn1() const { return m_in1.GetAnimVal(); }
+	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
 	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
 
 	inline float GetAnimatedSurfaceScale() const { return m_surfaceScale.GetAnimVal(); }

@@ -25,7 +25,7 @@ class wxSVGFEOffsetElement:
 	wxSVGAnimatedNumber m_dy;
 
   public:
-	inline wxString GetIn1() const { return m_in1.GetBaseVal(); }
+	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
 	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
 	inline float GetDx() const { return m_dx.GetBaseVal(); }
@@ -35,7 +35,7 @@ class wxSVGFEOffsetElement:
 	inline void SetDy(const float n) { m_dy.GetBaseVal() = n; }
 
   public:
-	inline wxString GetAnimatedIn1() const { return m_in1.GetAnimVal(); }
+	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
 	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
 
 	inline float GetAnimatedDx() const { return m_dx.GetAnimVal(); }

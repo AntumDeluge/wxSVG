@@ -29,16 +29,16 @@ class wxSVGDocument:
 	wxString m_URL;
 
   public:
-	inline wxString GetTitle() const { return m_title; }
+	inline const wxString& GetTitle() { return m_title; }
 	inline void SetTitle(const wxString& n) { m_title = n; }
 
-	inline wxString GetReferrer() const { return m_referrer; }
+	inline const wxString& GetReferrer() { return m_referrer; }
 	inline void SetReferrer(const wxString& n) { m_referrer = n; }
 
-	inline wxString GetDomain() const { return m_domain; }
+	inline const wxString& GetDomain() { return m_domain; }
 	inline void SetDomain(const wxString& n) { m_domain = n; }
 
-	inline wxString GetURL() const { return m_URL; }
+	inline const wxString& GetURL() { return m_URL; }
 	inline void SetURL(const wxString& n) { m_URL = n; }
 
 
