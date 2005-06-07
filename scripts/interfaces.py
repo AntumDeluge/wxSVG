@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.5 2005-06-07 22:35:50 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.6 2005-06-07 22:44:25 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -102,10 +102,10 @@ inter.include_methods.append('\twxCSSValue* Clone() const { return new wxSVGColo
 inter.include_methods.append('\t\n')
 inter.include_methods.append('\twxString GetCSSText() const;\n')
 inter.include_methods.append('\t\n')
-inter.include_methods.append('\tinline wxRGBColor GetRGBColor() const { return m_rgbColor; }\n')
+inter.include_methods.append('\tinline const wxRGBColor& GetRGBColor() const { return m_rgbColor; }\n')
 inter.include_methods.append('\tvirtual void SetRGBColor(const wxRGBColor& rgbColor);\n')
 inter.include_methods.append('\t\n')
-inter.include_methods.append('\tinline wxSVGICCColor GetICCColor() const { return m_iccColor; }\n')
+inter.include_methods.append('\tinline const wxSVGICCColor& GetICCColor() const { return m_iccColor; }\n')
 inter.include_methods.append('\tvirtual void SetICCColor(const wxSVGICCColor& iccColor);\n')
 inter.include_methods.append('\t\n')
 inter.exclude_methods = ["GetRgbColor", "SetRgbColor", "GetIccColor", "SetIccColor"]
@@ -122,7 +122,7 @@ inter.include_methods.append('\tvirtual ~wxSVGPaint() {}\n')
 inter.include_methods.append('\twxCSSValue* Clone() const { return new wxSVGPaint(*this); }\n')
 inter.include_methods.append('\t\n')
 inter.include_methods.append('\twxString GetCSSText() const;\n')
-inter.include_methods.append('\tinline wxString GetUri() const { return m_uri; }\n')
+inter.include_methods.append('\tinline const wxString& GetUri() const { return m_uri; }\n')
 inter.include_methods.append('\tvirtual void SetUri(const wxString& uri);\n')
 inter.include_methods.append('\tvirtual void SetRGBColor(const wxRGBColor& rgbColor);\n')
 inter.include_methods.append('\tvirtual void SetICCColor(const wxSVGICCColor& iccColor);\n')

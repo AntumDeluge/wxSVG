@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.3 2005-06-07 22:35:50 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.4 2005-06-07 22:44:25 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -222,7 +222,9 @@ if len(parse_idl.class_decls):
                 
                 const=''
                 ret_str = typestr
-                if (typestr[0:5] == "wxSVG" or typestr[0:5] == "wxCSS") and typestr[0:6] != "wxSVG_" and not ispointer:
+                if typestr == "wxString" and attrname not in ['valueAsString', 'valueInSpecifiedUnits']:
+                    ret_str = 'const ' + ret_str + '&'
+                elif (typestr[0:5] == "wxSVG" or typestr[0:5] == "wxCSS") and typestr[0:6] != "wxSVG_" and not ispointer:
                     ret_str = ret_str + '&'
                 elif not ispointer:
                     const=' const'
@@ -524,7 +526,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.3 2005-06-07 22:35:50 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.4 2005-06-07 22:44:25 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
