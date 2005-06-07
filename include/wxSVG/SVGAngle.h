@@ -11,19 +11,18 @@
 
 #include "String.h"
 
+
+enum wxSVG_ANGLETYPE
+{
+  wxSVG_ANGLETYPE_UNKNOWN = 0,
+  wxSVG_ANGLETYPE_UNSPECIFIED = 1,
+  wxSVG_ANGLETYPE_DEG = 2,
+  wxSVG_ANGLETYPE_RAD = 3,
+  wxSVG_ANGLETYPE_GRAD = 4
+};
+
 class wxSVGAngle
 {
-  public:
-
-	enum wxSVG_ANGLETYPE
-	{
-	  wxSVG_ANGLETYPE_UNKNOWN = 0,
-	  wxSVG_ANGLETYPE_UNSPECIFIED = 1,
-	  wxSVG_ANGLETYPE_DEG = 2,
-	  wxSVG_ANGLETYPE_RAD = 3,
-	  wxSVG_ANGLETYPE_GRAD = 4
-	};
-
   protected:
 	wxSVG_ANGLETYPE m_unitType;
 	float m_value;

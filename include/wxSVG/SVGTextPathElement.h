@@ -15,27 +15,26 @@
 #include "SVGAnimatedEnumeration.h"
 #include "String.h"
 
+
+enum wxTEXTPATH_METHODTYPE
+{
+  wxTEXTPATH_METHODTYPE_UNKNOWN = 0,
+  wxTEXTPATH_METHODTYPE_ALIGN = 1,
+  wxTEXTPATH_METHODTYPE_STRETCH = 2
+};
+
+
+enum wxTEXTPATH_SPACINGTYPE
+{
+  wxTEXTPATH_SPACINGTYPE_UNKNOWN = 0,
+  wxTEXTPATH_SPACINGTYPE_AUTO = 1,
+  wxTEXTPATH_SPACINGTYPE_EXACT = 2
+};
+
 class wxSVGTextPathElement:
   public wxSVGTextContentElement,
   public wxSVGURIReference
 {
-  public:
-
-	enum wxTEXTPATH_METHODTYPE
-	{
-	  wxTEXTPATH_METHODTYPE_UNKNOWN = 0,
-	  wxTEXTPATH_METHODTYPE_ALIGN = 1,
-	  wxTEXTPATH_METHODTYPE_STRETCH = 2
-	};
-
-
-	enum wxTEXTPATH_SPACINGTYPE
-	{
-	  wxTEXTPATH_SPACINGTYPE_UNKNOWN = 0,
-	  wxTEXTPATH_SPACINGTYPE_AUTO = 1,
-	  wxTEXTPATH_SPACINGTYPE_EXACT = 2
-	};
-
   protected:
 	wxSVGAnimatedLength m_startOffset;
 	wxSVGAnimatedEnumeration m_method;

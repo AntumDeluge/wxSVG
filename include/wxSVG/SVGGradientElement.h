@@ -18,6 +18,15 @@
 #include "SVGAnimatedTransformList.h"
 #include "String.h"
 
+
+enum wxSVG_SPREADMETHOD
+{
+  wxSVG_SPREADMETHOD_UNKNOWN = 0,
+  wxSVG_SPREADMETHOD_PAD = 1,
+  wxSVG_SPREADMETHOD_REFLECT = 2,
+  wxSVG_SPREADMETHOD_REPEAT = 3
+};
+
 class wxSVGGradientElement:
   public wxSVGElement,
   public wxSVGURIReference,
@@ -25,16 +34,6 @@ class wxSVGGradientElement:
   public wxSVGStylable,
   public wxSVGUnitTypes
 {
-  public:
-
-	enum wxSVG_SPREADMETHOD
-	{
-	  wxSVG_SPREADMETHOD_UNKNOWN = 0,
-	  wxSVG_SPREADMETHOD_PAD = 1,
-	  wxSVG_SPREADMETHOD_REFLECT = 2,
-	  wxSVG_SPREADMETHOD_REPEAT = 3
-	};
-
   protected:
 	wxSVGAnimatedEnumeration m_gradientUnits;
 	wxSVGAnimatedTransformList m_gradientTransform;

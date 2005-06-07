@@ -16,22 +16,21 @@
 #include "SVGAnimatedLength.h"
 #include "String.h"
 
+
+enum wxSVG_MORPHOLOGY_OPERATOR
+{
+  wxSVG_MORPHOLOGY_OPERATOR_UNKNOWN = 0,
+  wxSVG_MORPHOLOGY_OPERATOR_ERODE = 1,
+  wxSVG_MORPHOLOGY_OPERATOR_DILATE = 2
+};
+
 class wxSVGFEMorphologyElement:
   public wxSVGElement,
   public wxSVGFilterPrimitiveStandardAttributes
 {
-  public:
-
-	enum wxSVG_MORPHOLOGY_OPERATOR
-	{
-	  wxSVG_MORPHOLOGY_OPERATOR_UNKNOWN = 0,
-	  wxSVG_MORPHOLOGY_OPERATOR_ERODE = 1,
-	  wxSVG_MORPHOLOGY_OPERATOR_DILATE = 2
-	};
-
   protected:
 	wxSVGAnimatedString m_in1;
-	wxSVGAnimatedEnumeration m_operator_;
+	wxSVGAnimatedEnumeration m_operator;
 	wxSVGAnimatedLength m_radiusX;
 	wxSVGAnimatedLength m_radiusY;
 
@@ -39,8 +38,8 @@ class wxSVGFEMorphologyElement:
 	inline wxString GetIn1() const { return m_in1.GetBaseVal(); }
 	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
-	inline char GetOperator() const { return m_operator_.GetBaseVal(); }
-	inline void SetOperator(const char n) { m_operator_.GetBaseVal() = n; }
+	inline char GetOperator() const { return m_operator.GetBaseVal(); }
+	inline void SetOperator(const char n) { m_operator.GetBaseVal() = n; }
 
 	inline wxSVGLength& GetRadiusX() { return m_radiusX.GetBaseVal(); }
 	inline void SetRadiusX(const wxSVGLength& n) { m_radiusX.GetBaseVal() = n; }
@@ -52,8 +51,8 @@ class wxSVGFEMorphologyElement:
 	inline wxString GetAnimatedIn1() const { return m_in1.GetAnimVal(); }
 	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
 
-	inline char GetAnimatedOperator() const { return m_operator_.GetAnimVal(); }
-	inline void SetAnimatedOperator(const char n) { m_operator_.GetAnimVal() = n; }
+	inline char GetAnimatedOperator() const { return m_operator.GetAnimVal(); }
+	inline void SetAnimatedOperator(const char n) { m_operator.GetAnimVal() = n; }
 
 	inline wxSVGLength& GetAnimatedRadiusX() { return m_radiusX.GetAnimVal(); }
 	inline void SetAnimatedRadiusX(const wxSVGLength& n) { m_radiusX.GetAnimVal() = n; }

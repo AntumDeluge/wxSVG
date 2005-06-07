@@ -19,20 +19,19 @@
 #include "SVGAnimatedBoolean.h"
 #include "String.h"
 
+
+enum wxSVG_EDGEMODE
+{
+  wxSVG_EDGEMODE_UNKNOWN = 0,
+  wxSVG_EDGEMODE_DUPLICATE = 1,
+  wxSVG_EDGEMODE_WRAP = 2,
+  wxSVG_EDGEMODE_NONE = 3
+};
+
 class wxSVGFEConvolveMatrixElement:
   public wxSVGElement,
   public wxSVGFilterPrimitiveStandardAttributes
 {
-  public:
-
-	enum wxSVG_EDGEMODE
-	{
-	  wxSVG_EDGEMODE_UNKNOWN = 0,
-	  wxSVG_EDGEMODE_DUPLICATE = 1,
-	  wxSVG_EDGEMODE_WRAP = 2,
-	  wxSVG_EDGEMODE_NONE = 3
-	};
-
   protected:
 	wxSVGAnimatedInteger m_orderX;
 	wxSVGAnimatedInteger m_orderY;

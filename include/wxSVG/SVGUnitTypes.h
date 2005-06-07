@@ -9,17 +9,16 @@
 #ifndef WX_SVG_UNIT_TYPES_H
 #define WX_SVG_UNIT_TYPES_H
 
+
+enum wxSVG_UNIT_TYPE
+{
+  wxSVG_UNIT_TYPE_UNKNOWN = 0,
+  wxSVG_UNIT_TYPE_USERSPACEONUSE = 1,
+  wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX = 2
+};
+
 class wxSVGUnitTypes
 {
-  public:
-
-	enum wxSVG_UNIT_TYPE
-	{
-	  wxSVG_UNIT_TYPE_UNKNOWN = 0,
-	  wxSVG_UNIT_TYPE_USERSPACEONUSE = 1,
-	  wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX = 2
-	};
-
   public:
 	virtual ~wxSVGUnitTypes() {}
 };

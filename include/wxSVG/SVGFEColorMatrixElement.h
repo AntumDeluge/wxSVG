@@ -16,21 +16,20 @@
 #include "SVGAnimatedNumberList.h"
 #include "String.h"
 
+
+enum wxSVG_FECOLORMATRIX_TYPE
+{
+  wxSVG_FECOLORMATRIX_TYPE_UNKNOWN = 0,
+  wxSVG_FECOLORMATRIX_TYPE_MATRIX = 1,
+  wxSVG_FECOLORMATRIX_TYPE_SATURATE = 2,
+  wxSVG_FECOLORMATRIX_TYPE_HUEROTATE = 3,
+  wxSVG_FECOLORMATRIX_TYPE_LUMINANCETOALPHA = 4
+};
+
 class wxSVGFEColorMatrixElement:
   public wxSVGElement,
   public wxSVGFilterPrimitiveStandardAttributes
 {
-  public:
-
-	enum wxSVG_FECOLORMATRIX_TYPE
-	{
-	  wxSVG_FECOLORMATRIX_TYPE_UNKNOWN = 0,
-	  wxSVG_FECOLORMATRIX_TYPE_MATRIX = 1,
-	  wxSVG_FECOLORMATRIX_TYPE_SATURATE = 2,
-	  wxSVG_FECOLORMATRIX_TYPE_HUEROTATE = 3,
-	  wxSVG_FECOLORMATRIX_TYPE_LUMINANCETOALPHA = 4
-	};
-
   protected:
 	wxSVGAnimatedString m_in1;
 	wxSVGAnimatedEnumeration m_type;

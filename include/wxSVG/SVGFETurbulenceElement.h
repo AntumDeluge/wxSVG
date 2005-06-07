@@ -16,27 +16,26 @@
 #include "SVGAnimatedEnumeration.h"
 #include "String.h"
 
+
+enum wxSVG_TURBULENCE_TYPE
+{
+  wxSVG_TURBULENCE_TYPE_UNKNOWN = 0,
+  wxSVG_TURBULENCE_TYPE_FRACTALNOISE = 1,
+  wxSVG_TURBULENCE_TYPE_TURBULENCE = 2
+};
+
+
+enum wxSVG_STITCHTYPE
+{
+  wxSVG_STITCHTYPE_UNKNOWN = 0,
+  wxSVG_STITCHTYPE_STITCH = 1,
+  wxSVG_STITCHTYPE_NOSTITCH = 2
+};
+
 class wxSVGFETurbulenceElement:
   public wxSVGElement,
   public wxSVGFilterPrimitiveStandardAttributes
 {
-  public:
-
-	enum wxSVG_TURBULENCE_TYPE
-	{
-	  wxSVG_TURBULENCE_TYPE_UNKNOWN = 0,
-	  wxSVG_TURBULENCE_TYPE_FRACTALNOISE = 1,
-	  wxSVG_TURBULENCE_TYPE_TURBULENCE = 2
-	};
-
-
-	enum wxSVG_STITCHTYPE
-	{
-	  wxSVG_STITCHTYPE_UNKNOWN = 0,
-	  wxSVG_STITCHTYPE_STITCH = 1,
-	  wxSVG_STITCHTYPE_NOSTITCH = 2
-	};
-
   protected:
 	wxSVGAnimatedNumber m_baseFrequencyX;
 	wxSVGAnimatedNumber m_baseFrequencyY;

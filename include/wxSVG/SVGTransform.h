@@ -11,21 +11,20 @@
 
 #include "SVGMatrix.h"
 
+
+enum wxSVG_TRANSFORM
+{
+  wxSVG_TRANSFORM_UNKNOWN = 0,
+  wxSVG_TRANSFORM_MATRIX = 1,
+  wxSVG_TRANSFORM_TRANSLATE = 2,
+  wxSVG_TRANSFORM_SCALE = 3,
+  wxSVG_TRANSFORM_ROTATE = 4,
+  wxSVG_TRANSFORM_SKEWX = 5,
+  wxSVG_TRANSFORM_SKEWY = 6
+};
+
 class wxSVGTransform
 {
-  public:
-
-	enum wxSVG_TRANSFORM
-	{
-	  wxSVG_TRANSFORM_UNKNOWN = 0,
-	  wxSVG_TRANSFORM_MATRIX = 1,
-	  wxSVG_TRANSFORM_TRANSLATE = 2,
-	  wxSVG_TRANSFORM_SCALE = 3,
-	  wxSVG_TRANSFORM_ROTATE = 4,
-	  wxSVG_TRANSFORM_SKEWX = 5,
-	  wxSVG_TRANSFORM_SKEWY = 6
-	};
-
   protected:
 	wxSVG_TRANSFORM m_type;
 	wxSVGMatrix m_matrix;

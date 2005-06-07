@@ -16,27 +16,26 @@
 #include "SVGAnimatedNumber.h"
 #include "String.h"
 
+
+enum wxSVG_FECOMPOSITE_OPERATOR
+{
+  wxSVG_FECOMPOSITE_OPERATOR_UNKNOWN = 0,
+  wxSVG_FECOMPOSITE_OPERATOR_OVER = 1,
+  wxSVG_FECOMPOSITE_OPERATOR_IN = 2,
+  wxSVG_FECOMPOSITE_OPERATOR_OUT = 3,
+  wxSVG_FECOMPOSITE_OPERATOR_ATOP = 4,
+  wxSVG_FECOMPOSITE_OPERATOR_XOR = 5,
+  wxSVG_FECOMPOSITE_OPERATOR_ARITHMETIC = 6
+};
+
 class wxSVGFECompositeElement:
   public wxSVGElement,
   public wxSVGFilterPrimitiveStandardAttributes
 {
-  public:
-
-	enum wxSVG_FECOMPOSITE_OPERATOR
-	{
-	  wxSVG_FECOMPOSITE_OPERATOR_UNKNOWN = 0,
-	  wxSVG_FECOMPOSITE_OPERATOR_OVER = 1,
-	  wxSVG_FECOMPOSITE_OPERATOR_IN = 2,
-	  wxSVG_FECOMPOSITE_OPERATOR_OUT = 3,
-	  wxSVG_FECOMPOSITE_OPERATOR_ATOP = 4,
-	  wxSVG_FECOMPOSITE_OPERATOR_XOR = 5,
-	  wxSVG_FECOMPOSITE_OPERATOR_ARITHMETIC = 6
-	};
-
   protected:
 	wxSVGAnimatedString m_in1;
 	wxSVGAnimatedString m_in2;
-	wxSVGAnimatedEnumeration m_operator_;
+	wxSVGAnimatedEnumeration m_operator;
 	wxSVGAnimatedNumber m_k1;
 	wxSVGAnimatedNumber m_k2;
 	wxSVGAnimatedNumber m_k3;
@@ -49,8 +48,8 @@ class wxSVGFECompositeElement:
 	inline wxString GetIn2() const { return m_in2.GetBaseVal(); }
 	inline void SetIn2(const wxString& n) { m_in2.GetBaseVal() = n; }
 
-	inline char GetOperator() const { return m_operator_.GetBaseVal(); }
-	inline void SetOperator(const char n) { m_operator_.GetBaseVal() = n; }
+	inline char GetOperator() const { return m_operator.GetBaseVal(); }
+	inline void SetOperator(const char n) { m_operator.GetBaseVal() = n; }
 
 	inline float GetK1() const { return m_k1.GetBaseVal(); }
 	inline void SetK1(const float n) { m_k1.GetBaseVal() = n; }
@@ -71,8 +70,8 @@ class wxSVGFECompositeElement:
 	inline wxString GetAnimatedIn2() const { return m_in2.GetAnimVal(); }
 	inline void SetAnimatedIn2(const wxString& n) { m_in2.GetAnimVal() = n; }
 
-	inline char GetAnimatedOperator() const { return m_operator_.GetAnimVal(); }
-	inline void SetAnimatedOperator(const char n) { m_operator_.GetAnimVal() = n; }
+	inline char GetAnimatedOperator() const { return m_operator.GetAnimVal(); }
+	inline void SetAnimatedOperator(const char n) { m_operator.GetAnimVal() = n; }
 
 	inline float GetAnimatedK1() const { return m_k1.GetAnimVal(); }
 	inline void SetAnimatedK1(const float n) { m_k1.GetAnimVal() = n; }

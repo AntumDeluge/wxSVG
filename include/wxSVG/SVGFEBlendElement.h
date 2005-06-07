@@ -15,22 +15,21 @@
 #include "SVGAnimatedEnumeration.h"
 #include "String.h"
 
+
+enum wxSVG_FEBLEND_MODE
+{
+  wxSVG_FEBLEND_MODE_UNKNOWN = 0,
+  wxSVG_FEBLEND_MODE_NORMAL = 1,
+  wxSVG_FEBLEND_MODE_MULTIPLY = 2,
+  wxSVG_FEBLEND_MODE_SCREEN = 3,
+  wxSVG_FEBLEND_MODE_DARKEN = 4,
+  wxSVG_FEBLEND_MODE_LIGHTEN = 5
+};
+
 class wxSVGFEBlendElement:
   public wxSVGElement,
   public wxSVGFilterPrimitiveStandardAttributes
 {
-  public:
-
-	enum wxSVG_FEBLEND_MODE
-	{
-	  wxSVG_FEBLEND_MODE_UNKNOWN = 0,
-	  wxSVG_FEBLEND_MODE_NORMAL = 1,
-	  wxSVG_FEBLEND_MODE_MULTIPLY = 2,
-	  wxSVG_FEBLEND_MODE_SCREEN = 3,
-	  wxSVG_FEBLEND_MODE_DARKEN = 4,
-	  wxSVG_FEBLEND_MODE_LIGHTEN = 5
-	};
-
   protected:
 	wxSVGAnimatedString m_in1;
 	wxSVGAnimatedString m_in2;

@@ -21,6 +21,14 @@
 #include "SVGRect.h"
 #include "String.h"
 
+
+enum wxLENGTHADJUST
+{
+  wxLENGTHADJUST_UNKNOWN = 0,
+  wxLENGTHADJUST_SPACING = 1,
+  wxLENGTHADJUST_SPACINGANDGLYPHS = 2
+};
+
 class wxSVGTextContentElement:
   public wxSVGElement,
   public wxSVGTests,
@@ -29,15 +37,6 @@ class wxSVGTextContentElement:
   public wxSVGStylable,
   public wxEventTarget
 {
-  public:
-
-	enum wxLENGTHADJUST
-	{
-	  wxLENGTHADJUST_UNKNOWN = 0,
-	  wxLENGTHADJUST_SPACING = 1,
-	  wxLENGTHADJUST_SPACINGANDGLYPHS = 2
-	};
-
   protected:
 	wxSVGAnimatedLength m_textLength;
 	wxSVGAnimatedEnumeration m_lengthAdjust;

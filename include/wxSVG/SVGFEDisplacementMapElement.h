@@ -16,21 +16,20 @@
 #include "SVGAnimatedEnumeration.h"
 #include "String.h"
 
+
+enum wxSVG_CHANNEL
+{
+  wxSVG_CHANNEL_UNKNOWN = 0,
+  wxSVG_CHANNEL_R = 1,
+  wxSVG_CHANNEL_G = 2,
+  wxSVG_CHANNEL_B = 3,
+  wxSVG_CHANNEL_A = 4
+};
+
 class wxSVGFEDisplacementMapElement:
   public wxSVGElement,
   public wxSVGFilterPrimitiveStandardAttributes
 {
-  public:
-
-	enum wxSVG_CHANNEL
-	{
-	  wxSVG_CHANNEL_UNKNOWN = 0,
-	  wxSVG_CHANNEL_R = 1,
-	  wxSVG_CHANNEL_G = 2,
-	  wxSVG_CHANNEL_B = 3,
-	  wxSVG_CHANNEL_A = 4
-	};
-
   protected:
 	wxSVGAnimatedString m_in1;
 	wxSVGAnimatedString m_in2;

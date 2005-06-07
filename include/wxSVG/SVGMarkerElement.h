@@ -20,6 +20,22 @@
 #include "SVGAngle.h"
 #include "String.h"
 
+
+enum wxSVG_MARKERUNITS
+{
+  wxSVG_MARKERUNITS_UNKNOWN = 0,
+  wxSVG_MARKERUNITS_USERSPACEONUSE = 1,
+  wxSVG_MARKERUNITS_STROKEWIDTH = 2
+};
+
+
+enum wxSVG_MARKER_ORIENT
+{
+  wxSVG_MARKER_ORIENT_UNKNOWN = 0,
+  wxSVG_MARKER_ORIENT_AUTO = 1,
+  wxSVG_MARKER_ORIENT_ANGLE = 2
+};
+
 class wxSVGMarkerElement:
   public wxSVGElement,
   public wxSVGLangSpace,
@@ -27,23 +43,6 @@ class wxSVGMarkerElement:
   public wxSVGStylable,
   public wxSVGFitToViewBox
 {
-  public:
-
-	enum wxSVG_MARKERUNITS
-	{
-	  wxSVG_MARKERUNITS_UNKNOWN = 0,
-	  wxSVG_MARKERUNITS_USERSPACEONUSE = 1,
-	  wxSVG_MARKERUNITS_STROKEWIDTH = 2
-	};
-
-
-	enum wxSVG_MARKER_ORIENT
-	{
-	  wxSVG_MARKER_ORIENT_UNKNOWN = 0,
-	  wxSVG_MARKER_ORIENT_AUTO = 1,
-	  wxSVG_MARKER_ORIENT_ANGLE = 2
-	};
-
   protected:
 	wxSVGAnimatedLength m_refX;
 	wxSVGAnimatedLength m_refY;

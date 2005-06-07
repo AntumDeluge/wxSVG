@@ -11,17 +11,16 @@
 
 #include "String.h"
 
+
+enum wxSVG_ZOOMANDPAN
+{
+  wxSVG_ZOOMANDPAN_UNKNOWN = 0,
+  wxSVG_ZOOMANDPAN_DISABLE = 1,
+  wxSVG_ZOOMANDPAN_MAGNIFY = 2
+};
+
 class wxSVGZoomAndPan
 {
-  public:
-
-	enum wxSVG_ZOOMANDPAN
-	{
-	  wxSVG_ZOOMANDPAN_UNKNOWN = 0,
-	  wxSVG_ZOOMANDPAN_DISABLE = 1,
-	  wxSVG_ZOOMANDPAN_MAGNIFY = 2
-	};
-
   protected:
 	wxSVG_ZOOMANDPAN m_zoomAndPan;
 
