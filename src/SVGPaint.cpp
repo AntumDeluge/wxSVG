@@ -3,14 +3,14 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGPaint.cpp,v 1.2 2005-06-07 22:15:35 ntalex Exp $
+// RCS-ID:      $Id: SVGPaint.cpp,v 1.3 2005-06-07 22:30:30 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGPaint.h"
 
-wxString wxSVGPaint::GetCSSText()
+wxString wxSVGPaint::GetCSSText() const
 {
   switch (m_paintType)
   {

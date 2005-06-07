@@ -3,7 +3,7 @@
 ## Purpose:     generates all SVG*List.h/cpp
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genList.py,v 1.2 2005-05-16 11:00:17 ntalex Exp $
+## RCS-ID:      $Id: genList.py,v 1.3 2005-06-07 22:35:29 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -14,7 +14,7 @@ import cpp
 import cppHeader
 import cppImpl
 
-def make(name):
+def generate(name):
 	typename = genAnimated.getBaseType(name)
 	include = ""
 	if name == "String":

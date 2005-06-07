@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.cpp,v 1.3 2005-06-07 22:15:35 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.cpp,v 1.4 2005-06-07 22:30:30 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -30,7 +30,7 @@ wxCSSPrimitiveValue::wxCSSPrimitiveValue(const wxCSSPrimitiveValue& src)
 	m_color = new wxRGBColor(*src.m_color);
 }
 
-wxString wxCSSPrimitiveValue::GetCSSText()
+wxString wxCSSPrimitiveValue::GetCSSText() const
 {
   return GetStringValue();
 }
@@ -50,7 +50,7 @@ void wxCSSPrimitiveValue::SetStringValue(wxCSS_PRIMITIVE_TYPE stringType, const 
   *m_string = stringValue;
 }
 
-wxString wxCSSPrimitiveValue::GetStringValue()
+wxString wxCSSPrimitiveValue::GetStringValue() const
 {
   switch (m_primitiveType)
   {
@@ -86,7 +86,7 @@ void wxCSSPrimitiveValue::SetFloatValue(wxCSS_PRIMITIVE_TYPE unitType, double fl
   m_number = floatValue;
 }
 
-double wxCSSPrimitiveValue::GetFloatValue(wxCSS_PRIMITIVE_TYPE unitType)
+double wxCSSPrimitiveValue::GetFloatValue(wxCSS_PRIMITIVE_TYPE unitType) const
 {
   if (int(m_primitiveType) >= int(wxCSS_NUMBER) &&
 	  int(m_primitiveType) <= int(wxCSS_DIMENSION))
@@ -105,7 +105,7 @@ void wxCSSPrimitiveValue::SetRectValue(wxRect rect)
   *m_rect = rect;
 }
 
-wxRect wxCSSPrimitiveValue::GetRectValue()
+wxRect wxCSSPrimitiveValue::GetRectValue() const
 {
   if (m_primitiveType == wxCSS_RECT)
 	return *m_rect;
@@ -123,7 +123,7 @@ void wxCSSPrimitiveValue::SetRGBColorValue(wxRGBColor color)
   *m_color = color;
 }
 
-wxRGBColor wxCSSPrimitiveValue::GetRGBColorValue()
+wxRGBColor wxCSSPrimitiveValue::GetRGBColorValue() const
 {
   if (m_primitiveType == wxCSS_RGBCOLOR)
 	return *m_color;
@@ -138,7 +138,7 @@ void wxCSSPrimitiveValue::SetIdent(int ident)
   m_ident = ident;
 }
 
-int wxCSSPrimitiveValue::GetIdent()
+int wxCSSPrimitiveValue::GetIdent() const
 {
   if (m_primitiveType == wxCSS_IDENT)
 	return m_ident;

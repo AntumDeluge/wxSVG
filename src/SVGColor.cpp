@@ -3,14 +3,14 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGColor.cpp,v 1.2 2005-06-07 22:15:35 ntalex Exp $
+// RCS-ID:      $Id: SVGColor.cpp,v 1.3 2005-06-07 22:30:30 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGColor.h"
 
-wxString wxSVGColor::GetCSSText()
+wxString wxSVGColor::GetCSSText() const
 {
   if (m_colorType == wxSVG_COLORTYPE_UNKNOWN)
 	return wxT("");
