@@ -3,7 +3,7 @@
 // Purpose:     wxXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: xml.h,v 1.2 2005-05-11 03:02:09 ntalex Exp $
+// RCS-ID:      $Id: xml.h,v 1.3 2005-06-07 22:04:22 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -109,9 +109,17 @@ public:
     // user-friendly creation:
     wxXmlNode(wxXmlNodeType type, const wxString& name,
               const wxString& content = wxEmptyString);
+	
     void AddChild(wxXmlNode *child);
+	inline wxXmlNode* AppendChild(wxXmlNode* child)
+	{ AddChild(child); return child; }
+	
     void InsertChild(wxXmlNode *child, wxXmlNode *before_node);
+	inline wxXmlNode* InsertBefore(wxXmlNode *newChild, wxXmlNode *refChild)
+	{ InsertChild(newChild, refChild); return newChild; }
+	
     bool RemoveChild(wxXmlNode *child);
+	
     virtual void AddProperty(const wxString& name, const wxString& value);
     virtual bool DeleteProperty(const wxString& name);
 
@@ -141,7 +149,7 @@ public:
     void SetProperties(wxXmlProperty *prop) { m_properties = prop; }
     void AddProperty(wxXmlProperty *prop);
 
-public:
+public: // W3C DOM Methods
 	virtual wxString GetAttribute(const wxString& name);
 	virtual wxString GetAttributeNS(const wxString& namespaceURI, 
 									const wxString& localName);
@@ -221,10 +229,17 @@ public:
     void SetEncoding(const wxString& enc) { m_encoding = enc; }
 #endif
 
-public:
+public: // W3C DOM Methods
 	virtual wxXmlElement* CreateElement(const wxString& tagName);
 	virtual wxXmlElement* CreateElementNS(const wxString& namespaceURI,
 										  const wxString& qualifiedName);
+										  
+	inline wxXmlNode* AppendChild(wxXmlNode* child)
+	{ if (!m_root) SetRoot(child); return child; }
+	inline wxXmlNode* RemoveChild(wxXmlNode* child)
+	{ if (m_root != child) return NULL; m_root = NULL; return child; }
+	
+	inline wxXmlNode* GetFirstChild() { return m_root; }
 
 private:
     wxString   m_version;
