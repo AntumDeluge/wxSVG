@@ -222,7 +222,7 @@ bool wxSVGFEMorphologyElement::SetAttribute(const wxString& attrName, const wxSt
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_operator_.GetBaseVal() = value;
+      m_operator.GetBaseVal() = value;
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
@@ -544,7 +544,7 @@ bool wxSVGFECompositeElement::SetAttribute(const wxString& attrName, const wxStr
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_operator_.GetBaseVal() = value;
+      m_operator.GetBaseVal() = value;
   }
   else if (attrName == wxT("k1"))
   {

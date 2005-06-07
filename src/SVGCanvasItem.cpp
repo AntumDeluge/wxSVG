@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.4 2005-05-31 16:11:23 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.5 2005-06-07 22:13:23 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -155,120 +155,120 @@ void wxSVGCanvasPath::Init(wxSVGPathElement& element)
   {
 	switch (segList[i].GetPathSegType())
 	{
-	  case wxSVGPathSeg::wxPATHSEG_MOVETO_ABS:
+	  case wxPATHSEG_MOVETO_ABS:
 	  {
 		wxSVGPathSegMovetoAbs& seg = (wxSVGPathSegMovetoAbs&)(segList[i]);
 		MoveTo(seg.GetX(), seg.GetY());
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_MOVETO_REL:
+	  case wxPATHSEG_MOVETO_REL:
 	  {
 		wxSVGPathSegMovetoRel& seg = (wxSVGPathSegMovetoRel&)(segList[i]);
 		MoveTo(seg.GetX(), seg.GetY(), true);
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_LINETO_ABS:
+	  case wxPATHSEG_LINETO_ABS:
 	  {
 		wxSVGPathSegLinetoAbs& seg = (wxSVGPathSegLinetoAbs&)segList[i];
 		LineTo(seg.GetX(), seg.GetY());
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_LINETO_REL:
+	  case wxPATHSEG_LINETO_REL:
 	  {
 		wxSVGPathSegLinetoRel& seg = (wxSVGPathSegLinetoRel&)segList[i];
 		LineTo(seg.GetX(), seg.GetY(), true);
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_LINETO_HORIZONTAL_ABS:
+	  case wxPATHSEG_LINETO_HORIZONTAL_ABS:
 	  {
 		wxSVGPathSegLinetoHorizontalAbs& seg = (wxSVGPathSegLinetoHorizontalAbs&)segList[i];
 		LineToHorizontal(seg.GetX());
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_LINETO_HORIZONTAL_REL:
+	  case wxPATHSEG_LINETO_HORIZONTAL_REL:
 	  {
 		wxSVGPathSegLinetoHorizontalRel& seg = (wxSVGPathSegLinetoHorizontalRel&)segList[i];
 		LineToHorizontal(seg.GetX(), true);
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_LINETO_VERTICAL_ABS:
+	  case wxPATHSEG_LINETO_VERTICAL_ABS:
 	  {
 		wxSVGPathSegLinetoVerticalAbs& seg = (wxSVGPathSegLinetoVerticalAbs&)segList[i];
 		LineToVertical(seg.GetY());
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_LINETO_VERTICAL_REL:
+	  case wxPATHSEG_LINETO_VERTICAL_REL:
 	  {
 		wxSVGPathSegLinetoVerticalRel& seg = (wxSVGPathSegLinetoVerticalRel&)segList[i];
 		LineToVertical(seg.GetY(), true);
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_CURVETO_CUBIC_ABS:
+	  case wxPATHSEG_CURVETO_CUBIC_ABS:
 	  {
 		wxSVGPathSegCurvetoCubicAbs& seg = (wxSVGPathSegCurvetoCubicAbs&)segList[i];
 		CurveToCubic(seg.GetX1(), seg.GetY1(), seg.GetX2(), seg.GetY2(), seg.GetX(), seg.GetY());
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_CURVETO_CUBIC_REL:
+	  case wxPATHSEG_CURVETO_CUBIC_REL:
 	  {
 		wxSVGPathSegCurvetoCubicRel& seg = (wxSVGPathSegCurvetoCubicRel&)segList[i];
 		CurveToCubic(seg.GetX1(), seg.GetY1(), seg.GetX2(), seg.GetY2(), seg.GetX(), seg.GetY(), true);
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_CURVETO_CUBIC_SMOOTH_ABS:
+	  case wxPATHSEG_CURVETO_CUBIC_SMOOTH_ABS:
 	  {
 		wxSVGPathSegCurvetoCubicSmoothAbs& seg = (wxSVGPathSegCurvetoCubicSmoothAbs&)segList[i];
 		CurveToCubicSmooth(seg.GetX2(), seg.GetY2(), seg.GetX(), seg.GetY());
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_CURVETO_CUBIC_SMOOTH_REL:
+	  case wxPATHSEG_CURVETO_CUBIC_SMOOTH_REL:
 	  {
 		wxSVGPathSegCurvetoCubicSmoothRel& seg = (wxSVGPathSegCurvetoCubicSmoothRel&)segList[i];
 		CurveToCubicSmooth(seg.GetX2(), seg.GetY2(), seg.GetX(), seg.GetY(), true);
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_CURVETO_QUADRATIC_ABS:
+	  case wxPATHSEG_CURVETO_QUADRATIC_ABS:
 	  {
 		wxSVGPathSegCurvetoQuadraticAbs& seg = (wxSVGPathSegCurvetoQuadraticAbs&)segList[i];
 		CurveToQuadratic(seg.GetX1(), seg.GetY1(), seg.GetX(), seg.GetY());
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_CURVETO_QUADRATIC_REL:
+	  case wxPATHSEG_CURVETO_QUADRATIC_REL:
 	  {
 		wxSVGPathSegCurvetoQuadraticRel& seg = (wxSVGPathSegCurvetoQuadraticRel&)segList[i];
 		CurveToQuadratic(seg.GetX1(), seg.GetY1(), seg.GetX(), seg.GetY(), true);
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS:
+	  case wxPATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS:
 	  {
 		wxSVGPathSegCurvetoQuadraticSmoothAbs& seg = (wxSVGPathSegCurvetoQuadraticSmoothAbs&)segList[i];
 		CurveToQuadraticSmooth(seg.GetX(), seg.GetY());
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_CURVETO_QUADRATIC_SMOOTH_REL:
+	  case wxPATHSEG_CURVETO_QUADRATIC_SMOOTH_REL:
 	  {
 		wxSVGPathSegCurvetoQuadraticSmoothRel& seg = (wxSVGPathSegCurvetoQuadraticSmoothRel&)segList[i];
 		CurveToQuadraticSmooth(seg.GetX(), seg.GetY(), true);
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_ARC_ABS:
+	  case wxPATHSEG_ARC_ABS:
 	  {
 		wxSVGPathSegArcAbs& seg = (wxSVGPathSegArcAbs&)segList[i];
 		Arc(seg.GetX(), seg.GetY(), seg.GetR1(), seg.GetR2(), seg.GetAngle(),
 			seg.GetLargeArcFlag(), seg.GetSweepFlag());
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_ARC_REL:
+	  case wxPATHSEG_ARC_REL:
 	  {
 		wxSVGPathSegArcRel& seg = (wxSVGPathSegArcRel&)segList[i];
 		Arc(seg.GetX(), seg.GetY(), seg.GetR1(), seg.GetR2(), seg.GetAngle(),
 			seg.GetLargeArcFlag(), seg.GetSweepFlag(), true);
 		break;
 	  }
-	  case wxSVGPathSeg::wxPATHSEG_CLOSEPATH:
+	  case wxPATHSEG_CLOSEPATH:
 		ClosePath();
 		break;
-	  case wxSVGPathSeg::wxPATHSEG_UNKNOWN:
+	  case wxPATHSEG_UNKNOWN:
 		break;
 	}
   }
