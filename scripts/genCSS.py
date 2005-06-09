@@ -3,7 +3,7 @@
 ## Purpose:     generates CSSStyleDeclaration
 ## Author:      Alex Thuering
 ## Created:     2005/06/06
-## RCS-ID:      $Id: genCSS.py,v 1.1 2005-06-07 22:06:00 ntalex Exp $
+## RCS-ID:      $Id: genCSS.py,v 1.2 2005-06-09 00:18:21 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 
@@ -12,6 +12,8 @@ import string
 import cpp
 import cppHeader
 import cppImpl
+import sys
+from xml.dom.ext.reader import Sax2
 
 class Attribute:
     def __init__(self, dtdName, name, cssType, valueType, function, defValue):
@@ -61,6 +63,7 @@ def propId(name):
 def generate():
     genCSSStyleDeclaration()
     genStyles()
+    genValues()
 
 ######################### CSSStyleDeclaration.h ##############################
 def genCSSStyleDeclaration():
@@ -216,13 +219,90 @@ def genStyles():
         properties = properties + '  wxT("%s")'%attr.dtdName
     
     output = '''
-wxString s_cssPropertys[] = 
+wxString s_cssPropertyStrings[] = 
 {
 %s
 };
     '''%properties
     
-    header = cppHeader.Header("CSSStyleDeclaration_styles", "genCSS.py")
+    impl = cppImpl.Impl("css_properties", "genCSS.py")
+    impl.add_content(output)
+    impl.dump(path=config.src_dir)
+
+############################### CSSValues.h ##################################
+cssValues = []
+cssProperties = {}
+def parseCSSProps():
+    reader = Sax2.Reader()
+    doc = reader.fromStream(config.share_dir + "/CSS21propidx.html")
+    table = doc.getElementsByTagName('HTML')[0].getElementsByTagName('BODY')[0].getElementsByTagName('table')[0]
+    for tr in table.childNodes:
+        if tr.nodeName == "tr":
+            attrName = ''
+            attrValue = ''
+            i = 0
+            for td in tr.childNodes:
+                if td.nodeName == "td":
+                    i = i + 1
+                    if i == 1:
+                        attrName = td.childNodes[0].childNodes[0].childNodes[0].nodeValue
+                    else:
+                        for child in td.childNodes:
+                            if child.nodeName == "#text":
+                                attrValue = attrValue + child.nodeValue
+                        break
+            while 1:
+                beg = attrValue.find("{")
+                end = attrValue.find("}")
+                if beg != -1 and end != -1 and beg < end:
+                    attrValue = attrValue[:beg] + attrValue[end+1:]
+                else:
+                    break
+            tmp = ''
+            for c in attrValue:
+                if c in string.ascii_letters or c in string.digits or c in "|-_":
+                    tmp = tmp + c
+            attrValue = tmp
+            cssProperties[attrName] = []
+            for val in attrValue.split('|'):
+                if len(val) and val not in cssValues:
+                    cssValues.append(val)
+                if len(val) and val not in cssProperties[attrName]:
+                    cssProperties[attrName].append(val)
+    cssValues.sort()
+    
+def genValues():
+    parseCSSProps()
+    
+    values = ''
+    for value in cssValues:
+        if len(values):
+            values = values + ',\n'
+        values = values + '  wxCSS_VALUE_%s'%cpp.make_name(value).upper()
+    
+    output = '''\
+enum wxCSS_VALUE
+{
+  wxCSS_VALUE_UNKNOWN,
+%s
+};'''%values
+    
+    header = cppHeader.Header("CSSValues", "genCSS.py")
     header.add_content(output)
     header.dump(path=config.include_dir)
+    
+    values = ''
+    for value in cssValues:
+        if len(values):
+            values = values + ',\n'
+        values = values + '  wxT("%s")'%value
+    
+    output = '''\
+wxString s_cssValueStrings[] =
+{
+%s
+};'''%values
+    impl = cppImpl.Impl("css_values", "genCSS.py")
+    impl.add_content(output)
+    impl.dump(path=config.src_dir)
 
