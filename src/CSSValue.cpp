@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.cpp,v 1.5 2005-06-09 00:25:40 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.cpp,v 1.6 2005-06-09 02:19:40 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -61,6 +61,8 @@ wxCSSPrimitiveValue::wxCSSPrimitiveValue(const wxCSSPrimitiveValue& src)
 
 wxString wxCSSPrimitiveValue::GetCSSText() const
 {
+  if (m_primitiveType == wxCSS_URI)
+	return wxT("url(") + *m_string + wxT(")");
   return GetStringValue();
 }
 
@@ -88,7 +90,7 @@ wxString wxCSSPrimitiveValue::GetStringValue() const
 	case wxCSS_ATTR:
 	  return *m_string;
     case wxCSS_IDENT:
-	  break;
+	  return GetValueString(m_ident);
 	case wxCSS_COUNTER:
 	  break;
 	case wxCSS_RECT:
@@ -159,7 +161,7 @@ wxRGBColor wxCSSPrimitiveValue::GetRGBColorValue() const
   return wxRGBColor();
 }
 
-void wxCSSPrimitiveValue::SetIdent(int ident)
+void wxCSSPrimitiveValue::SetIdentValue(wxCSS_VALUE ident)
 {
   if (m_primitiveType != wxCSS_IDENT)
 	CleanUp();
@@ -167,11 +169,11 @@ void wxCSSPrimitiveValue::SetIdent(int ident)
   m_ident = ident;
 }
 
-int wxCSSPrimitiveValue::GetIdent() const
+wxCSS_VALUE wxCSSPrimitiveValue::GetIdentValue() const
 {
   if (m_primitiveType == wxCSS_IDENT)
 	return m_ident;
-  return 0;
+  return wxCSS_VALUE_UNKNOWN;
 }
 
 void wxCSSPrimitiveValue::CleanUp()

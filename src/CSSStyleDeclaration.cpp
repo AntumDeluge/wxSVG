@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.3 2005-06-09 00:25:13 ntalex Exp $
+// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.4 2005-06-09 02:19:40 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 #include <wx/tokenzr.h>
 #include <wx/log.h>
 
-wxCSSValue* wxCSSStyleDeclaration::s_emptyCSSValue = new wxCSSPrimitiveValue;
+wxCSSPrimitiveValue* wxCSSStyleDeclaration::s_emptyCSSValue = new wxCSSPrimitiveValue;
 wxSVGColor* wxCSSStyleDeclaration::s_emptySVGColor = new wxSVGColor;
 wxSVGPaint* wxCSSStyleDeclaration::s_emptySVGPaint = new wxSVGPaint;
 wxSVGPaint* wxCSSStyleDeclaration::s_blackSVGPaint = new wxSVGPaint(0,0,0);
@@ -91,7 +91,11 @@ void wxCSSStyleDeclaration::SetProperty(wxCSS_PROPERTY propertyId, const wxStrin
     case wxCSS_PROPERTY_CLIP_PATH:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+	  if (value.Left(3) == wxT("url"))
+		((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_URI,
+		  value.AfterFirst(wxT('(')).BeforeFirst(wxT(')')));
+	  else
+		((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_COLOR:
       if (!cssValue)
@@ -101,7 +105,7 @@ void wxCSSStyleDeclaration::SetProperty(wxCSS_PROPERTY propertyId, const wxStrin
     case wxCSS_PROPERTY_DISPLAY:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-	  ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+	  ((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_FILL:
       if (!cssValue)
@@ -116,12 +120,16 @@ void wxCSSStyleDeclaration::SetProperty(wxCSS_PROPERTY propertyId, const wxStrin
     case wxCSS_PROPERTY_FILL_RULE:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      ((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_FILTER:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      if (value.Left(3) == wxT("url"))
+		((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_URI,
+		  value.AfterFirst(wxT('(')).BeforeFirst(wxT(')')));
+	  else
+		((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_FONT_FAMILY:
       if (!cssValue)
@@ -136,22 +144,22 @@ void wxCSSStyleDeclaration::SetProperty(wxCSS_PROPERTY propertyId, const wxStrin
     case wxCSS_PROPERTY_FONT_STRETCH:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      ((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_FONT_STYLE:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      ((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_FONT_VARIANT:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      ((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_FONT_WEIGHT:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      ((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_MARKER:
       if (!cssValue)
@@ -161,17 +169,29 @@ void wxCSSStyleDeclaration::SetProperty(wxCSS_PROPERTY propertyId, const wxStrin
     case wxCSS_PROPERTY_MARKER_END:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      if (value.Left(3) == wxT("url"))
+		((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_URI,
+		  value.AfterFirst(wxT('(')).BeforeFirst(wxT(')')));
+	  else
+		((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_MARKER_MID:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      if (value.Left(3) == wxT("url"))
+		((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_URI,
+		  value.AfterFirst(wxT('(')).BeforeFirst(wxT(')')));
+	  else
+		((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_MARKER_START:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      if (value.Left(3) == wxT("url"))
+		((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_URI,
+		  value.AfterFirst(wxT('(')).BeforeFirst(wxT(')')));
+	  else
+		((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_OPACITY:
       if (!cssValue)
@@ -201,12 +221,12 @@ void wxCSSStyleDeclaration::SetProperty(wxCSS_PROPERTY propertyId, const wxStrin
     case wxCSS_PROPERTY_STROKE_LINECAP:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      ((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_STROKE_LINEJOIN:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      ((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_STROKE_MITERLIMIT:
       if (!cssValue)
@@ -226,12 +246,12 @@ void wxCSSStyleDeclaration::SetProperty(wxCSS_PROPERTY propertyId, const wxStrin
     case wxCSS_PROPERTY_TEXT_ANCHOR:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-      ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+      ((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
     case wxCSS_PROPERTY_VISIBILITY:
       if (!cssValue)
         cssValue = new wxCSSPrimitiveValue;
-	  ((wxCSSPrimitiveValue*)cssValue)->SetStringValue(wxCSS_STRING, value);
+	  ((wxCSSPrimitiveValue*)cssValue)->SetIdentValue(wxCSSValue::GetValueId(value));
       break;
   }
   if (it == end())
@@ -296,7 +316,7 @@ void wxCSSStyleDeclaration::ParseSVGPaint(wxSVGPaint& cssValue, const wxString& 
   wxString val = value;
   if (val.Left(3) == wxT("url"))
   {
-	cssValue.SetUri(val.AfterFirst(wxT('(')).BeforeFirst(wxT(')')));
+	cssValue.SetUri(value.AfterFirst(wxT('(')).BeforeFirst(wxT(')')));
 	val = value.AfterFirst(wxT(')')).Strip(wxString::both);
   }
   cssValue.SetRGBColor(ParseColor(val));

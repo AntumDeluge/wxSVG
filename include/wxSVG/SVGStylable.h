@@ -29,16 +29,16 @@ class wxSVGStylable
     inline void SetStyle(const wxCSSStyleDeclaration& n) { m_style = n; }
 
   public:
-    inline void SetClipPath(const wxString& value) { m_style.SetClipPath(value); }
-    inline wxString GetClipPath() { return m_style.GetClipPath(); }
+    inline void SetClipPath(const wxCSSPrimitiveValue& value) { m_style.SetClipPath(value); }
+    inline const wxCSSPrimitiveValue& GetClipPath() { return m_style.GetClipPath(); }
     inline bool HasClipPath() { return m_style.HasClipPath(); }
     
     inline void SetColor(const wxRGBColor& value) { m_style.SetColor(value); }
     inline wxRGBColor GetColor() { return m_style.GetColor(); }
     inline bool HasColor() { return m_style.HasColor(); }
     
-    inline void SetDisplay(const wxString& value) { m_style.SetDisplay(value); }
-    inline wxString GetDisplay() { return m_style.GetDisplay(); }
+    inline void SetDisplay(wxCSS_VALUE value) { m_style.SetDisplay(value); }
+    inline wxCSS_VALUE GetDisplay() { return m_style.GetDisplay(); }
     inline bool HasDisplay() { return m_style.HasDisplay(); }
     
     inline void SetFill(const wxSVGPaint& value) { m_style.SetFill(value); }
@@ -49,12 +49,12 @@ class wxSVGStylable
     inline double GetFillOpacity() { return m_style.GetFillOpacity(); }
     inline bool HasFillOpacity() { return m_style.HasFillOpacity(); }
     
-    inline void SetFillRule(const wxString& value) { m_style.SetFillRule(value); }
-    inline wxString GetFillRule() { return m_style.GetFillRule(); }
+    inline void SetFillRule(wxCSS_VALUE value) { m_style.SetFillRule(value); }
+    inline wxCSS_VALUE GetFillRule() { return m_style.GetFillRule(); }
     inline bool HasFillRule() { return m_style.HasFillRule(); }
     
-    inline void SetFilter(const wxString& value) { m_style.SetFilter(value); }
-    inline wxString GetFilter() { return m_style.GetFilter(); }
+    inline void SetFilter(const wxCSSPrimitiveValue& value) { m_style.SetFilter(value); }
+    inline const wxCSSPrimitiveValue& GetFilter() { return m_style.GetFilter(); }
     inline bool HasFilter() { return m_style.HasFilter(); }
     
     inline void SetFontFamily(const wxString& value) { m_style.SetFontFamily(value); }
@@ -65,36 +65,36 @@ class wxSVGStylable
     inline double GetFontSize() { return m_style.GetFontSize(); }
     inline bool HasFontSize() { return m_style.HasFontSize(); }
     
-    inline void SetFontStretch(const wxString& value) { m_style.SetFontStretch(value); }
-    inline wxString GetFontStretch() { return m_style.GetFontStretch(); }
+    inline void SetFontStretch(wxCSS_VALUE value) { m_style.SetFontStretch(value); }
+    inline wxCSS_VALUE GetFontStretch() { return m_style.GetFontStretch(); }
     inline bool HasFontStretch() { return m_style.HasFontStretch(); }
     
     inline void SetFontStyle(const wxString& value) { m_style.SetFontStyle(value); }
     inline wxString GetFontStyle() { return m_style.GetFontStyle(); }
     inline bool HasFontStyle() { return m_style.HasFontStyle(); }
     
-    inline void SetFontVariant(const wxString& value) { m_style.SetFontVariant(value); }
-    inline wxString GetFontVariant() { return m_style.GetFontVariant(); }
+    inline void SetFontVariant(wxCSS_VALUE value) { m_style.SetFontVariant(value); }
+    inline wxCSS_VALUE GetFontVariant() { return m_style.GetFontVariant(); }
     inline bool HasFontVariant() { return m_style.HasFontVariant(); }
     
-    inline void SetFontWeight(const wxString& value) { m_style.SetFontWeight(value); }
-    inline wxString GetFontWeight() { return m_style.GetFontWeight(); }
+    inline void SetFontWeight(wxCSS_VALUE value) { m_style.SetFontWeight(value); }
+    inline wxCSS_VALUE GetFontWeight() { return m_style.GetFontWeight(); }
     inline bool HasFontWeight() { return m_style.HasFontWeight(); }
     
     inline void SetMarker(const wxString& value) { m_style.SetMarker(value); }
     inline wxString GetMarker() { return m_style.GetMarker(); }
     inline bool HasMarker() { return m_style.HasMarker(); }
     
-    inline void SetMarkerEnd(const wxString& value) { m_style.SetMarkerEnd(value); }
-    inline wxString GetMarkerEnd() { return m_style.GetMarkerEnd(); }
+    inline void SetMarkerEnd(const wxCSSPrimitiveValue& value) { m_style.SetMarkerEnd(value); }
+    inline const wxCSSPrimitiveValue& GetMarkerEnd() { return m_style.GetMarkerEnd(); }
     inline bool HasMarkerEnd() { return m_style.HasMarkerEnd(); }
     
-    inline void SetMarkerMid(const wxString& value) { m_style.SetMarkerMid(value); }
-    inline wxString GetMarkerMid() { return m_style.GetMarkerMid(); }
+    inline void SetMarkerMid(const wxCSSPrimitiveValue& value) { m_style.SetMarkerMid(value); }
+    inline const wxCSSPrimitiveValue& GetMarkerMid() { return m_style.GetMarkerMid(); }
     inline bool HasMarkerMid() { return m_style.HasMarkerMid(); }
     
-    inline void SetMarkerStart(const wxString& value) { m_style.SetMarkerStart(value); }
-    inline wxString GetMarkerStart() { return m_style.GetMarkerStart(); }
+    inline void SetMarkerStart(const wxCSSPrimitiveValue& value) { m_style.SetMarkerStart(value); }
+    inline const wxCSSPrimitiveValue& GetMarkerStart() { return m_style.GetMarkerStart(); }
     inline bool HasMarkerStart() { return m_style.HasMarkerStart(); }
     
     inline void SetOpacity(double value) { m_style.SetOpacity(value); }
@@ -117,12 +117,12 @@ class wxSVGStylable
     inline double GetStrokeDashoffset() { return m_style.GetStrokeDashoffset(); }
     inline bool HasStrokeDashoffset() { return m_style.HasStrokeDashoffset(); }
     
-    inline void SetStrokeLinecap(const wxString& value) { m_style.SetStrokeLinecap(value); }
-    inline wxString GetStrokeLinecap() { return m_style.GetStrokeLinecap(); }
+    inline void SetStrokeLinecap(wxCSS_VALUE value) { m_style.SetStrokeLinecap(value); }
+    inline wxCSS_VALUE GetStrokeLinecap() { return m_style.GetStrokeLinecap(); }
     inline bool HasStrokeLinecap() { return m_style.HasStrokeLinecap(); }
     
-    inline void SetStrokeLinejoin(const wxString& value) { m_style.SetStrokeLinejoin(value); }
-    inline wxString GetStrokeLinejoin() { return m_style.GetStrokeLinejoin(); }
+    inline void SetStrokeLinejoin(wxCSS_VALUE value) { m_style.SetStrokeLinejoin(value); }
+    inline wxCSS_VALUE GetStrokeLinejoin() { return m_style.GetStrokeLinejoin(); }
     inline bool HasStrokeLinejoin() { return m_style.HasStrokeLinejoin(); }
     
     inline void SetStrokeMiterlimit(double value) { m_style.SetStrokeMiterlimit(value); }
@@ -137,12 +137,12 @@ class wxSVGStylable
     inline double GetStrokeWidth() { return m_style.GetStrokeWidth(); }
     inline bool HasStrokeWidth() { return m_style.HasStrokeWidth(); }
     
-    inline void SetTextAnchor(const wxString& value) { m_style.SetTextAnchor(value); }
-    inline wxString GetTextAnchor() { return m_style.GetTextAnchor(); }
+    inline void SetTextAnchor(wxCSS_VALUE value) { m_style.SetTextAnchor(value); }
+    inline wxCSS_VALUE GetTextAnchor() { return m_style.GetTextAnchor(); }
     inline bool HasTextAnchor() { return m_style.HasTextAnchor(); }
     
-    inline void SetVisibility(const wxString& value) { m_style.SetVisibility(value); }
-    inline wxString GetVisibility() { return m_style.GetVisibility(); }
+    inline void SetVisibility(wxCSS_VALUE value) { m_style.SetVisibility(value); }
+    inline wxCSS_VALUE GetVisibility() { return m_style.GetVisibility(); }
     inline bool HasVisibility() { return m_style.HasVisibility(); }
     
   public:

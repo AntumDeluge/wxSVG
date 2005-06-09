@@ -3,7 +3,7 @@
 ## Purpose:     generates CSSStyleDeclaration
 ## Author:      Alex Thuering
 ## Created:     2005/06/06
-## RCS-ID:      $Id: genCSS.py,v 1.2 2005-06-09 00:18:21 ntalex Exp $
+## RCS-ID:      $Id: genCSS.py,v 1.3 2005-06-09 02:20:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 
@@ -26,36 +26,36 @@ class Attribute:
 
 ## cssType, valueType, getFunction, name, dtdName, defValue
 attibutes = [
-Attribute('clip-path', 'ClipPath', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
+Attribute('clip-path', 'ClipPath', 'wxCSSPrimitiveValue', 'wxCSSPrimitiveValue', '', '*s_emptyCSSValue'),
 Attribute('color', 'Color', 'wxCSSPrimitiveValue', 'wxRGBColor', 'RGBColorValue', 'wxRGBColor()'),
-Attribute('display', 'Display', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("inline")'),
+Attribute('display', 'Display', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_INLINE'),
 Attribute('fill', 'Fill', 'wxSVGPaint', 'wxSVGPaint', '', '*s_blackSVGPaint'),
 Attribute('fill-opacity', 'FillOpacity', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '1'),
-Attribute('fill-rule', 'FillRule', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("nonzero")'),
-Attribute('filter', 'Filter', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
+Attribute('fill-rule', 'FillRule', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_NONZERO'),
+Attribute('filter', 'Filter', 'wxCSSPrimitiveValue', 'wxCSSPrimitiveValue', '', '*s_emptyCSSValue'),
 Attribute('font-family', 'FontFamily', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
 Attribute('font-size', 'FontSize', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '20'),
-Attribute('font-stretch', 'FontStretch', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
+Attribute('font-stretch', 'FontStretch', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_NORMAL'),
 Attribute('font-style', 'FontStyle', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
-Attribute('font-variant', 'FontVariant', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
-Attribute('font-weight', 'FontWeight', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
+Attribute('font-variant', 'FontVariant', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_NORMAL'),
+Attribute('font-weight', 'FontWeight', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_NORMAL'),
 Attribute('marker', 'Marker', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
-Attribute('marker-end', 'MarkerEnd', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("none")'),
-Attribute('marker-mid', 'MarkerMid', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("none")'),
-Attribute('marker-start', 'MarkerStart', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("none")'),
+Attribute('marker-end', 'MarkerEnd', 'wxCSSPrimitiveValue', 'wxCSSPrimitiveValue', '', '*s_emptyCSSValue'),
+Attribute('marker-mid', 'MarkerMid', 'wxCSSPrimitiveValue', 'wxCSSPrimitiveValue', '', '*s_emptyCSSValue'),
+Attribute('marker-start', 'MarkerStart', 'wxCSSPrimitiveValue', 'wxCSSPrimitiveValue', '', '*s_emptyCSSValue'),
 Attribute('opacity', 'Opacity', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '1'),
 Attribute('stop-color', 'StopColor', 'wxSVGColor', 'wxSVGColor', '', '*s_emptySVGColor'),
 Attribute('stop-opacity', 'StopOpacity', 'wxCSSPrimitiveValue', 'double', 'FloatValue', ' 1'),
 Attribute('stroke', 'Stroke', 'wxSVGPaint', 'wxSVGPaint', '', '*s_emptySVGPaint'),
 ##Attribute('stroke-dasharray', 'StrokeDasharray', 'wxCSSValueList', 'wxCSSValueList', '', 'wxCSSValueList()'),
 Attribute('stroke-dashoffset', 'StrokeDashoffset', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '0'),
-Attribute('stroke-linecap', 'StrokeLinecap', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("butt")'),
-Attribute('stroke-linejoin', 'StrokeLinejoin', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("miter")'),
+Attribute('stroke-linecap', 'StrokeLinecap', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_BUTT'),
+Attribute('stroke-linejoin', 'StrokeLinejoin', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_MITER'),
 Attribute('stroke-miterlimit', 'StrokeMiterlimit', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '4'),
 Attribute('stroke-opacity', 'StrokeOpacity', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '1'),
 Attribute('stroke-width', 'StrokeWidth', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '1'),
-Attribute('text-anchor', 'TextAnchor', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
-Attribute('visibility', 'Visibility', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("visible")')]
+Attribute('text-anchor', 'TextAnchor', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_START'),
+Attribute('visibility', 'Visibility', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_VISIBLE')]
 
 def propId(name):
     return 'wxCSS_PROPERTY_' + string.upper(cpp.make_name(name))
@@ -93,7 +93,7 @@ def genCSSStyleDeclaration():
         
         if len(attr.function):
             valueType = attr.valueType
-            if valueType not in cpp.builtin_types:
+            if valueType not in cpp.builtin_types and valueType != "wxCSS_VALUE":
                 valueType = "const " + valueType + "&"
             ptype = ""
             if attr.valueType == "wxString":
@@ -197,7 +197,7 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
   public:
 %s
   protected:
-    static wxCSSValue* s_emptyCSSValue;
+    static wxCSSPrimitiveValue* s_emptyCSSValue;
     static wxSVGColor* s_emptySVGColor;
     static wxSVGPaint* s_emptySVGPaint;
     static wxSVGPaint* s_blackSVGPaint;
@@ -265,10 +265,19 @@ def parseCSSProps():
             attrValue = tmp
             cssProperties[attrName] = []
             for val in attrValue.split('|'):
-                if len(val) and val not in cssValues:
-                    cssValues.append(val)
                 if len(val) and val not in cssProperties[attrName]:
                     cssProperties[attrName].append(val)
+    cssProperties['fill-rule'] = ['nonzero', 'evenodd']
+    cssProperties['stroke-linejoin'] = ['miter', 'round', 'bevel']
+    cssProperties['stroke-linecap'] = ['butt', 'round', 'square']
+    cssProperties['text-anchor'] = ['start', 'middle', 'end']
+    cssProperties['font-stretch'] = ['normal', 'wider', 'narrower', 'ultra-condensed',\
+        'extra-condensed', 'condensed', 'semi-condensed', 'semi-expanded',\
+        'expanded', 'extra-expanded', 'ultra-expanded']
+    for attrName in cssProperties.keys():
+        for val in cssProperties[attrName]:
+            if val not in cssValues:
+                cssValues.append(val)
     cssValues.sort()
     
 def genValues():

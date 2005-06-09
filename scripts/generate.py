@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.5 2005-06-09 00:17:38 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.6 2005-06-09 02:20:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -294,7 +294,7 @@ if len(parse_idl.class_decls):
             public = public + "  public:\n"
             for attr in genCSS.attibutes:
                 valueType = attr.valueType
-                if valueType not in cpp.builtin_types:
+                if valueType not in cpp.builtin_types and valueType != "wxCSS_VALUE":
                     valueType = "const " + valueType + "&"
                 public = public + '    inline void Set%s(%s value) { m_style.Set%s(value); }\n'%(attr.name, valueType, attr.name)
                 valueType = attr.valueType
@@ -526,7 +526,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.5 2005-06-09 00:17:38 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.6 2005-06-09 02:20:35 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

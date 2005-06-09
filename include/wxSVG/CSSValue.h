@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.h,v 1.4 2005-06-09 00:20:42 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.h,v 1.5 2005-06-09 02:21:12 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ class wxCSSPrimitiveValue: public wxCSSValue
 	wxCSS_PRIMITIVE_TYPE m_primitiveType;
 	union
 	{
-	  int m_ident;
+	  wxCSS_VALUE m_ident;
 	  double m_number;
 	  wxString* m_string;
 	  wxRect* m_rect;
@@ -110,8 +110,8 @@ class wxCSSPrimitiveValue: public wxCSSValue
 	void SetRGBColorValue(wxRGBColor color);
 	wxRGBColor GetRGBColorValue() const;
 	
-	void SetIdent(int ident);
-	int  GetIdent() const;
+	void SetIdentValue(wxCSS_VALUE ident);
+	wxCSS_VALUE GetIdentValue() const;
 	
   protected:
 	void CleanUp();
