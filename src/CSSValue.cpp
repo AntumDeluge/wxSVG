@@ -3,13 +3,42 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.cpp,v 1.4 2005-06-07 22:30:30 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.cpp,v 1.5 2005-06-09 00:25:40 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "CSSValue.h"
 #include <wx/tokenzr.h>
+
+static wxSortedArrayString* s_cssValues = NULL;
+#include "css_values.cpp"
+inline void FillCSSValues()
+{
+  if (s_cssValues == NULL)
+  {
+	s_cssValues = new wxSortedArrayString;
+	for (unsigned int i=0; i<sizeof(s_cssValueStrings)/sizeof(s_cssValueStrings[0]); i++)
+	  s_cssValues->Add(s_cssValueStrings[i]);
+  }
+}
+
+wxCSS_VALUE wxCSSValue::GetValueId(wxString value)
+{
+  FillCSSValues();
+  int id = s_cssValues->Index(value);
+  if (id >= 0)
+	return wxCSS_VALUE(id+1);
+  return wxCSS_VALUE_UNKNOWN;
+}
+
+wxString wxCSSValue::GetValueString(wxCSS_VALUE id)
+{
+  FillCSSValues();
+  if (id == wxCSS_VALUE_UNKNOWN)
+	return wxT("");
+  return (*s_cssValues)[int(id)-1];
+}
 
 wxCSSPrimitiveValue::wxCSSPrimitiveValue(const wxCSSPrimitiveValue& src)
 {

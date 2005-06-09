@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.h,v 1.3 2005-06-07 22:45:07 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.h,v 1.4 2005-06-09 00:20:42 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -14,6 +14,7 @@
 #include <wx/string.h>
 #include <wx/geometry.h>
 #include "RGBColor.h"
+#include "CSSValues.h"
 
 enum wxCSS_VALUE_TYPE
 {
@@ -38,6 +39,10 @@ class wxCSSValue
 	
 	virtual wxString GetCSSText() const = 0;
 	virtual wxCSSValue* Clone() const = 0;
+  
+  public:
+	static wxCSS_VALUE GetValueId(wxString value);
+	static wxString GetValueString(wxCSS_VALUE value);
 };
 
 enum wxCSS_PRIMITIVE_TYPE
