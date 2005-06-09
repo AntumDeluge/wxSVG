@@ -15,16 +15,16 @@ class wxSVGPathSegLinetoHorizontalRel:
   public wxSVGPathSeg
 {
   protected:
-	float m_x;
+    float m_x;
 
   public:
-	inline float GetX() const { return m_x; }
-	inline void SetX(const float n) { m_x = n; }
+    inline float GetX() const { return m_x; }
+    inline void SetX(const float n) { m_x = n; }
 
   public:
-	wxSVGPathSegLinetoHorizontalRel():
-	  wxSVGPathSeg(wxPATHSEG_LINETO_HORIZONTAL_REL), m_x(0) {}
-	virtual ~wxSVGPathSegLinetoHorizontalRel() {}
+    wxSVGPathSegLinetoHorizontalRel():
+      wxSVGPathSeg(wxPATHSEG_LINETO_HORIZONTAL_REL), m_x(0) {}
+    virtual ~wxSVGPathSegLinetoHorizontalRel() {}
 };
 
 #endif // WX_SVG_PATH_SEG_LINETO_HORIZONTAL_REL_H

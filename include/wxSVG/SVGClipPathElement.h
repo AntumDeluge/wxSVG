@@ -29,22 +29,22 @@ class wxSVGClipPathElement:
   public wxSVGUnitTypes
 {
   protected:
-	wxSVGAnimatedEnumeration m_clipPathUnits;
+    wxSVGAnimatedEnumeration m_clipPathUnits;
 
   public:
-	inline char GetClipPathUnits() const { return m_clipPathUnits.GetBaseVal(); }
-	inline void SetClipPathUnits(const char n) { m_clipPathUnits.GetBaseVal() = n; }
+    inline char GetClipPathUnits() const { return m_clipPathUnits.GetBaseVal(); }
+    inline void SetClipPathUnits(const char n) { m_clipPathUnits.GetBaseVal() = n; }
 
   public:
-	inline char GetAnimatedClipPathUnits() const { return m_clipPathUnits.GetAnimVal(); }
-	inline void SetAnimatedClipPathUnits(const char n) { m_clipPathUnits.GetAnimVal() = n; }
+    inline char GetAnimatedClipPathUnits() const { return m_clipPathUnits.GetAnimVal(); }
+    inline void SetAnimatedClipPathUnits(const char n) { m_clipPathUnits.GetAnimVal() = n; }
 
   public:
-	wxSVGClipPathElement(wxSVGDocument* doc, wxString tagName = wxT("clipPath")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGClipPathElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_CLIPPATH_ELEMENT; }
+    wxSVGClipPathElement(wxSVGDocument* doc, wxString tagName = wxT("clipPath")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGClipPathElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_CLIPPATH_ELEMENT; }
 };
 
 #endif // WX_SVG_CLIP_PATH_ELEMENT_H

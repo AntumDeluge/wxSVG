@@ -31,36 +31,36 @@ class wxSVGFEBlendElement:
   public wxSVGFilterPrimitiveStandardAttributes
 {
   protected:
-	wxSVGAnimatedString m_in1;
-	wxSVGAnimatedString m_in2;
-	wxSVGAnimatedEnumeration m_mode;
+    wxSVGAnimatedString m_in1;
+    wxSVGAnimatedString m_in2;
+    wxSVGAnimatedEnumeration m_mode;
 
   public:
-	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
+    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
-	inline const wxString& GetIn2() { return m_in2.GetBaseVal(); }
-	inline void SetIn2(const wxString& n) { m_in2.GetBaseVal() = n; }
+    inline const wxString& GetIn2() { return m_in2.GetBaseVal(); }
+    inline void SetIn2(const wxString& n) { m_in2.GetBaseVal() = n; }
 
-	inline char GetMode() const { return m_mode.GetBaseVal(); }
-	inline void SetMode(const char n) { m_mode.GetBaseVal() = n; }
-
-  public:
-	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
-
-	inline const wxString& GetAnimatedIn2() { return m_in2.GetAnimVal(); }
-	inline void SetAnimatedIn2(const wxString& n) { m_in2.GetAnimVal() = n; }
-
-	inline char GetAnimatedMode() const { return m_mode.GetAnimVal(); }
-	inline void SetAnimatedMode(const char n) { m_mode.GetAnimVal() = n; }
+    inline char GetMode() const { return m_mode.GetBaseVal(); }
+    inline void SetMode(const char n) { m_mode.GetBaseVal() = n; }
 
   public:
-	wxSVGFEBlendElement(wxSVGDocument* doc, wxString tagName = wxT("feBlend")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGFEBlendElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_FEBLEND_ELEMENT; }
+    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
+    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
+
+    inline const wxString& GetAnimatedIn2() { return m_in2.GetAnimVal(); }
+    inline void SetAnimatedIn2(const wxString& n) { m_in2.GetAnimVal() = n; }
+
+    inline char GetAnimatedMode() const { return m_mode.GetAnimVal(); }
+    inline void SetAnimatedMode(const char n) { m_mode.GetAnimVal() = n; }
+
+  public:
+    wxSVGFEBlendElement(wxSVGDocument* doc, wxString tagName = wxT("feBlend")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGFEBlendElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_FEBLEND_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_BLEND_ELEMENT_H

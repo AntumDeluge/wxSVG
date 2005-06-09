@@ -26,20 +26,20 @@ class wxSVGAnimationElement:
   public wxEventTarget
 {
   protected:
-	wxSVGElement* m_targetElement;
+    wxSVGElement* m_targetElement;
 
   public:
-	inline wxSVGElement* GetTargetElement() { return m_targetElement; }
-	inline void SetTargetElement(wxSVGElement* n) { m_targetElement = n; }
+    inline wxSVGElement* GetTargetElement() { return m_targetElement; }
+    inline void SetTargetElement(wxSVGElement* n) { m_targetElement = n; }
 
   public:
-	wxSVGAnimationElement(wxSVGDocument* doc, wxString tagName = wxT("")):
-	  wxSVGElement(doc, tagName), m_targetElement(NULL) {}
-	virtual ~wxSVGAnimationElement() {}
-	virtual float GetStartTime();
-	virtual float GetCurrentTime();
-	virtual float GetSimpleDuration();
-	bool SetAttribute(const wxString& name, const wxString& value);
+    wxSVGAnimationElement(wxSVGDocument* doc, wxString tagName = wxT("")):
+      wxSVGElement(doc, tagName), m_targetElement(NULL) {}
+    virtual ~wxSVGAnimationElement() {}
+    virtual float GetStartTime();
+    virtual float GetCurrentTime();
+    virtual float GetSimpleDuration();
+    bool SetAttribute(const wxString& name, const wxString& value);
 };
 
 #endif // WX_SVG_ANIMATION_ELEMENT_H

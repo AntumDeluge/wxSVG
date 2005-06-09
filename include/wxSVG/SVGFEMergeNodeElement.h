@@ -17,22 +17,22 @@ class wxSVGFEMergeNodeElement:
   public wxSVGElement
 {
   protected:
-	wxSVGAnimatedString m_in1;
+    wxSVGAnimatedString m_in1;
 
   public:
-	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
+    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
   public:
-	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
+    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
+    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
 
   public:
-	wxSVGFEMergeNodeElement(wxSVGDocument* doc, wxString tagName = wxT("feMergeNode")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGFEMergeNodeElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_FEMERGENODE_ELEMENT; }
+    wxSVGFEMergeNodeElement(wxSVGDocument* doc, wxString tagName = wxT("feMergeNode")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGFEMergeNodeElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_FEMERGENODE_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_MERGE_NODE_ELEMENT_H

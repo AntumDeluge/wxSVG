@@ -24,11 +24,11 @@ class wxSVGFEImageElement:
   public wxSVGFilterPrimitiveStandardAttributes
 {
   public:
-	wxSVGFEImageElement(wxSVGDocument* doc, wxString tagName = wxT("feImage")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGFEImageElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_FEIMAGE_ELEMENT; }
+    wxSVGFEImageElement(wxSVGDocument* doc, wxString tagName = wxT("feImage")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGFEImageElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_FEIMAGE_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_IMAGE_ELEMENT_H

@@ -18,11 +18,11 @@ class wxSVGMissingGlyphElement:
   public wxSVGStylable
 {
   public:
-	wxSVGMissingGlyphElement(wxSVGDocument* doc, wxString tagName = wxT("missing-glyph")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGMissingGlyphElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_MISSING_GLYPH_ELEMENT; }
+    wxSVGMissingGlyphElement(wxSVGDocument* doc, wxString tagName = wxT("missing-glyph")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGMissingGlyphElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_MISSING_GLYPH_ELEMENT; }
 };
 
 #endif // WX_SVG_MISSING_GLYPH_ELEMENT_H

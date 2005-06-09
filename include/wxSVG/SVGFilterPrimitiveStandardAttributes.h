@@ -18,47 +18,47 @@ class wxSVGFilterPrimitiveStandardAttributes:
   public wxSVGStylable
 {
   protected:
-	wxSVGAnimatedLength m_x;
-	wxSVGAnimatedLength m_y;
-	wxSVGAnimatedLength m_width;
-	wxSVGAnimatedLength m_height;
-	wxSVGAnimatedString m_result;
+    wxSVGAnimatedLength m_x;
+    wxSVGAnimatedLength m_y;
+    wxSVGAnimatedLength m_width;
+    wxSVGAnimatedLength m_height;
+    wxSVGAnimatedString m_result;
 
   public:
-	inline wxSVGLength& GetX() { return m_x.GetBaseVal(); }
-	inline void SetX(const wxSVGLength& n) { m_x.GetBaseVal() = n; }
+    inline wxSVGLength& GetX() { return m_x.GetBaseVal(); }
+    inline void SetX(const wxSVGLength& n) { m_x.GetBaseVal() = n; }
 
-	inline wxSVGLength& GetY() { return m_y.GetBaseVal(); }
-	inline void SetY(const wxSVGLength& n) { m_y.GetBaseVal() = n; }
+    inline wxSVGLength& GetY() { return m_y.GetBaseVal(); }
+    inline void SetY(const wxSVGLength& n) { m_y.GetBaseVal() = n; }
 
-	inline wxSVGLength& GetWidth() { return m_width.GetBaseVal(); }
-	inline void SetWidth(const wxSVGLength& n) { m_width.GetBaseVal() = n; }
+    inline wxSVGLength& GetWidth() { return m_width.GetBaseVal(); }
+    inline void SetWidth(const wxSVGLength& n) { m_width.GetBaseVal() = n; }
 
-	inline wxSVGLength& GetHeight() { return m_height.GetBaseVal(); }
-	inline void SetHeight(const wxSVGLength& n) { m_height.GetBaseVal() = n; }
+    inline wxSVGLength& GetHeight() { return m_height.GetBaseVal(); }
+    inline void SetHeight(const wxSVGLength& n) { m_height.GetBaseVal() = n; }
 
-	inline const wxString& GetResult() { return m_result.GetBaseVal(); }
-	inline void SetResult(const wxString& n) { m_result.GetBaseVal() = n; }
-
-  public:
-	inline wxSVGLength& GetAnimatedX() { return m_x.GetAnimVal(); }
-	inline void SetAnimatedX(const wxSVGLength& n) { m_x.GetAnimVal() = n; }
-
-	inline wxSVGLength& GetAnimatedY() { return m_y.GetAnimVal(); }
-	inline void SetAnimatedY(const wxSVGLength& n) { m_y.GetAnimVal() = n; }
-
-	inline wxSVGLength& GetAnimatedWidth() { return m_width.GetAnimVal(); }
-	inline void SetAnimatedWidth(const wxSVGLength& n) { m_width.GetAnimVal() = n; }
-
-	inline wxSVGLength& GetAnimatedHeight() { return m_height.GetAnimVal(); }
-	inline void SetAnimatedHeight(const wxSVGLength& n) { m_height.GetAnimVal() = n; }
-
-	inline const wxString& GetAnimatedResult() { return m_result.GetAnimVal(); }
-	inline void SetAnimatedResult(const wxString& n) { m_result.GetAnimVal() = n; }
+    inline const wxString& GetResult() { return m_result.GetBaseVal(); }
+    inline void SetResult(const wxString& n) { m_result.GetBaseVal() = n; }
 
   public:
-	virtual ~wxSVGFilterPrimitiveStandardAttributes() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
+    inline wxSVGLength& GetAnimatedX() { return m_x.GetAnimVal(); }
+    inline void SetAnimatedX(const wxSVGLength& n) { m_x.GetAnimVal() = n; }
+
+    inline wxSVGLength& GetAnimatedY() { return m_y.GetAnimVal(); }
+    inline void SetAnimatedY(const wxSVGLength& n) { m_y.GetAnimVal() = n; }
+
+    inline wxSVGLength& GetAnimatedWidth() { return m_width.GetAnimVal(); }
+    inline void SetAnimatedWidth(const wxSVGLength& n) { m_width.GetAnimVal() = n; }
+
+    inline wxSVGLength& GetAnimatedHeight() { return m_height.GetAnimVal(); }
+    inline void SetAnimatedHeight(const wxSVGLength& n) { m_height.GetAnimVal() = n; }
+
+    inline const wxString& GetAnimatedResult() { return m_result.GetAnimVal(); }
+    inline void SetAnimatedResult(const wxString& n) { m_result.GetAnimVal() = n; }
+
+  public:
+    virtual ~wxSVGFilterPrimitiveStandardAttributes() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
 };
 
 #endif // WX_SVG_FILTER_PRIMITIVE_STANDARD_ATTRIBUTES_H

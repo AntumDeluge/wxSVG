@@ -19,22 +19,22 @@ class wxSVGFEComponentTransferElement:
   public wxSVGFilterPrimitiveStandardAttributes
 {
   protected:
-	wxSVGAnimatedString m_in1;
+    wxSVGAnimatedString m_in1;
 
   public:
-	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
+    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
   public:
-	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
+    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
+    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
 
   public:
-	wxSVGFEComponentTransferElement(wxSVGDocument* doc, wxString tagName = wxT("feComponentTransfer")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGFEComponentTransferElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_FECOMPONENTTRANSFER_ELEMENT; }
+    wxSVGFEComponentTransferElement(wxSVGDocument* doc, wxString tagName = wxT("feComponentTransfer")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGFEComponentTransferElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_FECOMPONENTTRANSFER_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_COMPONENT_TRANSFER_ELEMENT_H

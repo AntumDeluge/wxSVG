@@ -36,19 +36,19 @@ enum wxSVG_MEETORSLICE
 class wxSVGPreserveAspectRatio
 {
   protected:
-	wxSVG_PRESERVEASPECTRATIO m_align;
-	wxSVG_MEETORSLICE m_meetOrSlice;
+    wxSVG_PRESERVEASPECTRATIO m_align;
+    wxSVG_MEETORSLICE m_meetOrSlice;
 
   public:
-	inline wxSVG_PRESERVEASPECTRATIO GetAlign() const { return m_align; }
-	inline void SetAlign(const wxSVG_PRESERVEASPECTRATIO& n) { m_align = n; }
+    inline wxSVG_PRESERVEASPECTRATIO GetAlign() const { return m_align; }
+    inline void SetAlign(const wxSVG_PRESERVEASPECTRATIO& n) { m_align = n; }
 
-	inline wxSVG_MEETORSLICE GetMeetOrSlice() const { return m_meetOrSlice; }
-	inline void SetMeetOrSlice(const wxSVG_MEETORSLICE& n) { m_meetOrSlice = n; }
+    inline wxSVG_MEETORSLICE GetMeetOrSlice() const { return m_meetOrSlice; }
+    inline void SetMeetOrSlice(const wxSVG_MEETORSLICE& n) { m_meetOrSlice = n; }
 
   public:
-	wxSVGPreserveAspectRatio(): m_align(wxSVG_PRESERVEASPECTRATIO(0)), m_meetOrSlice(wxSVG_MEETORSLICE(0)) {}
-	virtual ~wxSVGPreserveAspectRatio() {}
+    wxSVGPreserveAspectRatio(): m_align(wxSVG_PRESERVEASPECTRATIO(0)), m_meetOrSlice(wxSVG_MEETORSLICE(0)) {}
+    virtual ~wxSVGPreserveAspectRatio() {}
 };
 
 #endif // WX_SVG_PRESERVE_ASPECT_RATIO_H

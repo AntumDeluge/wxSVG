@@ -15,7 +15,7 @@ class wxSVGCSSRule:
   public wxCSSRule
 {
   public:
-	virtual ~wxSVGCSSRule() {}
+    virtual ~wxSVGCSSRule() {}
 };
 
 #endif // WX_SVG_CSS_RULE_H

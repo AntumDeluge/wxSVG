@@ -14,8 +14,8 @@
 class wxGetSVGDocument
 {
   public:
-	virtual ~wxGetSVGDocument() {}
-	virtual wxSVGDocument* GetSVGDocument();
+    virtual ~wxGetSVGDocument() {}
+    virtual wxSVGDocument* GetSVGDocument();
 };
 
 #endif // WX_GET_SVG_DOCUMENT_H

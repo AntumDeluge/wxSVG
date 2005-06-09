@@ -16,11 +16,11 @@ class wxSVGVKernElement:
   public wxSVGElement
 {
   public:
-	wxSVGVKernElement(wxSVGDocument* doc, wxString tagName = wxT("vkern")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGVKernElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_VKERN_ELEMENT; }
+    wxSVGVKernElement(wxSVGDocument* doc, wxString tagName = wxT("vkern")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGVKernElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_VKERN_ELEMENT; }
 };
 
 #endif // WX_SVG_V_KERN_ELEMENT_H

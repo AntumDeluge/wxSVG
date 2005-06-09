@@ -17,43 +17,43 @@ class wxSVGLinearGradientElement:
   public wxSVGGradientElement
 {
   protected:
-	wxSVGAnimatedLength m_x1;
-	wxSVGAnimatedLength m_y1;
-	wxSVGAnimatedLength m_x2;
-	wxSVGAnimatedLength m_y2;
+    wxSVGAnimatedLength m_x1;
+    wxSVGAnimatedLength m_y1;
+    wxSVGAnimatedLength m_x2;
+    wxSVGAnimatedLength m_y2;
 
   public:
-	inline wxSVGLength& GetX1() { return m_x1.GetBaseVal(); }
-	inline void SetX1(const wxSVGLength& n) { m_x1.GetBaseVal() = n; }
+    inline wxSVGLength& GetX1() { return m_x1.GetBaseVal(); }
+    inline void SetX1(const wxSVGLength& n) { m_x1.GetBaseVal() = n; }
 
-	inline wxSVGLength& GetY1() { return m_y1.GetBaseVal(); }
-	inline void SetY1(const wxSVGLength& n) { m_y1.GetBaseVal() = n; }
+    inline wxSVGLength& GetY1() { return m_y1.GetBaseVal(); }
+    inline void SetY1(const wxSVGLength& n) { m_y1.GetBaseVal() = n; }
 
-	inline wxSVGLength& GetX2() { return m_x2.GetBaseVal(); }
-	inline void SetX2(const wxSVGLength& n) { m_x2.GetBaseVal() = n; }
+    inline wxSVGLength& GetX2() { return m_x2.GetBaseVal(); }
+    inline void SetX2(const wxSVGLength& n) { m_x2.GetBaseVal() = n; }
 
-	inline wxSVGLength& GetY2() { return m_y2.GetBaseVal(); }
-	inline void SetY2(const wxSVGLength& n) { m_y2.GetBaseVal() = n; }
-
-  public:
-	inline wxSVGLength& GetAnimatedX1() { return m_x1.GetAnimVal(); }
-	inline void SetAnimatedX1(const wxSVGLength& n) { m_x1.GetAnimVal() = n; }
-
-	inline wxSVGLength& GetAnimatedY1() { return m_y1.GetAnimVal(); }
-	inline void SetAnimatedY1(const wxSVGLength& n) { m_y1.GetAnimVal() = n; }
-
-	inline wxSVGLength& GetAnimatedX2() { return m_x2.GetAnimVal(); }
-	inline void SetAnimatedX2(const wxSVGLength& n) { m_x2.GetAnimVal() = n; }
-
-	inline wxSVGLength& GetAnimatedY2() { return m_y2.GetAnimVal(); }
-	inline void SetAnimatedY2(const wxSVGLength& n) { m_y2.GetAnimVal() = n; }
+    inline wxSVGLength& GetY2() { return m_y2.GetBaseVal(); }
+    inline void SetY2(const wxSVGLength& n) { m_y2.GetBaseVal() = n; }
 
   public:
-	wxSVGLinearGradientElement(wxSVGDocument* doc, wxString tagName = wxT("linearGradient")):
-	  wxSVGGradientElement(doc, tagName) {}
-	virtual ~wxSVGLinearGradientElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_LINEARGRADIENT_ELEMENT; }
+    inline wxSVGLength& GetAnimatedX1() { return m_x1.GetAnimVal(); }
+    inline void SetAnimatedX1(const wxSVGLength& n) { m_x1.GetAnimVal() = n; }
+
+    inline wxSVGLength& GetAnimatedY1() { return m_y1.GetAnimVal(); }
+    inline void SetAnimatedY1(const wxSVGLength& n) { m_y1.GetAnimVal() = n; }
+
+    inline wxSVGLength& GetAnimatedX2() { return m_x2.GetAnimVal(); }
+    inline void SetAnimatedX2(const wxSVGLength& n) { m_x2.GetAnimVal() = n; }
+
+    inline wxSVGLength& GetAnimatedY2() { return m_y2.GetAnimVal(); }
+    inline void SetAnimatedY2(const wxSVGLength& n) { m_y2.GetAnimVal() = n; }
+
+  public:
+    wxSVGLinearGradientElement(wxSVGDocument* doc, wxString tagName = wxT("linearGradient")):
+      wxSVGGradientElement(doc, tagName) {}
+    virtual ~wxSVGLinearGradientElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_LINEARGRADIENT_ELEMENT; }
 };
 
 #endif // WX_SVG_LINEAR_GRADIENT_ELEMENT_H

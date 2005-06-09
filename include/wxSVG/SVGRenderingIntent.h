@@ -23,7 +23,7 @@ enum wxRENDERING_INTENT
 class wxSVGRenderingIntent
 {
   public:
-	virtual ~wxSVGRenderingIntent() {}
+    virtual ~wxSVGRenderingIntent() {}
 };
 
 #endif // WX_SVG_RENDERING_INTENT_H

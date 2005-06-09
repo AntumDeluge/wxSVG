@@ -20,36 +20,36 @@ class wxSVGFEDiffuseLightingElement:
   public wxSVGFilterPrimitiveStandardAttributes
 {
   protected:
-	wxSVGAnimatedString m_in1;
-	wxSVGAnimatedNumber m_surfaceScale;
-	wxSVGAnimatedNumber m_diffuseConstant;
+    wxSVGAnimatedString m_in1;
+    wxSVGAnimatedNumber m_surfaceScale;
+    wxSVGAnimatedNumber m_diffuseConstant;
 
   public:
-	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
+    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
-	inline float GetSurfaceScale() const { return m_surfaceScale.GetBaseVal(); }
-	inline void SetSurfaceScale(const float n) { m_surfaceScale.GetBaseVal() = n; }
+    inline float GetSurfaceScale() const { return m_surfaceScale.GetBaseVal(); }
+    inline void SetSurfaceScale(const float n) { m_surfaceScale.GetBaseVal() = n; }
 
-	inline float GetDiffuseConstant() const { return m_diffuseConstant.GetBaseVal(); }
-	inline void SetDiffuseConstant(const float n) { m_diffuseConstant.GetBaseVal() = n; }
-
-  public:
-	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
-
-	inline float GetAnimatedSurfaceScale() const { return m_surfaceScale.GetAnimVal(); }
-	inline void SetAnimatedSurfaceScale(const float n) { m_surfaceScale.GetAnimVal() = n; }
-
-	inline float GetAnimatedDiffuseConstant() const { return m_diffuseConstant.GetAnimVal(); }
-	inline void SetAnimatedDiffuseConstant(const float n) { m_diffuseConstant.GetAnimVal() = n; }
+    inline float GetDiffuseConstant() const { return m_diffuseConstant.GetBaseVal(); }
+    inline void SetDiffuseConstant(const float n) { m_diffuseConstant.GetBaseVal() = n; }
 
   public:
-	wxSVGFEDiffuseLightingElement(wxSVGDocument* doc, wxString tagName = wxT("feDiffuseLighting")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGFEDiffuseLightingElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_FEDIFFUSELIGHTING_ELEMENT; }
+    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
+    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
+
+    inline float GetAnimatedSurfaceScale() const { return m_surfaceScale.GetAnimVal(); }
+    inline void SetAnimatedSurfaceScale(const float n) { m_surfaceScale.GetAnimVal() = n; }
+
+    inline float GetAnimatedDiffuseConstant() const { return m_diffuseConstant.GetAnimVal(); }
+    inline void SetAnimatedDiffuseConstant(const float n) { m_diffuseConstant.GetAnimVal() = n; }
+
+  public:
+    wxSVGFEDiffuseLightingElement(wxSVGDocument* doc, wxString tagName = wxT("feDiffuseLighting")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGFEDiffuseLightingElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_FEDIFFUSELIGHTING_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_DIFFUSE_LIGHTING_ELEMENT_H

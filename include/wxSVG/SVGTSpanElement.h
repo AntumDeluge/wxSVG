@@ -16,11 +16,11 @@ class wxSVGTSpanElement:
   public wxSVGTextPositioningElement
 {
   public:
-	wxSVGTSpanElement(wxSVGDocument* doc, wxString tagName = wxT("tspan")):
-	  wxSVGTextPositioningElement(doc, tagName) {}
-	virtual ~wxSVGTSpanElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_TSPAN_ELEMENT; }
+    wxSVGTSpanElement(wxSVGDocument* doc, wxString tagName = wxT("tspan")):
+      wxSVGTextPositioningElement(doc, tagName) {}
+    virtual ~wxSVGTSpanElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_TSPAN_ELEMENT; }
 };
 
 #endif // WX_SVG_T_SPAN_ELEMENT_H

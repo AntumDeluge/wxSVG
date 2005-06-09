@@ -44,66 +44,66 @@ class wxSVGMarkerElement:
   public wxSVGFitToViewBox
 {
   protected:
-	wxSVGAnimatedLength m_refX;
-	wxSVGAnimatedLength m_refY;
-	wxSVGAnimatedEnumeration m_markerUnits;
-	wxSVGAnimatedLength m_markerWidth;
-	wxSVGAnimatedLength m_markerHeight;
-	wxSVGAnimatedEnumeration m_orientType;
-	wxSVGAnimatedAngle m_orientAngle;
+    wxSVGAnimatedLength m_refX;
+    wxSVGAnimatedLength m_refY;
+    wxSVGAnimatedEnumeration m_markerUnits;
+    wxSVGAnimatedLength m_markerWidth;
+    wxSVGAnimatedLength m_markerHeight;
+    wxSVGAnimatedEnumeration m_orientType;
+    wxSVGAnimatedAngle m_orientAngle;
 
   public:
-	inline wxSVGLength& GetRefX() { return m_refX.GetBaseVal(); }
-	inline void SetRefX(const wxSVGLength& n) { m_refX.GetBaseVal() = n; }
+    inline wxSVGLength& GetRefX() { return m_refX.GetBaseVal(); }
+    inline void SetRefX(const wxSVGLength& n) { m_refX.GetBaseVal() = n; }
 
-	inline wxSVGLength& GetRefY() { return m_refY.GetBaseVal(); }
-	inline void SetRefY(const wxSVGLength& n) { m_refY.GetBaseVal() = n; }
+    inline wxSVGLength& GetRefY() { return m_refY.GetBaseVal(); }
+    inline void SetRefY(const wxSVGLength& n) { m_refY.GetBaseVal() = n; }
 
-	inline char GetMarkerUnits() const { return m_markerUnits.GetBaseVal(); }
-	inline void SetMarkerUnits(const char n) { m_markerUnits.GetBaseVal() = n; }
+    inline char GetMarkerUnits() const { return m_markerUnits.GetBaseVal(); }
+    inline void SetMarkerUnits(const char n) { m_markerUnits.GetBaseVal() = n; }
 
-	inline wxSVGLength& GetMarkerWidth() { return m_markerWidth.GetBaseVal(); }
-	inline void SetMarkerWidth(const wxSVGLength& n) { m_markerWidth.GetBaseVal() = n; }
+    inline wxSVGLength& GetMarkerWidth() { return m_markerWidth.GetBaseVal(); }
+    inline void SetMarkerWidth(const wxSVGLength& n) { m_markerWidth.GetBaseVal() = n; }
 
-	inline wxSVGLength& GetMarkerHeight() { return m_markerHeight.GetBaseVal(); }
-	inline void SetMarkerHeight(const wxSVGLength& n) { m_markerHeight.GetBaseVal() = n; }
+    inline wxSVGLength& GetMarkerHeight() { return m_markerHeight.GetBaseVal(); }
+    inline void SetMarkerHeight(const wxSVGLength& n) { m_markerHeight.GetBaseVal() = n; }
 
-	inline char GetOrientType() const { return m_orientType.GetBaseVal(); }
-	inline void SetOrientType(const char n) { m_orientType.GetBaseVal() = n; }
+    inline char GetOrientType() const { return m_orientType.GetBaseVal(); }
+    inline void SetOrientType(const char n) { m_orientType.GetBaseVal() = n; }
 
-	inline wxSVGAngle& GetOrientAngle() { return m_orientAngle.GetBaseVal(); }
-	inline void SetOrientAngle(const wxSVGAngle& n) { m_orientAngle.GetBaseVal() = n; }
-
-  public:
-	inline wxSVGLength& GetAnimatedRefX() { return m_refX.GetAnimVal(); }
-	inline void SetAnimatedRefX(const wxSVGLength& n) { m_refX.GetAnimVal() = n; }
-
-	inline wxSVGLength& GetAnimatedRefY() { return m_refY.GetAnimVal(); }
-	inline void SetAnimatedRefY(const wxSVGLength& n) { m_refY.GetAnimVal() = n; }
-
-	inline char GetAnimatedMarkerUnits() const { return m_markerUnits.GetAnimVal(); }
-	inline void SetAnimatedMarkerUnits(const char n) { m_markerUnits.GetAnimVal() = n; }
-
-	inline wxSVGLength& GetAnimatedMarkerWidth() { return m_markerWidth.GetAnimVal(); }
-	inline void SetAnimatedMarkerWidth(const wxSVGLength& n) { m_markerWidth.GetAnimVal() = n; }
-
-	inline wxSVGLength& GetAnimatedMarkerHeight() { return m_markerHeight.GetAnimVal(); }
-	inline void SetAnimatedMarkerHeight(const wxSVGLength& n) { m_markerHeight.GetAnimVal() = n; }
-
-	inline char GetAnimatedOrientType() const { return m_orientType.GetAnimVal(); }
-	inline void SetAnimatedOrientType(const char n) { m_orientType.GetAnimVal() = n; }
-
-	inline wxSVGAngle& GetAnimatedOrientAngle() { return m_orientAngle.GetAnimVal(); }
-	inline void SetAnimatedOrientAngle(const wxSVGAngle& n) { m_orientAngle.GetAnimVal() = n; }
+    inline wxSVGAngle& GetOrientAngle() { return m_orientAngle.GetBaseVal(); }
+    inline void SetOrientAngle(const wxSVGAngle& n) { m_orientAngle.GetBaseVal() = n; }
 
   public:
-	wxSVGMarkerElement(wxSVGDocument* doc, wxString tagName = wxT("marker")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGMarkerElement() {}
-	virtual void SetOrientToAuto();
-	virtual void SetOrientToAngle(const wxSVGAngle& angle);
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_MARKER_ELEMENT; }
+    inline wxSVGLength& GetAnimatedRefX() { return m_refX.GetAnimVal(); }
+    inline void SetAnimatedRefX(const wxSVGLength& n) { m_refX.GetAnimVal() = n; }
+
+    inline wxSVGLength& GetAnimatedRefY() { return m_refY.GetAnimVal(); }
+    inline void SetAnimatedRefY(const wxSVGLength& n) { m_refY.GetAnimVal() = n; }
+
+    inline char GetAnimatedMarkerUnits() const { return m_markerUnits.GetAnimVal(); }
+    inline void SetAnimatedMarkerUnits(const char n) { m_markerUnits.GetAnimVal() = n; }
+
+    inline wxSVGLength& GetAnimatedMarkerWidth() { return m_markerWidth.GetAnimVal(); }
+    inline void SetAnimatedMarkerWidth(const wxSVGLength& n) { m_markerWidth.GetAnimVal() = n; }
+
+    inline wxSVGLength& GetAnimatedMarkerHeight() { return m_markerHeight.GetAnimVal(); }
+    inline void SetAnimatedMarkerHeight(const wxSVGLength& n) { m_markerHeight.GetAnimVal() = n; }
+
+    inline char GetAnimatedOrientType() const { return m_orientType.GetAnimVal(); }
+    inline void SetAnimatedOrientType(const char n) { m_orientType.GetAnimVal() = n; }
+
+    inline wxSVGAngle& GetAnimatedOrientAngle() { return m_orientAngle.GetAnimVal(); }
+    inline void SetAnimatedOrientAngle(const wxSVGAngle& n) { m_orientAngle.GetAnimVal() = n; }
+
+  public:
+    wxSVGMarkerElement(wxSVGDocument* doc, wxString tagName = wxT("marker")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGMarkerElement() {}
+    virtual void SetOrientToAuto();
+    virtual void SetOrientToAngle(const wxSVGAngle& angle);
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_MARKER_ELEMENT; }
 };
 
 #endif // WX_SVG_MARKER_ELEMENT_H

@@ -36,36 +36,36 @@ class wxSVGTextPathElement:
   public wxSVGURIReference
 {
   protected:
-	wxSVGAnimatedLength m_startOffset;
-	wxSVGAnimatedEnumeration m_method;
-	wxSVGAnimatedEnumeration m_spacing;
+    wxSVGAnimatedLength m_startOffset;
+    wxSVGAnimatedEnumeration m_method;
+    wxSVGAnimatedEnumeration m_spacing;
 
   public:
-	inline wxSVGLength& GetStartOffset() { return m_startOffset.GetBaseVal(); }
-	inline void SetStartOffset(const wxSVGLength& n) { m_startOffset.GetBaseVal() = n; }
+    inline wxSVGLength& GetStartOffset() { return m_startOffset.GetBaseVal(); }
+    inline void SetStartOffset(const wxSVGLength& n) { m_startOffset.GetBaseVal() = n; }
 
-	inline char GetMethod() const { return m_method.GetBaseVal(); }
-	inline void SetMethod(const char n) { m_method.GetBaseVal() = n; }
+    inline char GetMethod() const { return m_method.GetBaseVal(); }
+    inline void SetMethod(const char n) { m_method.GetBaseVal() = n; }
 
-	inline char GetSpacing() const { return m_spacing.GetBaseVal(); }
-	inline void SetSpacing(const char n) { m_spacing.GetBaseVal() = n; }
-
-  public:
-	inline wxSVGLength& GetAnimatedStartOffset() { return m_startOffset.GetAnimVal(); }
-	inline void SetAnimatedStartOffset(const wxSVGLength& n) { m_startOffset.GetAnimVal() = n; }
-
-	inline char GetAnimatedMethod() const { return m_method.GetAnimVal(); }
-	inline void SetAnimatedMethod(const char n) { m_method.GetAnimVal() = n; }
-
-	inline char GetAnimatedSpacing() const { return m_spacing.GetAnimVal(); }
-	inline void SetAnimatedSpacing(const char n) { m_spacing.GetAnimVal() = n; }
+    inline char GetSpacing() const { return m_spacing.GetBaseVal(); }
+    inline void SetSpacing(const char n) { m_spacing.GetBaseVal() = n; }
 
   public:
-	wxSVGTextPathElement(wxSVGDocument* doc, wxString tagName = wxT("textPath")):
-	  wxSVGTextContentElement(doc, tagName) {}
-	virtual ~wxSVGTextPathElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_TEXTPATH_ELEMENT; }
+    inline wxSVGLength& GetAnimatedStartOffset() { return m_startOffset.GetAnimVal(); }
+    inline void SetAnimatedStartOffset(const wxSVGLength& n) { m_startOffset.GetAnimVal() = n; }
+
+    inline char GetAnimatedMethod() const { return m_method.GetAnimVal(); }
+    inline void SetAnimatedMethod(const char n) { m_method.GetAnimVal() = n; }
+
+    inline char GetAnimatedSpacing() const { return m_spacing.GetAnimVal(); }
+    inline void SetAnimatedSpacing(const char n) { m_spacing.GetAnimVal() = n; }
+
+  public:
+    wxSVGTextPathElement(wxSVGDocument* doc, wxString tagName = wxT("textPath")):
+      wxSVGTextContentElement(doc, tagName) {}
+    virtual ~wxSVGTextPathElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_TEXTPATH_ELEMENT; }
 };
 
 #endif // WX_SVG_TEXT_PATH_ELEMENT_H

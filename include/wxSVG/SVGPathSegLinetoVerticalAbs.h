@@ -15,16 +15,16 @@ class wxSVGPathSegLinetoVerticalAbs:
   public wxSVGPathSeg
 {
   protected:
-	float m_y;
+    float m_y;
 
   public:
-	inline float GetY() const { return m_y; }
-	inline void SetY(const float n) { m_y = n; }
+    inline float GetY() const { return m_y; }
+    inline void SetY(const float n) { m_y = n; }
 
   public:
-	wxSVGPathSegLinetoVerticalAbs():
-	  wxSVGPathSeg(wxPATHSEG_LINETO_VERTICAL_ABS), m_y(0) {}
-	virtual ~wxSVGPathSegLinetoVerticalAbs() {}
+    wxSVGPathSegLinetoVerticalAbs():
+      wxSVGPathSeg(wxPATHSEG_LINETO_VERTICAL_ABS), m_y(0) {}
+    virtual ~wxSVGPathSegLinetoVerticalAbs() {}
 };
 
 #endif // WX_SVG_PATH_SEG_LINETO_VERTICAL_ABS_H

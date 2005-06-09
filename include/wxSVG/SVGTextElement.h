@@ -28,12 +28,12 @@ class wxSVGTextElement:
 	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
 
   public:
-	wxSVGTextElement(wxSVGDocument* doc, wxString tagName = wxT("text")):
-	  wxSVGTextPositioningElement(doc, tagName), m_canvasItem(NULL) {}
-	virtual ~wxSVGTextElement() {}
-	wxSVGRect GetBBox();
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_TEXT_ELEMENT; }
+    wxSVGTextElement(wxSVGDocument* doc, wxString tagName = wxT("text")):
+      wxSVGTextPositioningElement(doc, tagName), m_canvasItem(NULL) {}
+    virtual ~wxSVGTextElement() {}
+    wxSVGRect GetBBox();
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_TEXT_ELEMENT; }
 };
 
 #endif // WX_SVG_TEXT_ELEMENT_H

@@ -19,22 +19,22 @@ class wxSVGStopElement:
   public wxSVGStylable
 {
   protected:
-	wxSVGAnimatedNumber m_offset;
+    wxSVGAnimatedNumber m_offset;
 
   public:
-	inline float GetOffset() const { return m_offset.GetBaseVal(); }
-	inline void SetOffset(const float n) { m_offset.GetBaseVal() = n; }
+    inline float GetOffset() const { return m_offset.GetBaseVal(); }
+    inline void SetOffset(const float n) { m_offset.GetBaseVal() = n; }
 
   public:
-	inline float GetAnimatedOffset() const { return m_offset.GetAnimVal(); }
-	inline void SetAnimatedOffset(const float n) { m_offset.GetAnimVal() = n; }
+    inline float GetAnimatedOffset() const { return m_offset.GetAnimVal(); }
+    inline void SetAnimatedOffset(const float n) { m_offset.GetAnimVal() = n; }
 
   public:
-	wxSVGStopElement(wxSVGDocument* doc, wxString tagName = wxT("stop")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGStopElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_STOP_ELEMENT; }
+    wxSVGStopElement(wxSVGDocument* doc, wxString tagName = wxT("stop")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGStopElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_STOP_ELEMENT; }
 };
 
 #endif // WX_SVG_STOP_ELEMENT_H

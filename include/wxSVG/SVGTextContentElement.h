@@ -38,37 +38,37 @@ class wxSVGTextContentElement:
   public wxEventTarget
 {
   protected:
-	wxSVGAnimatedLength m_textLength;
-	wxSVGAnimatedEnumeration m_lengthAdjust;
+    wxSVGAnimatedLength m_textLength;
+    wxSVGAnimatedEnumeration m_lengthAdjust;
 
   public:
-	inline wxSVGLength& GetTextLength() { return m_textLength.GetBaseVal(); }
-	inline void SetTextLength(const wxSVGLength& n) { m_textLength.GetBaseVal() = n; }
+    inline wxSVGLength& GetTextLength() { return m_textLength.GetBaseVal(); }
+    inline void SetTextLength(const wxSVGLength& n) { m_textLength.GetBaseVal() = n; }
 
-	inline char GetLengthAdjust() const { return m_lengthAdjust.GetBaseVal(); }
-	inline void SetLengthAdjust(const char n) { m_lengthAdjust.GetBaseVal() = n; }
-
-  public:
-	inline wxSVGLength& GetAnimatedTextLength() { return m_textLength.GetAnimVal(); }
-	inline void SetAnimatedTextLength(const wxSVGLength& n) { m_textLength.GetAnimVal() = n; }
-
-	inline char GetAnimatedLengthAdjust() const { return m_lengthAdjust.GetAnimVal(); }
-	inline void SetAnimatedLengthAdjust(const char n) { m_lengthAdjust.GetAnimVal() = n; }
+    inline char GetLengthAdjust() const { return m_lengthAdjust.GetBaseVal(); }
+    inline void SetLengthAdjust(const char n) { m_lengthAdjust.GetBaseVal() = n; }
 
   public:
-	wxSVGTextContentElement(wxSVGDocument* doc, wxString tagName = wxT("")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGTextContentElement() {}
-	virtual long GetNumberOfChars();
-	virtual float GetComputedTextLength();
-	virtual float GetSubStringLength(unsigned long charnum, unsigned long nchars);
-	virtual wxSVGPoint GetStartPositionOfChar(unsigned long charnum);
-	virtual wxSVGPoint GetEndPositionOfChar(unsigned long charnum);
-	virtual wxSVGRect GetExtentOfChar(unsigned long charnum);
-	virtual float GetRotationOfChar(unsigned long charnum);
-	virtual long GetCharNumAtPosition(const wxSVGPoint& point);
-	virtual void SelectSubString(unsigned long charnum, unsigned long nchars);
-	bool SetAttribute(const wxString& name, const wxString& value);
+    inline wxSVGLength& GetAnimatedTextLength() { return m_textLength.GetAnimVal(); }
+    inline void SetAnimatedTextLength(const wxSVGLength& n) { m_textLength.GetAnimVal() = n; }
+
+    inline char GetAnimatedLengthAdjust() const { return m_lengthAdjust.GetAnimVal(); }
+    inline void SetAnimatedLengthAdjust(const char n) { m_lengthAdjust.GetAnimVal() = n; }
+
+  public:
+    wxSVGTextContentElement(wxSVGDocument* doc, wxString tagName = wxT("")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGTextContentElement() {}
+    virtual long GetNumberOfChars();
+    virtual float GetComputedTextLength();
+    virtual float GetSubStringLength(unsigned long charnum, unsigned long nchars);
+    virtual wxSVGPoint GetStartPositionOfChar(unsigned long charnum);
+    virtual wxSVGPoint GetEndPositionOfChar(unsigned long charnum);
+    virtual wxSVGRect GetExtentOfChar(unsigned long charnum);
+    virtual float GetRotationOfChar(unsigned long charnum);
+    virtual long GetCharNumAtPosition(const wxSVGPoint& point);
+    virtual void SelectSubString(unsigned long charnum, unsigned long nchars);
+    bool SetAttribute(const wxString& name, const wxString& value);
 };
 
 #endif // WX_SVG_TEXT_CONTENT_ELEMENT_H

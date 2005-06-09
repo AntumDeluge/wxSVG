@@ -20,11 +20,11 @@ class wxSVGMPathElement:
   public wxSVGExternalResourcesRequired
 {
   public:
-	wxSVGMPathElement(wxSVGDocument* doc, wxString tagName = wxT("mpath")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGMPathElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_MPATH_ELEMENT; }
+    wxSVGMPathElement(wxSVGDocument* doc, wxString tagName = wxT("mpath")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGMPathElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_MPATH_ELEMENT; }
 };
 
 #endif // WX_SVG_M_PATH_ELEMENT_H

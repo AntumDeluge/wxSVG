@@ -20,11 +20,11 @@ class wxSVGDescElement:
   public wxSVGStylable
 {
   public:
-	wxSVGDescElement(wxSVGDocument* doc, wxString tagName = wxT("desc")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGDescElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_DESC_ELEMENT; }
+    wxSVGDescElement(wxSVGDocument* doc, wxString tagName = wxT("desc")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGDescElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_DESC_ELEMENT; }
 };
 
 #endif // WX_SVG_DESC_ELEMENT_H

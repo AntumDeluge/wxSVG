@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.2 2005-06-07 22:15:35 ntalex Exp $
+// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.3 2005-06-09 00:25:13 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -46,18 +46,22 @@ void wxCSSStyleDeclaration::SetCSSText(const wxString& text)
   }
 }
 
-static wxSortedArrayString* s_cssPropertyNames = NULL;
-#include "CSSStyleDeclaration_styles.h"
+static wxSortedArrayString* s_cssProperties = NULL;
+#include "css_properties.cpp"
+inline void FillCSSProperties()
+{
+  if (s_cssProperties == NULL)
+  {
+	s_cssProperties = new wxSortedArrayString;
+	for (unsigned int i=0; i<sizeof(s_cssPropertyStrings)/sizeof(s_cssPropertyStrings[0]); i++)
+	  s_cssProperties->Add(s_cssPropertyStrings[i]);
+  }
+}
 
 wxCSS_PROPERTY wxCSSStyleDeclaration::GetPropertyId(const wxString& propertyName)
 {
-  if (s_cssPropertyNames == NULL)
-  {
-	s_cssPropertyNames = new wxSortedArrayString;
-	for (unsigned int i=0; i<sizeof(s_cssPropertys)/sizeof(s_cssPropertys[0]); i++)
-	  s_cssPropertyNames->Add(s_cssPropertys[i]);
-  }
-  int id = s_cssPropertyNames->Index(propertyName);
+  FillCSSProperties();
+  int id = s_cssProperties->Index(propertyName);
   if (id >= 0)
 	return wxCSS_PROPERTY(id+1);
   return wxCSS_PROPERTY_UNKNOWN;
@@ -65,9 +69,10 @@ wxCSS_PROPERTY wxCSSStyleDeclaration::GetPropertyId(const wxString& propertyName
 
 wxString wxCSSStyleDeclaration::GetPropertyName(wxCSS_PROPERTY propertyId)
 {
+  FillCSSProperties();
   if (propertyId == wxCSS_PROPERTY_UNKNOWN)
 	return wxT("");
-  return s_cssPropertys[int(propertyId)-1];
+  return (*s_cssProperties)[int(propertyId)-1];
 }
 
 void wxCSSStyleDeclaration::SetProperty(wxCSS_PROPERTY propertyId, const wxString& svalue)
@@ -240,8 +245,17 @@ double wxCSSStyleDeclaration::ParseNumber(const wxString& value)
   return val;
 }
 
-static wxSortedArrayString* s_colours = NULL;
-#include "CSSValue_colours.h"
+static wxSortedArrayString* s_cssColors = NULL;
+#include "css_colors.cpp"
+inline void FillCSSColors()
+{
+  if (s_cssColors == NULL)
+  {
+	s_cssColors = new wxSortedArrayString;
+	for (unsigned int i=0; i<sizeof(s_cssNamedColors)/sizeof(s_cssNamedColors[0]); i++)
+	  s_cssColors->Add(s_cssNamedColors[i].name);
+  }
+}
 
 wxRGBColor wxCSSStyleDeclaration::ParseColor(const wxString& value)
 {
@@ -269,15 +283,10 @@ wxRGBColor wxCSSStyleDeclaration::ParseColor(const wxString& value)
   }
   else
   {
-	if (s_colours == NULL)
-	{
-	  s_colours = new wxSortedArrayString;
-	  for (unsigned int i=0; i<sizeof(s_namedColours)/sizeof(s_namedColours[0]); i++)
-		s_colours->Add(s_namedColours[i].name);
-	}
-	int num = s_colours->Index(value);
+	FillCSSColors();
+	int num = s_cssColors->Index(value);
 	if (num>=0)
-	  return s_namedColours[num].colour;
+	  return s_cssNamedColors[num].colour;
   }
   return wxRGBColor();
 }

@@ -16,30 +16,30 @@ class wxSVGStyleElement:
   public wxSVGElement
 {
   protected:
-	wxString m_xmlspace;
-	wxString m_type;
-	wxString m_media;
-	wxString m_title;
+    wxString m_xmlspace;
+    wxString m_type;
+    wxString m_media;
+    wxString m_title;
 
   public:
-	inline const wxString& GetXmlspace() { return m_xmlspace; }
-	inline void SetXmlspace(const wxString& n) { m_xmlspace = n; }
+    inline const wxString& GetXmlspace() { return m_xmlspace; }
+    inline void SetXmlspace(const wxString& n) { m_xmlspace = n; }
 
-	inline const wxString& GetType() { return m_type; }
-	inline void SetType(const wxString& n) { m_type = n; }
+    inline const wxString& GetType() { return m_type; }
+    inline void SetType(const wxString& n) { m_type = n; }
 
-	inline const wxString& GetMedia() { return m_media; }
-	inline void SetMedia(const wxString& n) { m_media = n; }
+    inline const wxString& GetMedia() { return m_media; }
+    inline void SetMedia(const wxString& n) { m_media = n; }
 
-	inline const wxString& GetTitle() { return m_title; }
-	inline void SetTitle(const wxString& n) { m_title = n; }
+    inline const wxString& GetTitle() { return m_title; }
+    inline void SetTitle(const wxString& n) { m_title = n; }
 
   public:
-	wxSVGStyleElement(wxSVGDocument* doc, wxString tagName = wxT("style")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGStyleElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_STYLE_ELEMENT; }
+    wxSVGStyleElement(wxSVGDocument* doc, wxString tagName = wxT("style")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGStyleElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_STYLE_ELEMENT; }
 };
 
 #endif // WX_SVG_STYLE_ELEMENT_H

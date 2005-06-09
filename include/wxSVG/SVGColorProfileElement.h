@@ -20,26 +20,26 @@ class wxSVGColorProfileElement:
   public wxSVGRenderingIntent
 {
   protected:
-	wxString m_local;
-	wxString m_name;
-	wxRENDERING_INTENT m_renderingIntent;
+    wxString m_local;
+    wxString m_name;
+    wxRENDERING_INTENT m_renderingIntent;
 
   public:
-	inline const wxString& GetLocal() { return m_local; }
-	inline void SetLocal(const wxString& n) { m_local = n; }
+    inline const wxString& GetLocal() { return m_local; }
+    inline void SetLocal(const wxString& n) { m_local = n; }
 
-	inline const wxString& GetName() { return m_name; }
-	inline void SetName(const wxString& n) { m_name = n; }
+    inline const wxString& GetName() { return m_name; }
+    inline void SetName(const wxString& n) { m_name = n; }
 
-	inline wxRENDERING_INTENT GetRenderingIntent() const { return m_renderingIntent; }
-	inline void SetRenderingIntent(const wxRENDERING_INTENT& n) { m_renderingIntent = n; }
+    inline wxRENDERING_INTENT GetRenderingIntent() const { return m_renderingIntent; }
+    inline void SetRenderingIntent(const wxRENDERING_INTENT& n) { m_renderingIntent = n; }
 
   public:
-	wxSVGColorProfileElement(wxSVGDocument* doc, wxString tagName = wxT("color-profile")):
-	  wxSVGElement(doc, tagName), m_renderingIntent(wxRENDERING_INTENT(0)) {}
-	virtual ~wxSVGColorProfileElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_COLOR_PROFILE_ELEMENT; }
+    wxSVGColorProfileElement(wxSVGDocument* doc, wxString tagName = wxT("color-profile")):
+      wxSVGElement(doc, tagName), m_renderingIntent(wxRENDERING_INTENT(0)) {}
+    virtual ~wxSVGColorProfileElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_COLOR_PROFILE_ELEMENT; }
 };
 
 #endif // WX_SVG_COLOR_PROFILE_ELEMENT_H

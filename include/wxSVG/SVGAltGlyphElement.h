@@ -18,22 +18,22 @@ class wxSVGAltGlyphElement:
   public wxSVGURIReference
 {
   protected:
-	wxString m_glyphRef;
-	wxString m_format;
+    wxString m_glyphRef;
+    wxString m_format;
 
   public:
-	inline const wxString& GetGlyphRef() { return m_glyphRef; }
-	inline void SetGlyphRef(const wxString& n) { m_glyphRef = n; }
+    inline const wxString& GetGlyphRef() { return m_glyphRef; }
+    inline void SetGlyphRef(const wxString& n) { m_glyphRef = n; }
 
-	inline const wxString& GetFormat() { return m_format; }
-	inline void SetFormat(const wxString& n) { m_format = n; }
+    inline const wxString& GetFormat() { return m_format; }
+    inline void SetFormat(const wxString& n) { m_format = n; }
 
   public:
-	wxSVGAltGlyphElement(wxSVGDocument* doc, wxString tagName = wxT("altGlyph")):
-	  wxSVGTextPositioningElement(doc, tagName) {}
-	virtual ~wxSVGAltGlyphElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_ALTGLYPH_ELEMENT; }
+    wxSVGAltGlyphElement(wxSVGDocument* doc, wxString tagName = wxT("altGlyph")):
+      wxSVGTextPositioningElement(doc, tagName) {}
+    virtual ~wxSVGAltGlyphElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_ALTGLYPH_ELEMENT; }
 };
 
 #endif // WX_SVG_ALT_GLYPH_ELEMENT_H

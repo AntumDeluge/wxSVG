@@ -15,28 +15,28 @@ class wxSVGPathSegCurvetoQuadraticAbs:
   public wxSVGPathSeg
 {
   protected:
-	float m_x;
-	float m_y;
-	float m_x1;
-	float m_y1;
+    float m_x;
+    float m_y;
+    float m_x1;
+    float m_y1;
 
   public:
-	inline float GetX() const { return m_x; }
-	inline void SetX(const float n) { m_x = n; }
+    inline float GetX() const { return m_x; }
+    inline void SetX(const float n) { m_x = n; }
 
-	inline float GetY() const { return m_y; }
-	inline void SetY(const float n) { m_y = n; }
+    inline float GetY() const { return m_y; }
+    inline void SetY(const float n) { m_y = n; }
 
-	inline float GetX1() const { return m_x1; }
-	inline void SetX1(const float n) { m_x1 = n; }
+    inline float GetX1() const { return m_x1; }
+    inline void SetX1(const float n) { m_x1 = n; }
 
-	inline float GetY1() const { return m_y1; }
-	inline void SetY1(const float n) { m_y1 = n; }
+    inline float GetY1() const { return m_y1; }
+    inline void SetY1(const float n) { m_y1 = n; }
 
   public:
-	wxSVGPathSegCurvetoQuadraticAbs():
-	  wxSVGPathSeg(wxPATHSEG_CURVETO_QUADRATIC_ABS), m_x(0), m_y(0), m_x1(0), m_y1(0) {}
-	virtual ~wxSVGPathSegCurvetoQuadraticAbs() {}
+    wxSVGPathSegCurvetoQuadraticAbs():
+      wxSVGPathSeg(wxPATHSEG_CURVETO_QUADRATIC_ABS), m_x(0), m_y(0), m_x1(0), m_y1(0) {}
+    virtual ~wxSVGPathSegCurvetoQuadraticAbs() {}
 };
 
 #endif // WX_SVG_PATH_SEG_CURVETO_QUADRATIC_ABS_H

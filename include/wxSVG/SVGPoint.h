@@ -14,21 +14,21 @@
 class wxSVGPoint
 {
   protected:
-	float m_x;
-	float m_y;
+    float m_x;
+    float m_y;
 
   public:
-	inline float GetX() const { return m_x; }
-	inline void SetX(const float n) { m_x = n; }
+    inline float GetX() const { return m_x; }
+    inline void SetX(const float n) { m_x = n; }
 
-	inline float GetY() const { return m_y; }
-	inline void SetY(const float n) { m_y = n; }
+    inline float GetY() const { return m_y; }
+    inline void SetY(const float n) { m_y = n; }
 
   public:
-	wxSVGPoint(): m_x(0), m_y(0) {}
-	wxSVGPoint(float x, float y): m_x(x), m_y(y) {}
-	virtual ~wxSVGPoint() {}
-	virtual wxSVGPoint MatrixTransform(const wxSVGMatrix& matrix);
+    wxSVGPoint(): m_x(0), m_y(0) {}
+    wxSVGPoint(float x, float y): m_x(x), m_y(y) {}
+    virtual ~wxSVGPoint() {}
+    virtual wxSVGPoint MatrixTransform(const wxSVGMatrix& matrix);
 };
 
 #endif // WX_SVG_POINT_H

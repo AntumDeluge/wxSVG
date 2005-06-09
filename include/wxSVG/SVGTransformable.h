@@ -17,18 +17,18 @@ class wxSVGTransformable:
   public wxSVGLocatable
 {
   protected:
-	wxSVGAnimatedTransformList m_transform;
+    wxSVGAnimatedTransformList m_transform;
 
   public:
-	inline wxSVGTransformList& GetTransform() { return m_transform.GetBaseVal(); }
-	inline void SetTransform(const wxSVGTransformList& n) { m_transform.GetBaseVal() = n; }
+    inline wxSVGTransformList& GetTransform() { return m_transform.GetBaseVal(); }
+    inline void SetTransform(const wxSVGTransformList& n) { m_transform.GetBaseVal() = n; }
 
   public:
-	inline wxSVGTransformList& GetAnimatedTransform() { return m_transform.GetAnimVal(); }
-	inline void SetAnimatedTransform(const wxSVGTransformList& n) { m_transform.GetAnimVal() = n; }
+    inline wxSVGTransformList& GetAnimatedTransform() { return m_transform.GetAnimVal(); }
+    inline void SetAnimatedTransform(const wxSVGTransformList& n) { m_transform.GetAnimVal() = n; }
 
   public:
-	virtual ~wxSVGTransformable() {}
+    virtual ~wxSVGTransformable() {}
 
     inline void Transform(const wxSVGMatrix& matrix)
     { m_transform.GetBaseVal().Add(new wxSVGTransform(matrix)); }
@@ -46,7 +46,7 @@ class wxSVGTransformable:
     { wxSVGTransform* t = new wxSVGTransform; t->SetSkewY(angle); m_transform.GetBaseVal().Add(t); }
 
     void UpdateMatrix(wxSVGMatrix& matrix);
-	bool SetAttribute(const wxString& name, const wxString& value);
+    bool SetAttribute(const wxString& name, const wxString& value);
 };
 
 #endif // WX_SVG_TRANSFORMABLE_H

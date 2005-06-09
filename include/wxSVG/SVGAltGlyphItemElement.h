@@ -16,11 +16,11 @@ class wxSVGAltGlyphItemElement:
   public wxSVGElement
 {
   public:
-	wxSVGAltGlyphItemElement(wxSVGDocument* doc, wxString tagName = wxT("altGlyphItem")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGAltGlyphItemElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_ALTGLYPHITEM_ELEMENT; }
+    wxSVGAltGlyphItemElement(wxSVGDocument* doc, wxString tagName = wxT("altGlyphItem")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGAltGlyphItemElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_ALTGLYPHITEM_ELEMENT; }
 };
 
 #endif // WX_SVG_ALT_GLYPH_ITEM_ELEMENT_H

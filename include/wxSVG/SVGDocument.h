@@ -23,30 +23,30 @@ class wxSVGDocument:
   public wxDocumentEvent
 {
   protected:
-	wxString m_title;
-	wxString m_referrer;
-	wxString m_domain;
-	wxString m_URL;
+    wxString m_title;
+    wxString m_referrer;
+    wxString m_domain;
+    wxString m_URL;
 
   public:
-	inline const wxString& GetTitle() { return m_title; }
-	inline void SetTitle(const wxString& n) { m_title = n; }
+    inline const wxString& GetTitle() { return m_title; }
+    inline void SetTitle(const wxString& n) { m_title = n; }
 
-	inline const wxString& GetReferrer() { return m_referrer; }
-	inline void SetReferrer(const wxString& n) { m_referrer = n; }
+    inline const wxString& GetReferrer() { return m_referrer; }
+    inline void SetReferrer(const wxString& n) { m_referrer = n; }
 
-	inline const wxString& GetDomain() { return m_domain; }
-	inline void SetDomain(const wxString& n) { m_domain = n; }
+    inline const wxString& GetDomain() { return m_domain; }
+    inline void SetDomain(const wxString& n) { m_domain = n; }
 
-	inline const wxString& GetURL() { return m_URL; }
-	inline void SetURL(const wxString& n) { m_URL = n; }
+    inline const wxString& GetURL() { return m_URL; }
+    inline void SetURL(const wxString& n) { m_URL = n; }
 
 
   protected:
 	wxSVGCanvas* m_canvas;
 
   public:
-	wxSVGDocument() { Init(); }
+    wxSVGDocument() { Init(); }
 	wxSVGDocument(const wxString& filename, const wxString& encoding = wxT("UTF-8")):
 	  wxXmlDocument(filename, encoding) { Init(); }
 	wxSVGDocument(wxInputStream& stream, const wxString& encoding = wxT("UTF-8")):

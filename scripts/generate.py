@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.4 2005-06-07 22:44:25 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.5 2005-06-09 00:17:38 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -200,7 +200,7 @@ if len(parse_idl.class_decls):
             for (typestr, attrname, ispointer, isenum) in attributes:
                 if attrname not in ['valueAsString', 'valueInSpecifiedUnits']:
                     attrname = cpp.make_attr_name(attrname)
-                    protected = protected +'\t'+typestr+' ' + attrname + ';\n'
+                    protected = protected +'    '+typestr+' ' + attrname + ';\n'
             
             # get/set methods
             animatedStr = ''
@@ -240,11 +240,11 @@ if len(parse_idl.class_decls):
                       body_str = ' { return %s.GetBaseVal(); }'%attrname_cpp
                       methodName2 = 'GetAnimated' + string.upper(attrname[0])+attrname[1:]
                       body_str2 = ' { return %s.GetAnimVal(); }'%attrname_cpp
-                      animatedStr = animatedStr + '\t' + inline + ret_str + methodName2 + '()' + const + body_str2 + '\n'
+                      animatedStr = animatedStr + '    ' + inline + ret_str + methodName2 + '()' + const + body_str2 + '\n'
                   else:
                       body_str = ' { return %s; }'%attrname_cpp
                 
-                public = public + '\t' + inline + ret_str + methodName + '()' + const + body_str + '\n'
+                public = public + '    ' + inline + ret_str + methodName + '()' + const + body_str + '\n'
                     
 
                 # set
@@ -270,10 +270,10 @@ if len(parse_idl.class_decls):
                         body_str = ' { %s.GetBaseVal()%s; '%(attrname_cpp,set_str) + '}'
                         methodName2 = 'SetAnimated' + string.upper(attrname[0])+attrname[1:]
                         body_str2 = ' { %s.GetAnimVal()%s; '%(attrname_cpp,set_str) + '}'
-                        animatedStr = animatedStr + '\t' + inline + 'void ' + methodName2 + params_str + body_str2 + '\n'
+                        animatedStr = animatedStr + '    ' + inline + 'void ' + methodName2 + params_str + body_str2 + '\n'
                     else:
                         body_str = ' { %s = n; '%attrname_cpp + '}'
-                public = public + '\t' + inline + 'void ' + methodName + params_str + body_str + '\n'
+                public = public + '    ' + inline + 'void ' + methodName + params_str + body_str + '\n'
                 public = public + '\n'
                 if animated:
                     animatedStr = animatedStr + '\n'
@@ -344,7 +344,7 @@ if len(parse_idl.class_decls):
                 element_string=''
                 if mapDtdIdl.elements_idl_dtd.has_key(classdecl):
                     element_string=mapDtdIdl.elements_idl_dtd[classdecl]
-                methods_str = methods_str + '\t%s(wxSVGDocument* doc, wxString tagName = wxT("%s")):\n\t  %s(doc, tagName)%s {}\n'%(cname, element_string, element_inherit, init_attibutes)
+                methods_str = methods_str + '    %s(wxSVGDocument* doc, wxString tagName = wxT("%s")):\n      %s(doc, tagName)%s {}\n'%(cname, element_string, element_inherit, init_attibutes)
             elif classname[0:10] == "SVGPathSeg" and len(classname)>10:
                 seg_type = string.upper(classname[10:])
                 strs = ["ABS", "REL", "HORIZONTAL", "VERTICAL", "CUBIC", "QUADRATIC", "SMOOTH"]
@@ -353,9 +353,9 @@ if len(parse_idl.class_decls):
                     if pos>0:
                         seg_type = seg_type[:pos] + "_" + seg_type[pos:]  
                 seg_type = "wxPATHSEG_" + seg_type
-                methods_str = methods_str + '\t%s():\n\t  wxSVGPathSeg(%s)%s {}\n'%(cname, seg_type, init_attibutes)
+                methods_str = methods_str + '    %s():\n      wxSVGPathSeg(%s)%s {}\n'%(cname, seg_type, init_attibutes)
             elif len(init_attibutes)>0:
-                methods_str = methods_str + '\t%s(): %s {}\n'%(cname, init_attibutes[2:])
+                methods_str = methods_str + '    %s(): %s {}\n'%(cname, init_attibutes[2:])
         
         ################# destructor #######################
         has_destructor = 0
@@ -364,7 +364,7 @@ if len(parse_idl.class_decls):
         except KeyError:
             pass
         if has_destructor==0:
-            methods_str = methods_str + '\tvirtual ~%s() {}\n'%(cpp.fix_typename(classname))
+            methods_str = methods_str + '    virtual ~%s() {}\n'%(cpp.fix_typename(classname))
         
         ################### methods #########################
         try:
@@ -420,7 +420,7 @@ if len(parse_idl.class_decls):
                 count = count+1
             
             method_decl = method_decl + ')'
-            methods_str = methods_str + '\tvirtual ' + method_ret + method_decl + ';\n';
+            methods_str = methods_str + '    virtual ' + method_ret + method_decl + ';\n';
             method_decl = cpp.fix_typename(classname) + "::" + method_decl;
             cpp_output = cpp_output + method_ret + method_decl + '\n{\n';
             if return_type != "void":
@@ -436,12 +436,12 @@ if len(parse_idl.class_decls):
         
         has_dtd_attributes=find_dtd_attr_in_inherit(classdecl)
         if has_dtd_attributes==1 and "SetAttribute" not in exclude_methods:
-            methods_str = methods_str + '\tbool SetAttribute(const wxString& name, const wxString& value);\n';
+            methods_str = methods_str + '    bool SetAttribute(const wxString& name, const wxString& value);\n';
             if "String" not in includes:
                 includes.append("String")
             doGetAttrByName=1
             if classname in ["SVGStylable"]: #makeSetAttribute.customParser
-                protected = protected + '\tbool SetCustomAttribute(const wxString& name, const wxString& value);\n';
+                protected = protected + '    bool SetCustomAttribute(const wxString& name, const wxString& value);\n';
 
         element_string=None
         if mapDtdIdl.elements_idl_dtd.has_key(classdecl):
@@ -449,7 +449,7 @@ if len(parse_idl.class_decls):
             typename = cpp.fix_typename("SVGDTD")
             dtdname = "SVG_" + string.upper(element_string) + "_ELEMENT"
             dtdname = cpp.fix_typename(cpp.make_name(dtdname))
-            methods_str = methods_str + '\tvirtual const %s GetDtd() const { return %s; }\n'%(typename,dtdname)
+            methods_str = methods_str + '    virtual const %s GetDtd() const { return %s; }\n'%(typename,dtdname)
         
         try:
             fwds = interfaces.interfaces[classname].include_fwd_decls
@@ -526,7 +526,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.4 2005-06-07 22:44:25 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.5 2005-06-09 00:17:38 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

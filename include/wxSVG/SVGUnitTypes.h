@@ -20,7 +20,7 @@ enum wxSVG_UNIT_TYPE
 class wxSVGUnitTypes
 {
   public:
-	virtual ~wxSVGUnitTypes() {}
+    virtual ~wxSVGUnitTypes() {}
 };
 
 #endif // WX_SVG_UNIT_TYPES_H

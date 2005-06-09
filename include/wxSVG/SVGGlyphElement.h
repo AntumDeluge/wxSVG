@@ -18,11 +18,11 @@ class wxSVGGlyphElement:
   public wxSVGStylable
 {
   public:
-	wxSVGGlyphElement(wxSVGDocument* doc, wxString tagName = wxT("glyph")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGGlyphElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_GLYPH_ELEMENT; }
+    wxSVGGlyphElement(wxSVGDocument* doc, wxString tagName = wxT("glyph")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGGlyphElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_GLYPH_ELEMENT; }
 };
 
 #endif // WX_SVG_GLYPH_ELEMENT_H

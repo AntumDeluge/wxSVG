@@ -39,19 +39,19 @@ enum wxPATHSEG
 class wxSVGPathSeg
 {
   protected:
-	wxPATHSEG m_pathSegType;
-	wxString m_pathSegTypeAsLetter;
+    wxPATHSEG m_pathSegType;
+    wxString m_pathSegTypeAsLetter;
 
   public:
-	inline wxPATHSEG GetPathSegType() const { return m_pathSegType; }
-	inline void SetPathSegType(const wxPATHSEG& n) { m_pathSegType = n; }
+    inline wxPATHSEG GetPathSegType() const { return m_pathSegType; }
+    inline void SetPathSegType(const wxPATHSEG& n) { m_pathSegType = n; }
 
-	inline const wxString& GetPathSegTypeAsLetter() { return m_pathSegTypeAsLetter; }
-	inline void SetPathSegTypeAsLetter(const wxString& n) { m_pathSegTypeAsLetter = n; }
+    inline const wxString& GetPathSegTypeAsLetter() { return m_pathSegTypeAsLetter; }
+    inline void SetPathSegTypeAsLetter(const wxString& n) { m_pathSegTypeAsLetter = n; }
 
   public:
-	wxSVGPathSeg(wxPATHSEG type = wxPATHSEG_UNKNOWN) { m_pathSegType = type; }
-	virtual ~wxSVGPathSeg() {}
+    wxSVGPathSeg(wxPATHSEG type = wxPATHSEG_UNKNOWN) { m_pathSegType = type; }
+    virtual ~wxSVGPathSeg() {}
 };
 
 #endif // WX_SVG_PATH_SEG_H

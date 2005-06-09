@@ -26,11 +26,11 @@ class wxSVGSymbolElement:
   public wxEventTarget
 {
   public:
-	wxSVGSymbolElement(wxSVGDocument* doc, wxString tagName = wxT("symbol")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGSymbolElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_SYMBOL_ELEMENT; }
+    wxSVGSymbolElement(wxSVGDocument* doc, wxString tagName = wxT("symbol")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGSymbolElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_SYMBOL_ELEMENT; }
 };
 
 #endif // WX_SVG_SYMBOL_ELEMENT_H

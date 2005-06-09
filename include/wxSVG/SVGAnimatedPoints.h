@@ -15,19 +15,19 @@
 class wxSVGAnimatedPoints
 {
   protected:
-	wxSVGPointList m_points;
-	wxSVGPointList m_animatedPoints;
+    wxSVGPointList m_points;
+    wxSVGPointList m_animatedPoints;
 
   public:
-	inline wxSVGPointList& GetPoints() { return m_points; }
-	inline void SetPoints(const wxSVGPointList& n) { m_points = n; }
+    inline wxSVGPointList& GetPoints() { return m_points; }
+    inline void SetPoints(const wxSVGPointList& n) { m_points = n; }
 
-	inline wxSVGPointList& GetAnimatedPoints() { return m_animatedPoints; }
-	inline void SetAnimatedPoints(const wxSVGPointList& n) { m_animatedPoints = n; }
+    inline wxSVGPointList& GetAnimatedPoints() { return m_animatedPoints; }
+    inline void SetAnimatedPoints(const wxSVGPointList& n) { m_animatedPoints = n; }
 
   public:
-	virtual ~wxSVGAnimatedPoints() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
+    virtual ~wxSVGAnimatedPoints() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
 };
 
 #endif // WX_SVG_ANIMATED_POINTS_H

@@ -19,22 +19,22 @@ class wxSVGFEFloodElement:
   public wxSVGFilterPrimitiveStandardAttributes
 {
   protected:
-	wxSVGAnimatedString m_in1;
+    wxSVGAnimatedString m_in1;
 
   public:
-	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
+    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
   public:
-	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
+    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
+    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
 
   public:
-	wxSVGFEFloodElement(wxSVGDocument* doc, wxString tagName = wxT("feFlood")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGFEFloodElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_FEFLOOD_ELEMENT; }
+    wxSVGFEFloodElement(wxSVGDocument* doc, wxString tagName = wxT("feFlood")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGFEFloodElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_FEFLOOD_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_FLOOD_ELEMENT_H

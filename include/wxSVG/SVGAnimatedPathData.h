@@ -15,27 +15,27 @@
 class wxSVGAnimatedPathData
 {
   protected:
-	wxSVGPathSegList m_pathSegList;
-	wxSVGPathSegList m_normalizedPathSegList;
-	wxSVGPathSegList m_animatedPathSegList;
-	wxSVGPathSegList m_animatedNormalizedPathSegList;
+    wxSVGPathSegList m_pathSegList;
+    wxSVGPathSegList m_normalizedPathSegList;
+    wxSVGPathSegList m_animatedPathSegList;
+    wxSVGPathSegList m_animatedNormalizedPathSegList;
 
   public:
-	inline wxSVGPathSegList& GetPathSegList() { return m_pathSegList; }
-	inline void SetPathSegList(const wxSVGPathSegList& n) { m_pathSegList = n; }
+    inline wxSVGPathSegList& GetPathSegList() { return m_pathSegList; }
+    inline void SetPathSegList(const wxSVGPathSegList& n) { m_pathSegList = n; }
 
-	inline wxSVGPathSegList& GetNormalizedPathSegList() { return m_normalizedPathSegList; }
-	inline void SetNormalizedPathSegList(const wxSVGPathSegList& n) { m_normalizedPathSegList = n; }
+    inline wxSVGPathSegList& GetNormalizedPathSegList() { return m_normalizedPathSegList; }
+    inline void SetNormalizedPathSegList(const wxSVGPathSegList& n) { m_normalizedPathSegList = n; }
 
-	inline wxSVGPathSegList& GetAnimatedPathSegList() { return m_animatedPathSegList; }
-	inline void SetAnimatedPathSegList(const wxSVGPathSegList& n) { m_animatedPathSegList = n; }
+    inline wxSVGPathSegList& GetAnimatedPathSegList() { return m_animatedPathSegList; }
+    inline void SetAnimatedPathSegList(const wxSVGPathSegList& n) { m_animatedPathSegList = n; }
 
-	inline wxSVGPathSegList& GetAnimatedNormalizedPathSegList() { return m_animatedNormalizedPathSegList; }
-	inline void SetAnimatedNormalizedPathSegList(const wxSVGPathSegList& n) { m_animatedNormalizedPathSegList = n; }
+    inline wxSVGPathSegList& GetAnimatedNormalizedPathSegList() { return m_animatedNormalizedPathSegList; }
+    inline void SetAnimatedNormalizedPathSegList(const wxSVGPathSegList& n) { m_animatedNormalizedPathSegList = n; }
 
   public:
-	virtual ~wxSVGAnimatedPathData() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
+    virtual ~wxSVGAnimatedPathData() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
 };
 
 #endif // WX_SVG_ANIMATED_PATH_DATA_H

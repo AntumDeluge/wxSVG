@@ -31,23 +31,23 @@ class wxSVGAElement:
   public wxEventTarget
 {
   protected:
-	wxSVGAnimatedString m_target;
+    wxSVGAnimatedString m_target;
 
   public:
-	inline const wxString& GetTarget() { return m_target.GetBaseVal(); }
-	inline void SetTarget(const wxString& n) { m_target.GetBaseVal() = n; }
+    inline const wxString& GetTarget() { return m_target.GetBaseVal(); }
+    inline void SetTarget(const wxString& n) { m_target.GetBaseVal() = n; }
 
   public:
-	inline const wxString& GetAnimatedTarget() { return m_target.GetAnimVal(); }
-	inline void SetAnimatedTarget(const wxString& n) { m_target.GetAnimVal() = n; }
+    inline const wxString& GetAnimatedTarget() { return m_target.GetAnimVal(); }
+    inline void SetAnimatedTarget(const wxString& n) { m_target.GetAnimVal() = n; }
 
   public:
-	wxSVGAElement(wxSVGDocument* doc, wxString tagName = wxT("a")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGAElement() {}
-	virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_A_ELEMENT; }
+    wxSVGAElement(wxSVGDocument* doc, wxString tagName = wxT("a")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGAElement() {}
+    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_A_ELEMENT; }
 };
 
 #endif // WX_SVG_A_ELEMENT_H

@@ -20,36 +20,36 @@ class wxSVGFEOffsetElement:
   public wxSVGFilterPrimitiveStandardAttributes
 {
   protected:
-	wxSVGAnimatedString m_in1;
-	wxSVGAnimatedNumber m_dx;
-	wxSVGAnimatedNumber m_dy;
+    wxSVGAnimatedString m_in1;
+    wxSVGAnimatedNumber m_dx;
+    wxSVGAnimatedNumber m_dy;
 
   public:
-	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
+    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
-	inline float GetDx() const { return m_dx.GetBaseVal(); }
-	inline void SetDx(const float n) { m_dx.GetBaseVal() = n; }
+    inline float GetDx() const { return m_dx.GetBaseVal(); }
+    inline void SetDx(const float n) { m_dx.GetBaseVal() = n; }
 
-	inline float GetDy() const { return m_dy.GetBaseVal(); }
-	inline void SetDy(const float n) { m_dy.GetBaseVal() = n; }
-
-  public:
-	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
-
-	inline float GetAnimatedDx() const { return m_dx.GetAnimVal(); }
-	inline void SetAnimatedDx(const float n) { m_dx.GetAnimVal() = n; }
-
-	inline float GetAnimatedDy() const { return m_dy.GetAnimVal(); }
-	inline void SetAnimatedDy(const float n) { m_dy.GetAnimVal() = n; }
+    inline float GetDy() const { return m_dy.GetBaseVal(); }
+    inline void SetDy(const float n) { m_dy.GetBaseVal() = n; }
 
   public:
-	wxSVGFEOffsetElement(wxSVGDocument* doc, wxString tagName = wxT("feOffset")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGFEOffsetElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_FEOFFSET_ELEMENT; }
+    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
+    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
+
+    inline float GetAnimatedDx() const { return m_dx.GetAnimVal(); }
+    inline void SetAnimatedDx(const float n) { m_dx.GetAnimVal() = n; }
+
+    inline float GetAnimatedDy() const { return m_dy.GetAnimVal(); }
+    inline void SetAnimatedDy(const float n) { m_dy.GetAnimVal() = n; }
+
+  public:
+    wxSVGFEOffsetElement(wxSVGDocument* doc, wxString tagName = wxT("feOffset")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGFEOffsetElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_FEOFFSET_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_OFFSET_ELEMENT_H

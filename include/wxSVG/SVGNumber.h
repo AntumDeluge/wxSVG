@@ -12,15 +12,15 @@
 class wxSVGNumber
 {
   protected:
-	float m_value;
+    float m_value;
 
   public:
-	inline float GetValue() const { return m_value; }
-	inline void SetValue(const float n) { m_value = n; }
+    inline float GetValue() const { return m_value; }
+    inline void SetValue(const float n) { m_value = n; }
 
   public:
-	wxSVGNumber(): m_value(0) {}
-	virtual ~wxSVGNumber() {}
+    wxSVGNumber(): m_value(0) {}
+    virtual ~wxSVGNumber() {}
 };
 
 #endif // WX_SVG_NUMBER_H

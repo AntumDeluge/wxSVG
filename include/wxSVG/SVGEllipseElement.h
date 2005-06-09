@@ -31,36 +31,36 @@ class wxSVGEllipseElement:
   public wxEventTarget
 {
   protected:
-	wxSVGAnimatedLength m_cx;
-	wxSVGAnimatedLength m_cy;
-	wxSVGAnimatedLength m_rx;
-	wxSVGAnimatedLength m_ry;
+    wxSVGAnimatedLength m_cx;
+    wxSVGAnimatedLength m_cy;
+    wxSVGAnimatedLength m_rx;
+    wxSVGAnimatedLength m_ry;
 
   public:
-	inline wxSVGLength& GetCx() { return m_cx.GetBaseVal(); }
-	inline void SetCx(const wxSVGLength& n) { m_cx.GetBaseVal() = n; }
+    inline wxSVGLength& GetCx() { return m_cx.GetBaseVal(); }
+    inline void SetCx(const wxSVGLength& n) { m_cx.GetBaseVal() = n; }
 
-	inline wxSVGLength& GetCy() { return m_cy.GetBaseVal(); }
-	inline void SetCy(const wxSVGLength& n) { m_cy.GetBaseVal() = n; }
+    inline wxSVGLength& GetCy() { return m_cy.GetBaseVal(); }
+    inline void SetCy(const wxSVGLength& n) { m_cy.GetBaseVal() = n; }
 
-	inline wxSVGLength& GetRx() { return m_rx.GetBaseVal(); }
-	inline void SetRx(const wxSVGLength& n) { m_rx.GetBaseVal() = n; }
+    inline wxSVGLength& GetRx() { return m_rx.GetBaseVal(); }
+    inline void SetRx(const wxSVGLength& n) { m_rx.GetBaseVal() = n; }
 
-	inline wxSVGLength& GetRy() { return m_ry.GetBaseVal(); }
-	inline void SetRy(const wxSVGLength& n) { m_ry.GetBaseVal() = n; }
+    inline wxSVGLength& GetRy() { return m_ry.GetBaseVal(); }
+    inline void SetRy(const wxSVGLength& n) { m_ry.GetBaseVal() = n; }
 
   public:
-	inline wxSVGLength& GetAnimatedCx() { return m_cx.GetAnimVal(); }
-	inline void SetAnimatedCx(const wxSVGLength& n) { m_cx.GetAnimVal() = n; }
+    inline wxSVGLength& GetAnimatedCx() { return m_cx.GetAnimVal(); }
+    inline void SetAnimatedCx(const wxSVGLength& n) { m_cx.GetAnimVal() = n; }
 
-	inline wxSVGLength& GetAnimatedCy() { return m_cy.GetAnimVal(); }
-	inline void SetAnimatedCy(const wxSVGLength& n) { m_cy.GetAnimVal() = n; }
+    inline wxSVGLength& GetAnimatedCy() { return m_cy.GetAnimVal(); }
+    inline void SetAnimatedCy(const wxSVGLength& n) { m_cy.GetAnimVal() = n; }
 
-	inline wxSVGLength& GetAnimatedRx() { return m_rx.GetAnimVal(); }
-	inline void SetAnimatedRx(const wxSVGLength& n) { m_rx.GetAnimVal() = n; }
+    inline wxSVGLength& GetAnimatedRx() { return m_rx.GetAnimVal(); }
+    inline void SetAnimatedRx(const wxSVGLength& n) { m_rx.GetAnimVal() = n; }
 
-	inline wxSVGLength& GetAnimatedRy() { return m_ry.GetAnimVal(); }
-	inline void SetAnimatedRy(const wxSVGLength& n) { m_ry.GetAnimVal() = n; }
+    inline wxSVGLength& GetAnimatedRy() { return m_ry.GetAnimVal(); }
+    inline void SetAnimatedRy(const wxSVGLength& n) { m_ry.GetAnimVal() = n; }
 
 
   protected:
@@ -70,12 +70,12 @@ class wxSVGEllipseElement:
 	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
 
   public:
-	wxSVGEllipseElement(wxSVGDocument* doc, wxString tagName = wxT("ellipse")):
-	  wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
-	virtual ~wxSVGEllipseElement() {}
-	wxSVGRect GetBBox();
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_ELLIPSE_ELEMENT; }
+    wxSVGEllipseElement(wxSVGDocument* doc, wxString tagName = wxT("ellipse")):
+      wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    virtual ~wxSVGEllipseElement() {}
+    wxSVGRect GetBBox();
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_ELLIPSE_ELEMENT; }
 };
 
 #endif // WX_SVG_ELLIPSE_ELEMENT_H

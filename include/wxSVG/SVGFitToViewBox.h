@@ -16,26 +16,26 @@
 class wxSVGFitToViewBox
 {
   protected:
-	wxSVGAnimatedRect m_viewBox;
-	wxSVGAnimatedPreserveAspectRatio m_preserveAspectRatio;
+    wxSVGAnimatedRect m_viewBox;
+    wxSVGAnimatedPreserveAspectRatio m_preserveAspectRatio;
 
   public:
-	inline wxSVGRect& GetViewBox() { return m_viewBox.GetBaseVal(); }
-	inline void SetViewBox(const wxSVGRect& n) { m_viewBox.GetBaseVal() = n; }
+    inline wxSVGRect& GetViewBox() { return m_viewBox.GetBaseVal(); }
+    inline void SetViewBox(const wxSVGRect& n) { m_viewBox.GetBaseVal() = n; }
 
-	inline wxSVGPreserveAspectRatio& GetPreserveAspectRatio() { return m_preserveAspectRatio.GetBaseVal(); }
-	inline void SetPreserveAspectRatio(const wxSVGPreserveAspectRatio& n) { m_preserveAspectRatio.GetBaseVal() = n; }
-
-  public:
-	inline wxSVGRect& GetAnimatedViewBox() { return m_viewBox.GetAnimVal(); }
-	inline void SetAnimatedViewBox(const wxSVGRect& n) { m_viewBox.GetAnimVal() = n; }
-
-	inline wxSVGPreserveAspectRatio& GetAnimatedPreserveAspectRatio() { return m_preserveAspectRatio.GetAnimVal(); }
-	inline void SetAnimatedPreserveAspectRatio(const wxSVGPreserveAspectRatio& n) { m_preserveAspectRatio.GetAnimVal() = n; }
+    inline wxSVGPreserveAspectRatio& GetPreserveAspectRatio() { return m_preserveAspectRatio.GetBaseVal(); }
+    inline void SetPreserveAspectRatio(const wxSVGPreserveAspectRatio& n) { m_preserveAspectRatio.GetBaseVal() = n; }
 
   public:
-	virtual ~wxSVGFitToViewBox() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
+    inline wxSVGRect& GetAnimatedViewBox() { return m_viewBox.GetAnimVal(); }
+    inline void SetAnimatedViewBox(const wxSVGRect& n) { m_viewBox.GetAnimVal() = n; }
+
+    inline wxSVGPreserveAspectRatio& GetAnimatedPreserveAspectRatio() { return m_preserveAspectRatio.GetAnimVal(); }
+    inline void SetAnimatedPreserveAspectRatio(const wxSVGPreserveAspectRatio& n) { m_preserveAspectRatio.GetAnimVal() = n; }
+
+  public:
+    virtual ~wxSVGFitToViewBox() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
 };
 
 #endif // WX_SVG_FIT_TO_VIEW_BOX_H

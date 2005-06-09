@@ -31,50 +31,50 @@ class wxSVGFEDisplacementMapElement:
   public wxSVGFilterPrimitiveStandardAttributes
 {
   protected:
-	wxSVGAnimatedString m_in1;
-	wxSVGAnimatedString m_in2;
-	wxSVGAnimatedNumber m_scale;
-	wxSVGAnimatedEnumeration m_xChannelSelector;
-	wxSVGAnimatedEnumeration m_yChannelSelector;
+    wxSVGAnimatedString m_in1;
+    wxSVGAnimatedString m_in2;
+    wxSVGAnimatedNumber m_scale;
+    wxSVGAnimatedEnumeration m_xChannelSelector;
+    wxSVGAnimatedEnumeration m_yChannelSelector;
 
   public:
-	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
+    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
-	inline const wxString& GetIn2() { return m_in2.GetBaseVal(); }
-	inline void SetIn2(const wxString& n) { m_in2.GetBaseVal() = n; }
+    inline const wxString& GetIn2() { return m_in2.GetBaseVal(); }
+    inline void SetIn2(const wxString& n) { m_in2.GetBaseVal() = n; }
 
-	inline float GetScale() const { return m_scale.GetBaseVal(); }
-	inline void SetScale(const float n) { m_scale.GetBaseVal() = n; }
+    inline float GetScale() const { return m_scale.GetBaseVal(); }
+    inline void SetScale(const float n) { m_scale.GetBaseVal() = n; }
 
-	inline char GetXChannelSelector() const { return m_xChannelSelector.GetBaseVal(); }
-	inline void SetXChannelSelector(const char n) { m_xChannelSelector.GetBaseVal() = n; }
+    inline char GetXChannelSelector() const { return m_xChannelSelector.GetBaseVal(); }
+    inline void SetXChannelSelector(const char n) { m_xChannelSelector.GetBaseVal() = n; }
 
-	inline char GetYChannelSelector() const { return m_yChannelSelector.GetBaseVal(); }
-	inline void SetYChannelSelector(const char n) { m_yChannelSelector.GetBaseVal() = n; }
-
-  public:
-	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
-
-	inline const wxString& GetAnimatedIn2() { return m_in2.GetAnimVal(); }
-	inline void SetAnimatedIn2(const wxString& n) { m_in2.GetAnimVal() = n; }
-
-	inline float GetAnimatedScale() const { return m_scale.GetAnimVal(); }
-	inline void SetAnimatedScale(const float n) { m_scale.GetAnimVal() = n; }
-
-	inline char GetAnimatedXChannelSelector() const { return m_xChannelSelector.GetAnimVal(); }
-	inline void SetAnimatedXChannelSelector(const char n) { m_xChannelSelector.GetAnimVal() = n; }
-
-	inline char GetAnimatedYChannelSelector() const { return m_yChannelSelector.GetAnimVal(); }
-	inline void SetAnimatedYChannelSelector(const char n) { m_yChannelSelector.GetAnimVal() = n; }
+    inline char GetYChannelSelector() const { return m_yChannelSelector.GetBaseVal(); }
+    inline void SetYChannelSelector(const char n) { m_yChannelSelector.GetBaseVal() = n; }
 
   public:
-	wxSVGFEDisplacementMapElement(wxSVGDocument* doc, wxString tagName = wxT("feDisplacementMap")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGFEDisplacementMapElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_FEDISPLACEMENTMAP_ELEMENT; }
+    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
+    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
+
+    inline const wxString& GetAnimatedIn2() { return m_in2.GetAnimVal(); }
+    inline void SetAnimatedIn2(const wxString& n) { m_in2.GetAnimVal() = n; }
+
+    inline float GetAnimatedScale() const { return m_scale.GetAnimVal(); }
+    inline void SetAnimatedScale(const float n) { m_scale.GetAnimVal() = n; }
+
+    inline char GetAnimatedXChannelSelector() const { return m_xChannelSelector.GetAnimVal(); }
+    inline void SetAnimatedXChannelSelector(const char n) { m_xChannelSelector.GetAnimVal() = n; }
+
+    inline char GetAnimatedYChannelSelector() const { return m_yChannelSelector.GetAnimVal(); }
+    inline void SetAnimatedYChannelSelector(const char n) { m_yChannelSelector.GetAnimVal() = n; }
+
+  public:
+    wxSVGFEDisplacementMapElement(wxSVGDocument* doc, wxString tagName = wxT("feDisplacementMap")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGFEDisplacementMapElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_FEDISPLACEMENTMAP_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_DISPLACEMENT_MAP_ELEMENT_H

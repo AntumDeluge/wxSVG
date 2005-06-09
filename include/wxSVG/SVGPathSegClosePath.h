@@ -15,9 +15,9 @@ class wxSVGPathSegClosePath:
   public wxSVGPathSeg
 {
   public:
-	wxSVGPathSegClosePath():
-	  wxSVGPathSeg(wxPATHSEG_CLOSEPATH) {}
-	virtual ~wxSVGPathSegClosePath() {}
+    wxSVGPathSegClosePath():
+      wxSVGPathSeg(wxPATHSEG_CLOSEPATH) {}
+    virtual ~wxSVGPathSegClosePath() {}
 };
 
 #endif // WX_SVG_PATH_SEG_CLOSE_PATH_H

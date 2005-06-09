@@ -31,36 +31,36 @@ class wxSVGFEColorMatrixElement:
   public wxSVGFilterPrimitiveStandardAttributes
 {
   protected:
-	wxSVGAnimatedString m_in1;
-	wxSVGAnimatedEnumeration m_type;
-	wxSVGAnimatedNumberList m_values;
+    wxSVGAnimatedString m_in1;
+    wxSVGAnimatedEnumeration m_type;
+    wxSVGAnimatedNumberList m_values;
 
   public:
-	inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-	inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
+    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
 
-	inline char GetType() const { return m_type.GetBaseVal(); }
-	inline void SetType(const char n) { m_type.GetBaseVal() = n; }
+    inline char GetType() const { return m_type.GetBaseVal(); }
+    inline void SetType(const char n) { m_type.GetBaseVal() = n; }
 
-	inline wxSVGNumberList& GetValues() { return m_values.GetBaseVal(); }
-	inline void SetValues(const wxSVGNumberList& n) { m_values.GetBaseVal() = n; }
-
-  public:
-	inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-	inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
-
-	inline char GetAnimatedType() const { return m_type.GetAnimVal(); }
-	inline void SetAnimatedType(const char n) { m_type.GetAnimVal() = n; }
-
-	inline wxSVGNumberList& GetAnimatedValues() { return m_values.GetAnimVal(); }
-	inline void SetAnimatedValues(const wxSVGNumberList& n) { m_values.GetAnimVal() = n; }
+    inline wxSVGNumberList& GetValues() { return m_values.GetBaseVal(); }
+    inline void SetValues(const wxSVGNumberList& n) { m_values.GetBaseVal() = n; }
 
   public:
-	wxSVGFEColorMatrixElement(wxSVGDocument* doc, wxString tagName = wxT("feColorMatrix")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGFEColorMatrixElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_FECOLORMATRIX_ELEMENT; }
+    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
+    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
+
+    inline char GetAnimatedType() const { return m_type.GetAnimVal(); }
+    inline void SetAnimatedType(const char n) { m_type.GetAnimVal() = n; }
+
+    inline wxSVGNumberList& GetAnimatedValues() { return m_values.GetAnimVal(); }
+    inline void SetAnimatedValues(const wxSVGNumberList& n) { m_values.GetAnimVal() = n; }
+
+  public:
+    wxSVGFEColorMatrixElement(wxSVGDocument* doc, wxString tagName = wxT("feColorMatrix")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGFEColorMatrixElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_FECOLORMATRIX_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_COLOR_MATRIX_ELEMENT_H

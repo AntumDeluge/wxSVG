@@ -23,18 +23,18 @@ class wxSVGViewElement:
   public wxSVGZoomAndPan
 {
   protected:
-	wxSVGStringList m_viewTarget;
+    wxSVGStringList m_viewTarget;
 
   public:
-	inline wxSVGStringList& GetViewTarget() { return m_viewTarget; }
-	inline void SetViewTarget(const wxSVGStringList& n) { m_viewTarget = n; }
+    inline wxSVGStringList& GetViewTarget() { return m_viewTarget; }
+    inline void SetViewTarget(const wxSVGStringList& n) { m_viewTarget = n; }
 
   public:
-	wxSVGViewElement(wxSVGDocument* doc, wxString tagName = wxT("view")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGViewElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_VIEW_ELEMENT; }
+    wxSVGViewElement(wxSVGDocument* doc, wxString tagName = wxT("view")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGViewElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_VIEW_ELEMENT; }
 };
 
 #endif // WX_SVG_VIEW_ELEMENT_H

@@ -15,19 +15,19 @@
 class wxSVGURIReference
 {
   protected:
-	wxSVGAnimatedString m_href;
+    wxSVGAnimatedString m_href;
 
   public:
-	inline const wxString& GetHref() { return m_href.GetBaseVal(); }
-	inline void SetHref(const wxString& n) { m_href.GetBaseVal() = n; }
+    inline const wxString& GetHref() { return m_href.GetBaseVal(); }
+    inline void SetHref(const wxString& n) { m_href.GetBaseVal() = n; }
 
   public:
-	inline const wxString& GetAnimatedHref() { return m_href.GetAnimVal(); }
-	inline void SetAnimatedHref(const wxString& n) { m_href.GetAnimVal() = n; }
+    inline const wxString& GetAnimatedHref() { return m_href.GetAnimVal(); }
+    inline void SetAnimatedHref(const wxString& n) { m_href.GetAnimVal() = n; }
 
   public:
-	virtual ~wxSVGURIReference() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
+    virtual ~wxSVGURIReference() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
 };
 
 #endif // WX_SVG_URI_REFERENCE_H

@@ -16,11 +16,11 @@ class wxSVGFEFuncAElement:
   public wxSVGComponentTransferFunctionElement
 {
   public:
-	wxSVGFEFuncAElement(wxSVGDocument* doc, wxString tagName = wxT("feFuncA")):
-	  wxSVGComponentTransferFunctionElement(doc, tagName) {}
-	virtual ~wxSVGFEFuncAElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_FEFUNCA_ELEMENT; }
+    wxSVGFEFuncAElement(wxSVGDocument* doc, wxString tagName = wxT("feFuncA")):
+      wxSVGComponentTransferFunctionElement(doc, tagName) {}
+    virtual ~wxSVGFEFuncAElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_FEFUNCA_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_FUNC_A_ELEMENT_H

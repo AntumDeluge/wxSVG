@@ -14,19 +14,19 @@
 class wxSVGLangSpace
 {
   protected:
-	wxString m_xmllang;
-	wxString m_xmlspace;
+    wxString m_xmllang;
+    wxString m_xmlspace;
 
   public:
-	inline const wxString& GetXmllang() { return m_xmllang; }
-	inline void SetXmllang(const wxString& n) { m_xmllang = n; }
+    inline const wxString& GetXmllang() { return m_xmllang; }
+    inline void SetXmllang(const wxString& n) { m_xmllang = n; }
 
-	inline const wxString& GetXmlspace() { return m_xmlspace; }
-	inline void SetXmlspace(const wxString& n) { m_xmlspace = n; }
+    inline const wxString& GetXmlspace() { return m_xmlspace; }
+    inline void SetXmlspace(const wxString& n) { m_xmlspace = n; }
 
   public:
-	virtual ~wxSVGLangSpace() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
+    virtual ~wxSVGLangSpace() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
 };
 
 #endif // WX_SVG_LANG_SPACE_H

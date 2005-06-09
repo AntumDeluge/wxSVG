@@ -16,11 +16,11 @@ class wxSVGMetadataElement:
   public wxSVGElement
 {
   public:
-	wxSVGMetadataElement(wxSVGDocument* doc, wxString tagName = wxT("metadata")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGMetadataElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_METADATA_ELEMENT; }
+    wxSVGMetadataElement(wxSVGDocument* doc, wxString tagName = wxT("metadata")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGMetadataElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_METADATA_ELEMENT; }
 };
 
 #endif // WX_SVG_METADATA_ELEMENT_H

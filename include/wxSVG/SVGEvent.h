@@ -15,7 +15,7 @@ class wxSVGEvent:
   public wxEvent
 {
   public:
-	virtual ~wxSVGEvent() {}
+    virtual ~wxSVGEvent() {}
 };
 
 #endif // WX_SVG_EVENT_H

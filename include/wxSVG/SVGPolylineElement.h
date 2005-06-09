@@ -40,12 +40,12 @@ class wxSVGPolylineElement:
 	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
 
   public:
-	wxSVGPolylineElement(wxSVGDocument* doc, wxString tagName = wxT("polyline")):
-	  wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
-	virtual ~wxSVGPolylineElement() {}
-	wxSVGRect GetBBox();
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_POLYLINE_ELEMENT; }
+    wxSVGPolylineElement(wxSVGDocument* doc, wxString tagName = wxT("polyline")):
+      wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    virtual ~wxSVGPolylineElement() {}
+    wxSVGRect GetBBox();
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_POLYLINE_ELEMENT; }
 };
 
 #endif // WX_SVG_POLYLINE_ELEMENT_H

@@ -17,16 +17,16 @@
 class wxSVGStylable
 {
   protected:
-	wxSVGAnimatedString m_className;
-	wxCSSStyleDeclaration m_style;
-	bool SetCustomAttribute(const wxString& name, const wxString& value);
+    wxSVGAnimatedString m_className;
+    wxCSSStyleDeclaration m_style;
+    bool SetCustomAttribute(const wxString& name, const wxString& value);
 
   public:
-	inline const wxString& GetClassName() { return m_className.GetBaseVal(); }
-	inline void SetClassName(const wxString& n) { m_className.GetBaseVal() = n; }
+    inline const wxString& GetClassName() { return m_className.GetBaseVal(); }
+    inline void SetClassName(const wxString& n) { m_className.GetBaseVal() = n; }
 
-	inline wxCSSStyleDeclaration& GetStyle() { return m_style; }
-	inline void SetStyle(const wxCSSStyleDeclaration& n) { m_style = n; }
+    inline wxCSSStyleDeclaration& GetStyle() { return m_style; }
+    inline void SetStyle(const wxCSSStyleDeclaration& n) { m_style = n; }
 
   public:
     inline void SetClipPath(const wxString& value) { m_style.SetClipPath(value); }
@@ -146,10 +146,10 @@ class wxSVGStylable
     inline bool HasVisibility() { return m_style.HasVisibility(); }
     
   public:
-	virtual ~wxSVGStylable() {}
-	inline void UpdateStyle(wxCSSStyleDeclaration& style) { style.Add(GetStyle()); }
-	virtual const wxCSSValue& GetPresentationAttribute(const wxString& name);
-	bool SetAttribute(const wxString& name, const wxString& value);
+    virtual ~wxSVGStylable() {}
+    inline void UpdateStyle(wxCSSStyleDeclaration& style) { style.Add(GetStyle()); }
+    virtual const wxCSSValue& GetPresentationAttribute(const wxString& name);
+    bool SetAttribute(const wxString& name, const wxString& value);
 };
 
 #endif // WX_SVG_STYLABLE_H

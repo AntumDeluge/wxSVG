@@ -16,11 +16,11 @@ class wxSVGFontFaceNameElement:
   public wxSVGElement
 {
   public:
-	wxSVGFontFaceNameElement(wxSVGDocument* doc, wxString tagName = wxT("font-face-name")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGFontFaceNameElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_FONT_FACE_NAME_ELEMENT; }
+    wxSVGFontFaceNameElement(wxSVGDocument* doc, wxString tagName = wxT("font-face-name")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGFontFaceNameElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_FONT_FACE_NAME_ELEMENT; }
 };
 
 #endif // WX_SVG_FONT_FACE_NAME_ELEMENT_H

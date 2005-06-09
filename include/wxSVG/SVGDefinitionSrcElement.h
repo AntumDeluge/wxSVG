@@ -16,11 +16,11 @@ class wxSVGDefinitionSrcElement:
   public wxSVGElement
 {
   public:
-	wxSVGDefinitionSrcElement(wxSVGDocument* doc, wxString tagName = wxT("definition-src")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGDefinitionSrcElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_DEFINITION_SRC_ELEMENT; }
+    wxSVGDefinitionSrcElement(wxSVGDocument* doc, wxString tagName = wxT("definition-src")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGDefinitionSrcElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_DEFINITION_SRC_ELEMENT; }
 };
 
 #endif // WX_SVG_DEFINITION_SRC_ELEMENT_H

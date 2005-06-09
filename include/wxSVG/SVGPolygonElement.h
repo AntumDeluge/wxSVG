@@ -40,12 +40,12 @@ class wxSVGPolygonElement:
 	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
 
   public:
-	wxSVGPolygonElement(wxSVGDocument* doc, wxString tagName = wxT("polygon")):
-	  wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
-	virtual ~wxSVGPolygonElement() {}
-	wxSVGRect GetBBox();
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_POLYGON_ELEMENT; }
+    wxSVGPolygonElement(wxSVGDocument* doc, wxString tagName = wxT("polygon")):
+      wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    virtual ~wxSVGPolygonElement() {}
+    wxSVGRect GetBBox();
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_POLYGON_ELEMENT; }
 };
 
 #endif // WX_SVG_POLYGON_ELEMENT_H

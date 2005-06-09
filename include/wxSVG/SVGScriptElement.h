@@ -20,18 +20,18 @@ class wxSVGScriptElement:
   public wxSVGExternalResourcesRequired
 {
   protected:
-	wxString m_type;
+    wxString m_type;
 
   public:
-	inline const wxString& GetType() { return m_type; }
-	inline void SetType(const wxString& n) { m_type = n; }
+    inline const wxString& GetType() { return m_type; }
+    inline void SetType(const wxString& n) { m_type = n; }
 
   public:
-	wxSVGScriptElement(wxSVGDocument* doc, wxString tagName = wxT("script")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGScriptElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_SCRIPT_ELEMENT; }
+    wxSVGScriptElement(wxSVGDocument* doc, wxString tagName = wxT("script")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGScriptElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_SCRIPT_ELEMENT; }
 };
 
 #endif // WX_SVG_SCRIPT_ELEMENT_H

@@ -19,27 +19,27 @@ class wxSVGElement;
 class wxSVGLocatable
 {
   protected:
-	wxSVGElement* m_nearestViewportElement;
-	wxSVGElement* m_farthestViewportElement;
-	wxSVGMatrix m_screenCTM;
+    wxSVGElement* m_nearestViewportElement;
+    wxSVGElement* m_farthestViewportElement;
+    wxSVGMatrix m_screenCTM;
 
   public:
-	inline wxSVGElement* GetNearestViewportElement() { return m_nearestViewportElement; }
-	inline void SetNearestViewportElement(wxSVGElement* n) { m_nearestViewportElement = n; }
+    inline wxSVGElement* GetNearestViewportElement() { return m_nearestViewportElement; }
+    inline void SetNearestViewportElement(wxSVGElement* n) { m_nearestViewportElement = n; }
 
-	inline wxSVGElement* GetFarthestViewportElement() { return m_farthestViewportElement; }
-	inline void SetFarthestViewportElement(wxSVGElement* n) { m_farthestViewportElement = n; }
+    inline wxSVGElement* GetFarthestViewportElement() { return m_farthestViewportElement; }
+    inline void SetFarthestViewportElement(wxSVGElement* n) { m_farthestViewportElement = n; }
 
-	inline wxSVGMatrix& GetScreenCTM() { return m_screenCTM; }
-	inline void SetScreenCTM(const wxSVGMatrix& n) { m_screenCTM = n; }
+    inline wxSVGMatrix& GetScreenCTM() { return m_screenCTM; }
+    inline void SetScreenCTM(const wxSVGMatrix& n) { m_screenCTM = n; }
 
   public:
-	wxSVGLocatable(): m_nearestViewportElement(NULL), m_farthestViewportElement(NULL) {}
-	virtual ~wxSVGLocatable() {}
-	virtual wxSVGRect GetBBox() { return wxSVGRect(); }
-	static wxSVGRect GetBBox(wxSVGElement* parent);
-	virtual wxSVGMatrix GetCTM();
-	virtual wxSVGMatrix GetTransformToElement(const wxSVGElement& element);
+    wxSVGLocatable(): m_nearestViewportElement(NULL), m_farthestViewportElement(NULL) {}
+    virtual ~wxSVGLocatable() {}
+    virtual wxSVGRect GetBBox() { return wxSVGRect(); }
+    static wxSVGRect GetBBox(wxSVGElement* parent);
+    virtual wxSVGMatrix GetCTM();
+    virtual wxSVGMatrix GetTransformToElement(const wxSVGElement& element);
 };
 
 #endif // WX_SVG_LOCATABLE_H

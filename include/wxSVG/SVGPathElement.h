@@ -53,15 +53,15 @@ class wxSVGPathElement:
   public wxSVGAnimatedPathData
 {
   protected:
-	wxSVGAnimatedNumber m_pathLength;
+    wxSVGAnimatedNumber m_pathLength;
 
   public:
-	inline float GetPathLength() const { return m_pathLength.GetBaseVal(); }
-	inline void SetPathLength(const float n) { m_pathLength.GetBaseVal() = n; }
+    inline float GetPathLength() const { return m_pathLength.GetBaseVal(); }
+    inline void SetPathLength(const float n) { m_pathLength.GetBaseVal() = n; }
 
   public:
-	inline float GetAnimatedPathLength() const { return m_pathLength.GetAnimVal(); }
-	inline void SetAnimatedPathLength(const float n) { m_pathLength.GetAnimVal() = n; }
+    inline float GetAnimatedPathLength() const { return m_pathLength.GetAnimVal(); }
+    inline void SetAnimatedPathLength(const float n) { m_pathLength.GetAnimVal() = n; }
 
 
   protected:
@@ -71,34 +71,34 @@ class wxSVGPathElement:
 	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
 
   public:
-	wxSVGPathElement(wxSVGDocument* doc, wxString tagName = wxT("path")):
-	  wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
-	virtual ~wxSVGPathElement() {}
-	wxSVGRect GetBBox();
-	virtual float GetTotalLength();
-	virtual wxSVGPoint GetPointAtLength(float distance);
-	virtual unsigned long GetPathSegAtLength(float distance);
-	virtual wxSVGPathSegClosePath CreateSVGPathSegClosePath();
-	virtual wxSVGPathSegMovetoAbs CreateSVGPathSegMovetoAbs(float x, float y);
-	virtual wxSVGPathSegMovetoRel CreateSVGPathSegMovetoRel(float x, float y);
-	virtual wxSVGPathSegLinetoAbs CreateSVGPathSegLinetoAbs(float x, float y);
-	virtual wxSVGPathSegLinetoRel CreateSVGPathSegLinetoRel(float x, float y);
-	virtual wxSVGPathSegCurvetoCubicAbs CreateSVGPathSegCurvetoCubicAbs(float x, float y, float x1, float y1, float x2, float y2);
-	virtual wxSVGPathSegCurvetoCubicRel CreateSVGPathSegCurvetoCubicRel(float x, float y, float x1, float y1, float x2, float y2);
-	virtual wxSVGPathSegCurvetoQuadraticAbs CreateSVGPathSegCurvetoQuadraticAbs(float x, float y, float x1, float y1);
-	virtual wxSVGPathSegCurvetoQuadraticRel CreateSVGPathSegCurvetoQuadraticRel(float x, float y, float x1, float y1);
-	virtual wxSVGPathSegArcAbs CreateSVGPathSegArcAbs(float x, float y, float r1, float r2, float angle, bool largeArcFlag, bool sweepFlag);
-	virtual wxSVGPathSegArcRel CreateSVGPathSegArcRel(float x, float y, float r1, float r2, float angle, bool largeArcFlag, bool sweepFlag);
-	virtual wxSVGPathSegLinetoHorizontalAbs CreateSVGPathSegLinetoHorizontalAbs(float x);
-	virtual wxSVGPathSegLinetoHorizontalRel CreateSVGPathSegLinetoHorizontalRel(float x);
-	virtual wxSVGPathSegLinetoVerticalAbs CreateSVGPathSegLinetoVerticalAbs(float y);
-	virtual wxSVGPathSegLinetoVerticalRel CreateSVGPathSegLinetoVerticalRel(float y);
-	virtual wxSVGPathSegCurvetoCubicSmoothAbs CreateSVGPathSegCurvetoCubicSmoothAbs(float x, float y, float x2, float y2);
-	virtual wxSVGPathSegCurvetoCubicSmoothRel CreateSVGPathSegCurvetoCubicSmoothRel(float x, float y, float x2, float y2);
-	virtual wxSVGPathSegCurvetoQuadraticSmoothAbs CreateSVGPathSegCurvetoQuadraticSmoothAbs(float x, float y);
-	virtual wxSVGPathSegCurvetoQuadraticSmoothRel CreateSVGPathSegCurvetoQuadraticSmoothRel(float x, float y);
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_PATH_ELEMENT; }
+    wxSVGPathElement(wxSVGDocument* doc, wxString tagName = wxT("path")):
+      wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    virtual ~wxSVGPathElement() {}
+    wxSVGRect GetBBox();
+    virtual float GetTotalLength();
+    virtual wxSVGPoint GetPointAtLength(float distance);
+    virtual unsigned long GetPathSegAtLength(float distance);
+    virtual wxSVGPathSegClosePath CreateSVGPathSegClosePath();
+    virtual wxSVGPathSegMovetoAbs CreateSVGPathSegMovetoAbs(float x, float y);
+    virtual wxSVGPathSegMovetoRel CreateSVGPathSegMovetoRel(float x, float y);
+    virtual wxSVGPathSegLinetoAbs CreateSVGPathSegLinetoAbs(float x, float y);
+    virtual wxSVGPathSegLinetoRel CreateSVGPathSegLinetoRel(float x, float y);
+    virtual wxSVGPathSegCurvetoCubicAbs CreateSVGPathSegCurvetoCubicAbs(float x, float y, float x1, float y1, float x2, float y2);
+    virtual wxSVGPathSegCurvetoCubicRel CreateSVGPathSegCurvetoCubicRel(float x, float y, float x1, float y1, float x2, float y2);
+    virtual wxSVGPathSegCurvetoQuadraticAbs CreateSVGPathSegCurvetoQuadraticAbs(float x, float y, float x1, float y1);
+    virtual wxSVGPathSegCurvetoQuadraticRel CreateSVGPathSegCurvetoQuadraticRel(float x, float y, float x1, float y1);
+    virtual wxSVGPathSegArcAbs CreateSVGPathSegArcAbs(float x, float y, float r1, float r2, float angle, bool largeArcFlag, bool sweepFlag);
+    virtual wxSVGPathSegArcRel CreateSVGPathSegArcRel(float x, float y, float r1, float r2, float angle, bool largeArcFlag, bool sweepFlag);
+    virtual wxSVGPathSegLinetoHorizontalAbs CreateSVGPathSegLinetoHorizontalAbs(float x);
+    virtual wxSVGPathSegLinetoHorizontalRel CreateSVGPathSegLinetoHorizontalRel(float x);
+    virtual wxSVGPathSegLinetoVerticalAbs CreateSVGPathSegLinetoVerticalAbs(float y);
+    virtual wxSVGPathSegLinetoVerticalRel CreateSVGPathSegLinetoVerticalRel(float y);
+    virtual wxSVGPathSegCurvetoCubicSmoothAbs CreateSVGPathSegCurvetoCubicSmoothAbs(float x, float y, float x2, float y2);
+    virtual wxSVGPathSegCurvetoCubicSmoothRel CreateSVGPathSegCurvetoCubicSmoothRel(float x, float y, float x2, float y2);
+    virtual wxSVGPathSegCurvetoQuadraticSmoothAbs CreateSVGPathSegCurvetoQuadraticSmoothAbs(float x, float y);
+    virtual wxSVGPathSegCurvetoQuadraticSmoothRel CreateSVGPathSegCurvetoQuadraticSmoothRel(float x, float y);
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_PATH_ELEMENT; }
 };
 
 #endif // WX_SVG_PATH_ELEMENT_H

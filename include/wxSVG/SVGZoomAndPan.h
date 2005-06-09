@@ -22,16 +22,16 @@ enum wxSVG_ZOOMANDPAN
 class wxSVGZoomAndPan
 {
   protected:
-	wxSVG_ZOOMANDPAN m_zoomAndPan;
+    wxSVG_ZOOMANDPAN m_zoomAndPan;
 
   public:
-	inline wxSVG_ZOOMANDPAN GetZoomAndPan() const { return m_zoomAndPan; }
-	inline void SetZoomAndPan(const wxSVG_ZOOMANDPAN& n) { m_zoomAndPan = n; }
+    inline wxSVG_ZOOMANDPAN GetZoomAndPan() const { return m_zoomAndPan; }
+    inline void SetZoomAndPan(const wxSVG_ZOOMANDPAN& n) { m_zoomAndPan = n; }
 
   public:
-	wxSVGZoomAndPan(): m_zoomAndPan(wxSVG_ZOOMANDPAN(0)) {}
-	virtual ~wxSVGZoomAndPan() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
+    wxSVGZoomAndPan(): m_zoomAndPan(wxSVG_ZOOMANDPAN(0)) {}
+    virtual ~wxSVGZoomAndPan() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
 };
 
 #endif // WX_SVG_ZOOM_AND_PAN_H

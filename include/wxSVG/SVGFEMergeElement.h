@@ -18,11 +18,11 @@ class wxSVGFEMergeElement:
   public wxSVGFilterPrimitiveStandardAttributes
 {
   public:
-	wxSVGFEMergeElement(wxSVGDocument* doc, wxString tagName = wxT("feMerge")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGFEMergeElement() {}
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_FEMERGE_ELEMENT; }
+    wxSVGFEMergeElement(wxSVGDocument* doc, wxString tagName = wxT("feMerge")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGFEMergeElement() {}
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_FEMERGE_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_MERGE_ELEMENT_H

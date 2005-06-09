@@ -28,12 +28,12 @@ class wxSVGDefsElement:
   public wxEventTarget
 {
   public:
-	wxSVGDefsElement(wxSVGDocument* doc, wxString tagName = wxT("defs")):
-	  wxSVGElement(doc, tagName) {}
-	virtual ~wxSVGDefsElement() {}
-	virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }
-	bool SetAttribute(const wxString& name, const wxString& value);
-	virtual const wxSVGDTD GetDtd() const { return wxSVG_DEFS_ELEMENT; }
+    wxSVGDefsElement(wxSVGDocument* doc, wxString tagName = wxT("defs")):
+      wxSVGElement(doc, tagName) {}
+    virtual ~wxSVGDefsElement() {}
+    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }
+    bool SetAttribute(const wxString& name, const wxString& value);
+    virtual const wxSVGDTD GetDtd() const { return wxSVG_DEFS_ELEMENT; }
 };
 
 #endif // WX_SVG_DEFS_ELEMENT_H
