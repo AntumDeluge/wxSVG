@@ -30,6 +30,7 @@ class wxSVGScriptElement:
     wxSVGScriptElement(wxSVGDocument* doc, wxString tagName = wxT("script")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGScriptElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGScriptElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_SCRIPT_ELEMENT; }
 };

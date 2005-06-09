@@ -89,6 +89,7 @@ class wxSVGFECompositeElement:
     wxSVGFECompositeElement(wxSVGDocument* doc, wxString tagName = wxT("feComposite")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFECompositeElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFECompositeElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FECOMPOSITE_ELEMENT; }
 };

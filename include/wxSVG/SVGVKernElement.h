@@ -19,6 +19,7 @@ class wxSVGVKernElement:
     wxSVGVKernElement(wxSVGDocument* doc, wxString tagName = wxT("vkern")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGVKernElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGVKernElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_VKERN_ELEMENT; }
 };

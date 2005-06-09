@@ -59,6 +59,7 @@ class wxSVGRadialGradientElement:
     wxSVGRadialGradientElement(wxSVGDocument* doc, wxString tagName = wxT("radialGradient")):
       wxSVGGradientElement(doc, tagName) {}
     virtual ~wxSVGRadialGradientElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGRadialGradientElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_RADIALGRADIENT_ELEMENT; }
 };

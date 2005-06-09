@@ -19,6 +19,7 @@ class wxSVGFontFaceSrcElement:
     wxSVGFontFaceSrcElement(wxSVGDocument* doc, wxString tagName = wxT("font-face-src")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFontFaceSrcElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFontFaceSrcElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FONT_FACE_SRC_ELEMENT; }
 };

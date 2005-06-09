@@ -21,6 +21,7 @@ class wxSVGTRefElement:
     wxSVGTRefElement(wxSVGDocument* doc, wxString tagName = wxT("tref")):
       wxSVGTextPositioningElement(doc, tagName) {}
     virtual ~wxSVGTRefElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTRefElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_TREF_ELEMENT; }
 };

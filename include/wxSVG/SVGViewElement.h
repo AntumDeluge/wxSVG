@@ -33,6 +33,7 @@ class wxSVGViewElement:
     wxSVGViewElement(wxSVGDocument* doc, wxString tagName = wxT("view")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGViewElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGViewElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_VIEW_ELEMENT; }
 };

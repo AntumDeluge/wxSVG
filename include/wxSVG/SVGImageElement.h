@@ -83,6 +83,7 @@ class wxSVGImageElement:
     wxSVGImageElement(wxSVGDocument* doc, wxString tagName = wxT("image")):
       wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
     virtual ~wxSVGImageElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGImageElement(*this); }
     wxSVGRect GetBBox();
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_IMAGE_ELEMENT; }

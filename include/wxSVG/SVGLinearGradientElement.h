@@ -52,6 +52,7 @@ class wxSVGLinearGradientElement:
     wxSVGLinearGradientElement(wxSVGDocument* doc, wxString tagName = wxT("linearGradient")):
       wxSVGGradientElement(doc, tagName) {}
     virtual ~wxSVGLinearGradientElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGLinearGradientElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_LINEARGRADIENT_ELEMENT; }
 };

@@ -50,6 +50,7 @@ class wxSVGGlyphRefElement:
     wxSVGGlyphRefElement(wxSVGDocument* doc, wxString tagName = wxT("glyphRef")):
       wxSVGElement(doc, tagName), m_x(0), m_y(0), m_dx(0), m_dy(0) {}
     virtual ~wxSVGGlyphRefElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGGlyphRefElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_GLYPHREF_ELEMENT; }
 };

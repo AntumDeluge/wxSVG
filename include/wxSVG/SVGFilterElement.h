@@ -92,6 +92,7 @@ class wxSVGFilterElement:
     wxSVGFilterElement(wxSVGDocument* doc, wxString tagName = wxT("filter")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFilterElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFilterElement(*this); }
     virtual void SetFilterRes(unsigned long filterResX, unsigned long filterResY);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FILTER_ELEMENT; }

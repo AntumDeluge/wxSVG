@@ -38,6 +38,7 @@ class wxSVGFEDistantLightElement:
     wxSVGFEDistantLightElement(wxSVGDocument* doc, wxString tagName = wxT("feDistantLight")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFEDistantLightElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEDistantLightElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEDISTANTLIGHT_ELEMENT; }
 };

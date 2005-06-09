@@ -56,7 +56,8 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
 {
   public:
     wxCSSStyleDeclaration() {}
-    void Add(wxCSSStyleDeclaration& style);
+	wxCSSStyleDeclaration(const wxCSSStyleDeclaration& src) { Add(src); }
+    void Add(const wxCSSStyleDeclaration& style);
 
   public:
     wxString GetCSSText();

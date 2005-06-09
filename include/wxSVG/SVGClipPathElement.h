@@ -43,6 +43,7 @@ class wxSVGClipPathElement:
     wxSVGClipPathElement(wxSVGDocument* doc, wxString tagName = wxT("clipPath")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGClipPathElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGClipPathElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_CLIPPATH_ELEMENT; }
 };

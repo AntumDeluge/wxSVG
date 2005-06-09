@@ -3,7 +3,7 @@
 // Purpose:     wxXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: xml.h,v 1.3 2005-06-07 22:04:22 ntalex Exp $
+// RCS-ID:      $Id: xml.h,v 1.4 2005-06-09 16:31:08 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -105,6 +105,7 @@ public:
     // On the other hand, it DOES copy children and properties.
     wxXmlNode(const wxXmlNode& node);
     wxXmlNode& operator=(const wxXmlNode& node);
+	wxXmlNode* CloneNode(bool deep = true) { return new wxXmlNode(*this); }
 
     // user-friendly creation:
     wxXmlNode(wxXmlNodeType type, const wxString& name,

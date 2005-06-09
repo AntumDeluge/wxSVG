@@ -19,6 +19,7 @@ class wxSVGFEFuncAElement:
     wxSVGFEFuncAElement(wxSVGDocument* doc, wxString tagName = wxT("feFuncA")):
       wxSVGComponentTransferFunctionElement(doc, tagName) {}
     virtual ~wxSVGFEFuncAElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEFuncAElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEFUNCA_ELEMENT; }
 };

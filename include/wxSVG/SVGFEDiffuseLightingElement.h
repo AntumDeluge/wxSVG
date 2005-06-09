@@ -48,6 +48,7 @@ class wxSVGFEDiffuseLightingElement:
     wxSVGFEDiffuseLightingElement(wxSVGDocument* doc, wxString tagName = wxT("feDiffuseLighting")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFEDiffuseLightingElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEDiffuseLightingElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEDIFFUSELIGHTING_ELEMENT; }
 };

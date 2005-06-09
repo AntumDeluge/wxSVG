@@ -33,6 +33,7 @@ class wxSVGFEFloodElement:
     wxSVGFEFloodElement(wxSVGDocument* doc, wxString tagName = wxT("feFlood")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFEFloodElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEFloodElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEFLOOD_ELEMENT; }
 };

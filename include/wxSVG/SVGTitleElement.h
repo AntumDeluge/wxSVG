@@ -23,6 +23,7 @@ class wxSVGTitleElement:
     wxSVGTitleElement(wxSVGDocument* doc, wxString tagName = wxT("title")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGTitleElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTitleElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_TITLE_ELEMENT; }
 };

@@ -59,6 +59,7 @@ class wxSVGFEBlendElement:
     wxSVGFEBlendElement(wxSVGDocument* doc, wxString tagName = wxT("feBlend")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFEBlendElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEBlendElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEBLEND_ELEMENT; }
 };

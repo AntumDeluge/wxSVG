@@ -27,6 +27,7 @@ class wxSVGFEImageElement:
     wxSVGFEImageElement(wxSVGDocument* doc, wxString tagName = wxT("feImage")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFEImageElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEImageElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEIMAGE_ELEMENT; }
 };

@@ -33,6 +33,7 @@ class wxSVGFEComponentTransferElement:
     wxSVGFEComponentTransferElement(wxSVGDocument* doc, wxString tagName = wxT("feComponentTransfer")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFEComponentTransferElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEComponentTransferElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FECOMPONENTTRANSFER_ELEMENT; }
 };

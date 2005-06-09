@@ -89,6 +89,7 @@ class wxSVGPatternElement:
     wxSVGPatternElement(wxSVGDocument* doc, wxString tagName = wxT("pattern")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGPatternElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPatternElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_PATTERN_ELEMENT; }
 };

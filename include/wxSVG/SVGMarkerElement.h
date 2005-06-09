@@ -100,6 +100,7 @@ class wxSVGMarkerElement:
     wxSVGMarkerElement(wxSVGDocument* doc, wxString tagName = wxT("marker")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGMarkerElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGMarkerElement(*this); }
     virtual void SetOrientToAuto();
     virtual void SetOrientToAngle(const wxSVGAngle& angle);
     bool SetAttribute(const wxString& name, const wxString& value);

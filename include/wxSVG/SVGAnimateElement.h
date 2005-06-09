@@ -19,6 +19,7 @@ class wxSVGAnimateElement:
     wxSVGAnimateElement(wxSVGDocument* doc, wxString tagName = wxT("animate")):
       wxSVGAnimationElement(doc, tagName) {}
     virtual ~wxSVGAnimateElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGAnimateElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_ANIMATE_ELEMENT; }
 };

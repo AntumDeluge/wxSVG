@@ -86,6 +86,7 @@ class wxSVGFETurbulenceElement:
     wxSVGFETurbulenceElement(wxSVGDocument* doc, wxString tagName = wxT("feTurbulence")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFETurbulenceElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFETurbulenceElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FETURBULENCE_ELEMENT; }
 };

@@ -19,6 +19,7 @@ class wxSVGAltGlyphDefElement:
     wxSVGAltGlyphDefElement(wxSVGDocument* doc, wxString tagName = wxT("altGlyphDef")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGAltGlyphDefElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGAltGlyphDefElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_ALTGLYPHDEF_ELEMENT; }
 };

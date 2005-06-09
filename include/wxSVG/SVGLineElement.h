@@ -73,6 +73,7 @@ class wxSVGLineElement:
     wxSVGLineElement(wxSVGDocument* doc, wxString tagName = wxT("line")):
       wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
     virtual ~wxSVGLineElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGLineElement(*this); }
     wxSVGRect GetBBox();
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_LINE_ELEMENT; }

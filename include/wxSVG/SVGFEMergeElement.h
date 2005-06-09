@@ -21,6 +21,7 @@ class wxSVGFEMergeElement:
     wxSVGFEMergeElement(wxSVGDocument* doc, wxString tagName = wxT("feMerge")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFEMergeElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEMergeElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEMERGE_ELEMENT; }
 };

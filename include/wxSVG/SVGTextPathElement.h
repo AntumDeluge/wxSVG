@@ -64,6 +64,7 @@ class wxSVGTextPathElement:
     wxSVGTextPathElement(wxSVGDocument* doc, wxString tagName = wxT("textPath")):
       wxSVGTextContentElement(doc, tagName) {}
     virtual ~wxSVGTextPathElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTextPathElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_TEXTPATH_ELEMENT; }
 };

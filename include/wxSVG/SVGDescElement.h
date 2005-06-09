@@ -23,6 +23,7 @@ class wxSVGDescElement:
     wxSVGDescElement(wxSVGDocument* doc, wxString tagName = wxT("desc")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGDescElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGDescElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_DESC_ELEMENT; }
 };

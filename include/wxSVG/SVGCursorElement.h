@@ -44,6 +44,7 @@ class wxSVGCursorElement:
     wxSVGCursorElement(wxSVGDocument* doc, wxString tagName = wxT("cursor")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGCursorElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGCursorElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_CURSOR_ELEMENT; }
 };

@@ -19,6 +19,7 @@ class wxSVGFontFaceUriElement:
     wxSVGFontFaceUriElement(wxSVGDocument* doc, wxString tagName = wxT("font-face-uri")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFontFaceUriElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFontFaceUriElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FONT_FACE_URI_ELEMENT; }
 };

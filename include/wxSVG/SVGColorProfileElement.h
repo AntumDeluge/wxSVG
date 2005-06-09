@@ -38,6 +38,7 @@ class wxSVGColorProfileElement:
     wxSVGColorProfileElement(wxSVGDocument* doc, wxString tagName = wxT("color-profile")):
       wxSVGElement(doc, tagName), m_renderingIntent(wxRENDERING_INTENT(0)) {}
     virtual ~wxSVGColorProfileElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGColorProfileElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_COLOR_PROFILE_ELEMENT; }
 };

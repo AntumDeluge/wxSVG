@@ -77,6 +77,7 @@ class wxSVGMaskElement:
     wxSVGMaskElement(wxSVGDocument* doc, wxString tagName = wxT("mask")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGMaskElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGMaskElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_MASK_ELEMENT; }
 };

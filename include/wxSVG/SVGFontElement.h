@@ -23,6 +23,7 @@ class wxSVGFontElement:
     wxSVGFontElement(wxSVGDocument* doc, wxString tagName = wxT("font")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFontElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFontElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FONT_ELEMENT; }
 };

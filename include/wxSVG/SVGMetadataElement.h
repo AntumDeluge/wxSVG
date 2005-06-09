@@ -19,6 +19,7 @@ class wxSVGMetadataElement:
     wxSVGMetadataElement(wxSVGDocument* doc, wxString tagName = wxT("metadata")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGMetadataElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGMetadataElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_METADATA_ELEMENT; }
 };

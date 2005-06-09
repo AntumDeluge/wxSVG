@@ -38,6 +38,7 @@ class wxSVGStyleElement:
     wxSVGStyleElement(wxSVGDocument* doc, wxString tagName = wxT("style")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGStyleElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGStyleElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_STYLE_ELEMENT; }
 };

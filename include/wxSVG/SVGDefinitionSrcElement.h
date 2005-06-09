@@ -19,6 +19,7 @@ class wxSVGDefinitionSrcElement:
     wxSVGDefinitionSrcElement(wxSVGDocument* doc, wxString tagName = wxT("definition-src")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGDefinitionSrcElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGDefinitionSrcElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_DEFINITION_SRC_ELEMENT; }
 };

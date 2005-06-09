@@ -33,6 +33,7 @@ class wxSVGStopElement:
     wxSVGStopElement(wxSVGDocument* doc, wxString tagName = wxT("stop")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGStopElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGStopElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_STOP_ELEMENT; }
 };

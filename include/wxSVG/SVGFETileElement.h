@@ -33,6 +33,7 @@ class wxSVGFETileElement:
     wxSVGFETileElement(wxSVGDocument* doc, wxString tagName = wxT("feTile")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFETileElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFETileElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FETILE_ELEMENT; }
 };

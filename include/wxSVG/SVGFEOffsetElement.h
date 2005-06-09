@@ -48,6 +48,7 @@ class wxSVGFEOffsetElement:
     wxSVGFEOffsetElement(wxSVGDocument* doc, wxString tagName = wxT("feOffset")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFEOffsetElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEOffsetElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEOFFSET_ELEMENT; }
 };

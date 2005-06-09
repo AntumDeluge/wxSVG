@@ -23,6 +23,7 @@ class wxSVGMPathElement:
     wxSVGMPathElement(wxSVGDocument* doc, wxString tagName = wxT("mpath")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGMPathElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGMPathElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_MPATH_ELEMENT; }
 };

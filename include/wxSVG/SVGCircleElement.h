@@ -66,6 +66,7 @@ class wxSVGCircleElement:
     wxSVGCircleElement(wxSVGDocument* doc, wxString tagName = wxT("circle")):
       wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
     virtual ~wxSVGCircleElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGCircleElement(*this); }
     wxSVGRect GetBBox();
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_CIRCLE_ELEMENT; }

@@ -45,6 +45,7 @@ class wxSVGFEPointLightElement:
     wxSVGFEPointLightElement(wxSVGDocument* doc, wxString tagName = wxT("fePointLight")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFEPointLightElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEPointLightElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEPOINTLIGHT_ELEMENT; }
 };

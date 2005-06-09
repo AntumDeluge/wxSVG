@@ -117,6 +117,7 @@ class wxSVGFEConvolveMatrixElement:
     wxSVGFEConvolveMatrixElement(wxSVGDocument* doc, wxString tagName = wxT("feConvolveMatrix")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFEConvolveMatrixElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEConvolveMatrixElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FECONVOLVEMATRIX_ELEMENT; }
 };

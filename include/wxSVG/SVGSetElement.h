@@ -19,6 +19,7 @@ class wxSVGSetElement:
     wxSVGSetElement(wxSVGDocument* doc, wxString tagName = wxT("set")):
       wxSVGAnimationElement(doc, tagName) {}
     virtual ~wxSVGSetElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGSetElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_SET_ELEMENT; }
 };

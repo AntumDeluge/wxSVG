@@ -80,6 +80,7 @@ class wxSVGFESpotLightElement:
     wxSVGFESpotLightElement(wxSVGDocument* doc, wxString tagName = wxT("feSpotLight")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFESpotLightElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFESpotLightElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FESPOTLIGHT_ELEMENT; }
 };

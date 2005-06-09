@@ -55,6 +55,7 @@ class wxSVGFESpecularLightingElement:
     wxSVGFESpecularLightingElement(wxSVGDocument* doc, wxString tagName = wxT("feSpecularLighting")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFESpecularLightingElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFESpecularLightingElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FESPECULARLIGHTING_ELEMENT; }
 };

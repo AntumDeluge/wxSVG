@@ -73,6 +73,7 @@ class wxSVGFEDisplacementMapElement:
     wxSVGFEDisplacementMapElement(wxSVGDocument* doc, wxString tagName = wxT("feDisplacementMap")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFEDisplacementMapElement() {}
+    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEDisplacementMapElement(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEDISPLACEMENTMAP_ELEMENT; }
 };
