@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.4 2005-06-09 02:19:40 ntalex Exp $
+// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.5 2005-06-09 16:31:30 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -17,9 +17,9 @@ wxSVGColor* wxCSSStyleDeclaration::s_emptySVGColor = new wxSVGColor;
 wxSVGPaint* wxCSSStyleDeclaration::s_emptySVGPaint = new wxSVGPaint;
 wxSVGPaint* wxCSSStyleDeclaration::s_blackSVGPaint = new wxSVGPaint(0,0,0);
 
-void wxCSSStyleDeclaration::Add(wxCSSStyleDeclaration& style)
+void wxCSSStyleDeclaration::Add(const wxCSSStyleDeclaration& style)
 {
-  iterator it;
+  const_iterator it;
   for (it = style.begin(); it != style.end(); ++it)
 	(*this)[it->first] = it->second->Clone();
 }
