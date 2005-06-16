@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.8 2005-06-05 19:10:49 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.9 2005-06-16 20:57:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,8 @@ wxXmlElement* wxSVGDocument::CreateElement(const wxString& tagName)
 #include "SVGDocument_CreateElement.cpp"
 
 void RenderChilds(wxSVGCanvas* canvas, wxSVGElement* parent,
-  wxSVGMatrix* parentMatrix, wxCSSStyleDeclaration* parentStyle)
+  wxSVGMatrix* parentMatrix, wxCSSStyleDeclaration* parentStyle,
+  wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement)
 {
   wxSVGElement* elem = (wxSVGElement*) parent->GetChildren();
   while (elem)
@@ -47,18 +48,20 @@ void RenderChilds(wxSVGCanvas* canvas, wxSVGElement* parent,
 	{
 	  wxSVGMatrix matrix(*parentMatrix);
 	  wxCSSStyleDeclaration style(*parentStyle);
+	  elem->SetOwnerSVGElement(ownerSVGElement);
+	  elem->SetViewportElement(viewportElement);
 	  
 	  switch (elem->GetDtd())
 	  {
 		case wxSVG_SVG_ELEMENT:
-		  RenderChilds(canvas, elem, &matrix, &style);
+		  RenderChilds(canvas, elem, &matrix, &style, (wxSVGSVGElement*) elem, elem);
 		  break;
 		case wxSVG_G_ELEMENT:
 		{
 		  wxSVGGElement* element = (wxSVGGElement*) elem;
 		  element->UpdateMatrix(matrix);
 		  style.Add(element->GetStyle());
-		  RenderChilds(canvas, elem, &matrix, &style);
+		  RenderChilds(canvas, elem, &matrix, &style, ownerSVGElement, viewportElement);
 		  break;
 		}
 		case wxSVG_LINE_ELEMENT:
@@ -186,7 +189,8 @@ wxImage wxSVGDocument::Render(int width, int height)
   wxImage image(width, height);
   m_canvas->SetImage(&image);
   m_canvas->Clear();
-  RenderChilds(m_canvas, GetRootElement(), &matrix, &GetRootElement()->GetStyle());
+  RenderChilds(m_canvas, GetRootElement(), &matrix,
+	&GetRootElement()->GetStyle(), NULL, NULL);
   
   return image;
 }
