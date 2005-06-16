@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.7 2005-06-09 00:17:38 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.8 2005-06-16 20:55:39 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -32,7 +32,8 @@ inter.include_attributes.append('''
 	
   public:
 	wxSVGElement(wxSVGDocument* doc, wxString tagName = wxT("")):
-	  wxXmlElement(wxXML_ELEMENT_NODE, tagName) { m_doc = doc; }
+	  wxXmlElement(wxXML_ELEMENT_NODE, tagName),
+      m_ownerSVGElement(NULL), m_viewportElement(NULL) { m_doc = doc; }
 	virtual ~wxSVGElement() {}
 	
 	virtual const wxSVGDTD GetDtd() const = 0;
@@ -140,10 +141,23 @@ inter.user_defined_destructor=1
 # SVGLength
 inter = interface()
 interfaces["SVGLength"]=inter
-inter.include_methods.append('    wxSVGLength() : m_unitType(wxSVG_LENGTHTYPE_UNKNOWN), m_value(0) {}\n')
-inter.include_methods.append('    wxSVGLength(float v) : m_unitType(wxSVG_LENGTHTYPE_NUMBER), m_value(v) {}\n')
+inter.include_methods.append('    wxSVGLength() : m_unitType(wxSVG_LENGTHTYPE_UNKNOWN), m_value(0), m_valueInSpecifiedUnits(0) {}\n')
+inter.include_methods.append('    wxSVGLength(float v) : m_unitType(wxSVG_LENGTHTYPE_NUMBER), m_value(v), m_valueInSpecifiedUnits(0) {}\n')
 inter.include_methods.append('    virtual ~wxSVGLength() {}\n')
+inter.include_methods.append('    \n')
+inter.include_methods.append('    inline float GetValue() const { return m_value; }\n')
+inter.include_methods.append('    inline void SetValue(float n) { m_unitType = wxSVG_LENGTHTYPE_NUMBER; m_valueInSpecifiedUnits = n; m_value = n; }\n')
 inter.include_methods.append('    inline operator float() { return GetValue(); }\n')
+inter.include_methods.append('    \n')
+inter.include_methods.append('    float GetValueInSpecifiedUnits() const;\n')
+inter.include_methods.append('    void SetValueInSpecifiedUnits(float n);\n')
+inter.include_methods.append('    \n')
+inter.include_methods.append('    wxString GetValueAsString() const;\n')
+inter.include_methods.append('    void SetValueAsString(const wxString& n);\n')
+inter.include_methods.append('    \n')
+inter.exclude_methods = ["GetValue", "SetValue", "GetValueInSpecifiedUnits", "GetValueInSpecifiedUnits"]
+inter.exclude_attributes = ["valueAsString"]
+inter.include_includes = ["String"]
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
@@ -151,9 +165,22 @@ inter.user_defined_destructor=1
 inter = interface()
 interfaces["SVGAngle"]=inter
 inter.include_methods.append('    wxSVGAngle() : m_unitType(wxSVG_ANGLETYPE_UNKNOWN), m_value(0) {}\n')
-inter.include_methods.append('    wxSVGAngle(float v) : m_unitType(wxSVG_ANGLETYPE_DEG), m_value(v) {}\n')
+inter.include_methods.append('    wxSVGAngle(float v) : m_unitType(wxSVG_ANGLETYPE_UNSPECIFIED), m_value(v) {}\n')
 inter.include_methods.append('    virtual ~wxSVGAngle() {}\n')
+inter.include_methods.append('    \n')
+inter.include_methods.append('    inline float GetValue() const { return m_value; }\n')
+inter.include_methods.append('    inline void SetValue(float n) { m_unitType = wxSVG_ANGLETYPE_UNSPECIFIED; m_valueInSpecifiedUnits = n; m_value = n; }\n')
 inter.include_methods.append('    inline operator float() { return GetValue(); }\n')
+inter.include_methods.append('    \n')
+inter.include_methods.append('    inline float GetValueInSpecifiedUnits() const { return m_valueInSpecifiedUnits; }\n')
+inter.include_methods.append('    void SetValueInSpecifiedUnits(float n);\n')
+inter.include_methods.append('    \n')
+inter.include_methods.append('    wxString GetValueAsString() const;\n')
+inter.include_methods.append('    void SetValueAsString(const wxString& n);\n')
+inter.include_methods.append('    \n')
+inter.exclude_methods = ["GetValue", "SetValue", "GetValueInSpecifiedUnits", "GetValueInSpecifiedUnits"]
+inter.exclude_attributes = ["valueAsString"]
+inter.include_includes = ["String"]
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 

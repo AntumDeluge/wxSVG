@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.7 2005-06-09 16:31:08 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.8 2005-06-16 20:55:39 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -198,9 +198,8 @@ if len(parse_idl.class_decls):
             
             # fields
             for (typestr, attrname, ispointer, isenum) in attributes:
-                if attrname not in ['valueAsString', 'valueInSpecifiedUnits']:
-                    attrname = cpp.make_attr_name(attrname)
-                    protected = protected +'    '+typestr+' ' + attrname + ';\n'
+                attrname = cpp.make_attr_name(attrname)
+                protected = protected +'    '+typestr+' ' + attrname + ';\n'
             
             # get/set methods
             animatedStr = ''
@@ -222,7 +221,7 @@ if len(parse_idl.class_decls):
                 
                 const=''
                 ret_str = typestr
-                if typestr == "wxString" and attrname not in ['valueAsString', 'valueInSpecifiedUnits']:
+                if typestr == "wxString":
                     ret_str = 'const ' + ret_str + '&'
                 elif (typestr[0:5] == "wxSVG" or typestr[0:5] == "wxCSS") and typestr[0:6] != "wxSVG_" and not ispointer:
                     ret_str = ret_str + '&'
@@ -234,15 +233,14 @@ if len(parse_idl.class_decls):
                 
                 inline = ''
                 body_str = ';'
-                if attrname not in ['valueAsString', 'valueInSpecifiedUnits']:
-                  inline = 'inline '
-                  if animated:
-                      body_str = ' { return %s.GetBaseVal(); }'%attrname_cpp
-                      methodName2 = 'GetAnimated' + string.upper(attrname[0])+attrname[1:]
-                      body_str2 = ' { return %s.GetAnimVal(); }'%attrname_cpp
-                      animatedStr = animatedStr + '    ' + inline + ret_str + methodName2 + '()' + const + body_str2 + '\n'
-                  else:
-                      body_str = ' { return %s; }'%attrname_cpp
+                inline = 'inline '
+                if animated:
+                  body_str = ' { return %s.GetBaseVal(); }'%attrname_cpp
+                  methodName2 = 'GetAnimated' + string.upper(attrname[0])+attrname[1:]
+                  body_str2 = ' { return %s.GetAnimVal(); }'%attrname_cpp
+                  animatedStr = animatedStr + '    ' + inline + ret_str + methodName2 + '()' + const + body_str2 + '\n'
+                else:
+                  body_str = ' { return %s; }'%attrname_cpp
                 
                 public = public + '    ' + inline + ret_str + methodName + '()' + const + body_str + '\n'
                     
@@ -261,18 +259,17 @@ if len(parse_idl.class_decls):
                 
                 inline = ''
                 body_str = ';'
-                if attrname not in ['valueAsString', 'valueInSpecifiedUnits']:
-                    inline = 'inline '
-                    if animated:
-                        set_str = ".SetValue(n)"
-                        if typestrBase in ["String", "Length", "Number", "Rect", "Angle", "PreserveAspectRatio"] or typestr in cpp.builtin_types or string.find(typestrBase, "List")>0:
-                            set_str = " = n"
-                        body_str = ' { %s.GetBaseVal()%s; '%(attrname_cpp,set_str) + '}'
-                        methodName2 = 'SetAnimated' + string.upper(attrname[0])+attrname[1:]
-                        body_str2 = ' { %s.GetAnimVal()%s; '%(attrname_cpp,set_str) + '}'
-                        animatedStr = animatedStr + '    ' + inline + 'void ' + methodName2 + params_str + body_str2 + '\n'
-                    else:
-                        body_str = ' { %s = n; '%attrname_cpp + '}'
+                inline = 'inline '
+                if animated:
+                    set_str = ".SetValue(n)"
+                    if typestrBase in ["String", "Length", "Number", "Rect", "Angle", "PreserveAspectRatio"] or typestr in cpp.builtin_types or string.find(typestrBase, "List")>0:
+                        set_str = " = n"
+                    body_str = ' { %s.GetBaseVal()%s; '%(attrname_cpp,set_str) + '}'
+                    methodName2 = 'SetAnimated' + string.upper(attrname[0])+attrname[1:]
+                    body_str2 = ' { %s.GetAnimVal()%s; '%(attrname_cpp,set_str) + '}'
+                    animatedStr = animatedStr + '    ' + inline + 'void ' + methodName2 + params_str + body_str2 + '\n'
+                else:
+                    body_str = ' { %s = n; '%attrname_cpp + '}'
                 public = public + '    ' + inline + 'void ' + methodName + params_str + body_str + '\n'
                 public = public + '\n'
                 if animated:
@@ -530,7 +527,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.7 2005-06-09 16:31:08 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.8 2005-06-16 20:55:39 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
