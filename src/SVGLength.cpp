@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGLength.cpp,v 1.2 2005-05-11 03:02:08 ntalex Exp $
+// RCS-ID:      $Id: SVGLength.cpp,v 1.3 2005-06-16 20:56:10 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,12 +12,27 @@
 
 wxString wxSVGLength::GetValueAsString() const
 {
-  return wxString::Format(wxT("%f"), m_value);
+  wxString value = wxString::Format(wxT("%f"), m_valueInSpecifiedUnits);
+  switch (m_unitType)
+  {
+	case wxSVG_LENGTHTYPE_UNKNOWN: break;
+	case wxSVG_LENGTHTYPE_NUMBER: break;
+	case wxSVG_LENGTHTYPE_PX: value += wxT("px"); break;
+	case wxSVG_LENGTHTYPE_PERCENTAGE: value += wxT("%"); break;
+	case wxSVG_LENGTHTYPE_EMS: value += wxT("em"); break;
+	case wxSVG_LENGTHTYPE_EXS: value += wxT("ex"); break;
+	case wxSVG_LENGTHTYPE_CM: value += wxT("cm"); break;
+	case wxSVG_LENGTHTYPE_MM: value += wxT("mm"); break;
+	case wxSVG_LENGTHTYPE_IN: value += wxT("in"); break;
+	case wxSVG_LENGTHTYPE_PT: value += wxT("pt"); break;
+	case wxSVG_LENGTHTYPE_PC: value += wxT("pc"); break;
+  }
+  return value;
 }
 
 void wxSVGLength::SetValueAsString(const wxString& n)
 {
-  m_value = 0;
+  m_valueInSpecifiedUnits = 0;
   m_unitType = wxSVG_LENGTHTYPE_NUMBER;
   wxString value = n.Strip(wxString::both);
   wxString unit;
@@ -43,7 +58,7 @@ void wxSVGLength::SetValueAsString(const wxString& n)
   double d;
   if (!value.ToDouble(&d))
 	return;
-  m_value = d;
+  m_valueInSpecifiedUnits = d;
   
   if (unit.length() == 0);
   else if (unit == wxT("px"))
@@ -64,12 +79,13 @@ void wxSVGLength::SetValueAsString(const wxString& n)
 	m_unitType = wxSVG_LENGTHTYPE_PT;
   else if (unit == wxT("pc"))
 	m_unitType = wxSVG_LENGTHTYPE_PC;
-  SetValueInSpecifiedUnits(m_value);
+  SetValueInSpecifiedUnits(m_valueInSpecifiedUnits);
 }
 
 void wxSVGLength::NewValueSpecifiedUnits(wxSVG_LENGTHTYPE unitType, float valueInSpecifiedUnits)
 {
-
+  m_unitType = unitType;
+  SetValueInSpecifiedUnits(valueInSpecifiedUnits);
 }
 
 void wxSVGLength::ConvertToSpecifiedUnits(wxSVG_LENGTHTYPE unitType)
@@ -77,28 +93,9 @@ void wxSVGLength::ConvertToSpecifiedUnits(wxSVG_LENGTHTYPE unitType)
   m_unitType = unitType;
 }
 
-float wxSVGLength::GetValueInSpecifiedUnits() const
+void wxSVGLength::SetValueInSpecifiedUnits(float n)
 {
-  float value = m_value;
-  switch (m_unitType)
-  {
-    case wxSVG_LENGTHTYPE_UNKNOWN:
-	case wxSVG_LENGTHTYPE_NUMBER:
-	case wxSVG_LENGTHTYPE_PX: break;
-	case wxSVG_LENGTHTYPE_PERCENTAGE: break; // todo
-	case wxSVG_LENGTHTYPE_EMS: break; // todo
-	case wxSVG_LENGTHTYPE_EXS: break; // todo
-	case wxSVG_LENGTHTYPE_CM: value /= 35.43307; break;
-	case wxSVG_LENGTHTYPE_MM: value /= 3.543307; break;
-	case wxSVG_LENGTHTYPE_IN: value /= 90; break;
-	case wxSVG_LENGTHTYPE_PT: value /= 1.25; break;
-	case wxSVG_LENGTHTYPE_PC: value /= 15; break;
-  }
-  return value;
-}
-
-void wxSVGLength::SetValueInSpecifiedUnits(const float n)
-{
+  m_valueInSpecifiedUnits = n;
   m_value = n;
   switch (m_unitType)
   {
