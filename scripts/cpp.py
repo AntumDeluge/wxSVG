@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: cpp.py,v 1.2 2005-06-07 22:06:25 ntalex Exp $
+## RCS-ID:      $Id: cpp.py,v 1.3 2005-06-17 13:22:29 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -23,16 +23,18 @@ def make_attr_name(name):
     return 'm_' + make_name(name)
 
 def fix_typename(name):
-	pos = string.find(name, "::")
-	if pos>0:
-		name = name[pos+2:]
-	if name == "boolean":
-		name = "bool"
-	elif name == "DOMString" or name == "String":
-		name = "wxString"
-	elif name == "Document" or name == "Element":
-		name = "wxXml" + name
-	elif name not in builtin_types:  #elif name[:3]=="SVG":
-		name = "wx" + name
-	return name
+    pos = string.find(name, "::")
+    if pos>0:
+        name = name[pos+2:]
+    if name == "boolean":
+        name = "bool"
+    elif name == "float":
+        name = "double"
+    elif name == "DOMString" or name == "String":
+        name = "wxString"
+    elif name == "Document" or name == "Element":
+        name = "wxXml" + name
+    elif name not in builtin_types:  #elif name[:3]=="SVG":
+        name = "wx" + name
+    return name
 

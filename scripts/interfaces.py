@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.8 2005-06-16 20:55:39 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.9 2005-06-17 13:22:29 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -56,27 +56,13 @@ inter.exclude_methods = ["GetBBox"]
 # SVGTransformable
 inter = interface()
 interfaces["SVGTransformable"]=inter
-inter.include_methods.append('''
-    inline void Transform(const wxSVGMatrix& matrix)
-    { m_transform.GetBaseVal().Add(new wxSVGTransform(matrix)); }''')
-inter.include_methods.append('''
-    inline void Translate(float tx, float ty)
-    { wxSVGTransform* t = new wxSVGTransform; t->SetTranslate(tx,ty); m_transform.GetBaseVal().Add(t); }''')
-inter.include_methods.append('''
-    inline void Scale(float s)
-    { wxSVGTransform* t = new wxSVGTransform; t->SetScale(s,s); m_transform.GetBaseVal().Add(t); }''')
-inter.include_methods.append('''
-    inline void Scale(float sx, float sy)
-    { wxSVGTransform* t = new wxSVGTransform; t->SetScale(sx,sy); m_transform.GetBaseVal().Add(t); }''')
-inter.include_methods.append('''
-    inline void Rotate(float angle, float cx = 0, float cy = 0)
-    { wxSVGTransform* t = new wxSVGTransform; t->SetRotate(angle, cx,cy); m_transform.GetBaseVal().Add(t); }''')
-inter.include_methods.append('''
-    inline void SkewX(float angle)
-    { wxSVGTransform* t = new wxSVGTransform; t->SetSkewX(angle); m_transform.GetBaseVal().Add(t); }''')
-inter.include_methods.append('''
-    inline void SkewY(float angle)
-    { wxSVGTransform* t = new wxSVGTransform; t->SetSkewY(angle); m_transform.GetBaseVal().Add(t); }\n\n''')
+inter.include_methods.append('    void Transform(const wxSVGMatrix& matrix);\n')
+inter.include_methods.append('    void Translate(double tx, double ty);\n')
+inter.include_methods.append('    void Scale(double s);\n')
+inter.include_methods.append('    void Scale(double sx, double sy);\n')
+inter.include_methods.append('    void Rotate(double angle, double cx = 0, double cy = 0);\n')
+inter.include_methods.append('    void SkewX(double angle);\n')
+inter.include_methods.append('    void SkewY(double angle);\n')
 inter.include_methods.append('    void UpdateMatrix(wxSVGMatrix& matrix);\n')
 
 # SVGStylable
@@ -142,15 +128,15 @@ inter.user_defined_destructor=1
 inter = interface()
 interfaces["SVGLength"]=inter
 inter.include_methods.append('    wxSVGLength() : m_unitType(wxSVG_LENGTHTYPE_UNKNOWN), m_value(0), m_valueInSpecifiedUnits(0) {}\n')
-inter.include_methods.append('    wxSVGLength(float v) : m_unitType(wxSVG_LENGTHTYPE_NUMBER), m_value(v), m_valueInSpecifiedUnits(0) {}\n')
+inter.include_methods.append('    wxSVGLength(double v) : m_unitType(wxSVG_LENGTHTYPE_NUMBER), m_value(v), m_valueInSpecifiedUnits(0) {}\n')
 inter.include_methods.append('    virtual ~wxSVGLength() {}\n')
 inter.include_methods.append('    \n')
-inter.include_methods.append('    inline float GetValue() const { return m_value; }\n')
-inter.include_methods.append('    inline void SetValue(float n) { m_unitType = wxSVG_LENGTHTYPE_NUMBER; m_valueInSpecifiedUnits = n; m_value = n; }\n')
-inter.include_methods.append('    inline operator float() { return GetValue(); }\n')
+inter.include_methods.append('    inline double GetValue() const { return m_value; }\n')
+inter.include_methods.append('    inline void SetValue(double n) { m_unitType = wxSVG_LENGTHTYPE_NUMBER; m_valueInSpecifiedUnits = n; m_value = n; }\n')
+inter.include_methods.append('    inline operator double() const { return GetValue(); }\n')
 inter.include_methods.append('    \n')
-inter.include_methods.append('    float GetValueInSpecifiedUnits() const;\n')
-inter.include_methods.append('    void SetValueInSpecifiedUnits(float n);\n')
+inter.include_methods.append('    double GetValueInSpecifiedUnits() const;\n')
+inter.include_methods.append('    void SetValueInSpecifiedUnits(double n);\n')
 inter.include_methods.append('    \n')
 inter.include_methods.append('    wxString GetValueAsString() const;\n')
 inter.include_methods.append('    void SetValueAsString(const wxString& n);\n')
@@ -165,15 +151,15 @@ inter.user_defined_destructor=1
 inter = interface()
 interfaces["SVGAngle"]=inter
 inter.include_methods.append('    wxSVGAngle() : m_unitType(wxSVG_ANGLETYPE_UNKNOWN), m_value(0) {}\n')
-inter.include_methods.append('    wxSVGAngle(float v) : m_unitType(wxSVG_ANGLETYPE_UNSPECIFIED), m_value(v) {}\n')
+inter.include_methods.append('    wxSVGAngle(double v) : m_unitType(wxSVG_ANGLETYPE_UNSPECIFIED), m_value(v) {}\n')
 inter.include_methods.append('    virtual ~wxSVGAngle() {}\n')
 inter.include_methods.append('    \n')
-inter.include_methods.append('    inline float GetValue() const { return m_value; }\n')
-inter.include_methods.append('    inline void SetValue(float n) { m_unitType = wxSVG_ANGLETYPE_UNSPECIFIED; m_valueInSpecifiedUnits = n; m_value = n; }\n')
-inter.include_methods.append('    inline operator float() { return GetValue(); }\n')
+inter.include_methods.append('    inline double GetValue() const { return m_value; }\n')
+inter.include_methods.append('    inline void SetValue(double n) { m_unitType = wxSVG_ANGLETYPE_UNSPECIFIED; m_valueInSpecifiedUnits = n; m_value = n; }\n')
+inter.include_methods.append('    inline operator double() const { return GetValue(); }\n')
 inter.include_methods.append('    \n')
-inter.include_methods.append('    inline float GetValueInSpecifiedUnits() const { return m_valueInSpecifiedUnits; }\n')
-inter.include_methods.append('    void SetValueInSpecifiedUnits(float n);\n')
+inter.include_methods.append('    inline double GetValueInSpecifiedUnits() const { return m_valueInSpecifiedUnits; }\n')
+inter.include_methods.append('    void SetValueInSpecifiedUnits(double n);\n')
 inter.include_methods.append('    \n')
 inter.include_methods.append('    wxString GetValueAsString() const;\n')
 inter.include_methods.append('    void SetValueAsString(const wxString& n);\n')
@@ -188,7 +174,7 @@ inter.user_defined_destructor=1
 inter = interface()
 interfaces["SVGPoint"]=inter
 inter.include_methods.append('    wxSVGPoint(): m_x(0), m_y(0) {}\n')
-inter.include_methods.append('    wxSVGPoint(float x, float y): m_x(x), m_y(y) {}\n')
+inter.include_methods.append('    wxSVGPoint(double x, double y): m_x(x), m_y(y) {}\n')
 inter.include_methods.append('    virtual ~wxSVGPoint() {}\n')
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
@@ -197,7 +183,7 @@ inter.user_defined_destructor=1
 inter = interface()
 interfaces["SVGRect"]=inter
 inter.include_methods.append('    wxSVGRect(): m_x(0), m_y(0), m_width(0), m_height(0) {}\n')
-inter.include_methods.append('    wxSVGRect(float x, float y, float width, float height):\n      m_x(x), m_y(y), m_width(width), m_height(height) {}\n')
+inter.include_methods.append('    wxSVGRect(double x, double y, double width, double height):\n      m_x(x), m_y(y), m_width(width), m_height(height) {}\n')
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
@@ -205,7 +191,7 @@ inter.user_defined_destructor=1
 inter = interface()
 interfaces["SVGMatrix"]=inter
 inter.include_methods.append('    wxSVGMatrix(): m_a(1), m_b(0), m_c(0), m_d(1), m_e(0), m_f(0) {}\n')
-inter.include_methods.append('    wxSVGMatrix(float a, float b, float c, float d, float e, float f):\n      m_a(a), m_b(b), m_c(c), m_d(d), m_e(e), m_f(f) {}\n')
+inter.include_methods.append('    wxSVGMatrix(double a, double b, double c, double d, double e, double f):\n      m_a(a), m_b(b), m_c(c), m_d(d), m_e(e), m_f(f) {}\n')
 inter.include_methods.append('    virtual ~wxSVGMatrix() {}\n')
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1

@@ -4,7 +4,7 @@
 ##              -> SetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSetAttribute.py,v 1.3 2005-05-16 11:00:17 ntalex Exp $
+## RCS-ID:      $Id: genSetAttribute.py,v 1.4 2005-06-17 13:22:29 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -26,9 +26,7 @@ already_done=[]
 def make_cpp(name):
     if name in ['operator']:
         return name + '_'
-
     return name
-
 
 class AlreadyProcessed:
     def __init__(self):
@@ -62,39 +60,47 @@ def process(classdecl):
         
         set_attr = cpp.make_attr_name(attr.name)
         typestr =attr.type.name
-        pos = string.find(typestr, 'Animated')
-        if pos>=0: # SVGAnimatedTypename
-            typestr = typestr[pos+len('Animated'):]
-            set_attr = set_attr + '.GetBaseVal()'
+        anim_pos = string.find(typestr, 'Animated')
+        if anim_pos>=0: # SVGAnimatedTypename
+            typestr = typestr[anim_pos+len('Animated'):]
+            if typestr not in ["float", "Number", "Integer", "Boolean", "Enumeration", "unsigned short"]:
+                set_attr = set_attr + '.GetBaseVal()'
         conv = ''
         #print classdecl.name, typestr
-        if typestr  in ["float", "Number"]:
+        if typestr in ["Integer", "Boolean", "Enumeration", "unsigned short"]:
+            etype = ''
+            if typestr == "Integer":
+                etype = '(long int) '
+            elif typestr == "Boolean":
+                etype = '(bool) '
+            elif typestr == "Enumeration":
+                etype = '(char) '
+            elif typestr == "unsigned short":
+                if classdecl.name == "SVGZoomAndPan":
+                    etype = '(wxSVG_ZOOMANDPAN) '
+                elif classdecl.name == "SVGColorProfileElement":
+                    etype = '(wxRENDERING_INTENT) '
+            if anim_pos>=0:
+                set_attr = '%s.SetBaseVal(%svalue)'%(set_attr,etype)
+            else:
+                set_attr = '%s = %svalue'%(set_attr,etype)
+            set_attr = '''  {
+    long value;
+    if (attrValue.ToLong(&value))
+      %s;
+  }'''%set_attr
+        elif typestr in ["float", "Number"]:
+            if anim_pos>=0:
+                set_attr = '%s.SetBaseVal(value)'%set_attr
+            else:
+                set_attr = '%s = value'%set_attr
             set_attr = '''  {
     double value;
     if (attrValue.ToDouble(&value))
-      %s = value;
+      %s;
   }'''%set_attr
         elif typestr == "css::CSSStyleDeclaration":
           set_attr = '\t' + set_attr + '.SetCSSText(attrValue);'
-        elif typestr == "unsigned short":
-          if classdecl.name == "SVGZoomAndPan":
-            set_attr = '''  {
-    long value;
-    if (attrValue.ToLong(&value))
-      %s = (wxSVG_ZOOMANDPAN) value;
-  }'''%set_attr
-          elif classdecl.name == "SVGColorProfileElement":
-            set_attr = '''  {
-    long value;
-    if (attrValue.ToLong(&value))
-      %s = (wxRENDERING_INTENT) value;
-  }'''%set_attr
-        elif typestr in ["Enumeration", "Integer"]:
-            set_attr = '''  {
-    long value;
-    if (attrValue.ToLong(&value))
-      %s = value;
-  }'''%set_attr
         elif typestr == "Length":
             set_attr = '\t' + set_attr + '.SetValueAsString(attrValue);'
         elif typestr == "Rect":

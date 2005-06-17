@@ -3,25 +3,22 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.8 2005-06-16 20:55:39 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.9 2005-06-17 13:22:29 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
 
 ##############################################################################
 ## generates the most headers from idl, but with some changes:
-##   - all properties in idl are "readonly", but I generate not only
-##     get methods, but also set methods.
-##     This allow you to call:
-##       rect->SetWidth(100)
-##     instead of
-##       rect->SetAttrubite("width", "100");
-##  - for animated properties (f.e.: SVGAnimatedLength width)
-##    2 methods are generated: GetWidth() and GetAnimatedWidth()
-##    So to get (or set) width you need to call
-##       rect->GetWidth()
-##    instead of 
-##       rect->GetWidth().GetBaseVal()
+##  - all properties in idl are "readonly", but I generate not only
+##    get methods, but also set methods.
+##    This allow you to call:
+##      rect->SetWidth(100)
+##    instead of
+##      rect->SetAttrubite("width", "100")
+##  - for animated properties (f.e.: SVGAnimatedLength width), in addition to
+##    the method SetWidth(const SVGAnimatedLength&) will be generated the
+##    method SetWidth(const SVGLength&) to set the base value directly
 ##############################################################################
 
 import parse_idl
@@ -202,15 +199,12 @@ if len(parse_idl.class_decls):
                 protected = protected +'    '+typestr+' ' + attrname + ';\n'
             
             # get/set methods
-            animatedStr = ''
             for (typestr, attrname, ispointer, isenum) in attributes:
-                
                 animated = 0
                 typestrBase = ""
                 pos = string.find(typestr, 'Animated')
                 if pos>=0: # SVGAnimatedTypename
                     typestrBase = typestr[pos+len('Animated'):]
-                    typestr = genAnimated.getBaseType(typestrBase)
                     animated = 1
                 
                 # get
@@ -220,64 +214,34 @@ if len(parse_idl.class_decls):
                 exclude_methods.append(methodName)
                 
                 const=''
-                ret_str = typestr
-                if typestr == "wxString":
-                    ret_str = 'const ' + ret_str + '&'
-                elif (typestr[0:5] == "wxSVG" or typestr[0:5] == "wxCSS") and typestr[0:6] != "wxSVG_" and not ispointer:
-                    ret_str = ret_str + '&'
+                ret_type = typestr
+                if (typestr[0:5] == "wxSVG" or typestr[0:5] == "wxCSS" or typestr == "wxString") and \
+                    typestr[0:6] != "wxSVG_" and not ispointer:
+                        const = 'const '
+                        ret_type = const + ret_type + '&'
                 elif not ispointer:
-                    const=' const'
-                ret_str = ret_str + ' '
+                    const = 'const '
 
                 attrname_cpp = cpp.make_attr_name(attrname)
-                
-                inline = ''
-                body_str = ';'
-                inline = 'inline '
-                if animated:
-                  body_str = ' { return %s.GetBaseVal(); }'%attrname_cpp
-                  methodName2 = 'GetAnimated' + string.upper(attrname[0])+attrname[1:]
-                  body_str2 = ' { return %s.GetAnimVal(); }'%attrname_cpp
-                  animatedStr = animatedStr + '    ' + inline + ret_str + methodName2 + '()' + const + body_str2 + '\n'
-                else:
-                  body_str = ' { return %s; }'%attrname_cpp
-                
-                public = public + '    ' + inline + ret_str + methodName + '()' + const + body_str + '\n'
+                public = public + '    inline %s %s() %s{ return %s; }\n'%(ret_type,methodName,const,attrname_cpp)
                     
-
                 # set
                 methodName = 'Set' + string.upper(attrname[0])+attrname[1:]
                 if(methodName in exclude_methods):
                     continue
                 exclude_methods.append(methodName)
                 
-                params_str = '(%s n)'%(typestr)
-                if typestr in cpp.builtin_types:
-                    params_str = '(const %s n)'%(typestr)
-                elif ispointer==0:
-                    params_str = '(const %s& n)'%(typestr)
+                param_type = typestr
+                if typestr not in cpp.builtin_types and ispointer==0:
+                    param_type = 'const ' + param_type + '&'
                 
-                inline = ''
-                body_str = ';'
-                inline = 'inline '
+                public = public + '    inline void %s(%s n) { %s = n; }\n'%(methodName,param_type,attrname_cpp)
                 if animated:
-                    set_str = ".SetValue(n)"
-                    if typestrBase in ["String", "Length", "Number", "Rect", "Angle", "PreserveAspectRatio"] or typestr in cpp.builtin_types or string.find(typestrBase, "List")>0:
-                        set_str = " = n"
-                    body_str = ' { %s.GetBaseVal()%s; '%(attrname_cpp,set_str) + '}'
-                    methodName2 = 'SetAnimated' + string.upper(attrname[0])+attrname[1:]
-                    body_str2 = ' { %s.GetAnimVal()%s; '%(attrname_cpp,set_str) + '}'
-                    animatedStr = animatedStr + '    ' + inline + 'void ' + methodName2 + params_str + body_str2 + '\n'
-                else:
-                    body_str = ' { %s = n; '%attrname_cpp + '}'
-                public = public + '    ' + inline + 'void ' + methodName + params_str + body_str + '\n'
+                    param_type = genAnimated.getBaseType(typestrBase)
+                    if param_type not in cpp.builtin_types and ispointer==0:
+                        param_type = 'const ' + param_type + '&'
+                    public = public + '    inline void %s(%s n) { %s.SetBaseVal(n); }\n'%(methodName,param_type,attrname_cpp)
                 public = public + '\n'
-                if animated:
-                    animatedStr = animatedStr + '\n'
-            if animated:
-                public = public + '  public:\n'
-                public = public + animatedStr
-
     
         try:
             for i in interfaces.interfaces[classname].include_attributes:
@@ -527,7 +491,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.8 2005-06-16 20:55:39 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.9 2005-06-17 13:22:29 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
