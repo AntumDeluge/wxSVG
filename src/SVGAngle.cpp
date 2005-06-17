@@ -3,14 +3,14 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGAngle.cpp,v 1.2 2005-06-16 20:56:10 ntalex Exp $
+// RCS-ID:      $Id: SVGAngle.cpp,v 1.3 2005-06-17 13:24:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGAngle.h"
 
-void wxSVGAngle::SetValueInSpecifiedUnits(float n)
+void wxSVGAngle::SetValueInSpecifiedUnits(double n)
 {
   m_valueInSpecifiedUnits = n;
 }
@@ -38,7 +38,7 @@ void wxSVGAngle::SetValueAsString(const wxString& n)
   SetValueInSpecifiedUnits(d);
 }
 
-void wxSVGAngle::NewValueSpecifiedUnits(wxSVG_ANGLETYPE unitType, float valueInSpecifiedUnits)
+void wxSVGAngle::NewValueSpecifiedUnits(wxSVG_ANGLETYPE unitType, double valueInSpecifiedUnits)
 {
   m_unitType = unitType;
   m_valueInSpecifiedUnits = valueInSpecifiedUnits;

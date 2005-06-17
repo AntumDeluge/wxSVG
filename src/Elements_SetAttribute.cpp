@@ -222,7 +222,7 @@ bool wxSVGFEMorphologyElement::SetAttribute(const wxString& attrName, const wxSt
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_operator.GetBaseVal() = value;
+      m_operator.SetBaseVal((char) value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
@@ -246,7 +246,7 @@ bool wxSVGMarkerElement::SetAttribute(const wxString& attrName, const wxString& 
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_markerUnits.GetBaseVal() = value;
+      m_markerUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("markerWidth"))
 	m_markerWidth.GetBaseVal().SetValueAsString(attrValue);
@@ -289,7 +289,7 @@ bool wxSVGPathElement::SetAttribute(const wxString& attrName, const wxString& at
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_pathLength.GetBaseVal() = value;
+      m_pathLength.SetBaseVal(value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
@@ -329,7 +329,7 @@ bool wxSVGFEColorMatrixElement::SetAttribute(const wxString& attrName, const wxS
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_type.GetBaseVal() = value;
+      m_type.SetBaseVal((char) value);
   }
   else if (attrName == wxT("values"))
   {
@@ -375,13 +375,13 @@ bool wxSVGFEOffsetElement::SetAttribute(const wxString& attrName, const wxString
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_dx.GetBaseVal() = value;
+      m_dx.SetBaseVal(value);
   }
   else if (attrName == wxT("dy"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_dy.GetBaseVal() = value;
+      m_dy.SetBaseVal(value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
@@ -544,31 +544,31 @@ bool wxSVGFECompositeElement::SetAttribute(const wxString& attrName, const wxStr
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_operator.GetBaseVal() = value;
+      m_operator.SetBaseVal((char) value);
   }
   else if (attrName == wxT("k1"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_k1.GetBaseVal() = value;
+      m_k1.SetBaseVal(value);
   }
   else if (attrName == wxT("k2"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_k2.GetBaseVal() = value;
+      m_k2.SetBaseVal(value);
   }
   else if (attrName == wxT("k3"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_k3.GetBaseVal() = value;
+      m_k3.SetBaseVal(value);
   }
   else if (attrName == wxT("k4"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_k4.GetBaseVal() = value;
+      m_k4.SetBaseVal(value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
@@ -588,7 +588,7 @@ bool wxSVGGradientElement::SetAttribute(const wxString& attrName, const wxString
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_gradientUnits.GetBaseVal() = value;
+      m_gradientUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("gradientTransform"))
   {
@@ -632,7 +632,7 @@ bool wxSVGGradientElement::SetAttribute(const wxString& attrName, const wxString
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_spreadMethod.GetBaseVal() = value;
+      m_spreadMethod.SetBaseVal((char) value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
@@ -686,19 +686,19 @@ bool wxSVGFEPointLightElement::SetAttribute(const wxString& attrName, const wxSt
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_x.GetBaseVal() = value;
+      m_x.SetBaseVal(value);
   }
   else if (attrName == wxT("y"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_y.GetBaseVal() = value;
+      m_y.SetBaseVal(value);
   }
   else if (attrName == wxT("z"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_z.GetBaseVal() = value;
+      m_z.SetBaseVal(value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
@@ -730,7 +730,7 @@ bool wxSVGStopElement::SetAttribute(const wxString& attrName, const wxString& at
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_offset.GetBaseVal() = value;
+      m_offset.SetBaseVal(value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGStylable::SetAttribute(attrName, attrValue));
@@ -754,19 +754,19 @@ bool wxSVGFEDisplacementMapElement::SetAttribute(const wxString& attrName, const
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_scale.GetBaseVal() = value;
+      m_scale.SetBaseVal(value);
   }
   else if (attrName == wxT("xChannelSelector"))
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_xChannelSelector.GetBaseVal() = value;
+      m_xChannelSelector.SetBaseVal((char) value);
   }
   else if (attrName == wxT("yChannelSelector"))
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_yChannelSelector.GetBaseVal() = value;
+      m_yChannelSelector.SetBaseVal((char) value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
@@ -825,13 +825,13 @@ bool wxSVGPatternElement::SetAttribute(const wxString& attrName, const wxString&
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_patternUnits.GetBaseVal() = value;
+      m_patternUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("patternContentUnits"))
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_patternContentUnits.GetBaseVal() = value;
+      m_patternContentUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("patternTransform"))
   {
@@ -899,7 +899,11 @@ bool wxSVGPatternElement::SetAttribute(const wxString& attrName, const wxString&
 bool wxSVGExternalResourcesRequired::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("externalResourcesRequired"))
-	m_externalResourcesRequired.GetBaseVal() = attrValue;
+  {
+    long value;
+    if (attrValue.ToLong(&value))
+      m_externalResourcesRequired.SetBaseVal((bool) value);
+  }
   else 
       return false;
 
@@ -1158,7 +1162,7 @@ bool wxSVGFEBlendElement::SetAttribute(const wxString& attrName, const wxString&
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_mode.GetBaseVal() = value;
+      m_mode.SetBaseVal((char) value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
@@ -1291,13 +1295,13 @@ bool wxSVGFilterElement::SetAttribute(const wxString& attrName, const wxString& 
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_filterUnits.GetBaseVal() = value;
+      m_filterUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("primitiveUnits"))
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_primitiveUnits.GetBaseVal() = value;
+      m_primitiveUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("x"))
 	m_x.GetBaseVal().SetValueAsString(attrValue);
@@ -1328,7 +1332,7 @@ bool wxSVGClipPathElement::SetAttribute(const wxString& attrName, const wxString
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_clipPathUnits.GetBaseVal() = value;
+      m_clipPathUnits.SetBaseVal((char) value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
@@ -1370,13 +1374,13 @@ bool wxSVGMaskElement::SetAttribute(const wxString& attrName, const wxString& at
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_maskUnits.GetBaseVal() = value;
+      m_maskUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("maskContentUnits"))
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_maskContentUnits.GetBaseVal() = value;
+      m_maskContentUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("x"))
 	m_x.GetBaseVal().SetValueAsString(attrValue);
@@ -1462,13 +1466,13 @@ bool wxSVGFEDistantLightElement::SetAttribute(const wxString& attrName, const wx
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_azimuth.GetBaseVal() = value;
+      m_azimuth.SetBaseVal(value);
   }
   else if (attrName == wxT("elevation"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_elevation.GetBaseVal() = value;
+      m_elevation.SetBaseVal(value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
@@ -1489,13 +1493,13 @@ bool wxSVGFEDiffuseLightingElement::SetAttribute(const wxString& attrName, const
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_surfaceScale.GetBaseVal() = value;
+      m_surfaceScale.SetBaseVal(value);
   }
   else if (attrName == wxT("diffuseConstant"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_diffuseConstant.GetBaseVal() = value;
+      m_diffuseConstant.SetBaseVal(value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
@@ -1915,49 +1919,49 @@ bool wxSVGFESpotLightElement::SetAttribute(const wxString& attrName, const wxStr
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_x.GetBaseVal() = value;
+      m_x.SetBaseVal(value);
   }
   else if (attrName == wxT("y"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_y.GetBaseVal() = value;
+      m_y.SetBaseVal(value);
   }
   else if (attrName == wxT("z"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_z.GetBaseVal() = value;
+      m_z.SetBaseVal(value);
   }
   else if (attrName == wxT("pointsAtX"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_pointsAtX.GetBaseVal() = value;
+      m_pointsAtX.SetBaseVal(value);
   }
   else if (attrName == wxT("pointsAtY"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_pointsAtY.GetBaseVal() = value;
+      m_pointsAtY.SetBaseVal(value);
   }
   else if (attrName == wxT("pointsAtZ"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_pointsAtZ.GetBaseVal() = value;
+      m_pointsAtZ.SetBaseVal(value);
   }
   else if (attrName == wxT("specularExponent"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_specularExponent.GetBaseVal() = value;
+      m_specularExponent.SetBaseVal(value);
   }
   else if (attrName == wxT("limitingConeAngle"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_limitingConeAngle.GetBaseVal() = value;
+      m_limitingConeAngle.SetBaseVal(value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
@@ -2001,25 +2005,25 @@ bool wxSVGFETurbulenceElement::SetAttribute(const wxString& attrName, const wxSt
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_numOctaves.GetBaseVal() = value;
+      m_numOctaves.SetBaseVal((long int) value);
   }
   else if (attrName == wxT("seed"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_seed.GetBaseVal() = value;
+      m_seed.SetBaseVal(value);
   }
   else if (attrName == wxT("stitchTiles"))
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_stitchTiles.GetBaseVal() = value;
+      m_stitchTiles.SetBaseVal((char) value);
   }
   else if (attrName == wxT("type"))
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_type.GetBaseVal() = value;
+      m_type.SetBaseVal((char) value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
@@ -2039,7 +2043,7 @@ bool wxSVGComponentTransferFunctionElement::SetAttribute(const wxString& attrNam
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_type.GetBaseVal() = value;
+      m_type.SetBaseVal((char) value);
   }
   else if (attrName == wxT("tableValues"))
   {
@@ -2056,31 +2060,31 @@ bool wxSVGComponentTransferFunctionElement::SetAttribute(const wxString& attrNam
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_slope.GetBaseVal() = value;
+      m_slope.SetBaseVal(value);
   }
   else if (attrName == wxT("intercept"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_intercept.GetBaseVal() = value;
+      m_intercept.SetBaseVal(value);
   }
   else if (attrName == wxT("amplitude"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_amplitude.GetBaseVal() = value;
+      m_amplitude.SetBaseVal(value);
   }
   else if (attrName == wxT("exponent"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_exponent.GetBaseVal() = value;
+      m_exponent.SetBaseVal(value);
   }
   else if (attrName == wxT("offset"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_offset.GetBaseVal() = value;
+      m_offset.SetBaseVal(value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
@@ -2259,7 +2263,7 @@ bool wxSVGTextContentElement::SetAttribute(const wxString& attrName, const wxStr
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_lengthAdjust.GetBaseVal() = value;
+      m_lengthAdjust.SetBaseVal((char) value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
@@ -2374,13 +2378,13 @@ bool wxSVGTextPathElement::SetAttribute(const wxString& attrName, const wxString
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_method.GetBaseVal() = value;
+      m_method.SetBaseVal((char) value);
   }
   else if (attrName == wxT("spacing"))
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_spacing.GetBaseVal() = value;
+      m_spacing.SetBaseVal((char) value);
   }
   else if (wxSVGTextContentElement::SetAttribute(attrName, attrValue));
   else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
@@ -2491,34 +2495,38 @@ bool wxSVGFEConvolveMatrixElement::SetAttribute(const wxString& attrName, const 
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_divisor.GetBaseVal() = value;
+      m_divisor.SetBaseVal(value);
   }
   else if (attrName == wxT("bias"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_bias.GetBaseVal() = value;
+      m_bias.SetBaseVal(value);
   }
   else if (attrName == wxT("targetX"))
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_targetX.GetBaseVal() = value;
+      m_targetX.SetBaseVal((long int) value);
   }
   else if (attrName == wxT("targetY"))
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_targetY.GetBaseVal() = value;
+      m_targetY.SetBaseVal((long int) value);
   }
   else if (attrName == wxT("edgeMode"))
   {
     long value;
     if (attrValue.ToLong(&value))
-      m_edgeMode.GetBaseVal() = value;
+      m_edgeMode.SetBaseVal((char) value);
   }
   else if (attrName == wxT("preserveAlpha"))
-	m_preserveAlpha.GetBaseVal() = attrValue;
+  {
+    long value;
+    if (attrValue.ToLong(&value))
+      m_preserveAlpha.SetBaseVal((bool) value);
+  }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
   else 
@@ -2626,19 +2634,19 @@ bool wxSVGFESpecularLightingElement::SetAttribute(const wxString& attrName, cons
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_surfaceScale.GetBaseVal() = value;
+      m_surfaceScale.SetBaseVal(value);
   }
   else if (attrName == wxT("specularConstant"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_specularConstant.GetBaseVal() = value;
+      m_specularConstant.SetBaseVal(value);
   }
   else if (attrName == wxT("specularExponent"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_specularExponent.GetBaseVal() = value;
+      m_specularExponent.SetBaseVal(value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));

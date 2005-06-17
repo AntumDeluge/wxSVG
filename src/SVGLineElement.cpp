@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGLineElement.cpp,v 1.1.1.1 2005-05-10 17:51:39 ntalex Exp $
+// RCS-ID:      $Id: SVGLineElement.cpp,v 1.2 2005-06-17 13:24:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,18 +12,23 @@
 
 wxSVGRect wxSVGLineElement::GetBBox()
 {
-  wxSVGRect bbox(GetX1(), GetY1(), GetX2() - GetX1(), GetY2() - GetY1());
+  double x1 = GetX1().GetBaseVal();
+  double y1 = GetY1().GetBaseVal();
+  double x2 = GetX2().GetBaseVal();
+  double y2 = GetY2().GetBaseVal();
   
-  if (GetX1() > GetX2())
+  wxSVGRect bbox(x1, y1, x2 - x1, y2 - y1);
+  
+  if (x1 > x2)
   {
-	bbox.SetX(GetX2());
-	bbox.SetWidth(GetX1() - GetX2());
+	bbox.SetX(x2);
+	bbox.SetWidth(x1 - x2);
   }
   
-  if (GetY1() > GetY2())
+  if (y1 > y2)
   {
-	bbox.SetY(GetY2());
-	bbox.SetHeight(GetY1() - GetY2());
+	bbox.SetY(y2);
+	bbox.SetHeight(y1 - y2);
   }
   
   return bbox;

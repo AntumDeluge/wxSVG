@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.5 2005-06-07 22:13:23 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.6 2005-06-17 13:24:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -26,8 +26,8 @@ void wxSVGCanvasPath::Init(wxSVGLineElement& element)
 {
   SetFill(false);
   
-  MoveTo(element.GetX1(), element.GetY1());
-  LineTo(element.GetX2(), element.GetY2());
+  MoveTo(element.GetX1().GetBaseVal(), element.GetY1().GetBaseVal());
+  LineTo(element.GetX2().GetBaseVal(), element.GetY2().GetBaseVal());
   End();
 }
 
@@ -35,7 +35,7 @@ void wxSVGCanvasPath::Init(wxSVGPolylineElement& element)
 {
   SetFill(false);
   
-  wxSVGPointList& points = element.GetPoints();
+  const wxSVGPointList& points = element.GetPoints();
   if (points.Count())
 	MoveTo(points[0].GetX(), points[0].GetY());
   for (unsigned int i=1; i<points.Count(); i++)
@@ -45,7 +45,7 @@ void wxSVGCanvasPath::Init(wxSVGPolylineElement& element)
 
 void wxSVGCanvasPath::Init(wxSVGPolygonElement& element)
 {
-  wxSVGPointList& points = element.GetPoints();
+  const wxSVGPointList& points = element.GetPoints();
   if (points.Count())
 	MoveTo(points[0].GetX(), points[0].GetY());
   for (unsigned int i=1; i<points.Count(); i++)
@@ -56,12 +56,12 @@ void wxSVGCanvasPath::Init(wxSVGPolygonElement& element)
 
 void wxSVGCanvasPath::Init(wxSVGRectElement& element)
 {
-  double x = element.GetX();
-  double y = element.GetY();
-  double width = element.GetWidth();
-  double height = element.GetHeight();
-  double rx = element.GetRx();
-  double ry = element.GetRy();
+  double x = element.GetX().GetBaseVal();
+  double y = element.GetY().GetBaseVal();
+  double width = element.GetWidth().GetBaseVal();
+  double height = element.GetHeight().GetBaseVal();
+  double rx = element.GetRx().GetBaseVal();
+  double ry = element.GetRy().GetBaseVal();
   
   if (rx == 0 && ry == 0)
   {
@@ -101,9 +101,9 @@ void wxSVGCanvasPath::Init(wxSVGRectElement& element)
 
 void wxSVGCanvasPath::Init(wxSVGCircleElement& element)
 {
-  double cx = element.GetCx();
-  double cy = element.GetCy();
-  double r = element.GetR();
+  double cx = element.GetCx().GetBaseVal();
+  double cy = element.GetCy().GetBaseVal();
+  double r = element.GetR().GetBaseVal();
   double len = 0.55228474983079356;
   double cos4[] = {1.0, 0.0, -1.0, 0.0, 1.0};
   double sin4[] = {0.0, 1.0, 0.0, -1.0, 0.0};
@@ -125,10 +125,10 @@ void wxSVGCanvasPath::Init(wxSVGCircleElement& element)
 
 void wxSVGCanvasPath::Init(wxSVGEllipseElement& element)
 {
-  double cx = element.GetCx();
-  double cy = element.GetCy();
-  double rx = element.GetRx();
-  double ry = element.GetRy();
+  double cx = element.GetCx().GetBaseVal();
+  double cy = element.GetCy().GetBaseVal();
+  double rx = element.GetRx().GetBaseVal();
+  double ry = element.GetRy().GetBaseVal();
   double len = 0.55228474983079356;
   double cos4[] = {1.0, 0.0, -1.0, 0.0, 1.0};
   double sin4[] = {0.0, 1.0, 0.0, -1.0, 0.0};
@@ -150,7 +150,7 @@ void wxSVGCanvasPath::Init(wxSVGEllipseElement& element)
 
 void wxSVGCanvasPath::Init(wxSVGPathElement& element)
 {
-  wxSVGPathSegList& segList = element.GetPathSegList();
+  const wxSVGPathSegList& segList = element.GetPathSegList();
   for (int i = 0; i < (int)segList.Count(); i++)
   {
 	switch (segList[i].GetPathSegType())
@@ -523,8 +523,8 @@ wxSVGCanvasText::wxSVGCanvasText(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_TEXT)
 void wxSVGCanvasText::Init(wxSVGTextElement& element,
   wxCSSStyleDeclaration& style)
 {
-  m_tx = element.GetX().Count() ? element.GetX()[0] : wxSVGLength(0);
-  m_ty = element.GetY().Count() ? element.GetY()[0] : wxSVGLength(0);
+  m_tx = element.GetX().GetBaseVal().Count() ? element.GetX().GetBaseVal()[0] : wxSVGLength(0);
+  m_ty = element.GetY().GetBaseVal().Count() ? element.GetY().GetBaseVal()[0] : wxSVGLength(0);
   InitChildren(element, style);
   EndChunk();
 }
@@ -532,16 +532,16 @@ void wxSVGCanvasText::Init(wxSVGTextElement& element,
 void wxSVGCanvasText::Init(wxSVGTSpanElement& element,
   wxCSSStyleDeclaration& style)
 {
-  if (element.GetX().Count())
+  if (element.GetX().GetBaseVal().Count())
 	EndChunk();
   
-  if (element.GetX().Count())
-	m_tx = element.GetX()[0];
-  if (element.GetY().Count())
-	m_ty = element.GetY()[0];
+  if (element.GetX().GetBaseVal().Count())
+	m_tx = element.GetX().GetBaseVal()[0];
+  if (element.GetY().GetBaseVal().Count())
+	m_ty = element.GetY().GetBaseVal()[0];
   InitChildren(element, style);
   
-  if (element.GetX().Count())
+  if (element.GetX().GetBaseVal().Count())
 	EndChunk();
 }
 
@@ -575,9 +575,9 @@ void wxSVGCanvasText::InitChildren(wxSVGTextPositioningElement& element,
 
 void wxSVGCanvasImage::Init(wxSVGImageElement& element)
 {
-  m_x = element.GetX();
-  m_y = element.GetY();
-  m_width = element.GetWidth();
-  m_height = element.GetHeight();
+  m_x = element.GetX().GetBaseVal();
+  m_y = element.GetY().GetBaseVal();
+  m_width = element.GetWidth().GetBaseVal();
+  m_height = element.GetHeight().GetBaseVal();
   m_image.LoadFile(element.GetHref());
 }

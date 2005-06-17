@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.9 2005-06-16 20:57:14 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.10 2005-06-17 13:24:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ wxXmlElement* wxSVGDocument::CreateElement(const wxString& tagName)
 #include "SVGDocument_CreateElement.cpp"
 
 void RenderChilds(wxSVGCanvas* canvas, wxSVGElement* parent,
-  wxSVGMatrix* parentMatrix, wxCSSStyleDeclaration* parentStyle,
+  const wxSVGMatrix* parentMatrix, const wxCSSStyleDeclaration* parentStyle,
   wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement)
 {
   wxSVGElement* elem = (wxSVGElement*) parent->GetChildren();
@@ -156,7 +156,8 @@ wxImage wxSVGDocument::Render(int width, int height)
   // view box
   wxSVGRect viewbox = GetRootElement()->GetViewBox();
   if (viewbox.GetWidth()<=0 && viewbox.GetHeight()<=0)
-    viewbox = wxSVGRect(0, 0, GetRootElement()->GetWidth(), GetRootElement()->GetHeight());
+    viewbox = wxSVGRect(0, 0, GetRootElement()->GetWidth().GetBaseVal(),
+					    GetRootElement()->GetHeight().GetBaseVal());
   if (viewbox.GetWidth()<=0 || viewbox.GetHeight()<=0)
   {
 	viewbox = GetRootElement()->GetBBox();
@@ -164,11 +165,11 @@ wxImage wxSVGDocument::Render(int width, int height)
   }
   
   // scale it to fit in
-  float scale = 1;
+  double scale = 1;
   if (width == -1 || height == -1)
   {
-	width = (int) GetRootElement()->GetWidth();
-	height = (int) GetRootElement()->GetHeight();
+	width = (int) GetRootElement()->GetWidth().GetBaseVal();
+	height = (int) GetRootElement()->GetHeight().GetBaseVal();
 	if (width <= 0 || height <= 0)
 	{
 	  width = (int) viewbox.GetWidth();

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.1.1.1 2005-05-10 17:51:39 ntalex Exp $
+// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.2 2005-06-17 13:24:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -45,12 +45,12 @@ bool wxSVGSVGElement::AnimationsPaused()
   return false;
 }
 
-float wxSVGSVGElement::GetCurrentTime()
+double wxSVGSVGElement::GetCurrentTime()
 {
   return 0;
 }
 
-void wxSVGSVGElement::SetCurrentTime(float seconds)
+void wxSVGSVGElement::SetCurrentTime(double seconds)
 {
 
 }

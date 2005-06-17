@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGLength.cpp,v 1.3 2005-06-16 20:56:10 ntalex Exp $
+// RCS-ID:      $Id: SVGLength.cpp,v 1.4 2005-06-17 13:24:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ void wxSVGLength::SetValueAsString(const wxString& n)
   SetValueInSpecifiedUnits(m_valueInSpecifiedUnits);
 }
 
-void wxSVGLength::NewValueSpecifiedUnits(wxSVG_LENGTHTYPE unitType, float valueInSpecifiedUnits)
+void wxSVGLength::NewValueSpecifiedUnits(wxSVG_LENGTHTYPE unitType, double valueInSpecifiedUnits)
 {
   m_unitType = unitType;
   SetValueInSpecifiedUnits(valueInSpecifiedUnits);
@@ -93,7 +93,7 @@ void wxSVGLength::ConvertToSpecifiedUnits(wxSVG_LENGTHTYPE unitType)
   m_unitType = unitType;
 }
 
-void wxSVGLength::SetValueInSpecifiedUnits(float n)
+void wxSVGLength::SetValueInSpecifiedUnits(double n)
 {
   m_valueInSpecifiedUnits = n;
   m_value = n;

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.cpp,v 1.6 2005-06-09 02:19:40 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.cpp,v 1.7 2005-06-17 13:24:49 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -108,13 +108,13 @@ wxString wxCSSPrimitiveValue::GetStringValue() const
   return wxT("");
 }
 
-void wxCSSPrimitiveValue::SetFloatValue(wxCSS_PRIMITIVE_TYPE unitType, double floatValue)
+void wxCSSPrimitiveValue::SetFloatValue(wxCSS_PRIMITIVE_TYPE unitType, double doubleValue)
 {
   CleanUp();
   m_primitiveType =
 	int(unitType) >= int(wxCSS_NUMBER) &&
 	int(unitType) <= int(wxCSS_DIMENSION) ? unitType : wxCSS_NUMBER;
-  m_number = floatValue;
+  m_number = doubleValue;
 }
 
 double wxCSSPrimitiveValue::GetFloatValue(wxCSS_PRIMITIVE_TYPE unitType) const
