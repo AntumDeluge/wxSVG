@@ -46,72 +46,49 @@ class wxSVGFEConvolveMatrixElement:
     wxSVGAnimatedBoolean m_preserveAlpha;
 
   public:
-    inline long GetOrderX() const { return m_orderX.GetBaseVal(); }
-    inline void SetOrderX(const long n) { m_orderX.GetBaseVal() = n; }
+    inline const wxSVGAnimatedInteger& GetOrderX() const { return m_orderX; }
+    inline void SetOrderX(const wxSVGAnimatedInteger& n) { m_orderX = n; }
+    inline void SetOrderX(long n) { m_orderX.SetBaseVal(n); }
 
-    inline long GetOrderY() const { return m_orderY.GetBaseVal(); }
-    inline void SetOrderY(const long n) { m_orderY.GetBaseVal() = n; }
+    inline const wxSVGAnimatedInteger& GetOrderY() const { return m_orderY; }
+    inline void SetOrderY(const wxSVGAnimatedInteger& n) { m_orderY = n; }
+    inline void SetOrderY(long n) { m_orderY.SetBaseVal(n); }
 
-    inline wxSVGNumberList& GetKernelMatrix() { return m_kernelMatrix.GetBaseVal(); }
-    inline void SetKernelMatrix(const wxSVGNumberList& n) { m_kernelMatrix.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumberList& GetKernelMatrix() const { return m_kernelMatrix; }
+    inline void SetKernelMatrix(const wxSVGAnimatedNumberList& n) { m_kernelMatrix = n; }
+    inline void SetKernelMatrix(const wxSVGNumberList& n) { m_kernelMatrix.SetBaseVal(n); }
 
-    inline float GetDivisor() const { return m_divisor.GetBaseVal(); }
-    inline void SetDivisor(const float n) { m_divisor.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetDivisor() const { return m_divisor; }
+    inline void SetDivisor(const wxSVGAnimatedNumber& n) { m_divisor = n; }
+    inline void SetDivisor(float n) { m_divisor.SetBaseVal(n); }
 
-    inline float GetBias() const { return m_bias.GetBaseVal(); }
-    inline void SetBias(const float n) { m_bias.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetBias() const { return m_bias; }
+    inline void SetBias(const wxSVGAnimatedNumber& n) { m_bias = n; }
+    inline void SetBias(float n) { m_bias.SetBaseVal(n); }
 
-    inline long GetTargetX() const { return m_targetX.GetBaseVal(); }
-    inline void SetTargetX(const long n) { m_targetX.GetBaseVal() = n; }
+    inline const wxSVGAnimatedInteger& GetTargetX() const { return m_targetX; }
+    inline void SetTargetX(const wxSVGAnimatedInteger& n) { m_targetX = n; }
+    inline void SetTargetX(long n) { m_targetX.SetBaseVal(n); }
 
-    inline long GetTargetY() const { return m_targetY.GetBaseVal(); }
-    inline void SetTargetY(const long n) { m_targetY.GetBaseVal() = n; }
+    inline const wxSVGAnimatedInteger& GetTargetY() const { return m_targetY; }
+    inline void SetTargetY(const wxSVGAnimatedInteger& n) { m_targetY = n; }
+    inline void SetTargetY(long n) { m_targetY.SetBaseVal(n); }
 
-    inline char GetEdgeMode() const { return m_edgeMode.GetBaseVal(); }
-    inline void SetEdgeMode(const char n) { m_edgeMode.GetBaseVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetEdgeMode() const { return m_edgeMode; }
+    inline void SetEdgeMode(const wxSVGAnimatedEnumeration& n) { m_edgeMode = n; }
+    inline void SetEdgeMode(char n) { m_edgeMode.SetBaseVal(n); }
 
-    inline wxSVGLength& GetKernelUnitLengthX() { return m_kernelUnitLengthX.GetBaseVal(); }
-    inline void SetKernelUnitLengthX(const wxSVGLength& n) { m_kernelUnitLengthX.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetKernelUnitLengthX() const { return m_kernelUnitLengthX; }
+    inline void SetKernelUnitLengthX(const wxSVGAnimatedLength& n) { m_kernelUnitLengthX = n; }
+    inline void SetKernelUnitLengthX(const wxSVGLength& n) { m_kernelUnitLengthX.SetBaseVal(n); }
 
-    inline wxSVGLength& GetKernelUnitLengthY() { return m_kernelUnitLengthY.GetBaseVal(); }
-    inline void SetKernelUnitLengthY(const wxSVGLength& n) { m_kernelUnitLengthY.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetKernelUnitLengthY() const { return m_kernelUnitLengthY; }
+    inline void SetKernelUnitLengthY(const wxSVGAnimatedLength& n) { m_kernelUnitLengthY = n; }
+    inline void SetKernelUnitLengthY(const wxSVGLength& n) { m_kernelUnitLengthY.SetBaseVal(n); }
 
-    inline bool GetPreserveAlpha() const { return m_preserveAlpha.GetBaseVal(); }
-    inline void SetPreserveAlpha(const bool n) { m_preserveAlpha.GetBaseVal() = n; }
-
-  public:
-    inline long GetAnimatedOrderX() const { return m_orderX.GetAnimVal(); }
-    inline void SetAnimatedOrderX(const long n) { m_orderX.GetAnimVal() = n; }
-
-    inline long GetAnimatedOrderY() const { return m_orderY.GetAnimVal(); }
-    inline void SetAnimatedOrderY(const long n) { m_orderY.GetAnimVal() = n; }
-
-    inline wxSVGNumberList& GetAnimatedKernelMatrix() { return m_kernelMatrix.GetAnimVal(); }
-    inline void SetAnimatedKernelMatrix(const wxSVGNumberList& n) { m_kernelMatrix.GetAnimVal() = n; }
-
-    inline float GetAnimatedDivisor() const { return m_divisor.GetAnimVal(); }
-    inline void SetAnimatedDivisor(const float n) { m_divisor.GetAnimVal() = n; }
-
-    inline float GetAnimatedBias() const { return m_bias.GetAnimVal(); }
-    inline void SetAnimatedBias(const float n) { m_bias.GetAnimVal() = n; }
-
-    inline long GetAnimatedTargetX() const { return m_targetX.GetAnimVal(); }
-    inline void SetAnimatedTargetX(const long n) { m_targetX.GetAnimVal() = n; }
-
-    inline long GetAnimatedTargetY() const { return m_targetY.GetAnimVal(); }
-    inline void SetAnimatedTargetY(const long n) { m_targetY.GetAnimVal() = n; }
-
-    inline char GetAnimatedEdgeMode() const { return m_edgeMode.GetAnimVal(); }
-    inline void SetAnimatedEdgeMode(const char n) { m_edgeMode.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedKernelUnitLengthX() { return m_kernelUnitLengthX.GetAnimVal(); }
-    inline void SetAnimatedKernelUnitLengthX(const wxSVGLength& n) { m_kernelUnitLengthX.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedKernelUnitLengthY() { return m_kernelUnitLengthY.GetAnimVal(); }
-    inline void SetAnimatedKernelUnitLengthY(const wxSVGLength& n) { m_kernelUnitLengthY.GetAnimVal() = n; }
-
-    inline bool GetAnimatedPreserveAlpha() const { return m_preserveAlpha.GetAnimVal(); }
-    inline void SetAnimatedPreserveAlpha(const bool n) { m_preserveAlpha.GetAnimVal() = n; }
+    inline const wxSVGAnimatedBoolean& GetPreserveAlpha() const { return m_preserveAlpha; }
+    inline void SetPreserveAlpha(const wxSVGAnimatedBoolean& n) { m_preserveAlpha = n; }
+    inline void SetPreserveAlpha(bool n) { m_preserveAlpha.SetBaseVal(n); }
 
   public:
     wxSVGFEConvolveMatrixElement(wxSVGDocument* doc, wxString tagName = wxT("feConvolveMatrix")):

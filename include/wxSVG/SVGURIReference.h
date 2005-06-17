@@ -18,12 +18,9 @@ class wxSVGURIReference
     wxSVGAnimatedString m_href;
 
   public:
-    inline const wxString& GetHref() { return m_href.GetBaseVal(); }
-    inline void SetHref(const wxString& n) { m_href.GetBaseVal() = n; }
-
-  public:
-    inline const wxString& GetAnimatedHref() { return m_href.GetAnimVal(); }
-    inline void SetAnimatedHref(const wxString& n) { m_href.GetAnimVal() = n; }
+    inline const wxSVGAnimatedString& GetHref() const { return m_href; }
+    inline void SetHref(const wxSVGAnimatedString& n) { m_href = n; }
+    inline void SetHref(const wxString& n) { m_href.SetBaseVal(n); }
 
   public:
     virtual ~wxSVGURIReference() {}

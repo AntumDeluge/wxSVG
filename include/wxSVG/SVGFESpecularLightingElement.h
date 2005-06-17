@@ -26,30 +26,21 @@ class wxSVGFESpecularLightingElement:
     wxSVGAnimatedNumber m_specularExponent;
 
   public:
-    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxSVGAnimatedString& GetIn1() const { return m_in1; }
+    inline void SetIn1(const wxSVGAnimatedString& n) { m_in1 = n; }
+    inline void SetIn1(const wxString& n) { m_in1.SetBaseVal(n); }
 
-    inline float GetSurfaceScale() const { return m_surfaceScale.GetBaseVal(); }
-    inline void SetSurfaceScale(const float n) { m_surfaceScale.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetSurfaceScale() const { return m_surfaceScale; }
+    inline void SetSurfaceScale(const wxSVGAnimatedNumber& n) { m_surfaceScale = n; }
+    inline void SetSurfaceScale(float n) { m_surfaceScale.SetBaseVal(n); }
 
-    inline float GetSpecularConstant() const { return m_specularConstant.GetBaseVal(); }
-    inline void SetSpecularConstant(const float n) { m_specularConstant.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetSpecularConstant() const { return m_specularConstant; }
+    inline void SetSpecularConstant(const wxSVGAnimatedNumber& n) { m_specularConstant = n; }
+    inline void SetSpecularConstant(float n) { m_specularConstant.SetBaseVal(n); }
 
-    inline float GetSpecularExponent() const { return m_specularExponent.GetBaseVal(); }
-    inline void SetSpecularExponent(const float n) { m_specularExponent.GetBaseVal() = n; }
-
-  public:
-    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
-
-    inline float GetAnimatedSurfaceScale() const { return m_surfaceScale.GetAnimVal(); }
-    inline void SetAnimatedSurfaceScale(const float n) { m_surfaceScale.GetAnimVal() = n; }
-
-    inline float GetAnimatedSpecularConstant() const { return m_specularConstant.GetAnimVal(); }
-    inline void SetAnimatedSpecularConstant(const float n) { m_specularConstant.GetAnimVal() = n; }
-
-    inline float GetAnimatedSpecularExponent() const { return m_specularExponent.GetAnimVal(); }
-    inline void SetAnimatedSpecularExponent(const float n) { m_specularExponent.GetAnimVal() = n; }
+    inline const wxSVGAnimatedNumber& GetSpecularExponent() const { return m_specularExponent; }
+    inline void SetSpecularExponent(const wxSVGAnimatedNumber& n) { m_specularExponent = n; }
+    inline void SetSpecularExponent(float n) { m_specularExponent.SetBaseVal(n); }
 
   public:
     wxSVGFESpecularLightingElement(wxSVGDocument* doc, wxString tagName = wxT("feSpecularLighting")):

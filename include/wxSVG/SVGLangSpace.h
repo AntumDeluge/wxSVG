@@ -18,10 +18,10 @@ class wxSVGLangSpace
     wxString m_xmlspace;
 
   public:
-    inline const wxString& GetXmllang() { return m_xmllang; }
+    inline const wxString& GetXmllang() const { return m_xmllang; }
     inline void SetXmllang(const wxString& n) { m_xmllang = n; }
 
-    inline const wxString& GetXmlspace() { return m_xmlspace; }
+    inline const wxString& GetXmlspace() const { return m_xmlspace; }
     inline void SetXmlspace(const wxString& n) { m_xmlspace = n; }
 
   public:

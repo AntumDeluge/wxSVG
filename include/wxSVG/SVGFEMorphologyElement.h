@@ -35,30 +35,21 @@ class wxSVGFEMorphologyElement:
     wxSVGAnimatedLength m_radiusY;
 
   public:
-    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxSVGAnimatedString& GetIn1() const { return m_in1; }
+    inline void SetIn1(const wxSVGAnimatedString& n) { m_in1 = n; }
+    inline void SetIn1(const wxString& n) { m_in1.SetBaseVal(n); }
 
-    inline char GetOperator() const { return m_operator.GetBaseVal(); }
-    inline void SetOperator(const char n) { m_operator.GetBaseVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetOperator() const { return m_operator; }
+    inline void SetOperator(const wxSVGAnimatedEnumeration& n) { m_operator = n; }
+    inline void SetOperator(char n) { m_operator.SetBaseVal(n); }
 
-    inline wxSVGLength& GetRadiusX() { return m_radiusX.GetBaseVal(); }
-    inline void SetRadiusX(const wxSVGLength& n) { m_radiusX.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetRadiusX() const { return m_radiusX; }
+    inline void SetRadiusX(const wxSVGAnimatedLength& n) { m_radiusX = n; }
+    inline void SetRadiusX(const wxSVGLength& n) { m_radiusX.SetBaseVal(n); }
 
-    inline wxSVGLength& GetRadiusY() { return m_radiusY.GetBaseVal(); }
-    inline void SetRadiusY(const wxSVGLength& n) { m_radiusY.GetBaseVal() = n; }
-
-  public:
-    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
-
-    inline char GetAnimatedOperator() const { return m_operator.GetAnimVal(); }
-    inline void SetAnimatedOperator(const char n) { m_operator.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedRadiusX() { return m_radiusX.GetAnimVal(); }
-    inline void SetAnimatedRadiusX(const wxSVGLength& n) { m_radiusX.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedRadiusY() { return m_radiusY.GetAnimVal(); }
-    inline void SetAnimatedRadiusY(const wxSVGLength& n) { m_radiusY.GetAnimVal() = n; }
+    inline const wxSVGAnimatedLength& GetRadiusY() const { return m_radiusY; }
+    inline void SetRadiusY(const wxSVGAnimatedLength& n) { m_radiusY = n; }
+    inline void SetRadiusY(const wxSVGLength& n) { m_radiusY.SetBaseVal(n); }
 
   public:
     wxSVGFEMorphologyElement(wxSVGDocument* doc, wxString tagName = wxT("feMorphology")):

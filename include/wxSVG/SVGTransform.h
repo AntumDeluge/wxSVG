@@ -28,26 +28,26 @@ class wxSVGTransform
   protected:
     wxSVG_TRANSFORM m_type;
     wxSVGMatrix m_matrix;
-    float m_angle;
+    double m_angle;
 
   public:
     inline wxSVG_TRANSFORM GetType() const { return m_type; }
     inline void SetType(const wxSVG_TRANSFORM& n) { m_type = n; }
 
-    inline wxSVGMatrix& GetMatrix() { return m_matrix; }
-    inline float GetAngle() const { return m_angle; }
-    inline void SetAngle(const float n) { m_angle = n; }
+    inline const wxSVGMatrix& GetMatrix() const { return m_matrix; }
+    inline double GetAngle() const { return m_angle; }
+    inline void SetAngle(double n) { m_angle = n; }
 
   public:
     wxSVGTransform(): m_type(wxSVG_TRANSFORM(0)), m_angle(0) {}
     wxSVGTransform(const wxSVGMatrix& matrix): m_type(wxSVG_TRANSFORM_MATRIX), m_matrix(matrix), m_angle(0) {}
     virtual ~wxSVGTransform() {}
     inline void SetMatrix(const wxSVGMatrix& n) { m_type = wxSVG_TRANSFORM_MATRIX; m_matrix = n; }
-    virtual void SetTranslate(float tx, float ty);
-    virtual void SetScale(float sx, float sy);
-    virtual void SetRotate(float angle, float cx, float cy);
-    virtual void SetSkewX(float angle);
-    virtual void SetSkewY(float angle);
+    virtual void SetTranslate(double tx, double ty);
+    virtual void SetScale(double sx, double sy);
+    virtual void SetRotate(double angle, double cx, double cy);
+    virtual void SetSkewX(double angle);
+    virtual void SetSkewY(double angle);
 };
 
 #endif // WX_SVG_TRANSFORM_H

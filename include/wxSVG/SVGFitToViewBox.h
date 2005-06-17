@@ -20,18 +20,13 @@ class wxSVGFitToViewBox
     wxSVGAnimatedPreserveAspectRatio m_preserveAspectRatio;
 
   public:
-    inline wxSVGRect& GetViewBox() { return m_viewBox.GetBaseVal(); }
-    inline void SetViewBox(const wxSVGRect& n) { m_viewBox.GetBaseVal() = n; }
+    inline const wxSVGAnimatedRect& GetViewBox() const { return m_viewBox; }
+    inline void SetViewBox(const wxSVGAnimatedRect& n) { m_viewBox = n; }
+    inline void SetViewBox(const wxSVGRect& n) { m_viewBox.SetBaseVal(n); }
 
-    inline wxSVGPreserveAspectRatio& GetPreserveAspectRatio() { return m_preserveAspectRatio.GetBaseVal(); }
-    inline void SetPreserveAspectRatio(const wxSVGPreserveAspectRatio& n) { m_preserveAspectRatio.GetBaseVal() = n; }
-
-  public:
-    inline wxSVGRect& GetAnimatedViewBox() { return m_viewBox.GetAnimVal(); }
-    inline void SetAnimatedViewBox(const wxSVGRect& n) { m_viewBox.GetAnimVal() = n; }
-
-    inline wxSVGPreserveAspectRatio& GetAnimatedPreserveAspectRatio() { return m_preserveAspectRatio.GetAnimVal(); }
-    inline void SetAnimatedPreserveAspectRatio(const wxSVGPreserveAspectRatio& n) { m_preserveAspectRatio.GetAnimVal() = n; }
+    inline const wxSVGAnimatedPreserveAspectRatio& GetPreserveAspectRatio() const { return m_preserveAspectRatio; }
+    inline void SetPreserveAspectRatio(const wxSVGAnimatedPreserveAspectRatio& n) { m_preserveAspectRatio = n; }
+    inline void SetPreserveAspectRatio(const wxSVGPreserveAspectRatio& n) { m_preserveAspectRatio.SetBaseVal(n); }
 
   public:
     virtual ~wxSVGFitToViewBox() {}

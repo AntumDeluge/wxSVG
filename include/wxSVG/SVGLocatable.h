@@ -30,7 +30,7 @@ class wxSVGLocatable
     inline wxSVGElement* GetFarthestViewportElement() { return m_farthestViewportElement; }
     inline void SetFarthestViewportElement(wxSVGElement* n) { m_farthestViewportElement = n; }
 
-    inline wxSVGMatrix& GetScreenCTM() { return m_screenCTM; }
+    inline const wxSVGMatrix& GetScreenCTM() const { return m_screenCTM; }
     inline void SetScreenCTM(const wxSVGMatrix& n) { m_screenCTM = n; }
 
   public:

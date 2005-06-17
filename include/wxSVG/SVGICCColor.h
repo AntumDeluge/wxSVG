@@ -19,10 +19,10 @@ class wxSVGICCColor
     wxSVGNumberList m_colors;
 
   public:
-    inline const wxString& GetColorProfile() { return m_colorProfile; }
+    inline const wxString& GetColorProfile() const { return m_colorProfile; }
     inline void SetColorProfile(const wxString& n) { m_colorProfile = n; }
 
-    inline wxSVGNumberList& GetColors() { return m_colors; }
+    inline const wxSVGNumberList& GetColors() const { return m_colors; }
     inline void SetColors(const wxSVGNumberList& n) { m_colors = n; }
 
   public:

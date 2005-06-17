@@ -46,7 +46,7 @@ class wxSVGPathSeg
     inline wxPATHSEG GetPathSegType() const { return m_pathSegType; }
     inline void SetPathSegType(const wxPATHSEG& n) { m_pathSegType = n; }
 
-    inline const wxString& GetPathSegTypeAsLetter() { return m_pathSegTypeAsLetter; }
+    inline const wxString& GetPathSegTypeAsLetter() const { return m_pathSegTypeAsLetter; }
     inline void SetPathSegTypeAsLetter(const wxString& n) { m_pathSegTypeAsLetter = n; }
 
   public:

@@ -42,48 +42,33 @@ class wxSVGPatternElement:
     wxSVGAnimatedLength m_height;
 
   public:
-    inline char GetPatternUnits() const { return m_patternUnits.GetBaseVal(); }
-    inline void SetPatternUnits(const char n) { m_patternUnits.GetBaseVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetPatternUnits() const { return m_patternUnits; }
+    inline void SetPatternUnits(const wxSVGAnimatedEnumeration& n) { m_patternUnits = n; }
+    inline void SetPatternUnits(char n) { m_patternUnits.SetBaseVal(n); }
 
-    inline char GetPatternContentUnits() const { return m_patternContentUnits.GetBaseVal(); }
-    inline void SetPatternContentUnits(const char n) { m_patternContentUnits.GetBaseVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetPatternContentUnits() const { return m_patternContentUnits; }
+    inline void SetPatternContentUnits(const wxSVGAnimatedEnumeration& n) { m_patternContentUnits = n; }
+    inline void SetPatternContentUnits(char n) { m_patternContentUnits.SetBaseVal(n); }
 
-    inline wxSVGTransformList& GetPatternTransform() { return m_patternTransform.GetBaseVal(); }
-    inline void SetPatternTransform(const wxSVGTransformList& n) { m_patternTransform.GetBaseVal() = n; }
+    inline const wxSVGAnimatedTransformList& GetPatternTransform() const { return m_patternTransform; }
+    inline void SetPatternTransform(const wxSVGAnimatedTransformList& n) { m_patternTransform = n; }
+    inline void SetPatternTransform(const wxSVGTransformList& n) { m_patternTransform.SetBaseVal(n); }
 
-    inline wxSVGLength& GetX() { return m_x.GetBaseVal(); }
-    inline void SetX(const wxSVGLength& n) { m_x.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetX() const { return m_x; }
+    inline void SetX(const wxSVGAnimatedLength& n) { m_x = n; }
+    inline void SetX(const wxSVGLength& n) { m_x.SetBaseVal(n); }
 
-    inline wxSVGLength& GetY() { return m_y.GetBaseVal(); }
-    inline void SetY(const wxSVGLength& n) { m_y.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetY() const { return m_y; }
+    inline void SetY(const wxSVGAnimatedLength& n) { m_y = n; }
+    inline void SetY(const wxSVGLength& n) { m_y.SetBaseVal(n); }
 
-    inline wxSVGLength& GetWidth() { return m_width.GetBaseVal(); }
-    inline void SetWidth(const wxSVGLength& n) { m_width.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetWidth() const { return m_width; }
+    inline void SetWidth(const wxSVGAnimatedLength& n) { m_width = n; }
+    inline void SetWidth(const wxSVGLength& n) { m_width.SetBaseVal(n); }
 
-    inline wxSVGLength& GetHeight() { return m_height.GetBaseVal(); }
-    inline void SetHeight(const wxSVGLength& n) { m_height.GetBaseVal() = n; }
-
-  public:
-    inline char GetAnimatedPatternUnits() const { return m_patternUnits.GetAnimVal(); }
-    inline void SetAnimatedPatternUnits(const char n) { m_patternUnits.GetAnimVal() = n; }
-
-    inline char GetAnimatedPatternContentUnits() const { return m_patternContentUnits.GetAnimVal(); }
-    inline void SetAnimatedPatternContentUnits(const char n) { m_patternContentUnits.GetAnimVal() = n; }
-
-    inline wxSVGTransformList& GetAnimatedPatternTransform() { return m_patternTransform.GetAnimVal(); }
-    inline void SetAnimatedPatternTransform(const wxSVGTransformList& n) { m_patternTransform.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedX() { return m_x.GetAnimVal(); }
-    inline void SetAnimatedX(const wxSVGLength& n) { m_x.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedY() { return m_y.GetAnimVal(); }
-    inline void SetAnimatedY(const wxSVGLength& n) { m_y.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedWidth() { return m_width.GetAnimVal(); }
-    inline void SetAnimatedWidth(const wxSVGLength& n) { m_width.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedHeight() { return m_height.GetAnimVal(); }
-    inline void SetAnimatedHeight(const wxSVGLength& n) { m_height.GetAnimVal() = n; }
+    inline const wxSVGAnimatedLength& GetHeight() const { return m_height; }
+    inline void SetHeight(const wxSVGAnimatedLength& n) { m_height = n; }
+    inline void SetHeight(const wxSVGLength& n) { m_height.SetBaseVal(n); }
 
   public:
     wxSVGPatternElement(wxSVGDocument* doc, wxString tagName = wxT("pattern")):

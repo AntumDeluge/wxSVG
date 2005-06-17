@@ -21,18 +21,13 @@ class wxSVGFEDistantLightElement:
     wxSVGAnimatedNumber m_elevation;
 
   public:
-    inline float GetAzimuth() const { return m_azimuth.GetBaseVal(); }
-    inline void SetAzimuth(const float n) { m_azimuth.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetAzimuth() const { return m_azimuth; }
+    inline void SetAzimuth(const wxSVGAnimatedNumber& n) { m_azimuth = n; }
+    inline void SetAzimuth(float n) { m_azimuth.SetBaseVal(n); }
 
-    inline float GetElevation() const { return m_elevation.GetBaseVal(); }
-    inline void SetElevation(const float n) { m_elevation.GetBaseVal() = n; }
-
-  public:
-    inline float GetAnimatedAzimuth() const { return m_azimuth.GetAnimVal(); }
-    inline void SetAnimatedAzimuth(const float n) { m_azimuth.GetAnimVal() = n; }
-
-    inline float GetAnimatedElevation() const { return m_elevation.GetAnimVal(); }
-    inline void SetAnimatedElevation(const float n) { m_elevation.GetAnimVal() = n; }
+    inline const wxSVGAnimatedNumber& GetElevation() const { return m_elevation; }
+    inline void SetElevation(const wxSVGAnimatedNumber& n) { m_elevation = n; }
+    inline void SetElevation(float n) { m_elevation.SetBaseVal(n); }
 
   public:
     wxSVGFEDistantLightElement(wxSVGDocument* doc, wxString tagName = wxT("feDistantLight")):

@@ -26,7 +26,7 @@ class wxSVGViewElement:
     wxSVGStringList m_viewTarget;
 
   public:
-    inline wxSVGStringList& GetViewTarget() { return m_viewTarget; }
+    inline const wxSVGStringList& GetViewTarget() const { return m_viewTarget; }
     inline void SetViewTarget(const wxSVGStringList& n) { m_viewTarget = n; }
 
   public:

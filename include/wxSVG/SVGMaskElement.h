@@ -36,42 +36,29 @@ class wxSVGMaskElement:
     wxSVGAnimatedLength m_height;
 
   public:
-    inline char GetMaskUnits() const { return m_maskUnits.GetBaseVal(); }
-    inline void SetMaskUnits(const char n) { m_maskUnits.GetBaseVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetMaskUnits() const { return m_maskUnits; }
+    inline void SetMaskUnits(const wxSVGAnimatedEnumeration& n) { m_maskUnits = n; }
+    inline void SetMaskUnits(char n) { m_maskUnits.SetBaseVal(n); }
 
-    inline char GetMaskContentUnits() const { return m_maskContentUnits.GetBaseVal(); }
-    inline void SetMaskContentUnits(const char n) { m_maskContentUnits.GetBaseVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetMaskContentUnits() const { return m_maskContentUnits; }
+    inline void SetMaskContentUnits(const wxSVGAnimatedEnumeration& n) { m_maskContentUnits = n; }
+    inline void SetMaskContentUnits(char n) { m_maskContentUnits.SetBaseVal(n); }
 
-    inline wxSVGLength& GetX() { return m_x.GetBaseVal(); }
-    inline void SetX(const wxSVGLength& n) { m_x.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetX() const { return m_x; }
+    inline void SetX(const wxSVGAnimatedLength& n) { m_x = n; }
+    inline void SetX(const wxSVGLength& n) { m_x.SetBaseVal(n); }
 
-    inline wxSVGLength& GetY() { return m_y.GetBaseVal(); }
-    inline void SetY(const wxSVGLength& n) { m_y.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetY() const { return m_y; }
+    inline void SetY(const wxSVGAnimatedLength& n) { m_y = n; }
+    inline void SetY(const wxSVGLength& n) { m_y.SetBaseVal(n); }
 
-    inline wxSVGLength& GetWidth() { return m_width.GetBaseVal(); }
-    inline void SetWidth(const wxSVGLength& n) { m_width.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetWidth() const { return m_width; }
+    inline void SetWidth(const wxSVGAnimatedLength& n) { m_width = n; }
+    inline void SetWidth(const wxSVGLength& n) { m_width.SetBaseVal(n); }
 
-    inline wxSVGLength& GetHeight() { return m_height.GetBaseVal(); }
-    inline void SetHeight(const wxSVGLength& n) { m_height.GetBaseVal() = n; }
-
-  public:
-    inline char GetAnimatedMaskUnits() const { return m_maskUnits.GetAnimVal(); }
-    inline void SetAnimatedMaskUnits(const char n) { m_maskUnits.GetAnimVal() = n; }
-
-    inline char GetAnimatedMaskContentUnits() const { return m_maskContentUnits.GetAnimVal(); }
-    inline void SetAnimatedMaskContentUnits(const char n) { m_maskContentUnits.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedX() { return m_x.GetAnimVal(); }
-    inline void SetAnimatedX(const wxSVGLength& n) { m_x.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedY() { return m_y.GetAnimVal(); }
-    inline void SetAnimatedY(const wxSVGLength& n) { m_y.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedWidth() { return m_width.GetAnimVal(); }
-    inline void SetAnimatedWidth(const wxSVGLength& n) { m_width.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedHeight() { return m_height.GetAnimVal(); }
-    inline void SetAnimatedHeight(const wxSVGLength& n) { m_height.GetAnimVal() = n; }
+    inline const wxSVGAnimatedLength& GetHeight() const { return m_height; }
+    inline void SetHeight(const wxSVGAnimatedLength& n) { m_height = n; }
+    inline void SetHeight(const wxSVGLength& n) { m_height.SetBaseVal(n); }
 
   public:
     wxSVGMaskElement(wxSVGDocument* doc, wxString tagName = wxT("mask")):

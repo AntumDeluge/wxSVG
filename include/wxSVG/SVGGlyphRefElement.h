@@ -22,29 +22,29 @@ class wxSVGGlyphRefElement:
   protected:
     wxString m_glyphRef;
     wxString m_format;
-    float m_x;
-    float m_y;
-    float m_dx;
-    float m_dy;
+    double m_x;
+    double m_y;
+    double m_dx;
+    double m_dy;
 
   public:
-    inline const wxString& GetGlyphRef() { return m_glyphRef; }
+    inline const wxString& GetGlyphRef() const { return m_glyphRef; }
     inline void SetGlyphRef(const wxString& n) { m_glyphRef = n; }
 
-    inline const wxString& GetFormat() { return m_format; }
+    inline const wxString& GetFormat() const { return m_format; }
     inline void SetFormat(const wxString& n) { m_format = n; }
 
-    inline float GetX() const { return m_x; }
-    inline void SetX(const float n) { m_x = n; }
+    inline double GetX() const { return m_x; }
+    inline void SetX(double n) { m_x = n; }
 
-    inline float GetY() const { return m_y; }
-    inline void SetY(const float n) { m_y = n; }
+    inline double GetY() const { return m_y; }
+    inline void SetY(double n) { m_y = n; }
 
-    inline float GetDx() const { return m_dx; }
-    inline void SetDx(const float n) { m_dx = n; }
+    inline double GetDx() const { return m_dx; }
+    inline void SetDx(double n) { m_dx = n; }
 
-    inline float GetDy() const { return m_dy; }
-    inline void SetDy(const float n) { m_dy = n; }
+    inline double GetDy() const { return m_dy; }
+    inline void SetDy(double n) { m_dy = n; }
 
   public:
     wxSVGGlyphRefElement(wxSVGDocument* doc, wxString tagName = wxT("glyphRef")):

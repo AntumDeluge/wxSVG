@@ -20,31 +20,19 @@ class wxSVGTransformable:
     wxSVGAnimatedTransformList m_transform;
 
   public:
-    inline wxSVGTransformList& GetTransform() { return m_transform.GetBaseVal(); }
-    inline void SetTransform(const wxSVGTransformList& n) { m_transform.GetBaseVal() = n; }
-
-  public:
-    inline wxSVGTransformList& GetAnimatedTransform() { return m_transform.GetAnimVal(); }
-    inline void SetAnimatedTransform(const wxSVGTransformList& n) { m_transform.GetAnimVal() = n; }
+    inline const wxSVGAnimatedTransformList& GetTransform() const { return m_transform; }
+    inline void SetTransform(const wxSVGAnimatedTransformList& n) { m_transform = n; }
+    inline void SetTransform(const wxSVGTransformList& n) { m_transform.SetBaseVal(n); }
 
   public:
     virtual ~wxSVGTransformable() {}
-
-    inline void Transform(const wxSVGMatrix& matrix)
-    { m_transform.GetBaseVal().Add(new wxSVGTransform(matrix)); }
-    inline void Translate(float tx, float ty)
-    { wxSVGTransform* t = new wxSVGTransform; t->SetTranslate(tx,ty); m_transform.GetBaseVal().Add(t); }
-    inline void Scale(float s)
-    { wxSVGTransform* t = new wxSVGTransform; t->SetScale(s,s); m_transform.GetBaseVal().Add(t); }
-    inline void Scale(float sx, float sy)
-    { wxSVGTransform* t = new wxSVGTransform; t->SetScale(sx,sy); m_transform.GetBaseVal().Add(t); }
-    inline void Rotate(float angle, float cx = 0, float cy = 0)
-    { wxSVGTransform* t = new wxSVGTransform; t->SetRotate(angle, cx,cy); m_transform.GetBaseVal().Add(t); }
-    inline void SkewX(float angle)
-    { wxSVGTransform* t = new wxSVGTransform; t->SetSkewX(angle); m_transform.GetBaseVal().Add(t); }
-    inline void SkewY(float angle)
-    { wxSVGTransform* t = new wxSVGTransform; t->SetSkewY(angle); m_transform.GetBaseVal().Add(t); }
-
+    void Transform(const wxSVGMatrix& matrix);
+    void Translate(double tx, double ty);
+    void Scale(double s);
+    void Scale(double sx, double sy);
+    void Rotate(double angle, double cx = 0, double cy = 0);
+    void SkewX(double angle);
+    void SkewY(double angle);
     void UpdateMatrix(wxSVGMatrix& matrix);
     bool SetAttribute(const wxString& name, const wxString& value);
 };

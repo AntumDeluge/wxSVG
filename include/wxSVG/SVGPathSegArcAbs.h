@@ -15,35 +15,35 @@ class wxSVGPathSegArcAbs:
   public wxSVGPathSeg
 {
   protected:
-    float m_x;
-    float m_y;
-    float m_r1;
-    float m_r2;
-    float m_angle;
+    double m_x;
+    double m_y;
+    double m_r1;
+    double m_r2;
+    double m_angle;
     bool m_largeArcFlag;
     bool m_sweepFlag;
 
   public:
-    inline float GetX() const { return m_x; }
-    inline void SetX(const float n) { m_x = n; }
+    inline double GetX() const { return m_x; }
+    inline void SetX(double n) { m_x = n; }
 
-    inline float GetY() const { return m_y; }
-    inline void SetY(const float n) { m_y = n; }
+    inline double GetY() const { return m_y; }
+    inline void SetY(double n) { m_y = n; }
 
-    inline float GetR1() const { return m_r1; }
-    inline void SetR1(const float n) { m_r1 = n; }
+    inline double GetR1() const { return m_r1; }
+    inline void SetR1(double n) { m_r1 = n; }
 
-    inline float GetR2() const { return m_r2; }
-    inline void SetR2(const float n) { m_r2 = n; }
+    inline double GetR2() const { return m_r2; }
+    inline void SetR2(double n) { m_r2 = n; }
 
-    inline float GetAngle() const { return m_angle; }
-    inline void SetAngle(const float n) { m_angle = n; }
+    inline double GetAngle() const { return m_angle; }
+    inline void SetAngle(double n) { m_angle = n; }
 
     inline bool GetLargeArcFlag() const { return m_largeArcFlag; }
-    inline void SetLargeArcFlag(const bool n) { m_largeArcFlag = n; }
+    inline void SetLargeArcFlag(bool n) { m_largeArcFlag = n; }
 
     inline bool GetSweepFlag() const { return m_sweepFlag; }
-    inline void SetSweepFlag(const bool n) { m_sweepFlag = n; }
+    inline void SetSweepFlag(bool n) { m_sweepFlag = n; }
 
   public:
     wxSVGPathSegArcAbs():

@@ -39,54 +39,37 @@ class wxSVGFilterElement:
     wxSVGAnimatedInteger m_filterResY;
 
   public:
-    inline char GetFilterUnits() const { return m_filterUnits.GetBaseVal(); }
-    inline void SetFilterUnits(const char n) { m_filterUnits.GetBaseVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetFilterUnits() const { return m_filterUnits; }
+    inline void SetFilterUnits(const wxSVGAnimatedEnumeration& n) { m_filterUnits = n; }
+    inline void SetFilterUnits(char n) { m_filterUnits.SetBaseVal(n); }
 
-    inline char GetPrimitiveUnits() const { return m_primitiveUnits.GetBaseVal(); }
-    inline void SetPrimitiveUnits(const char n) { m_primitiveUnits.GetBaseVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetPrimitiveUnits() const { return m_primitiveUnits; }
+    inline void SetPrimitiveUnits(const wxSVGAnimatedEnumeration& n) { m_primitiveUnits = n; }
+    inline void SetPrimitiveUnits(char n) { m_primitiveUnits.SetBaseVal(n); }
 
-    inline wxSVGLength& GetX() { return m_x.GetBaseVal(); }
-    inline void SetX(const wxSVGLength& n) { m_x.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetX() const { return m_x; }
+    inline void SetX(const wxSVGAnimatedLength& n) { m_x = n; }
+    inline void SetX(const wxSVGLength& n) { m_x.SetBaseVal(n); }
 
-    inline wxSVGLength& GetY() { return m_y.GetBaseVal(); }
-    inline void SetY(const wxSVGLength& n) { m_y.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetY() const { return m_y; }
+    inline void SetY(const wxSVGAnimatedLength& n) { m_y = n; }
+    inline void SetY(const wxSVGLength& n) { m_y.SetBaseVal(n); }
 
-    inline wxSVGLength& GetWidth() { return m_width.GetBaseVal(); }
-    inline void SetWidth(const wxSVGLength& n) { m_width.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetWidth() const { return m_width; }
+    inline void SetWidth(const wxSVGAnimatedLength& n) { m_width = n; }
+    inline void SetWidth(const wxSVGLength& n) { m_width.SetBaseVal(n); }
 
-    inline wxSVGLength& GetHeight() { return m_height.GetBaseVal(); }
-    inline void SetHeight(const wxSVGLength& n) { m_height.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetHeight() const { return m_height; }
+    inline void SetHeight(const wxSVGAnimatedLength& n) { m_height = n; }
+    inline void SetHeight(const wxSVGLength& n) { m_height.SetBaseVal(n); }
 
-    inline long GetFilterResX() const { return m_filterResX.GetBaseVal(); }
-    inline void SetFilterResX(const long n) { m_filterResX.GetBaseVal() = n; }
+    inline const wxSVGAnimatedInteger& GetFilterResX() const { return m_filterResX; }
+    inline void SetFilterResX(const wxSVGAnimatedInteger& n) { m_filterResX = n; }
+    inline void SetFilterResX(long n) { m_filterResX.SetBaseVal(n); }
 
-    inline long GetFilterResY() const { return m_filterResY.GetBaseVal(); }
-    inline void SetFilterResY(const long n) { m_filterResY.GetBaseVal() = n; }
-
-  public:
-    inline char GetAnimatedFilterUnits() const { return m_filterUnits.GetAnimVal(); }
-    inline void SetAnimatedFilterUnits(const char n) { m_filterUnits.GetAnimVal() = n; }
-
-    inline char GetAnimatedPrimitiveUnits() const { return m_primitiveUnits.GetAnimVal(); }
-    inline void SetAnimatedPrimitiveUnits(const char n) { m_primitiveUnits.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedX() { return m_x.GetAnimVal(); }
-    inline void SetAnimatedX(const wxSVGLength& n) { m_x.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedY() { return m_y.GetAnimVal(); }
-    inline void SetAnimatedY(const wxSVGLength& n) { m_y.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedWidth() { return m_width.GetAnimVal(); }
-    inline void SetAnimatedWidth(const wxSVGLength& n) { m_width.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedHeight() { return m_height.GetAnimVal(); }
-    inline void SetAnimatedHeight(const wxSVGLength& n) { m_height.GetAnimVal() = n; }
-
-    inline long GetAnimatedFilterResX() const { return m_filterResX.GetAnimVal(); }
-    inline void SetAnimatedFilterResX(const long n) { m_filterResX.GetAnimVal() = n; }
-
-    inline long GetAnimatedFilterResY() const { return m_filterResY.GetAnimVal(); }
-    inline void SetAnimatedFilterResY(const long n) { m_filterResY.GetAnimVal() = n; }
+    inline const wxSVGAnimatedInteger& GetFilterResY() const { return m_filterResY; }
+    inline void SetFilterResY(const wxSVGAnimatedInteger& n) { m_filterResY = n; }
+    inline void SetFilterResY(long n) { m_filterResY.SetBaseVal(n); }
 
   public:
     wxSVGFilterElement(wxSVGDocument* doc, wxString tagName = wxT("filter")):

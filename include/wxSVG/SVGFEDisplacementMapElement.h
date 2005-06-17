@@ -38,36 +38,25 @@ class wxSVGFEDisplacementMapElement:
     wxSVGAnimatedEnumeration m_yChannelSelector;
 
   public:
-    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxSVGAnimatedString& GetIn1() const { return m_in1; }
+    inline void SetIn1(const wxSVGAnimatedString& n) { m_in1 = n; }
+    inline void SetIn1(const wxString& n) { m_in1.SetBaseVal(n); }
 
-    inline const wxString& GetIn2() { return m_in2.GetBaseVal(); }
-    inline void SetIn2(const wxString& n) { m_in2.GetBaseVal() = n; }
+    inline const wxSVGAnimatedString& GetIn2() const { return m_in2; }
+    inline void SetIn2(const wxSVGAnimatedString& n) { m_in2 = n; }
+    inline void SetIn2(const wxString& n) { m_in2.SetBaseVal(n); }
 
-    inline float GetScale() const { return m_scale.GetBaseVal(); }
-    inline void SetScale(const float n) { m_scale.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetScale() const { return m_scale; }
+    inline void SetScale(const wxSVGAnimatedNumber& n) { m_scale = n; }
+    inline void SetScale(float n) { m_scale.SetBaseVal(n); }
 
-    inline char GetXChannelSelector() const { return m_xChannelSelector.GetBaseVal(); }
-    inline void SetXChannelSelector(const char n) { m_xChannelSelector.GetBaseVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetXChannelSelector() const { return m_xChannelSelector; }
+    inline void SetXChannelSelector(const wxSVGAnimatedEnumeration& n) { m_xChannelSelector = n; }
+    inline void SetXChannelSelector(char n) { m_xChannelSelector.SetBaseVal(n); }
 
-    inline char GetYChannelSelector() const { return m_yChannelSelector.GetBaseVal(); }
-    inline void SetYChannelSelector(const char n) { m_yChannelSelector.GetBaseVal() = n; }
-
-  public:
-    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
-
-    inline const wxString& GetAnimatedIn2() { return m_in2.GetAnimVal(); }
-    inline void SetAnimatedIn2(const wxString& n) { m_in2.GetAnimVal() = n; }
-
-    inline float GetAnimatedScale() const { return m_scale.GetAnimVal(); }
-    inline void SetAnimatedScale(const float n) { m_scale.GetAnimVal() = n; }
-
-    inline char GetAnimatedXChannelSelector() const { return m_xChannelSelector.GetAnimVal(); }
-    inline void SetAnimatedXChannelSelector(const char n) { m_xChannelSelector.GetAnimVal() = n; }
-
-    inline char GetAnimatedYChannelSelector() const { return m_yChannelSelector.GetAnimVal(); }
-    inline void SetAnimatedYChannelSelector(const char n) { m_yChannelSelector.GetAnimVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetYChannelSelector() const { return m_yChannelSelector; }
+    inline void SetYChannelSelector(const wxSVGAnimatedEnumeration& n) { m_yChannelSelector = n; }
+    inline void SetYChannelSelector(char n) { m_yChannelSelector.SetBaseVal(n); }
 
   public:
     wxSVGFEDisplacementMapElement(wxSVGDocument* doc, wxString tagName = wxT("feDisplacementMap")):

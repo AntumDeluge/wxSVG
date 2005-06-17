@@ -21,16 +21,16 @@ class wxSVGAnimatedPathData
     wxSVGPathSegList m_animatedNormalizedPathSegList;
 
   public:
-    inline wxSVGPathSegList& GetPathSegList() { return m_pathSegList; }
+    inline const wxSVGPathSegList& GetPathSegList() const { return m_pathSegList; }
     inline void SetPathSegList(const wxSVGPathSegList& n) { m_pathSegList = n; }
 
-    inline wxSVGPathSegList& GetNormalizedPathSegList() { return m_normalizedPathSegList; }
+    inline const wxSVGPathSegList& GetNormalizedPathSegList() const { return m_normalizedPathSegList; }
     inline void SetNormalizedPathSegList(const wxSVGPathSegList& n) { m_normalizedPathSegList = n; }
 
-    inline wxSVGPathSegList& GetAnimatedPathSegList() { return m_animatedPathSegList; }
+    inline const wxSVGPathSegList& GetAnimatedPathSegList() const { return m_animatedPathSegList; }
     inline void SetAnimatedPathSegList(const wxSVGPathSegList& n) { m_animatedPathSegList = n; }
 
-    inline wxSVGPathSegList& GetAnimatedNormalizedPathSegList() { return m_animatedNormalizedPathSegList; }
+    inline const wxSVGPathSegList& GetAnimatedNormalizedPathSegList() const { return m_animatedNormalizedPathSegList; }
     inline void SetAnimatedNormalizedPathSegList(const wxSVGPathSegList& n) { m_animatedNormalizedPathSegList = n; }
 
   public:

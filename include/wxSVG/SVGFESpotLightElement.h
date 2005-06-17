@@ -27,54 +27,37 @@ class wxSVGFESpotLightElement:
     wxSVGAnimatedNumber m_limitingConeAngle;
 
   public:
-    inline float GetX() const { return m_x.GetBaseVal(); }
-    inline void SetX(const float n) { m_x.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetX() const { return m_x; }
+    inline void SetX(const wxSVGAnimatedNumber& n) { m_x = n; }
+    inline void SetX(float n) { m_x.SetBaseVal(n); }
 
-    inline float GetY() const { return m_y.GetBaseVal(); }
-    inline void SetY(const float n) { m_y.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetY() const { return m_y; }
+    inline void SetY(const wxSVGAnimatedNumber& n) { m_y = n; }
+    inline void SetY(float n) { m_y.SetBaseVal(n); }
 
-    inline float GetZ() const { return m_z.GetBaseVal(); }
-    inline void SetZ(const float n) { m_z.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetZ() const { return m_z; }
+    inline void SetZ(const wxSVGAnimatedNumber& n) { m_z = n; }
+    inline void SetZ(float n) { m_z.SetBaseVal(n); }
 
-    inline float GetPointsAtX() const { return m_pointsAtX.GetBaseVal(); }
-    inline void SetPointsAtX(const float n) { m_pointsAtX.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetPointsAtX() const { return m_pointsAtX; }
+    inline void SetPointsAtX(const wxSVGAnimatedNumber& n) { m_pointsAtX = n; }
+    inline void SetPointsAtX(float n) { m_pointsAtX.SetBaseVal(n); }
 
-    inline float GetPointsAtY() const { return m_pointsAtY.GetBaseVal(); }
-    inline void SetPointsAtY(const float n) { m_pointsAtY.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetPointsAtY() const { return m_pointsAtY; }
+    inline void SetPointsAtY(const wxSVGAnimatedNumber& n) { m_pointsAtY = n; }
+    inline void SetPointsAtY(float n) { m_pointsAtY.SetBaseVal(n); }
 
-    inline float GetPointsAtZ() const { return m_pointsAtZ.GetBaseVal(); }
-    inline void SetPointsAtZ(const float n) { m_pointsAtZ.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetPointsAtZ() const { return m_pointsAtZ; }
+    inline void SetPointsAtZ(const wxSVGAnimatedNumber& n) { m_pointsAtZ = n; }
+    inline void SetPointsAtZ(float n) { m_pointsAtZ.SetBaseVal(n); }
 
-    inline float GetSpecularExponent() const { return m_specularExponent.GetBaseVal(); }
-    inline void SetSpecularExponent(const float n) { m_specularExponent.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetSpecularExponent() const { return m_specularExponent; }
+    inline void SetSpecularExponent(const wxSVGAnimatedNumber& n) { m_specularExponent = n; }
+    inline void SetSpecularExponent(float n) { m_specularExponent.SetBaseVal(n); }
 
-    inline float GetLimitingConeAngle() const { return m_limitingConeAngle.GetBaseVal(); }
-    inline void SetLimitingConeAngle(const float n) { m_limitingConeAngle.GetBaseVal() = n; }
-
-  public:
-    inline float GetAnimatedX() const { return m_x.GetAnimVal(); }
-    inline void SetAnimatedX(const float n) { m_x.GetAnimVal() = n; }
-
-    inline float GetAnimatedY() const { return m_y.GetAnimVal(); }
-    inline void SetAnimatedY(const float n) { m_y.GetAnimVal() = n; }
-
-    inline float GetAnimatedZ() const { return m_z.GetAnimVal(); }
-    inline void SetAnimatedZ(const float n) { m_z.GetAnimVal() = n; }
-
-    inline float GetAnimatedPointsAtX() const { return m_pointsAtX.GetAnimVal(); }
-    inline void SetAnimatedPointsAtX(const float n) { m_pointsAtX.GetAnimVal() = n; }
-
-    inline float GetAnimatedPointsAtY() const { return m_pointsAtY.GetAnimVal(); }
-    inline void SetAnimatedPointsAtY(const float n) { m_pointsAtY.GetAnimVal() = n; }
-
-    inline float GetAnimatedPointsAtZ() const { return m_pointsAtZ.GetAnimVal(); }
-    inline void SetAnimatedPointsAtZ(const float n) { m_pointsAtZ.GetAnimVal() = n; }
-
-    inline float GetAnimatedSpecularExponent() const { return m_specularExponent.GetAnimVal(); }
-    inline void SetAnimatedSpecularExponent(const float n) { m_specularExponent.GetAnimVal() = n; }
-
-    inline float GetAnimatedLimitingConeAngle() const { return m_limitingConeAngle.GetAnimVal(); }
-    inline void SetAnimatedLimitingConeAngle(const float n) { m_limitingConeAngle.GetAnimVal() = n; }
+    inline const wxSVGAnimatedNumber& GetLimitingConeAngle() const { return m_limitingConeAngle; }
+    inline void SetLimitingConeAngle(const wxSVGAnimatedNumber& n) { m_limitingConeAngle = n; }
+    inline void SetLimitingConeAngle(float n) { m_limitingConeAngle.SetBaseVal(n); }
 
   public:
     wxSVGFESpotLightElement(wxSVGDocument* doc, wxString tagName = wxT("feSpotLight")):

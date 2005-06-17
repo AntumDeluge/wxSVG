@@ -19,10 +19,10 @@ class wxSVGAnimatedPoints
     wxSVGPointList m_animatedPoints;
 
   public:
-    inline wxSVGPointList& GetPoints() { return m_points; }
+    inline const wxSVGPointList& GetPoints() const { return m_points; }
     inline void SetPoints(const wxSVGPointList& n) { m_points = n; }
 
-    inline wxSVGPointList& GetAnimatedPoints() { return m_animatedPoints; }
+    inline const wxSVGPointList& GetAnimatedPoints() const { return m_animatedPoints; }
     inline void SetAnimatedPoints(const wxSVGPointList& n) { m_animatedPoints = n; }
 
   public:

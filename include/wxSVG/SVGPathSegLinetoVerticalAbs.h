@@ -15,11 +15,11 @@ class wxSVGPathSegLinetoVerticalAbs:
   public wxSVGPathSeg
 {
   protected:
-    float m_y;
+    double m_y;
 
   public:
-    inline float GetY() const { return m_y; }
-    inline void SetY(const float n) { m_y = n; }
+    inline double GetY() const { return m_y; }
+    inline void SetY(double n) { m_y = n; }
 
   public:
     wxSVGPathSegLinetoVerticalAbs():

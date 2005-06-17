@@ -25,31 +25,24 @@ class wxSVGFEGaussianBlurElement:
     wxSVGAnimatedNumber m_stdDeviationY;
 
   public:
-    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxSVGAnimatedString& GetIn1() const { return m_in1; }
+    inline void SetIn1(const wxSVGAnimatedString& n) { m_in1 = n; }
+    inline void SetIn1(const wxString& n) { m_in1.SetBaseVal(n); }
 
-    inline float GetStdDeviationX() const { return m_stdDeviationX.GetBaseVal(); }
-    inline void SetStdDeviationX(const float n) { m_stdDeviationX.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetStdDeviationX() const { return m_stdDeviationX; }
+    inline void SetStdDeviationX(const wxSVGAnimatedNumber& n) { m_stdDeviationX = n; }
+    inline void SetStdDeviationX(float n) { m_stdDeviationX.SetBaseVal(n); }
 
-    inline float GetStdDeviationY() const { return m_stdDeviationY.GetBaseVal(); }
-    inline void SetStdDeviationY(const float n) { m_stdDeviationY.GetBaseVal() = n; }
-
-  public:
-    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
-
-    inline float GetAnimatedStdDeviationX() const { return m_stdDeviationX.GetAnimVal(); }
-    inline void SetAnimatedStdDeviationX(const float n) { m_stdDeviationX.GetAnimVal() = n; }
-
-    inline float GetAnimatedStdDeviationY() const { return m_stdDeviationY.GetAnimVal(); }
-    inline void SetAnimatedStdDeviationY(const float n) { m_stdDeviationY.GetAnimVal() = n; }
+    inline const wxSVGAnimatedNumber& GetStdDeviationY() const { return m_stdDeviationY; }
+    inline void SetStdDeviationY(const wxSVGAnimatedNumber& n) { m_stdDeviationY = n; }
+    inline void SetStdDeviationY(float n) { m_stdDeviationY.SetBaseVal(n); }
 
   public:
     wxSVGFEGaussianBlurElement(wxSVGDocument* doc, wxString tagName = wxT("feGaussianBlur")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGFEGaussianBlurElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEGaussianBlurElement(*this); }
-    virtual void SetStdDeviation(float stdDeviationX, float stdDeviationY);
+    virtual void SetStdDeviation(double stdDeviationX, double stdDeviationY);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEGAUSSIANBLUR_ELEMENT; }
 };

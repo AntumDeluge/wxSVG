@@ -56,59 +56,63 @@ class wxSVGSVGElement:
     wxString m_contentScriptType;
     wxString m_contentStyleType;
     wxSVGRect m_viewport;
-    float m_pixelUnitToMillimeterX;
-    float m_pixelUnitToMillimeterY;
-    float m_screenPixelToMillimeterX;
-    float m_screenPixelToMillimeterY;
+    double m_pixelUnitToMillimeterX;
+    double m_pixelUnitToMillimeterY;
+    double m_screenPixelToMillimeterX;
+    double m_screenPixelToMillimeterY;
     bool m_useCurrentView;
     wxSVGViewSpec m_currentView;
-    float m_currentScale;
+    double m_currentScale;
     wxSVGPoint m_currentTranslate;
 
   public:
-    inline wxSVGLength& GetX() { return m_x.GetBaseVal(); }
-    inline void SetX(const wxSVGLength& n) { m_x.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetX() const { return m_x; }
+    inline void SetX(const wxSVGAnimatedLength& n) { m_x = n; }
+    inline void SetX(const wxSVGLength& n) { m_x.SetBaseVal(n); }
 
-    inline wxSVGLength& GetY() { return m_y.GetBaseVal(); }
-    inline void SetY(const wxSVGLength& n) { m_y.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetY() const { return m_y; }
+    inline void SetY(const wxSVGAnimatedLength& n) { m_y = n; }
+    inline void SetY(const wxSVGLength& n) { m_y.SetBaseVal(n); }
 
-    inline wxSVGLength& GetWidth() { return m_width.GetBaseVal(); }
-    inline void SetWidth(const wxSVGLength& n) { m_width.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetWidth() const { return m_width; }
+    inline void SetWidth(const wxSVGAnimatedLength& n) { m_width = n; }
+    inline void SetWidth(const wxSVGLength& n) { m_width.SetBaseVal(n); }
 
-    inline wxSVGLength& GetHeight() { return m_height.GetBaseVal(); }
-    inline void SetHeight(const wxSVGLength& n) { m_height.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetHeight() const { return m_height; }
+    inline void SetHeight(const wxSVGAnimatedLength& n) { m_height = n; }
+    inline void SetHeight(const wxSVGLength& n) { m_height.SetBaseVal(n); }
 
-    inline const wxString& GetContentScriptType() { return m_contentScriptType; }
+    inline const wxString& GetContentScriptType() const { return m_contentScriptType; }
     inline void SetContentScriptType(const wxString& n) { m_contentScriptType = n; }
 
-    inline const wxString& GetContentStyleType() { return m_contentStyleType; }
+    inline const wxString& GetContentStyleType() const { return m_contentStyleType; }
     inline void SetContentStyleType(const wxString& n) { m_contentStyleType = n; }
 
-    inline wxSVGRect& GetViewport() { return m_viewport; }
+    inline const wxSVGRect& GetViewport() const { return m_viewport; }
     inline void SetViewport(const wxSVGRect& n) { m_viewport = n; }
 
-    inline float GetPixelUnitToMillimeterX() const { return m_pixelUnitToMillimeterX; }
-    inline void SetPixelUnitToMillimeterX(const float n) { m_pixelUnitToMillimeterX = n; }
+    inline double GetPixelUnitToMillimeterX() const { return m_pixelUnitToMillimeterX; }
+    inline void SetPixelUnitToMillimeterX(double n) { m_pixelUnitToMillimeterX = n; }
 
-    inline float GetPixelUnitToMillimeterY() const { return m_pixelUnitToMillimeterY; }
-    inline void SetPixelUnitToMillimeterY(const float n) { m_pixelUnitToMillimeterY = n; }
+    inline double GetPixelUnitToMillimeterY() const { return m_pixelUnitToMillimeterY; }
+    inline void SetPixelUnitToMillimeterY(double n) { m_pixelUnitToMillimeterY = n; }
 
-    inline float GetScreenPixelToMillimeterX() const { return m_screenPixelToMillimeterX; }
-    inline void SetScreenPixelToMillimeterX(const float n) { m_screenPixelToMillimeterX = n; }
+    inline double GetScreenPixelToMillimeterX() const { return m_screenPixelToMillimeterX; }
+    inline void SetScreenPixelToMillimeterX(double n) { m_screenPixelToMillimeterX = n; }
 
-    inline float GetScreenPixelToMillimeterY() const { return m_screenPixelToMillimeterY; }
-    inline void SetScreenPixelToMillimeterY(const float n) { m_screenPixelToMillimeterY = n; }
+    inline double GetScreenPixelToMillimeterY() const { return m_screenPixelToMillimeterY; }
+    inline void SetScreenPixelToMillimeterY(double n) { m_screenPixelToMillimeterY = n; }
 
     inline bool GetUseCurrentView() const { return m_useCurrentView; }
-    inline void SetUseCurrentView(const bool n) { m_useCurrentView = n; }
+    inline void SetUseCurrentView(bool n) { m_useCurrentView = n; }
 
-    inline wxSVGViewSpec& GetCurrentView() { return m_currentView; }
+    inline const wxSVGViewSpec& GetCurrentView() const { return m_currentView; }
     inline void SetCurrentView(const wxSVGViewSpec& n) { m_currentView = n; }
 
-    inline float GetCurrentScale() const { return m_currentScale; }
-    inline void SetCurrentScale(const float n) { m_currentScale = n; }
+    inline double GetCurrentScale() const { return m_currentScale; }
+    inline void SetCurrentScale(double n) { m_currentScale = n; }
 
-    inline wxSVGPoint& GetCurrentTranslate() { return m_currentTranslate; }
+    inline const wxSVGPoint& GetCurrentTranslate() const { return m_currentTranslate; }
     inline void SetCurrentTranslate(const wxSVGPoint& n) { m_currentTranslate = n; }
 
   public:
@@ -124,8 +128,8 @@ class wxSVGSVGElement:
     virtual void PauseAnimations();
     virtual void UnpauseAnimations();
     virtual bool AnimationsPaused();
-    virtual float GetCurrentTime();
-    virtual void SetCurrentTime(float seconds);
+    virtual double GetCurrentTime();
+    virtual void SetCurrentTime(double seconds);
     virtual wxNodeList GetIntersectionList(const wxSVGRect& rect, const wxSVGElement& referenceElement);
     virtual wxNodeList GetEnclosureList(const wxSVGRect& rect, const wxSVGElement& referenceElement);
     virtual bool CheckIntersection(const wxSVGElement& element, const wxSVGRect& rect);

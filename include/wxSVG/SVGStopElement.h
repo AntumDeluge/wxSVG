@@ -22,12 +22,9 @@ class wxSVGStopElement:
     wxSVGAnimatedNumber m_offset;
 
   public:
-    inline float GetOffset() const { return m_offset.GetBaseVal(); }
-    inline void SetOffset(const float n) { m_offset.GetBaseVal() = n; }
-
-  public:
-    inline float GetAnimatedOffset() const { return m_offset.GetAnimVal(); }
-    inline void SetAnimatedOffset(const float n) { m_offset.GetAnimVal() = n; }
+    inline const wxSVGAnimatedNumber& GetOffset() const { return m_offset; }
+    inline void SetOffset(const wxSVGAnimatedNumber& n) { m_offset = n; }
+    inline void SetOffset(float n) { m_offset.SetBaseVal(n); }
 
   public:
     wxSVGStopElement(wxSVGDocument* doc, wxString tagName = wxT("stop")):

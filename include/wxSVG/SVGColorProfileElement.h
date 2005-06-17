@@ -25,10 +25,10 @@ class wxSVGColorProfileElement:
     wxRENDERING_INTENT m_renderingIntent;
 
   public:
-    inline const wxString& GetLocal() { return m_local; }
+    inline const wxString& GetLocal() const { return m_local; }
     inline void SetLocal(const wxString& n) { m_local = n; }
 
-    inline const wxString& GetName() { return m_name; }
+    inline const wxString& GetName() const { return m_name; }
     inline void SetName(const wxString& n) { m_name = n; }
 
     inline wxRENDERING_INTENT GetRenderingIntent() const { return m_renderingIntent; }

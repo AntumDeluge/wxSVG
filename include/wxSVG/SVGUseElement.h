@@ -42,17 +42,21 @@ class wxSVGUseElement:
     wxSVGElementInstance* m_animatedInstanceRoot;
 
   public:
-    inline wxSVGLength& GetX() { return m_x.GetBaseVal(); }
-    inline void SetX(const wxSVGLength& n) { m_x.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetX() const { return m_x; }
+    inline void SetX(const wxSVGAnimatedLength& n) { m_x = n; }
+    inline void SetX(const wxSVGLength& n) { m_x.SetBaseVal(n); }
 
-    inline wxSVGLength& GetY() { return m_y.GetBaseVal(); }
-    inline void SetY(const wxSVGLength& n) { m_y.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetY() const { return m_y; }
+    inline void SetY(const wxSVGAnimatedLength& n) { m_y = n; }
+    inline void SetY(const wxSVGLength& n) { m_y.SetBaseVal(n); }
 
-    inline wxSVGLength& GetWidth() { return m_width.GetBaseVal(); }
-    inline void SetWidth(const wxSVGLength& n) { m_width.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetWidth() const { return m_width; }
+    inline void SetWidth(const wxSVGAnimatedLength& n) { m_width = n; }
+    inline void SetWidth(const wxSVGLength& n) { m_width.SetBaseVal(n); }
 
-    inline wxSVGLength& GetHeight() { return m_height.GetBaseVal(); }
-    inline void SetHeight(const wxSVGLength& n) { m_height.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetHeight() const { return m_height; }
+    inline void SetHeight(const wxSVGAnimatedLength& n) { m_height = n; }
+    inline void SetHeight(const wxSVGLength& n) { m_height.SetBaseVal(n); }
 
     inline wxSVGElementInstance* GetInstanceRoot() { return m_instanceRoot; }
     inline void SetInstanceRoot(wxSVGElementInstance* n) { m_instanceRoot = n; }

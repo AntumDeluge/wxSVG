@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: Animated.h,v 1.1.1.1 2005-05-10 17:51:11 ntalex Exp $
+// RCS-ID:      $Id: Animated.h,v 1.2 2005-06-17 13:24:04 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -16,14 +16,16 @@
 #define WXSVG_MAKE_ANIMATED(X, T) class wxSVGAnimated##X\
 {\
   public:\
-    T& GetBaseVal() { return m_baseVal; };\
-    T& GetAnimVal() { return m_animVal; }\
+    inline T& GetBaseVal() { return m_baseVal; }\
+	inline const T& GetBaseVal() const { return m_baseVal; }\
+	inline void SetBaseVal(const T& value) { m_baseVal = m_animVal = value; }\
     \
-    T GetBaseVal() const { return m_baseVal; };\
-    T GetAnimVal() const { return m_animVal; }\
+	inline T& GetAnimVal() { return m_animVal; }\
+	inline const T& GetAnimVal() const { return m_animVal; }\
+    inline void SetAnimVal(const T& value) { m_animVal = value; }\
     \
   public:\
-    operator T() { return GetBaseVal(); }\
+    inline operator const T&() const { return GetBaseVal(); }\
     \
   protected:\
     T m_baseVal;\
@@ -34,14 +36,15 @@
 {\
   public:\
     wxSVGAnimated##X(): m_baseVal(0), m_animVal(0) {}\
-    T& GetBaseVal() { return m_baseVal; };\
-    T& GetAnimVal() { return m_animVal; }\
-    \
-    T GetBaseVal() const { return m_baseVal; };\
-    T GetAnimVal() const { return m_animVal; }\
+	\
+    inline T GetBaseVal() const { return m_baseVal; };\
+	inline void SetBaseVal(T value) { m_baseVal = m_animVal = value; }\
+	\
+    inline T GetAnimVal() const { return m_animVal; }\
+	inline void SetAnimVal(T value) { m_animVal = value; }\
     \
   public:\
-    operator T() { return GetBaseVal(); }\
+    inline operator T() const { return GetBaseVal(); }\
     \
   protected:\
     T m_baseVal;\

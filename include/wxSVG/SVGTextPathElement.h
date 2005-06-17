@@ -41,24 +41,17 @@ class wxSVGTextPathElement:
     wxSVGAnimatedEnumeration m_spacing;
 
   public:
-    inline wxSVGLength& GetStartOffset() { return m_startOffset.GetBaseVal(); }
-    inline void SetStartOffset(const wxSVGLength& n) { m_startOffset.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetStartOffset() const { return m_startOffset; }
+    inline void SetStartOffset(const wxSVGAnimatedLength& n) { m_startOffset = n; }
+    inline void SetStartOffset(const wxSVGLength& n) { m_startOffset.SetBaseVal(n); }
 
-    inline char GetMethod() const { return m_method.GetBaseVal(); }
-    inline void SetMethod(const char n) { m_method.GetBaseVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetMethod() const { return m_method; }
+    inline void SetMethod(const wxSVGAnimatedEnumeration& n) { m_method = n; }
+    inline void SetMethod(char n) { m_method.SetBaseVal(n); }
 
-    inline char GetSpacing() const { return m_spacing.GetBaseVal(); }
-    inline void SetSpacing(const char n) { m_spacing.GetBaseVal() = n; }
-
-  public:
-    inline wxSVGLength& GetAnimatedStartOffset() { return m_startOffset.GetAnimVal(); }
-    inline void SetAnimatedStartOffset(const wxSVGLength& n) { m_startOffset.GetAnimVal() = n; }
-
-    inline char GetAnimatedMethod() const { return m_method.GetAnimVal(); }
-    inline void SetAnimatedMethod(const char n) { m_method.GetAnimVal() = n; }
-
-    inline char GetAnimatedSpacing() const { return m_spacing.GetAnimVal(); }
-    inline void SetAnimatedSpacing(const char n) { m_spacing.GetAnimVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetSpacing() const { return m_spacing; }
+    inline void SetSpacing(const wxSVGAnimatedEnumeration& n) { m_spacing = n; }
+    inline void SetSpacing(char n) { m_spacing.SetBaseVal(n); }
 
   public:
     wxSVGTextPathElement(wxSVGDocument* doc, wxString tagName = wxT("textPath")):

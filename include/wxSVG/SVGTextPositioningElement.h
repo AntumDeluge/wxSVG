@@ -25,36 +25,25 @@ class wxSVGTextPositioningElement:
     wxSVGAnimatedNumberList m_rotate;
 
   public:
-    inline wxSVGLengthList& GetX() { return m_x.GetBaseVal(); }
-    inline void SetX(const wxSVGLengthList& n) { m_x.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLengthList& GetX() const { return m_x; }
+    inline void SetX(const wxSVGAnimatedLengthList& n) { m_x = n; }
+    inline void SetX(const wxSVGLengthList& n) { m_x.SetBaseVal(n); }
 
-    inline wxSVGLengthList& GetY() { return m_y.GetBaseVal(); }
-    inline void SetY(const wxSVGLengthList& n) { m_y.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLengthList& GetY() const { return m_y; }
+    inline void SetY(const wxSVGAnimatedLengthList& n) { m_y = n; }
+    inline void SetY(const wxSVGLengthList& n) { m_y.SetBaseVal(n); }
 
-    inline wxSVGLengthList& GetDx() { return m_dx.GetBaseVal(); }
-    inline void SetDx(const wxSVGLengthList& n) { m_dx.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLengthList& GetDx() const { return m_dx; }
+    inline void SetDx(const wxSVGAnimatedLengthList& n) { m_dx = n; }
+    inline void SetDx(const wxSVGLengthList& n) { m_dx.SetBaseVal(n); }
 
-    inline wxSVGLengthList& GetDy() { return m_dy.GetBaseVal(); }
-    inline void SetDy(const wxSVGLengthList& n) { m_dy.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLengthList& GetDy() const { return m_dy; }
+    inline void SetDy(const wxSVGAnimatedLengthList& n) { m_dy = n; }
+    inline void SetDy(const wxSVGLengthList& n) { m_dy.SetBaseVal(n); }
 
-    inline wxSVGNumberList& GetRotate() { return m_rotate.GetBaseVal(); }
-    inline void SetRotate(const wxSVGNumberList& n) { m_rotate.GetBaseVal() = n; }
-
-  public:
-    inline wxSVGLengthList& GetAnimatedX() { return m_x.GetAnimVal(); }
-    inline void SetAnimatedX(const wxSVGLengthList& n) { m_x.GetAnimVal() = n; }
-
-    inline wxSVGLengthList& GetAnimatedY() { return m_y.GetAnimVal(); }
-    inline void SetAnimatedY(const wxSVGLengthList& n) { m_y.GetAnimVal() = n; }
-
-    inline wxSVGLengthList& GetAnimatedDx() { return m_dx.GetAnimVal(); }
-    inline void SetAnimatedDx(const wxSVGLengthList& n) { m_dx.GetAnimVal() = n; }
-
-    inline wxSVGLengthList& GetAnimatedDy() { return m_dy.GetAnimVal(); }
-    inline void SetAnimatedDy(const wxSVGLengthList& n) { m_dy.GetAnimVal() = n; }
-
-    inline wxSVGNumberList& GetAnimatedRotate() { return m_rotate.GetAnimVal(); }
-    inline void SetAnimatedRotate(const wxSVGNumberList& n) { m_rotate.GetAnimVal() = n; }
+    inline const wxSVGAnimatedNumberList& GetRotate() const { return m_rotate; }
+    inline void SetRotate(const wxSVGAnimatedNumberList& n) { m_rotate = n; }
+    inline void SetRotate(const wxSVGNumberList& n) { m_rotate.SetBaseVal(n); }
 
   public:
     wxSVGTextPositioningElement(wxSVGDocument* doc, wxString tagName = wxT("")):

@@ -15,11 +15,11 @@ class wxSVGPathSegLinetoHorizontalRel:
   public wxSVGPathSeg
 {
   protected:
-    float m_x;
+    double m_x;
 
   public:
-    inline float GetX() const { return m_x; }
-    inline void SetX(const float n) { m_x = n; }
+    inline double GetX() const { return m_x; }
+    inline void SetX(double n) { m_x = n; }
 
   public:
     wxSVGPathSegLinetoHorizontalRel():

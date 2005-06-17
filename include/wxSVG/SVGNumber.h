@@ -12,11 +12,11 @@
 class wxSVGNumber
 {
   protected:
-    float m_value;
+    double m_value;
 
   public:
-    inline float GetValue() const { return m_value; }
-    inline void SetValue(const float n) { m_value = n; }
+    inline double GetValue() const { return m_value; }
+    inline void SetValue(double n) { m_value = n; }
 
   public:
     wxSVGNumber(): m_value(0) {}

@@ -24,36 +24,25 @@ class wxSVGRadialGradientElement:
     wxSVGAnimatedLength m_fy;
 
   public:
-    inline wxSVGLength& GetCx() { return m_cx.GetBaseVal(); }
-    inline void SetCx(const wxSVGLength& n) { m_cx.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetCx() const { return m_cx; }
+    inline void SetCx(const wxSVGAnimatedLength& n) { m_cx = n; }
+    inline void SetCx(const wxSVGLength& n) { m_cx.SetBaseVal(n); }
 
-    inline wxSVGLength& GetCy() { return m_cy.GetBaseVal(); }
-    inline void SetCy(const wxSVGLength& n) { m_cy.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetCy() const { return m_cy; }
+    inline void SetCy(const wxSVGAnimatedLength& n) { m_cy = n; }
+    inline void SetCy(const wxSVGLength& n) { m_cy.SetBaseVal(n); }
 
-    inline wxSVGLength& GetR() { return m_r.GetBaseVal(); }
-    inline void SetR(const wxSVGLength& n) { m_r.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetR() const { return m_r; }
+    inline void SetR(const wxSVGAnimatedLength& n) { m_r = n; }
+    inline void SetR(const wxSVGLength& n) { m_r.SetBaseVal(n); }
 
-    inline wxSVGLength& GetFx() { return m_fx.GetBaseVal(); }
-    inline void SetFx(const wxSVGLength& n) { m_fx.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetFx() const { return m_fx; }
+    inline void SetFx(const wxSVGAnimatedLength& n) { m_fx = n; }
+    inline void SetFx(const wxSVGLength& n) { m_fx.SetBaseVal(n); }
 
-    inline wxSVGLength& GetFy() { return m_fy.GetBaseVal(); }
-    inline void SetFy(const wxSVGLength& n) { m_fy.GetBaseVal() = n; }
-
-  public:
-    inline wxSVGLength& GetAnimatedCx() { return m_cx.GetAnimVal(); }
-    inline void SetAnimatedCx(const wxSVGLength& n) { m_cx.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedCy() { return m_cy.GetAnimVal(); }
-    inline void SetAnimatedCy(const wxSVGLength& n) { m_cy.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedR() { return m_r.GetAnimVal(); }
-    inline void SetAnimatedR(const wxSVGLength& n) { m_r.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedFx() { return m_fx.GetAnimVal(); }
-    inline void SetAnimatedFx(const wxSVGLength& n) { m_fx.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedFy() { return m_fy.GetAnimVal(); }
-    inline void SetAnimatedFy(const wxSVGLength& n) { m_fy.GetAnimVal() = n; }
+    inline const wxSVGAnimatedLength& GetFy() const { return m_fy; }
+    inline void SetFy(const wxSVGAnimatedLength& n) { m_fy = n; }
+    inline void SetFy(const wxSVGLength& n) { m_fy.SetBaseVal(n); }
 
   public:
     wxSVGRadialGradientElement(wxSVGDocument* doc, wxString tagName = wxT("radialGradient")):

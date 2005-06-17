@@ -25,24 +25,17 @@ class wxSVGFEOffsetElement:
     wxSVGAnimatedNumber m_dy;
 
   public:
-    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxSVGAnimatedString& GetIn1() const { return m_in1; }
+    inline void SetIn1(const wxSVGAnimatedString& n) { m_in1 = n; }
+    inline void SetIn1(const wxString& n) { m_in1.SetBaseVal(n); }
 
-    inline float GetDx() const { return m_dx.GetBaseVal(); }
-    inline void SetDx(const float n) { m_dx.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetDx() const { return m_dx; }
+    inline void SetDx(const wxSVGAnimatedNumber& n) { m_dx = n; }
+    inline void SetDx(float n) { m_dx.SetBaseVal(n); }
 
-    inline float GetDy() const { return m_dy.GetBaseVal(); }
-    inline void SetDy(const float n) { m_dy.GetBaseVal() = n; }
-
-  public:
-    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
-
-    inline float GetAnimatedDx() const { return m_dx.GetAnimVal(); }
-    inline void SetAnimatedDx(const float n) { m_dx.GetAnimVal() = n; }
-
-    inline float GetAnimatedDy() const { return m_dy.GetAnimVal(); }
-    inline void SetAnimatedDy(const float n) { m_dy.GetAnimVal() = n; }
+    inline const wxSVGAnimatedNumber& GetDy() const { return m_dy; }
+    inline void SetDy(const wxSVGAnimatedNumber& n) { m_dy = n; }
+    inline void SetDy(float n) { m_dy.SetBaseVal(n); }
 
   public:
     wxSVGFEOffsetElement(wxSVGDocument* doc, wxString tagName = wxT("feOffset")):

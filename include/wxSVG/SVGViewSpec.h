@@ -29,22 +29,22 @@ class wxSVGViewSpec:
     wxString m_viewTargetString;
 
   public:
-    inline wxSVGTransformList& GetTransform() { return m_transform; }
+    inline const wxSVGTransformList& GetTransform() const { return m_transform; }
     inline void SetTransform(const wxSVGTransformList& n) { m_transform = n; }
 
     inline wxSVGElement* GetViewTarget() { return m_viewTarget; }
     inline void SetViewTarget(wxSVGElement* n) { m_viewTarget = n; }
 
-    inline const wxString& GetViewBoxString() { return m_viewBoxString; }
+    inline const wxString& GetViewBoxString() const { return m_viewBoxString; }
     inline void SetViewBoxString(const wxString& n) { m_viewBoxString = n; }
 
-    inline const wxString& GetPreserveAspectRatioString() { return m_preserveAspectRatioString; }
+    inline const wxString& GetPreserveAspectRatioString() const { return m_preserveAspectRatioString; }
     inline void SetPreserveAspectRatioString(const wxString& n) { m_preserveAspectRatioString = n; }
 
-    inline const wxString& GetTransformString() { return m_transformString; }
+    inline const wxString& GetTransformString() const { return m_transformString; }
     inline void SetTransformString(const wxString& n) { m_transformString = n; }
 
-    inline const wxString& GetViewTargetString() { return m_viewTargetString; }
+    inline const wxString& GetViewTargetString() const { return m_viewTargetString; }
     inline void SetViewTargetString(const wxString& n) { m_viewTargetString = n; }
 
   public:

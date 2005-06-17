@@ -37,30 +37,21 @@ class wxSVGEllipseElement:
     wxSVGAnimatedLength m_ry;
 
   public:
-    inline wxSVGLength& GetCx() { return m_cx.GetBaseVal(); }
-    inline void SetCx(const wxSVGLength& n) { m_cx.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetCx() const { return m_cx; }
+    inline void SetCx(const wxSVGAnimatedLength& n) { m_cx = n; }
+    inline void SetCx(const wxSVGLength& n) { m_cx.SetBaseVal(n); }
 
-    inline wxSVGLength& GetCy() { return m_cy.GetBaseVal(); }
-    inline void SetCy(const wxSVGLength& n) { m_cy.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetCy() const { return m_cy; }
+    inline void SetCy(const wxSVGAnimatedLength& n) { m_cy = n; }
+    inline void SetCy(const wxSVGLength& n) { m_cy.SetBaseVal(n); }
 
-    inline wxSVGLength& GetRx() { return m_rx.GetBaseVal(); }
-    inline void SetRx(const wxSVGLength& n) { m_rx.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetRx() const { return m_rx; }
+    inline void SetRx(const wxSVGAnimatedLength& n) { m_rx = n; }
+    inline void SetRx(const wxSVGLength& n) { m_rx.SetBaseVal(n); }
 
-    inline wxSVGLength& GetRy() { return m_ry.GetBaseVal(); }
-    inline void SetRy(const wxSVGLength& n) { m_ry.GetBaseVal() = n; }
-
-  public:
-    inline wxSVGLength& GetAnimatedCx() { return m_cx.GetAnimVal(); }
-    inline void SetAnimatedCx(const wxSVGLength& n) { m_cx.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedCy() { return m_cy.GetAnimVal(); }
-    inline void SetAnimatedCy(const wxSVGLength& n) { m_cy.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedRx() { return m_rx.GetAnimVal(); }
-    inline void SetAnimatedRx(const wxSVGLength& n) { m_rx.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedRy() { return m_ry.GetAnimVal(); }
-    inline void SetAnimatedRy(const wxSVGLength& n) { m_ry.GetAnimVal() = n; }
+    inline const wxSVGAnimatedLength& GetRy() const { return m_ry; }
+    inline void SetRy(const wxSVGAnimatedLength& n) { m_ry = n; }
+    inline void SetRy(const wxSVGLength& n) { m_ry.SetBaseVal(n); }
 
 
   protected:

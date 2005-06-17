@@ -45,42 +45,29 @@ class wxSVGFETurbulenceElement:
     wxSVGAnimatedEnumeration m_type;
 
   public:
-    inline float GetBaseFrequencyX() const { return m_baseFrequencyX.GetBaseVal(); }
-    inline void SetBaseFrequencyX(const float n) { m_baseFrequencyX.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetBaseFrequencyX() const { return m_baseFrequencyX; }
+    inline void SetBaseFrequencyX(const wxSVGAnimatedNumber& n) { m_baseFrequencyX = n; }
+    inline void SetBaseFrequencyX(float n) { m_baseFrequencyX.SetBaseVal(n); }
 
-    inline float GetBaseFrequencyY() const { return m_baseFrequencyY.GetBaseVal(); }
-    inline void SetBaseFrequencyY(const float n) { m_baseFrequencyY.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetBaseFrequencyY() const { return m_baseFrequencyY; }
+    inline void SetBaseFrequencyY(const wxSVGAnimatedNumber& n) { m_baseFrequencyY = n; }
+    inline void SetBaseFrequencyY(float n) { m_baseFrequencyY.SetBaseVal(n); }
 
-    inline long GetNumOctaves() const { return m_numOctaves.GetBaseVal(); }
-    inline void SetNumOctaves(const long n) { m_numOctaves.GetBaseVal() = n; }
+    inline const wxSVGAnimatedInteger& GetNumOctaves() const { return m_numOctaves; }
+    inline void SetNumOctaves(const wxSVGAnimatedInteger& n) { m_numOctaves = n; }
+    inline void SetNumOctaves(long n) { m_numOctaves.SetBaseVal(n); }
 
-    inline float GetSeed() const { return m_seed.GetBaseVal(); }
-    inline void SetSeed(const float n) { m_seed.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetSeed() const { return m_seed; }
+    inline void SetSeed(const wxSVGAnimatedNumber& n) { m_seed = n; }
+    inline void SetSeed(float n) { m_seed.SetBaseVal(n); }
 
-    inline char GetStitchTiles() const { return m_stitchTiles.GetBaseVal(); }
-    inline void SetStitchTiles(const char n) { m_stitchTiles.GetBaseVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetStitchTiles() const { return m_stitchTiles; }
+    inline void SetStitchTiles(const wxSVGAnimatedEnumeration& n) { m_stitchTiles = n; }
+    inline void SetStitchTiles(char n) { m_stitchTiles.SetBaseVal(n); }
 
-    inline char GetType() const { return m_type.GetBaseVal(); }
-    inline void SetType(const char n) { m_type.GetBaseVal() = n; }
-
-  public:
-    inline float GetAnimatedBaseFrequencyX() const { return m_baseFrequencyX.GetAnimVal(); }
-    inline void SetAnimatedBaseFrequencyX(const float n) { m_baseFrequencyX.GetAnimVal() = n; }
-
-    inline float GetAnimatedBaseFrequencyY() const { return m_baseFrequencyY.GetAnimVal(); }
-    inline void SetAnimatedBaseFrequencyY(const float n) { m_baseFrequencyY.GetAnimVal() = n; }
-
-    inline long GetAnimatedNumOctaves() const { return m_numOctaves.GetAnimVal(); }
-    inline void SetAnimatedNumOctaves(const long n) { m_numOctaves.GetAnimVal() = n; }
-
-    inline float GetAnimatedSeed() const { return m_seed.GetAnimVal(); }
-    inline void SetAnimatedSeed(const float n) { m_seed.GetAnimVal() = n; }
-
-    inline char GetAnimatedStitchTiles() const { return m_stitchTiles.GetAnimVal(); }
-    inline void SetAnimatedStitchTiles(const char n) { m_stitchTiles.GetAnimVal() = n; }
-
-    inline char GetAnimatedType() const { return m_type.GetAnimVal(); }
-    inline void SetAnimatedType(const char n) { m_type.GetAnimVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetType() const { return m_type; }
+    inline void SetType(const wxSVGAnimatedEnumeration& n) { m_type = n; }
+    inline void SetType(char n) { m_type.SetBaseVal(n); }
 
   public:
     wxSVGFETurbulenceElement(wxSVGDocument* doc, wxString tagName = wxT("feTurbulence")):

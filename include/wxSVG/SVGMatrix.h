@@ -12,48 +12,48 @@
 class wxSVGMatrix
 {
   protected:
-    float m_a;
-    float m_b;
-    float m_c;
-    float m_d;
-    float m_e;
-    float m_f;
+    double m_a;
+    double m_b;
+    double m_c;
+    double m_d;
+    double m_e;
+    double m_f;
 
   public:
-    inline float GetA() const { return m_a; }
-    inline void SetA(const float n) { m_a = n; }
+    inline double GetA() const { return m_a; }
+    inline void SetA(double n) { m_a = n; }
 
-    inline float GetB() const { return m_b; }
-    inline void SetB(const float n) { m_b = n; }
+    inline double GetB() const { return m_b; }
+    inline void SetB(double n) { m_b = n; }
 
-    inline float GetC() const { return m_c; }
-    inline void SetC(const float n) { m_c = n; }
+    inline double GetC() const { return m_c; }
+    inline void SetC(double n) { m_c = n; }
 
-    inline float GetD() const { return m_d; }
-    inline void SetD(const float n) { m_d = n; }
+    inline double GetD() const { return m_d; }
+    inline void SetD(double n) { m_d = n; }
 
-    inline float GetE() const { return m_e; }
-    inline void SetE(const float n) { m_e = n; }
+    inline double GetE() const { return m_e; }
+    inline void SetE(double n) { m_e = n; }
 
-    inline float GetF() const { return m_f; }
-    inline void SetF(const float n) { m_f = n; }
+    inline double GetF() const { return m_f; }
+    inline void SetF(double n) { m_f = n; }
 
   public:
     wxSVGMatrix(): m_a(1), m_b(0), m_c(0), m_d(1), m_e(0), m_f(0) {}
-    wxSVGMatrix(float a, float b, float c, float d, float e, float f):
+    wxSVGMatrix(double a, double b, double c, double d, double e, double f):
       m_a(a), m_b(b), m_c(c), m_d(d), m_e(e), m_f(f) {}
     virtual ~wxSVGMatrix() {}
     virtual wxSVGMatrix Multiply(const wxSVGMatrix& secondMatrix);
     virtual wxSVGMatrix Inverse();
-    virtual wxSVGMatrix Translate(float x, float y);
-    virtual wxSVGMatrix Scale(float scaleFactor);
-    virtual wxSVGMatrix ScaleNonUniform(float scaleFactorX, float scaleFactorY);
-    virtual wxSVGMatrix Rotate(float angle);
-    virtual wxSVGMatrix RotateFromVector(float x, float y);
+    virtual wxSVGMatrix Translate(double x, double y);
+    virtual wxSVGMatrix Scale(double scaleFactor);
+    virtual wxSVGMatrix ScaleNonUniform(double scaleFactorX, double scaleFactorY);
+    virtual wxSVGMatrix Rotate(double angle);
+    virtual wxSVGMatrix RotateFromVector(double x, double y);
     virtual wxSVGMatrix FlipX();
     virtual wxSVGMatrix FlipY();
-    virtual wxSVGMatrix SkewX(float angle);
-    virtual wxSVGMatrix SkewY(float angle);
+    virtual wxSVGMatrix SkewX(double angle);
+    virtual wxSVGMatrix SkewY(double angle);
 };
 
 #endif // WX_SVG_MATRIX_H

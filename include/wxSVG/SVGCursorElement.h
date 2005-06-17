@@ -27,18 +27,13 @@ class wxSVGCursorElement:
     wxSVGAnimatedLength m_y;
 
   public:
-    inline wxSVGLength& GetX() { return m_x.GetBaseVal(); }
-    inline void SetX(const wxSVGLength& n) { m_x.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetX() const { return m_x; }
+    inline void SetX(const wxSVGAnimatedLength& n) { m_x = n; }
+    inline void SetX(const wxSVGLength& n) { m_x.SetBaseVal(n); }
 
-    inline wxSVGLength& GetY() { return m_y.GetBaseVal(); }
-    inline void SetY(const wxSVGLength& n) { m_y.GetBaseVal() = n; }
-
-  public:
-    inline wxSVGLength& GetAnimatedX() { return m_x.GetAnimVal(); }
-    inline void SetAnimatedX(const wxSVGLength& n) { m_x.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedY() { return m_y.GetAnimVal(); }
-    inline void SetAnimatedY(const wxSVGLength& n) { m_y.GetAnimVal() = n; }
+    inline const wxSVGAnimatedLength& GetY() const { return m_y; }
+    inline void SetY(const wxSVGAnimatedLength& n) { m_y = n; }
+    inline void SetY(const wxSVGLength& n) { m_y.SetBaseVal(n); }
 
   public:
     wxSVGCursorElement(wxSVGDocument* doc, wxString tagName = wxT("cursor")):

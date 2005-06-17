@@ -22,10 +22,11 @@ class wxSVGStylable
     bool SetCustomAttribute(const wxString& name, const wxString& value);
 
   public:
-    inline const wxString& GetClassName() { return m_className.GetBaseVal(); }
-    inline void SetClassName(const wxString& n) { m_className.GetBaseVal() = n; }
+    inline const wxSVGAnimatedString& GetClassName() const { return m_className; }
+    inline void SetClassName(const wxSVGAnimatedString& n) { m_className = n; }
+    inline void SetClassName(const wxString& n) { m_className.SetBaseVal(n); }
 
-    inline wxCSSStyleDeclaration& GetStyle() { return m_style; }
+    inline const wxCSSStyleDeclaration& GetStyle() const { return m_style; }
     inline void SetStyle(const wxCSSStyleDeclaration& n) { m_style = n; }
 
   public:

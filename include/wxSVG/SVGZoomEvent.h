@@ -18,25 +18,25 @@ class wxSVGZoomEvent:
 {
   protected:
     wxSVGRect m_zoomRectScreen;
-    float m_previousScale;
+    double m_previousScale;
     wxSVGPoint m_previousTranslate;
-    float m_newScale;
+    double m_newScale;
     wxSVGPoint m_newTranslate;
 
   public:
-    inline wxSVGRect& GetZoomRectScreen() { return m_zoomRectScreen; }
+    inline const wxSVGRect& GetZoomRectScreen() const { return m_zoomRectScreen; }
     inline void SetZoomRectScreen(const wxSVGRect& n) { m_zoomRectScreen = n; }
 
-    inline float GetPreviousScale() const { return m_previousScale; }
-    inline void SetPreviousScale(const float n) { m_previousScale = n; }
+    inline double GetPreviousScale() const { return m_previousScale; }
+    inline void SetPreviousScale(double n) { m_previousScale = n; }
 
-    inline wxSVGPoint& GetPreviousTranslate() { return m_previousTranslate; }
+    inline const wxSVGPoint& GetPreviousTranslate() const { return m_previousTranslate; }
     inline void SetPreviousTranslate(const wxSVGPoint& n) { m_previousTranslate = n; }
 
-    inline float GetNewScale() const { return m_newScale; }
-    inline void SetNewScale(const float n) { m_newScale = n; }
+    inline double GetNewScale() const { return m_newScale; }
+    inline void SetNewScale(double n) { m_newScale = n; }
 
-    inline wxSVGPoint& GetNewTranslate() { return m_newTranslate; }
+    inline const wxSVGPoint& GetNewTranslate() const { return m_newTranslate; }
     inline void SetNewTranslate(const wxSVGPoint& n) { m_newTranslate = n; }
 
   public:

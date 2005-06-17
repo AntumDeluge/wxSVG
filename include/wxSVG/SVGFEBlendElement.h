@@ -36,24 +36,17 @@ class wxSVGFEBlendElement:
     wxSVGAnimatedEnumeration m_mode;
 
   public:
-    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxSVGAnimatedString& GetIn1() const { return m_in1; }
+    inline void SetIn1(const wxSVGAnimatedString& n) { m_in1 = n; }
+    inline void SetIn1(const wxString& n) { m_in1.SetBaseVal(n); }
 
-    inline const wxString& GetIn2() { return m_in2.GetBaseVal(); }
-    inline void SetIn2(const wxString& n) { m_in2.GetBaseVal() = n; }
+    inline const wxSVGAnimatedString& GetIn2() const { return m_in2; }
+    inline void SetIn2(const wxSVGAnimatedString& n) { m_in2 = n; }
+    inline void SetIn2(const wxString& n) { m_in2.SetBaseVal(n); }
 
-    inline char GetMode() const { return m_mode.GetBaseVal(); }
-    inline void SetMode(const char n) { m_mode.GetBaseVal() = n; }
-
-  public:
-    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
-
-    inline const wxString& GetAnimatedIn2() { return m_in2.GetAnimVal(); }
-    inline void SetAnimatedIn2(const wxString& n) { m_in2.GetAnimVal() = n; }
-
-    inline char GetAnimatedMode() const { return m_mode.GetAnimVal(); }
-    inline void SetAnimatedMode(const char n) { m_mode.GetAnimVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetMode() const { return m_mode; }
+    inline void SetMode(const wxSVGAnimatedEnumeration& n) { m_mode = n; }
+    inline void SetMode(char n) { m_mode.SetBaseVal(n); }
 
   public:
     wxSVGFEBlendElement(wxSVGDocument* doc, wxString tagName = wxT("feBlend")):

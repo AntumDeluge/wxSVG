@@ -34,12 +34,9 @@ class wxSVGAElement:
     wxSVGAnimatedString m_target;
 
   public:
-    inline const wxString& GetTarget() { return m_target.GetBaseVal(); }
-    inline void SetTarget(const wxString& n) { m_target.GetBaseVal() = n; }
-
-  public:
-    inline const wxString& GetAnimatedTarget() { return m_target.GetAnimVal(); }
-    inline void SetAnimatedTarget(const wxString& n) { m_target.GetAnimVal() = n; }
+    inline const wxSVGAnimatedString& GetTarget() const { return m_target; }
+    inline void SetTarget(const wxSVGAnimatedString& n) { m_target = n; }
+    inline void SetTarget(const wxString& n) { m_target.SetBaseVal(n); }
 
   public:
     wxSVGAElement(wxSVGDocument* doc, wxString tagName = wxT("a")):

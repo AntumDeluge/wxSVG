@@ -25,24 +25,17 @@ class wxSVGFEDiffuseLightingElement:
     wxSVGAnimatedNumber m_diffuseConstant;
 
   public:
-    inline const wxString& GetIn1() { return m_in1.GetBaseVal(); }
-    inline void SetIn1(const wxString& n) { m_in1.GetBaseVal() = n; }
+    inline const wxSVGAnimatedString& GetIn1() const { return m_in1; }
+    inline void SetIn1(const wxSVGAnimatedString& n) { m_in1 = n; }
+    inline void SetIn1(const wxString& n) { m_in1.SetBaseVal(n); }
 
-    inline float GetSurfaceScale() const { return m_surfaceScale.GetBaseVal(); }
-    inline void SetSurfaceScale(const float n) { m_surfaceScale.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetSurfaceScale() const { return m_surfaceScale; }
+    inline void SetSurfaceScale(const wxSVGAnimatedNumber& n) { m_surfaceScale = n; }
+    inline void SetSurfaceScale(float n) { m_surfaceScale.SetBaseVal(n); }
 
-    inline float GetDiffuseConstant() const { return m_diffuseConstant.GetBaseVal(); }
-    inline void SetDiffuseConstant(const float n) { m_diffuseConstant.GetBaseVal() = n; }
-
-  public:
-    inline const wxString& GetAnimatedIn1() { return m_in1.GetAnimVal(); }
-    inline void SetAnimatedIn1(const wxString& n) { m_in1.GetAnimVal() = n; }
-
-    inline float GetAnimatedSurfaceScale() const { return m_surfaceScale.GetAnimVal(); }
-    inline void SetAnimatedSurfaceScale(const float n) { m_surfaceScale.GetAnimVal() = n; }
-
-    inline float GetAnimatedDiffuseConstant() const { return m_diffuseConstant.GetAnimVal(); }
-    inline void SetAnimatedDiffuseConstant(const float n) { m_diffuseConstant.GetAnimVal() = n; }
+    inline const wxSVGAnimatedNumber& GetDiffuseConstant() const { return m_diffuseConstant; }
+    inline void SetDiffuseConstant(const wxSVGAnimatedNumber& n) { m_diffuseConstant = n; }
+    inline void SetDiffuseConstant(float n) { m_diffuseConstant.SetBaseVal(n); }
 
   public:
     wxSVGFEDiffuseLightingElement(wxSVGDocument* doc, wxString tagName = wxT("feDiffuseLighting")):

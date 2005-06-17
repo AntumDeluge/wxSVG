@@ -20,13 +20,13 @@ class wxSVGTests
     wxSVGStringList m_systemLanguage;
 
   public:
-    inline wxSVGStringList& GetRequiredFeatures() { return m_requiredFeatures; }
+    inline const wxSVGStringList& GetRequiredFeatures() const { return m_requiredFeatures; }
     inline void SetRequiredFeatures(const wxSVGStringList& n) { m_requiredFeatures = n; }
 
-    inline wxSVGStringList& GetRequiredExtensions() { return m_requiredExtensions; }
+    inline const wxSVGStringList& GetRequiredExtensions() const { return m_requiredExtensions; }
     inline void SetRequiredExtensions(const wxSVGStringList& n) { m_requiredExtensions = n; }
 
-    inline wxSVGStringList& GetSystemLanguage() { return m_systemLanguage; }
+    inline const wxSVGStringList& GetSystemLanguage() const { return m_systemLanguage; }
     inline void SetSystemLanguage(const wxSVGStringList& n) { m_systemLanguage = n; }
 
   public:

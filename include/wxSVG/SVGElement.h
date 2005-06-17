@@ -27,10 +27,10 @@ class wxSVGElement:
     wxSVGElement* m_viewportElement;
 
   public:
-    inline const wxString& GetId() { return m_id; }
+    inline const wxString& GetId() const { return m_id; }
     inline void SetId(const wxString& n) { m_id = n; }
 
-    inline const wxString& GetXmlbase() { return m_xmlbase; }
+    inline const wxString& GetXmlbase() const { return m_xmlbase; }
     inline void SetXmlbase(const wxString& n) { m_xmlbase = n; }
 
     inline wxSVGSVGElement* GetOwnerSVGElement() { return m_ownerSVGElement; }

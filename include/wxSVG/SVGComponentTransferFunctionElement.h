@@ -39,48 +39,33 @@ class wxSVGComponentTransferFunctionElement:
     wxSVGAnimatedNumber m_offset;
 
   public:
-    inline char GetType() const { return m_type.GetBaseVal(); }
-    inline void SetType(const char n) { m_type.GetBaseVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetType() const { return m_type; }
+    inline void SetType(const wxSVGAnimatedEnumeration& n) { m_type = n; }
+    inline void SetType(char n) { m_type.SetBaseVal(n); }
 
-    inline wxSVGNumberList& GetTableValues() { return m_tableValues.GetBaseVal(); }
-    inline void SetTableValues(const wxSVGNumberList& n) { m_tableValues.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumberList& GetTableValues() const { return m_tableValues; }
+    inline void SetTableValues(const wxSVGAnimatedNumberList& n) { m_tableValues = n; }
+    inline void SetTableValues(const wxSVGNumberList& n) { m_tableValues.SetBaseVal(n); }
 
-    inline float GetSlope() const { return m_slope.GetBaseVal(); }
-    inline void SetSlope(const float n) { m_slope.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetSlope() const { return m_slope; }
+    inline void SetSlope(const wxSVGAnimatedNumber& n) { m_slope = n; }
+    inline void SetSlope(float n) { m_slope.SetBaseVal(n); }
 
-    inline float GetIntercept() const { return m_intercept.GetBaseVal(); }
-    inline void SetIntercept(const float n) { m_intercept.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetIntercept() const { return m_intercept; }
+    inline void SetIntercept(const wxSVGAnimatedNumber& n) { m_intercept = n; }
+    inline void SetIntercept(float n) { m_intercept.SetBaseVal(n); }
 
-    inline float GetAmplitude() const { return m_amplitude.GetBaseVal(); }
-    inline void SetAmplitude(const float n) { m_amplitude.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetAmplitude() const { return m_amplitude; }
+    inline void SetAmplitude(const wxSVGAnimatedNumber& n) { m_amplitude = n; }
+    inline void SetAmplitude(float n) { m_amplitude.SetBaseVal(n); }
 
-    inline float GetExponent() const { return m_exponent.GetBaseVal(); }
-    inline void SetExponent(const float n) { m_exponent.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetExponent() const { return m_exponent; }
+    inline void SetExponent(const wxSVGAnimatedNumber& n) { m_exponent = n; }
+    inline void SetExponent(float n) { m_exponent.SetBaseVal(n); }
 
-    inline float GetOffset() const { return m_offset.GetBaseVal(); }
-    inline void SetOffset(const float n) { m_offset.GetBaseVal() = n; }
-
-  public:
-    inline char GetAnimatedType() const { return m_type.GetAnimVal(); }
-    inline void SetAnimatedType(const char n) { m_type.GetAnimVal() = n; }
-
-    inline wxSVGNumberList& GetAnimatedTableValues() { return m_tableValues.GetAnimVal(); }
-    inline void SetAnimatedTableValues(const wxSVGNumberList& n) { m_tableValues.GetAnimVal() = n; }
-
-    inline float GetAnimatedSlope() const { return m_slope.GetAnimVal(); }
-    inline void SetAnimatedSlope(const float n) { m_slope.GetAnimVal() = n; }
-
-    inline float GetAnimatedIntercept() const { return m_intercept.GetAnimVal(); }
-    inline void SetAnimatedIntercept(const float n) { m_intercept.GetAnimVal() = n; }
-
-    inline float GetAnimatedAmplitude() const { return m_amplitude.GetAnimVal(); }
-    inline void SetAnimatedAmplitude(const float n) { m_amplitude.GetAnimVal() = n; }
-
-    inline float GetAnimatedExponent() const { return m_exponent.GetAnimVal(); }
-    inline void SetAnimatedExponent(const float n) { m_exponent.GetAnimVal() = n; }
-
-    inline float GetAnimatedOffset() const { return m_offset.GetAnimVal(); }
-    inline void SetAnimatedOffset(const float n) { m_offset.GetAnimVal() = n; }
+    inline const wxSVGAnimatedNumber& GetOffset() const { return m_offset; }
+    inline void SetOffset(const wxSVGAnimatedNumber& n) { m_offset = n; }
+    inline void SetOffset(float n) { m_offset.SetBaseVal(n); }
 
   public:
     wxSVGComponentTransferFunctionElement(wxSVGDocument* doc, wxString tagName = wxT("")):

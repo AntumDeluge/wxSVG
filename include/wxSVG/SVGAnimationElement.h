@@ -36,9 +36,9 @@ class wxSVGAnimationElement:
     wxSVGAnimationElement(wxSVGDocument* doc, wxString tagName = wxT("")):
       wxSVGElement(doc, tagName), m_targetElement(NULL) {}
     virtual ~wxSVGAnimationElement() {}
-    virtual float GetStartTime();
-    virtual float GetCurrentTime();
-    virtual float GetSimpleDuration();
+    virtual double GetStartTime();
+    virtual double GetCurrentTime();
+    virtual double GetSimpleDuration();
     bool SetAttribute(const wxString& name, const wxString& value);
 };
 

@@ -22,24 +22,17 @@ class wxSVGFEPointLightElement:
     wxSVGAnimatedNumber m_z;
 
   public:
-    inline float GetX() const { return m_x.GetBaseVal(); }
-    inline void SetX(const float n) { m_x.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetX() const { return m_x; }
+    inline void SetX(const wxSVGAnimatedNumber& n) { m_x = n; }
+    inline void SetX(float n) { m_x.SetBaseVal(n); }
 
-    inline float GetY() const { return m_y.GetBaseVal(); }
-    inline void SetY(const float n) { m_y.GetBaseVal() = n; }
+    inline const wxSVGAnimatedNumber& GetY() const { return m_y; }
+    inline void SetY(const wxSVGAnimatedNumber& n) { m_y = n; }
+    inline void SetY(float n) { m_y.SetBaseVal(n); }
 
-    inline float GetZ() const { return m_z.GetBaseVal(); }
-    inline void SetZ(const float n) { m_z.GetBaseVal() = n; }
-
-  public:
-    inline float GetAnimatedX() const { return m_x.GetAnimVal(); }
-    inline void SetAnimatedX(const float n) { m_x.GetAnimVal() = n; }
-
-    inline float GetAnimatedY() const { return m_y.GetAnimVal(); }
-    inline void SetAnimatedY(const float n) { m_y.GetAnimVal() = n; }
-
-    inline float GetAnimatedZ() const { return m_z.GetAnimVal(); }
-    inline void SetAnimatedZ(const float n) { m_z.GetAnimVal() = n; }
+    inline const wxSVGAnimatedNumber& GetZ() const { return m_z; }
+    inline void SetZ(const wxSVGAnimatedNumber& n) { m_z = n; }
+    inline void SetZ(float n) { m_z.SetBaseVal(n); }
 
   public:
     wxSVGFEPointLightElement(wxSVGDocument* doc, wxString tagName = wxT("fePointLight")):

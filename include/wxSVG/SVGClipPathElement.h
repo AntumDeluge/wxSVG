@@ -32,12 +32,9 @@ class wxSVGClipPathElement:
     wxSVGAnimatedEnumeration m_clipPathUnits;
 
   public:
-    inline char GetClipPathUnits() const { return m_clipPathUnits.GetBaseVal(); }
-    inline void SetClipPathUnits(const char n) { m_clipPathUnits.GetBaseVal() = n; }
-
-  public:
-    inline char GetAnimatedClipPathUnits() const { return m_clipPathUnits.GetAnimVal(); }
-    inline void SetAnimatedClipPathUnits(const char n) { m_clipPathUnits.GetAnimVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetClipPathUnits() const { return m_clipPathUnits; }
+    inline void SetClipPathUnits(const wxSVGAnimatedEnumeration& n) { m_clipPathUnits = n; }
+    inline void SetClipPathUnits(char n) { m_clipPathUnits.SetBaseVal(n); }
 
   public:
     wxSVGClipPathElement(wxSVGDocument* doc, wxString tagName = wxT("clipPath")):

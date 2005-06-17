@@ -18,12 +18,9 @@ class wxSVGExternalResourcesRequired
     wxSVGAnimatedBoolean m_externalResourcesRequired;
 
   public:
-    inline bool GetExternalResourcesRequired() const { return m_externalResourcesRequired.GetBaseVal(); }
-    inline void SetExternalResourcesRequired(const bool n) { m_externalResourcesRequired.GetBaseVal() = n; }
-
-  public:
-    inline bool GetAnimatedExternalResourcesRequired() const { return m_externalResourcesRequired.GetAnimVal(); }
-    inline void SetAnimatedExternalResourcesRequired(const bool n) { m_externalResourcesRequired.GetAnimVal() = n; }
+    inline const wxSVGAnimatedBoolean& GetExternalResourcesRequired() const { return m_externalResourcesRequired; }
+    inline void SetExternalResourcesRequired(const wxSVGAnimatedBoolean& n) { m_externalResourcesRequired = n; }
+    inline void SetExternalResourcesRequired(bool n) { m_externalResourcesRequired.SetBaseVal(n); }
 
   public:
     virtual ~wxSVGExternalResourcesRequired() {}

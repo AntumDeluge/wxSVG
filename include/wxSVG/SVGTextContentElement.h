@@ -42,30 +42,25 @@ class wxSVGTextContentElement:
     wxSVGAnimatedEnumeration m_lengthAdjust;
 
   public:
-    inline wxSVGLength& GetTextLength() { return m_textLength.GetBaseVal(); }
-    inline void SetTextLength(const wxSVGLength& n) { m_textLength.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetTextLength() const { return m_textLength; }
+    inline void SetTextLength(const wxSVGAnimatedLength& n) { m_textLength = n; }
+    inline void SetTextLength(const wxSVGLength& n) { m_textLength.SetBaseVal(n); }
 
-    inline char GetLengthAdjust() const { return m_lengthAdjust.GetBaseVal(); }
-    inline void SetLengthAdjust(const char n) { m_lengthAdjust.GetBaseVal() = n; }
-
-  public:
-    inline wxSVGLength& GetAnimatedTextLength() { return m_textLength.GetAnimVal(); }
-    inline void SetAnimatedTextLength(const wxSVGLength& n) { m_textLength.GetAnimVal() = n; }
-
-    inline char GetAnimatedLengthAdjust() const { return m_lengthAdjust.GetAnimVal(); }
-    inline void SetAnimatedLengthAdjust(const char n) { m_lengthAdjust.GetAnimVal() = n; }
+    inline const wxSVGAnimatedEnumeration& GetLengthAdjust() const { return m_lengthAdjust; }
+    inline void SetLengthAdjust(const wxSVGAnimatedEnumeration& n) { m_lengthAdjust = n; }
+    inline void SetLengthAdjust(char n) { m_lengthAdjust.SetBaseVal(n); }
 
   public:
     wxSVGTextContentElement(wxSVGDocument* doc, wxString tagName = wxT("")):
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGTextContentElement() {}
     virtual long GetNumberOfChars();
-    virtual float GetComputedTextLength();
-    virtual float GetSubStringLength(unsigned long charnum, unsigned long nchars);
+    virtual double GetComputedTextLength();
+    virtual double GetSubStringLength(unsigned long charnum, unsigned long nchars);
     virtual wxSVGPoint GetStartPositionOfChar(unsigned long charnum);
     virtual wxSVGPoint GetEndPositionOfChar(unsigned long charnum);
     virtual wxSVGRect GetExtentOfChar(unsigned long charnum);
-    virtual float GetRotationOfChar(unsigned long charnum);
+    virtual double GetRotationOfChar(unsigned long charnum);
     virtual long GetCharNumAtPosition(const wxSVGPoint& point);
     virtual void SelectSubString(unsigned long charnum, unsigned long nchars);
     bool SetAttribute(const wxString& name, const wxString& value);

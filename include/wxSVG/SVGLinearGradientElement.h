@@ -23,30 +23,21 @@ class wxSVGLinearGradientElement:
     wxSVGAnimatedLength m_y2;
 
   public:
-    inline wxSVGLength& GetX1() { return m_x1.GetBaseVal(); }
-    inline void SetX1(const wxSVGLength& n) { m_x1.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetX1() const { return m_x1; }
+    inline void SetX1(const wxSVGAnimatedLength& n) { m_x1 = n; }
+    inline void SetX1(const wxSVGLength& n) { m_x1.SetBaseVal(n); }
 
-    inline wxSVGLength& GetY1() { return m_y1.GetBaseVal(); }
-    inline void SetY1(const wxSVGLength& n) { m_y1.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetY1() const { return m_y1; }
+    inline void SetY1(const wxSVGAnimatedLength& n) { m_y1 = n; }
+    inline void SetY1(const wxSVGLength& n) { m_y1.SetBaseVal(n); }
 
-    inline wxSVGLength& GetX2() { return m_x2.GetBaseVal(); }
-    inline void SetX2(const wxSVGLength& n) { m_x2.GetBaseVal() = n; }
+    inline const wxSVGAnimatedLength& GetX2() const { return m_x2; }
+    inline void SetX2(const wxSVGAnimatedLength& n) { m_x2 = n; }
+    inline void SetX2(const wxSVGLength& n) { m_x2.SetBaseVal(n); }
 
-    inline wxSVGLength& GetY2() { return m_y2.GetBaseVal(); }
-    inline void SetY2(const wxSVGLength& n) { m_y2.GetBaseVal() = n; }
-
-  public:
-    inline wxSVGLength& GetAnimatedX1() { return m_x1.GetAnimVal(); }
-    inline void SetAnimatedX1(const wxSVGLength& n) { m_x1.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedY1() { return m_y1.GetAnimVal(); }
-    inline void SetAnimatedY1(const wxSVGLength& n) { m_y1.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedX2() { return m_x2.GetAnimVal(); }
-    inline void SetAnimatedX2(const wxSVGLength& n) { m_x2.GetAnimVal() = n; }
-
-    inline wxSVGLength& GetAnimatedY2() { return m_y2.GetAnimVal(); }
-    inline void SetAnimatedY2(const wxSVGLength& n) { m_y2.GetAnimVal() = n; }
+    inline const wxSVGAnimatedLength& GetY2() const { return m_y2; }
+    inline void SetY2(const wxSVGAnimatedLength& n) { m_y2 = n; }
+    inline void SetY2(const wxSVGLength& n) { m_y2.SetBaseVal(n); }
 
   public:
     wxSVGLinearGradientElement(wxSVGDocument* doc, wxString tagName = wxT("linearGradient")):

@@ -23,7 +23,7 @@ class wxSVGScriptElement:
     wxString m_type;
 
   public:
-    inline const wxString& GetType() { return m_type; }
+    inline const wxString& GetType() const { return m_type; }
     inline void SetType(const wxString& n) { m_type = n; }
 
   public:

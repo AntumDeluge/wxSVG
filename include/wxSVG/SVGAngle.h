@@ -25,8 +25,8 @@ class wxSVGAngle
 {
   protected:
     wxSVG_ANGLETYPE m_unitType;
-    float m_value;
-    float m_valueInSpecifiedUnits;
+    double m_value;
+    double m_valueInSpecifiedUnits;
 
   public:
     inline wxSVG_ANGLETYPE GetUnitType() const { return m_unitType; }
@@ -34,20 +34,20 @@ class wxSVGAngle
 
   public:
     wxSVGAngle() : m_unitType(wxSVG_ANGLETYPE_UNKNOWN), m_value(0) {}
-    wxSVGAngle(float v) : m_unitType(wxSVG_ANGLETYPE_UNSPECIFIED), m_value(v) {}
+    wxSVGAngle(double v) : m_unitType(wxSVG_ANGLETYPE_UNSPECIFIED), m_value(v) {}
     virtual ~wxSVGAngle() {}
     
-    inline float GetValue() const { return m_value; }
-    inline void SetValue(float n) { m_unitType = wxSVG_ANGLETYPE_UNSPECIFIED; m_valueInSpecifiedUnits = n; m_value = n; }
-    inline operator float() { return GetValue(); }
+    inline double GetValue() const { return m_value; }
+    inline void SetValue(double n) { m_unitType = wxSVG_ANGLETYPE_UNSPECIFIED; m_valueInSpecifiedUnits = n; m_value = n; }
+    inline operator double() const { return GetValue(); }
     
-    inline float GetValueInSpecifiedUnits() const { return m_valueInSpecifiedUnits; }
-    void SetValueInSpecifiedUnits(float n);
+    inline double GetValueInSpecifiedUnits() const { return m_valueInSpecifiedUnits; }
+    void SetValueInSpecifiedUnits(double n);
     
     wxString GetValueAsString() const;
     void SetValueAsString(const wxString& n);
     
-    virtual void NewValueSpecifiedUnits(wxSVG_ANGLETYPE unitType, float valueInSpecifiedUnits);
+    virtual void NewValueSpecifiedUnits(wxSVG_ANGLETYPE unitType, double valueInSpecifiedUnits);
     virtual void ConvertToSpecifiedUnits(wxSVG_ANGLETYPE unitType);
 };
 

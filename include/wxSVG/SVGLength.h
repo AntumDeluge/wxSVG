@@ -31,8 +31,8 @@ class wxSVGLength
 {
   protected:
     wxSVG_LENGTHTYPE m_unitType;
-    float m_value;
-    float m_valueInSpecifiedUnits;
+    double m_value;
+    double m_valueInSpecifiedUnits;
 
   public:
     inline wxSVG_LENGTHTYPE GetUnitType() const { return m_unitType; }
@@ -40,20 +40,20 @@ class wxSVGLength
 
   public:
     wxSVGLength() : m_unitType(wxSVG_LENGTHTYPE_UNKNOWN), m_value(0), m_valueInSpecifiedUnits(0) {}
-    wxSVGLength(float v) : m_unitType(wxSVG_LENGTHTYPE_NUMBER), m_value(v), m_valueInSpecifiedUnits(0) {}
+    wxSVGLength(double v) : m_unitType(wxSVG_LENGTHTYPE_NUMBER), m_value(v), m_valueInSpecifiedUnits(0) {}
     virtual ~wxSVGLength() {}
     
-    inline float GetValue() const { return m_value; }
-    inline void SetValue(float n) { m_unitType = wxSVG_LENGTHTYPE_NUMBER; m_valueInSpecifiedUnits = n; m_value = n; }
-    inline operator float() { return GetValue(); }
+    inline double GetValue() const { return m_value; }
+    inline void SetValue(double n) { m_unitType = wxSVG_LENGTHTYPE_NUMBER; m_valueInSpecifiedUnits = n; m_value = n; }
+    inline operator double() const { return GetValue(); }
     
-    float GetValueInSpecifiedUnits() const;
-    void SetValueInSpecifiedUnits(float n);
+    double GetValueInSpecifiedUnits() const;
+    void SetValueInSpecifiedUnits(double n);
     
     wxString GetValueAsString() const;
     void SetValueAsString(const wxString& n);
     
-    virtual void NewValueSpecifiedUnits(wxSVG_LENGTHTYPE unitType, float valueInSpecifiedUnits);
+    virtual void NewValueSpecifiedUnits(wxSVG_LENGTHTYPE unitType, double valueInSpecifiedUnits);
     virtual void ConvertToSpecifiedUnits(wxSVG_LENGTHTYPE unitType);
 };
 
