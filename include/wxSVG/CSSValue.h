@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.h,v 1.5 2005-06-09 02:21:12 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.h,v 1.6 2005-06-17 17:33:49 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -90,6 +90,11 @@ class wxCSSPrimitiveValue: public wxCSSValue
   
   public:
 	wxCSSPrimitiveValue(): wxCSSValue(wxCSS_PRIMITIVE_VALUE), m_primitiveType(wxCSS_UNKNOWN) {}
+	wxCSSPrimitiveValue(double value) { SetFloatValue(wxCSS_NUMBER, value); }
+	wxCSSPrimitiveValue(const wxString& value) { SetStringValue(wxCSS_STRING, value); }
+	wxCSSPrimitiveValue(const wxRect& value) { SetRectValue(value); }
+	wxCSSPrimitiveValue(const wxRGBColor& value) { SetRGBColorValue(value); }
+	wxCSSPrimitiveValue(wxCSS_VALUE value) { SetIdentValue(value); }
 	wxCSSPrimitiveValue(const wxCSSPrimitiveValue& src);
 	wxCSSValue* Clone() const { return new wxCSSPrimitiveValue(*this); }
 	
@@ -104,10 +109,10 @@ class wxCSSPrimitiveValue: public wxCSSValue
 	void   SetFloatValue(wxCSS_PRIMITIVE_TYPE unitType, double floatValue);
 	double GetFloatValue(wxCSS_PRIMITIVE_TYPE unitType = wxCSS_NUMBER) const;
 	
-	void   SetRectValue(wxRect rect);
+	void   SetRectValue(const wxRect& rect);
 	wxRect GetRectValue() const;
 	
-	void SetRGBColorValue(wxRGBColor color);
+	void SetRGBColorValue(const wxRGBColor& color);
 	wxRGBColor GetRGBColorValue() const;
 	
 	void SetIdentValue(wxCSS_VALUE ident);
