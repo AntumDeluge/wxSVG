@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.5 2005-06-09 16:31:30 ntalex Exp $
+// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.6 2005-06-17 17:29:26 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -16,6 +16,13 @@ wxCSSPrimitiveValue* wxCSSStyleDeclaration::s_emptyCSSValue = new wxCSSPrimitive
 wxSVGColor* wxCSSStyleDeclaration::s_emptySVGColor = new wxSVGColor;
 wxSVGPaint* wxCSSStyleDeclaration::s_emptySVGPaint = new wxSVGPaint;
 wxSVGPaint* wxCSSStyleDeclaration::s_blackSVGPaint = new wxSVGPaint(0,0,0);
+
+wxCSSStyleDeclaration::~wxCSSStyleDeclaration()
+{
+  iterator it;
+  for (it = begin(); it != end(); ++it)
+	delete it->second;
+}
 
 void wxCSSStyleDeclaration::Add(const wxCSSStyleDeclaration& style)
 {

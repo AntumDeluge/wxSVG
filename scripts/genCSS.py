@@ -3,7 +3,7 @@
 ## Purpose:     generates CSSStyleDeclaration
 ## Author:      Alex Thuering
 ## Created:     2005/06/06
-## RCS-ID:      $Id: genCSS.py,v 1.4 2005-06-16 11:01:36 ntalex Exp $
+## RCS-ID:      $Id: genCSS.py,v 1.5 2005-06-17 17:34:02 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 
@@ -36,7 +36,7 @@ Attribute('filter', 'Filter', 'wxCSSPrimitiveValue', 'wxCSSPrimitiveValue', '', 
 Attribute('font-family', 'FontFamily', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
 Attribute('font-size', 'FontSize', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '20'),
 Attribute('font-stretch', 'FontStretch', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_NORMAL'),
-Attribute('font-style', 'FontStyle', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
+Attribute('font-style', 'FontStyle', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_NORMAL'),
 Attribute('font-variant', 'FontVariant', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_NORMAL'),
 Attribute('font-weight', 'FontWeight', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_NORMAL'),
 Attribute('marker', 'Marker', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
@@ -104,17 +104,12 @@ def genCSSStyleDeclaration():
     inline void Set%s(%s value)
     {
       iterator it = find(%s);
-      %s* cssValue = NULL;
       if (it != end())
-        cssValue = (%s*)it->second;
+        ((%s*)it->second)->Set%s(%svalue);
       else
-      {
-        cssValue = new %s;
-        (*this)[%s] = cssValue;
-      }
-      cssValue->Set%s(%svalue);
+        (*this)[%s] = new %s(value);
     }
-    '''%(attr.name, valueType, propId(attr.dtdName), attr.cssType, attr.cssType, attr.cssType, propId(attr.dtdName), attr.function, ptype)
+    '''%(attr.name, valueType, propId(attr.dtdName), attr.cssType, attr.function, ptype, propId(attr.dtdName), attr.cssType)
         else:
             set = '''\
     inline void Set%s(const %s& value)

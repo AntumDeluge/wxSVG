@@ -126,15 +126,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetColor(const wxRGBColor& value)
     {
       iterator it = find(wxCSS_PROPERTY_COLOR);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetRGBColorValue(value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_COLOR] = cssValue;
-      }
-      cssValue->SetRGBColorValue(value);
+        (*this)[wxCSS_PROPERTY_COLOR] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -147,15 +142,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetDisplay(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_DISPLAY);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_DISPLAY] = cssValue;
-      }
-      cssValue->SetIdentValue(value);
+        (*this)[wxCSS_PROPERTY_DISPLAY] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -187,15 +177,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetFillOpacity(double value)
     {
       iterator it = find(wxCSS_PROPERTY_FILL_OPACITY);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetFloatValue(wxCSS_NUMBER, value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_FILL_OPACITY] = cssValue;
-      }
-      cssValue->SetFloatValue(wxCSS_NUMBER, value);
+        (*this)[wxCSS_PROPERTY_FILL_OPACITY] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -208,15 +193,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetFillRule(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_FILL_RULE);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_FILL_RULE] = cssValue;
-      }
-      cssValue->SetIdentValue(value);
+        (*this)[wxCSS_PROPERTY_FILL_RULE] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -248,15 +228,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetFontFamily(const wxString& value)
     {
       iterator it = find(wxCSS_PROPERTY_FONT_FAMILY);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetStringValue(wxCSS_STRING, value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_FONT_FAMILY] = cssValue;
-      }
-      cssValue->SetStringValue(wxCSS_STRING, value);
+        (*this)[wxCSS_PROPERTY_FONT_FAMILY] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -269,15 +244,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetFontSize(double value)
     {
       iterator it = find(wxCSS_PROPERTY_FONT_SIZE);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetFloatValue(wxCSS_NUMBER, value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_FONT_SIZE] = cssValue;
-      }
-      cssValue->SetFloatValue(wxCSS_NUMBER, value);
+        (*this)[wxCSS_PROPERTY_FONT_SIZE] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -290,36 +260,26 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetFontStretch(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_FONT_STRETCH);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_FONT_STRETCH] = cssValue;
-      }
-      cssValue->SetIdentValue(value);
+        (*this)[wxCSS_PROPERTY_FONT_STRETCH] = new wxCSSPrimitiveValue(value);
     }
     
 
-    inline wxString GetFontStyle()
+    inline wxCSS_VALUE GetFontStyle()
     {
       iterator it = find(wxCSS_PROPERTY_FONT_STYLE);
-      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetStringValue() : wxT("");
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_NORMAL;
     }
     inline bool HasFontStyle() { return HasProperty(wxCSS_PROPERTY_FONT_STYLE); }
-    inline void SetFontStyle(const wxString& value)
+    inline void SetFontStyle(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_FONT_STYLE);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_FONT_STYLE] = cssValue;
-      }
-      cssValue->SetStringValue(wxCSS_STRING, value);
+        (*this)[wxCSS_PROPERTY_FONT_STYLE] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -332,15 +292,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetFontVariant(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_FONT_VARIANT);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_FONT_VARIANT] = cssValue;
-      }
-      cssValue->SetIdentValue(value);
+        (*this)[wxCSS_PROPERTY_FONT_VARIANT] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -353,15 +308,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetFontWeight(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_FONT_WEIGHT);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_FONT_WEIGHT] = cssValue;
-      }
-      cssValue->SetIdentValue(value);
+        (*this)[wxCSS_PROPERTY_FONT_WEIGHT] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -374,15 +324,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetMarker(const wxString& value)
     {
       iterator it = find(wxCSS_PROPERTY_MARKER);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetStringValue(wxCSS_STRING, value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_MARKER] = cssValue;
-      }
-      cssValue->SetStringValue(wxCSS_STRING, value);
+        (*this)[wxCSS_PROPERTY_MARKER] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -452,15 +397,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetOpacity(double value)
     {
       iterator it = find(wxCSS_PROPERTY_OPACITY);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetFloatValue(wxCSS_NUMBER, value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_OPACITY] = cssValue;
-      }
-      cssValue->SetFloatValue(wxCSS_NUMBER, value);
+        (*this)[wxCSS_PROPERTY_OPACITY] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -492,15 +432,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetStopOpacity(double value)
     {
       iterator it = find(wxCSS_PROPERTY_STOP_OPACITY);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetFloatValue(wxCSS_NUMBER, value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_STOP_OPACITY] = cssValue;
-      }
-      cssValue->SetFloatValue(wxCSS_NUMBER, value);
+        (*this)[wxCSS_PROPERTY_STOP_OPACITY] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -532,15 +467,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetStrokeDashoffset(double value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE_DASHOFFSET);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetFloatValue(wxCSS_NUMBER, value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_STROKE_DASHOFFSET] = cssValue;
-      }
-      cssValue->SetFloatValue(wxCSS_NUMBER, value);
+        (*this)[wxCSS_PROPERTY_STROKE_DASHOFFSET] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -553,15 +483,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetStrokeLinecap(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE_LINECAP);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_STROKE_LINECAP] = cssValue;
-      }
-      cssValue->SetIdentValue(value);
+        (*this)[wxCSS_PROPERTY_STROKE_LINECAP] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -574,15 +499,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetStrokeLinejoin(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE_LINEJOIN);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_STROKE_LINEJOIN] = cssValue;
-      }
-      cssValue->SetIdentValue(value);
+        (*this)[wxCSS_PROPERTY_STROKE_LINEJOIN] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -595,15 +515,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetStrokeMiterlimit(double value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE_MITERLIMIT);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetFloatValue(wxCSS_NUMBER, value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_STROKE_MITERLIMIT] = cssValue;
-      }
-      cssValue->SetFloatValue(wxCSS_NUMBER, value);
+        (*this)[wxCSS_PROPERTY_STROKE_MITERLIMIT] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -616,15 +531,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetStrokeOpacity(double value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE_OPACITY);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetFloatValue(wxCSS_NUMBER, value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_STROKE_OPACITY] = cssValue;
-      }
-      cssValue->SetFloatValue(wxCSS_NUMBER, value);
+        (*this)[wxCSS_PROPERTY_STROKE_OPACITY] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -637,15 +547,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetStrokeWidth(double value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE_WIDTH);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetFloatValue(wxCSS_NUMBER, value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_STROKE_WIDTH] = cssValue;
-      }
-      cssValue->SetFloatValue(wxCSS_NUMBER, value);
+        (*this)[wxCSS_PROPERTY_STROKE_WIDTH] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -658,15 +563,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetTextAnchor(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_TEXT_ANCHOR);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_TEXT_ANCHOR] = cssValue;
-      }
-      cssValue->SetIdentValue(value);
+        (*this)[wxCSS_PROPERTY_TEXT_ANCHOR] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -679,15 +579,10 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline void SetVisibility(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_VISIBILITY);
-      wxCSSPrimitiveValue* cssValue = NULL;
       if (it != end())
-        cssValue = (wxCSSPrimitiveValue*)it->second;
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
       else
-      {
-        cssValue = new wxCSSPrimitiveValue;
-        (*this)[wxCSS_PROPERTY_VISIBILITY] = cssValue;
-      }
-      cssValue->SetIdentValue(value);
+        (*this)[wxCSS_PROPERTY_VISIBILITY] = new wxCSSPrimitiveValue(value);
     }
     
   protected:
