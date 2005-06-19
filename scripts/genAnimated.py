@@ -3,7 +3,7 @@
 ## Purpose:     generates all SVGAnimated*.h
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genAnimated.py,v 1.2 2005-05-16 11:00:17 ntalex Exp $
+## RCS-ID:      $Id: genAnimated.py,v 1.3 2005-06-19 18:59:05 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -13,35 +13,102 @@ import cpp
 import cppHeader
 
 def getBaseType(name):
-	typename = name
-	if typename != "String":
-	  typename = "SVG" + typename
-	typename = cpp.fix_typename(typename)
-	if name=="Enumeration":
-	  typename = "char"
-	elif name=="Boolean":
-	  typename = "bool"
-	elif name=="Integer":
-	  typename = "long"
-	elif name=="Number":
-	  typename = "float"
-	return typename
+    typename = name
+    if typename != "String":
+        typename = "SVG" + typename
+    typename = cpp.fix_typename(typename)
+    if name=="Enumeration":
+        typename = "char"
+    elif name=="Boolean":
+        typename = "bool"
+    elif name=="Integer":
+        typename = "long"
+    elif name=="Number":
+        typename = "float"
+    return typename
 
 
 def generate(name):
-	typename = getBaseType(name)
-	include = ""
-	if typename not in cpp.builtin_types and name != "String":
-		include = '#include "SVG%s.h"'%name
-	if len(include):
-		include = include + '\n'
-	animType = ""
-	if typename in cpp.number_types:
-		animType = "_NUMBER"
-	output = '''#include "Animated.h"
-%s
-WXSVG_MAKE_ANIMATED%s(%s, %s)'''%(include,animType,name,typename)
-	header = cppHeader.Header("SVGAnimated%s"%name, "genAnimated.py")
-	header.add_content(output)
-	header.dump(path=config.include_dir)
+    typename = getBaseType(name)
+    include = ''
+    if name == "String":
+        include = '#include "String.h"\n'
+    elif typename not in cpp.builtin_types:
+        include = '#include "SVG%s.h"\n'%name
+    
+    output = ''
+    if typename in cpp.number_types:
+        output = '''%s
+class wxSVGAnimated%s
+{
+  public:
+    wxSVGAnimated%s(): m_baseVal(0), m_animVal(0) {}
+	wxSVGAnimated%s(%s value): m_baseVal(value), m_animVal(value) {}
+	
+    inline %s GetBaseVal() const { return m_baseVal; };
+	inline void SetBaseVal(%s value) { m_baseVal = m_animVal = value; }
+	
+    inline %s GetAnimVal() const { return m_animVal; }
+	inline void SetAnimVal(%s value) { m_animVal = value; }
+    
+  public:
+    inline operator %s() const { return GetBaseVal(); }
+    
+  protected:
+    %s m_baseVal;
+    %s m_animVal;
+};
+'''%(include,name,name,name,typename,typename,typename,typename,typename,typename,typename,typename)
+    else:
+        output = '''%s
+class wxSVGAnimated%s
+{
+  public:
+	wxSVGAnimated%s(): m_animVal(NULL) {}
+	wxSVGAnimated%s(const %s& value): m_baseVal(value), m_animVal(NULL) {}
+    ~wxSVGAnimated%s() { ResetAnimVal(); }
+	
+    inline %s& GetBaseVal() { return m_baseVal; }
+	inline const %s& GetBaseVal() const { return m_baseVal; }
+	inline void SetBaseVal(const %s& value) { m_baseVal = value; ResetAnimVal(); }
+    
+	inline %s& GetAnimVal()
+    {
+      if (!m_animVal)
+        m_animVal = new %s(m_baseVal);
+      return *m_animVal;
+    }
+	inline const %s& GetAnimVal() const
+    {
+        return m_animVal ? *m_animVal : m_baseVal;
+    }
+    inline void SetAnimVal(const %s& value)
+    {
+      if (!m_animVal)
+        m_animVal = new %s(value);
+      else
+        *m_animVal = value;
+    }
+    inline void ResetAnimVal()
+    {
+      if (m_animVal)
+      {
+        delete m_animVal;
+        m_animVal = NULL;
+      }
+    }
+    
+  public:
+    inline operator const %s&() const { return GetAnimVal(); }
+    
+  protected:
+    %s m_baseVal;
+    %s* m_animVal;
+};
+'''%(include,name,name,name,typename,name,typename,typename,typename,typename,\
+     typename,typename,typename,typename,typename,typename,typename)
+    
+    header = cppHeader.Header("SVGAnimated%s"%name, "genAnimated.py")
+    header.add_content(output)
+    header.dump(path=config.include_dir)
 
