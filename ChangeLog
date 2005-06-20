@@ -3,6 +3,9 @@ CVS
 
   * implemented image element
   * rewrited css classes
+  * removed all GetAnimated/SetAnimated methods
+  * wxSVGLength: added calculation of percantage values
+   
 
 Version 0.8 <2005.05.27>
 ------------------------

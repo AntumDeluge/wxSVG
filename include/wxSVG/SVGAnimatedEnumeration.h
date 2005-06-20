@@ -9,8 +9,26 @@
 #ifndef WX_SVG_ANIMATED_ENUMERATION_H
 #define WX_SVG_ANIMATED_ENUMERATION_H
 
-#include "Animated.h"
 
-WXSVG_MAKE_ANIMATED_NUMBER(Enumeration, char)
+class wxSVGAnimatedEnumeration
+{
+  public:
+    wxSVGAnimatedEnumeration(): m_baseVal(0), m_animVal(0) {}
+	wxSVGAnimatedEnumeration(char value): m_baseVal(value), m_animVal(value) {}
+	
+    inline char GetBaseVal() const { return m_baseVal; };
+	inline void SetBaseVal(char value) { m_baseVal = m_animVal = value; }
+	
+    inline char GetAnimVal() const { return m_animVal; }
+	inline void SetAnimVal(char value) { m_animVal = value; }
+    
+  public:
+    inline operator char() const { return GetBaseVal(); }
+    
+  protected:
+    char m_baseVal;
+    char m_animVal;
+};
+
 
 #endif // WX_SVG_ANIMATED_ENUMERATION_H

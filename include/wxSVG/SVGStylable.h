@@ -70,8 +70,8 @@ class wxSVGStylable
     inline wxCSS_VALUE GetFontStretch() { return m_style.GetFontStretch(); }
     inline bool HasFontStretch() { return m_style.HasFontStretch(); }
     
-    inline void SetFontStyle(const wxString& value) { m_style.SetFontStyle(value); }
-    inline wxString GetFontStyle() { return m_style.GetFontStyle(); }
+    inline void SetFontStyle(wxCSS_VALUE value) { m_style.SetFontStyle(value); }
+    inline wxCSS_VALUE GetFontStyle() { return m_style.GetFontStyle(); }
     inline bool HasFontStyle() { return m_style.HasFontStyle(); }
     
     inline void SetFontVariant(wxCSS_VALUE value) { m_style.SetFontVariant(value); }

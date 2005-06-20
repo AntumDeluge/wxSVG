@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.cpp,v 1.7 2005-06-17 13:24:49 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.cpp,v 1.8 2005-06-20 13:29:26 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -125,7 +125,7 @@ double wxCSSPrimitiveValue::GetFloatValue(wxCSS_PRIMITIVE_TYPE unitType) const
   return 0;
 }
 
-void wxCSSPrimitiveValue::SetRectValue(wxRect rect)
+void wxCSSPrimitiveValue::SetRectValue(const wxRect& rect)
 {
   if (m_primitiveType != wxCSS_RECT)
   {
@@ -143,7 +143,7 @@ wxRect wxCSSPrimitiveValue::GetRectValue() const
   return wxRect();
 }
 
-void wxCSSPrimitiveValue::SetRGBColorValue(wxRGBColor color)
+void wxCSSPrimitiveValue::SetRGBColorValue(const wxRGBColor& color)
 {
   if (m_primitiveType != wxCSS_RGBCOLOR)
   {

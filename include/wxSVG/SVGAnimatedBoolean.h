@@ -9,8 +9,26 @@
 #ifndef WX_SVG_ANIMATED_BOOLEAN_H
 #define WX_SVG_ANIMATED_BOOLEAN_H
 
-#include "Animated.h"
 
-WXSVG_MAKE_ANIMATED_NUMBER(Boolean, bool)
+class wxSVGAnimatedBoolean
+{
+  public:
+    wxSVGAnimatedBoolean(): m_baseVal(0), m_animVal(0) {}
+	wxSVGAnimatedBoolean(bool value): m_baseVal(value), m_animVal(value) {}
+	
+    inline bool GetBaseVal() const { return m_baseVal; };
+	inline void SetBaseVal(bool value) { m_baseVal = m_animVal = value; }
+	
+    inline bool GetAnimVal() const { return m_animVal; }
+	inline void SetAnimVal(bool value) { m_animVal = value; }
+    
+  public:
+    inline operator bool() const { return GetBaseVal(); }
+    
+  protected:
+    bool m_baseVal;
+    bool m_animVal;
+};
+
 
 #endif // WX_SVG_ANIMATED_BOOLEAN_H

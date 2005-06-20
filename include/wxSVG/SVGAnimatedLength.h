@@ -9,9 +9,52 @@
 #ifndef WX_SVG_ANIMATED_LENGTH_H
 #define WX_SVG_ANIMATED_LENGTH_H
 
-#include "Animated.h"
 #include "SVGLength.h"
 
-WXSVG_MAKE_ANIMATED(Length, wxSVGLength)
+class wxSVGAnimatedLength
+{
+  public:
+	wxSVGAnimatedLength(): m_animVal(NULL) {}
+	wxSVGAnimatedLength(const wxSVGLength& value): m_baseVal(value), m_animVal(NULL) {}
+    ~wxSVGAnimatedLength() { ResetAnimVal(); }
+	
+    inline wxSVGLength& GetBaseVal() { return m_baseVal; }
+	inline const wxSVGLength& GetBaseVal() const { return m_baseVal; }
+	inline void SetBaseVal(const wxSVGLength& value) { m_baseVal = value; ResetAnimVal(); }
+    
+	inline wxSVGLength& GetAnimVal()
+    {
+      if (!m_animVal)
+        m_animVal = new wxSVGLength(m_baseVal);
+      return *m_animVal;
+    }
+	inline const wxSVGLength& GetAnimVal() const
+    {
+        return m_animVal ? *m_animVal : m_baseVal;
+    }
+    inline void SetAnimVal(const wxSVGLength& value)
+    {
+      if (!m_animVal)
+        m_animVal = new wxSVGLength(value);
+      else
+        *m_animVal = value;
+    }
+    inline void ResetAnimVal()
+    {
+      if (m_animVal)
+      {
+        delete m_animVal;
+        m_animVal = NULL;
+      }
+    }
+    
+  public:
+    inline operator const wxSVGLength&() const { return GetAnimVal(); }
+    
+  protected:
+    wxSVGLength m_baseVal;
+    wxSVGLength* m_animVal;
+};
+
 
 #endif // WX_SVG_ANIMATED_LENGTH_H

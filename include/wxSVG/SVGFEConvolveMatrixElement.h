@@ -17,6 +17,7 @@
 #include "SVGAnimatedEnumeration.h"
 #include "SVGAnimatedLength.h"
 #include "SVGAnimatedBoolean.h"
+#include "SVGSVGElement.h"
 #include "String.h"
 
 
@@ -78,11 +79,11 @@ class wxSVGFEConvolveMatrixElement:
     inline void SetEdgeMode(const wxSVGAnimatedEnumeration& n) { m_edgeMode = n; }
     inline void SetEdgeMode(char n) { m_edgeMode.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetKernelUnitLengthX() const { return m_kernelUnitLengthX; }
+    inline const wxSVGAnimatedLength& GetKernelUnitLengthX() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_kernelUnitLengthX, GetViewportElement()); return m_kernelUnitLengthX; }
     inline void SetKernelUnitLengthX(const wxSVGAnimatedLength& n) { m_kernelUnitLengthX = n; }
     inline void SetKernelUnitLengthX(const wxSVGLength& n) { m_kernelUnitLengthX.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetKernelUnitLengthY() const { return m_kernelUnitLengthY; }
+    inline const wxSVGAnimatedLength& GetKernelUnitLengthY() const { WX_SVG_ANIM_LENGTH_CALC_HEIGHT(m_kernelUnitLengthY, GetViewportElement()); return m_kernelUnitLengthY; }
     inline void SetKernelUnitLengthY(const wxSVGAnimatedLength& n) { m_kernelUnitLengthY = n; }
     inline void SetKernelUnitLengthY(const wxSVGLength& n) { m_kernelUnitLengthY.SetBaseVal(n); }
 

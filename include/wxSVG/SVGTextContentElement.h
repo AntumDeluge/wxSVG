@@ -17,6 +17,7 @@
 #include "EventTarget.h"
 #include "SVGAnimatedLength.h"
 #include "SVGAnimatedEnumeration.h"
+#include "SVGSVGElement.h"
 #include "SVGPoint.h"
 #include "SVGRect.h"
 #include "String.h"
@@ -42,7 +43,7 @@ class wxSVGTextContentElement:
     wxSVGAnimatedEnumeration m_lengthAdjust;
 
   public:
-    inline const wxSVGAnimatedLength& GetTextLength() const { return m_textLength; }
+    inline const wxSVGAnimatedLength& GetTextLength() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_textLength, GetViewportElement()); return m_textLength; }
     inline void SetTextLength(const wxSVGAnimatedLength& n) { m_textLength = n; }
     inline void SetTextLength(const wxSVGLength& n) { m_textLength.SetBaseVal(n); }
 

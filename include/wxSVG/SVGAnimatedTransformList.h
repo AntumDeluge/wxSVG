@@ -9,9 +9,52 @@
 #ifndef WX_SVG_ANIMATED_TRANSFORM_LIST_H
 #define WX_SVG_ANIMATED_TRANSFORM_LIST_H
 
-#include "Animated.h"
 #include "SVGTransformList.h"
 
-WXSVG_MAKE_ANIMATED(TransformList, wxSVGTransformList)
+class wxSVGAnimatedTransformList
+{
+  public:
+	wxSVGAnimatedTransformList(): m_animVal(NULL) {}
+	wxSVGAnimatedTransformList(const wxSVGTransformList& value): m_baseVal(value), m_animVal(NULL) {}
+    ~wxSVGAnimatedTransformList() { ResetAnimVal(); }
+	
+    inline wxSVGTransformList& GetBaseVal() { return m_baseVal; }
+	inline const wxSVGTransformList& GetBaseVal() const { return m_baseVal; }
+	inline void SetBaseVal(const wxSVGTransformList& value) { m_baseVal = value; ResetAnimVal(); }
+    
+	inline wxSVGTransformList& GetAnimVal()
+    {
+      if (!m_animVal)
+        m_animVal = new wxSVGTransformList(m_baseVal);
+      return *m_animVal;
+    }
+	inline const wxSVGTransformList& GetAnimVal() const
+    {
+        return m_animVal ? *m_animVal : m_baseVal;
+    }
+    inline void SetAnimVal(const wxSVGTransformList& value)
+    {
+      if (!m_animVal)
+        m_animVal = new wxSVGTransformList(value);
+      else
+        *m_animVal = value;
+    }
+    inline void ResetAnimVal()
+    {
+      if (m_animVal)
+      {
+        delete m_animVal;
+        m_animVal = NULL;
+      }
+    }
+    
+  public:
+    inline operator const wxSVGTransformList&() const { return GetAnimVal(); }
+    
+  protected:
+    wxSVGTransformList m_baseVal;
+    wxSVGTransformList* m_animVal;
+};
+
 
 #endif // WX_SVG_ANIMATED_TRANSFORM_LIST_H

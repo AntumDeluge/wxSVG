@@ -14,6 +14,7 @@
 #include "SVGAnimatedString.h"
 #include "SVGAnimatedEnumeration.h"
 #include "SVGAnimatedLength.h"
+#include "SVGSVGElement.h"
 #include "String.h"
 
 
@@ -43,11 +44,11 @@ class wxSVGFEMorphologyElement:
     inline void SetOperator(const wxSVGAnimatedEnumeration& n) { m_operator = n; }
     inline void SetOperator(char n) { m_operator.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetRadiusX() const { return m_radiusX; }
+    inline const wxSVGAnimatedLength& GetRadiusX() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_radiusX, GetViewportElement()); return m_radiusX; }
     inline void SetRadiusX(const wxSVGAnimatedLength& n) { m_radiusX = n; }
     inline void SetRadiusX(const wxSVGLength& n) { m_radiusX.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetRadiusY() const { return m_radiusY; }
+    inline const wxSVGAnimatedLength& GetRadiusY() const { WX_SVG_ANIM_LENGTH_CALC_HEIGHT(m_radiusY, GetViewportElement()); return m_radiusY; }
     inline void SetRadiusY(const wxSVGAnimatedLength& n) { m_radiusY = n; }
     inline void SetRadiusY(const wxSVGLength& n) { m_radiusY.SetBaseVal(n); }
 

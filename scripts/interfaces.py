@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.9 2005-06-17 13:22:29 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.10 2005-06-20 13:27:47 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -140,10 +140,18 @@ inter.include_methods.append('    void SetValueInSpecifiedUnits(double n);\n')
 inter.include_methods.append('    \n')
 inter.include_methods.append('    wxString GetValueAsString() const;\n')
 inter.include_methods.append('    void SetValueAsString(const wxString& n);\n')
-inter.include_methods.append('    \n')
+inter.include_methods.append('''    
+    inline void ToViewportWidth(float viewportWidth) { m_value = m_valueInSpecifiedUnits*viewportWidth/100; }
+	inline void ToViewportHeight(float viewportHeight) { m_value = m_valueInSpecifiedUnits*viewportHeight/100; }
+	inline void ToViewportSize(float viewportWidth, float viewportHeight)
+	{
+	  m_value = m_valueInSpecifiedUnits*
+		sqrt(viewportWidth*viewportWidth + viewportHeight*viewportHeight)/sqrt(2)/100;
+	}\n
+''')
 inter.exclude_methods = ["GetValue", "SetValue", "GetValueInSpecifiedUnits", "GetValueInSpecifiedUnits"]
 inter.exclude_attributes = ["valueAsString"]
-inter.include_includes = ["String"]
+inter.include_includes = ["String", "SVGLengthCalculate", "math"]
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 

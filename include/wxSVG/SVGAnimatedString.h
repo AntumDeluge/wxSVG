@@ -9,8 +9,52 @@
 #ifndef WX_SVG_ANIMATED_STRING_H
 #define WX_SVG_ANIMATED_STRING_H
 
-#include "Animated.h"
+#include "String.h"
 
-WXSVG_MAKE_ANIMATED(String, wxString)
+class wxSVGAnimatedString
+{
+  public:
+	wxSVGAnimatedString(): m_animVal(NULL) {}
+	wxSVGAnimatedString(const wxString& value): m_baseVal(value), m_animVal(NULL) {}
+    ~wxSVGAnimatedString() { ResetAnimVal(); }
+	
+    inline wxString& GetBaseVal() { return m_baseVal; }
+	inline const wxString& GetBaseVal() const { return m_baseVal; }
+	inline void SetBaseVal(const wxString& value) { m_baseVal = value; ResetAnimVal(); }
+    
+	inline wxString& GetAnimVal()
+    {
+      if (!m_animVal)
+        m_animVal = new wxString(m_baseVal);
+      return *m_animVal;
+    }
+	inline const wxString& GetAnimVal() const
+    {
+        return m_animVal ? *m_animVal : m_baseVal;
+    }
+    inline void SetAnimVal(const wxString& value)
+    {
+      if (!m_animVal)
+        m_animVal = new wxString(value);
+      else
+        *m_animVal = value;
+    }
+    inline void ResetAnimVal()
+    {
+      if (m_animVal)
+      {
+        delete m_animVal;
+        m_animVal = NULL;
+      }
+    }
+    
+  public:
+    inline operator const wxString&() const { return GetAnimVal(); }
+    
+  protected:
+    wxString m_baseVal;
+    wxString* m_animVal;
+};
+
 
 #endif // WX_SVG_ANIMATED_STRING_H

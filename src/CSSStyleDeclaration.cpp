@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.6 2005-06-17 17:29:26 ntalex Exp $
+// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.7 2005-06-20 13:29:26 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -327,5 +327,21 @@ void wxCSSStyleDeclaration::ParseSVGPaint(wxSVGPaint& cssValue, const wxString& 
 	val = value.AfterFirst(wxT(')')).Strip(wxString::both);
   }
   cssValue.SetRGBColor(ParseColor(val));
+}
+
+//////////////////////////////////////////////////////////////////////////////
+///////////////////////// wxCSSStyleRef //////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+wxCSSStyleRef::~wxCSSStyleRef()
+{
+  while (size())
+	erase(begin());
+}
+
+void wxCSSStyleRef::Add(const wxCSSStyleDeclaration& style)
+{
+  const_iterator it;
+  for (it = style.begin(); it != style.end(); ++it)
+	(*this)[it->first] = it->second;
 }
 

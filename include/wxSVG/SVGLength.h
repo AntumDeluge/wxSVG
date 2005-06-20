@@ -10,6 +10,8 @@
 #define WX_SVG_LENGTH_H
 
 #include "String.h"
+#include "SVGLengthCalculate.h"
+#include "math.h"
 
 
 enum wxSVG_LENGTHTYPE
@@ -53,6 +55,14 @@ class wxSVGLength
     wxString GetValueAsString() const;
     void SetValueAsString(const wxString& n);
     
+    inline void ToViewportWidth(float viewportWidth) { m_value = m_valueInSpecifiedUnits*viewportWidth/100; }
+	inline void ToViewportHeight(float viewportHeight) { m_value = m_valueInSpecifiedUnits*viewportHeight/100; }
+	inline void ToViewportSize(float viewportWidth, float viewportHeight)
+	{
+	  m_value = m_valueInSpecifiedUnits*
+		sqrt(viewportWidth*viewportWidth + viewportHeight*viewportHeight)/sqrt(2)/100;
+	}
+
     virtual void NewValueSpecifiedUnits(wxSVG_LENGTHTYPE unitType, double valueInSpecifiedUnits);
     virtual void ConvertToSpecifiedUnits(wxSVG_LENGTHTYPE unitType);
 };

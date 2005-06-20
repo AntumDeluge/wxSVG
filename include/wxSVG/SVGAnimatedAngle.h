@@ -9,9 +9,52 @@
 #ifndef WX_SVG_ANIMATED_ANGLE_H
 #define WX_SVG_ANIMATED_ANGLE_H
 
-#include "Animated.h"
 #include "SVGAngle.h"
 
-WXSVG_MAKE_ANIMATED(Angle, wxSVGAngle)
+class wxSVGAnimatedAngle
+{
+  public:
+	wxSVGAnimatedAngle(): m_animVal(NULL) {}
+	wxSVGAnimatedAngle(const wxSVGAngle& value): m_baseVal(value), m_animVal(NULL) {}
+    ~wxSVGAnimatedAngle() { ResetAnimVal(); }
+	
+    inline wxSVGAngle& GetBaseVal() { return m_baseVal; }
+	inline const wxSVGAngle& GetBaseVal() const { return m_baseVal; }
+	inline void SetBaseVal(const wxSVGAngle& value) { m_baseVal = value; ResetAnimVal(); }
+    
+	inline wxSVGAngle& GetAnimVal()
+    {
+      if (!m_animVal)
+        m_animVal = new wxSVGAngle(m_baseVal);
+      return *m_animVal;
+    }
+	inline const wxSVGAngle& GetAnimVal() const
+    {
+        return m_animVal ? *m_animVal : m_baseVal;
+    }
+    inline void SetAnimVal(const wxSVGAngle& value)
+    {
+      if (!m_animVal)
+        m_animVal = new wxSVGAngle(value);
+      else
+        *m_animVal = value;
+    }
+    inline void ResetAnimVal()
+    {
+      if (m_animVal)
+      {
+        delete m_animVal;
+        m_animVal = NULL;
+      }
+    }
+    
+  public:
+    inline operator const wxSVGAngle&() const { return GetAnimVal(); }
+    
+  protected:
+    wxSVGAngle m_baseVal;
+    wxSVGAngle* m_animVal;
+};
+
 
 #endif // WX_SVG_ANIMATED_ANGLE_H

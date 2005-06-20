@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.9 2005-06-17 13:22:29 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.10 2005-06-20 13:27:47 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -56,8 +56,7 @@ def find_dtd_attr_in_inherit(classdecl):
 
 if len(parse_idl.class_decls):
     for (classname, classdecl) in parse_idl.class_decls.items():
-
-        if string.find(classname, "Animated") >=0 and classname not in ["SVGAnimatedPathData","SVGAnimatedPoints",""]:
+        if string.find(classname, "Animated") >=0 and classname not in ["SVGAnimatedPathData","SVGAnimatedPoints"]:
             used_animated.append(classname)
             continue
         if string.find(classname, "List") >=0:
@@ -213,17 +212,33 @@ if len(parse_idl.class_decls):
                     continue
                 exclude_methods.append(methodName)
                 
-                const=''
                 ret_type = typestr
                 if (typestr[0:5] == "wxSVG" or typestr[0:5] == "wxCSS" or typestr == "wxString") and \
                     typestr[0:6] != "wxSVG_" and not ispointer:
-                        const = 'const '
-                        ret_type = const + ret_type + '&'
-                elif not ispointer:
-                    const = 'const '
+                        ret_type = 'const ' + ret_type + '&'
 
                 attrname_cpp = cpp.make_attr_name(attrname)
-                public = public + '    inline %s %s() %s{ return %s; }\n'%(ret_type,methodName,const,attrname_cpp)
+                calc = ''
+                if classname[-7:] == "Element" and typestr in ["wxSVGAnimatedLength", "wxSVGAnimatedLengthList"]:
+                    if "SVGSVGElement" not in includes:
+                        includes.append("SVGSVGElement")
+                    l = ''
+                    if typestr == "wxSVGAnimatedLengthList":
+                        l = '_LIST'
+                    if attrname[len(attrname)-1].lower() == 'x' or attrname[-5:].lower() == 'width' or \
+                       attrname[len(attrname)-2].lower() == 'x' or attrname in ["startOffset", "textLength"]:
+                        calc = 'WX_SVG_ANIM_LENGTH%s_CALC_WIDTH(%s, GetViewportElement()); '%(l,attrname_cpp)
+                    elif attrname[len(attrname)-1].lower() == 'y' or attrname[-6:].lower() == 'height' or \
+                         attrname[len(attrname)-2].lower() == 'y':
+                        calc = 'WX_SVG_ANIM_LENGTH%s_CALC_HEIGHT(%s, GetViewportElement()); '%(l,attrname_cpp)
+                    elif attrname == 'r':
+                        calc = 'WX_SVG_ANIM_LENGTH%s_CALC_SIZE(%s, GetViewportElement()); '%(l,attrname_cpp)
+                    else:
+                        calc = 'WX_SVG_ANIM_LENGTH%s_CALC_SIZE(%s, GetViewportElement()); '%(l,attrname_cpp)
+                        print "Warning: unknown lengthtype of attribute " + classname + '::' + attrname
+                #if classname[-7:] == "Element" and typestr == "wxSVGAnimatedLengthList":
+                #    print classname + " - " + typestr
+                public = public + '    inline %s %s() const { %sreturn %s; }\n'%(ret_type,methodName,calc,attrname_cpp)
                     
                 # set
                 methodName = 'Set' + string.upper(attrname[0])+attrname[1:]
@@ -491,7 +506,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.9 2005-06-17 13:22:29 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.10 2005-06-20 13:27:47 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

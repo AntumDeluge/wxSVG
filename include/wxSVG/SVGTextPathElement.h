@@ -13,6 +13,7 @@
 #include "SVGURIReference.h"
 #include "SVGAnimatedLength.h"
 #include "SVGAnimatedEnumeration.h"
+#include "SVGSVGElement.h"
 #include "String.h"
 
 
@@ -41,7 +42,7 @@ class wxSVGTextPathElement:
     wxSVGAnimatedEnumeration m_spacing;
 
   public:
-    inline const wxSVGAnimatedLength& GetStartOffset() const { return m_startOffset; }
+    inline const wxSVGAnimatedLength& GetStartOffset() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_startOffset, GetViewportElement()); return m_startOffset; }
     inline void SetStartOffset(const wxSVGAnimatedLength& n) { m_startOffset = n; }
     inline void SetStartOffset(const wxSVGLength& n) { m_startOffset.SetBaseVal(n); }
 

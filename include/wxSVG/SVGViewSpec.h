@@ -32,7 +32,7 @@ class wxSVGViewSpec:
     inline const wxSVGTransformList& GetTransform() const { return m_transform; }
     inline void SetTransform(const wxSVGTransformList& n) { m_transform = n; }
 
-    inline wxSVGElement* GetViewTarget() { return m_viewTarget; }
+    inline wxSVGElement* GetViewTarget() const { return m_viewTarget; }
     inline void SetViewTarget(wxSVGElement* n) { m_viewTarget = n; }
 
     inline const wxString& GetViewBoxString() const { return m_viewBoxString; }

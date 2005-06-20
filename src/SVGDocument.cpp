@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.10 2005-06-17 13:24:50 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.11 2005-06-20 13:29:26 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ void RenderChilds(wxSVGCanvas* canvas, wxSVGElement* parent,
 	if (elem->GetType() == wxXML_ELEMENT_NODE)
 	{
 	  wxSVGMatrix matrix(*parentMatrix);
-	  wxCSSStyleDeclaration style(*parentStyle);
+	  wxCSSStyleRef style(*parentStyle);
 	  elem->SetOwnerSVGElement(ownerSVGElement);
 	  elem->SetViewportElement(viewportElement);
 	  
@@ -191,7 +191,7 @@ wxImage wxSVGDocument::Render(int width, int height)
   m_canvas->SetImage(&image);
   m_canvas->Clear();
   RenderChilds(m_canvas, GetRootElement(), &matrix,
-	&GetRootElement()->GetStyle(), NULL, NULL);
+	&GetRootElement()->GetStyle(), GetRootElement(), GetRootElement());
   
   return image;
 }

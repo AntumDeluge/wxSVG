@@ -3,7 +3,7 @@
 ## Purpose:     generates all SVGAnimated*.h
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genAnimated.py,v 1.3 2005-06-19 18:59:05 ntalex Exp $
+## RCS-ID:      $Id: genAnimated.py,v 1.4 2005-06-20 13:27:47 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -13,19 +13,18 @@ import cpp
 import cppHeader
 
 def getBaseType(name):
+    if name=="Enumeration":
+        return "char"
+    elif name=="Boolean":
+        return "bool"
+    elif name=="Integer":
+        return "long"
+    elif name=="Number":
+        return "float"
     typename = name
     if typename != "String":
         typename = "SVG" + typename
-    typename = cpp.fix_typename(typename)
-    if name=="Enumeration":
-        typename = "char"
-    elif name=="Boolean":
-        typename = "bool"
-    elif name=="Integer":
-        typename = "long"
-    elif name=="Number":
-        typename = "float"
-    return typename
+    return cpp.fix_typename(typename)
 
 
 def generate(name):

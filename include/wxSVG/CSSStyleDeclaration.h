@@ -70,14 +70,14 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline const wxCSSValue& GetPropertyCSSValue(const wxString& propertyName)
     { return GetPropertyCSSValue(GetPropertyId(propertyName)); }
     
-    inline wxString RemoveProperty(const wxString& propertyName)
-    { return RemoveProperty(GetPropertyId(propertyName)); }
-      
     void SetProperty(const wxString& propertyName, const wxString& value)
     { SetProperty(GetPropertyId(propertyName), value); }
     
     inline bool HasProperty(const wxString& propertyName)
     { return HasProperty(GetPropertyId(propertyName)); }
+    
+    inline wxString RemoveProperty(const wxString& propertyName)
+    { return RemoveProperty(GetPropertyId(propertyName)); }
   
   public:
     inline wxString GetPropertyValue(wxCSS_PROPERTY propertyId)
@@ -86,16 +86,11 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline const wxCSSValue& GetPropertyCSSValue(wxCSS_PROPERTY propertyId)
     { iterator it = find(propertyId); if (it != end()) return *it->second; return *s_emptyCSSValue; }
     
-    inline wxString RemoveProperty(wxCSS_PROPERTY propertyId)
-    { erase(propertyId); return wxT(""); }
-      
     void SetProperty(wxCSS_PROPERTY propertyId, const wxString& value);
-    
-    inline bool HasProperty(wxCSS_PROPERTY propertyId)
-    { return find(propertyId) != end(); }
+    inline bool HasProperty(wxCSS_PROPERTY propertyId) { return find(propertyId) != end(); }
+    inline wxString RemoveProperty(wxCSS_PROPERTY propertyId) { erase(propertyId); return wxT(""); }
     
     static wxCSS_PROPERTY GetPropertyId(const wxString& propertyName);
-    
     static wxString GetPropertyName(wxCSS_PROPERTY propertyId);
   
   public:
@@ -595,5 +590,16 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     static wxRGBColor ParseColor(const wxString& value);
     static void ParseSVGPaint(wxSVGPaint& paint, const wxString& value);
 };
+
+/* this class copy only references of css values */
+class wxCSSStyleRef: public wxCSSStyleDeclaration
+{
+  public:
+    wxCSSStyleRef() {}
+    wxCSSStyleRef(const wxCSSStyleDeclaration& src) { Add(src); }
+    ~wxCSSStyleRef();
+    void Add(const wxCSSStyleDeclaration& style);
+};
+
 
 #endif // WX_CSS_STYLE_DECLARATION_H

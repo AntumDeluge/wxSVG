@@ -19,6 +19,7 @@ class wxSVGCanvasItem;
 #include "SVGTransformable.h"
 #include "EventTarget.h"
 #include "SVGAnimatedLength.h"
+#include "SVGSVGElement.h"
 #include "String.h"
 
 class wxSVGEllipseElement:
@@ -37,19 +38,19 @@ class wxSVGEllipseElement:
     wxSVGAnimatedLength m_ry;
 
   public:
-    inline const wxSVGAnimatedLength& GetCx() const { return m_cx; }
+    inline const wxSVGAnimatedLength& GetCx() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_cx, GetViewportElement()); return m_cx; }
     inline void SetCx(const wxSVGAnimatedLength& n) { m_cx = n; }
     inline void SetCx(const wxSVGLength& n) { m_cx.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetCy() const { return m_cy; }
+    inline const wxSVGAnimatedLength& GetCy() const { WX_SVG_ANIM_LENGTH_CALC_HEIGHT(m_cy, GetViewportElement()); return m_cy; }
     inline void SetCy(const wxSVGAnimatedLength& n) { m_cy = n; }
     inline void SetCy(const wxSVGLength& n) { m_cy.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetRx() const { return m_rx; }
+    inline const wxSVGAnimatedLength& GetRx() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_rx, GetViewportElement()); return m_rx; }
     inline void SetRx(const wxSVGAnimatedLength& n) { m_rx = n; }
     inline void SetRx(const wxSVGLength& n) { m_rx.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetRy() const { return m_ry; }
+    inline const wxSVGAnimatedLength& GetRy() const { WX_SVG_ANIM_LENGTH_CALC_HEIGHT(m_ry, GetViewportElement()); return m_ry; }
     inline void SetRy(const wxSVGAnimatedLength& n) { m_ry = n; }
     inline void SetRy(const wxSVGLength& n) { m_ry.SetBaseVal(n); }
 

@@ -29,7 +29,7 @@ class wxSVGAnimationElement:
     wxSVGElement* m_targetElement;
 
   public:
-    inline wxSVGElement* GetTargetElement() { return m_targetElement; }
+    inline wxSVGElement* GetTargetElement() const { return m_targetElement; }
     inline void SetTargetElement(wxSVGElement* n) { m_targetElement = n; }
 
   public:

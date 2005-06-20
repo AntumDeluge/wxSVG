@@ -33,10 +33,10 @@ class wxSVGElement:
     inline const wxString& GetXmlbase() const { return m_xmlbase; }
     inline void SetXmlbase(const wxString& n) { m_xmlbase = n; }
 
-    inline wxSVGSVGElement* GetOwnerSVGElement() { return m_ownerSVGElement; }
+    inline wxSVGSVGElement* GetOwnerSVGElement() const { return m_ownerSVGElement; }
     inline void SetOwnerSVGElement(wxSVGSVGElement* n) { m_ownerSVGElement = n; }
 
-    inline wxSVGElement* GetViewportElement() { return m_viewportElement; }
+    inline wxSVGElement* GetViewportElement() const { return m_viewportElement; }
     inline void SetViewportElement(wxSVGElement* n) { m_viewportElement = n; }
 
 

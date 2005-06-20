@@ -14,6 +14,7 @@
 #include "SVGTests.h"
 #include "SVGExternalResourcesRequired.h"
 #include "SVGAnimatedLength.h"
+#include "SVGSVGElement.h"
 #include "String.h"
 
 class wxSVGCursorElement:
@@ -27,11 +28,11 @@ class wxSVGCursorElement:
     wxSVGAnimatedLength m_y;
 
   public:
-    inline const wxSVGAnimatedLength& GetX() const { return m_x; }
+    inline const wxSVGAnimatedLength& GetX() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_x, GetViewportElement()); return m_x; }
     inline void SetX(const wxSVGAnimatedLength& n) { m_x = n; }
     inline void SetX(const wxSVGLength& n) { m_x.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetY() const { return m_y; }
+    inline const wxSVGAnimatedLength& GetY() const { WX_SVG_ANIM_LENGTH_CALC_HEIGHT(m_y, GetViewportElement()); return m_y; }
     inline void SetY(const wxSVGAnimatedLength& n) { m_y = n; }
     inline void SetY(const wxSVGLength& n) { m_y.SetBaseVal(n); }
 

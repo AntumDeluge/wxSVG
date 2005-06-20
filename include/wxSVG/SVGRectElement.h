@@ -19,6 +19,7 @@ class wxSVGCanvasItem;
 #include "SVGTransformable.h"
 #include "EventTarget.h"
 #include "SVGAnimatedLength.h"
+#include "SVGSVGElement.h"
 #include "String.h"
 
 class wxSVGRectElement:
@@ -39,27 +40,27 @@ class wxSVGRectElement:
     wxSVGAnimatedLength m_ry;
 
   public:
-    inline const wxSVGAnimatedLength& GetX() const { return m_x; }
+    inline const wxSVGAnimatedLength& GetX() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_x, GetViewportElement()); return m_x; }
     inline void SetX(const wxSVGAnimatedLength& n) { m_x = n; }
     inline void SetX(const wxSVGLength& n) { m_x.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetY() const { return m_y; }
+    inline const wxSVGAnimatedLength& GetY() const { WX_SVG_ANIM_LENGTH_CALC_HEIGHT(m_y, GetViewportElement()); return m_y; }
     inline void SetY(const wxSVGAnimatedLength& n) { m_y = n; }
     inline void SetY(const wxSVGLength& n) { m_y.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetWidth() const { return m_width; }
+    inline const wxSVGAnimatedLength& GetWidth() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_width, GetViewportElement()); return m_width; }
     inline void SetWidth(const wxSVGAnimatedLength& n) { m_width = n; }
     inline void SetWidth(const wxSVGLength& n) { m_width.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetHeight() const { return m_height; }
+    inline const wxSVGAnimatedLength& GetHeight() const { WX_SVG_ANIM_LENGTH_CALC_HEIGHT(m_height, GetViewportElement()); return m_height; }
     inline void SetHeight(const wxSVGAnimatedLength& n) { m_height = n; }
     inline void SetHeight(const wxSVGLength& n) { m_height.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetRx() const { return m_rx; }
+    inline const wxSVGAnimatedLength& GetRx() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_rx, GetViewportElement()); return m_rx; }
     inline void SetRx(const wxSVGAnimatedLength& n) { m_rx = n; }
     inline void SetRx(const wxSVGLength& n) { m_rx.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetRy() const { return m_ry; }
+    inline const wxSVGAnimatedLength& GetRy() const { WX_SVG_ANIM_LENGTH_CALC_HEIGHT(m_ry, GetViewportElement()); return m_ry; }
     inline void SetRy(const wxSVGAnimatedLength& n) { m_ry = n; }
     inline void SetRy(const wxSVGLength& n) { m_ry.SetBaseVal(n); }
 

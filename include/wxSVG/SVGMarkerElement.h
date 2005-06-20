@@ -17,6 +17,7 @@
 #include "SVGAnimatedLength.h"
 #include "SVGAnimatedEnumeration.h"
 #include "SVGAnimatedAngle.h"
+#include "SVGSVGElement.h"
 #include "SVGAngle.h"
 #include "String.h"
 
@@ -53,11 +54,11 @@ class wxSVGMarkerElement:
     wxSVGAnimatedAngle m_orientAngle;
 
   public:
-    inline const wxSVGAnimatedLength& GetRefX() const { return m_refX; }
+    inline const wxSVGAnimatedLength& GetRefX() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_refX, GetViewportElement()); return m_refX; }
     inline void SetRefX(const wxSVGAnimatedLength& n) { m_refX = n; }
     inline void SetRefX(const wxSVGLength& n) { m_refX.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetRefY() const { return m_refY; }
+    inline const wxSVGAnimatedLength& GetRefY() const { WX_SVG_ANIM_LENGTH_CALC_HEIGHT(m_refY, GetViewportElement()); return m_refY; }
     inline void SetRefY(const wxSVGAnimatedLength& n) { m_refY = n; }
     inline void SetRefY(const wxSVGLength& n) { m_refY.SetBaseVal(n); }
 
@@ -65,11 +66,11 @@ class wxSVGMarkerElement:
     inline void SetMarkerUnits(const wxSVGAnimatedEnumeration& n) { m_markerUnits = n; }
     inline void SetMarkerUnits(char n) { m_markerUnits.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetMarkerWidth() const { return m_markerWidth; }
+    inline const wxSVGAnimatedLength& GetMarkerWidth() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_markerWidth, GetViewportElement()); return m_markerWidth; }
     inline void SetMarkerWidth(const wxSVGAnimatedLength& n) { m_markerWidth = n; }
     inline void SetMarkerWidth(const wxSVGLength& n) { m_markerWidth.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLength& GetMarkerHeight() const { return m_markerHeight; }
+    inline const wxSVGAnimatedLength& GetMarkerHeight() const { WX_SVG_ANIM_LENGTH_CALC_HEIGHT(m_markerHeight, GetViewportElement()); return m_markerHeight; }
     inline void SetMarkerHeight(const wxSVGAnimatedLength& n) { m_markerHeight = n; }
     inline void SetMarkerHeight(const wxSVGLength& n) { m_markerHeight.SetBaseVal(n); }
 

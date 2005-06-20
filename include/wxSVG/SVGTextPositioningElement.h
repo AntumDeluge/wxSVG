@@ -12,6 +12,7 @@
 #include "SVGTextContentElement.h"
 #include "SVGAnimatedLengthList.h"
 #include "SVGAnimatedNumberList.h"
+#include "SVGSVGElement.h"
 #include "String.h"
 
 class wxSVGTextPositioningElement:
@@ -25,19 +26,19 @@ class wxSVGTextPositioningElement:
     wxSVGAnimatedNumberList m_rotate;
 
   public:
-    inline const wxSVGAnimatedLengthList& GetX() const { return m_x; }
+    inline const wxSVGAnimatedLengthList& GetX() const { WX_SVG_ANIM_LENGTH_LIST_CALC_WIDTH(m_x, GetViewportElement()); return m_x; }
     inline void SetX(const wxSVGAnimatedLengthList& n) { m_x = n; }
     inline void SetX(const wxSVGLengthList& n) { m_x.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLengthList& GetY() const { return m_y; }
+    inline const wxSVGAnimatedLengthList& GetY() const { WX_SVG_ANIM_LENGTH_LIST_CALC_HEIGHT(m_y, GetViewportElement()); return m_y; }
     inline void SetY(const wxSVGAnimatedLengthList& n) { m_y = n; }
     inline void SetY(const wxSVGLengthList& n) { m_y.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLengthList& GetDx() const { return m_dx; }
+    inline const wxSVGAnimatedLengthList& GetDx() const { WX_SVG_ANIM_LENGTH_LIST_CALC_WIDTH(m_dx, GetViewportElement()); return m_dx; }
     inline void SetDx(const wxSVGAnimatedLengthList& n) { m_dx = n; }
     inline void SetDx(const wxSVGLengthList& n) { m_dx.SetBaseVal(n); }
 
-    inline const wxSVGAnimatedLengthList& GetDy() const { return m_dy; }
+    inline const wxSVGAnimatedLengthList& GetDy() const { WX_SVG_ANIM_LENGTH_LIST_CALC_HEIGHT(m_dy, GetViewportElement()); return m_dy; }
     inline void SetDy(const wxSVGAnimatedLengthList& n) { m_dy = n; }
     inline void SetDy(const wxSVGLengthList& n) { m_dy.SetBaseVal(n); }
 

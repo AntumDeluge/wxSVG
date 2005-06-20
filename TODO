@@ -1,2 +1,4 @@
 TODO
   * rewrite parse_dtd.py using xmlto library to parse svg11.dtd
+  * implement animated style attributes
+  * fix SVGAnimatedPathData and SVGAnimatedPoints
