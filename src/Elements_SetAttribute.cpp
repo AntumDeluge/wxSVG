@@ -965,11 +965,41 @@ bool wxSVGFitToViewBox::SetAttribute(const wxString& attrName, const wxString& a
   }
   else if (attrName == wxT("preserveAspectRatio"))
   {
-    // TODO
-    // attrValue.Trim().Trim(false);
-    // wxString value = attrValue.BeforeFirst(wxT(' '));
-    // if value == ...
-    // m_preserveAspectRatio.GetBaseVal().Set...
+    wxString value = attrValue.Strip(wxString::both).Lower();
+    wxString val = value.BeforeFirst(wxT(' '));
+    if (val == wxT("defer"))
+    {
+      value = value.AfterFirst(wxT(' '));
+      val = value.BeforeFirst(wxT(' '));
+    }
+    if (!val.length())
+      return true;
+    else if (val == wxT("none"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_NONE);
+    else if (val == wxT("xminymin"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMIN);
+    else if (val == wxT("xmidymin"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMIN);
+    else if (val == wxT("xmaxymin"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMIN);
+    else if (val == wxT("xminymid"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMID);
+    else if (val == wxT("xmidymid"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMID);
+    else if (val == wxT("xmaxymid"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMID);
+    else if (val == wxT("xminymax"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMAX);
+    else if (val == wxT("xmidymax"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMAX);
+    else if (val == wxT("xmaxymax"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMAX);
+    value = value.AfterFirst(wxT(' '));
+    val = value.BeforeFirst(wxT(' '));
+    if (val == wxT("meet"))
+      m_preserveAspectRatio.GetBaseVal().SetMeetOrSlice(wxSVG_MEETORSLICE_MEET);
+    else if (val == wxT("slice"))
+      m_preserveAspectRatio.GetBaseVal().SetMeetOrSlice(wxSVG_MEETORSLICE_SLICE);
   }
   else 
       return false;
@@ -2330,11 +2360,41 @@ bool wxSVGImageElement::SetAttribute(const wxString& attrName, const wxString& a
 	m_height.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("preserveAspectRatio"))
   {
-    // TODO
-    // attrValue.Trim().Trim(false);
-    // wxString value = attrValue.BeforeFirst(wxT(' '));
-    // if value == ...
-    // m_preserveAspectRatio.GetBaseVal().Set...
+    wxString value = attrValue.Strip(wxString::both).Lower();
+    wxString val = value.BeforeFirst(wxT(' '));
+    if (val == wxT("defer"))
+    {
+      value = value.AfterFirst(wxT(' '));
+      val = value.BeforeFirst(wxT(' '));
+    }
+    if (!val.length())
+      return true;
+    else if (val == wxT("none"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_NONE);
+    else if (val == wxT("xminymin"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMIN);
+    else if (val == wxT("xmidymin"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMIN);
+    else if (val == wxT("xmaxymin"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMIN);
+    else if (val == wxT("xminymid"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMID);
+    else if (val == wxT("xmidymid"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMID);
+    else if (val == wxT("xmaxymid"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMID);
+    else if (val == wxT("xminymax"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMAX);
+    else if (val == wxT("xmidymax"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMAX);
+    else if (val == wxT("xmaxymax"))
+      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMAX);
+    value = value.AfterFirst(wxT(' '));
+    val = value.BeforeFirst(wxT(' '));
+    if (val == wxT("meet"))
+      m_preserveAspectRatio.GetBaseVal().SetMeetOrSlice(wxSVG_MEETORSLICE_MEET);
+    else if (val == wxT("slice"))
+      m_preserveAspectRatio.GetBaseVal().SetMeetOrSlice(wxSVG_MEETORSLICE_SLICE);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
