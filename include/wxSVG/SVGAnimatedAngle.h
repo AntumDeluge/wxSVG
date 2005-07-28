@@ -14,21 +14,26 @@
 class wxSVGAnimatedAngle
 {
   public:
-	wxSVGAnimatedAngle(): m_animVal(NULL) {}
-	wxSVGAnimatedAngle(const wxSVGAngle& value): m_baseVal(value), m_animVal(NULL) {}
+    wxSVGAnimatedAngle(): m_animVal(NULL) {}
+    wxSVGAnimatedAngle(const wxSVGAngle& value): m_baseVal(value), m_animVal(NULL) {}
+    wxSVGAnimatedAngle(const wxSVGAnimatedAngle& value): m_baseVal(value.m_baseVal), m_animVal(NULL)
+    { if (value.m_animVal != NULL) m_animVal = new wxSVGAngle(*value.m_animVal); }
     ~wxSVGAnimatedAngle() { ResetAnimVal(); }
-	
-    inline wxSVGAngle& GetBaseVal() { return m_baseVal; }
-	inline const wxSVGAngle& GetBaseVal() const { return m_baseVal; }
-	inline void SetBaseVal(const wxSVGAngle& value) { m_baseVal = value; ResetAnimVal(); }
     
-	inline wxSVGAngle& GetAnimVal()
+    inline wxSVGAnimatedAngle& operator=(const wxSVGAnimatedAngle& value)
+    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? m_animVal = new wxSVGAngle(*value.m_animVal) : NULL; return *this; }
+    
+    inline wxSVGAngle& GetBaseVal() { return m_baseVal; }
+    inline const wxSVGAngle& GetBaseVal() const { return m_baseVal; }
+    inline void SetBaseVal(const wxSVGAngle& value) { m_baseVal = value; ResetAnimVal(); }
+    
+    inline wxSVGAngle& GetAnimVal()
     {
       if (!m_animVal)
         m_animVal = new wxSVGAngle(m_baseVal);
       return *m_animVal;
     }
-	inline const wxSVGAngle& GetAnimVal() const
+    inline const wxSVGAngle& GetAnimVal() const
     {
         return m_animVal ? *m_animVal : m_baseVal;
     }

@@ -14,21 +14,26 @@
 class wxSVGAnimatedLengthList
 {
   public:
-	wxSVGAnimatedLengthList(): m_animVal(NULL) {}
-	wxSVGAnimatedLengthList(const wxSVGLengthList& value): m_baseVal(value), m_animVal(NULL) {}
+    wxSVGAnimatedLengthList(): m_animVal(NULL) {}
+    wxSVGAnimatedLengthList(const wxSVGLengthList& value): m_baseVal(value), m_animVal(NULL) {}
+    wxSVGAnimatedLengthList(const wxSVGAnimatedLengthList& value): m_baseVal(value.m_baseVal), m_animVal(NULL)
+    { if (value.m_animVal != NULL) m_animVal = new wxSVGLengthList(*value.m_animVal); }
     ~wxSVGAnimatedLengthList() { ResetAnimVal(); }
-	
-    inline wxSVGLengthList& GetBaseVal() { return m_baseVal; }
-	inline const wxSVGLengthList& GetBaseVal() const { return m_baseVal; }
-	inline void SetBaseVal(const wxSVGLengthList& value) { m_baseVal = value; ResetAnimVal(); }
     
-	inline wxSVGLengthList& GetAnimVal()
+    inline wxSVGAnimatedLengthList& operator=(const wxSVGAnimatedLengthList& value)
+    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? m_animVal = new wxSVGLengthList(*value.m_animVal) : NULL; return *this; }
+    
+    inline wxSVGLengthList& GetBaseVal() { return m_baseVal; }
+    inline const wxSVGLengthList& GetBaseVal() const { return m_baseVal; }
+    inline void SetBaseVal(const wxSVGLengthList& value) { m_baseVal = value; ResetAnimVal(); }
+    
+    inline wxSVGLengthList& GetAnimVal()
     {
       if (!m_animVal)
         m_animVal = new wxSVGLengthList(m_baseVal);
       return *m_animVal;
     }
-	inline const wxSVGLengthList& GetAnimVal() const
+    inline const wxSVGLengthList& GetAnimVal() const
     {
         return m_animVal ? *m_animVal : m_baseVal;
     }

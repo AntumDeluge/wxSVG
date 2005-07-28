@@ -14,21 +14,26 @@
 class wxSVGAnimatedTransformList
 {
   public:
-	wxSVGAnimatedTransformList(): m_animVal(NULL) {}
-	wxSVGAnimatedTransformList(const wxSVGTransformList& value): m_baseVal(value), m_animVal(NULL) {}
+    wxSVGAnimatedTransformList(): m_animVal(NULL) {}
+    wxSVGAnimatedTransformList(const wxSVGTransformList& value): m_baseVal(value), m_animVal(NULL) {}
+    wxSVGAnimatedTransformList(const wxSVGAnimatedTransformList& value): m_baseVal(value.m_baseVal), m_animVal(NULL)
+    { if (value.m_animVal != NULL) m_animVal = new wxSVGTransformList(*value.m_animVal); }
     ~wxSVGAnimatedTransformList() { ResetAnimVal(); }
-	
-    inline wxSVGTransformList& GetBaseVal() { return m_baseVal; }
-	inline const wxSVGTransformList& GetBaseVal() const { return m_baseVal; }
-	inline void SetBaseVal(const wxSVGTransformList& value) { m_baseVal = value; ResetAnimVal(); }
     
-	inline wxSVGTransformList& GetAnimVal()
+    inline wxSVGAnimatedTransformList& operator=(const wxSVGAnimatedTransformList& value)
+    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? m_animVal = new wxSVGTransformList(*value.m_animVal) : NULL; return *this; }
+    
+    inline wxSVGTransformList& GetBaseVal() { return m_baseVal; }
+    inline const wxSVGTransformList& GetBaseVal() const { return m_baseVal; }
+    inline void SetBaseVal(const wxSVGTransformList& value) { m_baseVal = value; ResetAnimVal(); }
+    
+    inline wxSVGTransformList& GetAnimVal()
     {
       if (!m_animVal)
         m_animVal = new wxSVGTransformList(m_baseVal);
       return *m_animVal;
     }
-	inline const wxSVGTransformList& GetAnimVal() const
+    inline const wxSVGTransformList& GetAnimVal() const
     {
         return m_animVal ? *m_animVal : m_baseVal;
     }

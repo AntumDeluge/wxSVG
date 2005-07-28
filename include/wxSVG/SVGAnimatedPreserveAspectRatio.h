@@ -14,21 +14,26 @@
 class wxSVGAnimatedPreserveAspectRatio
 {
   public:
-	wxSVGAnimatedPreserveAspectRatio(): m_animVal(NULL) {}
-	wxSVGAnimatedPreserveAspectRatio(const wxSVGPreserveAspectRatio& value): m_baseVal(value), m_animVal(NULL) {}
+    wxSVGAnimatedPreserveAspectRatio(): m_animVal(NULL) {}
+    wxSVGAnimatedPreserveAspectRatio(const wxSVGPreserveAspectRatio& value): m_baseVal(value), m_animVal(NULL) {}
+    wxSVGAnimatedPreserveAspectRatio(const wxSVGAnimatedPreserveAspectRatio& value): m_baseVal(value.m_baseVal), m_animVal(NULL)
+    { if (value.m_animVal != NULL) m_animVal = new wxSVGPreserveAspectRatio(*value.m_animVal); }
     ~wxSVGAnimatedPreserveAspectRatio() { ResetAnimVal(); }
-	
-    inline wxSVGPreserveAspectRatio& GetBaseVal() { return m_baseVal; }
-	inline const wxSVGPreserveAspectRatio& GetBaseVal() const { return m_baseVal; }
-	inline void SetBaseVal(const wxSVGPreserveAspectRatio& value) { m_baseVal = value; ResetAnimVal(); }
     
-	inline wxSVGPreserveAspectRatio& GetAnimVal()
+    inline wxSVGAnimatedPreserveAspectRatio& operator=(const wxSVGAnimatedPreserveAspectRatio& value)
+    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? m_animVal = new wxSVGPreserveAspectRatio(*value.m_animVal) : NULL; return *this; }
+    
+    inline wxSVGPreserveAspectRatio& GetBaseVal() { return m_baseVal; }
+    inline const wxSVGPreserveAspectRatio& GetBaseVal() const { return m_baseVal; }
+    inline void SetBaseVal(const wxSVGPreserveAspectRatio& value) { m_baseVal = value; ResetAnimVal(); }
+    
+    inline wxSVGPreserveAspectRatio& GetAnimVal()
     {
       if (!m_animVal)
         m_animVal = new wxSVGPreserveAspectRatio(m_baseVal);
       return *m_animVal;
     }
-	inline const wxSVGPreserveAspectRatio& GetAnimVal() const
+    inline const wxSVGPreserveAspectRatio& GetAnimVal() const
     {
         return m_animVal ? *m_animVal : m_baseVal;
     }
