@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.1.1.1 2005-05-10 17:51:39 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.2 2005-07-28 20:07:56 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,8 +12,9 @@
 #include <wx/wx.h>
 
 BEGIN_EVENT_TABLE(wxSVGCtrl, wxControl)
-   EVT_PAINT(wxSVGCtrl::OnPaint) 
-   EVT_SIZE(wxSVGCtrl::OnResize)
+  EVT_PAINT(wxSVGCtrl::OnPaint)
+  EVT_SIZE(wxSVGCtrl::OnResize)
+  EVT_ERASE_BACKGROUND(wxSVGCtrl::OnEraseBackground)
 END_EVENT_TABLE()
 
 wxSVGCtrl::wxSVGCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos,

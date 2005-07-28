@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.h,v 1.1.1.1 2005-05-10 17:51:20 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.h,v 1.2 2005-07-28 20:03:55 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -35,6 +35,7 @@ class wxSVGCtrl: public wxControl
     wxBitmap m_buffer;
     void OnPaint(wxPaintEvent& event);
     void OnResize(wxSizeEvent& event) { Update(); }
+    void OnEraseBackground(wxEraseEvent &event) {}
   
   private:
 	DECLARE_EVENT_TABLE()
