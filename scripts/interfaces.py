@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.10 2005-06-20 13:27:47 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.11 2005-07-28 20:10:44 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -64,6 +64,11 @@ inter.include_methods.append('    void Rotate(double angle, double cx = 0, doubl
 inter.include_methods.append('    void SkewX(double angle);\n')
 inter.include_methods.append('    void SkewY(double angle);\n')
 inter.include_methods.append('    void UpdateMatrix(wxSVGMatrix& matrix);\n')
+
+# SVGFitToViewBox
+#inter = interface()
+#interfaces["SVGFitToViewBox"]=inter
+#inter.include_methods.append('    void UpdateMatrix(wxSVGMatrix& matrix);\n')
 
 # SVGStylable
 inter = interface()
@@ -128,14 +133,16 @@ inter.user_defined_destructor=1
 inter = interface()
 interfaces["SVGLength"]=inter
 inter.include_methods.append('    wxSVGLength() : m_unitType(wxSVG_LENGTHTYPE_UNKNOWN), m_value(0), m_valueInSpecifiedUnits(0) {}\n')
-inter.include_methods.append('    wxSVGLength(double v) : m_unitType(wxSVG_LENGTHTYPE_NUMBER), m_value(v), m_valueInSpecifiedUnits(0) {}\n')
+inter.include_methods.append('    wxSVGLength(double v) : m_unitType(wxSVG_LENGTHTYPE_NUMBER), m_value(v), m_valueInSpecifiedUnits(v) {}\n')
+inter.include_methods.append('    wxSVGLength(wxSVG_LENGTHTYPE unitType, double v): m_unitType(unitType) { SetValueInSpecifiedUnits(v); }\n')
+inter.include_methods.append('    wxSVGLength(const wxSVGLength& l): m_unitType(l.m_unitType), m_value(l.m_value), m_valueInSpecifiedUnits(l.m_valueInSpecifiedUnits) {}\n')
 inter.include_methods.append('    virtual ~wxSVGLength() {}\n')
 inter.include_methods.append('    \n')
 inter.include_methods.append('    inline double GetValue() const { return m_value; }\n')
 inter.include_methods.append('    inline void SetValue(double n) { m_unitType = wxSVG_LENGTHTYPE_NUMBER; m_valueInSpecifiedUnits = n; m_value = n; }\n')
 inter.include_methods.append('    inline operator double() const { return GetValue(); }\n')
 inter.include_methods.append('    \n')
-inter.include_methods.append('    double GetValueInSpecifiedUnits() const;\n')
+inter.include_methods.append('    double GetValueInSpecifiedUnits() const { return m_valueInSpecifiedUnits; }\n')
 inter.include_methods.append('    void SetValueInSpecifiedUnits(double n);\n')
 inter.include_methods.append('    \n')
 inter.include_methods.append('    wxString GetValueAsString() const;\n')
@@ -270,6 +277,8 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
 	
 	wxSVGSVGElement* GetRootElement() { return (wxSVGSVGElement*) GetRoot(); }
 	void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxXmlElement*) n); }
+    
+    wxSVGElement* GetElementById(const wxString& id);
 	
 	wxImage Render(int width = -1, int height = -1);
 ''')

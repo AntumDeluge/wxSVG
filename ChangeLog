@@ -2,6 +2,7 @@ CVS
 ---
 
   * implemented image element
+  * implemented use element
   * rewrited css classes
   * removed all GetAnimated/SetAnimated methods
   * wxSVGLength: added calculation of percantage values

@@ -3,7 +3,7 @@
 ## Purpose:     generates all SVGAnimated*.h
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genAnimated.py,v 1.4 2005-06-20 13:27:47 ntalex Exp $
+## RCS-ID:      $Id: genAnimated.py,v 1.5 2005-07-28 20:10:44 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -63,21 +63,26 @@ class wxSVGAnimated%s
 class wxSVGAnimated%s
 {
   public:
-	wxSVGAnimated%s(): m_animVal(NULL) {}
-	wxSVGAnimated%s(const %s& value): m_baseVal(value), m_animVal(NULL) {}
+    wxSVGAnimated%s(): m_animVal(NULL) {}
+    wxSVGAnimated%s(const %s& value): m_baseVal(value), m_animVal(NULL) {}
+    wxSVGAnimated%s(const wxSVGAnimated%s& value): m_baseVal(value.m_baseVal), m_animVal(NULL)
+    { if (value.m_animVal != NULL) m_animVal = new %s(*value.m_animVal); }
     ~wxSVGAnimated%s() { ResetAnimVal(); }
-	
-    inline %s& GetBaseVal() { return m_baseVal; }
-	inline const %s& GetBaseVal() const { return m_baseVal; }
-	inline void SetBaseVal(const %s& value) { m_baseVal = value; ResetAnimVal(); }
     
-	inline %s& GetAnimVal()
+    inline wxSVGAnimated%s& operator=(const wxSVGAnimated%s& value)
+    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? m_animVal = new %s(*value.m_animVal) : NULL; return *this; }
+    
+    inline %s& GetBaseVal() { return m_baseVal; }
+    inline const %s& GetBaseVal() const { return m_baseVal; }
+    inline void SetBaseVal(const %s& value) { m_baseVal = value; ResetAnimVal(); }
+    
+    inline %s& GetAnimVal()
     {
       if (!m_animVal)
         m_animVal = new %s(m_baseVal);
       return *m_animVal;
     }
-	inline const %s& GetAnimVal() const
+    inline const %s& GetAnimVal() const
     {
         return m_animVal ? *m_animVal : m_baseVal;
     }
@@ -104,7 +109,8 @@ class wxSVGAnimated%s
     %s m_baseVal;
     %s* m_animVal;
 };
-'''%(include,name,name,name,typename,name,typename,typename,typename,typename,\
+'''%(include,name,name,name,typename,name,name,typename,name,name,name,typename,\
+     typename,typename,typename,typename,\
      typename,typename,typename,typename,typename,typename,typename)
     
     header = cppHeader.Header("SVGAnimated%s"%name, "genAnimated.py")
