@@ -42,14 +42,16 @@ class wxSVGLength
 
   public:
     wxSVGLength() : m_unitType(wxSVG_LENGTHTYPE_UNKNOWN), m_value(0), m_valueInSpecifiedUnits(0) {}
-    wxSVGLength(double v) : m_unitType(wxSVG_LENGTHTYPE_NUMBER), m_value(v), m_valueInSpecifiedUnits(0) {}
+    wxSVGLength(double v) : m_unitType(wxSVG_LENGTHTYPE_NUMBER), m_value(v), m_valueInSpecifiedUnits(v) {}
+    wxSVGLength(wxSVG_LENGTHTYPE unitType, double v): m_unitType(unitType) { SetValueInSpecifiedUnits(v); }
+    wxSVGLength(const wxSVGLength& l): m_unitType(l.m_unitType), m_value(l.m_value), m_valueInSpecifiedUnits(l.m_valueInSpecifiedUnits) {}
     virtual ~wxSVGLength() {}
     
     inline double GetValue() const { return m_value; }
     inline void SetValue(double n) { m_unitType = wxSVG_LENGTHTYPE_NUMBER; m_valueInSpecifiedUnits = n; m_value = n; }
     inline operator double() const { return GetValue(); }
     
-    double GetValueInSpecifiedUnits() const;
+    double GetValueInSpecifiedUnits() const { return m_valueInSpecifiedUnits; }
     void SetValueInSpecifiedUnits(double n);
     
     wxString GetValueAsString() const;
