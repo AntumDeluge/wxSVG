@@ -61,6 +61,8 @@ class wxSVGDocument:
 	
 	wxSVGSVGElement* GetRootElement() { return (wxSVGSVGElement*) GetRoot(); }
 	void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxXmlElement*) n); }
+    
+    wxSVGElement* GetElementById(const wxString& id);
 	
 	wxImage Render(int width = -1, int height = -1);
 };
