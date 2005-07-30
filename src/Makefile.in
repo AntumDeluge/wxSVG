@@ -136,7 +136,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGPathSegList.cpp SVGPointList.cpp SVGStringList.cpp\
   SVGTextElement.cpp SVGTransformList.cpp\
   Elements_SetAttribute.cpp CSSValue.cpp CSSStyleDeclaration.cpp\
-  SVGCanvas.cpp SVGCanvasItem.cpp
+  SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp
 
 
 libwxsvg_la_LIBADD = xml/libwxxml.la freetype/libwxsvg_freetype.la\
@@ -171,7 +171,8 @@ am_libwxsvg_la_OBJECTS = SVGDocument.lo svgctrl.lo \
 	SVGLengthList.lo SVGNumberList.lo SVGPathSegList.lo \
 	SVGPointList.lo SVGStringList.lo SVGTextElement.lo \
 	SVGTransformList.lo Elements_SetAttribute.lo CSSValue.lo \
-	CSSStyleDeclaration.lo SVGCanvas.lo SVGCanvasItem.lo
+	CSSStyleDeclaration.lo SVGCanvas.lo SVGCanvasItem.lo \
+	NodeList.lo
 libwxsvg_la_OBJECTS = $(am_libwxsvg_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -184,7 +185,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/CSSValue.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/Elements_SetAttribute.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/GetSVGDocument.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/SVGAngle.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/NodeList.Plo ./$(DEPDIR)/SVGAngle.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGAnimationElement.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGCanvas.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGCanvasItem.Plo \
@@ -270,6 +271,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CSSValue.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Elements_SetAttribute.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GetSVGDocument.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NodeList.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGAngle.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGAnimationElement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGCanvas.Plo@am__quote@

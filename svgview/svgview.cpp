@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.3 2005-05-31 16:09:07 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.4 2005-07-30 12:09:05 etisserant Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -29,6 +29,9 @@
 #endif
 
 #include "svgview.h"
+#include "stdio.h"
+#include "wxSVG/SVGElement.h"
+#include "wxSVG/SVGSVGElement.h"
 
 //////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////  Application /////////////////////////////////
@@ -43,7 +46,6 @@ bool SVGViewApp::OnInit()
 #endif
   //wxLog::SetActiveTarget(new wxLogStderr);		
   
-  wxInitAllImageHandlers();
   new MainFrame(NULL, wxT("SVG Viewer"),
 	wxDefaultPosition, wxSize(500, 400));
   return true;
@@ -52,11 +54,25 @@ bool SVGViewApp::OnInit()
 //////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////  MainFrame //////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
+enum
+{
+wxID_FIT = 1,
+wxID_HITTEST,
+};
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
   EVT_MENU(wxID_OPEN, MainFrame::OnOpen)
+  EVT_MENU(wxID_FIT, MainFrame::Fit)
+  EVT_MENU(wxID_HITTEST, MainFrame::Hittest)
   EVT_MENU(wxID_EXIT, MainFrame::OnExit)
 END_EVENT_TABLE()
+
+BEGIN_EVENT_TABLE(MySVGCanvas, wxSVGCtrl)
+    EVT_LEFT_UP (MySVGCanvas::OnMouseLeftUp)
+    EVT_RIGHT_UP (MySVGCanvas::OnMouseRightUp)
+//    EVT_PAINT (MySVGCanvas::OnPaint)
+END_EVENT_TABLE()
+
 
 MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos,
   const wxSize& size, long style): wxFrame(parent, wxID_ANY, title, pos, size, style)
@@ -66,12 +82,15 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos
     fileMenu->Append(wxID_OPEN, _T("&Open..."));
     fileMenu->AppendSeparator();
     fileMenu->Append(wxID_EXIT, _T("&Close"));
+    fileMenu->AppendSeparator();
+    fileMenu->AppendCheckItem(wxID_FIT, _T("&FitToFrame"));
+    fileMenu->AppendCheckItem(wxID_HITTEST, _T("&Hit-Test"));
     
     wxMenuBar *menuBar = new wxMenuBar;
     menuBar->Append(fileMenu, _T("&File"));
     SetMenuBar(menuBar);
 
-    m_svgCtrl = new wxSVGCtrl(this);
+    m_svgCtrl = new MySVGCanvas(this);
 	if (wxTheApp->argc > 1)
 	  m_svgCtrl->Load(wxTheApp->argv[1]);
 	else
@@ -87,8 +106,63 @@ void MainFrame::OnOpen(wxCommandEvent& event)
     m_svgCtrl->Load(filename);
 }
 
+void MainFrame::Hittest(wxCommandEvent& event)
+{
+	if(event.IsChecked())
+	{
+		m_svgCtrl->SetShowHitPopup(1);
+	}else{
+		m_svgCtrl->SetShowHitPopup(0);
+	}
+}
+
+void MainFrame::Fit(wxCommandEvent& event)
+{
+	if(event.IsChecked())
+	{
+		m_svgCtrl->SetFitToFrame(1);
+	}else{
+		m_svgCtrl->SetFitToFrame(0);
+	}
+}
+
 void MainFrame::OnExit( wxCommandEvent& WXUNUSED(event) )
 {
   Close(true);
 }
 
+MySVGCanvas::MySVGCanvas(wxWindow* parent):
+ m_ShowHitPopup(false), wxSVGCtrl(parent)
+{
+}
+
+void MySVGCanvas::SetShowHitPopup(bool show)
+{
+	m_ShowHitPopup = show;
+}
+
+void MySVGCanvas::OnMouseLeftUp (wxMouseEvent & event)
+{	
+  	if(m_ShowHitPopup)
+  	{
+	    wxSVGDocument* my_doc =  GetSVG();
+	    wxSVGSVGElement* my_root = my_doc->GetRootElement();
+	    wxSVGRect rect(event.m_x,event.m_y, 1, 1);
+		wxNodeList clicked = my_root->GetIntersectionList(rect, *my_root);
+		wxString message;
+	    message.Printf("Click : %d,%d                  \n",event.m_x,event.m_y);
+	    for(int i = 0;  i < clicked.GetCount(); i++)
+	    {
+			wxString obj_desc;
+	    	wxSVGElement* obj = clicked.Item(i);
+	    	obj_desc.Printf("Name : %s, Id : %s\n",(const char*) obj->GetName(),(const char*) obj->GetId());
+	    	message.Append(obj_desc);
+	    }
+	    wxMessageBox(message,"Hit Test (objects bounding box)");
+  	}
+}
+
+void MySVGCanvas::OnMouseRightUp (wxMouseEvent & event)
+{
+//	printf("OnMouseLeftUp %d,%d\n",event.m_x,event.m_y);
+}

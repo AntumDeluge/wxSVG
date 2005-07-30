@@ -23,7 +23,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGPathSegList.cpp SVGPointList.cpp SVGStringList.cpp\
   SVGTextElement.cpp SVGTransformList.cpp\
   Elements_SetAttribute.cpp CSSValue.cpp CSSStyleDeclaration.cpp\
-  SVGCanvas.cpp SVGCanvasItem.cpp
+  SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp
 
 libwxsvg_la_LIBADD = xml/libwxxml.la freetype/libwxsvg_freetype.la\
  $(RENDER_LIB)
