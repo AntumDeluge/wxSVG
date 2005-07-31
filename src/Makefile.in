@@ -122,7 +122,7 @@ install_sh = @install_sh@
 
 SUBDIRS = xml freetype $(RENDER_DIR)
 
-noinst_LTLIBRARIES = libwxsvg.la
+lib_LTLIBRARIES = libwxsvg.la
 libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGAnimationElement.cpp SVGCircleElement.cpp SVGEllipseElement.cpp\
   SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp SVGImageElement.cpp\
@@ -133,8 +133,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGMatrix.cpp SVGPaint.cpp SVGPoint.cpp SVGTests.cpp SVGTransform.cpp\
   SVGStylable.cpp SVGTextElement.cpp SVGTransformable.cpp\
   SVGElementInstanceList.cpp SVGLengthList.cpp SVGNumberList.cpp\
-  SVGPathSegList.cpp SVGPointList.cpp SVGStringList.cpp\
-  SVGTextElement.cpp SVGTransformList.cpp\
+  SVGPathSegList.cpp SVGPointList.cpp SVGStringList.cpp SVGTransformList.cpp\
   Elements_SetAttribute.cpp CSSValue.cpp CSSStyleDeclaration.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp
 
@@ -142,6 +141,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
 libwxsvg_la_LIBADD = xml/libwxxml.la freetype/libwxsvg_freetype.la\
  $(RENDER_LIB)
 
+libwxsvg_la_LDFLAGS = -version-info 0:0:0
 
 INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG\
  $(RENDER_CFLAGS)
@@ -149,9 +149,8 @@ INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG\
 subdir = src
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_CLEAN_FILES =
-LTLIBRARIES = $(noinst_LTLIBRARIES)
+LTLIBRARIES = $(lib_LTLIBRARIES)
 
-libwxsvg_la_LDFLAGS =
 @USE_RENDER_AGG_TRUE@libwxsvg_la_DEPENDENCIES = xml/libwxxml.la \
 @USE_RENDER_AGG_TRUE@	freetype/libwxsvg_freetype.la \
 @USE_RENDER_AGG_TRUE@	agg/libwxsvg_agg.la
@@ -169,10 +168,9 @@ am_libwxsvg_la_OBJECTS = SVGDocument.lo svgctrl.lo \
 	SVGPoint.lo SVGTests.lo SVGTransform.lo SVGStylable.lo \
 	SVGTextElement.lo SVGTransformable.lo SVGElementInstanceList.lo \
 	SVGLengthList.lo SVGNumberList.lo SVGPathSegList.lo \
-	SVGPointList.lo SVGStringList.lo SVGTextElement.lo \
-	SVGTransformList.lo Elements_SetAttribute.lo CSSValue.lo \
-	CSSStyleDeclaration.lo SVGCanvas.lo SVGCanvasItem.lo \
-	NodeList.lo
+	SVGPointList.lo SVGStringList.lo SVGTransformList.lo \
+	Elements_SetAttribute.lo CSSValue.lo CSSStyleDeclaration.lo \
+	SVGCanvas.lo SVGCanvasItem.lo NodeList.lo
 libwxsvg_la_OBJECTS = $(am_libwxsvg_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -249,17 +247,36 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configu
 	  $(AUTOMAKE) --foreign  src/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
+libLTLIBRARIES_INSTALL = $(INSTALL)
+install-libLTLIBRARIES: $(lib_LTLIBRARIES)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(libdir)
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    f="`echo $$p | sed -e 's|^.*/||'`"; \
+	    echo " $(LIBTOOL) --mode=install $(libLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) $$p $(DESTDIR)$(libdir)/$$f"; \
+	    $(LIBTOOL) --mode=install $(libLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) $$p $(DESTDIR)$(libdir)/$$f; \
+	  else :; fi; \
+	done
 
-clean-noinstLTLIBRARIES:
-	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
-	@list='$(noinst_LTLIBRARIES)'; for p in $$list; do \
+uninstall-libLTLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+	    p="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(LIBTOOL) --mode=uninstall rm -f $(DESTDIR)$(libdir)/$$p"; \
+	  $(LIBTOOL) --mode=uninstall rm -f $(DESTDIR)$(libdir)/$$p; \
+	done
+
+clean-libLTLIBRARIES:
+	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
 	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
 	  test -z "$dir" && dir=.; \
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
 libwxsvg.la: $(libwxsvg_la_OBJECTS) $(libwxsvg_la_DEPENDENCIES) 
-	$(CXXLINK)  $(libwxsvg_la_LDFLAGS) $(libwxsvg_la_OBJECTS) $(libwxsvg_la_LIBADD) $(LIBS)
+	$(CXXLINK) -rpath $(libdir) $(libwxsvg_la_LDFLAGS) $(libwxsvg_la_OBJECTS) $(libwxsvg_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -481,6 +498,7 @@ check: check-recursive
 all-am: Makefile $(LTLIBRARIES)
 installdirs: installdirs-recursive
 installdirs-am:
+	$(mkinstalldirs) $(DESTDIR)$(libdir)
 
 install: install-recursive
 install-exec: install-exec-recursive
@@ -508,7 +526,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-recursive
 
-clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
+clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
 	mostlyclean-am
 
 distclean: distclean-recursive
@@ -526,7 +544,7 @@ info-am:
 
 install-data-am:
 
-install-exec-am:
+install-exec-am: install-libLTLIBRARIES
 
 install-info: install-info-recursive
 
@@ -543,25 +561,26 @@ mostlyclean: mostlyclean-recursive
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-info-am uninstall-libLTLIBRARIES
 
 uninstall-info: uninstall-info-recursive
 
 .PHONY: $(RECURSIVE_TARGETS) GTAGS all all-am check check-am clean \
-	clean-generic clean-libtool clean-noinstLTLIBRARIES \
+	clean-generic clean-libLTLIBRARIES clean-libtool \
 	clean-recursive distclean distclean-compile distclean-depend \
 	distclean-generic distclean-libtool distclean-recursive \
 	distclean-tags distdir dvi dvi-am dvi-recursive info info-am \
 	info-recursive install install-am install-data install-data-am \
 	install-data-recursive install-exec install-exec-am \
 	install-exec-recursive install-info install-info-am \
-	install-info-recursive install-man install-recursive \
-	install-strip installcheck installcheck-am installdirs \
-	installdirs-am installdirs-recursive maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	mostlyclean-recursive tags tags-recursive uninstall \
-	uninstall-am uninstall-info-am uninstall-info-recursive \
+	install-info-recursive install-libLTLIBRARIES install-man \
+	install-recursive install-strip installcheck installcheck-am \
+	installdirs installdirs-am installdirs-recursive \
+	maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
+	tags tags-recursive uninstall uninstall-am uninstall-info-am \
+	uninstall-info-recursive uninstall-libLTLIBRARIES \
 	uninstall-recursive
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

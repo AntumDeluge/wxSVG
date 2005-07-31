@@ -3,7 +3,7 @@
 // Purpose:     Widget to display svg documents using svg library
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgview.h,v 1.2 2005-07-30 12:09:05 etisserant Exp $
+// RCS-ID:      $Id: svgview.h,v 1.3 2005-07-31 12:01:17 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -24,9 +24,7 @@ class MySVGCanvas: public wxSVGCtrl
 {
 public:
     MySVGCanvas(wxWindow* parent);
-
-    void OnMouseLeftUp (wxMouseEvent & event);
-    void OnMouseRightUp (wxMouseEvent & event);
+    void OnMouseLeftUp(wxMouseEvent & event);
 	void SetShowHitPopup(bool);
 
 private:

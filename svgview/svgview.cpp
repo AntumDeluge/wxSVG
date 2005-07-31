@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.4 2005-07-30 12:09:05 etisserant Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.5 2005-07-31 12:01:17 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -29,9 +29,7 @@
 #endif
 
 #include "svgview.h"
-#include "stdio.h"
-#include "wxSVG/SVGElement.h"
-#include "wxSVG/SVGSVGElement.h"
+#include <wxSVG/svg.h>
 
 //////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////  Application /////////////////////////////////
@@ -69,8 +67,6 @@ END_EVENT_TABLE()
 
 BEGIN_EVENT_TABLE(MySVGCanvas, wxSVGCtrl)
     EVT_LEFT_UP (MySVGCanvas::OnMouseLeftUp)
-    EVT_RIGHT_UP (MySVGCanvas::OnMouseRightUp)
-//    EVT_PAINT (MySVGCanvas::OnPaint)
 END_EVENT_TABLE()
 
 
@@ -95,6 +91,7 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos
 	  m_svgCtrl->Load(wxTheApp->argv[1]);
 	else
 	  m_svgCtrl->Load(_T("tiger.svg"));
+	
 	Show(true);
 }
 
@@ -118,12 +115,8 @@ void MainFrame::Hittest(wxCommandEvent& event)
 
 void MainFrame::Fit(wxCommandEvent& event)
 {
-	if(event.IsChecked())
-	{
-		m_svgCtrl->SetFitToFrame(1);
-	}else{
-		m_svgCtrl->SetFitToFrame(0);
-	}
+	m_svgCtrl->SetFitToFrame(event.IsChecked());
+    m_svgCtrl->Update();
 }
 
 void MainFrame::OnExit( wxCommandEvent& WXUNUSED(event) )
@@ -132,7 +125,7 @@ void MainFrame::OnExit( wxCommandEvent& WXUNUSED(event) )
 }
 
 MySVGCanvas::MySVGCanvas(wxWindow* parent):
- m_ShowHitPopup(false), wxSVGCtrl(parent)
+ wxSVGCtrl(parent), m_ShowHitPopup(false)
 {
 }
 
@@ -150,19 +143,14 @@ void MySVGCanvas::OnMouseLeftUp (wxMouseEvent & event)
 	    wxSVGRect rect(event.m_x,event.m_y, 1, 1);
 		wxNodeList clicked = my_root->GetIntersectionList(rect, *my_root);
 		wxString message;
-	    message.Printf("Click : %d,%d                  \n",event.m_x,event.m_y);
-	    for(int i = 0;  i < clicked.GetCount(); i++)
+	    message.Printf(_T("Click : %d,%d                  \n"),event.m_x,event.m_y);
+	    for(unsigned int i=0;  i<clicked.GetCount(); i++)
 	    {
 			wxString obj_desc;
 	    	wxSVGElement* obj = clicked.Item(i);
-	    	obj_desc.Printf("Name : %s, Id : %s\n",(const char*) obj->GetName(),(const char*) obj->GetId());
+	    	obj_desc.Printf(_T("Name : %s, Id : %s\n"), obj->GetName().c_str(), obj->GetId().c_str());
 	    	message.Append(obj_desc);
 	    }
-	    wxMessageBox(message,"Hit Test (objects bounding box)");
+	    wxMessageBox(message, _T("Hit Test (objects bounding box)"));
   	}
-}
-
-void MySVGCanvas::OnMouseRightUp (wxMouseEvent & event)
-{
-//	printf("OnMouseLeftUp %d,%d\n",event.m_x,event.m_y);
 }

@@ -1,12 +1,12 @@
-CVS
----
+Version 0.9 <2005.07.31>
+------------------------
 
   * implemented image element
   * implemented use element
+  * implemented hittest bases on bounding boxes
   * rewrited css classes
   * removed all GetAnimated/SetAnimated methods
   * wxSVGLength: added calculation of percantage values
-   
 
 Version 0.8 <2005.05.27>
 ------------------------
