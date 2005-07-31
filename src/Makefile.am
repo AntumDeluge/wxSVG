@@ -9,7 +9,7 @@ endif
 
 SUBDIRS = xml freetype $(RENDER_DIR)
 
-noinst_LTLIBRARIES = libwxsvg.la
+lib_LTLIBRARIES = libwxsvg.la
 libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGAnimationElement.cpp SVGCircleElement.cpp SVGEllipseElement.cpp\
   SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp SVGImageElement.cpp\
@@ -20,13 +20,13 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGMatrix.cpp SVGPaint.cpp SVGPoint.cpp SVGTests.cpp SVGTransform.cpp\
   SVGStylable.cpp SVGTextElement.cpp SVGTransformable.cpp\
   SVGElementInstanceList.cpp SVGLengthList.cpp SVGNumberList.cpp\
-  SVGPathSegList.cpp SVGPointList.cpp SVGStringList.cpp\
-  SVGTextElement.cpp SVGTransformList.cpp\
+  SVGPathSegList.cpp SVGPointList.cpp SVGStringList.cpp SVGTransformList.cpp\
   Elements_SetAttribute.cpp CSSValue.cpp CSSStyleDeclaration.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp
 
 libwxsvg_la_LIBADD = xml/libwxxml.la freetype/libwxsvg_freetype.la\
  $(RENDER_LIB)
+libwxsvg_la_LDFLAGS = -version-info 0:0:0
 
 INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG\
  $(RENDER_CFLAGS)
