@@ -123,4 +123,5 @@ AC_OUTPUT([
   src/libart/Makefile
   src/freetype/Makefile
   svgview/Makefile
+  svgui/Makefile
 ])

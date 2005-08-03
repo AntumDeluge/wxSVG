@@ -39,5 +39,9 @@
 </target>
 </buildTargets>
 </item>
+<item id="cdt_indexer">
+<indexEnabled indexValue="false"/>
+<indexerProblemsEnabled indexProblemsValue="0"/>
+</item>
 </data>
 </cdtproject>
