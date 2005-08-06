@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.12 2005-07-28 20:00:46 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.13 2005-08-06 19:24:22 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -13,6 +13,9 @@
 #ifdef USE_RENDER_AGG
 #include "agg/SVGCanvasAgg.h"
 #define WX_SVG_CANVAS wxSVGCanvasAgg
+#elif defined USE_RENDER_CAIRO
+#include "cairo/SVGCanvasCairo.h"
+#define WX_SVG_CANVAS wxSVGCanvasCairo
 #else // USE_RENDER_LIBART
 #include "libart/SVGCanvasLibart.h"
 #define WX_SVG_CANVAS wxSVGCanvasLibart
@@ -307,12 +310,11 @@ wxImage wxSVGDocument::Render(int width, int height)
   }
   
   // render
-  wxImage image(width, height);
-  m_canvas->SetImage(&image);
+  m_canvas->Init(width, height);
   m_canvas->Clear();
   RenderElement(this, GetRootElement(), &matrix,
 	&GetRootElement()->GetStyle(), NULL, NULL);
   
-  return image;
+  return m_canvas->GetImage();
 }
 
