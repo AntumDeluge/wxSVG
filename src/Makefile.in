@@ -71,6 +71,8 @@ AMTAR = @AMTAR@
 AR = @AR@
 AS = @AS@
 AWK = @AWK@
+CAIRO_CFLAGS = @CAIRO_CFLAGS@
+CAIRO_LIBS = @CAIRO_LIBS@
 CC = @CC@
 CFLAGS = @CFLAGS@
 CXX = @CXX@
@@ -115,10 +117,12 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 @USE_RENDER_AGG_TRUE@RENDER_DIR = agg
-@USE_RENDER_AGG_FALSE@RENDER_DIR = libart
+@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_TRUE@RENDER_DIR = cairo
+@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_FALSE@RENDER_DIR = libart
 @USE_RENDER_AGG_TRUE@RENDER_LIB = agg/libwxsvg_agg.la
-@USE_RENDER_AGG_FALSE@RENDER_LIB = libart/libwxsvg_libart.la
-@USE_RENDER_AGG_FALSE@RENDER_CFLAGS = $(LIBART_CFLAGS)
+@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_TRUE@RENDER_LIB = cairo/libwxsvg_cairo.la
+@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_FALSE@RENDER_LIB = libart/libwxsvg_libart.la
+@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_FALSE@RENDER_CFLAGS = $(LIBART_CFLAGS)
 
 SUBDIRS = xml freetype $(RENDER_DIR)
 
@@ -151,12 +155,22 @@ mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(lib_LTLIBRARIES)
 
-@USE_RENDER_AGG_TRUE@libwxsvg_la_DEPENDENCIES = xml/libwxxml.la \
-@USE_RENDER_AGG_TRUE@	freetype/libwxsvg_freetype.la \
-@USE_RENDER_AGG_TRUE@	agg/libwxsvg_agg.la
-@USE_RENDER_AGG_FALSE@libwxsvg_la_DEPENDENCIES = xml/libwxxml.la \
-@USE_RENDER_AGG_FALSE@	freetype/libwxsvg_freetype.la \
-@USE_RENDER_AGG_FALSE@	libart/libwxsvg_libart.la
+@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_TRUE@libwxsvg_la_DEPENDENCIES = \
+@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_TRUE@	xml/libwxxml.la \
+@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_TRUE@	freetype/libwxsvg_freetype.la \
+@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_TRUE@	cairo/libwxsvg_cairo.la
+@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_FALSE@libwxsvg_la_DEPENDENCIES = \
+@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_FALSE@	xml/libwxxml.la \
+@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_FALSE@	freetype/libwxsvg_freetype.la \
+@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_FALSE@	libart/libwxsvg_libart.la
+@USE_RENDER_AGG_TRUE@@USE_RENDER_CAIRO_TRUE@libwxsvg_la_DEPENDENCIES = \
+@USE_RENDER_AGG_TRUE@@USE_RENDER_CAIRO_TRUE@	xml/libwxxml.la \
+@USE_RENDER_AGG_TRUE@@USE_RENDER_CAIRO_TRUE@	freetype/libwxsvg_freetype.la \
+@USE_RENDER_AGG_TRUE@@USE_RENDER_CAIRO_TRUE@	agg/libwxsvg_agg.la
+@USE_RENDER_AGG_TRUE@@USE_RENDER_CAIRO_FALSE@libwxsvg_la_DEPENDENCIES = \
+@USE_RENDER_AGG_TRUE@@USE_RENDER_CAIRO_FALSE@	xml/libwxxml.la \
+@USE_RENDER_AGG_TRUE@@USE_RENDER_CAIRO_FALSE@	freetype/libwxsvg_freetype.la \
+@USE_RENDER_AGG_TRUE@@USE_RENDER_CAIRO_FALSE@	agg/libwxsvg_agg.la
 am_libwxsvg_la_OBJECTS = SVGDocument.lo svgctrl.lo \
 	SVGAnimationElement.lo SVGCircleElement.lo SVGEllipseElement.lo \
 	SVGFEGaussianBlurElement.lo SVGFilterElement.lo \
@@ -235,7 +249,7 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	install-exec-recursive installdirs-recursive install-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
 DIST_COMMON = Makefile.am Makefile.in
-DIST_SUBDIRS = xml freetype libart agg
+DIST_SUBDIRS = xml freetype libart cairo agg
 SOURCES = $(libwxsvg_la_SOURCES)
 
 all: all-recursive

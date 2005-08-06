@@ -464,7 +464,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT LN_S build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE EGREP ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE CXXCPP F77 FFLAGS ac_ct_F77 LIBTOOL USE_RENDER_AGG_TRUE USE_RENDER_AGG_FALSE LIBART_CONFIG LIBART_CFLAGS LIBART_LIBS AGG_CFLAGS AGG_LIBS PKG_CONFIG PANGO_CFLAGS PANGO_LIBS FONTCONFIG_CFLAGS FONTCONFIG_LIBS FREETYPE_CONFIG FREETYPE_CFLAGS FREETYPE_LIBS WX_CONFIG_PATH WX_CPPFLAGS WX_CFLAGS WX_CXXFLAGS WX_CFLAGS_ONLY WX_CXXFLAGS_ONLY WX_LIBS WX_LIBS_STATIC WX_VERSION WX_CONFIG_NAME LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT LN_S build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE EGREP ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE CXXCPP F77 FFLAGS ac_ct_F77 LIBTOOL USE_RENDER_AGG_TRUE USE_RENDER_AGG_FALSE USE_RENDER_CAIRO_TRUE USE_RENDER_CAIRO_FALSE LIBART_CONFIG LIBART_CFLAGS LIBART_LIBS AGG_CFLAGS AGG_LIBS CAIRO_CFLAGS CAIRO_LIBS PKG_CONFIG PANGO_CFLAGS PANGO_LIBS FONTCONFIG_CFLAGS FONTCONFIG_LIBS FREETYPE_CONFIG FREETYPE_CFLAGS FREETYPE_LIBS WX_CONFIG_PATH WX_CPPFLAGS WX_CFLAGS WX_CXXFLAGS WX_CFLAGS_ONLY WX_CXXFLAGS_ONLY WX_LIBS WX_LIBS_STATIC WX_VERSION WX_CONFIG_NAME LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1029,7 +1029,7 @@ Optional Features:
   --enable-maintainer-mode enable make rules and dependencies not useful
                           (and sometimes confusing) to the casual installer
   --enable-debug          Enable debugging information
-  --enable-render=render          Specify the render: libart (default) or agg
+  --enable-render=render          Specify the render: libart (default), agg or cairo
   --enable-shared[=PKGS]
                           build shared libraries [default=yes]
   --enable-static[=PKGS]
@@ -21344,6 +21344,16 @@ else
   USE_RENDER_AGG_FALSE=
 fi
 
+
+
+if test "$USE_RENDER" = "cairo"; then
+  USE_RENDER_CAIRO_TRUE=
+  USE_RENDER_CAIRO_FALSE='#'
+else
+  USE_RENDER_CAIRO_TRUE='#'
+  USE_RENDER_CAIRO_FALSE=
+fi
+
 case "$USE_RENDER" in
 libart)
     # Extract the first word of "libart2-config", so it can be a program name with args.
@@ -21616,6 +21626,223 @@ fi
 
 
   CXXFLAGS="$CXXFLAGS -DUSE_RENDER_AGG"
+  ;;
+cairo)
+    echo "$as_me:$LINENO: checking for main in -lcairo" >&5
+echo $ECHO_N "checking for main in -lcairo... $ECHO_C" >&6
+if test "${ac_cv_lib_cairo_main+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lcairo  $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+
+int
+main ()
+{
+main ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_cairo_main=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_cairo_main=no
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_cairo_main" >&5
+echo "${ECHO_T}$ac_cv_lib_cairo_main" >&6
+if test $ac_cv_lib_cairo_main = yes; then
+  CAIRO_LIBS=-lcairo
+else
+  { { echo "$as_me:$LINENO: error: *** missing cairo library" >&5
+echo "$as_me: error: *** missing cairo library" >&2;}
+   { (exit 1); exit 1; }; }
+fi
+
+  if test "${ac_cv_header_cairo_cairo_h+set}" = set; then
+  echo "$as_me:$LINENO: checking for cairo/cairo.h" >&5
+echo $ECHO_N "checking for cairo/cairo.h... $ECHO_C" >&6
+if test "${ac_cv_header_cairo_cairo_h+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+fi
+echo "$as_me:$LINENO: result: $ac_cv_header_cairo_cairo_h" >&5
+echo "${ECHO_T}$ac_cv_header_cairo_cairo_h" >&6
+else
+  # Is the header compilable?
+echo "$as_me:$LINENO: checking cairo/cairo.h usability" >&5
+echo $ECHO_N "checking cairo/cairo.h usability... $ECHO_C" >&6
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+$ac_includes_default
+#include <cairo/cairo.h>
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_header_compiler=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_header_compiler=no
+fi
+rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
+echo "${ECHO_T}$ac_header_compiler" >&6
+
+# Is the header present?
+echo "$as_me:$LINENO: checking cairo/cairo.h presence" >&5
+echo $ECHO_N "checking cairo/cairo.h presence... $ECHO_C" >&6
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <cairo/cairo.h>
+_ACEOF
+if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
+  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } >/dev/null; then
+  if test -s conftest.err; then
+    ac_cpp_err=$ac_cxx_preproc_warn_flag
+    ac_cpp_err=$ac_cpp_err$ac_cxx_werror_flag
+  else
+    ac_cpp_err=
+  fi
+else
+  ac_cpp_err=yes
+fi
+if test -z "$ac_cpp_err"; then
+  ac_header_preproc=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+  ac_header_preproc=no
+fi
+rm -f conftest.err conftest.$ac_ext
+echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
+echo "${ECHO_T}$ac_header_preproc" >&6
+
+# So?  What about this header?
+case $ac_header_compiler:$ac_header_preproc:$ac_cxx_preproc_warn_flag in
+  yes:no: )
+    { echo "$as_me:$LINENO: WARNING: cairo/cairo.h: accepted by the compiler, rejected by the preprocessor!" >&5
+echo "$as_me: WARNING: cairo/cairo.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
+    { echo "$as_me:$LINENO: WARNING: cairo/cairo.h: proceeding with the compiler's result" >&5
+echo "$as_me: WARNING: cairo/cairo.h: proceeding with the compiler's result" >&2;}
+    ac_header_preproc=yes
+    ;;
+  no:yes:* )
+    { echo "$as_me:$LINENO: WARNING: cairo/cairo.h: present but cannot be compiled" >&5
+echo "$as_me: WARNING: cairo/cairo.h: present but cannot be compiled" >&2;}
+    { echo "$as_me:$LINENO: WARNING: cairo/cairo.h:     check for missing prerequisite headers?" >&5
+echo "$as_me: WARNING: cairo/cairo.h:     check for missing prerequisite headers?" >&2;}
+    { echo "$as_me:$LINENO: WARNING: cairo/cairo.h: see the Autoconf documentation" >&5
+echo "$as_me: WARNING: cairo/cairo.h: see the Autoconf documentation" >&2;}
+    { echo "$as_me:$LINENO: WARNING: cairo/cairo.h:     section \"Present But Cannot Be Compiled\"" >&5
+echo "$as_me: WARNING: cairo/cairo.h:     section \"Present But Cannot Be Compiled\"" >&2;}
+    { echo "$as_me:$LINENO: WARNING: cairo/cairo.h: proceeding with the preprocessor's result" >&5
+echo "$as_me: WARNING: cairo/cairo.h: proceeding with the preprocessor's result" >&2;}
+    { echo "$as_me:$LINENO: WARNING: cairo/cairo.h: in the future, the compiler will take precedence" >&5
+echo "$as_me: WARNING: cairo/cairo.h: in the future, the compiler will take precedence" >&2;}
+    (
+      cat <<\_ASBOX
+## ------------------------------------------------- ##
+## Report this to wx-svg-users@lists.sourceforge.net ##
+## ------------------------------------------------- ##
+_ASBOX
+    ) |
+      sed "s/^/$as_me: WARNING:     /" >&2
+    ;;
+esac
+echo "$as_me:$LINENO: checking for cairo/cairo.h" >&5
+echo $ECHO_N "checking for cairo/cairo.h... $ECHO_C" >&6
+if test "${ac_cv_header_cairo_cairo_h+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_cv_header_cairo_cairo_h=$ac_header_preproc
+fi
+echo "$as_me:$LINENO: result: $ac_cv_header_cairo_cairo_h" >&5
+echo "${ECHO_T}$ac_cv_header_cairo_cairo_h" >&6
+
+fi
+if test $ac_cv_header_cairo_cairo_h = yes; then
+  :
+else
+  { { echo "$as_me:$LINENO: error: *** missing cairo library" >&5
+echo "$as_me: error: *** missing cairo library" >&2;}
+   { (exit 1); exit 1; }; }
+fi
+
+
+
+
+  CXXFLAGS="$CXXFLAGS -DUSE_RENDER_CAIRO"
   ;;
 *)
   { { echo "$as_me:$LINENO: error: *** Unknown render \"$USE_RENDER\"" >&5
@@ -22095,7 +22322,7 @@ LIBS="$LIBS $WX_LIBS "
 
 
 
-                                                                                ac_config_files="$ac_config_files Makefile src/xml/Makefile src/xml/expat/Makefile src/Makefile src/agg/Makefile src/libart/Makefile src/freetype/Makefile svgview/Makefile"
+                                                                                          ac_config_files="$ac_config_files Makefile src/xml/Makefile src/xml/expat/Makefile src/Makefile src/agg/Makefile src/cairo/Makefile src/libart/Makefile src/freetype/Makefile svgview/Makefile"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -22236,6 +22463,13 @@ if test -z "${USE_RENDER_AGG_TRUE}" && test -z "${USE_RENDER_AGG_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"USE_RENDER_AGG\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"USE_RENDER_AGG\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${USE_RENDER_CAIRO_TRUE}" && test -z "${USE_RENDER_CAIRO_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"USE_RENDER_CAIRO\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"USE_RENDER_CAIRO\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -22683,6 +22917,7 @@ do
   "src/xml/expat/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/xml/expat/Makefile" ;;
   "src/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
   "src/agg/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/agg/Makefile" ;;
+  "src/cairo/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/cairo/Makefile" ;;
   "src/libart/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/libart/Makefile" ;;
   "src/freetype/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/freetype/Makefile" ;;
   "svgview/Makefile" ) CONFIG_FILES="$CONFIG_FILES svgview/Makefile" ;;
@@ -22832,11 +23067,15 @@ s,@ac_ct_F77@,$ac_ct_F77,;t t
 s,@LIBTOOL@,$LIBTOOL,;t t
 s,@USE_RENDER_AGG_TRUE@,$USE_RENDER_AGG_TRUE,;t t
 s,@USE_RENDER_AGG_FALSE@,$USE_RENDER_AGG_FALSE,;t t
+s,@USE_RENDER_CAIRO_TRUE@,$USE_RENDER_CAIRO_TRUE,;t t
+s,@USE_RENDER_CAIRO_FALSE@,$USE_RENDER_CAIRO_FALSE,;t t
 s,@LIBART_CONFIG@,$LIBART_CONFIG,;t t
 s,@LIBART_CFLAGS@,$LIBART_CFLAGS,;t t
 s,@LIBART_LIBS@,$LIBART_LIBS,;t t
 s,@AGG_CFLAGS@,$AGG_CFLAGS,;t t
 s,@AGG_LIBS@,$AGG_LIBS,;t t
+s,@CAIRO_CFLAGS@,$CAIRO_CFLAGS,;t t
+s,@CAIRO_LIBS@,$CAIRO_LIBS,;t t
 s,@PKG_CONFIG@,$PKG_CONFIG,;t t
 s,@PANGO_CFLAGS@,$PANGO_CFLAGS,;t t
 s,@PANGO_LIBS@,$PANGO_LIBS,;t t
