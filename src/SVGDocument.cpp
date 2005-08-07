@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.13 2005-08-06 19:24:22 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.14 2005-08-07 07:29:49 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -40,30 +40,10 @@ wxXmlElement* wxSVGDocument::CreateElement(const wxString& tagName)
 
 #include "SVGDocument_CreateElement.cpp"
 
-wxSVGElement* GetElemById(wxSVGElement* parent, const wxString& id)
-{
-  wxSVGElement* elem = (wxSVGElement*) parent->GetChildren();
-  while (elem)
-  {
-	if (elem->GetType() == wxXML_ELEMENT_NODE &&
-        elem->GetId() == id)
-      return elem;
-    if (elem->GetDtd() == wxSVG_G_ELEMENT ||
-        elem->GetDtd() == wxSVG_DEFS_ELEMENT ||
-        elem->GetDtd() == wxSVG_SYMBOL_ELEMENT)
-    {
-      wxSVGElement* elem2 = GetElemById(elem, id);
-      if (elem2 != NULL)
-        return elem2;
-    }
-    elem = (wxSVGElement*) elem->GetNext();
-  }
-  return NULL;
-}
-
 wxSVGElement* wxSVGDocument::GetElementById(const wxString& id)
 {
-  return GetRootElement() ? GetElemById(GetRootElement(), id) : NULL;
+  return GetRootElement() ?
+    (wxSVGElement*) GetRootElement()->GetElementById(id) : NULL;
 }
 
 void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent,
