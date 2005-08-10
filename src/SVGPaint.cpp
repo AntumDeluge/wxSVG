@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGPaint.cpp,v 1.3 2005-06-07 22:30:30 ntalex Exp $
+// RCS-ID:      $Id: SVGPaint.cpp,v 1.3.2.1 2005-08-10 15:00:52 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -47,8 +47,8 @@ void wxSVGPaint::SetRGBColor(const wxRGBColor& rgbColor)
   wxSVGColor::SetRGBColor(rgbColor);
   if (rgbColor.Ok())
 	m_paintType = m_uri.length() ? wxSVG_PAINTTYPE_URI_RGBCOLOR : wxSVG_PAINTTYPE_RGBCOLOR;
-  else
-	m_paintType = m_uri.length() ? wxSVG_PAINTTYPE_URI_NONE : wxSVG_PAINTTYPE_NONE;
+  else    
+	m_paintType = m_uri.length() ? wxSVG_PAINTTYPE_URI : wxSVG_PAINTTYPE_NONE;
 }
 
 void wxSVGPaint::SetICCColor(const wxSVGICCColor& iccColor)

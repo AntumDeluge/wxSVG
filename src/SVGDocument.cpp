@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.12 2005-07-28 20:00:46 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.12.2.1 2005-08-10 15:00:52 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ wxSVGDocument::~wxSVGDocument()
 
 void wxSVGDocument::Init()
 {
-  m_canvas = new WX_SVG_CANVAS;
+  m_canvas = new WX_SVG_CANVAS(this);
 }
 
 wxXmlElement* wxSVGDocument::CreateElement(const wxString& tagName)

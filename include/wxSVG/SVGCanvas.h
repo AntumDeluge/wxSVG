@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/02
-// RCS-ID:      $Id: SVGCanvas.h,v 1.3 2005-05-31 16:11:21 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.h,v 1.3.2.1 2005-08-10 15:00:54 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -11,12 +11,14 @@
 #ifndef WX_SVG_CANVAS_H
 #define WX_SVG_CANVAS_H
 
+class wxSVGDocument;
+
 #include "SVGCanvasItem.h"
 
 class wxSVGCanvas: public wxObject
 {
   public:
-	wxSVGCanvas() { m_itemsCached = true; }
+	wxSVGCanvas(wxSVGDocument* doc):  m_itemsCached(true),m_document(doc){}
 	virtual ~wxSVGCanvas() {}
 	
 	virtual void SetImage(wxImage* image) = 0;
@@ -61,6 +63,7 @@ class wxSVGCanvas: public wxObject
 	
   protected:
 	bool m_itemsCached;
+	wxSVGDocument* m_document;
 };
 
 #endif // WX_SVG_CANVAS_H
