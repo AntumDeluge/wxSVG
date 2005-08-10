@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.4 2005-06-17 13:24:50 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.4.2.1 2005-08-10 15:42:52 lbessard Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -83,7 +83,8 @@ void wxSVGCanvas::Draw##elem_name(wxSVG##elem_name##Element* element,\
   wxSVGCanvasItem* canvasItem = CreateItem(element);\
   if (style == NULL)\
 	style = (wxCSSStyleDeclaration*) &element->GetStyle();\
-  DrawItem(*canvasItem, *matrix, *style);\
+  if (style->GetDisplay() == wxCSS_VALUE_INLINE)\
+  	DrawItem(*canvasItem, *matrix, *style);\
   if (IsItemsCached())\
   {\
 	if (element->GetCanvasItem())\
@@ -110,7 +111,8 @@ void wxSVGCanvas::DrawText(wxSVGTextElement* element,
   if (style == NULL)
 	style = (wxCSSStyleDeclaration*) &element->GetStyle();
   wxSVGCanvasItem* canvasItem = CreateItem(element, style);
-  DrawItem(*canvasItem, *matrix, *style);
+  if (style->GetDisplay() == wxCSS_VALUE_INLINE)
+  	DrawItem(*canvasItem, *matrix, *style);
   if (IsItemsCached())
   {
 	if (element->GetCanvasItem())
