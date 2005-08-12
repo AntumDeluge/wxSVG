@@ -19,6 +19,18 @@
   <defs
      id="defs4">
     <linearGradient
+       inkscape:collect="always"
+       id="linearGradient2066">
+      <stop
+         style="stop-color:#ff0000;stop-opacity:1;"
+         offset="0"
+         id="stop2068" />
+      <stop
+         style="stop-color:#ff0000;stop-opacity:0;"
+         offset="1"
+         id="stop2070" />
+    </linearGradient>
+    <linearGradient
        id="linearGradient2802">
       <stop
          style="stop-color:#fffd00;stop-opacity:1.0000000;"
@@ -38,6 +50,50 @@
        x2="121.7183"
        y2="180.79179"
        gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2802"
+       id="radialGradient1340"
+       cx="457.3345"
+       cy="53.677818"
+       fx="457.3345"
+       fy="53.677818"
+       r="50.502548"
+       gradientTransform="matrix(0.637955,0.855212,-1.174977,0.876491,193.5552,-372.3236)"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2066"
+       id="radialGradient2072"
+       cx="90.408653"
+       cy="382.8223"
+       fx="90.408653"
+       fy="382.8223"
+       r="55.553314"
+       gradientTransform="matrix(1.000000,0.000000,0.000000,0.936358,0.000000,24.36364)"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2066"
+       id="radialGradient2076"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.000000,0.000000,0.000000,0.936358,0.000000,24.36364)"
+       cx="90.408653"
+       cy="382.8223"
+       fx="90.408653"
+       fy="382.8223"
+       r="55.553314" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2066"
+       id="radialGradient2080"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.000000,0.000000,0.000000,0.936358,0.000000,24.36364)"
+       cx="90.408653"
+       cy="382.8223"
+       fx="90.408653"
+       fy="382.8223"
+       r="55.553314" />
   </defs>
   <sodipodi:namedview
      inkscape:window-y="221"
@@ -185,5 +241,42 @@
        height="107.07617"
        x="21.213203"
        y="132.30447" />
+    <rect
+       y="12.304466"
+       x="381.2132"
+       height="107.07617"
+       width="100.0051"
+       id="rect1336"
+       style="opacity:0.68044081;fill:url(#radialGradient1340);fill-opacity:1.0;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       d="M 145.46197 382.8223 A 55.053314 51.51778 0 1 1  35.355339,382.8223 A 55.053314 51.51778 0 1 1  145.46197 382.8223 z"
+       sodipodi:ry="51.51778"
+       sodipodi:rx="55.053314"
+       sodipodi:cy="382.8223"
+       sodipodi:cx="90.408653"
+       id="path2074"
+       style="fill:url(#radialGradient2076);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       sodipodi:type="arc"
+       transform="translate(3.030458,22.22336)" />
+    <path
+       sodipodi:type="arc"
+       style="fill:url(#radialGradient2072);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path1338"
+       sodipodi:cx="90.408653"
+       sodipodi:cy="382.8223"
+       sodipodi:rx="55.053314"
+       sodipodi:ry="51.51778"
+       d="M 145.46197 382.8223 A 55.053314 51.51778 0 1 1  35.355339,382.8223 A 55.053314 51.51778 0 1 1  145.46197 382.8223 z"
+       transform="matrix(0.694344,0.719643,-0.167630,0.161737,328.1821,312.9174)" />
+    <path
+       transform="matrix(1.000000,0.000000,-1.301098,1.000000,649.6123,-106.0660)"
+       sodipodi:type="arc"
+       style="fill:url(#radialGradient2080);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path2078"
+       sodipodi:cx="90.408653"
+       sodipodi:cy="382.8223"
+       sodipodi:rx="55.053314"
+       sodipodi:ry="51.51778"
+       d="M 145.46197 382.8223 A 55.053314 51.51778 0 1 1  35.355339,382.8223 A 55.053314 51.51778 0 1 1  145.46197 382.8223 z" />
   </g>
 </svg>
