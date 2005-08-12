@@ -22,10 +22,10 @@ class wxSVGTextElement:
   public:
 
   protected:
-	wxSVGCanvasItem* m_canvasItem;
+    wxSVGCanvasItem* m_canvasItem;
   public:
-	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
+    inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
+    inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
 
   public:
     wxSVGTextElement(wxSVGDocument* doc, wxString tagName = wxT("text")):
@@ -33,6 +33,14 @@ class wxSVGTextElement:
     virtual ~wxSVGTextElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTextElement(*this); }
     wxSVGRect GetBBox();
+    long GetNumberOfChars();
+    double GetComputedTextLength();
+    double GetSubStringLength(unsigned long charnum, unsigned long nchars);
+    wxSVGPoint GetStartPositionOfChar(unsigned long charnum);
+    wxSVGPoint GetEndPositionOfChar(unsigned long charnum);
+    wxSVGRect GetExtentOfChar(unsigned long charnum);
+    double GetRotationOfChar(unsigned long charnum);
+    long GetCharNumAtPosition(const wxSVGPoint& point);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_TEXT_ELEMENT; }
 };

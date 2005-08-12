@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.11 2005-07-28 20:10:44 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.11.2.1 2005-08-12 15:22:30 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -238,7 +238,7 @@ for name in ["SVGSVGElement", "SVGGElement", "SVGDefsElement", "SVGUseElement",
 ## visible elements
 for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
 "SVGRectElement", "SVGCircleElement", "SVGEllipseElement", "SVGPathElement",
-"SVGTextElement", "SVGImageElement"]: ##, "SVGClipPathElement"]:
+"SVGImageElement"]: ##, "SVGClipPathElement"]:
   inter = interface()
   interfaces[name]=inter
   inter.include_attributes.append('''
@@ -252,6 +252,28 @@ for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
   inter.include_methods.append('    wxSVGRect GetBBox();\n')
   inter.include_fwd_decls = ["SVGCanvasItem"]
 
+
+inter = interface()
+interfaces["SVGTextElement"]=inter
+inter.include_attributes.append('''
+  protected:
+    wxSVGCanvasItem* m_canvasItem;
+  public:
+    inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
+    inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }\n
+''')
+inter.include_attributes_init = [["canvasItem", True]]
+inter.include_methods.append('''    wxSVGRect GetBBox();
+    long GetNumberOfChars();
+    double GetComputedTextLength();
+    double GetSubStringLength(unsigned long charnum, unsigned long nchars);
+    wxSVGPoint GetStartPositionOfChar(unsigned long charnum);
+    wxSVGPoint GetEndPositionOfChar(unsigned long charnum);
+    wxSVGRect GetExtentOfChar(unsigned long charnum);
+    double GetRotationOfChar(unsigned long charnum);
+    long GetCharNumAtPosition(const wxSVGPoint& point);
+''')
+inter.include_fwd_decls = ["SVGCanvasItem"]
 
 # SVGDocument
 inter = interface()
