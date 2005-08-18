@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.4.2.2 2005-08-11 16:35:46 etisserant Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.4.2.3 2005-08-18 16:15:45 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -184,9 +184,8 @@ unsigned int wxSVGCanvas::GetGradientStops(const wxString& href, float overall_o
     return 0;
 }
 
-void wxSVGCanvas::GetLinearGradientVector(double& x1, double& y1, double& x2, double& y2, double affine[6], const wxSVGLinearGradientElement& gradElem)
+void wxSVGCanvas::GetLinearGradientVector(wxSVGPoint& p1, wxSVGPoint& p2, wxSVGMatrix& matrix, const wxSVGLinearGradientElement& gradElem)
 {
-	double fx1, fy1, fx2, fy2;
 
 //					TODO : implement gradientUnits parsing in SVGGradientElement setattribute
 //					double affine[6];
@@ -208,29 +207,39 @@ void wxSVGCanvas::GetLinearGradientVector(double& x1, double& y1, double& x2, do
 	const wxSVGTransformList& transforms =  gradElem.GetGradientTransform().GetBaseVal();
 	for (int i=0; i<(int)transforms.Count(); i++)
 		lg_matrix = lg_matrix.Multiply(transforms[i].GetMatrix());
-	
-	double lg_affine[6];
-	lg_affine[0] = lg_matrix.GetA();
-	lg_affine[1] = lg_matrix.GetB();
-	lg_affine[2] = lg_matrix.GetC();
-	lg_affine[3] = lg_matrix.GetD();
-	lg_affine[4] = lg_matrix.GetE();
-	lg_affine[5] = lg_matrix.GetF();
-	
-	
-	// Apply gradient transformation matrix to linear grad vector
-	int lg_x1 = gradElem.GetX1().GetBaseVal();
-	int lg_x2 = gradElem.GetX2().GetBaseVal();
-	int lg_y1 = gradElem.GetY1().GetBaseVal();
-	int lg_y2 = gradElem.GetY2().GetBaseVal();
-	fx1 = lg_x1 * lg_affine[0] + lg_y1 * lg_affine[2] + lg_affine[4];
-	fy1 = lg_x1 * lg_affine[1] + lg_y1 * lg_affine[3] + lg_affine[5];
-	fx2 = lg_x2 * lg_affine[0] + lg_y2 * lg_affine[2] + lg_affine[4];
-	fy2 = lg_x2 * lg_affine[1] + lg_y2 * lg_affine[3] + lg_affine[5];
 
-	/* compute [xy][12] in pixel space */
-	x1 = fx1 * affine[0] + fy1 * affine[2] + affine[4];
-	y1 = fx1 * affine[1] + fy1 * affine[3] + affine[5];
-	x2 = fx2 * affine[0] + fy2 * affine[2] + affine[4];
-	y2 = fx2 * affine[1] + fy2 * affine[3] + affine[5];	
+	p1.SetX(gradElem.GetX1().GetBaseVal());
+	p1.SetY(gradElem.GetY1().GetBaseVal());
+	p2.SetX(gradElem.GetX2().GetBaseVal());
+	p2.SetY(gradElem.GetY2().GetBaseVal());
+	p1 = p1.MatrixTransform(lg_matrix);
+	p2 = p2.MatrixTransform(lg_matrix);
+	p1 = p1.MatrixTransform(matrix);
+	p2 = p2.MatrixTransform(matrix); 
+}
+
+
+void wxSVGCanvas::GetRadialGradientTransform(wxSVGPoint& Focus, wxSVGMatrix& matrix, const wxSVGRadialGradientElement& gradElem)
+{
+//					TODO : implement gradientUnits parsing in SVGGradientElement setattribute
+
+	// Compute gradient transformation matrix
+	wxSVGMatrix rg_matrix;
+	const wxSVGTransformList& transforms =  gradElem.GetGradientTransform().GetBaseVal();
+	for (int i=0; i<(int)transforms.Count(); i++)
+		rg_matrix = rg_matrix.Multiply(transforms[i].GetMatrix());
+	
+	// Apply Gradient parameters to transformation
+	double R, Cx, Cy, Fx, Fy;
+	R = (wxSVGLength)gradElem.GetR();
+	Cx = (wxSVGLength)gradElem.GetCx();
+	Cy = (wxSVGLength)gradElem.GetCy();
+	Fx = (wxSVGLength)gradElem.GetFx();
+	Fy = (wxSVGLength)gradElem.GetFy();
+	matrix = matrix.Multiply(rg_matrix).Translate(Cx,Cy).Scale(R);
+	
+	// Change Focus reference to gradient reference
+	Focus.SetX((Fx - Cx) / R);
+	Focus.SetY((Fy - Cy) / R);
+
 }

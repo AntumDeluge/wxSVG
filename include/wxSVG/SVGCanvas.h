@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/02
-// RCS-ID:      $Id: SVGCanvas.h,v 1.3.2.2 2005-08-11 16:35:46 etisserant Exp $
+// RCS-ID:      $Id: SVGCanvas.h,v 1.3.2.3 2005-08-18 16:15:50 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -68,7 +68,8 @@ class wxSVGCanvas: public wxObject
 	unsigned int GetGradientStops(const wxString& href, float overall_opacity, const wxSVGElement*& refElem);
 	virtual void SetStopValue(unsigned int index, float offset, float opacity, const wxRGBColor& RGBColor) = 0;
 	virtual void AllocateGradientStops(unsigned int stop_count) = 0;
-	void GetLinearGradientVector(double& x1, double& y1, double& x2, double& y2, double affine[6], const wxSVGLinearGradientElement& gradElem);
+	void GetLinearGradientVector(wxSVGPoint& p1, wxSVGPoint& p2, wxSVGMatrix& matrix, const wxSVGLinearGradientElement& gradElem);
+	void GetRadialGradientTransform(wxSVGPoint& Focus, wxSVGMatrix& matrix, const wxSVGRadialGradientElement& gradElem);
 	
 };
 
