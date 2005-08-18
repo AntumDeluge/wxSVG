@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.6 2005-06-17 13:24:50 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.6.2.1 2005-08-18 14:05:15 lbessard Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -568,6 +568,16 @@ void wxSVGCanvasText::InitChildren(wxSVGTextPositioningElement& element,
 	elem = (wxSVGElement*) elem->GetNext();
   }
 }
+
+long wxSVGCanvasText::GetNumberOfChars(){}
+double wxSVGCanvasText::GetComputedTextLength(){}
+double wxSVGCanvasText::GetSubStringLength(unsigned long charnum, unsigned long nchars){}
+wxSVGPoint wxSVGCanvasText::GetStartPositionOfChar(unsigned long charnum){}
+wxSVGPoint wxSVGCanvasText::GetEndPositionOfChar(unsigned long charnum){}
+wxSVGRect wxSVGCanvasText::GetExtentOfChar(unsigned long charnum){}
+double wxSVGCanvasText::GetRotationOfChar(unsigned long charnum){}
+long wxSVGCanvasText::GetCharNumAtPosition(const wxSVGPoint& point){}
+
 
 //////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// wxSVGCanvasText //////////////////////////////

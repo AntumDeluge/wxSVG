@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.5 2005-06-05 19:11:03 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.5.2.1 2005-08-18 14:05:16 lbessard Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -81,6 +81,14 @@ class wxSVGCanvasText: public wxSVGCanvasItem
 	virtual ~wxSVGCanvasText() {}
 	
 	virtual void Init(wxSVGTextElement& element, wxCSSStyleDeclaration& style);
+	virtual long GetNumberOfChars();
+    virtual double GetComputedTextLength();
+    virtual double GetSubStringLength(unsigned long charnum, unsigned long nchars);
+    virtual wxSVGPoint GetStartPositionOfChar(unsigned long charnum);
+    virtual wxSVGPoint GetEndPositionOfChar(unsigned long charnum);
+    virtual wxSVGRect GetExtentOfChar(unsigned long charnum);
+    virtual double GetRotationOfChar(unsigned long charnum);
+    virtual long GetCharNumAtPosition(const wxSVGPoint& point);
 	
   protected:
     double m_tx, m_ty;
