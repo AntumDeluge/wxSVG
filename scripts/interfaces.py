@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.11.2.1 2005-08-12 15:22:30 etisserant Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.11.2.2 2005-08-29 15:00:52 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -51,7 +51,9 @@ interfaces["SVGLocatable"]=inter
 inter.include_get_set_attributes = [["wxSVGMatrix", "screenCTM", False, False]]
 inter.include_methods.append('    virtual wxSVGRect GetBBox() { return wxSVGRect(); }\n')
 inter.include_methods.append('    static wxSVGRect GetBBox(wxSVGElement* parent);\n')
-inter.exclude_methods = ["GetBBox"]
+inter.include_methods.append('    virtual wxSVGMatrix GetCTM(){ return wxSVGMatrix(); }\n')
+inter.include_methods.append('    static wxSVGMatrix GetCTM(wxSVGElement* obj);\n')
+inter.exclude_methods = ["GetBBox","GetCTM"]
 
 # SVGTransformable
 inter = interface()
@@ -250,6 +252,7 @@ for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
 ''')
   inter.include_attributes_init = [["canvasItem", True]]
   inter.include_methods.append('    wxSVGRect GetBBox();\n')
+  inter.include_methods.append('    wxSVGMatrix GetCTM(){ return wxSVGLocatable::GetCTM(this); }\n')
   inter.include_fwd_decls = ["SVGCanvasItem"]
 
 

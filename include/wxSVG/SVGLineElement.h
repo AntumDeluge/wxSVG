@@ -67,6 +67,7 @@ class wxSVGLineElement:
     virtual ~wxSVGLineElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGLineElement(*this); }
     wxSVGRect GetBBox();
+    wxSVGMatrix GetCTM(){ return wxSVGLocatable::GetCTM(this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_LINE_ELEMENT; }
 };

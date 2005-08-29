@@ -73,6 +73,7 @@ class wxSVGPathElement:
     virtual ~wxSVGPathElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPathElement(*this); }
     wxSVGRect GetBBox();
+    wxSVGMatrix GetCTM(){ return wxSVGLocatable::GetCTM(this); }
     virtual double GetTotalLength();
     virtual wxSVGPoint GetPointAtLength(double distance);
     virtual unsigned long GetPathSegAtLength(double distance);

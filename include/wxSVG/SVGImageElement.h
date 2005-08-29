@@ -75,6 +75,7 @@ class wxSVGImageElement:
     virtual ~wxSVGImageElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGImageElement(*this); }
     wxSVGRect GetBBox();
+    wxSVGMatrix GetCTM(){ return wxSVGLocatable::GetCTM(this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_IMAGE_ELEMENT; }
 };

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGLocatable.cpp,v 1.5 2005-07-30 12:09:05 etisserant Exp $
+// RCS-ID:      $Id: SVGLocatable.cpp,v 1.5.2.1 2005-08-29 15:00:52 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -106,12 +106,42 @@ wxSVGRect wxSVGLocatable::GetBBox(wxSVGElement* parent)
   return rect;
 }
 
-wxSVGMatrix wxSVGLocatable::GetCTM()
+#define GetElementCTM_macro(the_dtd, the_class)\
+		case the_dtd:\
+		{\
+		  wxSVGMatrix matrix = GetElementCTM(*(wxSVGElement*)(elem.GetParent()));\
+		  the_class* element = (the_class*) &elem;\
+		  element->UpdateMatrix(matrix);\
+		  return matrix;\
+		}
+
+wxSVGMatrix GetElementCTM(const wxSVGElement& elem)
 {
-  wxSVGMatrix res;
-  return res;
+	if (&elem!=NULL && elem.GetType() == wxXML_ELEMENT_NODE)
+	{
+	  
+	  switch (elem.GetDtd())
+	  {
+		GetElementCTM_macro(wxSVG_LINE_ELEMENT, wxSVGLineElement)
+		GetElementCTM_macro(wxSVG_POLYLINE_ELEMENT, wxSVGPolylineElement)
+		GetElementCTM_macro(wxSVG_POLYGON_ELEMENT, wxSVGPolygonElement)
+		GetElementCTM_macro(wxSVG_RECT_ELEMENT, wxSVGRectElement)
+		GetElementCTM_macro(wxSVG_CIRCLE_ELEMENT, wxSVGCircleElement)
+		GetElementCTM_macro(wxSVG_ELLIPSE_ELEMENT, wxSVGEllipseElement)
+		GetElementCTM_macro(wxSVG_PATH_ELEMENT, wxSVGPathElement)
+		GetElementCTM_macro(wxSVG_TEXT_ELEMENT, wxSVGTextElement)
+		GetElementCTM_macro(wxSVG_G_ELEMENT, wxSVGGElement)
+		default:
+		  break;
+	  }
+	}
+	return wxSVGMatrix();
 }
 
+wxSVGMatrix wxSVGLocatable::GetCTM(wxSVGElement* obj)
+{  
+  return GetElementCTM(*obj);
+}
 wxSVGMatrix wxSVGLocatable::GetTransformToElement(const wxSVGElement& element)
 {
   wxSVGMatrix res;

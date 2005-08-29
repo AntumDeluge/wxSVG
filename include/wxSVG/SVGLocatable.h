@@ -38,7 +38,8 @@ class wxSVGLocatable
     virtual ~wxSVGLocatable() {}
     virtual wxSVGRect GetBBox() { return wxSVGRect(); }
     static wxSVGRect GetBBox(wxSVGElement* parent);
-    virtual wxSVGMatrix GetCTM();
+    virtual wxSVGMatrix GetCTM(){ return wxSVGMatrix(); }
+    static wxSVGMatrix GetCTM(wxSVGElement* obj);
     virtual wxSVGMatrix GetTransformToElement(const wxSVGElement& element);
 };
 
