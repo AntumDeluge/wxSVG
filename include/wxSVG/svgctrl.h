@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.h,v 1.3 2005-07-30 12:09:05 etisserant Exp $
+// RCS-ID:      $Id: svgctrl.h,v 1.3.2.1 2005-09-01 13:00:53 lbessard Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,6 +12,7 @@
 #define wxSVG_CTRL_H
 
 #include "SVGDocument.h"
+#include "SVGRect.h"
 #include <wx/control.h>
 #include <wx/bitmap.h>
 
@@ -30,6 +31,7 @@ class wxSVGCtrl: public wxControl
     
     bool Load(const wxString& filename);
     void Update();
+    void UpdateArea(wxSVGRect area, float scale);
     
   protected:
     wxSVGDocument* m_doc;

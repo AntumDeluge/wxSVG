@@ -4,7 +4,7 @@
 ##              -> SetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSetAttribute.py,v 1.5 2005-07-28 20:10:44 ntalex Exp $
+## RCS-ID:      $Id: genSetAttribute.py,v 1.5.2.1 2005-09-01 13:00:53 lbessard Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -316,7 +316,7 @@ def process(classdecl):
         if (token.substr(0,9) == wxT("translate"))
           transform.SetTranslate(params[0],params[1]);
         else if (token.substr(0,5) == wxT("scale"))
-          transform.SetScale(params[0],params[0]);
+          transform.SetScale(params[0],params[1]);
         else if (token.substr(0,6) == wxT("rotate"))
           transform.SetRotate(params[0],params[1],params[2]);
         else if (token.substr(0,5) == wxT("skewX"))

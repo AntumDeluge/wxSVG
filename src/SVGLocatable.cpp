@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGLocatable.cpp,v 1.5.2.1 2005-08-29 15:00:52 etisserant Exp $
+// RCS-ID:      $Id: SVGLocatable.cpp,v 1.5.2.2 2005-09-01 13:00:53 lbessard Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -31,7 +31,7 @@ wxSVGRect TransformRect(wxSVGRect rect, wxSVGMatrix& matrix)
 		case the_dtd:\
 		{\
 		  the_class* element = (the_class*) &elem;\
-		  element->UpdateMatrix(matrix);\
+		  matrix = element->GetCTM();\
 		  elemBBox = TransformRect(element->GetBBox(), matrix);\
 		  break;\
 		}
@@ -136,6 +136,35 @@ wxSVGMatrix GetElementCTM(const wxSVGElement& elem)
 	  }
 	}
 	return wxSVGMatrix();
+}
+
+#define GetTransformable_macro(the_dtd, the_class)\
+		case the_dtd:\
+		{\
+		  return (wxSVGTransformable*)(the_class*) &elem;\
+		}
+
+wxSVGTransformable* GetTransformable(const wxSVGElement& elem)
+{
+	if (&elem!=NULL && elem.GetType() == wxXML_ELEMENT_NODE)
+	{
+	  
+	  switch (elem.GetDtd())
+	  {
+		GetTransformable_macro(wxSVG_LINE_ELEMENT, wxSVGLineElement)
+		GetTransformable_macro(wxSVG_POLYLINE_ELEMENT, wxSVGPolylineElement)
+		GetTransformable_macro(wxSVG_POLYGON_ELEMENT, wxSVGPolygonElement)
+		GetTransformable_macro(wxSVG_RECT_ELEMENT, wxSVGRectElement)
+		GetTransformable_macro(wxSVG_CIRCLE_ELEMENT, wxSVGCircleElement)
+		GetTransformable_macro(wxSVG_ELLIPSE_ELEMENT, wxSVGEllipseElement)
+		GetTransformable_macro(wxSVG_PATH_ELEMENT, wxSVGPathElement)
+		GetTransformable_macro(wxSVG_TEXT_ELEMENT, wxSVGTextElement)
+		GetTransformable_macro(wxSVG_G_ELEMENT, wxSVGGElement)
+		default:
+		  break;
+	  }
+	}
+	return NULL;
 }
 
 wxSVGMatrix wxSVGLocatable::GetCTM(wxSVGElement* obj)

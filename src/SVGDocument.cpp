@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.12.2.1 2005-08-10 15:00:52 etisserant Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.12.2.2 2005-09-01 13:00:53 lbessard Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -63,11 +63,11 @@ wxSVGElement* wxSVGDocument::GetElementById(const wxString& id)
   return GetRootElement() ? GetElemById(GetRootElement(), id) : NULL;
 }
 
-void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent,
+void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent, wxSVGRect* area,
   const wxSVGMatrix* parentMatrix, const wxCSSStyleDeclaration* parentStyle,
   wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement);
 
-void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
+void RenderElement(wxSVGDocument* doc, wxSVGElement* elem, wxSVGRect* area,
   const wxSVGMatrix* parentMatrix, const wxCSSStyleDeclaration* parentStyle,
   wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement)
 {
@@ -100,7 +100,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
     	    matrix = matrix.Translate(-viewbox.GetX(), -viewbox.GetY());
         }
       }
-	  RenderChilds(doc, elem, &matrix, &style, element, element);
+	  RenderChilds(doc, elem, area, &matrix, &style, element, element);
 	  break;
     }
 	case wxSVG_G_ELEMENT:
@@ -108,7 +108,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	  wxSVGGElement* element = (wxSVGGElement*) elem;
 	  element->UpdateMatrix(matrix);
 	  style.Add(element->GetStyle());
-	  RenderChilds(doc, elem, &matrix, &style, ownerSVGElement, viewportElement);
+	  RenderChilds(doc, elem, area, &matrix, &style, ownerSVGElement, viewportElement);
 	  break;
 	}
 	case wxSVG_LINE_ELEMENT:
@@ -227,7 +227,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
       }
       else
         gElem->AddChild(refElem->CloneNode());
-      RenderElement(doc, gElem, &matrix, &style, ownerSVGElement, viewportElement);
+      RenderElement(doc, gElem, area, &matrix, &style, ownerSVGElement, viewportElement);
       delete gElem;
       break;
     }
@@ -236,7 +236,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
   }
 }
 
-void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent,
+void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent, wxSVGRect* area,
   const wxSVGMatrix* parentMatrix, const wxCSSStyleDeclaration* parentStyle,
   wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement)
 {
@@ -244,13 +244,20 @@ void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent,
   while (elem)
   {
     if (elem->GetType() == wxXML_ELEMENT_NODE)
-      RenderElement(doc, elem, parentMatrix, parentStyle,
-        ownerSVGElement, viewportElement);
+      if (area)
+      {
+      	if (doc->GetRootElement()->CheckIntersection(*elem, *area))
+      	  RenderElement(doc, elem, area, parentMatrix, parentStyle,
+            ownerSVGElement, viewportElement);
+      }
+      else
+      	RenderElement(doc, elem, area, parentMatrix, parentStyle,
+          ownerSVGElement, viewportElement);
     elem = (wxSVGElement*) elem->GetNext();
   }
 }
 
-wxImage wxSVGDocument::Render(int width, int height)
+wxImage wxSVGDocument::Render(int width, int height, wxSVGRect* area)
 {
   if (!GetRootElement())
 	return wxImage();
@@ -310,7 +317,7 @@ wxImage wxSVGDocument::Render(int width, int height)
   wxImage image(width, height);
   m_canvas->SetImage(&image);
   m_canvas->Clear();
-  RenderElement(this, GetRootElement(), &matrix,
+  RenderElement(this, GetRootElement(), area, &matrix,
 	&GetRootElement()->GetStyle(), NULL, NULL);
   
   return image;

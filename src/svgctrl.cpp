@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.3 2005-07-30 12:09:04 etisserant Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.3.2.1 2005-09-01 13:00:53 lbessard Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -58,6 +58,29 @@ void wxSVGCtrl::Update()
   } else {
 	  m_buffer = wxBitmap(m_doc->Render(-1, -1));
   }
+  Refresh();
+}
+
+void wxSVGCtrl::UpdateArea(wxSVGRect area, float scale)
+{
+  if (!m_doc)
+    return;
+  wxBitmap temp;
+  if (m_FitToFrame){
+	  int w, h;
+	  GetClientSize(&w, &h);
+	  temp = wxBitmap(m_doc->Render(w, h, &area));
+  } else {
+	  temp = wxBitmap(m_doc->Render(-1, -1, &area));
+  }
+  wxMemoryDC temp_dc;
+  temp_dc.SelectObject(temp);
+  wxMemoryDC m_buffer_dc;
+  m_buffer_dc.SelectObject(m_buffer);
+  wxPoint point((int)(area.GetX() * scale), (int)(area.GetY() * scale));
+  wxSize size((int)((area.GetX() + area.GetWidth()) * scale) - point.x + 2, 
+  	(int)((area.GetY() + area.GetHeight()) * scale) - point.y + 2);
+  m_buffer_dc.Blit(point, size, &temp_dc, point);
   Refresh();
 }
 

@@ -16,6 +16,7 @@ class wxSVGCanvas;
 #include "Document.h"
 #include "DocumentEvent.h"
 #include "String.h"
+#include "SVGRect.h"
 #include <wx/image.h>
 
 class wxSVGDocument:
@@ -64,7 +65,7 @@ class wxSVGDocument:
     
     wxSVGElement* GetElementById(const wxString& id);
 	
-	wxImage Render(int width = -1, int height = -1);
+	wxImage Render(int width = -1, int height = -1, wxSVGRect* area = NULL);
 };
 
 #endif // WX_SVG_DOCUMENT_H

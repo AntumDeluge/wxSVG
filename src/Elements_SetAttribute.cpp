@@ -452,7 +452,7 @@ bool wxSVGTransformable::SetAttribute(const wxString& attrName, const wxString& 
         if (token.substr(0,9) == wxT("translate"))
           transform.SetTranslate(params[0],params[1]);
         else if (token.substr(0,5) == wxT("scale"))
-          transform.SetScale(params[0],params[0]);
+          transform.SetScale(params[0],params[1]);
         else if (token.substr(0,6) == wxT("rotate"))
           transform.SetRotate(params[0],params[1],params[2]);
         else if (token.substr(0,5) == wxT("skewX"))
@@ -613,7 +613,7 @@ bool wxSVGGradientElement::SetAttribute(const wxString& attrName, const wxString
         if (token.substr(0,9) == wxT("translate"))
           transform.SetTranslate(params[0],params[1]);
         else if (token.substr(0,5) == wxT("scale"))
-          transform.SetScale(params[0],params[0]);
+          transform.SetScale(params[0],params[1]);
         else if (token.substr(0,6) == wxT("rotate"))
           transform.SetRotate(params[0],params[1],params[2]);
         else if (token.substr(0,5) == wxT("skewX"))
@@ -856,7 +856,7 @@ bool wxSVGPatternElement::SetAttribute(const wxString& attrName, const wxString&
         if (token.substr(0,9) == wxT("translate"))
           transform.SetTranslate(params[0],params[1]);
         else if (token.substr(0,5) == wxT("scale"))
-          transform.SetScale(params[0],params[0]);
+          transform.SetScale(params[0],params[1]);
         else if (token.substr(0,6) == wxT("rotate"))
           transform.SetRotate(params[0],params[1],params[2]);
         else if (token.substr(0,5) == wxT("skewX"))
