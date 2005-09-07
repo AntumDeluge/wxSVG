@@ -33,6 +33,7 @@ class wxSVGTextElement:
     virtual ~wxSVGTextElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTextElement(*this); }
     wxSVGRect GetBBox();
+    wxSVGMatrix GetCTM(){ return wxSVGLocatable::GetCTM(this);}
     long GetNumberOfChars();
     double GetComputedTextLength();
     double GetSubStringLength(unsigned long charnum, unsigned long nchars);

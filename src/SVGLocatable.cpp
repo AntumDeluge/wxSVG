@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGLocatable.cpp,v 1.5.2.2 2005-09-01 13:00:53 lbessard Exp $
+// RCS-ID:      $Id: SVGLocatable.cpp,v 1.5.2.3 2005-09-07 15:25:44 lbessard Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,13 @@ wxSVGRect GetElementBBox(const wxSVGElement& elem)
 		GetElementBBox_macro(wxSVG_ELLIPSE_ELEMENT, wxSVGEllipseElement)
 		GetElementBBox_macro(wxSVG_PATH_ELEMENT, wxSVGPathElement)
 		GetElementBBox_macro(wxSVG_TEXT_ELEMENT, wxSVGTextElement)
-		GetElementBBox_macro(wxSVG_G_ELEMENT, wxSVGGElement)
+		//GetElementBBox_macro(wxSVG_G_ELEMENT, wxSVGGElement)
+		case wxSVG_G_ELEMENT:
+		{
+		  wxSVGGElement* element = (wxSVGGElement*) &elem;
+          elemBBox = element->GetBBox();
+		  break;
+		}
 		case wxSVG_SVG_ELEMENT:
 		{
 		  wxSVGSVGElement* element = (wxSVGSVGElement*) &elem;
@@ -119,7 +125,6 @@ wxSVGMatrix GetElementCTM(const wxSVGElement& elem)
 {
 	if (&elem!=NULL && elem.GetType() == wxXML_ELEMENT_NODE)
 	{
-	  
 	  switch (elem.GetDtd())
 	  {
 		GetElementCTM_macro(wxSVG_LINE_ELEMENT, wxSVGLineElement)

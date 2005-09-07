@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.11.2.3 2005-09-01 13:00:53 lbessard Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.11.2.4 2005-09-07 15:25:44 lbessard Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -267,6 +267,7 @@ inter.include_attributes.append('''
 ''')
 inter.include_attributes_init = [["canvasItem", True]]
 inter.include_methods.append('''    wxSVGRect GetBBox();
+    wxSVGMatrix GetCTM(){ return wxSVGLocatable::GetCTM(this);}
     long GetNumberOfChars();
     double GetComputedTextLength();
     double GetSubStringLength(unsigned long charnum, unsigned long nchars);
