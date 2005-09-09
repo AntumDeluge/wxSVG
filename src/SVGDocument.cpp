@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.12.2.2 2005-09-01 13:00:53 lbessard Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.12.2.3 2005-09-09 09:36:47 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -13,6 +13,9 @@
 #ifdef USE_RENDER_AGG
 #include "agg/SVGCanvasAgg.h"
 #define WX_SVG_CANVAS wxSVGCanvasAgg
+#elif defined USE_RENDER_CAIRO
+#include "cairo/SVGCanvasCairo.h"
+#define WX_SVG_CANVAS wxSVGCanvasCairo
 #else // USE_RENDER_LIBART
 #include "libart/SVGCanvasLibart.h"
 #define WX_SVG_CANVAS wxSVGCanvasLibart
@@ -37,30 +40,10 @@ wxXmlElement* wxSVGDocument::CreateElement(const wxString& tagName)
 
 #include "SVGDocument_CreateElement.cpp"
 
-wxSVGElement* GetElemById(wxSVGElement* parent, const wxString& id)
-{
-  wxSVGElement* elem = (wxSVGElement*) parent->GetChildren();
-  while (elem)
-  {
-	if (elem->GetType() == wxXML_ELEMENT_NODE &&
-        elem->GetId() == id)
-      return elem;
-    if (elem->GetDtd() == wxSVG_G_ELEMENT ||
-        elem->GetDtd() == wxSVG_DEFS_ELEMENT ||
-        elem->GetDtd() == wxSVG_SYMBOL_ELEMENT)
-    {
-      wxSVGElement* elem2 = GetElemById(elem, id);
-      if (elem2 != NULL)
-        return elem2;
-    }
-    elem = (wxSVGElement*) elem->GetNext();
-  }
-  return NULL;
-}
-
 wxSVGElement* wxSVGDocument::GetElementById(const wxString& id)
 {
-  return GetRootElement() ? GetElemById(GetRootElement(), id) : NULL;
+  return GetRootElement() ?
+    (wxSVGElement*) GetRootElement()->GetElementById(id) : NULL;
 }
 
 void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent, wxSVGRect* area,
@@ -314,12 +297,11 @@ wxImage wxSVGDocument::Render(int width, int height, wxSVGRect* area)
   }
   
   // render
-  wxImage image(width, height);
-  m_canvas->SetImage(&image);
+  m_canvas->Init(width, height);
   m_canvas->Clear();
   RenderElement(this, GetRootElement(), area, &matrix,
 	&GetRootElement()->GetStyle(), NULL, NULL);
   
-  return image;
+  return m_canvas->GetImage();
 }
 

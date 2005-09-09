@@ -12,7 +12,7 @@ AC_ARG_ENABLE(debug,
  [  --enable-debug          Enable debugging information],
  USE_DEBUG="$enableval", USE_DEBUG="no")
 AC_ARG_ENABLE(render,
- [  --enable-render[=render]          Specify the render: libart (default) or agg],
+ [  --enable-render[=render]          Specify the render: libart (default), agg or cairo],
  [USE_RENDER=$enableval], [USE_RENDER=libart])
 
 AC_MSG_CHECKING(for install location)
@@ -50,6 +50,7 @@ esac
 
 dnl render
 AM_CONDITIONAL(USE_RENDER_AGG, [test "$USE_RENDER" = "agg"])
+AM_CONDITIONAL(USE_RENDER_CAIRO, [test "$USE_RENDER" = "cairo"])
 case "$USE_RENDER" in
 libart)
   dnl check for libart library
@@ -73,6 +74,14 @@ agg)
   AC_SUBST(AGG_CFLAGS)
   AC_SUBST(AGG_LIBS)
   CXXFLAGS="$CXXFLAGS -DUSE_RENDER_AGG"
+  ;;
+cairo)
+  dnl check for cairo
+  AC_CHECK_LIB(cairo, main, [CAIRO_LIBS=-lcairo], [AC_MSG_ERROR([*** missing cairo library])])
+  AC_CHECK_HEADER([cairo/cairo.h], [], [AC_MSG_ERROR([*** missing cairo library])])
+  AC_SUBST(CAIRO_CFLAGS)
+  AC_SUBST(CAIRO_LIBS)
+  CXXFLAGS="$CXXFLAGS -DUSE_RENDER_CAIRO"
   ;;
 *)
   AC_MSG_ERROR([*** Unknown render "$USE_RENDER"])
@@ -120,6 +129,7 @@ AC_OUTPUT([
   src/xml/expat/Makefile
   src/Makefile
   src/agg/Makefile
+  src/cairo/Makefile
   src/libart/Makefile
   src/freetype/Makefile
   svgview/Makefile

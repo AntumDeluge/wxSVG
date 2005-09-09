@@ -2,9 +2,14 @@ if USE_RENDER_AGG
 RENDER_DIR = agg
 RENDER_LIB = agg/libwxsvg_agg.la
 else
+if USE_RENDER_CAIRO
+RENDER_DIR = cairo
+RENDER_LIB = cairo/libwxsvg_cairo.la
+else
 RENDER_DIR = libart
 RENDER_LIB = libart/libwxsvg_libart.la
 RENDER_CFLAGS = $(LIBART_CFLAGS)
+endif
 endif
 
 SUBDIRS = xml freetype $(RENDER_DIR)
