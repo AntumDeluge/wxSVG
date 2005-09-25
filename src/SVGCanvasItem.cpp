@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.6 2005-06-17 13:24:50 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.7 2005-09-25 11:44:02 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -570,14 +570,19 @@ void wxSVGCanvasText::InitChildren(wxSVGTextPositioningElement& element,
 }
 
 //////////////////////////////////////////////////////////////////////////////
-/////////////////////////////// wxSVGCanvasText //////////////////////////////
+////////////////////////////// wxSVGCanvasImage //////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 void wxSVGCanvasImage::Init(wxSVGImageElement& element)
 {
-  m_x = element.GetX().GetBaseVal();
-  m_y = element.GetY().GetBaseVal();
+  m_x = element.GetX().GetAnimVal();
+  m_y = element.GetY().GetAnimVal();
   m_width = element.GetWidth().GetBaseVal();
   m_height = element.GetHeight().GetBaseVal();
-  m_image.LoadFile(element.GetHref());
+  m_href = element.GetHref();
+  wxSVGCanvasImage* prevItem = (wxSVGCanvasImage*) element.GetCanvasItem();
+  if (prevItem != NULL && prevItem->m_href == m_href)
+    m_image = prevItem->m_image;
+  else
+    m_image.LoadFile(m_href);
 }
