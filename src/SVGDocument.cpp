@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.14 2005-08-07 07:29:49 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.15 2005-09-25 11:45:53 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -31,6 +31,7 @@ wxSVGDocument::~wxSVGDocument()
 void wxSVGDocument::Init()
 {
   m_canvas = new WX_SVG_CANVAS;
+  m_scale = 1;
 }
 
 wxXmlElement* wxSVGDocument::CreateElement(const wxString& tagName)
@@ -173,6 +174,23 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
       wxSVGUseElement* element = (wxSVGUseElement*) elem;
 	  element->UpdateMatrix(matrix);
 	  style.Add(element->GetStyle());
+      // test if visible
+      wxSVGPoint point(element->GetX().GetAnimVal(), element->GetY().GetAnimVal());
+      point = point.MatrixTransform(matrix);
+      if (point.GetX() > doc->GetCanvas()->GetWidth() ||
+          point.GetY() > doc->GetCanvas()->GetHeight())
+        break;
+      if (element->GetWidth().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN &&
+          element->GetHeight().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+      {
+        wxSVGPoint point(
+          element->GetX().GetAnimVal() + element->GetWidth().GetAnimVal(),
+          element->GetY().GetAnimVal() + element->GetHeight().GetAnimVal());
+        point = point.MatrixTransform(matrix);
+        if (point.GetX()<0 || point.GetY()<0)
+          break;
+      }
+      // get ref element 
 	  wxString href = element->GetHref();
 	  if (href.length() == 0 || href[0] != wxT('#'))
 	    break;
@@ -180,6 +198,8 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
       wxSVGElement* refElem = doc->GetElementById(href);
       if (!refElem)
         break;
+      
+      // create shadow tree
       wxSVGGElement* gElem = new wxSVGGElement(doc);
       gElem->SetOwnerSVGElement(ownerSVGElement);
       gElem->SetViewportElement(viewportElement);
@@ -210,7 +230,9 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
       }
       else
         gElem->AddChild(refElem->CloneNode());
+      // render
       RenderElement(doc, gElem, &matrix, &style, ownerSVGElement, viewportElement);
+      // delete shadow tree
       delete gElem;
       break;
     }
@@ -233,20 +255,24 @@ void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent,
   }
 }
 
-wxImage wxSVGDocument::Render(int width, int height)
+wxImage wxSVGDocument::Render(int width, int height, const wxRect* rect)
 {
   if (!GetRootElement())
 	return wxImage();
   
   wxSVGMatrix matrix;
   
+  // render only rect if specified
+  if (rect)
+    matrix = matrix.Translate(-rect->x, -rect->y);
+  
   if (GetRootElement()->GetWidth().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN ||
       GetRootElement()->GetHeight().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
   {
     wxSVGRect bbox = GetRootElement()->GetBBox();
-    GetRootElement()->SetWidth(wxSVGLength(bbox.GetWidth()));
-    GetRootElement()->SetHeight(wxSVGLength(bbox.GetHeight()));
-	matrix = matrix.Scale(0.95).Translate(width*0.025, height*0.025);
+    GetRootElement()->SetWidth(wxSVGLength(bbox.GetWidth()*0.95));
+    GetRootElement()->SetHeight(wxSVGLength(bbox.GetHeight()*0.95));
+	matrix = matrix.Translate(width*0.025, height*0.025);
   }
   
   if (width == -1 || height == -1)
@@ -279,14 +305,26 @@ wxImage wxSVGDocument::Render(int width, int height)
   }
   
   // scale it to fit in
+  m_scale = 1;
   if (GetRootElement()->GetWidth().GetAnimVal()>0 &&
       GetRootElement()->GetHeight().GetAnimVal()>0)
   {
-    double scale = 1;
-	scale = width/GetRootElement()->GetWidth().GetAnimVal();
-	if (scale > height/GetRootElement()->GetHeight().GetAnimVal())
-	  scale = height/GetRootElement()->GetHeight().GetAnimVal();
-    matrix = matrix.Scale(scale);
+	m_scale = width/GetRootElement()->GetWidth().GetAnimVal();
+	if (m_scale > height/GetRootElement()->GetHeight().GetAnimVal())
+	  m_scale = height/GetRootElement()->GetHeight().GetAnimVal();
+    matrix = matrix.Scale(m_scale);
+    
+    width = (int)(m_scale*GetRootElement()->GetWidth().GetAnimVal());
+    height = (int)(m_scale*GetRootElement()->GetHeight().GetAnimVal());
+  }
+  
+  // render only rect if specified
+  if (rect)
+  {
+    if (rect->width < width)
+      width = rect->width;
+    if (rect->height < height)
+      height = rect->height;
   }
   
   // render

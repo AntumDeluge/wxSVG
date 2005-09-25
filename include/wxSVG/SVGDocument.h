@@ -45,6 +45,7 @@ class wxSVGDocument:
   protected:
 	wxSVGCanvas* m_canvas;
 
+    double m_scale;
   public:
     wxSVGDocument() { Init(); }
 	wxSVGDocument(const wxString& filename, const wxString& encoding = wxT("UTF-8")):
@@ -55,6 +56,7 @@ class wxSVGDocument:
 	
 	void Init();
 	inline wxSVGCanvas* GetCanvas() { return m_canvas; }
+    inline double GetScale() { return m_scale; }
 	
 	wxXmlElement* CreateElement(const wxString& tagName);
 	wxXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
@@ -64,7 +66,7 @@ class wxSVGDocument:
     
     wxSVGElement* GetElementById(const wxString& id);
 	
-	wxImage Render(int width = -1, int height = -1);
+	wxImage Render(int width = -1, int height = -1, const wxRect* rect = NULL);
 };
 
 #endif // WX_SVG_DOCUMENT_H
