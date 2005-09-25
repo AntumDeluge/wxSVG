@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/02
-// RCS-ID:      $Id: SVGCanvas.h,v 1.4 2005-08-06 19:24:22 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.h,v 1.5 2005-09-25 11:42:39 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,6 +20,8 @@ class wxSVGCanvas: public wxObject
 	virtual ~wxSVGCanvas() {}
 	
 	virtual void Init(int width, int height) = 0;
+    virtual int GetWidth() = 0;
+    virtual int GetHeight() = 0;
     virtual wxImage GetImage() = 0;
 	virtual void Clear(wxRGBColor color = wxRGBColor(0xFF,0xFF,0xFF)) = 0;
 	
