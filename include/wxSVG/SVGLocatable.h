@@ -37,7 +37,8 @@ class wxSVGLocatable
     wxSVGLocatable(): m_nearestViewportElement(NULL), m_farthestViewportElement(NULL) {}
     virtual ~wxSVGLocatable() {}
     virtual wxSVGRect GetBBox() { return wxSVGRect(); }
-    static wxSVGRect GetBBox(wxSVGElement* parent);
+    static wxSVGRect GetElementBBox(const wxSVGElement& element);
+    static wxSVGRect GetChildrenBBox(const wxSVGElement& element);
     virtual wxSVGMatrix GetCTM();
     virtual wxSVGMatrix GetTransformToElement(const wxSVGElement& element);
 };

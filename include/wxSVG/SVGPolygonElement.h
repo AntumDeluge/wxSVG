@@ -42,6 +42,7 @@ class wxSVGPolygonElement:
   public:
     wxSVGPolygonElement(wxSVGDocument* doc, wxString tagName = wxT("polygon")):
       wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGPolygonElement(wxSVGPolygonElement& src);
     virtual ~wxSVGPolygonElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPolygonElement(*this); }
     wxSVGRect GetBBox();

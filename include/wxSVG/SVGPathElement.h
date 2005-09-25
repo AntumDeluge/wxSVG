@@ -70,6 +70,7 @@ class wxSVGPathElement:
   public:
     wxSVGPathElement(wxSVGDocument* doc, wxString tagName = wxT("path")):
       wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGPathElement(wxSVGPathElement& src);
     virtual ~wxSVGPathElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPathElement(*this); }
     wxSVGRect GetBBox();

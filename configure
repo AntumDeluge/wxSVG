@@ -21324,7 +21324,6 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
-
 case "$USE_DEBUG" in
 yes)
   DEBUG_FLAGS="-g -Wall -DDEBUG"
@@ -22322,7 +22321,7 @@ LIBS="$LIBS $WX_LIBS "
 
 
 
-                                                                                          ac_config_files="$ac_config_files Makefile src/xml/Makefile src/xml/expat/Makefile src/Makefile src/agg/Makefile src/cairo/Makefile src/libart/Makefile src/freetype/Makefile svgview/Makefile"
+                                                                                                                        ac_config_files="$ac_config_files Makefile include/Makefile include/wxXML/Makefile include/wxSVG/Makefile src/xml/Makefile src/xml/expat/Makefile src/Makefile src/agg/Makefile src/cairo/Makefile src/libart/Makefile src/freetype/Makefile svgview/Makefile"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -22913,6 +22912,9 @@ do
   case "$ac_config_target" in
   # Handling of arguments.
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+  "include/Makefile" ) CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
+  "include/wxXML/Makefile" ) CONFIG_FILES="$CONFIG_FILES include/wxXML/Makefile" ;;
+  "include/wxSVG/Makefile" ) CONFIG_FILES="$CONFIG_FILES include/wxSVG/Makefile" ;;
   "src/xml/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/xml/Makefile" ;;
   "src/xml/expat/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/xml/expat/Makefile" ;;
   "src/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;

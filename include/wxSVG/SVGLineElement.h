@@ -64,6 +64,7 @@ class wxSVGLineElement:
   public:
     wxSVGLineElement(wxSVGDocument* doc, wxString tagName = wxT("line")):
       wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGLineElement(wxSVGLineElement& src);
     virtual ~wxSVGLineElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGLineElement(*this); }
     wxSVGRect GetBBox();

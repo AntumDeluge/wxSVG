@@ -59,6 +59,7 @@ class wxSVGCircleElement:
   public:
     wxSVGCircleElement(wxSVGDocument* doc, wxString tagName = wxT("circle")):
       wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGCircleElement(wxSVGCircleElement& src);
     virtual ~wxSVGCircleElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGCircleElement(*this); }
     wxSVGRect GetBBox();

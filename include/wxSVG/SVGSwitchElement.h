@@ -32,7 +32,7 @@ class wxSVGSwitchElement:
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGSwitchElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGSwitchElement(*this); }
-    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }
+    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetChildrenBBox(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_SWITCH_ELEMENT; }
 };

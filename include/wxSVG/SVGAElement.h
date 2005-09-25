@@ -43,7 +43,7 @@ class wxSVGAElement:
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGAElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGAElement(*this); }
-    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }
+    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetChildrenBBox(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_A_ELEMENT; }
 };

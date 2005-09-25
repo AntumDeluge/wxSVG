@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.11 2005-07-28 20:10:44 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.12 2005-09-25 11:49:32 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -19,6 +19,7 @@ class interface:
         self.include_includes = []
         self.include_fwd_decls = []
         self.user_defined_constructor=0
+        self.copy_constructor=0
         self.user_defined_destructor=0
 
 interfaces={}
@@ -29,17 +30,21 @@ interfaces["SVGElement"]=inter
 inter.include_attributes.append('''
   protected:
     wxSVGDocument* m_doc;
-	
+    
   public:
-	wxSVGElement(wxSVGDocument* doc, wxString tagName = wxT("")):
-	  wxXmlElement(wxXML_ELEMENT_NODE, tagName),
+    wxSVGElement(wxSVGDocument* doc, wxString tagName = wxT("")):
+      wxXmlElement(wxXML_ELEMENT_NODE, tagName),
       m_ownerSVGElement(NULL), m_viewportElement(NULL) { m_doc = doc; }
-	virtual ~wxSVGElement() {}
-	
-	virtual const wxSVGDTD GetDtd() const = 0;
-	virtual void AddProperty(const wxString& name, const wxString& value)
-	  { SetAttribute(name, value); }
+    virtual ~wxSVGElement() {}
+    
+    virtual const wxSVGDTD GetDtd() const = 0;
+    virtual void AddProperty(const wxString& name, const wxString& value)
+      { SetAttribute(name, value); }
 ''')
+# , m_dirty(true)
+#    bool m_dirty;
+#    inline bool IsDirty() { return m_dirty; }
+#    inline void SetDirty(bool dirty = true) { m_dirty = dirty; }
 inter.include_fwd_decls=["SVGSVGElement", "SVGDocument"]
 inter.include_includes=["SVGDTD"]
 inter.user_defined_constructor=1
@@ -50,7 +55,8 @@ inter = interface()
 interfaces["SVGLocatable"]=inter
 inter.include_get_set_attributes = [["wxSVGMatrix", "screenCTM", False, False]]
 inter.include_methods.append('    virtual wxSVGRect GetBBox() { return wxSVGRect(); }\n')
-inter.include_methods.append('    static wxSVGRect GetBBox(wxSVGElement* parent);\n')
+inter.include_methods.append('    static wxSVGRect GetElementBBox(const wxSVGElement& element);\n')
+inter.include_methods.append('    static wxSVGRect GetChildrenBBox(const wxSVGElement& element);\n')
 inter.exclude_methods = ["GetBBox"]
 
 # SVGTransformable
@@ -197,8 +203,36 @@ inter.user_defined_destructor=1
 # SVGRect
 inter = interface()
 interfaces["SVGRect"]=inter
-inter.include_methods.append('    wxSVGRect(): m_x(0), m_y(0), m_width(0), m_height(0) {}\n')
-inter.include_methods.append('    wxSVGRect(double x, double y, double width, double height):\n      m_x(x), m_y(y), m_width(width), m_height(height) {}\n')
+
+inter.exclude_attributes = ['x', 'y', 'width', 'height']
+inter.include_attributes.append('''
+  protected:
+    double m_x;
+    double m_y;
+    double m_width;
+    double m_height;
+    bool m_empty;\n
+''')
+inter.include_methods.append('''\
+    inline double GetX() const { return m_x; }
+    inline void SetX(double n) { m_x = n; m_empty = false; }
+
+    inline double GetY() const { return m_y; }
+    inline void SetY(double n) { m_y = n; m_empty = false; }
+
+    inline double GetWidth() const { return m_width; }
+    inline void SetWidth(double n) { m_width = n; m_empty = false; }
+
+    inline double GetHeight() const { return m_height; }
+    inline void SetHeight(double n) { m_height = n; m_empty = false; }
+    
+    inline bool IsEmpty() { return m_empty; }
+    
+  public:
+    wxSVGRect(): m_x(0), m_y(0), m_width(0), m_height(0), m_empty(true) {}
+    wxSVGRect(double x, double y, double width, double height):
+      m_x(x), m_y(y), m_width(width), m_height(height), m_empty(false) {}
+''')
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
@@ -229,11 +263,16 @@ inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
 ## container elements
-for name in ["SVGSVGElement", "SVGGElement", "SVGDefsElement", "SVGUseElement",
+for name in ["SVGSVGElement", "SVGGElement", "SVGDefsElement",
 "SVGAElement", "SVGSwitchElement", "SVGForeignObjectElement"]:
   inter = interface()
   interfaces[name]=inter
-  inter.include_methods.append('    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }\n')
+  inter.include_methods.append('    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetChildrenBBox(*this); }\n')
+
+## SVGUseElement
+inter = interface()
+interfaces["SVGUseElement"]=inter
+inter.include_methods.append('    virtual wxSVGRect GetBBox();\n')
 
 ## visible elements
 for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
@@ -241,6 +280,7 @@ for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
 "SVGTextElement", "SVGImageElement"]: ##, "SVGClipPathElement"]:
   inter = interface()
   interfaces[name]=inter
+  inter.copy_constructor=1
   inter.include_attributes.append('''
   protected:
 	wxSVGCanvasItem* m_canvasItem;
@@ -252,6 +292,17 @@ for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
   inter.include_methods.append('    wxSVGRect GetBBox();\n')
   inter.include_fwd_decls = ["SVGCanvasItem"]
 
+# SVGImageElement
+inter = interfaces["SVGImageElement"]
+inter.include_methods.append('    int GetDefaultWidth();\n')
+inter.include_methods.append('    int GetDefaultHeight();\n')
+inter.include_methods.append('    void SetDefaultSize();\n')
+
+# SVGTextPositioningElement
+inter = interface()
+interfaces["SVGTextPositioningElement"]=inter
+inter.include_methods.append('    inline void SetX(const wxSVGLength& n) { wxSVGLengthList list; list.Add(n); SetX(list); }\n')
+inter.include_methods.append('    inline void SetY(const wxSVGLength& n) { wxSVGLengthList list; list.Add(n); SetY(list); }\n')
 
 # SVGDocument
 inter = interface()
@@ -261,6 +312,7 @@ inter.exclude_attributes = ["rootElement"]
 inter.include_attributes.append('''
   protected:
 	wxSVGCanvas* m_canvas;\n
+    double m_scale;
 ''')
 inter.include_methods.append('''    wxSVGDocument() { Init(); }
 	wxSVGDocument(const wxString& filename, const wxString& encoding = wxT("UTF-8")):
@@ -271,6 +323,7 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
 	
 	void Init();
 	inline wxSVGCanvas* GetCanvas() { return m_canvas; }
+    inline double GetScale() { return m_scale; }
 	
 	wxXmlElement* CreateElement(const wxString& tagName);
 	wxXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
@@ -280,7 +333,7 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     
     wxSVGElement* GetElementById(const wxString& id);
 	
-	wxImage Render(int width = -1, int height = -1);
+	wxImage Render(int width = -1, int height = -1, const wxRect* rect = NULL);
 ''')
 inter.include_fwd_decls = ["SVGSVGElement","SVGElement","SVGCanvas"]
 inter.include_includes = ["<wx/image.h>"]

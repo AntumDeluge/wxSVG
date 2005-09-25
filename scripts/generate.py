@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.10 2005-06-20 13:27:47 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.11 2005-09-25 11:49:32 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -24,6 +24,7 @@
 import parse_idl
 import cpp
 import cppHeader
+import cppImpl
 import enum_map
 import string
 import mapDtdIdl
@@ -37,6 +38,8 @@ import os
 
 used_lists = []
 used_animated = []
+copy_constructor_impl = ''
+copy_constructor_includes = []
 
 def find_dtd_attr_in_inherit(classdecl):
     if len(classdecl.attributes):
@@ -85,6 +88,7 @@ if len(parse_idl.class_decls):
 
         # inheritance
         output = output + "class %s"%(cpp.fix_typename(classname))
+        copy_constr_init = ''
         if len(classdecl.inherits):
             first = 1
             for inherit in classdecl.inherits:
@@ -93,10 +97,13 @@ if len(parse_idl.class_decls):
                     inherit = inherit[pos+2:]
                 if first:
                     output = output + ':\n'
+                    copy_constr_init = copy_constr_init + ':\n'
                     first = 0
                 else:
                     output = output + ',\n'
+                    copy_constr_init = copy_constr_init + ',\n' 
                 output = output + '  public %s'%(cpp.fix_typename(inherit))
+                copy_constr_init = copy_constr_init + '  %s(src)'%(cpp.fix_typename(inherit))
                 includes.append(inherit)
         output = output + '\n{\n'
         
@@ -195,7 +202,7 @@ if len(parse_idl.class_decls):
             # fields
             for (typestr, attrname, ispointer, isenum) in attributes:
                 attrname = cpp.make_attr_name(attrname)
-                protected = protected +'    '+typestr+' ' + attrname + ';\n'
+                protected = protected +'    ' + typestr + ' ' + attrname + ';\n'
             
             # get/set methods
             for (typestr, attrname, ispointer, isenum) in attributes:
@@ -250,12 +257,16 @@ if len(parse_idl.class_decls):
                 if typestr not in cpp.builtin_types and ispointer==0:
                     param_type = 'const ' + param_type + '&'
                 
-                public = public + '    inline void %s(%s n) { %s = n; }\n'%(methodName,param_type,attrname_cpp)
+                dirty = ''
+                #if classname[-7:] == "Element" and classname != "SVGElement":
+                #    dirty = ' SetDirty();'
+                
+                public = public + '    inline void %s(%s n) { %s = n;%s }\n'%(methodName,param_type,attrname_cpp,dirty)
                 if animated:
                     param_type = genAnimated.getBaseType(typestrBase)
                     if param_type not in cpp.builtin_types and ispointer==0:
                         param_type = 'const ' + param_type + '&'
-                    public = public + '    inline void %s(%s n) { %s.SetBaseVal(n); }\n'%(methodName,param_type,attrname_cpp)
+                    public = public + '    inline void %s(%s n) { %s.SetBaseVal(n);%s }\n'%(methodName,param_type,attrname_cpp,dirty)
                 public = public + '\n'
     
         try:
@@ -332,6 +343,27 @@ if len(parse_idl.class_decls):
                 methods_str = methods_str + '    %s():\n      wxSVGPathSeg(%s)%s {}\n'%(cname, seg_type, init_attibutes)
             elif len(init_attibutes)>0:
                 methods_str = methods_str + '    %s(): %s {}\n'%(cname, init_attibutes[2:])
+        
+        copy_constructor = 0
+        try:
+            copy_constructor=interfaces.interfaces[classname].copy_constructor
+        except KeyError:
+            pass
+        if copy_constructor==1:
+            methods_str = methods_str + '    %s(%s& src);\n'%(cname, cname)
+            if classname not in copy_constructor_includes:
+                copy_constructor_includes.append(classname)
+            attr_init = ''
+            for (typestr, attrname, ispointer, isenum) in attributes:
+                attrname=cpp.make_attr_name(attrname)
+                attr_init = attr_init + "\n  %s = src.%s;"%(attrname,attrname)
+            copy_constructor_impl = copy_constructor_impl + '''
+// %s
+%s::%s(%s& src)%s
+{%s
+  m_canvasItem = NULL;
+}
+'''%(cname, cname, cname, cname, copy_constr_init, attr_init)
         
         ################# destructor #######################
         has_destructor = 0
@@ -498,6 +530,7 @@ if len(parse_idl.class_decls):
         header.add_content(fwd_decl_str + includestr + output)
         header.dump(path=config.include_dir)
         
+        
         ############## write cpp files (disabled) ############################
         if cpp_output != '' and string.find(classname, "List") < 0:
             cpp_output = '''
@@ -506,7 +539,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.10 2005-06-20 13:27:47 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.11 2005-09-25 11:49:32 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -515,6 +548,14 @@ if len(parse_idl.class_decls):
 '''%(classname,classname) + cpp_output
             #f = genFile.gfopen(os.path.join(config.src_dir, "%s.cpp"%classname),'w')
             #f.write(cpp_output)
+
+###################### Generate copy constructor  ############################
+includes = ''
+for include in copy_constructor_includes:
+    includes = includes + '#include "%s.h"\n'%include  
+impl = cppImpl.Impl("Elements_CopyConstructors", "generate.py")
+impl.add_content(includes + copy_constructor_impl)
+impl.dump(path=config.src_dir)
 
 ###################### Generate animated, lists, setattribute, ... ##########
 for i in used_animated:

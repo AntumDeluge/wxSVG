@@ -42,16 +42,16 @@ class wxSVGElement:
 
   protected:
     wxSVGDocument* m_doc;
-	
+    
   public:
-	wxSVGElement(wxSVGDocument* doc, wxString tagName = wxT("")):
-	  wxXmlElement(wxXML_ELEMENT_NODE, tagName),
+    wxSVGElement(wxSVGDocument* doc, wxString tagName = wxT("")):
+      wxXmlElement(wxXML_ELEMENT_NODE, tagName),
       m_ownerSVGElement(NULL), m_viewportElement(NULL) { m_doc = doc; }
-	virtual ~wxSVGElement() {}
-	
-	virtual const wxSVGDTD GetDtd() const = 0;
-	virtual void AddProperty(const wxString& name, const wxString& value)
-	  { SetAttribute(name, value); }
+    virtual ~wxSVGElement() {}
+    
+    virtual const wxSVGDTD GetDtd() const = 0;
+    virtual void AddProperty(const wxString& name, const wxString& value)
+      { SetAttribute(name, value); }
   public:
     bool SetAttribute(const wxString& name, const wxString& value);
 };

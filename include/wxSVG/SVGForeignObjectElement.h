@@ -57,7 +57,7 @@ class wxSVGForeignObjectElement:
       wxSVGElement(doc, tagName) {}
     virtual ~wxSVGForeignObjectElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGForeignObjectElement(*this); }
-    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }
+    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetChildrenBBox(*this); }
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FOREIGNOBJECT_ELEMENT; }
 };

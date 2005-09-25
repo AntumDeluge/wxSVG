@@ -30,6 +30,7 @@ class wxSVGTextElement:
   public:
     wxSVGTextElement(wxSVGDocument* doc, wxString tagName = wxT("text")):
       wxSVGTextPositioningElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGTextElement(wxSVGTextElement& src);
     virtual ~wxSVGTextElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTextElement(*this); }
     wxSVGRect GetBBox();

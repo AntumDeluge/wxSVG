@@ -42,6 +42,7 @@ class wxSVGPolylineElement:
   public:
     wxSVGPolylineElement(wxSVGDocument* doc, wxString tagName = wxT("polyline")):
       wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGPolylineElement(wxSVGPolylineElement& src);
     virtual ~wxSVGPolylineElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPolylineElement(*this); }
     wxSVGRect GetBBox();

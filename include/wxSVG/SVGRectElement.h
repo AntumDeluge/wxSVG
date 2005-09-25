@@ -74,6 +74,7 @@ class wxSVGRectElement:
   public:
     wxSVGRectElement(wxSVGDocument* doc, wxString tagName = wxT("rect")):
       wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGRectElement(wxSVGRectElement& src);
     virtual ~wxSVGRectElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGRectElement(*this); }
     wxSVGRect GetBBox();

@@ -117,7 +117,7 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-SUBDIRS = src svgview
+SUBDIRS = src svgview include
 
 ACLOCAL_AMFLAGS = -I.
 subdir = .

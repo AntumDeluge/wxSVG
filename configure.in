@@ -36,7 +36,6 @@ AC_PROG_LIBTOOL
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_CXXCPP
-AC_PROG_LIBTOOL
 
 dnl debug flags
 case "$USE_DEBUG" in
@@ -125,6 +124,9 @@ AC_SUBST(WX_CONFIG_NAME)
 dnl create Makefiles
 AC_OUTPUT([
   Makefile
+  include/Makefile
+  include/wxXML/Makefile
+  include/wxSVG/Makefile
   src/xml/Makefile
   src/xml/expat/Makefile
   src/Makefile
