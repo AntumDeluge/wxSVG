@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.3 2005-07-30 12:09:04 etisserant Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.4 2005-09-25 11:31:25 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -17,18 +17,35 @@ BEGIN_EVENT_TABLE(wxSVGCtrl, wxControl)
   EVT_ERASE_BACKGROUND(wxSVGCtrl::OnEraseBackground)
 END_EVENT_TABLE()
 
+DEFINE_EVENT_TYPE(EVT_COMMAND_SVGCTRL_CHANGED)
+
 wxSVGCtrl::wxSVGCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos,
  const wxSize& size, long style, const wxValidator& validator, const wxString& name):
   wxControl(parent, id, pos, size, style, validator, name)
 {
   m_doc = NULL;
   m_docDelete = false;
+  m_repaint = false;
+}
+
+wxSVGCtrl::~wxSVGCtrl()
+{
+  Clear();
+}
+
+void wxSVGCtrl::Clear()
+{
+  if (m_doc && m_docDelete)
+  {
+    delete m_doc;
+    m_doc = NULL;
+    m_docDelete = false;
+  }
 }
 
 void wxSVGCtrl::SetSVG(wxSVGDocument* doc)
 {
-  if (m_doc && m_docDelete)
-    delete m_doc;
+  Clear();
   m_doc = doc;
 }
 
@@ -47,24 +64,68 @@ bool wxSVGCtrl::Load(const wxString& filename)
   return true;
 }
 
-void wxSVGCtrl::Update()
+void wxSVGCtrl::Refresh(bool eraseBackground, const wxRect* rect)
 {
-  if (!m_doc)
-    return;
-  if (m_FitToFrame){
-	  int w, h;
-	  GetClientSize(&w, &h);
-	  m_buffer = wxBitmap(m_doc->Render(w, h));
-  } else {
-	  m_buffer = wxBitmap(m_doc->Render(-1, -1));
+  m_repaint = true;
+  if (rect && !m_repaintRect.IsEmpty())
+  {
+    int x2 = wxMax(m_repaintRect.x+m_repaintRect.width, rect->x+rect->width);
+    int y2 = wxMax(m_repaintRect.y+m_repaintRect.height, rect->y+rect->height);
+    m_repaintRect.x = wxMin(m_repaintRect.x, rect->x);
+    m_repaintRect.y = wxMin(m_repaintRect.y, rect->y);
+    m_repaintRect.width = x2 - m_repaintRect.x;
+    m_repaintRect.height = y2 - m_repaintRect.y;
   }
-  Refresh();
+  else
+    m_repaintRect = rect ? *rect : wxRect();
+  
+  wxControl::Refresh(false, rect);
+}
+
+void wxSVGCtrl::SendChangedEvent()
+{
+  wxCommandEvent evt(EVT_COMMAND_SVGCTRL_CHANGED, this->GetId());
+  GetEventHandler()->ProcessEvent(evt);
 }
 
 void wxSVGCtrl::OnPaint(wxPaintEvent& event)
 {
-  if (!m_buffer.Ok())
+  if (!m_doc)
     return;
+  
+  if (m_repaint)
+  {
+    int w = -1, h = -1;
+    if (m_FitToFrame)
+      GetClientSize(&w, &h);
+    
+    //wxDateTime time = wxDateTime::UNow();
+    
+    if (!m_repaintRect.IsEmpty() &&
+        (m_repaintRect.width < 2*m_buffer.GetWidth()/3 ||
+         m_repaintRect.height < 2*m_buffer.GetHeight()/3))
+    {
+      m_repaintRect.x = wxMax(m_repaintRect.x, 0);
+      m_repaintRect.y = wxMax(m_repaintRect.y, 0);
+      wxBitmap bitmap = m_doc->Render(w, h, &m_repaintRect);
+      wxMemoryDC dc;
+      dc.SelectObject(m_buffer);
+      dc.DrawBitmap(bitmap, m_repaintRect.x, m_repaintRect.y);
+      m_repaintRect = wxRect();
+    }
+    else
+      m_buffer = wxBitmap(m_doc->Render(w, h));
+    
+    //wxLogError(wxDateTime::UNow().Subtract(time).Format(wxT("draw buffer %l ms")));
+  }
+  
   wxPaintDC dc(this);
   dc.DrawBitmap(m_buffer, 0, 0);
+}
+
+double wxSVGCtrl::GetScale() const
+{
+  if (m_doc)
+    return m_doc->GetScale();
+  return 1;
 }
