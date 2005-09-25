@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.5 2005-06-05 19:11:03 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.6 2005-09-25 11:47:18 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -98,9 +98,12 @@ class wxSVGCanvasImage: public wxSVGCanvasItem
 	virtual ~wxSVGCanvasImage() {}
 	virtual void Init(wxSVGImageElement& element);
 	wxSVGRect GetBBox() { return wxSVGRect(); }
+    inline int GetDefaultWidth() { return m_image.GetWidth(); }
+    inline int GetDefaultHeight() { return m_image.GetHeight(); }
   
   public:
 	double m_x, m_y, m_width, m_height;
+    wxString m_href;
 	wxImage m_image;
 };
 
