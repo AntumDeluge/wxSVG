@@ -70,7 +70,7 @@ class wxSVGUseElement:
       wxSVGElement(doc, tagName), m_instanceRoot(NULL), m_animatedInstanceRoot(NULL) {}
     virtual ~wxSVGUseElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGUseElement(*this); }
-    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }
+    virtual wxSVGRect GetBBox();
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_USE_ELEMENT; }
 };
