@@ -122,7 +122,6 @@ install_sh = @install_sh@
 @USE_RENDER_AGG_TRUE@RENDER_LIB = agg/libwxsvg_agg.la
 @USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_TRUE@RENDER_LIB = cairo/libwxsvg_cairo.la
 @USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_FALSE@RENDER_LIB = libart/libwxsvg_libart.la
-@USE_RENDER_AGG_FALSE@@USE_RENDER_CAIRO_FALSE@RENDER_CFLAGS = $(LIBART_CFLAGS)
 
 SUBDIRS = xml freetype $(RENDER_DIR)
 
@@ -131,14 +130,15 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGAnimationElement.cpp SVGCircleElement.cpp SVGEllipseElement.cpp\
   SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp SVGImageElement.cpp\
   SVGLineElement.cpp SVGLocatable.cpp SVGMarkerElement.cpp SVGPathElement.cpp\
-  SVGPolylineElement.cpp SVGPolygonElement.cpp\
-  SVGRectElement.cpp SVGSVGElement.cpp SVGTextContentElement.cpp\
+  SVGPolylineElement.cpp SVGPolygonElement.cpp SVGRectElement.cpp\
+  SVGSVGElement.cpp SVGTextContentElement.cpp SVGUseElement.cpp\
   SVGAngle.cpp SVGColor.cpp GetSVGDocument.cpp SVGLength.cpp\
   SVGMatrix.cpp SVGPaint.cpp SVGPoint.cpp SVGTests.cpp SVGTransform.cpp\
   SVGStylable.cpp SVGTextElement.cpp SVGTransformable.cpp\
   SVGElementInstanceList.cpp SVGLengthList.cpp SVGNumberList.cpp\
   SVGPathSegList.cpp SVGPointList.cpp SVGStringList.cpp SVGTransformList.cpp\
-  Elements_SetAttribute.cpp CSSValue.cpp CSSStyleDeclaration.cpp\
+  Elements_CopyConstructors.cpp Elements_SetAttribute.cpp\
+  CSSValue.cpp CSSStyleDeclaration.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp
 
 
@@ -147,9 +147,7 @@ libwxsvg_la_LIBADD = xml/libwxxml.la freetype/libwxsvg_freetype.la\
 
 libwxsvg_la_LDFLAGS = -version-info 0:0:0
 
-INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG\
- $(RENDER_CFLAGS)
-
+INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG
 subdir = src
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_CLEAN_FILES =
@@ -177,12 +175,13 @@ am_libwxsvg_la_OBJECTS = SVGDocument.lo svgctrl.lo \
 	SVGImageElement.lo SVGLineElement.lo SVGLocatable.lo \
 	SVGMarkerElement.lo SVGPathElement.lo SVGPolylineElement.lo \
 	SVGPolygonElement.lo SVGRectElement.lo SVGSVGElement.lo \
-	SVGTextContentElement.lo SVGAngle.lo SVGColor.lo \
-	GetSVGDocument.lo SVGLength.lo SVGMatrix.lo SVGPaint.lo \
-	SVGPoint.lo SVGTests.lo SVGTransform.lo SVGStylable.lo \
-	SVGTextElement.lo SVGTransformable.lo SVGElementInstanceList.lo \
-	SVGLengthList.lo SVGNumberList.lo SVGPathSegList.lo \
-	SVGPointList.lo SVGStringList.lo SVGTransformList.lo \
+	SVGTextContentElement.lo SVGUseElement.lo SVGAngle.lo \
+	SVGColor.lo GetSVGDocument.lo SVGLength.lo SVGMatrix.lo \
+	SVGPaint.lo SVGPoint.lo SVGTests.lo SVGTransform.lo \
+	SVGStylable.lo SVGTextElement.lo SVGTransformable.lo \
+	SVGElementInstanceList.lo SVGLengthList.lo SVGNumberList.lo \
+	SVGPathSegList.lo SVGPointList.lo SVGStringList.lo \
+	SVGTransformList.lo Elements_CopyConstructors.lo \
 	Elements_SetAttribute.lo CSSValue.lo CSSStyleDeclaration.lo \
 	SVGCanvas.lo SVGCanvasItem.lo NodeList.lo
 libwxsvg_la_OBJECTS = $(am_libwxsvg_la_OBJECTS)
@@ -195,6 +194,7 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/CSSStyleDeclaration.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/CSSValue.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/Elements_CopyConstructors.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/Elements_SetAttribute.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/GetSVGDocument.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NodeList.Plo ./$(DEPDIR)/SVGAngle.Plo \
@@ -233,6 +233,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SVGTransform.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGTransformList.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGTransformable.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SVGUseElement.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/svgctrl.Plo
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -300,6 +301,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CSSStyleDeclaration.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CSSValue.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Elements_CopyConstructors.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Elements_SetAttribute.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GetSVGDocument.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NodeList.Plo@am__quote@
@@ -339,6 +341,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGTransform.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGTransformList.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGTransformable.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGUseElement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/svgctrl.Plo@am__quote@
 
 distclean-depend:
