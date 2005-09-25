@@ -120,7 +120,7 @@ class wxSVGSVGElement:
       wxSVGElement(doc, tagName), m_pixelUnitToMillimeterX(0), m_pixelUnitToMillimeterY(0), m_screenPixelToMillimeterX(0), m_screenPixelToMillimeterY(0), m_useCurrentView(0), m_currentScale(0) {}
     virtual ~wxSVGSVGElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGSVGElement(*this); }
-    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetBBox(this); }
+    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetChildrenBBox(*this); }
     virtual unsigned long SuspendRedraw(unsigned long max_wait_milliseconds);
     virtual void UnsuspendRedraw(unsigned long suspend_handle_id);
     virtual void UnsuspendRedrawAll();
