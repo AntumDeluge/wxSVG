@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.1 2005-08-06 19:25:51 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.2 2005-09-25 11:32:37 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -24,6 +24,8 @@ class wxSVGCanvasCairo: public wxSVGCanvas
 	virtual ~wxSVGCanvasCairo();
 	
 	void Init(int width, int height);
+    int GetWidth();
+    int GetHeight();
     wxImage GetImage();
 	void Clear(wxRGBColor color = wxRGBColor(0xFF,0xFF,0xFF));
 	

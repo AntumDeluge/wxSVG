@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.1 2005-08-06 19:25:51 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.2 2005-09-25 11:32:37 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -32,11 +32,21 @@ void wxSVGCanvasCairo::Init(int width, int height)
   m_cr = cairo_create(m_surface);
 }
 
+int wxSVGCanvasCairo::GetWidth()
+{
+  return cairo_image_surface_get_width(m_surface);
+}
+
+int wxSVGCanvasCairo::GetHeight()
+{
+  return cairo_image_surface_get_height(m_surface);
+}
+
 wxImage wxSVGCanvasCairo::GetImage()
 {
   wxImage img;
-  int width = cairo_image_surface_get_width(m_surface);
-  int height = cairo_image_surface_get_height(m_surface);
+  int width = GetWidth();
+  int height = GetHeight();
   img.Create(width, height);
   unsigned char* src = m_data;
   unsigned char* dst = img.GetData();
@@ -55,8 +65,7 @@ void wxSVGCanvasCairo::Clear(wxRGBColor color)
   if (!m_cr || !m_surface)
     return;
   cairo_set_source_rgb(m_cr, color.Red()/255.0, color.Green()/255.0, color.Blue()/255.0);
-  cairo_rectangle(m_cr, 0, 0, cairo_image_surface_get_width(m_surface),
-	cairo_image_surface_get_height(m_surface));
+  cairo_rectangle(m_cr, 0, 0, GetWidth(), GetHeight());
   cairo_fill(m_cr);
 }
 
