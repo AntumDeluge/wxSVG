@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.4.2.3 2005-08-18 16:15:45 etisserant Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.4.2.4 2005-09-28 14:27:42 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -137,17 +137,18 @@ unsigned int wxSVGCanvas::GetGradientStops(const wxString& href, float overall_o
         {
         	// Search for the most referenced gradient
         	// (we assume that this is the one that contain stops)
-        	// TODO move that code to SVGCanvas
         	wxSVGElement* tmp;
         	wxSVGLinearGradientElement* reference_gradient = (wxSVGLinearGradientElement*)refElem;
         	do{
         		tmp = NULL;
         		wxString grad_href = reference_gradient->GetHref();
-        		if(	grad_href.length() != 0 && grad_href[0] == wxT('#')) 
+        		if(	grad_href.Length() > 1 && grad_href[0] == wxT('#'))
+        		{
 		        	grad_href.Remove(0,1);
         			tmp=m_document->GetElementById(grad_href);
         			if(tmp && tmp->GetDtd() == wxSVG_LINEARGRADIENT_ELEMENT)
         				reference_gradient = (wxSVGLinearGradientElement*)tmp;
+        		}
         	}while(tmp);
         	
         	//Count number of stop element
