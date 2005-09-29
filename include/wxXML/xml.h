@@ -3,7 +3,7 @@
 // Purpose:     wxXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: xml.h,v 1.5 2005-07-28 15:29:29 ntalex Exp $
+// RCS-ID:      $Id: xml.h,v 1.6 2005-09-29 09:44:50 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -93,7 +93,7 @@ class WXDLLIMPEXP_XML wxXmlNode
 {
 public:
     wxXmlNode() : m_properties(NULL), m_parent(NULL),
-                  m_children(NULL), m_next(NULL) {}
+                  m_children(NULL), m_next(NULL), m_ownerDocument(NULL) {}
     wxXmlNode(wxXmlNode* parent, wxXmlNodeType type,
               const wxString& name, const wxString& content,
               wxXmlProperty* props, wxXmlNode *next);
@@ -111,7 +111,7 @@ public:
     wxXmlNode(wxXmlNodeType type, const wxString& name,
               const wxString& content = wxEmptyString);
 	
-    void AddChild(wxXmlNode *child);
+    void AddChild(wxXmlNode* child);
 	inline wxXmlNode* AppendChild(wxXmlNode* child)
 	{ AddChild(child); return child; }
 	
@@ -129,6 +129,7 @@ public:
     wxString GetName() const { return m_name; }
     wxString GetContent() const { return m_content; }
 
+    wxXmlDocument *GetOwnerDocument() const { return m_ownerDocument; }
     wxXmlNode *GetParent() const { return m_parent; }
     wxXmlNode *GetNext() const { return m_next; }
     wxXmlNode *GetChildren() const { return m_children; }
@@ -164,6 +165,8 @@ public: // W3C DOM Methods
     virtual bool HasAttribute(const wxString& name);
     virtual bool HasAttributeNS(const wxString& namespaceURI, 
 								const wxString& localName);
+                                
+    void SetOwnerDocument(wxXmlDocument* ownerDocument);
 
 private:
     wxXmlNodeType m_type;
@@ -171,6 +174,7 @@ private:
     wxString m_content;
     wxXmlProperty *m_properties;
     wxXmlNode *m_parent, *m_children, *m_next;
+    wxXmlDocument *m_ownerDocument;
 
     void DoCopy(const wxXmlNode& node);
 };
@@ -218,7 +222,7 @@ public:
     wxString GetFileEncoding() const { return m_fileEncoding; }
 
     // Write-access methods:
-    void SetRoot(wxXmlNode *node) { delete m_root ; m_root = node; }
+    void SetRoot(wxXmlNode *node);
     void SetVersion(const wxString& version) { m_version = version; }
     void SetFileEncoding(const wxString& encoding) { m_fileEncoding = encoding; }
 
