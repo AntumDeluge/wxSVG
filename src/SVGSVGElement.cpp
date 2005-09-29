@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.3.2.1 2005-09-09 09:36:47 etisserant Exp $
+// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.3.2.2 2005-09-29 14:53:22 lbessard Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -162,7 +162,7 @@ wxSVGElement* RecurseElementId(wxSVGElement* root, const wxString& elementId)
     wxSVGElement* n = (wxSVGElement*)root->GetChildren();
     while (n)
     {
-        if (n->GetType() == wxXML_ELEMENT_NODE)
+    	if (n->GetType() == wxXML_ELEMENT_NODE)
         {
             wxSVGElement* res = RecurseElementId(n, elementId);
             if (res)

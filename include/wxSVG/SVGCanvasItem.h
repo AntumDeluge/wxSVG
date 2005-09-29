@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.5.2.1 2005-08-18 14:05:16 lbessard Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.5.2.2 2005-09-29 14:53:23 lbessard Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ class wxSVGCanvasItem
 	virtual ~wxSVGCanvasItem() {}
 	wxSVGCanvasItemType GetType() { return m_type; }
 	
-	virtual wxSVGRect GetBBox() = 0;
+	virtual wxSVGRect GetBBox(wxSVGMatrix& matrix) = 0;
 	//virtual wxSVGRect GetResultBBox() = 0;
 	
   protected:
@@ -105,7 +105,7 @@ class wxSVGCanvasImage: public wxSVGCanvasItem
 	wxSVGCanvasImage(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_IMAGE) {}
 	virtual ~wxSVGCanvasImage() {}
 	virtual void Init(wxSVGImageElement& element);
-	wxSVGRect GetBBox() { return wxSVGRect(); }
+	wxSVGRect GetBBox(wxSVGMatrix& matrix) { return wxSVGRect(); }
   
   public:
 	double m_x, m_y, m_width, m_height;

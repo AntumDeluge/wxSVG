@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGPolylineElement.cpp,v 1.2 2005-06-17 13:24:50 ntalex Exp $
+// RCS-ID:      $Id: SVGPolylineElement.cpp,v 1.2.2.1 2005-09-29 14:53:22 lbessard Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -16,25 +16,29 @@ wxSVGRect wxSVGPolylineElement::GetBBox()
   if (points.Count() == 0)
 	return wxSVGRect();
   
-  wxSVGRect bbox(points[0].GetX(), points[0].GetY(), 0, 0);
+  wxSVGMatrix matrix = GetCTM();
+  wxSVGPoint p0 = points[0].MatrixTransform(matrix);
+  wxSVGRect bbox(p0.GetX(), p0.GetY(), 0, 0);
   
+  wxSVGPoint pi = wxSVGPoint();
   for (int i = 1; i<(int)points.Count(); i++)
   {
-	if (bbox.GetX() > points[i].GetX())
+  	pi = points[i].MatrixTransform(matrix);
+	if (bbox.GetX() > pi.GetX())
 	{
-	  bbox.SetWidth(bbox.GetWidth() + bbox.GetX() - points[i].GetX());
-	  bbox.SetX(points[i].GetX());
+	  bbox.SetWidth(bbox.GetWidth() + bbox.GetX() - pi.GetX());
+	  bbox.SetX(pi.GetX());
 	}
-	if (bbox.GetY() > points[i].GetY())
+	if (bbox.GetY() > pi.GetY())
 	{
-	  bbox.SetHeight(bbox.GetHeight() + bbox.GetY() - points[i].GetY());
-	  bbox.SetY(points[i].GetY());
+	  bbox.SetHeight(bbox.GetHeight() + bbox.GetY() - pi.GetY());
+	  bbox.SetY(pi.GetY());
 	}
 	
-	if (bbox.GetX() + bbox.GetWidth() < points[i].GetX())
-	  bbox.SetWidth(points[i].GetX() - bbox.GetX());
-	if (bbox.GetY() + bbox.GetHeight() < points[i].GetY())
-	  bbox.SetHeight(points[i].GetY() - bbox.GetY());
+	if (bbox.GetX() + bbox.GetWidth() < pi.GetX())
+	  bbox.SetWidth(pi.GetX() - bbox.GetX());
+	if (bbox.GetY() + bbox.GetHeight() < pi.GetY())
+	  bbox.SetHeight(pi.GetY() - bbox.GetY());
   }
   
   return bbox;

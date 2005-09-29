@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGLocatable.cpp,v 1.5.2.3 2005-09-07 15:25:44 lbessard Exp $
+// RCS-ID:      $Id: SVGLocatable.cpp,v 1.5.2.4 2005-09-29 14:53:22 lbessard Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -31,8 +31,7 @@ wxSVGRect TransformRect(wxSVGRect rect, wxSVGMatrix& matrix)
 		case the_dtd:\
 		{\
 		  the_class* element = (the_class*) &elem;\
-		  matrix = element->GetCTM();\
-		  elemBBox = TransformRect(element->GetBBox(), matrix);\
+		  elemBBox = element->GetBBox();\
 		  break;\
 		}
 

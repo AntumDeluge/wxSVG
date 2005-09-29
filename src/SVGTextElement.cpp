@@ -3,7 +3,7 @@
 // Purpose:     svg text element
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGTextElement.cpp,v 1.1.2.1 2005-08-18 14:05:15 lbessard Exp $
+// RCS-ID:      $Id: SVGTextElement.cpp,v 1.1.2.2 2005-09-29 14:53:22 lbessard Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,8 @@ wxSVGRect wxSVGTextElement::GetBBox()
 {
   if (m_canvasItem == NULL)
 	m_canvasItem = m_doc->GetCanvas()->CreateItem(this);
-  wxSVGRect bbox = m_canvasItem->GetBBox();
+  wxSVGMatrix matrix = GetCTM();
+  wxSVGRect bbox = m_canvasItem->GetBBox(matrix);
   if (!m_doc->GetCanvas()->IsItemsCached())
   {
 	delete m_canvasItem;
