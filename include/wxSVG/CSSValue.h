@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.h,v 1.6 2005-06-17 17:33:49 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.h,v 1.7 2005-09-29 09:51:43 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -19,8 +19,10 @@
 enum wxCSS_VALUE_TYPE
 {
   wxCSS_INHERIT = 0,
-  wxCSS_PRIMITIVE_VALUE = 1,
-  wxCSS_VALUE_LIST = 2,
+  wxCSS_PRIMITIVE_VALUE,
+  wxCSS_VALUE_LIST,
+  wxCSS_SVG_COLOR,
+  wxCSS_SVG_PAINT,
   wxCSS_CUSTOM = 3
 };
 
@@ -34,7 +36,7 @@ class wxCSSValue
 	wxCSSValue(wxCSS_VALUE_TYPE cssValueType): m_cssValueType(cssValueType) {}
 	virtual ~wxCSSValue() {}
 	
-	inline wxCSS_VALUE_TYPE GetCSSValueType() { return m_cssValueType; }
+	inline wxCSS_VALUE_TYPE GetCSSValueType() const { return m_cssValueType; }
 	inline void SetCSSValueType(wxCSS_VALUE_TYPE cssValueType) { m_cssValueType = cssValueType; }
 	
 	virtual wxString GetCSSText() const = 0;

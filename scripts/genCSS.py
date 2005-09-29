@@ -3,7 +3,7 @@
 ## Purpose:     generates CSSStyleDeclaration
 ## Author:      Alex Thuering
 ## Created:     2005/06/06
-## RCS-ID:      $Id: genCSS.py,v 1.7 2005-06-20 13:27:47 ntalex Exp $
+## RCS-ID:      $Id: genCSS.py,v 1.8 2005-09-29 09:54:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 
@@ -157,30 +157,30 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     wxString GetCSSText();
     void SetCSSText(const wxString& text);
     
-    inline wxString GetPropertyValue(const wxString& propertyName)
+    inline wxString GetPropertyValue(const wxString& propertyName) const
     { return GetPropertyValue(GetPropertyId(propertyName)); }
     
-    inline const wxCSSValue& GetPropertyCSSValue(const wxString& propertyName)
+    inline const wxCSSValue& GetPropertyCSSValue(const wxString& propertyName) const
     { return GetPropertyCSSValue(GetPropertyId(propertyName)); }
     
     void SetProperty(const wxString& propertyName, const wxString& value)
     { SetProperty(GetPropertyId(propertyName), value); }
     
-    inline bool HasProperty(const wxString& propertyName)
+    inline bool HasProperty(const wxString& propertyName) const
     { return HasProperty(GetPropertyId(propertyName)); }
     
     inline wxString RemoveProperty(const wxString& propertyName)
     { return RemoveProperty(GetPropertyId(propertyName)); }
   
   public:
-    inline wxString GetPropertyValue(wxCSS_PROPERTY propertyId)
-    { iterator it = find(propertyId); if (it != end()) return it->second->GetCSSText(); return wxT(""); }
+    inline wxString GetPropertyValue(wxCSS_PROPERTY propertyId) const
+    { const_iterator it = find(propertyId); if (it != end()) return it->second->GetCSSText(); return wxT(""); }
     
-    inline const wxCSSValue& GetPropertyCSSValue(wxCSS_PROPERTY propertyId)
-    { iterator it = find(propertyId); if (it != end()) return *it->second; return *s_emptyCSSValue; }
+    inline const wxCSSValue& GetPropertyCSSValue(wxCSS_PROPERTY propertyId) const
+    { const_iterator it = find(propertyId); if (it != end()) return *it->second; return *s_emptyCSSValue; }
     
     void SetProperty(wxCSS_PROPERTY propertyId, const wxString& value);
-    inline bool HasProperty(wxCSS_PROPERTY propertyId) { return find(propertyId) != end(); }
+    inline bool HasProperty(wxCSS_PROPERTY propertyId) const { return find(propertyId) != end(); }
     inline wxString RemoveProperty(wxCSS_PROPERTY propertyId) { erase(propertyId); return wxT(""); }
     
     static wxCSS_PROPERTY GetPropertyId(const wxString& propertyName);
@@ -188,6 +188,7 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
   
   public:
 %s
+  
   protected:
     static wxCSSPrimitiveValue* s_emptyCSSValue;
     static wxSVGColor* s_emptySVGColor;
