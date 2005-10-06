@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.15 2005-09-25 11:45:53 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.16 2005-10-06 08:18:02 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -219,12 +219,12 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
           svgElem->SetHeight(wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
         svgElem->SetViewBox(((wxSVGSymbolElement*)refElem)->GetViewBox());
         svgElem->SetPreserveAspectRatio(((wxSVGSymbolElement*)refElem)->GetPreserveAspectRatio());
-        wxSVGElement* child = (wxSVGElement*) refElem->GetChildren();
+        wxXmlElement* child = refElem->GetChildren();
         while (child)
         {
        	  if (elem->GetType() == wxXML_ELEMENT_NODE)
        	    svgElem->AddChild(child->CloneNode());
-          child = (wxSVGElement*) child->GetNext();
+          child = child->GetNext();
         }
         gElem->AddChild(svgElem);
       }
@@ -255,16 +255,12 @@ void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent,
   }
 }
 
-wxImage wxSVGDocument::Render(int width, int height, const wxRect* rect)
+wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect)
 {
   if (!GetRootElement())
 	return wxImage();
   
   wxSVGMatrix matrix;
-  
-  // render only rect if specified
-  if (rect)
-    matrix = matrix.Translate(-rect->x, -rect->y);
   
   if (GetRootElement()->GetWidth().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN ||
       GetRootElement()->GetHeight().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
@@ -319,12 +315,13 @@ wxImage wxSVGDocument::Render(int width, int height, const wxRect* rect)
   }
   
   // render only rect if specified
-  if (rect)
+  if (rect && !rect->IsEmpty())
   {
-    if (rect->width < width)
-      width = rect->width;
-    if (rect->height < height)
-      height = rect->height;
+    matrix = matrix.Translate(-rect->GetX(), -rect->GetY());
+    if (rect->GetWidth()*GetScale() < width)
+      width = (int) (rect->GetWidth()*GetScale());
+    if (rect->GetHeight()*GetScale() < height)
+      height = (int) (rect->GetHeight()*GetScale());
   }
   
   // render
