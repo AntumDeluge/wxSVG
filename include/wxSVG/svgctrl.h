@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.h,v 1.4 2005-09-25 11:31:25 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.h,v 1.5 2005-10-06 08:18:55 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -36,11 +36,14 @@ class wxSVGCtrl: public wxControl
     bool Load(const wxString& filename);
     /** renders svg and repaints window */
     void Refresh(bool eraseBackground = true, const wxRect* rect = NULL);
+    void Refresh(const wxSVGRect* rect);
     /** Causes a SVGCtrl-changed-event to be generated and repaints window */
     void Update(const wxRect* rect = NULL) { SendChangedEvent(); Refresh(true, rect); }
+    void Update(const wxSVGRect* rect) { SendChangedEvent(); Refresh(rect); }
     /** Redraws the contents of the given rectangle:
         only the area inside it will be repainted. */
     void UpdateRect(const wxRect& rect) { Update(&rect); }
+    void UpdateRect(const wxSVGRect& rect) { Update(&rect); }
     
   protected:
     wxSVGDocument* m_doc;

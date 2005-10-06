@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.4 2005-09-25 11:31:25 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.5 2005-10-06 08:18:55 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -82,6 +82,15 @@ void wxSVGCtrl::Refresh(bool eraseBackground, const wxRect* rect)
   wxControl::Refresh(false, rect);
 }
 
+void wxSVGCtrl::Refresh(const wxSVGRect* rect)
+{
+  if (!rect || rect->IsEmpty())
+    return;
+  wxRect winRect((int)(rect->GetX()*GetScale()), (int)(rect->GetY()*GetScale()),
+    (int)(rect->GetWidth()*GetScale()), (int)(rect->GetHeight()*GetScale()));
+  RefreshRect(winRect);
+}
+
 void wxSVGCtrl::SendChangedEvent()
 {
   wxCommandEvent evt(EVT_COMMAND_SVGCTRL_CHANGED, this->GetId());
@@ -107,14 +116,17 @@ void wxSVGCtrl::OnPaint(wxPaintEvent& event)
     {
       m_repaintRect.x = wxMax(m_repaintRect.x, 0);
       m_repaintRect.y = wxMax(m_repaintRect.y, 0);
-      wxBitmap bitmap = m_doc->Render(w, h, &m_repaintRect);
+      wxSVGRect rect(m_repaintRect.x/GetScale(), m_repaintRect.y/GetScale(),
+       m_repaintRect.width/GetScale(), m_repaintRect.height/GetScale());
+      wxBitmap bitmap = m_doc->Render(w, h, &rect);
       wxMemoryDC dc;
       dc.SelectObject(m_buffer);
       dc.DrawBitmap(bitmap, m_repaintRect.x, m_repaintRect.y);
-      m_repaintRect = wxRect();
     }
     else
       m_buffer = wxBitmap(m_doc->Render(w, h));
+    
+    m_repaintRect = wxRect();
     
     //wxLogError(wxDateTime::UNow().Subtract(time).Format(wxT("draw buffer %l ms")));
   }
