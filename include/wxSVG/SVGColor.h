@@ -36,8 +36,12 @@ class wxSVGColor:
     inline void SetColorType(const wxSVG_COLORTYPE& n) { m_colorType = n; }
 
   public:
-    wxSVGColor(): m_colorType(wxSVG_COLORTYPE_UNKNOWN) {}
+    wxSVGColor(): wxCSSValue(wxCSS_SVG_COLOR),
+      m_colorType(wxSVG_COLORTYPE_UNKNOWN) {}
+    wxSVGColor(wxRGBColor color): wxCSSValue(wxCSS_SVG_COLOR),
+      m_colorType(wxSVG_COLORTYPE_RGBCOLOR), m_rgbColor(color) {}
     wxSVGColor(unsigned char r, unsigned char g, unsigned char b):
+      wxCSSValue(wxCSS_SVG_COLOR),
       m_colorType(wxSVG_COLORTYPE_RGBCOLOR), m_rgbColor(r, g, b) {}
     virtual ~wxSVGColor() {}
     wxCSSValue* Clone() const { return new wxSVGColor(*this); }

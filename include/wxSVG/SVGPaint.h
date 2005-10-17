@@ -39,9 +39,14 @@ class wxSVGPaint:
     inline void SetPaintType(const wxSVG_PAINTTYPE& n) { m_paintType = n; }
 
   public:
-    wxSVGPaint(): m_paintType(wxSVG_PAINTTYPE_NONE) {}
+    wxSVGPaint(): m_paintType(wxSVG_PAINTTYPE_NONE)
+     { m_cssValueType = wxCSS_SVG_PAINT; }
     wxSVGPaint(unsigned char r, unsigned char g, unsigned char b):
-      wxSVGColor(r, g, b), m_paintType(wxSVG_PAINTTYPE_RGBCOLOR) {}
+      wxSVGColor(r, g, b), m_paintType(wxSVG_PAINTTYPE_RGBCOLOR)
+      { m_cssValueType = wxCSS_SVG_PAINT; }
+    wxSVGPaint(wxRGBColor color):
+      wxSVGColor(color), m_paintType(wxSVG_PAINTTYPE_RGBCOLOR)
+      { m_cssValueType = wxCSS_SVG_PAINT; if (!color.Ok()) m_paintType = wxSVG_PAINTTYPE_NONE; }
     virtual ~wxSVGPaint() {}
     wxCSSValue* Clone() const { return new wxSVGPaint(*this); }
     
