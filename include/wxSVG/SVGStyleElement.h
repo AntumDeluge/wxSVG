@@ -35,10 +35,12 @@ class wxSVGStyleElement:
     inline void SetTitle(const wxString& n) { m_title = n; }
 
   public:
-    wxSVGStyleElement(wxSVGDocument* doc, wxString tagName = wxT("style")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGStyleElement(wxString tagName = wxT("style")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGStyleElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGStyleElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_STYLE_ELEMENT; }
 };

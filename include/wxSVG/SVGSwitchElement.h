@@ -28,11 +28,13 @@ class wxSVGSwitchElement:
   public wxEventTarget
 {
   public:
-    wxSVGSwitchElement(wxSVGDocument* doc, wxString tagName = wxT("switch")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGSwitchElement(wxString tagName = wxT("switch")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGSwitchElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGSwitchElement(*this); }
     virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetChildrenBBox(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_SWITCH_ELEMENT; }
 };

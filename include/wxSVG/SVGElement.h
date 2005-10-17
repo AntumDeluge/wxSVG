@@ -40,19 +40,18 @@ class wxSVGElement:
     inline void SetViewportElement(wxSVGElement* n) { m_viewportElement = n; }
 
 
-  protected:
-    wxSVGDocument* m_doc;
-    
   public:
-    wxSVGElement(wxSVGDocument* doc, wxString tagName = wxT("")):
+    wxSVGElement(wxString tagName = wxT("")):
       wxXmlElement(wxXML_ELEMENT_NODE, tagName),
-      m_ownerSVGElement(NULL), m_viewportElement(NULL) { m_doc = doc; }
+      m_ownerSVGElement(NULL), m_viewportElement(NULL) { }
     virtual ~wxSVGElement() {}
     
     virtual const wxSVGDTD GetDtd() const = 0;
     virtual void AddProperty(const wxString& name, const wxString& value)
       { SetAttribute(name, value); }
   public:
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
 };
 

@@ -25,10 +25,12 @@ class wxSVGFEMergeNodeElement:
     inline void SetIn1(const wxString& n) { m_in1.SetBaseVal(n); }
 
   public:
-    wxSVGFEMergeNodeElement(wxSVGDocument* doc, wxString tagName = wxT("feMergeNode")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFEMergeNodeElement(wxString tagName = wxT("feMergeNode")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFEMergeNodeElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEMergeNodeElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEMERGENODE_ELEMENT; }
 };

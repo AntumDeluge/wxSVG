@@ -16,10 +16,12 @@ class wxSVGFEFuncGElement:
   public wxSVGComponentTransferFunctionElement
 {
   public:
-    wxSVGFEFuncGElement(wxSVGDocument* doc, wxString tagName = wxT("feFuncG")):
-      wxSVGComponentTransferFunctionElement(doc, tagName) {}
+    wxSVGFEFuncGElement(wxString tagName = wxT("feFuncG")):
+      wxSVGComponentTransferFunctionElement(tagName) {}
     virtual ~wxSVGFEFuncGElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEFuncGElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEFUNCG_ELEMENT; }
 };

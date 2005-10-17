@@ -53,10 +53,12 @@ class wxSVGFEMorphologyElement:
     inline void SetRadiusY(const wxSVGLength& n) { m_radiusY.SetBaseVal(n); }
 
   public:
-    wxSVGFEMorphologyElement(wxSVGDocument* doc, wxString tagName = wxT("feMorphology")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFEMorphologyElement(wxString tagName = wxT("feMorphology")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFEMorphologyElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEMorphologyElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEMORPHOLOGY_ELEMENT; }
 };

@@ -16,10 +16,12 @@ class wxSVGSetElement:
   public wxSVGAnimationElement
 {
   public:
-    wxSVGSetElement(wxSVGDocument* doc, wxString tagName = wxT("set")):
-      wxSVGAnimationElement(doc, tagName) {}
+    wxSVGSetElement(wxString tagName = wxT("set")):
+      wxSVGAnimationElement(tagName) {}
     virtual ~wxSVGSetElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGSetElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_SET_ELEMENT; }
 };

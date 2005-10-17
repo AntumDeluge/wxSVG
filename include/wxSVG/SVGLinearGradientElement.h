@@ -41,10 +41,12 @@ class wxSVGLinearGradientElement:
     inline void SetY2(const wxSVGLength& n) { m_y2.SetBaseVal(n); }
 
   public:
-    wxSVGLinearGradientElement(wxSVGDocument* doc, wxString tagName = wxT("linearGradient")):
-      wxSVGGradientElement(doc, tagName) {}
+    wxSVGLinearGradientElement(wxString tagName = wxT("linearGradient")):
+      wxSVGGradientElement(tagName) {}
     virtual ~wxSVGLinearGradientElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGLinearGradientElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_LINEARGRADIENT_ELEMENT; }
 };

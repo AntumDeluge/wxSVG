@@ -70,10 +70,12 @@ class wxSVGFETurbulenceElement:
     inline void SetType(char n) { m_type.SetBaseVal(n); }
 
   public:
-    wxSVGFETurbulenceElement(wxSVGDocument* doc, wxString tagName = wxT("feTurbulence")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFETurbulenceElement(wxString tagName = wxT("feTurbulence")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFETurbulenceElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFETurbulenceElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FETURBULENCE_ELEMENT; }
 };

@@ -33,12 +33,14 @@ class wxSVGAnimationElement:
     inline void SetTargetElement(wxSVGElement* n) { m_targetElement = n; }
 
   public:
-    wxSVGAnimationElement(wxSVGDocument* doc, wxString tagName = wxT("")):
-      wxSVGElement(doc, tagName), m_targetElement(NULL) {}
+    wxSVGAnimationElement(wxString tagName = wxT("")):
+      wxSVGElement(tagName), m_targetElement(NULL) {}
     virtual ~wxSVGAnimationElement() {}
     virtual double GetStartTime();
     virtual double GetCurrentTime();
     virtual double GetSimpleDuration();
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
 };
 

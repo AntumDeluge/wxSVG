@@ -52,8 +52,8 @@ class wxSVGTextContentElement:
     inline void SetLengthAdjust(char n) { m_lengthAdjust.SetBaseVal(n); }
 
   public:
-    wxSVGTextContentElement(wxSVGDocument* doc, wxString tagName = wxT("")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGTextContentElement(wxString tagName = wxT("")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGTextContentElement() {}
     virtual long GetNumberOfChars();
     virtual double GetComputedTextLength();
@@ -64,6 +64,8 @@ class wxSVGTextContentElement:
     virtual double GetRotationOfChar(unsigned long charnum);
     virtual long GetCharNumAtPosition(const wxSVGPoint& point);
     virtual void SelectSubString(unsigned long charnum, unsigned long nchars);
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
 };
 

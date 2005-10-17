@@ -16,10 +16,12 @@ class wxSVGTSpanElement:
   public wxSVGTextPositioningElement
 {
   public:
-    wxSVGTSpanElement(wxSVGDocument* doc, wxString tagName = wxT("tspan")):
-      wxSVGTextPositioningElement(doc, tagName) {}
+    wxSVGTSpanElement(wxString tagName = wxT("tspan")):
+      wxSVGTextPositioningElement(tagName) {}
     virtual ~wxSVGTSpanElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTSpanElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_TSPAN_ELEMENT; }
 };

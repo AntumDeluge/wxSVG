@@ -116,8 +116,8 @@ class wxSVGSVGElement:
     inline void SetCurrentTranslate(const wxSVGPoint& n) { m_currentTranslate = n; }
 
   public:
-    wxSVGSVGElement(wxSVGDocument* doc, wxString tagName = wxT("svg")):
-      wxSVGElement(doc, tagName), m_pixelUnitToMillimeterX(0), m_pixelUnitToMillimeterY(0), m_screenPixelToMillimeterX(0), m_screenPixelToMillimeterY(0), m_useCurrentView(0), m_currentScale(0) {}
+    wxSVGSVGElement(wxString tagName = wxT("svg")):
+      wxSVGElement(tagName), m_pixelUnitToMillimeterX(0), m_pixelUnitToMillimeterY(0), m_screenPixelToMillimeterX(0), m_screenPixelToMillimeterY(0), m_useCurrentView(0), m_currentScale(0) {}
     virtual ~wxSVGSVGElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGSVGElement(*this); }
     virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetChildrenBBox(*this); }
@@ -144,6 +144,8 @@ class wxSVGSVGElement:
     virtual wxSVGTransform CreateSVGTransform();
     virtual wxSVGTransform CreateSVGTransformFromMatrix(const wxSVGMatrix& matrix);
     virtual wxXmlElement* GetElementById(const wxString& elementId);
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_SVG_ELEMENT; }
 };

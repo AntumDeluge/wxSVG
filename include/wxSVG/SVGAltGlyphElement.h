@@ -29,10 +29,12 @@ class wxSVGAltGlyphElement:
     inline void SetFormat(const wxString& n) { m_format = n; }
 
   public:
-    wxSVGAltGlyphElement(wxSVGDocument* doc, wxString tagName = wxT("altGlyph")):
-      wxSVGTextPositioningElement(doc, tagName) {}
+    wxSVGAltGlyphElement(wxString tagName = wxT("altGlyph")):
+      wxSVGTextPositioningElement(tagName) {}
     virtual ~wxSVGAltGlyphElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGAltGlyphElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_ALTGLYPH_ELEMENT; }
 };

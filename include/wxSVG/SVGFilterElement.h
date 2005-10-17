@@ -73,11 +73,13 @@ class wxSVGFilterElement:
     inline void SetFilterResY(long n) { m_filterResY.SetBaseVal(n); }
 
   public:
-    wxSVGFilterElement(wxSVGDocument* doc, wxString tagName = wxT("filter")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFilterElement(wxString tagName = wxT("filter")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFilterElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFilterElement(*this); }
     virtual void SetFilterRes(unsigned long filterResX, unsigned long filterResY);
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FILTER_ELEMENT; }
 };

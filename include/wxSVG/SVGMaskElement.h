@@ -62,10 +62,12 @@ class wxSVGMaskElement:
     inline void SetHeight(const wxSVGLength& n) { m_height.SetBaseVal(n); }
 
   public:
-    wxSVGMaskElement(wxSVGDocument* doc, wxString tagName = wxT("mask")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGMaskElement(wxString tagName = wxT("mask")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGMaskElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGMaskElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_MASK_ELEMENT; }
 };

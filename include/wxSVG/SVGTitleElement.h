@@ -20,10 +20,12 @@ class wxSVGTitleElement:
   public wxSVGStylable
 {
   public:
-    wxSVGTitleElement(wxSVGDocument* doc, wxString tagName = wxT("title")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGTitleElement(wxString tagName = wxT("title")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGTitleElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTitleElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_TITLE_ELEMENT; }
 };

@@ -92,10 +92,12 @@ class wxSVGFEConvolveMatrixElement:
     inline void SetPreserveAlpha(bool n) { m_preserveAlpha.SetBaseVal(n); }
 
   public:
-    wxSVGFEConvolveMatrixElement(wxSVGDocument* doc, wxString tagName = wxT("feConvolveMatrix")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFEConvolveMatrixElement(wxString tagName = wxT("feConvolveMatrix")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFEConvolveMatrixElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEConvolveMatrixElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FECONVOLVEMATRIX_ELEMENT; }
 };

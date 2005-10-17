@@ -30,10 +30,12 @@ class wxSVGFEDistantLightElement:
     inline void SetElevation(float n) { m_elevation.SetBaseVal(n); }
 
   public:
-    wxSVGFEDistantLightElement(wxSVGDocument* doc, wxString tagName = wxT("feDistantLight")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFEDistantLightElement(wxString tagName = wxT("feDistantLight")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFEDistantLightElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEDistantLightElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEDISTANTLIGHT_ELEMENT; }
 };

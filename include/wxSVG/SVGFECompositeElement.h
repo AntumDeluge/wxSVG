@@ -71,10 +71,12 @@ class wxSVGFECompositeElement:
     inline void SetK4(float n) { m_k4.SetBaseVal(n); }
 
   public:
-    wxSVGFECompositeElement(wxSVGDocument* doc, wxString tagName = wxT("feComposite")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFECompositeElement(wxString tagName = wxT("feComposite")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFECompositeElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFECompositeElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FECOMPOSITE_ELEMENT; }
 };

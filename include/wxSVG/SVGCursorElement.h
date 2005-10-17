@@ -37,10 +37,12 @@ class wxSVGCursorElement:
     inline void SetY(const wxSVGLength& n) { m_y.SetBaseVal(n); }
 
   public:
-    wxSVGCursorElement(wxSVGDocument* doc, wxString tagName = wxT("cursor")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGCursorElement(wxString tagName = wxT("cursor")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGCursorElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGCursorElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_CURSOR_ELEMENT; }
 };

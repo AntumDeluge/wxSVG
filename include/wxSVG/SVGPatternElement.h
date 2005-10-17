@@ -72,10 +72,12 @@ class wxSVGPatternElement:
     inline void SetHeight(const wxSVGLength& n) { m_height.SetBaseVal(n); }
 
   public:
-    wxSVGPatternElement(wxSVGDocument* doc, wxString tagName = wxT("pattern")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGPatternElement(wxString tagName = wxT("pattern")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGPatternElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPatternElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_PATTERN_ELEMENT; }
 };

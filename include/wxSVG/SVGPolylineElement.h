@@ -37,15 +37,17 @@ class wxSVGPolylineElement:
 	wxSVGCanvasItem* m_canvasItem;
   public:
 	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
+	void SetCanvasItem(wxSVGCanvasItem* canvasItem);
 
   public:
-    wxSVGPolylineElement(wxSVGDocument* doc, wxString tagName = wxT("polyline")):
-      wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGPolylineElement(wxString tagName = wxT("polyline")):
+      wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGPolylineElement(wxSVGPolylineElement& src);
     virtual ~wxSVGPolylineElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPolylineElement(*this); }
     wxSVGRect GetBBox();
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_POLYLINE_ELEMENT; }
 };

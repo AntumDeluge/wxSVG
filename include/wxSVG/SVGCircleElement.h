@@ -54,15 +54,17 @@ class wxSVGCircleElement:
 	wxSVGCanvasItem* m_canvasItem;
   public:
 	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
+	void SetCanvasItem(wxSVGCanvasItem* canvasItem);
 
   public:
-    wxSVGCircleElement(wxSVGDocument* doc, wxString tagName = wxT("circle")):
-      wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGCircleElement(wxString tagName = wxT("circle")):
+      wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGCircleElement(wxSVGCircleElement& src);
     virtual ~wxSVGCircleElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGCircleElement(*this); }
     wxSVGRect GetBBox();
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_CIRCLE_ELEMENT; }
 };

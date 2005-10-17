@@ -66,11 +66,13 @@ class wxSVGUseElement:
     inline void SetAnimatedInstanceRoot(wxSVGElementInstance* n) { m_animatedInstanceRoot = n; }
 
   public:
-    wxSVGUseElement(wxSVGDocument* doc, wxString tagName = wxT("use")):
-      wxSVGElement(doc, tagName), m_instanceRoot(NULL), m_animatedInstanceRoot(NULL) {}
+    wxSVGUseElement(wxString tagName = wxT("use")):
+      wxSVGElement(tagName), m_instanceRoot(NULL), m_animatedInstanceRoot(NULL) {}
     virtual ~wxSVGUseElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGUseElement(*this); }
     virtual wxSVGRect GetBBox();
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_USE_ELEMENT; }
 };

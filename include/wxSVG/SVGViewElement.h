@@ -30,10 +30,12 @@ class wxSVGViewElement:
     inline void SetViewTarget(const wxSVGStringList& n) { m_viewTarget = n; }
 
   public:
-    wxSVGViewElement(wxSVGDocument* doc, wxString tagName = wxT("view")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGViewElement(wxString tagName = wxT("view")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGViewElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGViewElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_VIEW_ELEMENT; }
 };

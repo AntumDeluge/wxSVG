@@ -65,11 +65,11 @@ class wxSVGPathElement:
 	wxSVGCanvasItem* m_canvasItem;
   public:
 	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
+	void SetCanvasItem(wxSVGCanvasItem* canvasItem);
 
   public:
-    wxSVGPathElement(wxSVGDocument* doc, wxString tagName = wxT("path")):
-      wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGPathElement(wxString tagName = wxT("path")):
+      wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGPathElement(wxSVGPathElement& src);
     virtual ~wxSVGPathElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPathElement(*this); }
@@ -96,6 +96,8 @@ class wxSVGPathElement:
     virtual wxSVGPathSegCurvetoCubicSmoothRel CreateSVGPathSegCurvetoCubicSmoothRel(double x, double y, double x2, double y2);
     virtual wxSVGPathSegCurvetoQuadraticSmoothAbs CreateSVGPathSegCurvetoQuadraticSmoothAbs(double x, double y);
     virtual wxSVGPathSegCurvetoQuadraticSmoothRel CreateSVGPathSegCurvetoQuadraticSmoothRel(double x, double y);
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_PATH_ELEMENT; }
 };

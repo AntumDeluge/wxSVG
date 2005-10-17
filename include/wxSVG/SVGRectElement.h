@@ -69,15 +69,17 @@ class wxSVGRectElement:
 	wxSVGCanvasItem* m_canvasItem;
   public:
 	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
+	void SetCanvasItem(wxSVGCanvasItem* canvasItem);
 
   public:
-    wxSVGRectElement(wxSVGDocument* doc, wxString tagName = wxT("rect")):
-      wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGRectElement(wxString tagName = wxT("rect")):
+      wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGRectElement(wxSVGRectElement& src);
     virtual ~wxSVGRectElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGRectElement(*this); }
     wxSVGRect GetBBox();
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_RECT_ELEMENT; }
 };

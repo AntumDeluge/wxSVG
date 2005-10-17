@@ -46,10 +46,12 @@ class wxSVGRadialGradientElement:
     inline void SetFy(const wxSVGLength& n) { m_fy.SetBaseVal(n); }
 
   public:
-    wxSVGRadialGradientElement(wxSVGDocument* doc, wxString tagName = wxT("radialGradient")):
-      wxSVGGradientElement(doc, tagName) {}
+    wxSVGRadialGradientElement(wxString tagName = wxT("radialGradient")):
+      wxSVGGradientElement(tagName) {}
     virtual ~wxSVGRadialGradientElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGRadialGradientElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_RADIALGRADIENT_ELEMENT; }
 };

@@ -37,10 +37,12 @@ class wxSVGClipPathElement:
     inline void SetClipPathUnits(char n) { m_clipPathUnits.SetBaseVal(n); }
 
   public:
-    wxSVGClipPathElement(wxSVGDocument* doc, wxString tagName = wxT("clipPath")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGClipPathElement(wxString tagName = wxT("clipPath")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGClipPathElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGClipPathElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_CLIPPATH_ELEMENT; }
 };

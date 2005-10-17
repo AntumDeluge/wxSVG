@@ -60,10 +60,12 @@ class wxSVGFESpotLightElement:
     inline void SetLimitingConeAngle(float n) { m_limitingConeAngle.SetBaseVal(n); }
 
   public:
-    wxSVGFESpotLightElement(wxSVGDocument* doc, wxString tagName = wxT("feSpotLight")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFESpotLightElement(wxString tagName = wxT("feSpotLight")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFESpotLightElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFESpotLightElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FESPOTLIGHT_ELEMENT; }
 };

@@ -53,9 +53,11 @@ class wxSVGGradientElement:
     inline void SetSpreadMethod(char n) { m_spreadMethod.SetBaseVal(n); }
 
   public:
-    wxSVGGradientElement(wxSVGDocument* doc, wxString tagName = wxT("")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGGradientElement(wxString tagName = wxT("")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGGradientElement() {}
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
 };
 

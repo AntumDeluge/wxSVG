@@ -25,15 +25,17 @@ class wxSVGTextElement:
 	wxSVGCanvasItem* m_canvasItem;
   public:
 	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
+	void SetCanvasItem(wxSVGCanvasItem* canvasItem);
 
   public:
-    wxSVGTextElement(wxSVGDocument* doc, wxString tagName = wxT("text")):
-      wxSVGTextPositioningElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGTextElement(wxString tagName = wxT("text")):
+      wxSVGTextPositioningElement(tagName), m_canvasItem(NULL) {}
     wxSVGTextElement(wxSVGTextElement& src);
     virtual ~wxSVGTextElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTextElement(*this); }
     wxSVGRect GetBBox();
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_TEXT_ELEMENT; }
 };

@@ -38,10 +38,12 @@ class wxSVGFEDiffuseLightingElement:
     inline void SetDiffuseConstant(float n) { m_diffuseConstant.SetBaseVal(n); }
 
   public:
-    wxSVGFEDiffuseLightingElement(wxSVGDocument* doc, wxString tagName = wxT("feDiffuseLighting")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFEDiffuseLightingElement(wxString tagName = wxT("feDiffuseLighting")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFEDiffuseLightingElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEDiffuseLightingElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEDIFFUSELIGHTING_ELEMENT; }
 };

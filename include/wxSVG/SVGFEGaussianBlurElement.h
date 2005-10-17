@@ -38,11 +38,13 @@ class wxSVGFEGaussianBlurElement:
     inline void SetStdDeviationY(float n) { m_stdDeviationY.SetBaseVal(n); }
 
   public:
-    wxSVGFEGaussianBlurElement(wxSVGDocument* doc, wxString tagName = wxT("feGaussianBlur")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFEGaussianBlurElement(wxString tagName = wxT("feGaussianBlur")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFEGaussianBlurElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEGaussianBlurElement(*this); }
     virtual void SetStdDeviation(double stdDeviationX, double stdDeviationY);
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEGAUSSIANBLUR_ELEMENT; }
 };

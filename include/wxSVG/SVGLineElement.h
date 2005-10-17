@@ -59,15 +59,17 @@ class wxSVGLineElement:
 	wxSVGCanvasItem* m_canvasItem;
   public:
 	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
+	void SetCanvasItem(wxSVGCanvasItem* canvasItem);
 
   public:
-    wxSVGLineElement(wxSVGDocument* doc, wxString tagName = wxT("line")):
-      wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGLineElement(wxString tagName = wxT("line")):
+      wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGLineElement(wxSVGLineElement& src);
     virtual ~wxSVGLineElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGLineElement(*this); }
     wxSVGRect GetBBox();
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_LINE_ELEMENT; }
 };

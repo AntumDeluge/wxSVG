@@ -16,10 +16,12 @@ class wxSVGVKernElement:
   public wxSVGElement
 {
   public:
-    wxSVGVKernElement(wxSVGDocument* doc, wxString tagName = wxT("vkern")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGVKernElement(wxString tagName = wxT("vkern")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGVKernElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGVKernElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_VKERN_ELEMENT; }
 };

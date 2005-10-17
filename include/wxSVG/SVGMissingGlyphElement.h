@@ -18,10 +18,12 @@ class wxSVGMissingGlyphElement:
   public wxSVGStylable
 {
   public:
-    wxSVGMissingGlyphElement(wxSVGDocument* doc, wxString tagName = wxT("missing-glyph")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGMissingGlyphElement(wxString tagName = wxT("missing-glyph")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGMissingGlyphElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGMissingGlyphElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_MISSING_GLYPH_ELEMENT; }
 };

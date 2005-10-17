@@ -68,9 +68,11 @@ class wxSVGComponentTransferFunctionElement:
     inline void SetOffset(float n) { m_offset.SetBaseVal(n); }
 
   public:
-    wxSVGComponentTransferFunctionElement(wxSVGDocument* doc, wxString tagName = wxT("")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGComponentTransferFunctionElement(wxString tagName = wxT("")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGComponentTransferFunctionElement() {}
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
 };
 

@@ -67,11 +67,11 @@ class wxSVGImageElement:
 	wxSVGCanvasItem* m_canvasItem;
   public:
 	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
+	void SetCanvasItem(wxSVGCanvasItem* canvasItem);
 
   public:
-    wxSVGImageElement(wxSVGDocument* doc, wxString tagName = wxT("image")):
-      wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGImageElement(wxString tagName = wxT("image")):
+      wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGImageElement(wxSVGImageElement& src);
     virtual ~wxSVGImageElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGImageElement(*this); }
@@ -79,6 +79,8 @@ class wxSVGImageElement:
     int GetDefaultWidth();
     int GetDefaultHeight();
     void SetDefaultSize();
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_IMAGE_ELEMENT; }
 };

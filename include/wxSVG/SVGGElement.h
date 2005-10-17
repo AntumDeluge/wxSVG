@@ -28,11 +28,13 @@ class wxSVGGElement:
   public wxEventTarget
 {
   public:
-    wxSVGGElement(wxSVGDocument* doc, wxString tagName = wxT("g")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGGElement(wxString tagName = wxT("g")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGGElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGGElement(*this); }
     virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetChildrenBBox(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_G_ELEMENT; }
 };

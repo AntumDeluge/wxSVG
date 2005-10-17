@@ -83,12 +83,14 @@ class wxSVGMarkerElement:
     inline void SetOrientAngle(const wxSVGAngle& n) { m_orientAngle.SetBaseVal(n); }
 
   public:
-    wxSVGMarkerElement(wxSVGDocument* doc, wxString tagName = wxT("marker")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGMarkerElement(wxString tagName = wxT("marker")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGMarkerElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGMarkerElement(*this); }
     virtual void SetOrientToAuto();
     virtual void SetOrientToAngle(const wxSVGAngle& angle);
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_MARKER_ELEMENT; }
 };

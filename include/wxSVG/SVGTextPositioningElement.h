@@ -47,11 +47,13 @@ class wxSVGTextPositioningElement:
     inline void SetRotate(const wxSVGNumberList& n) { m_rotate.SetBaseVal(n); }
 
   public:
-    wxSVGTextPositioningElement(wxSVGDocument* doc, wxString tagName = wxT("")):
-      wxSVGTextContentElement(doc, tagName) {}
+    wxSVGTextPositioningElement(wxString tagName = wxT("")):
+      wxSVGTextContentElement(tagName) {}
     virtual ~wxSVGTextPositioningElement() {}
     inline void SetX(const wxSVGLength& n) { wxSVGLengthList list; list.Add(n); SetX(list); }
     inline void SetY(const wxSVGLength& n) { wxSVGLengthList list; list.Add(n); SetY(list); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
 };
 

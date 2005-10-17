@@ -53,11 +53,13 @@ class wxSVGForeignObjectElement:
     inline void SetHeight(const wxSVGLength& n) { m_height.SetBaseVal(n); }
 
   public:
-    wxSVGForeignObjectElement(wxSVGDocument* doc, wxString tagName = wxT("foreignObject")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGForeignObjectElement(wxString tagName = wxT("foreignObject")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGForeignObjectElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGForeignObjectElement(*this); }
     virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetChildrenBBox(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FOREIGNOBJECT_ELEMENT; }
 };

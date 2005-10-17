@@ -18,10 +18,12 @@ class wxSVGFEMergeElement:
   public wxSVGFilterPrimitiveStandardAttributes
 {
   public:
-    wxSVGFEMergeElement(wxSVGDocument* doc, wxString tagName = wxT("feMerge")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFEMergeElement(wxString tagName = wxT("feMerge")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFEMergeElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEMergeElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEMERGE_ELEMENT; }
 };

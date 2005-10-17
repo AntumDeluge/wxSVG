@@ -20,10 +20,12 @@ class wxSVGDescElement:
   public wxSVGStylable
 {
   public:
-    wxSVGDescElement(wxSVGDocument* doc, wxString tagName = wxT("desc")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGDescElement(wxString tagName = wxT("desc")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGDescElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGDescElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_DESC_ELEMENT; }
 };

@@ -38,10 +38,12 @@ class wxSVGFEOffsetElement:
     inline void SetDy(float n) { m_dy.SetBaseVal(n); }
 
   public:
-    wxSVGFEOffsetElement(wxSVGDocument* doc, wxString tagName = wxT("feOffset")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFEOffsetElement(wxString tagName = wxT("feOffset")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFEOffsetElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEOffsetElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEOFFSET_ELEMENT; }
 };

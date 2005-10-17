@@ -27,10 +27,12 @@ class wxSVGFEFloodElement:
     inline void SetIn1(const wxString& n) { m_in1.SetBaseVal(n); }
 
   public:
-    wxSVGFEFloodElement(wxSVGDocument* doc, wxString tagName = wxT("feFlood")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFEFloodElement(wxString tagName = wxT("feFlood")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFEFloodElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEFloodElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEFLOOD_ELEMENT; }
 };

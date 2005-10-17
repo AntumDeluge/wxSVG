@@ -43,10 +43,12 @@ class wxSVGFESpecularLightingElement:
     inline void SetSpecularExponent(float n) { m_specularExponent.SetBaseVal(n); }
 
   public:
-    wxSVGFESpecularLightingElement(wxSVGDocument* doc, wxString tagName = wxT("feSpecularLighting")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFESpecularLightingElement(wxString tagName = wxT("feSpecularLighting")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFESpecularLightingElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFESpecularLightingElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FESPECULARLIGHTING_ELEMENT; }
 };

@@ -27,10 +27,12 @@ class wxSVGFETileElement:
     inline void SetIn1(const wxString& n) { m_in1.SetBaseVal(n); }
 
   public:
-    wxSVGFETileElement(wxSVGDocument* doc, wxString tagName = wxT("feTile")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFETileElement(wxString tagName = wxT("feTile")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFETileElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFETileElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FETILE_ELEMENT; }
 };

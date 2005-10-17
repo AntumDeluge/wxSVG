@@ -39,11 +39,13 @@ class wxSVGAElement:
     inline void SetTarget(const wxString& n) { m_target.SetBaseVal(n); }
 
   public:
-    wxSVGAElement(wxSVGDocument* doc, wxString tagName = wxT("a")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGAElement(wxString tagName = wxT("a")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGAElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGAElement(*this); }
     virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetChildrenBBox(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_A_ELEMENT; }
 };

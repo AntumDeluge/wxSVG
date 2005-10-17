@@ -59,15 +59,17 @@ class wxSVGEllipseElement:
 	wxSVGCanvasItem* m_canvasItem;
   public:
 	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
+	void SetCanvasItem(wxSVGCanvasItem* canvasItem);
 
   public:
-    wxSVGEllipseElement(wxSVGDocument* doc, wxString tagName = wxT("ellipse")):
-      wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGEllipseElement(wxString tagName = wxT("ellipse")):
+      wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGEllipseElement(wxSVGEllipseElement& src);
     virtual ~wxSVGEllipseElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGEllipseElement(*this); }
     wxSVGRect GetBBox();
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_ELLIPSE_ELEMENT; }
 };

@@ -27,10 +27,12 @@ class wxSVGFEComponentTransferElement:
     inline void SetIn1(const wxString& n) { m_in1.SetBaseVal(n); }
 
   public:
-    wxSVGFEComponentTransferElement(wxSVGDocument* doc, wxString tagName = wxT("feComponentTransfer")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFEComponentTransferElement(wxString tagName = wxT("feComponentTransfer")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFEComponentTransferElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEComponentTransferElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FECOMPONENTTRANSFER_ELEMENT; }
 };

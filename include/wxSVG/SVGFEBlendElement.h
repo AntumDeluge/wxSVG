@@ -49,10 +49,12 @@ class wxSVGFEBlendElement:
     inline void SetMode(char n) { m_mode.SetBaseVal(n); }
 
   public:
-    wxSVGFEBlendElement(wxSVGDocument* doc, wxString tagName = wxT("feBlend")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFEBlendElement(wxString tagName = wxT("feBlend")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFEBlendElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEBlendElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEBLEND_ELEMENT; }
 };

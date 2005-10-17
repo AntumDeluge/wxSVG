@@ -20,10 +20,12 @@ class wxSVGFontElement:
   public wxSVGStylable
 {
   public:
-    wxSVGFontElement(wxSVGDocument* doc, wxString tagName = wxT("font")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFontElement(wxString tagName = wxT("font")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFontElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFontElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FONT_ELEMENT; }
 };

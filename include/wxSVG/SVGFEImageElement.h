@@ -24,10 +24,12 @@ class wxSVGFEImageElement:
   public wxSVGFilterPrimitiveStandardAttributes
 {
   public:
-    wxSVGFEImageElement(wxSVGDocument* doc, wxString tagName = wxT("feImage")):
-      wxSVGElement(doc, tagName) {}
+    wxSVGFEImageElement(wxString tagName = wxT("feImage")):
+      wxSVGElement(tagName) {}
     virtual ~wxSVGFEImageElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEImageElement(*this); }
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEIMAGE_ELEMENT; }
 };

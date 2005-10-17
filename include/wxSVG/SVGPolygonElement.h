@@ -37,15 +37,17 @@ class wxSVGPolygonElement:
 	wxSVGCanvasItem* m_canvasItem;
   public:
 	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }
+	void SetCanvasItem(wxSVGCanvasItem* canvasItem);
 
   public:
-    wxSVGPolygonElement(wxSVGDocument* doc, wxString tagName = wxT("polygon")):
-      wxSVGElement(doc, tagName), m_canvasItem(NULL) {}
+    wxSVGPolygonElement(wxString tagName = wxT("polygon")):
+      wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGPolygonElement(wxSVGPolygonElement& src);
     virtual ~wxSVGPolygonElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPolygonElement(*this); }
     wxSVGRect GetBBox();
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     virtual const wxSVGDTD GetDtd() const { return wxSVG_POLYGON_ELEMENT; }
 };
