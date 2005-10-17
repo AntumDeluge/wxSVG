@@ -3,4 +3,4 @@ TODO
   * implement animated style attributes
   * fix SVGAnimatedPathData and SVGAnimatedPoints
   * libart backend: optimize DrawCanvasImage -> too slow
-  * Render: don't delete shadow tree aftre drawing of wxUseElement
+  * Render: don't delete shadow tree aftre drawing of SVGUseElement

@@ -1,12 +1,13 @@
 CVS
 ---
 
-  * added cairo backend
-  * added some copy constructors
-    (don't copies pointer to canvas item)
-  * added rect parameter to wxSVGDocument::Render
+  * added GetOwnerDocument()
+  * added GetAttribute()
+  * fixed CloneNode() and copy constructors
   * added copy constructor to wxSVGPathSegList
-  * svgctrl: fixed refresh (redraw buffer only in OnPaint)
+  * added rect parameter to wxSVGDocument::Render()
+  * wxSVGCtrl: fixed refresh (redraw buffer only in OnPaint)
+  * added cairo backend (disabled by default)
 
 Version 0.9 <2005.07.31>
 ------------------------
