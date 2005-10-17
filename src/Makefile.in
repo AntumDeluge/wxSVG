@@ -131,13 +131,16 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp SVGImageElement.cpp\
   SVGLineElement.cpp SVGLocatable.cpp SVGMarkerElement.cpp SVGPathElement.cpp\
   SVGPolylineElement.cpp SVGPolygonElement.cpp SVGRectElement.cpp\
-  SVGSVGElement.cpp SVGTextContentElement.cpp SVGUseElement.cpp\
+  SVGSVGElement.cpp SVGTextContentElement.cpp SVGTextElement.cpp\
+  SVGUseElement.cpp\
   SVGAngle.cpp SVGColor.cpp GetSVGDocument.cpp SVGLength.cpp\
-  SVGMatrix.cpp SVGPaint.cpp SVGPoint.cpp SVGTests.cpp SVGTransform.cpp\
-  SVGStylable.cpp SVGTextElement.cpp SVGTransformable.cpp\
+  SVGMatrix.cpp SVGPaint.cpp SVGPoint.cpp SVGPreserveAspectRatio.cpp\
+  SVGRect.cpp SVGTests.cpp SVGTransform.cpp\
+  SVGStylable.cpp SVGTransformable.cpp\
   SVGElementInstanceList.cpp SVGLengthList.cpp SVGNumberList.cpp\
   SVGPathSegList.cpp SVGPointList.cpp SVGStringList.cpp SVGTransformList.cpp\
-  Elements_CopyConstructors.cpp Elements_SetAttribute.cpp\
+  Elements_CopyConstructors.cpp Elements_HasAttribute.cpp\
+  Elements_GetAttribute.cpp Elements_SetAttribute.cpp\
   CSSValue.cpp CSSStyleDeclaration.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp
 
@@ -175,15 +178,17 @@ am_libwxsvg_la_OBJECTS = SVGDocument.lo svgctrl.lo \
 	SVGImageElement.lo SVGLineElement.lo SVGLocatable.lo \
 	SVGMarkerElement.lo SVGPathElement.lo SVGPolylineElement.lo \
 	SVGPolygonElement.lo SVGRectElement.lo SVGSVGElement.lo \
-	SVGTextContentElement.lo SVGUseElement.lo SVGAngle.lo \
-	SVGColor.lo GetSVGDocument.lo SVGLength.lo SVGMatrix.lo \
-	SVGPaint.lo SVGPoint.lo SVGTests.lo SVGTransform.lo \
-	SVGStylable.lo SVGTextElement.lo SVGTransformable.lo \
-	SVGElementInstanceList.lo SVGLengthList.lo SVGNumberList.lo \
-	SVGPathSegList.lo SVGPointList.lo SVGStringList.lo \
-	SVGTransformList.lo Elements_CopyConstructors.lo \
-	Elements_SetAttribute.lo CSSValue.lo CSSStyleDeclaration.lo \
-	SVGCanvas.lo SVGCanvasItem.lo NodeList.lo
+	SVGTextContentElement.lo SVGTextElement.lo SVGUseElement.lo \
+	SVGAngle.lo SVGColor.lo GetSVGDocument.lo SVGLength.lo \
+	SVGMatrix.lo SVGPaint.lo SVGPoint.lo SVGPreserveAspectRatio.lo \
+	SVGRect.lo SVGTests.lo SVGTransform.lo SVGStylable.lo \
+	SVGTransformable.lo SVGElementInstanceList.lo SVGLengthList.lo \
+	SVGNumberList.lo SVGPathSegList.lo SVGPointList.lo \
+	SVGStringList.lo SVGTransformList.lo \
+	Elements_CopyConstructors.lo Elements_HasAttribute.lo \
+	Elements_GetAttribute.lo Elements_SetAttribute.lo CSSValue.lo \
+	CSSStyleDeclaration.lo SVGCanvas.lo SVGCanvasItem.lo \
+	NodeList.lo
 libwxsvg_la_OBJECTS = $(am_libwxsvg_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -195,6 +200,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/CSSStyleDeclaration.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/CSSValue.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/Elements_CopyConstructors.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/Elements_GetAttribute.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/Elements_HasAttribute.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/Elements_SetAttribute.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/GetSVGDocument.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/NodeList.Plo ./$(DEPDIR)/SVGAngle.Plo \
@@ -223,6 +230,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SVGPointList.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGPolygonElement.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGPolylineElement.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SVGPreserveAspectRatio.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SVGRect.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGRectElement.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGSVGElement.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGStringList.Plo \
@@ -302,6 +311,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CSSStyleDeclaration.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CSSValue.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Elements_CopyConstructors.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Elements_GetAttribute.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Elements_HasAttribute.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Elements_SetAttribute.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GetSVGDocument.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/NodeList.Plo@am__quote@
@@ -331,6 +342,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGPointList.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGPolygonElement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGPolylineElement.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGPreserveAspectRatio.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGRect.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGRectElement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGSVGElement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGStringList.Plo@am__quote@

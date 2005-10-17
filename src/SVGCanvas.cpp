@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.4 2005-06-17 13:24:50 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.5 2005-10-17 14:06:29 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -86,8 +86,6 @@ void wxSVGCanvas::Draw##elem_name(wxSVG##elem_name##Element* element,\
   DrawItem(*canvasItem, *matrix, *style);\
   if (IsItemsCached())\
   {\
-	if (element->GetCanvasItem())\
-	  delete element->GetCanvasItem();\
 	element->SetCanvasItem(canvasItem);\
 	element->SetScreenCTM(*matrix);\
   }\
@@ -113,8 +111,6 @@ void wxSVGCanvas::DrawText(wxSVGTextElement* element,
   DrawItem(*canvasItem, *matrix, *style);
   if (IsItemsCached())
   {
-	if (element->GetCanvasItem())
-	  delete element->GetCanvasItem();
 	element->SetCanvasItem(canvasItem);
 	element->SetScreenCTM(*matrix);
   }

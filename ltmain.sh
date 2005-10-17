@@ -46,13 +46,27 @@ EXIT_FAILURE=1
 
 PROGRAM=ltmain.sh
 PACKAGE=libtool
-VERSION=1.5.16
-TIMESTAMP=" (1.1220.2.235 2005/04/25 18:13:26)"
+VERSION=1.5.18
+TIMESTAMP=" (1.1220.2.246 2005/05/16 10:00:18)"
 
 # See if we are running on zsh, and set the options which allow our
 # commands through without removal of \ escapes.
 if test -n "${ZSH_VERSION+set}" ; then
   setopt NO_GLOB_SUBST
+fi
+# Same for EGREP, and just to be sure, do LTCC as well
+if test "X$EGREP" = X ; then
+    EGREP=egrep
+fi
+if test "X$LTCC" = X ; then
+    LTCC=${CC-gcc}
+fi
+# Same for EGREP, and just to be sure, do LTCC as well
+if test "x$EGREP" = x ; then
+    EGREP=egrep
+fi
+if test "x$LTCC" = x ; then
+    LTCC=${CC-gcc}
 fi
 
 # Check that we have a working $echo.
@@ -250,6 +264,9 @@ func_infer_tag ()
 	    trimedcc=`echo ${CC} | $SED -e "s/${host}-//g"`
 	    # and sometimes libtool has CC=<HOST>-gcc but user does CC=gcc
 	    extendcc=${host}-${CC}
+	    # and sometimes libtool has CC=<OLDHOST>-gcc but user has CC=<NEWHOST>-gcc  
+	    # (Gentoo-specific hack because we always export $CHOST)
+	    mungedcc=${CHOST-${host}}-${trimedcc}
 	    case "$@ " in
 	      "cc "* | " cc "* | "${host}-cc "* | " ${host}-cc "*|\
 	      "gcc "* | " gcc "* | "${host}-gcc "* | " ${host}-gcc "*)
@@ -257,6 +274,7 @@ func_infer_tag ()
 	      break ;;
 	      "$trimedcc "* | " $trimedcc "* | "`$echo $trimedcc` "* | " `$echo $trimedcc` "*|\
 	      "$extendcc "* | " $extendcc "* | "`$echo $extendcc` "* | " `$echo $extendcc` "*|\
+	      "$mungedcc "* | " $mungedcc "* | "`$echo $mungedcc` "* | " `$echo $mungedcc` "*|\
 	      " $CC "* | "$CC "* | " `$echo $CC` "* | "`$echo $CC` "* | " $CC_quoted"* | "$CC_quoted "* | " `$echo $CC_quoted` "* | "`$echo $CC_quoted` "*)
 	      # The compiler in the base compile command matches
 	      # the one in the tagged configuration.
@@ -1394,6 +1412,8 @@ EOF
 	  ;;
         darwin_framework)
 	  compiler_flags="$compiler_flags $arg"
+	  compile_command="$compile_command $arg"
+	  finalize_command="$finalize_command $arg"
 	  prev=
 	  continue
 	  ;;
@@ -1458,6 +1478,8 @@ EOF
       -framework)
         prev=darwin_framework
         compiler_flags="$compiler_flags $arg"
+	compile_command="$compile_command $arg"
+	finalize_command="$finalize_command $arg"
         continue
         ;;
 
@@ -5296,6 +5318,9 @@ fi\
 		  $echo "$modename: \`$deplib' is not a valid libtool archive" 1>&2
 		  exit $EXIT_FAILURE
 		fi
+		if test "X$EGREP" = X ; then
+			EGREP=egrep
+		fi
 		# We do not want portage's install root ($D) present.  Check only for
 		# this if the .la is being installed.
 		if test "$installed" = yes && test "$D"; then
@@ -5320,10 +5345,10 @@ fi\
 		  fi
 		  # We do not want portage's build root ($S) present.
 		  my_little_ninja_foo_2=`echo $deplib |$EGREP -e "$S"`
-		  if test -n "$my_little_ninja_foo_2" && test "$S"; then
-		    mynewdependency_lib=""
 		  # We do not want portage's install root ($D) present.
 		  my_little_ninja_foo_3=`echo $deplib |$EGREP -e "$D"`
+		  if test -n "$my_little_ninja_foo_2" && test "$S"; then
+		    mynewdependency_lib=""
 		  elif test -n "$my_little_ninja_foo_3" && test "$D"; then
 		    eval mynewdependency_lib=`echo "$deplib" |sed -e "s:$D:/:g" -e 's:/\+:/:g'`
 		  else

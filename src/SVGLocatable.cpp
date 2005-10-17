@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGLocatable.cpp,v 1.6 2005-09-25 11:44:38 ntalex Exp $
+// RCS-ID:      $Id: SVGLocatable.cpp,v 1.7 2005-10-17 14:05:34 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -28,44 +28,43 @@ wxSVGRect TransformRect(wxSVGRect rect, wxSVGMatrix& matrix)
 }
 
 #define GET_ELEMENT_BBOX(the_dtd, the_class)\
-		case the_dtd:\
-		{\
-		  the_class* element = (the_class*) &elem;\
-		  element->UpdateMatrix(matrix);\
-		  elemBBox = TransformRect(element->GetBBox(), matrix);\
-		  break;\
-		}
+        case the_dtd:\
+        {\
+          the_class* element = (the_class*) &elem;\
+          element->UpdateMatrix(matrix);\
+          elemBBox = TransformRect(element->GetBBox(), matrix);\
+          break;\
+        }
 
 wxSVGRect wxSVGLocatable::GetElementBBox(const wxSVGElement& elem)
 {
-    wxSVGRect elemBBox;
-	if (elem.GetType() == wxXML_ELEMENT_NODE)
-	{
-	  wxSVGMatrix matrix;
-	  switch (elem.GetDtd())
-	  {
-		GET_ELEMENT_BBOX(wxSVG_LINE_ELEMENT, wxSVGLineElement)
-		GET_ELEMENT_BBOX(wxSVG_POLYLINE_ELEMENT, wxSVGPolylineElement)
-		GET_ELEMENT_BBOX(wxSVG_POLYGON_ELEMENT, wxSVGPolygonElement)
-		GET_ELEMENT_BBOX(wxSVG_RECT_ELEMENT, wxSVGRectElement)
-		GET_ELEMENT_BBOX(wxSVG_CIRCLE_ELEMENT, wxSVGCircleElement)
-		GET_ELEMENT_BBOX(wxSVG_ELLIPSE_ELEMENT, wxSVGEllipseElement)
-		GET_ELEMENT_BBOX(wxSVG_PATH_ELEMENT, wxSVGPathElement)
-		GET_ELEMENT_BBOX(wxSVG_TEXT_ELEMENT, wxSVGTextElement)
-        GET_ELEMENT_BBOX(wxSVG_IMAGE_ELEMENT, wxSVGImageElement)
-		GET_ELEMENT_BBOX(wxSVG_G_ELEMENT, wxSVGGElement)
-        GET_ELEMENT_BBOX(wxSVG_USE_ELEMENT, wxSVGUseElement)
-		case wxSVG_SVG_ELEMENT:
-		{
-		  wxSVGSVGElement* element = (wxSVGSVGElement*) &elem;
-          elemBBox = element->GetBBox();
-		  break;
-		}
-		default:
-		  break;
-	  }
-	}
-	return elemBBox;
+  wxSVGRect elemBBox;
+  if (elem.GetType() != wxXML_ELEMENT_NODE)
+    return elemBBox;
+  wxSVGMatrix matrix;
+  switch (elem.GetDtd())
+  {
+    GET_ELEMENT_BBOX(wxSVG_LINE_ELEMENT, wxSVGLineElement)
+    GET_ELEMENT_BBOX(wxSVG_POLYLINE_ELEMENT, wxSVGPolylineElement)
+    GET_ELEMENT_BBOX(wxSVG_POLYGON_ELEMENT, wxSVGPolygonElement)
+    GET_ELEMENT_BBOX(wxSVG_RECT_ELEMENT, wxSVGRectElement)
+    GET_ELEMENT_BBOX(wxSVG_CIRCLE_ELEMENT, wxSVGCircleElement)
+    GET_ELEMENT_BBOX(wxSVG_ELLIPSE_ELEMENT, wxSVGEllipseElement)
+    GET_ELEMENT_BBOX(wxSVG_PATH_ELEMENT, wxSVGPathElement)
+    GET_ELEMENT_BBOX(wxSVG_TEXT_ELEMENT, wxSVGTextElement)
+    GET_ELEMENT_BBOX(wxSVG_IMAGE_ELEMENT, wxSVGImageElement)
+    GET_ELEMENT_BBOX(wxSVG_G_ELEMENT, wxSVGGElement)
+    GET_ELEMENT_BBOX(wxSVG_USE_ELEMENT, wxSVGUseElement)
+    case wxSVG_SVG_ELEMENT:
+    {
+      wxSVGSVGElement* element = (wxSVGSVGElement*) &elem;
+      elemBBox = element->GetBBox();
+      break;
+    }
+    default:
+      break;
+  }
+  return elemBBox;
 }
 
 void SumBBox(const wxSVGElement* parent, wxSVGRect& bbox)

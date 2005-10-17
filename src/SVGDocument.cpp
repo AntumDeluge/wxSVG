@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.16 2005-10-06 08:18:02 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.17 2005-10-17 14:05:48 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -192,7 +192,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
       }
       // get ref element 
 	  wxString href = element->GetHref();
-	  if (href.length() == 0 || href[0] != wxT('#'))
+	  if (href.length() == 0 || href.GetChar(0) != wxT('#'))
 	    break;
       href.Remove(0,1);
       wxSVGElement* refElem = doc->GetElementById(href);
@@ -200,7 +200,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
         break;
       
       // create shadow tree
-      wxSVGGElement* gElem = new wxSVGGElement(doc);
+      wxSVGGElement* gElem = new wxSVGGElement();
       gElem->SetOwnerSVGElement(ownerSVGElement);
       gElem->SetViewportElement(viewportElement);
       gElem->SetTransform(element->GetTransform());
@@ -208,7 +208,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
       gElem->Translate(element->GetX().GetAnimVal(), element->GetY().GetAnimVal());
       if (refElem->GetDtd() == wxSVG_SYMBOL_ELEMENT)
       {
-        wxSVGSVGElement* svgElem = new wxSVGSVGElement(doc);
+        wxSVGSVGElement* svgElem = new wxSVGSVGElement();
         if (element->GetWidth().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
           svgElem->SetWidth(element->GetWidth().GetAnimVal());
         else

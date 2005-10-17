@@ -191,13 +191,13 @@ bool wxSVGFEFuncRElement::SetAttribute(const wxString& attrName, const wxString&
 bool wxSVGForeignObjectElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("x"))
-	m_x.GetBaseVal().SetValueAsString(attrValue);
+    m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
-	m_y.GetBaseVal().SetValueAsString(attrValue);
+    m_y.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("width"))
-	m_width.GetBaseVal().SetValueAsString(attrValue);
+    m_width.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("height"))
-	m_height.GetBaseVal().SetValueAsString(attrValue);
+    m_height.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -239,9 +239,9 @@ bool wxSVGFEMorphologyElement::SetAttribute(const wxString& attrName, const wxSt
 bool wxSVGMarkerElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("refX"))
-	m_refX.GetBaseVal().SetValueAsString(attrValue);
+    m_refX.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("refY"))
-	m_refY.GetBaseVal().SetValueAsString(attrValue);
+    m_refY.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("markerUnits"))
   {
     long value;
@@ -249,9 +249,9 @@ bool wxSVGMarkerElement::SetAttribute(const wxString& attrName, const wxString& 
       m_markerUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("markerWidth"))
-	m_markerWidth.GetBaseVal().SetValueAsString(attrValue);
+    m_markerWidth.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("markerHeight"))
-	m_markerHeight.GetBaseVal().SetValueAsString(attrValue);
+    m_markerHeight.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
   else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
@@ -517,9 +517,9 @@ bool wxSVGPolygonElement::SetAttribute(const wxString& attrName, const wxString&
 bool wxSVGCursorElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("x"))
-	m_x.GetBaseVal().SetValueAsString(attrValue);
+    m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
-	m_y.GetBaseVal().SetValueAsString(attrValue);
+    m_y.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
@@ -648,13 +648,13 @@ bool wxSVGGradientElement::SetAttribute(const wxString& attrName, const wxString
 bool wxSVGLinearGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("x1"))
-	m_x1.GetBaseVal().SetValueAsString(attrValue);
+    m_x1.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y1"))
-	m_y1.GetBaseVal().SetValueAsString(attrValue);
+    m_y1.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("x2"))
-	m_x2.GetBaseVal().SetValueAsString(attrValue);
+    m_x2.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y2"))
-	m_y2.GetBaseVal().SetValueAsString(attrValue);
+    m_y2.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGGradientElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -783,13 +783,13 @@ bool wxSVGFEDisplacementMapElement::SetAttribute(const wxString& attrName, const
 bool wxSVGLineElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("x1"))
-	m_x1.GetBaseVal().SetValueAsString(attrValue);
+    m_x1.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y1"))
-	m_y1.GetBaseVal().SetValueAsString(attrValue);
+    m_y1.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("x2"))
-	m_x2.GetBaseVal().SetValueAsString(attrValue);
+    m_x2.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y2"))
-	m_y2.GetBaseVal().SetValueAsString(attrValue);
+    m_y2.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -872,13 +872,13 @@ bool wxSVGPatternElement::SetAttribute(const wxString& attrName, const wxString&
     }
   }
   else if (attrName == wxT("x"))
-	m_x.GetBaseVal().SetValueAsString(attrValue);
+    m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
-	m_y.GetBaseVal().SetValueAsString(attrValue);
+    m_y.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("width"))
-	m_width.GetBaseVal().SetValueAsString(attrValue);
+    m_width.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("height"))
-	m_height.GetBaseVal().SetValueAsString(attrValue);
+    m_height.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
@@ -933,7 +933,7 @@ bool wxSVGStylable::SetAttribute(const wxString& attrName, const wxString& attrV
   if (attrName == wxT("class"))
 	m_className.GetBaseVal() = attrValue;
   else if (attrName == wxT("style"))
-	m_style.SetCSSText(attrValue);
+    m_style.SetCSSText(attrValue);
   else if (SetCustomAttribute(attrName, attrValue));
   else
       return false;
@@ -945,62 +945,9 @@ bool wxSVGStylable::SetAttribute(const wxString& attrName, const wxString& attrV
 bool wxSVGFitToViewBox::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("viewBox"))
-  {
-    double value;
-    wxStringTokenizer tkz(attrValue, wxT(", \t"));
-    int pi = 0;
-    while (tkz.HasMoreTokens()) 
-    { 
-      wxString token = tkz.GetNextToken(); 
-      token.ToDouble(&value);
-      switch (pi)
-      {
-        case 0: m_viewBox.GetBaseVal().SetX(value); break;
-        case 1: m_viewBox.GetBaseVal().SetY(value); break;
-        case 2: m_viewBox.GetBaseVal().SetWidth(value); break;
-        case 3: m_viewBox.GetBaseVal().SetHeight(value); break;
-      }
-      pi++;
-    }
-  }
+    m_viewBox.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("preserveAspectRatio"))
-  {
-    wxString value = attrValue.Strip(wxString::both).Lower();
-    wxString val = value.BeforeFirst(wxT(' '));
-    if (val == wxT("defer"))
-    {
-      value = value.AfterFirst(wxT(' '));
-      val = value.BeforeFirst(wxT(' '));
-    }
-    if (!val.length())
-      return true;
-    else if (val == wxT("none"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_NONE);
-    else if (val == wxT("xminymin"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMIN);
-    else if (val == wxT("xmidymin"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMIN);
-    else if (val == wxT("xmaxymin"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMIN);
-    else if (val == wxT("xminymid"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMID);
-    else if (val == wxT("xmidymid"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMID);
-    else if (val == wxT("xmaxymid"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMID);
-    else if (val == wxT("xminymax"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMAX);
-    else if (val == wxT("xmidymax"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMAX);
-    else if (val == wxT("xmaxymax"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMAX);
-    value = value.AfterFirst(wxT(' '));
-    val = value.BeforeFirst(wxT(' '));
-    if (val == wxT("meet"))
-      m_preserveAspectRatio.GetBaseVal().SetMeetOrSlice(wxSVG_MEETORSLICE_MEET);
-    else if (val == wxT("slice"))
-      m_preserveAspectRatio.GetBaseVal().SetMeetOrSlice(wxSVG_MEETORSLICE_SLICE);
-  }
+    m_preserveAspectRatio.GetBaseVal().SetValueAsString(attrValue);
   else 
       return false;
 
@@ -1038,13 +985,13 @@ bool wxSVGTests::SetAttribute(const wxString& attrName, const wxString& attrValu
 bool wxSVGSVGElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("x"))
-	m_x.GetBaseVal().SetValueAsString(attrValue);
+    m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
-	m_y.GetBaseVal().SetValueAsString(attrValue);
+    m_y.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("width"))
-	m_width.GetBaseVal().SetValueAsString(attrValue);
+    m_width.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("height"))
-	m_height.GetBaseVal().SetValueAsString(attrValue);
+    m_height.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("contentScriptType"))
 	m_contentScriptType = attrValue;
   else if (attrName == wxT("contentStyleType"))
@@ -1296,13 +1243,13 @@ bool wxSVGTextPositioningElement::SetAttribute(const wxString& attrName, const w
 bool wxSVGEllipseElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("cx"))
-	m_cx.GetBaseVal().SetValueAsString(attrValue);
+    m_cx.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("cy"))
-	m_cy.GetBaseVal().SetValueAsString(attrValue);
+    m_cy.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("rx"))
-	m_rx.GetBaseVal().SetValueAsString(attrValue);
+    m_rx.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("ry"))
-	m_ry.GetBaseVal().SetValueAsString(attrValue);
+    m_ry.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -1334,13 +1281,13 @@ bool wxSVGFilterElement::SetAttribute(const wxString& attrName, const wxString& 
       m_primitiveUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("x"))
-	m_x.GetBaseVal().SetValueAsString(attrValue);
+    m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
-	m_y.GetBaseVal().SetValueAsString(attrValue);
+    m_y.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("width"))
-	m_width.GetBaseVal().SetValueAsString(attrValue);
+    m_width.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("height"))
-	m_height.GetBaseVal().SetValueAsString(attrValue);
+    m_height.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -1413,13 +1360,13 @@ bool wxSVGMaskElement::SetAttribute(const wxString& attrName, const wxString& at
       m_maskContentUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("x"))
-	m_x.GetBaseVal().SetValueAsString(attrValue);
+    m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
-	m_y.GetBaseVal().SetValueAsString(attrValue);
+    m_y.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("width"))
-	m_width.GetBaseVal().SetValueAsString(attrValue);
+    m_width.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("height"))
-	m_height.GetBaseVal().SetValueAsString(attrValue);
+    m_height.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -1473,13 +1420,13 @@ bool wxSVGDefinitionSrcElement::SetAttribute(const wxString& attrName, const wxS
 bool wxSVGFilterPrimitiveStandardAttributes::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("x"))
-	m_x.GetBaseVal().SetValueAsString(attrValue);
+    m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
-	m_y.GetBaseVal().SetValueAsString(attrValue);
+    m_y.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("width"))
-	m_width.GetBaseVal().SetValueAsString(attrValue);
+    m_width.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("height"))
-	m_height.GetBaseVal().SetValueAsString(attrValue);
+    m_height.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("result"))
 	m_result.GetBaseVal() = attrValue;
   else if (wxSVGStylable::SetAttribute(attrName, attrValue));
@@ -2160,17 +2107,17 @@ bool wxSVGDefsElement::SetAttribute(const wxString& attrName, const wxString& at
 bool wxSVGRectElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("x"))
-	m_x.GetBaseVal().SetValueAsString(attrValue);
+    m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
-	m_y.GetBaseVal().SetValueAsString(attrValue);
+    m_y.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("width"))
-	m_width.GetBaseVal().SetValueAsString(attrValue);
+    m_width.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("height"))
-	m_height.GetBaseVal().SetValueAsString(attrValue);
+    m_height.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("rx"))
-	m_rx.GetBaseVal().SetValueAsString(attrValue);
+    m_rx.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("ry"))
-	m_ry.GetBaseVal().SetValueAsString(attrValue);
+    m_ry.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -2264,11 +2211,11 @@ bool wxSVGAnimatedPoints::SetAttribute(const wxString& attrName, const wxString&
 bool wxSVGCircleElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("cx"))
-	m_cx.GetBaseVal().SetValueAsString(attrValue);
+    m_cx.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("cy"))
-	m_cy.GetBaseVal().SetValueAsString(attrValue);
+    m_cy.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("r"))
-	m_r.GetBaseVal().SetValueAsString(attrValue);
+    m_r.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -2288,7 +2235,7 @@ bool wxSVGCircleElement::SetAttribute(const wxString& attrName, const wxString& 
 bool wxSVGTextContentElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("textLength"))
-	m_textLength.GetBaseVal().SetValueAsString(attrValue);
+    m_textLength.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("lengthAdjust"))
   {
     long value;
@@ -2310,13 +2257,13 @@ bool wxSVGTextContentElement::SetAttribute(const wxString& attrName, const wxStr
 bool wxSVGUseElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("x"))
-	m_x.GetBaseVal().SetValueAsString(attrValue);
+    m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
-	m_y.GetBaseVal().SetValueAsString(attrValue);
+    m_y.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("width"))
-	m_width.GetBaseVal().SetValueAsString(attrValue);
+    m_width.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("height"))
-	m_height.GetBaseVal().SetValueAsString(attrValue);
+    m_height.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
@@ -2351,51 +2298,15 @@ bool wxSVGMissingGlyphElement::SetAttribute(const wxString& attrName, const wxSt
 bool wxSVGImageElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("x"))
-	m_x.GetBaseVal().SetValueAsString(attrValue);
+    m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
-	m_y.GetBaseVal().SetValueAsString(attrValue);
+    m_y.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("width"))
-	m_width.GetBaseVal().SetValueAsString(attrValue);
+    m_width.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("height"))
-	m_height.GetBaseVal().SetValueAsString(attrValue);
+    m_height.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("preserveAspectRatio"))
-  {
-    wxString value = attrValue.Strip(wxString::both).Lower();
-    wxString val = value.BeforeFirst(wxT(' '));
-    if (val == wxT("defer"))
-    {
-      value = value.AfterFirst(wxT(' '));
-      val = value.BeforeFirst(wxT(' '));
-    }
-    if (!val.length())
-      return true;
-    else if (val == wxT("none"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_NONE);
-    else if (val == wxT("xminymin"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMIN);
-    else if (val == wxT("xmidymin"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMIN);
-    else if (val == wxT("xmaxymin"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMIN);
-    else if (val == wxT("xminymid"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMID);
-    else if (val == wxT("xmidymid"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMID);
-    else if (val == wxT("xmaxymid"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMID);
-    else if (val == wxT("xminymax"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMAX);
-    else if (val == wxT("xmidymax"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMAX);
-    else if (val == wxT("xmaxymax"))
-      m_preserveAspectRatio.GetBaseVal().SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMAX);
-    value = value.AfterFirst(wxT(' '));
-    val = value.BeforeFirst(wxT(' '));
-    if (val == wxT("meet"))
-      m_preserveAspectRatio.GetBaseVal().SetMeetOrSlice(wxSVG_MEETORSLICE_MEET);
-    else if (val == wxT("slice"))
-      m_preserveAspectRatio.GetBaseVal().SetMeetOrSlice(wxSVG_MEETORSLICE_SLICE);
-  }
+    m_preserveAspectRatio.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
@@ -2433,7 +2344,7 @@ bool wxSVGFEImageElement::SetAttribute(const wxString& attrName, const wxString&
 bool wxSVGTextPathElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("startOffset"))
-	m_startOffset.GetBaseVal().SetValueAsString(attrValue);
+    m_startOffset.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("method"))
   {
     long value;
@@ -2492,15 +2403,15 @@ bool wxSVGFontElement::SetAttribute(const wxString& attrName, const wxString& at
 bool wxSVGRadialGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("cx"))
-	m_cx.GetBaseVal().SetValueAsString(attrValue);
+    m_cx.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("cy"))
-	m_cy.GetBaseVal().SetValueAsString(attrValue);
+    m_cy.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("r"))
-	m_r.GetBaseVal().SetValueAsString(attrValue);
+    m_r.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("fx"))
-	m_fx.GetBaseVal().SetValueAsString(attrValue);
+    m_fx.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("fy"))
-	m_fy.GetBaseVal().SetValueAsString(attrValue);
+    m_fy.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGGradientElement::SetAttribute(attrName, attrValue));
   else 
   {

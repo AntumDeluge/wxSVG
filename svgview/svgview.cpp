@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.5 2005-07-31 12:01:17 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.6 2005-10-17 14:10:57 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -42,10 +42,11 @@ bool SVGViewApp::OnInit()
 #ifndef __WXMSW__
   setlocale(LC_NUMERIC, "C");
 #endif
-  //wxLog::SetActiveTarget(new wxLogStderr);		
+  //wxLog::SetActiveTarget(new wxLogStderr);
+  wxInitAllImageHandlers();
   
   new MainFrame(NULL, wxT("SVG Viewer"),
-	wxDefaultPosition, wxSize(500, 400));
+    wxDefaultPosition, wxSize(500, 400));
   return true;
 }
 
@@ -70,10 +71,11 @@ BEGIN_EVENT_TABLE(MySVGCanvas, wxSVGCtrl)
 END_EVENT_TABLE()
 
 
-MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos,
-  const wxSize& size, long style): wxFrame(parent, wxID_ANY, title, pos, size, style)
+MainFrame::MainFrame(wxWindow *parent, const wxString& title,
+  const wxPoint& pos, const wxSize& size, long style):
+  wxFrame(parent, wxID_ANY, title, pos, size, style)
 {
-	// Make a menubar
+    // Make a menubar
     wxMenu *fileMenu = new wxMenu;
     fileMenu->Append(wxID_OPEN, _T("&Open..."));
     fileMenu->AppendSeparator();
@@ -87,12 +89,12 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos
     SetMenuBar(menuBar);
 
     m_svgCtrl = new MySVGCanvas(this);
-	if (wxTheApp->argc > 1)
-	  m_svgCtrl->Load(wxTheApp->argv[1]);
-	else
-	  m_svgCtrl->Load(_T("tiger.svg"));
-	
-	Show(true);
+    if (wxTheApp->argc > 1)
+      m_svgCtrl->Load(wxTheApp->argv[1]);
+    else
+      m_svgCtrl->Load(_T("tiger.svg"));
+    
+    Show(true);
 }
 
 void MainFrame::OnOpen(wxCommandEvent& event)
