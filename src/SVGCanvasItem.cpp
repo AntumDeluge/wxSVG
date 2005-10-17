@@ -3,13 +3,14 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.7 2005-09-25 11:44:02 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.8 2005-10-17 14:07:42 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGCanvasItem.h"
 #include <math.h>
+#include <wx/log.h>
 
 //////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// wxSVGCanvasPath //////////////////////////////
@@ -583,6 +584,6 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element)
   wxSVGCanvasImage* prevItem = (wxSVGCanvasImage*) element.GetCanvasItem();
   if (prevItem != NULL && prevItem->m_href == m_href)
     m_image = prevItem->m_image;
-  else
+  else if (m_href.length())
     m_image.LoadFile(m_href);
 }
