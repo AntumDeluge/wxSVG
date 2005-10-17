@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGPathElement.cpp,v 1.2 2005-06-17 13:24:50 ntalex Exp $
+// RCS-ID:      $Id: SVGPathElement.cpp,v 1.3 2005-10-17 14:02:34 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -13,15 +13,25 @@
 
 wxSVGRect wxSVGPathElement::GetBBox()
 {
+  if (!GetOwnerDocument())
+    return wxSVGRect();
+  wxSVGDocument* doc = (wxSVGDocument*) GetOwnerDocument();
   if (m_canvasItem == NULL)
-	m_canvasItem = m_doc->GetCanvas()->CreateItem(this);
+	m_canvasItem = doc->GetCanvas()->CreateItem(this);
   wxSVGRect bbox = m_canvasItem->GetBBox();
-  if (!m_doc->GetCanvas()->IsItemsCached())
+  if (!doc->GetCanvas()->IsItemsCached())
   {
 	delete m_canvasItem;
 	m_canvasItem = NULL;
   }
   return bbox;
+}
+
+void wxSVGPathElement::SetCanvasItem(wxSVGCanvasItem* canvasItem)
+{
+  if (m_canvasItem)
+    delete m_canvasItem;
+  m_canvasItem = canvasItem;
 }
 
 double wxSVGPathElement::GetTotalLength()
