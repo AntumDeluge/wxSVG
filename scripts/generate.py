@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.11 2005-09-25 11:49:32 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.12 2005-10-17 13:53:56 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -331,7 +331,7 @@ if len(parse_idl.class_decls):
                 element_string=''
                 if mapDtdIdl.elements_idl_dtd.has_key(classdecl):
                     element_string=mapDtdIdl.elements_idl_dtd[classdecl]
-                methods_str = methods_str + '    %s(wxSVGDocument* doc, wxString tagName = wxT("%s")):\n      %s(doc, tagName)%s {}\n'%(cname, element_string, element_inherit, init_attibutes)
+                methods_str = methods_str + '    %s(wxString tagName = wxT("%s")):\n      %s(tagName)%s {}\n'%(cname, element_string, element_inherit, init_attibutes)
             elif classname[0:10] == "SVGPathSeg" and len(classname)>10:
                 seg_type = string.upper(classname[10:])
                 strs = ["ABS", "REL", "HORIZONTAL", "VERTICAL", "CUBIC", "QUADRATIC", "SMOOTH"]
@@ -448,11 +448,15 @@ if len(parse_idl.class_decls):
         
         has_dtd_attributes=find_dtd_attr_in_inherit(classdecl)
         if has_dtd_attributes==1 and "SetAttribute" not in exclude_methods:
+            methods_str = methods_str + '    bool HasAttribute(const wxString& name);\n';
+            methods_str = methods_str + '    wxString GetAttribute(const wxString& name);\n';
             methods_str = methods_str + '    bool SetAttribute(const wxString& name, const wxString& value);\n';
             if "String" not in includes:
                 includes.append("String")
             doGetAttrByName=1
-            if classname in ["SVGStylable"]: #makeSetAttribute.customParser
+            if classname in ["SVGStylable"]: #genSetAttribute.customParser
+                protected = protected + '    bool HasCustomAttribute(const wxString& name);\n';
+                protected = protected + '    wxString GetCustomAttribute(const wxString& name);\n';
                 protected = protected + '    bool SetCustomAttribute(const wxString& name, const wxString& value);\n';
 
         element_string=None
@@ -539,7 +543,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.11 2005-09-25 11:49:32 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.12 2005-10-17 13:53:56 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -567,6 +571,8 @@ for i in used_lists:
 
 genCSS.generate()
 
+import genHasAttribute
+import genGetAttribute
 import genSetAttribute
 import genSvgElement
 
