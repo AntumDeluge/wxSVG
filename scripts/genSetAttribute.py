@@ -4,7 +4,7 @@
 ##              -> SetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSetAttribute.py,v 1.5 2005-07-28 20:10:44 ntalex Exp $
+## RCS-ID:      $Id: genSetAttribute.py,v 1.6 2005-10-17 13:54:49 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -100,66 +100,9 @@ def process(classdecl):
       %s;
   }'''%set_attr
         elif typestr == "css::CSSStyleDeclaration":
-          set_attr = '\t' + set_attr + '.SetCSSText(attrValue);'
-        elif typestr == "Length":
-            set_attr = '\t' + set_attr + '.SetValueAsString(attrValue);'
-        elif typestr == "Rect":
-            set_attr = '''  {
-    double value;
-    wxStringTokenizer tkz(attrValue, wxT(", \\t"));
-    int pi = 0;
-    while (tkz.HasMoreTokens()) 
-    { 
-      wxString token = tkz.GetNextToken(); 
-      token.ToDouble(&value);
-      switch (pi)
-      {
-        case 0: %s.SetX(value); break;
-        case 1: %s.SetY(value); break;
-        case 2: %s.SetWidth(value); break;
-        case 3: %s.SetHeight(value); break;
-      }
-      pi++;
-    }
-  }'''%(set_attr,set_attr,set_attr,set_attr)
-        elif typestr == "PreserveAspectRatio":
-            set_attr = '''  {
-    wxString value = attrValue.Strip(wxString::both).Lower();
-    wxString val = value.BeforeFirst(wxT(' '));
-    if (val == wxT("defer"))
-    {
-      value = value.AfterFirst(wxT(' '));
-      val = value.BeforeFirst(wxT(' '));
-    }
-    if (!val.length())
-      return true;
-    else if (val == wxT("none"))
-      %s.SetAlign(wxSVG_PRESERVEASPECTRATIO_NONE);
-    else if (val == wxT("xminymin"))
-      %s.SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMIN);
-    else if (val == wxT("xmidymin"))
-      %s.SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMIN);
-    else if (val == wxT("xmaxymin"))
-      %s.SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMIN);
-    else if (val == wxT("xminymid"))
-      %s.SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMID);
-    else if (val == wxT("xmidymid"))
-      %s.SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMID);
-    else if (val == wxT("xmaxymid"))
-      %s.SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMID);
-    else if (val == wxT("xminymax"))
-      %s.SetAlign(wxSVG_PRESERVEASPECTRATIO_XMINYMAX);
-    else if (val == wxT("xmidymax"))
-      %s.SetAlign(wxSVG_PRESERVEASPECTRATIO_XMIDYMAX);
-    else if (val == wxT("xmaxymax"))
-      %s.SetAlign(wxSVG_PRESERVEASPECTRATIO_XMAXYMAX);
-    value = value.AfterFirst(wxT(' '));
-    val = value.BeforeFirst(wxT(' '));
-    if (val == wxT("meet"))
-      %s.SetMeetOrSlice(wxSVG_MEETORSLICE_MEET);
-    else if (val == wxT("slice"))
-      %s.SetMeetOrSlice(wxSVG_MEETORSLICE_SLICE);
-  }'''%(set_attr,set_attr,set_attr,set_attr,set_attr,set_attr,set_attr,set_attr,set_attr,set_attr,set_attr,set_attr)
+            set_attr = '    %s.SetCSSText(attrValue);'%set_attr
+        elif typestr in ["Length", "Rect", "PreserveAspectRatio"]:
+            set_attr = '    %s.SetValueAsString(attrValue);'%set_attr
         elif typestr == "SVGStringList":
             set_attr = '''  {
     wxStringTokenizer tkz(attrValue, wxT(","));

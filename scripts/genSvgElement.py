@@ -3,7 +3,7 @@
 ## Purpose:     generates svg.h, SVGDTD.h and SVGDocument_CreateElement.cpp
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSvgElement.py,v 1.3 2005-05-16 11:00:17 ntalex Exp $
+## RCS-ID:      $Id: genSvgElement.py,v 1.4 2005-10-17 13:54:49 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -67,7 +67,7 @@ for element_dtd_name in all_elements:
     includes = includes + '#include "SVG%sElement.h"\n'%(classname)
     dtdenum = dtdenum + '  wxSVG_%s_ELEMENT,\n'%(string.upper(dtdname))
     create = create + '''if (qualifiedName == wxT("%s"))
-    res = new wxSVG%sElement(this);
+    res = new wxSVG%sElement();
   else '''%(element_dtd_name, classname)
 
 create = '''wxXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespaceURI,
@@ -75,7 +75,7 @@ create = '''wxXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespa
 {
   wxSVGElement* res = NULL;
   ''' + create + '''
-	res = new wxSVGGElement(this);
+	res = new wxSVGGElement();
   return res;
 }'''
 dtdenum = 'enum wxSVGDTD\n{\n' + dtdenum + '  wxSVG_UNKNOWN_ELEMENT\n};'

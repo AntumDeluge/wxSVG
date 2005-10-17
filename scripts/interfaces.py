@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.12 2005-09-25 11:49:32 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.13 2005-10-17 13:54:49 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -28,13 +28,10 @@ interfaces={}
 inter = interface()
 interfaces["SVGElement"]=inter
 inter.include_attributes.append('''
-  protected:
-    wxSVGDocument* m_doc;
-    
   public:
-    wxSVGElement(wxSVGDocument* doc, wxString tagName = wxT("")):
+    wxSVGElement(wxString tagName = wxT("")):
       wxXmlElement(wxXML_ELEMENT_NODE, tagName),
-      m_ownerSVGElement(NULL), m_viewportElement(NULL) { m_doc = doc; }
+      m_ownerSVGElement(NULL), m_viewportElement(NULL) { }
     virtual ~wxSVGElement() {}
     
     virtual const wxSVGDTD GetDtd() const = 0;
@@ -80,6 +77,8 @@ inter.include_methods.append('    void UpdateMatrix(wxSVGMatrix& matrix);\n')
 inter = interface()
 interfaces["SVGStylable"]=inter
 inter.include_methods.append('    inline void UpdateStyle(wxCSSStyleDeclaration& style) { style.Add(GetStyle()); }\n')
+inter.include_methods.append('    static const wxCSSStyleDeclaration& GetElementStyle(const wxSVGElement& element);\n')
+inter.include_includes=["SVGElement"]
 
 # SVGElementInstance
 inter = interface()
@@ -92,8 +91,12 @@ inter.user_defined_destructor=1
 # wxSVGColor
 inter = interface()
 interfaces["SVGColor"]=inter
-inter.include_methods.append('    wxSVGColor(): m_colorType(wxSVG_COLORTYPE_UNKNOWN) {}\n')
+inter.include_methods.append('    wxSVGColor(): wxCSSValue(wxCSS_SVG_COLOR),\n')
+inter.include_methods.append('      m_colorType(wxSVG_COLORTYPE_UNKNOWN) {}\n')
+inter.include_methods.append('    wxSVGColor(wxRGBColor color): wxCSSValue(wxCSS_SVG_COLOR),\n')
+inter.include_methods.append('      m_colorType(wxSVG_COLORTYPE_RGBCOLOR), m_rgbColor(color) {}\n')
 inter.include_methods.append('    wxSVGColor(unsigned char r, unsigned char g, unsigned char b):\n')
+inter.include_methods.append('      wxCSSValue(wxCSS_SVG_COLOR),\n')
 inter.include_methods.append('      m_colorType(wxSVG_COLORTYPE_RGBCOLOR), m_rgbColor(r, g, b) {}\n')
 inter.include_methods.append('    virtual ~wxSVGColor() {}\n')
 inter.include_methods.append('    wxCSSValue* Clone() const { return new wxSVGColor(*this); }\n')
@@ -113,9 +116,14 @@ inter.user_defined_destructor=1
 # wxSVGPaint
 inter = interface()
 interfaces["SVGPaint"]=inter
-inter.include_methods.append('    wxSVGPaint(): m_paintType(wxSVG_PAINTTYPE_NONE) {}\n')
+inter.include_methods.append('    wxSVGPaint(): m_paintType(wxSVG_PAINTTYPE_NONE)\n')
+inter.include_methods.append('     { m_cssValueType = wxCSS_SVG_PAINT; }\n')
 inter.include_methods.append('    wxSVGPaint(unsigned char r, unsigned char g, unsigned char b):\n')
-inter.include_methods.append('      wxSVGColor(r, g, b), m_paintType(wxSVG_PAINTTYPE_RGBCOLOR) {}\n')
+inter.include_methods.append('      wxSVGColor(r, g, b), m_paintType(wxSVG_PAINTTYPE_RGBCOLOR)\n')
+inter.include_methods.append('      { m_cssValueType = wxCSS_SVG_PAINT; }\n')
+inter.include_methods.append('    wxSVGPaint(wxRGBColor color):\n')
+inter.include_methods.append('      wxSVGColor(color), m_paintType(wxSVG_PAINTTYPE_RGBCOLOR)\n')
+inter.include_methods.append('      { m_cssValueType = wxCSS_SVG_PAINT; if (!color.Ok()) m_paintType = wxSVG_PAINTTYPE_NONE; }\n')
 inter.include_methods.append('    virtual ~wxSVGPaint() {}\n')
 inter.include_methods.append('    wxCSSValue* Clone() const { return new wxSVGPaint(*this); }\n')
 inter.include_methods.append('    \n')
@@ -203,7 +211,6 @@ inter.user_defined_destructor=1
 # SVGRect
 inter = interface()
 interfaces["SVGRect"]=inter
-
 inter.exclude_attributes = ['x', 'y', 'width', 'height']
 inter.include_attributes.append('''
   protected:
@@ -226,13 +233,17 @@ inter.include_methods.append('''\
     inline double GetHeight() const { return m_height; }
     inline void SetHeight(double n) { m_height = n; m_empty = false; }
     
-    inline bool IsEmpty() { return m_empty; }
+    inline bool IsEmpty() const { return m_empty; }
+    inline void Clear() { m_x = m_y = m_width = m_height = 0; m_empty = true; }
     
   public:
     wxSVGRect(): m_x(0), m_y(0), m_width(0), m_height(0), m_empty(true) {}
     wxSVGRect(double x, double y, double width, double height):
       m_x(x), m_y(y), m_width(width), m_height(height), m_empty(false) {}
+    wxString GetValueAsString();
+    void SetValueAsString(const wxString& value);
 ''')
+inter.include_includes = ["String"]
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
@@ -252,6 +263,18 @@ inter.include_methods.append('    wxSVGTransform(const wxSVGMatrix& matrix): m_t
 inter.include_methods.append('    virtual ~wxSVGTransform() {}\n')
 inter.include_methods.append('    inline void SetMatrix(const wxSVGMatrix& n) { m_type = wxSVG_TRANSFORM_MATRIX; m_matrix = n; }\n')
 inter.exclude_methods = ["SetMatrix"]
+inter.user_defined_destructor=1
+
+# SVGPreserveAspectRatio
+inter = interface()
+interfaces["SVGPreserveAspectRatio"]=inter
+inter.include_methods.append('''    wxSVGPreserveAspectRatio():
+      m_align(wxSVG_PRESERVEASPECTRATIO_UNKNOWN), m_meetOrSlice(wxSVG_MEETORSLICE_UNKNOWN) {}
+    wxString GetValueAsString();
+    void SetValueAsString(const wxString& value);
+''')
+inter.include_includes = ["String"]
+inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
 # SVGPathSeg
@@ -286,7 +309,7 @@ for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
 	wxSVGCanvasItem* m_canvasItem;
   public:
 	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	inline void SetCanvasItem(wxSVGCanvasItem* canvasItem) { m_canvasItem = canvasItem; }\n
+	void SetCanvasItem(wxSVGCanvasItem* canvasItem);\n
 ''')
   inter.include_attributes_init = [["canvasItem", True]]
   inter.include_methods.append('    wxSVGRect GetBBox();\n')
@@ -333,10 +356,10 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     
     wxSVGElement* GetElementById(const wxString& id);
 	
-	wxImage Render(int width = -1, int height = -1, const wxRect* rect = NULL);
+	wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL);
 ''')
 inter.include_fwd_decls = ["SVGSVGElement","SVGElement","SVGCanvas"]
-inter.include_includes = ["<wx/image.h>"]
+inter.include_includes = ["SVGRect","<wx/image.h>"]
 inter.user_defined_contructor=1
 inter.user_defined_destructor=1
 
