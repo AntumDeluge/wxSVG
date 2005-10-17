@@ -9,6 +9,8 @@
 #ifndef WX_SVG_PRESERVE_ASPECT_RATIO_H
 #define WX_SVG_PRESERVE_ASPECT_RATIO_H
 
+#include "String.h"
+
 
 enum wxSVG_PRESERVEASPECTRATIO
 {
@@ -47,8 +49,10 @@ class wxSVGPreserveAspectRatio
     inline void SetMeetOrSlice(const wxSVG_MEETORSLICE& n) { m_meetOrSlice = n; }
 
   public:
-    wxSVGPreserveAspectRatio(): m_align(wxSVG_PRESERVEASPECTRATIO(0)), m_meetOrSlice(wxSVG_MEETORSLICE(0)) {}
-    virtual ~wxSVGPreserveAspectRatio() {}
+    wxSVGPreserveAspectRatio():
+      m_align(wxSVG_PRESERVEASPECTRATIO_UNKNOWN), m_meetOrSlice(wxSVG_MEETORSLICE_UNKNOWN) {}
+    wxString GetValueAsString();
+    void SetValueAsString(const wxString& value);
 };
 
 #endif // WX_SVG_PRESERVE_ASPECT_RATIO_H

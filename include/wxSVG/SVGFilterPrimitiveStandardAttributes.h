@@ -47,6 +47,8 @@ class wxSVGFilterPrimitiveStandardAttributes:
 
   public:
     virtual ~wxSVGFilterPrimitiveStandardAttributes() {}
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
 };
 

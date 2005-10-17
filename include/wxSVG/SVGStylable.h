@@ -13,12 +13,15 @@
 #include "CSSStyleDeclaration.h"
 #include "CSSValue.h"
 #include "String.h"
+#include "SVGElement.h"
 
 class wxSVGStylable
 {
   protected:
     wxSVGAnimatedString m_className;
     wxCSSStyleDeclaration m_style;
+    bool HasCustomAttribute(const wxString& name);
+    wxString GetCustomAttribute(const wxString& name);
     bool SetCustomAttribute(const wxString& name, const wxString& value);
 
   public:
@@ -149,7 +152,10 @@ class wxSVGStylable
   public:
     virtual ~wxSVGStylable() {}
     inline void UpdateStyle(wxCSSStyleDeclaration& style) { style.Add(GetStyle()); }
+    static const wxCSSStyleDeclaration& GetElementStyle(const wxSVGElement& element);
     virtual const wxCSSValue& GetPresentationAttribute(const wxString& name);
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
 };
 

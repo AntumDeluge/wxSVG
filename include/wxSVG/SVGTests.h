@@ -32,6 +32,8 @@ class wxSVGTests
   public:
     virtual ~wxSVGTests() {}
     virtual bool HasExtension(const wxString& extension);
+    bool HasAttribute(const wxString& name);
+    wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
 };
 
