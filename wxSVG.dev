@@ -1,7 +1,7 @@
 [Project]
 FileName=wxSVG.dev
 Name=wxSVG
-UnitCount=235
+UnitCount=240
 Type=2
 Ver=1
 ObjFiles=
@@ -290,16 +290,6 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit27]
-FileName=include\wxSVG\SVGAnimatedColor.h
-CompileCpp=1
-Folder=wxSVG
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit28]
 FileName=include\wxSVG\SVGAnimatedEnumeration.h
 CompileCpp=1
 Folder=wxSVG
@@ -309,7 +299,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit29]
+[Unit28]
 FileName=include\wxSVG\SVGAnimatedInteger.h
 CompileCpp=1
 Folder=wxSVG
@@ -319,7 +309,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit30]
+[Unit29]
 FileName=include\wxSVG\SVGAnimatedLength.h
 CompileCpp=1
 Folder=wxSVG
@@ -329,7 +319,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit31]
+[Unit30]
 FileName=include\wxSVG\SVGAnimatedLengthList.h
 CompileCpp=1
 Folder=wxSVG
@@ -339,7 +329,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit32]
+[Unit31]
 FileName=include\wxSVG\SVGAnimatedNumber.h
 CompileCpp=1
 Folder=wxSVG
@@ -349,7 +339,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit33]
+[Unit32]
 FileName=include\wxSVG\SVGAnimatedNumberList.h
 CompileCpp=1
 Folder=wxSVG
@@ -359,17 +349,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit34]
-FileName=include\wxSVG\SVGAnimatedPaint.h
-CompileCpp=1
-Folder=wxSVG
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit35]
+[Unit33]
 FileName=include\wxSVG\SVGAnimatedPathData.h
 CompileCpp=1
 Folder=wxSVG
@@ -379,7 +359,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit36]
+[Unit34]
 FileName=include\wxSVG\SVGAnimatedPoints.h
 CompileCpp=1
 Folder=wxSVG
@@ -389,7 +369,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit37]
+[Unit35]
 FileName=include\wxSVG\SVGAnimatedPreserveAspectRatio.h
 CompileCpp=1
 Folder=wxSVG
@@ -399,7 +379,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit38]
+[Unit36]
 FileName=include\wxSVG\SVGAnimatedRect.h
 CompileCpp=1
 Folder=wxSVG
@@ -409,7 +389,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit39]
+[Unit37]
 FileName=include\wxSVG\SVGAnimatedString.h
 CompileCpp=1
 Folder=wxSVG
@@ -419,7 +399,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit40]
+[Unit38]
 FileName=include\wxSVG\SVGAnimatedTransformList.h
 CompileCpp=1
 Folder=wxSVG
@@ -429,7 +409,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit41]
+[Unit39]
 FileName=include\wxSVG\SVGAnimateElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -439,7 +419,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit42]
+[Unit40]
 FileName=include\wxSVG\SVGAnimateMotionElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -449,7 +429,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit43]
+[Unit41]
 FileName=include\wxSVG\SVGAnimateTransformElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -459,7 +439,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit44]
+[Unit42]
 FileName=include\wxSVG\SVGAnimationElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -469,7 +449,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit45]
+[Unit43]
 FileName=include\wxSVG\SVGCanvas.h
 CompileCpp=1
 Folder=wxSVG
@@ -479,7 +459,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit46]
+[Unit44]
 FileName=include\wxSVG\SVGCanvasItem.h
 CompileCpp=1
 Folder=wxSVG
@@ -489,7 +469,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit47]
+[Unit45]
 FileName=include\wxSVG\SVGCircleElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -499,7 +479,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit48]
+[Unit46]
 FileName=include\wxSVG\SVGClipPathElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -509,7 +489,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit49]
+[Unit47]
 FileName=include\wxSVG\SVGColor.h
 CompileCpp=1
 Folder=wxSVG
@@ -519,7 +499,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit50]
+[Unit48]
 FileName=include\wxSVG\SVGColorProfileElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -529,7 +509,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit51]
+[Unit49]
 FileName=include\wxSVG\SVGColorProfileRule.h
 CompileCpp=1
 Folder=wxSVG
@@ -539,7 +519,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit52]
+[Unit50]
 FileName=include\wxSVG\SVGComponentTransferFunctionElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -549,7 +529,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit53]
+[Unit51]
 FileName=include\wxSVG\SVGCSSRule.h
 CompileCpp=1
 Folder=wxSVG
@@ -559,7 +539,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit54]
+[Unit52]
 FileName=include\wxSVG\svgctrl.h
 CompileCpp=1
 Folder=wxSVG
@@ -569,7 +549,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit55]
+[Unit53]
 FileName=include\wxSVG\SVGCursorElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -579,7 +559,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit56]
+[Unit54]
 FileName=include\wxSVG\SVGDefinitionSrcElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -589,7 +569,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit57]
+[Unit55]
 FileName=include\wxSVG\SVGDefsElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -599,7 +579,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit58]
+[Unit56]
 FileName=include\wxSVG\SVGDescElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -609,7 +589,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit59]
+[Unit57]
 FileName=include\wxSVG\SVGDocument.h
 CompileCpp=1
 Folder=wxSVG
@@ -619,7 +599,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit60]
+[Unit58]
 FileName=include\wxSVG\SVGDTD.h
 CompileCpp=1
 Folder=wxSVG
@@ -629,7 +609,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit61]
+[Unit59]
 FileName=include\wxSVG\SVGElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -639,7 +619,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit62]
+[Unit60]
 FileName=include\wxSVG\SVGElementInstance.h
 CompileCpp=1
 Folder=wxSVG
@@ -649,7 +629,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit63]
+[Unit61]
 FileName=include\wxSVG\SVGElementInstanceList.h
 CompileCpp=1
 Folder=wxSVG
@@ -659,7 +639,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit64]
+[Unit62]
 FileName=include\wxSVG\SVGEllipseElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -669,7 +649,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit65]
+[Unit63]
 FileName=include\wxSVG\SVGEvent.h
 CompileCpp=1
 Folder=wxSVG
@@ -679,7 +659,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit66]
+[Unit64]
 FileName=include\wxSVG\SVGExternalResourcesRequired.h
 CompileCpp=1
 Folder=wxSVG
@@ -689,7 +669,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit67]
+[Unit65]
 FileName=include\wxSVG\SVGFEBlendElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -699,7 +679,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit68]
+[Unit66]
 FileName=include\wxSVG\SVGFEColorMatrixElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -709,7 +689,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit69]
+[Unit67]
 FileName=include\wxSVG\SVGFEComponentTransferElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -719,7 +699,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit70]
+[Unit68]
 FileName=include\wxSVG\SVGFECompositeElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -729,7 +709,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit71]
+[Unit69]
 FileName=include\wxSVG\SVGFEConvolveMatrixElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -739,7 +719,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit72]
+[Unit70]
 FileName=include\wxSVG\SVGFEDiffuseLightingElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -749,7 +729,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit73]
+[Unit71]
 FileName=include\wxSVG\SVGFEDisplacementMapElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -759,7 +739,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit74]
+[Unit72]
 FileName=include\wxSVG\SVGFEDistantLightElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -769,7 +749,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit75]
+[Unit73]
 FileName=include\wxSVG\SVGFEFloodElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -779,7 +759,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit76]
+[Unit74]
 FileName=include\wxSVG\SVGFEFuncAElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -789,7 +769,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit77]
+[Unit75]
 FileName=include\wxSVG\SVGFEFuncBElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -799,7 +779,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit78]
+[Unit76]
 FileName=include\wxSVG\SVGFEFuncGElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -809,7 +789,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit79]
+[Unit77]
 FileName=include\wxSVG\SVGFEFuncRElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -819,7 +799,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit80]
+[Unit78]
 FileName=include\wxSVG\SVGFEGaussianBlurElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -829,7 +809,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit81]
+[Unit79]
 FileName=include\wxSVG\SVGFEImageElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -839,7 +819,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit82]
+[Unit80]
 FileName=include\wxSVG\SVGFEMergeElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -849,7 +829,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit83]
+[Unit81]
 FileName=include\wxSVG\SVGFEMergeNodeElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -859,7 +839,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit84]
+[Unit82]
 FileName=include\wxSVG\SVGFEMorphologyElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -869,7 +849,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit85]
+[Unit83]
 FileName=include\wxSVG\SVGFEOffsetElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -879,7 +859,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit86]
+[Unit84]
 FileName=include\wxSVG\SVGFEPointLightElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -889,7 +869,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit87]
+[Unit85]
 FileName=include\wxSVG\SVGFESpecularLightingElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -899,7 +879,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit88]
+[Unit86]
 FileName=include\wxSVG\SVGFESpotLightElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -909,7 +889,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit89]
+[Unit87]
 FileName=include\wxSVG\SVGFETileElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -919,7 +899,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit90]
+[Unit88]
 FileName=include\wxSVG\SVGFETurbulenceElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -929,7 +909,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit91]
+[Unit89]
 FileName=include\wxSVG\SVGFilterElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -939,7 +919,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit92]
+[Unit90]
 FileName=include\wxSVG\SVGFilterPrimitiveStandardAttributes.h
 CompileCpp=1
 Folder=wxSVG
@@ -949,7 +929,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit93]
+[Unit91]
 FileName=include\wxSVG\SVGFitToViewBox.h
 CompileCpp=1
 Folder=wxSVG
@@ -959,7 +939,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit94]
+[Unit92]
 FileName=include\wxSVG\SVGFontElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -969,7 +949,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit95]
+[Unit93]
 FileName=include\wxSVG\SVGFontFaceElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -979,7 +959,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit96]
+[Unit94]
 FileName=include\wxSVG\SVGFontFaceFormatElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -989,7 +969,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit97]
+[Unit95]
 FileName=include\wxSVG\SVGFontFaceNameElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -999,7 +979,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit98]
+[Unit96]
 FileName=include\wxSVG\SVGFontFaceSrcElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1009,7 +989,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit99]
+[Unit97]
 FileName=include\wxSVG\SVGFontFaceUriElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1019,7 +999,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit100]
+[Unit98]
 FileName=include\wxSVG\SVGForeignObjectElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1029,7 +1009,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit101]
+[Unit99]
 FileName=include\wxSVG\SVGGElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1039,7 +1019,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit102]
+[Unit100]
 FileName=include\wxSVG\SVGGlyphElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1049,7 +1029,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit103]
+[Unit101]
 FileName=include\wxSVG\SVGGlyphRefElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1059,7 +1039,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit104]
+[Unit102]
 FileName=include\wxSVG\SVGGradientElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1069,7 +1049,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit105]
+[Unit103]
 FileName=include\wxSVG\SVGHKernElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1079,7 +1059,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit106]
+[Unit104]
 FileName=include\wxSVG\SVGICCColor.h
 CompileCpp=1
 Folder=wxSVG
@@ -1089,7 +1069,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit107]
+[Unit105]
 FileName=include\wxSVG\SVGImageElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1099,7 +1079,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit108]
+[Unit106]
 FileName=include\wxSVG\SVGLangSpace.h
 CompileCpp=1
 Folder=wxSVG
@@ -1109,7 +1089,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit109]
+[Unit107]
 FileName=include\wxSVG\SVGLength.h
 CompileCpp=1
 Folder=wxSVG
@@ -1119,7 +1099,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit110]
+[Unit108]
 FileName=include\wxSVG\SVGLengthCalculate.h
 CompileCpp=1
 Folder=wxSVG
@@ -1129,7 +1109,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit111]
+[Unit109]
 FileName=include\wxSVG\SVGLengthList.h
 CompileCpp=1
 Folder=wxSVG
@@ -1139,7 +1119,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit112]
+[Unit110]
 FileName=include\wxSVG\SVGLinearGradientElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1149,7 +1129,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit113]
+[Unit111]
 FileName=include\wxSVG\SVGLineElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1159,7 +1139,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit114]
+[Unit112]
 FileName=include\wxSVG\SVGLocatable.h
 CompileCpp=1
 Folder=wxSVG
@@ -1169,7 +1149,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit115]
+[Unit113]
 FileName=include\wxSVG\SVGMarkerElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1179,7 +1159,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit116]
+[Unit114]
 FileName=include\wxSVG\SVGMaskElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1189,7 +1169,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit117]
+[Unit115]
 FileName=include\wxSVG\SVGMatrix.h
 CompileCpp=1
 Folder=wxSVG
@@ -1199,7 +1179,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit118]
+[Unit116]
 FileName=include\wxSVG\SVGMetadataElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1209,7 +1189,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit119]
+[Unit117]
 FileName=include\wxSVG\SVGMissingGlyphElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1219,7 +1199,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit120]
+[Unit118]
 FileName=include\wxSVG\SVGMPathElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1229,7 +1209,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit121]
+[Unit119]
 FileName=include\wxSVG\SVGNumber.h
 CompileCpp=1
 Folder=wxSVG
@@ -1239,7 +1219,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit122]
+[Unit120]
 FileName=include\wxSVG\SVGNumberList.h
 CompileCpp=1
 Folder=wxSVG
@@ -1249,7 +1229,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit123]
+[Unit121]
 FileName=include\wxSVG\SVGPaint.h
 CompileCpp=1
 Folder=wxSVG
@@ -1259,7 +1239,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit124]
+[Unit122]
 FileName=include\wxSVG\SVGPathElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1269,7 +1249,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit125]
+[Unit123]
 FileName=include\wxSVG\SVGPathSeg.h
 CompileCpp=1
 Folder=wxSVG
@@ -1279,7 +1259,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit126]
+[Unit124]
 FileName=include\wxSVG\SVGPathSegArcAbs.h
 CompileCpp=1
 Folder=wxSVG
@@ -1289,7 +1269,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit127]
+[Unit125]
 FileName=include\wxSVG\SVGPathSegArcRel.h
 CompileCpp=1
 Folder=wxSVG
@@ -1299,7 +1279,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit128]
+[Unit126]
 FileName=include\wxSVG\SVGPathSegClosePath.h
 CompileCpp=1
 Folder=wxSVG
@@ -1309,7 +1289,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit129]
+[Unit127]
 FileName=include\wxSVG\SVGPathSegCurvetoCubicAbs.h
 CompileCpp=1
 Folder=wxSVG
@@ -1319,7 +1299,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit130]
+[Unit128]
 FileName=include\wxSVG\SVGPathSegCurvetoCubicRel.h
 CompileCpp=1
 Folder=wxSVG
@@ -1329,7 +1309,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit131]
+[Unit129]
 FileName=include\wxSVG\SVGPathSegCurvetoCubicSmoothAbs.h
 CompileCpp=1
 Folder=wxSVG
@@ -1339,7 +1319,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit132]
+[Unit130]
 FileName=include\wxSVG\SVGPathSegCurvetoCubicSmoothRel.h
 CompileCpp=1
 Folder=wxSVG
@@ -1349,7 +1329,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit133]
+[Unit131]
 FileName=include\wxSVG\SVGPathSegCurvetoQuadraticAbs.h
 CompileCpp=1
 Folder=wxSVG
@@ -1359,7 +1339,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit134]
+[Unit132]
 FileName=include\wxSVG\SVGPathSegCurvetoQuadraticRel.h
 CompileCpp=1
 Folder=wxSVG
@@ -1369,7 +1349,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit135]
+[Unit133]
 FileName=include\wxSVG\SVGPathSegCurvetoQuadraticSmoothAbs.h
 CompileCpp=1
 Folder=wxSVG
@@ -1379,7 +1359,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit136]
+[Unit134]
 FileName=include\wxSVG\SVGPathSegCurvetoQuadraticSmoothRel.h
 CompileCpp=1
 Folder=wxSVG
@@ -1389,7 +1369,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit137]
+[Unit135]
 FileName=include\wxSVG\SVGPathSegLinetoAbs.h
 CompileCpp=1
 Folder=wxSVG
@@ -1399,7 +1379,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit138]
+[Unit136]
 FileName=include\wxSVG\SVGPathSegLinetoHorizontalAbs.h
 CompileCpp=1
 Folder=wxSVG
@@ -1409,7 +1389,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit139]
+[Unit137]
 FileName=include\wxSVG\SVGPathSegLinetoHorizontalRel.h
 CompileCpp=1
 Folder=wxSVG
@@ -1419,7 +1399,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit140]
+[Unit138]
 FileName=include\wxSVG\SVGPathSegLinetoRel.h
 CompileCpp=1
 Folder=wxSVG
@@ -1429,7 +1409,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit141]
+[Unit139]
 FileName=include\wxSVG\SVGPathSegLinetoVerticalAbs.h
 CompileCpp=1
 Folder=wxSVG
@@ -1439,7 +1419,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit142]
+[Unit140]
 FileName=include\wxSVG\SVGPathSegLinetoVerticalRel.h
 CompileCpp=1
 Folder=wxSVG
@@ -1449,7 +1429,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit143]
+[Unit141]
 FileName=include\wxSVG\SVGPathSegList.h
 CompileCpp=1
 Folder=wxSVG
@@ -1459,7 +1439,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit144]
+[Unit142]
 FileName=include\wxSVG\SVGPathSegMovetoAbs.h
 CompileCpp=1
 Folder=wxSVG
@@ -1469,7 +1449,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit145]
+[Unit143]
 FileName=include\wxSVG\SVGPathSegMovetoRel.h
 CompileCpp=1
 Folder=wxSVG
@@ -1479,7 +1459,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit146]
+[Unit144]
 FileName=include\wxSVG\SVGPatternElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1489,7 +1469,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit147]
+[Unit145]
 FileName=include\wxSVG\SVGPoint.h
 CompileCpp=1
 Folder=wxSVG
@@ -1499,7 +1479,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit148]
+[Unit146]
 FileName=include\wxSVG\SVGPointList.h
 CompileCpp=1
 Folder=wxSVG
@@ -1509,7 +1489,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit149]
+[Unit147]
 FileName=include\wxSVG\SVGPolygonElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1519,7 +1499,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit150]
+[Unit148]
 FileName=include\wxSVG\SVGPolylineElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1529,7 +1509,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit151]
+[Unit149]
 FileName=include\wxSVG\SVGPreserveAspectRatio.h
 CompileCpp=1
 Folder=wxSVG
@@ -1539,7 +1519,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit152]
+[Unit150]
 FileName=include\wxSVG\SVGRadialGradientElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1549,7 +1529,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit153]
+[Unit151]
 FileName=include\wxSVG\SVGRect.h
 CompileCpp=1
 Folder=wxSVG
@@ -1559,7 +1539,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit154]
+[Unit152]
 FileName=include\wxSVG\SVGRectElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1569,7 +1549,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit155]
+[Unit153]
 FileName=include\wxSVG\SVGRenderingIntent.h
 CompileCpp=1
 Folder=wxSVG
@@ -1579,7 +1559,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit156]
+[Unit154]
 FileName=include\wxSVG\SVGScriptElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1589,7 +1569,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit157]
+[Unit155]
 FileName=include\wxSVG\SVGSetElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1599,7 +1579,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit158]
+[Unit156]
 FileName=include\wxSVG\SVGStopElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1609,7 +1589,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit159]
+[Unit157]
 FileName=include\wxSVG\SVGStringList.h
 CompileCpp=1
 Folder=wxSVG
@@ -1619,7 +1599,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit160]
+[Unit158]
 FileName=include\wxSVG\SVGStylable.h
 CompileCpp=1
 Folder=wxSVG
@@ -1629,7 +1609,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit161]
+[Unit159]
 FileName=include\wxSVG\SVGStyleElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1639,7 +1619,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit162]
+[Unit160]
 FileName=include\wxSVG\SVGSVGElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1649,7 +1629,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit163]
+[Unit161]
 FileName=include\wxSVG\SVGSwitchElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1659,7 +1639,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit164]
+[Unit162]
 FileName=include\wxSVG\SVGSymbolElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1669,7 +1649,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit165]
+[Unit163]
 FileName=include\wxSVG\SVGTests.h
 CompileCpp=1
 Folder=wxSVG
@@ -1679,7 +1659,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit166]
+[Unit164]
 FileName=include\wxSVG\SVGTextContentElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1689,7 +1669,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit167]
+[Unit165]
 FileName=include\wxSVG\SVGTextElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1699,7 +1679,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit168]
+[Unit166]
 FileName=include\wxSVG\SVGTextPathElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1709,7 +1689,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit169]
+[Unit167]
 FileName=include\wxSVG\SVGTextPositioningElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1719,7 +1699,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit170]
+[Unit168]
 FileName=include\wxSVG\SVGTitleElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1729,7 +1709,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit171]
+[Unit169]
 FileName=include\wxSVG\SVGTransform.h
 CompileCpp=1
 Folder=wxSVG
@@ -1739,7 +1719,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit172]
+[Unit170]
 FileName=include\wxSVG\SVGTransformable.h
 CompileCpp=1
 Folder=wxSVG
@@ -1749,7 +1729,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit173]
+[Unit171]
 FileName=include\wxSVG\SVGTransformList.h
 CompileCpp=1
 Folder=wxSVG
@@ -1759,7 +1739,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit174]
+[Unit172]
 FileName=include\wxSVG\SVGTRefElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1769,7 +1749,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit175]
+[Unit173]
 FileName=include\wxSVG\SVGTSpanElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1779,7 +1759,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit176]
+[Unit174]
 FileName=include\wxSVG\SVGUnitTypes.h
 CompileCpp=1
 Folder=wxSVG
@@ -1789,7 +1769,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit177]
+[Unit175]
 FileName=include\wxSVG\SVGURIReference.h
 CompileCpp=1
 Folder=wxSVG
@@ -1799,7 +1779,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit178]
+[Unit176]
 FileName=include\wxSVG\SVGUseElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1809,7 +1789,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit179]
+[Unit177]
 FileName=include\wxSVG\SVGViewElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1819,7 +1799,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit180]
+[Unit178]
 FileName=include\wxSVG\SVGViewSpec.h
 CompileCpp=1
 Folder=wxSVG
@@ -1829,7 +1809,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit181]
+[Unit179]
 FileName=include\wxSVG\SVGVKernElement.h
 CompileCpp=1
 Folder=wxSVG
@@ -1839,7 +1819,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit182]
+[Unit180]
 FileName=include\wxSVG\SVGZoomAndPan.h
 CompileCpp=1
 Folder=wxSVG
@@ -1849,7 +1829,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit183]
+[Unit181]
 FileName=include\wxSVG\SVGZoomEvent.h
 CompileCpp=1
 Folder=wxSVG
@@ -1859,7 +1839,17 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit185]
+[Unit182]
+FileName=src\xml\expat\xmlrole.c
+CompileCpp=0
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=$(CC) -c xmlrole.c -o xmlrole.o $(CFLAGS)
+
+[Unit183]
 FileName=src\xml\expat\xmltok.c
 CompileCpp=0
 Folder=wxSVG
@@ -1869,17 +1859,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=$(CC) -c xmltok.c -o xmltok.o $(CFLAGS)
 
-[Unit186]
-FileName=src\xml\xml.cpp
-CompileCpp=1
-Folder=wxSVG
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit187]
+[Unit185]
 FileName=src\xml\xmlhelpr.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -1889,7 +1869,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit188]
+[Unit186]
 FileName=src\SVGTransformList.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -1899,7 +1879,17 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit190]
+[Unit187]
+FileName=src\CSSStyleDeclaration.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit188]
 FileName=src\CSSValue.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -1909,7 +1899,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit192]
+[Unit190]
 FileName=src\SVGAngle.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -1919,17 +1909,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit193]
-FileName=src\SVGAnimationElement.cpp
-CompileCpp=1
-Folder=wxSVG
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit194]
+[Unit192]
 FileName=src\SVGCanvas.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -1939,7 +1919,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit195]
+[Unit193]
 FileName=src\SVGCanvasItem.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -1949,7 +1929,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit196]
+[Unit194]
 FileName=src\SVGCircleElement.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -1959,7 +1939,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit197]
+[Unit195]
 FileName=src\SVGColor.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -1969,7 +1949,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit198]
+[Unit196]
 FileName=src\svgctrl.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -1979,7 +1959,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit199]
+[Unit197]
 FileName=src\SVGDocument.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -1989,7 +1969,17 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit201]
+[Unit198]
+FileName=src\SVGElementInstanceList.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit199]
 FileName=src\SVGEllipseElement.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -1999,17 +1989,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit202]
-FileName=src\SVGFEGaussianBlurElement.cpp
-CompileCpp=1
-Folder=wxSVG
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit203]
+[Unit201]
 FileName=src\SVGFilterElement.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2019,7 +1999,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit204]
+[Unit202]
 FileName=src\SVGImageElement.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2029,7 +2009,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit205]
+[Unit203]
 FileName=src\SVGLength.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2039,7 +2019,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit206]
+[Unit204]
 FileName=src\SVGLengthList.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2049,7 +2029,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit207]
+[Unit205]
 FileName=src\SVGLineElement.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2059,7 +2039,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit208]
+[Unit206]
 FileName=src\SVGLocatable.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2069,7 +2049,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit209]
+[Unit207]
 FileName=src\SVGMarkerElement.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2079,7 +2059,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit210]
+[Unit208]
 FileName=src\SVGMatrix.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2089,7 +2069,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit211]
+[Unit209]
 FileName=src\SVGNumberList.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2099,7 +2079,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit212]
+[Unit210]
 FileName=src\SVGPaint.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2109,7 +2089,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit213]
+[Unit211]
 FileName=src\SVGPathElement.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2119,7 +2099,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit214]
+[Unit212]
 FileName=src\SVGPathSegList.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2129,7 +2109,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit215]
+[Unit213]
 FileName=src\SVGPoint.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2139,7 +2119,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit216]
+[Unit214]
 FileName=src\SVGPointList.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2149,7 +2129,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit217]
+[Unit215]
 FileName=src\SVGPolygonElement.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2159,7 +2139,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit218]
+[Unit216]
 FileName=src\SVGPolylineElement.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2169,7 +2149,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit219]
+[Unit217]
 FileName=src\SVGRectElement.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2179,7 +2159,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit220]
+[Unit218]
 FileName=src\SVGStringList.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2189,7 +2169,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit221]
+[Unit219]
 FileName=src\SVGStylable.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2199,7 +2179,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit222]
+[Unit220]
 FileName=src\SVGSVGElement.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2209,7 +2189,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit223]
+[Unit221]
 FileName=src\SVGTests.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2219,7 +2199,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit224]
+[Unit222]
 FileName=src\SVGTextContentElement.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2229,7 +2209,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit225]
+[Unit223]
 FileName=src\SVGTextElement.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2239,7 +2219,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit226]
+[Unit224]
 FileName=src\SVGTransform.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2249,7 +2229,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit227]
+[Unit225]
 FileName=src\SVGTransformable.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2259,7 +2239,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit228]
+[Unit226]
 FileName=src\agg\SVGCanvasAgg.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2269,7 +2249,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit229]
+[Unit227]
 FileName=src\agg\SVGCanvasAgg.h
 CompileCpp=1
 Folder=wxSVG
@@ -2279,7 +2259,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit230]
+[Unit228]
 FileName=src\agg\SVGCanvasPathAgg.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2289,8 +2269,28 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit231]
+[Unit229]
 FileName=src\agg\SVGCanvasPathAgg.h
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit230]
+FileName=src\agg\SVGCanvasTextAgg.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit231]
+FileName=src\agg\SVGCanvasTextAgg.h
 CompileCpp=1
 Folder=wxSVG
 Compile=1
@@ -2300,26 +2300,6 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit232]
-FileName=src\agg\SVGCanvasTextAgg.cpp
-CompileCpp=1
-Folder=wxSVG
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit233]
-FileName=src\agg\SVGCanvasTextAgg.h
-CompileCpp=1
-Folder=wxSVG
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit234]
 FileName=src\Elements_SetAttribute.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2329,7 +2309,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit235]
+[Unit233]
 FileName=src\xml\expat\xmlparse.c
 CompileCpp=0
 Folder=wxSVG
@@ -2339,8 +2319,18 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=$(CC) -c xmlparse.c -o xmlparse.o $(CFLAGS)
 
+[Unit234]
+FileName=src\SVGUseElement.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
 [Unit236]
-FileName=src\agg\SVGCanvasPathAgg.h
+FileName=src\Elements_GetAttribute.cpp
 CompileCpp=1
 Folder=wxSVG
 Compile=1
@@ -2350,7 +2340,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit237]
-FileName=src\agg\SVGCanvasTextAgg.cpp
+FileName=src\Elements_HasAttribute.cpp
 CompileCpp=1
 Folder=wxSVG
 Compile=1
@@ -2360,17 +2350,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit238]
-FileName=src\agg\SVGCanvasTextAgg.h
-CompileCpp=1
-Folder=wxSVG
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit239]
-FileName=src\agg\SVGCanvasTextAgg.h
+FileName=src\NodeList.cpp
 CompileCpp=1
 Folder=wxSVG
 Compile=1
@@ -2398,17 +2378,7 @@ ProductVersion=
 AutoIncBuildNr=0
 
 [Unit184]
-FileName=src\xml\expat\xmlrole.c
-CompileCpp=0
-Folder=wxSVG
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=$(CC) -c xmlrole.c -o xmlrole.o $(CFLAGS)
-
-[Unit189]
-FileName=src\CSSStyleDeclaration.cpp
+FileName=src\xml\xml.cpp
 CompileCpp=1
 Folder=wxSVG
 Compile=1
@@ -2417,7 +2387,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit191]
+[Unit189]
 FileName=src\GetSVGDocument.cpp
 CompileCpp=1
 Folder=wxSVG
@@ -2427,8 +2397,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit200]
-FileName=src\SVGElementInstanceList.cpp
+[Unit191]
+FileName=src\SVGAnimationElement.cpp
 CompileCpp=1
 Folder=wxSVG
 Compile=1
@@ -2436,3 +2406,84 @@ Link=1
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
+
+[Unit200]
+FileName=src\SVGFEGaussianBlurElement.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit240]
+FileName=src\SVGRect.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit241]
+FileName=src\SVGRect.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit242]
+FileName=src\SVGDocument_CreateElement.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit243]
+FileName=src\SVGPreserveAspectRatio.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit244]
+FileName=src\SVGRect.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit235]
+FileName=src\Elements_CopyConstructors.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit239]
+FileName=src\SVGPreserveAspectRatio.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
