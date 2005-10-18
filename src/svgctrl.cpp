@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.5 2005-10-06 08:18:55 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.6 2005-10-18 16:39:44 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -132,6 +132,15 @@ void wxSVGCtrl::OnPaint(wxPaintEvent& event)
   }
   
   wxPaintDC dc(this);
+
+#ifdef __WXMSW__
+  int w = GetClientSize().GetWidth();
+  int h = GetClientSize().GetHeight();
+  dc.SetPen(wxPen(wxColour(), 0, wxTRANSPARENT));
+  dc.DrawRectangle(m_buffer.GetWidth(), 0, w-m_buffer.GetWidth(), h);
+  dc.DrawRectangle(0, m_buffer.GetHeight(), m_buffer.GetWidth(), h-m_buffer.GetHeight());
+#endif
+  
   dc.DrawBitmap(m_buffer, 0, 0);
 }
 
