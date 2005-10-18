@@ -1,5 +1,5 @@
-CVS
----
+Version 1.0b1 <2005.10.18>
+--------------------------
 
   * added GetOwnerDocument()
   * added GetAttribute()
