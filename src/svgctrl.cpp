@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.6 2005-10-18 16:39:44 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.7 2005-10-19 07:43:10 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@ bool wxSVGCtrl::Load(const wxString& filename)
 void wxSVGCtrl::Refresh(bool eraseBackground, const wxRect* rect)
 {
   m_repaint = true;
-  if (rect && !m_repaintRect.IsEmpty())
+  if (rect && m_repaintRect.width>0 && m_repaintRect.height>0)
   {
     int x2 = wxMax(m_repaintRect.x+m_repaintRect.width, rect->x+rect->width);
     int y2 = wxMax(m_repaintRect.y+m_repaintRect.height, rect->y+rect->height);
@@ -110,7 +110,7 @@ void wxSVGCtrl::OnPaint(wxPaintEvent& event)
     
     //wxDateTime time = wxDateTime::UNow();
     
-    if (!m_repaintRect.IsEmpty() &&
+    if (m_repaintRect.width>0 && m_repaintRect.height>0 &&
         (m_repaintRect.width < 2*m_buffer.GetWidth()/3 ||
          m_repaintRect.height < 2*m_buffer.GetHeight()/3))
     {
