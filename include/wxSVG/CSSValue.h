@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.h,v 1.7 2005-09-29 09:51:43 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.h,v 1.8 2005-11-04 18:57:23 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -91,12 +91,18 @@ class wxCSSPrimitiveValue: public wxCSSValue
 	};
   
   public:
-	wxCSSPrimitiveValue(): wxCSSValue(wxCSS_PRIMITIVE_VALUE), m_primitiveType(wxCSS_UNKNOWN) {}
-	wxCSSPrimitiveValue(double value) { SetFloatValue(wxCSS_NUMBER, value); }
-	wxCSSPrimitiveValue(const wxString& value) { SetStringValue(wxCSS_STRING, value); }
-	wxCSSPrimitiveValue(const wxRect& value) { SetRectValue(value); }
-	wxCSSPrimitiveValue(const wxRGBColor& value) { SetRGBColorValue(value); }
-	wxCSSPrimitiveValue(wxCSS_VALUE value) { SetIdentValue(value); }
+	wxCSSPrimitiveValue(): wxCSSValue(wxCSS_PRIMITIVE_VALUE),
+      m_primitiveType(wxCSS_UNKNOWN) {}
+	wxCSSPrimitiveValue(double value): wxCSSValue(wxCSS_PRIMITIVE_VALUE),
+      m_primitiveType(wxCSS_NUMBER), m_number(value) {}
+	wxCSSPrimitiveValue(const wxString& value): wxCSSValue(wxCSS_PRIMITIVE_VALUE),
+      m_primitiveType(wxCSS_STRING), m_string(new wxString(value)) {}
+	wxCSSPrimitiveValue(const wxRect& value): wxCSSValue(wxCSS_PRIMITIVE_VALUE),
+      m_primitiveType(wxCSS_RECT), m_rect(new wxRect(value)) {}
+	wxCSSPrimitiveValue(const wxRGBColor& value): wxCSSValue(wxCSS_PRIMITIVE_VALUE),
+      m_primitiveType(wxCSS_RGBCOLOR), m_color(new wxRGBColor(value)) {}
+	wxCSSPrimitiveValue(wxCSS_VALUE value): wxCSSValue(wxCSS_PRIMITIVE_VALUE),
+      m_primitiveType(wxCSS_IDENT), m_ident(value) {}
 	wxCSSPrimitiveValue(const wxCSSPrimitiveValue& src);
 	wxCSSValue* Clone() const { return new wxCSSPrimitiveValue(*this); }
 	

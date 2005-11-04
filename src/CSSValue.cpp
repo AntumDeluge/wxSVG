@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.cpp,v 1.8 2005-06-20 13:29:26 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.cpp,v 1.9 2005-11-04 18:57:22 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,12 @@ wxString wxCSSValue::GetValueString(wxCSS_VALUE id)
   return (*s_cssValues)[int(id)-1];
 }
 
-wxCSSPrimitiveValue::wxCSSPrimitiveValue(const wxCSSPrimitiveValue& src)
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////  wxCSSPrimitiveValue //////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+wxCSSPrimitiveValue::wxCSSPrimitiveValue(const wxCSSPrimitiveValue& src):
+  wxCSSValue(wxCSS_PRIMITIVE_VALUE)
 {
   m_primitiveType = src.m_primitiveType;
   if (m_primitiveType == wxCSS_UNKNOWN);
