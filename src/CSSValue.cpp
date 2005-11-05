@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.cpp,v 1.9 2005-11-04 18:57:22 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.cpp,v 1.10 2005-11-05 19:21:48 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -80,8 +80,7 @@ void wxCSSPrimitiveValue::SetStringValue(wxCSS_PRIMITIVE_TYPE stringType, const 
 	CleanUp();
 	m_string = new wxString;
   }
-  m_primitiveType = stringValue == wxCSS_STRING ||
-					stringValue == wxCSS_URI ||
+  m_primitiveType = stringValue == wxCSS_URI ||
 					stringValue == wxCSS_ATTR ? stringType : wxCSS_STRING;
   *m_string = stringValue;
 }
@@ -191,4 +190,5 @@ void wxCSSPrimitiveValue::CleanUp()
 	delete m_rect;
   else if (m_primitiveType == wxCSS_RGBCOLOR)
 	delete m_color;
+  m_primitiveType = wxCSS_UNKNOWN;
 }
