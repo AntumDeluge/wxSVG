@@ -10,7 +10,17 @@
 #define WX_SVG_STRING_LIST_H
 
 #include "String.h"
+#include "String.h"
 #include <wx/dynarray.h>
-WX_DECLARE_OBJARRAY(wxString, wxSVGStringList);
+WX_DECLARE_OBJARRAY(wxString, wxSVGStringListBase);
+
+class wxSVGStringList: public wxSVGStringListBase
+{
+  public:
+    wxSVGStringList() {}
+    
+    wxString GetValueAsString();
+    void SetValueAsString(const wxString& value);
+};
 
 #endif // WX_SVG_STRING_LIST_H

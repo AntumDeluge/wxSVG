@@ -10,7 +10,17 @@
 #define WX_SVG_LENGTH_LIST_H
 
 #include "SVGLength.h"
+#include "String.h"
 #include <wx/dynarray.h>
-WX_DECLARE_OBJARRAY(wxSVGLength, wxSVGLengthList);
+WX_DECLARE_OBJARRAY(wxSVGLength, wxSVGLengthListBase);
+
+class wxSVGLengthList: public wxSVGLengthListBase
+{
+  public:
+    wxSVGLengthList() {}
+    
+    wxString GetValueAsString();
+    void SetValueAsString(const wxString& value);
+};
 
 #endif // WX_SVG_LENGTH_LIST_H

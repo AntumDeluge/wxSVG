@@ -7,5 +7,28 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGLengthList.h"
+#include <wx/tokenzr.h>
 #include <wx/arrimpl.cpp>
-WX_DEFINE_OBJARRAY(wxSVGLengthList);
+WX_DEFINE_OBJARRAY(wxSVGLengthListBase);
+
+wxString wxSVGLengthList::GetValueAsString()
+{
+  wxString value;
+  for (int i=0; i<(int)GetCount(); i++)
+    value += (i==0 ? wxT("") : wxT(",")) + Item(i).GetValueAsString();
+  return value;
+}
+
+void wxSVGLengthList::SetValueAsString(const wxString& value)
+{
+  wxStringTokenizer tkz(value, wxT(", \t"));
+  while (tkz.HasMoreTokens())
+  {
+    wxString token = tkz.GetNextToken();
+    if (!token.length())
+      continue;
+    wxSVGLength* length = new wxSVGLength();
+    length->SetValueAsString(token);
+    Add(length);
+  }
+}

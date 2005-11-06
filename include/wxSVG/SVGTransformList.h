@@ -10,7 +10,17 @@
 #define WX_SVG_TRANSFORM_LIST_H
 
 #include "SVGTransform.h"
+#include "String.h"
 #include <wx/dynarray.h>
-WX_DECLARE_OBJARRAY(wxSVGTransform, wxSVGTransformList);
+WX_DECLARE_OBJARRAY(wxSVGTransform, wxSVGTransformListBase);
+
+class wxSVGTransformList: public wxSVGTransformListBase
+{
+  public:
+    wxSVGTransformList() {}
+    
+    wxString GetValueAsString();
+    void SetValueAsString(const wxString& value);
+};
 
 #endif // WX_SVG_TRANSFORM_LIST_H

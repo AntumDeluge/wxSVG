@@ -7,5 +7,27 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGNumberList.h"
+#include <wx/tokenzr.h>
 #include <wx/arrimpl.cpp>
-WX_DEFINE_OBJARRAY(wxSVGNumberList);
+WX_DEFINE_OBJARRAY(wxSVGNumberListBase);
+
+wxString wxSVGNumberList::GetValueAsString()
+{
+  wxString value;
+  for (int i=0; i<(int)GetCount(); i++)
+    value += (i==0 ? wxT("") : wxT(" ")) +
+      wxString::Format(wxT("%%f"), (double)Item(i));
+  return value;
+}
+
+void wxSVGNumberList::SetValueAsString(const wxString& value)
+{
+  double val;
+  wxStringTokenizer tkz(value, wxT(", \t"));
+  while (tkz.HasMoreTokens()) 
+  { 
+    wxString token = tkz.GetNextToken(); 
+    if (token.length() && token.ToDouble(&val))
+      Add(val); 
+  }
+}

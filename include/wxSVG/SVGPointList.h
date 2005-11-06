@@ -10,7 +10,17 @@
 #define WX_SVG_POINT_LIST_H
 
 #include "SVGPoint.h"
+#include "String.h"
 #include <wx/dynarray.h>
-WX_DECLARE_OBJARRAY(wxSVGPoint, wxSVGPointList);
+WX_DECLARE_OBJARRAY(wxSVGPoint, wxSVGPointListBase);
+
+class wxSVGPointList: public wxSVGPointListBase
+{
+  public:
+    wxSVGPointList() {}
+    
+    wxString GetValueAsString();
+    void SetValueAsString(const wxString& value);
+};
 
 #endif // WX_SVG_POINT_LIST_H
