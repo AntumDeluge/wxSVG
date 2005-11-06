@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.h,v 1.8 2005-11-04 18:57:23 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.h,v 1.9 2005-11-06 17:31:36 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -104,6 +104,7 @@ class wxCSSPrimitiveValue: public wxCSSValue
 	wxCSSPrimitiveValue(wxCSS_VALUE value): wxCSSValue(wxCSS_PRIMITIVE_VALUE),
       m_primitiveType(wxCSS_IDENT), m_ident(value) {}
 	wxCSSPrimitiveValue(const wxCSSPrimitiveValue& src);
+    ~wxCSSPrimitiveValue() { CleanUp(); }
 	wxCSSValue* Clone() const { return new wxCSSPrimitiveValue(*this); }
 	
 	inline wxCSS_PRIMITIVE_TYPE GetCSSPrimitiveType() const { return m_primitiveType; }
