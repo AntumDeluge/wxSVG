@@ -309,12 +309,7 @@ wxString wxSVGFEColorMatrixElement::GetAttribute(const wxString& attrName)
   else if (attrName == wxT("type"))
     return wxString::Format(wxT("%d"), (char) m_type.GetBaseVal());
   else if (attrName == wxT("values"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_values.GetBaseVal().GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(" ")) + wxString::Format(wxT("%f"), (double)m_values.GetBaseVal()[i]);
-    return value;
-  }
+    return m_values.GetBaseVal().GetValueAsString();
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName))
@@ -391,53 +386,7 @@ wxString wxSVGFEMergeNodeElement::GetAttribute(const wxString& attrName)
 wxString wxSVGTransformable::GetAttribute(const wxString& attrName)
 {
   if (attrName == wxT("transform"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_transform.GetBaseVal().GetCount(); i++)
-    {
-      value += i==0 ? wxT("") : wxT(" ");
-      
-      wxSVGTransform& transform = m_transform.GetBaseVal()[i];
-        
-      switch (transform.GetType())
-      {
-        case wxSVG_TRANSFORM_UNKNOWN:
-          break;
-        case wxSVG_TRANSFORM_MATRIX:
-          value += wxString::Format(wxT("matrix(%f,%f,%f,%f,%f,%f)"),
-                      transform.GetMatrix().GetA(),
-                      transform.GetMatrix().GetB(),
-                      transform.GetMatrix().GetC(),
-                      transform.GetMatrix().GetD(),
-                      transform.GetMatrix().GetE(),
-                      transform.GetMatrix().GetF());
-          break;
-        case wxSVG_TRANSFORM_TRANSLATE:
-          value += wxString::Format(wxT("translate(%f,%f)"),
-                      transform.GetMatrix().GetE(),
-                      transform.GetMatrix().GetF());
-          break;
-        case wxSVG_TRANSFORM_SCALE:
-          value += wxString::Format(wxT("scale(%f,%f)"),
-                      transform.GetMatrix().GetA(),
-                      transform.GetMatrix().GetD());
-          break;
-        case wxSVG_TRANSFORM_ROTATE:
-          value += wxString::Format(wxT("rotate(%f,%f,%f)"),
-                      transform.GetAngle(),
-                      transform.GetMatrix().GetE(),
-                      transform.GetMatrix().GetF());
-          break;
-        case wxSVG_TRANSFORM_SKEWX:
-          value += wxString::Format(wxT("skewX(%f)"), transform.GetAngle());
-          break;
-        case wxSVG_TRANSFORM_SKEWY:
-          value += wxString::Format(wxT("skewY(%f)"), transform.GetAngle());
-          break;
-      }
-    }
-    return value;
-  }
+    return m_transform.GetBaseVal().GetValueAsString();
   else 
     return wxT("");
 
@@ -540,53 +489,7 @@ wxString wxSVGGradientElement::GetAttribute(const wxString& attrName)
   if (attrName == wxT("gradientUnits"))
     return wxString::Format(wxT("%d"), (char) m_gradientUnits.GetBaseVal());
   else if (attrName == wxT("gradientTransform"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_gradientTransform.GetBaseVal().GetCount(); i++)
-    {
-      value += i==0 ? wxT("") : wxT(" ");
-      
-      wxSVGTransform& transform = m_gradientTransform.GetBaseVal()[i];
-        
-      switch (transform.GetType())
-      {
-        case wxSVG_TRANSFORM_UNKNOWN:
-          break;
-        case wxSVG_TRANSFORM_MATRIX:
-          value += wxString::Format(wxT("matrix(%f,%f,%f,%f,%f,%f)"),
-                      transform.GetMatrix().GetA(),
-                      transform.GetMatrix().GetB(),
-                      transform.GetMatrix().GetC(),
-                      transform.GetMatrix().GetD(),
-                      transform.GetMatrix().GetE(),
-                      transform.GetMatrix().GetF());
-          break;
-        case wxSVG_TRANSFORM_TRANSLATE:
-          value += wxString::Format(wxT("translate(%f,%f)"),
-                      transform.GetMatrix().GetE(),
-                      transform.GetMatrix().GetF());
-          break;
-        case wxSVG_TRANSFORM_SCALE:
-          value += wxString::Format(wxT("scale(%f,%f)"),
-                      transform.GetMatrix().GetA(),
-                      transform.GetMatrix().GetD());
-          break;
-        case wxSVG_TRANSFORM_ROTATE:
-          value += wxString::Format(wxT("rotate(%f,%f,%f)"),
-                      transform.GetAngle(),
-                      transform.GetMatrix().GetE(),
-                      transform.GetMatrix().GetF());
-          break;
-        case wxSVG_TRANSFORM_SKEWX:
-          value += wxString::Format(wxT("skewX(%f)"), transform.GetAngle());
-          break;
-        case wxSVG_TRANSFORM_SKEWY:
-          value += wxString::Format(wxT("skewY(%f)"), transform.GetAngle());
-          break;
-      }
-    }
-    return value;
-  }
+    return m_gradientTransform.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("spreadMethod"))
     return wxString::Format(wxT("%d"), (char) m_spreadMethod.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
@@ -749,53 +652,7 @@ wxString wxSVGPatternElement::GetAttribute(const wxString& attrName)
   else if (attrName == wxT("patternContentUnits"))
     return wxString::Format(wxT("%d"), (char) m_patternContentUnits.GetBaseVal());
   else if (attrName == wxT("patternTransform"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_patternTransform.GetBaseVal().GetCount(); i++)
-    {
-      value += i==0 ? wxT("") : wxT(" ");
-      
-      wxSVGTransform& transform = m_patternTransform.GetBaseVal()[i];
-        
-      switch (transform.GetType())
-      {
-        case wxSVG_TRANSFORM_UNKNOWN:
-          break;
-        case wxSVG_TRANSFORM_MATRIX:
-          value += wxString::Format(wxT("matrix(%f,%f,%f,%f,%f,%f)"),
-                      transform.GetMatrix().GetA(),
-                      transform.GetMatrix().GetB(),
-                      transform.GetMatrix().GetC(),
-                      transform.GetMatrix().GetD(),
-                      transform.GetMatrix().GetE(),
-                      transform.GetMatrix().GetF());
-          break;
-        case wxSVG_TRANSFORM_TRANSLATE:
-          value += wxString::Format(wxT("translate(%f,%f)"),
-                      transform.GetMatrix().GetE(),
-                      transform.GetMatrix().GetF());
-          break;
-        case wxSVG_TRANSFORM_SCALE:
-          value += wxString::Format(wxT("scale(%f,%f)"),
-                      transform.GetMatrix().GetA(),
-                      transform.GetMatrix().GetD());
-          break;
-        case wxSVG_TRANSFORM_ROTATE:
-          value += wxString::Format(wxT("rotate(%f,%f,%f)"),
-                      transform.GetAngle(),
-                      transform.GetMatrix().GetE(),
-                      transform.GetMatrix().GetF());
-          break;
-        case wxSVG_TRANSFORM_SKEWX:
-          value += wxString::Format(wxT("skewX(%f)"), transform.GetAngle());
-          break;
-        case wxSVG_TRANSFORM_SKEWY:
-          value += wxString::Format(wxT("skewY(%f)"), transform.GetAngle());
-          break;
-      }
-    }
-    return value;
-  }
+    return m_patternTransform.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("x"))
     return m_x.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("y"))
@@ -884,26 +741,11 @@ wxString wxSVGFitToViewBox::GetAttribute(const wxString& attrName)
 wxString wxSVGTests::GetAttribute(const wxString& attrName)
 {
   if (attrName == wxT("requiredFeatures"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_requiredFeatures.GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(",")) + m_requiredFeatures[i];
-    return value;
-  }
+    return m_requiredFeatures.GetValueAsString();
   else if (attrName == wxT("requiredExtensions"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_requiredExtensions.GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(",")) + m_requiredExtensions[i];
-    return value;
-  }
+    return m_requiredExtensions.GetValueAsString();
   else if (attrName == wxT("systemLanguage"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_systemLanguage.GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(",")) + m_systemLanguage[i];
-    return value;
-  }
+    return m_systemLanguage.GetValueAsString();
   else 
     return wxT("");
 
@@ -1095,40 +937,15 @@ wxString wxSVGFEMergeElement::GetAttribute(const wxString& attrName)
 wxString wxSVGTextPositioningElement::GetAttribute(const wxString& attrName)
 {
   if (attrName == wxT("x"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_x.GetBaseVal().GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(",")) + m_x.GetBaseVal()[i].GetValueAsString();
-    return value;
-  }
+    return m_x.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("y"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_y.GetBaseVal().GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(",")) + m_y.GetBaseVal()[i].GetValueAsString();
-    return value;
-  }
+    return m_y.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("dx"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_dx.GetBaseVal().GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(",")) + m_dx.GetBaseVal()[i].GetValueAsString();
-    return value;
-  }
+    return m_dx.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("dy"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_dy.GetBaseVal().GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(",")) + m_dy.GetBaseVal()[i].GetValueAsString();
-    return value;
-  }
+    return m_dy.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("rotate"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_rotate.GetBaseVal().GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(" ")) + wxString::Format(wxT("%f"), (double)m_rotate.GetBaseVal()[i]);
-    return value;
-  }
+    return m_rotate.GetBaseVal().GetValueAsString();
   else if (wxSVGTextContentElement::HasAttribute(attrName))
     return wxSVGTextContentElement::GetAttribute(attrName);
   else 
@@ -1276,12 +1093,7 @@ wxString wxSVGMaskElement::GetAttribute(const wxString& attrName)
 wxString wxSVGViewElement::GetAttribute(const wxString& attrName)
 {
   if (attrName == wxT("viewTarget"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_viewTarget.GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(",")) + m_viewTarget[i];
-    return value;
-  }
+    return m_viewTarget.GetValueAsString();
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGExternalResourcesRequired::HasAttribute(attrName))
@@ -1366,138 +1178,7 @@ wxString wxSVGFEDiffuseLightingElement::GetAttribute(const wxString& attrName)
 wxString wxSVGAnimatedPathData::GetAttribute(const wxString& attrName)
 {
   if (attrName == wxT("d"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_pathSegList.GetCount(); i++)
-    {
-      value += i==0 ? wxT("") : wxT(" ");
-      
-      wxSVGPathSeg& pathSeg = m_pathSegList[i];
-        
-      switch (pathSeg.GetPathSegType())
-      {
-        case wxPATHSEG_UNKNOWN:
-          break;
-        case wxPATHSEG_CLOSEPATH:
-          value += wxT("z");
-          break;
-      
-        case wxPATHSEG_MOVETO_ABS:
-          value += wxString::Format(wxT("M%%f,%%f"),
-                      ((wxSVGPathSegMovetoAbs&)pathSeg).GetX(),
-                      ((wxSVGPathSegMovetoAbs&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_MOVETO_REL:
-          value += wxString::Format(wxT("m%%f,%%f"),
-                      ((wxSVGPathSegMovetoRel&)pathSeg).GetX(),
-                      ((wxSVGPathSegMovetoRel&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_LINETO_ABS:
-          value += wxString::Format(wxT("L%%f,%%f"),
-                      ((wxSVGPathSegLinetoAbs&)pathSeg).GetX(),
-                      ((wxSVGPathSegLinetoAbs&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_LINETO_REL:
-          value += wxString::Format(wxT("l%%f,%%f"),
-                      ((wxSVGPathSegLinetoRel&)pathSeg).GetX(),
-                      ((wxSVGPathSegLinetoRel&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_LINETO_HORIZONTAL_ABS:
-          value += wxString::Format(wxT("H%%f"),
-                      ((wxSVGPathSegLinetoHorizontalAbs&)pathSeg).GetX());
-          break;
-        case wxPATHSEG_LINETO_HORIZONTAL_REL:
-          value += wxString::Format(wxT("h%%f"),
-                      ((wxSVGPathSegLinetoHorizontalRel&)pathSeg).GetX());
-          break;
-        case wxPATHSEG_LINETO_VERTICAL_ABS:
-          value += wxString::Format(wxT("V%%f"),
-                      ((wxSVGPathSegLinetoVerticalAbs&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_LINETO_VERTICAL_REL:
-          value += wxString::Format(wxT("v%%f"),
-                      ((wxSVGPathSegLinetoVerticalRel&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_CURVETO_CUBIC_ABS:
-          value += wxString::Format(wxT("C%%f,%%f,%%f,%%f,%%f,%%f"),
-                      ((wxSVGPathSegCurvetoCubicAbs&)pathSeg).GetX1(),
-                      ((wxSVGPathSegCurvetoCubicAbs&)pathSeg).GetY1(),
-                      ((wxSVGPathSegCurvetoCubicAbs&)pathSeg).GetX2(),
-                      ((wxSVGPathSegCurvetoCubicAbs&)pathSeg).GetY2(),
-                      ((wxSVGPathSegCurvetoCubicAbs&)pathSeg).GetX(),
-                      ((wxSVGPathSegCurvetoCubicAbs&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_CURVETO_CUBIC_REL:
-          value += wxString::Format(wxT("c%%f,%%f,%%f,%%f,%%f,%%f"),
-                      ((wxSVGPathSegCurvetoCubicRel&)pathSeg).GetX1(),
-                      ((wxSVGPathSegCurvetoCubicRel&)pathSeg).GetY1(),
-                      ((wxSVGPathSegCurvetoCubicRel&)pathSeg).GetX2(),
-                      ((wxSVGPathSegCurvetoCubicRel&)pathSeg).GetY2(),
-                      ((wxSVGPathSegCurvetoCubicRel&)pathSeg).GetX(),
-                      ((wxSVGPathSegCurvetoCubicRel&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_CURVETO_CUBIC_SMOOTH_ABS:
-          value += wxString::Format(wxT("S%%f,%%f,%%f,%%f"),
-                      ((wxSVGPathSegCurvetoCubicSmoothAbs&)pathSeg).GetX2(),
-                      ((wxSVGPathSegCurvetoCubicSmoothAbs&)pathSeg).GetY2(),
-                      ((wxSVGPathSegCurvetoCubicSmoothAbs&)pathSeg).GetX(),
-                      ((wxSVGPathSegCurvetoCubicSmoothAbs&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_CURVETO_CUBIC_SMOOTH_REL:
-          value += wxString::Format(wxT("s%%f,%%f,%%f,%%f"),
-                      ((wxSVGPathSegCurvetoCubicSmoothRel&)pathSeg).GetX2(),
-                      ((wxSVGPathSegCurvetoCubicSmoothRel&)pathSeg).GetY2(),
-                      ((wxSVGPathSegCurvetoCubicSmoothRel&)pathSeg).GetX(),
-                      ((wxSVGPathSegCurvetoCubicSmoothRel&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_CURVETO_QUADRATIC_ABS:
-          value += wxString::Format(wxT("Q%%f,%%f,%%f,%%f"),
-                      ((wxSVGPathSegCurvetoQuadraticAbs&)pathSeg).GetX1(),
-                      ((wxSVGPathSegCurvetoQuadraticAbs&)pathSeg).GetY1(),
-                      ((wxSVGPathSegCurvetoQuadraticAbs&)pathSeg).GetX(),
-                      ((wxSVGPathSegCurvetoQuadraticAbs&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_CURVETO_QUADRATIC_REL:
-          value += wxString::Format(wxT("q%%f,%%f,%%f,%%f"),
-                      ((wxSVGPathSegCurvetoQuadraticRel&)pathSeg).GetX1(),
-                      ((wxSVGPathSegCurvetoQuadraticRel&)pathSeg).GetY1(),
-                      ((wxSVGPathSegCurvetoQuadraticRel&)pathSeg).GetX(),
-                      ((wxSVGPathSegCurvetoQuadraticRel&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS:
-          value += wxString::Format(wxT("T%%f,%%f"),
-                      ((wxSVGPathSegCurvetoQuadraticSmoothAbs&)pathSeg).GetX(),
-                      ((wxSVGPathSegCurvetoQuadraticSmoothAbs&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_CURVETO_QUADRATIC_SMOOTH_REL:
-          value += wxString::Format(wxT("t%%f,%%f"),
-                      ((wxSVGPathSegCurvetoQuadraticSmoothRel&)pathSeg).GetX(),
-                      ((wxSVGPathSegCurvetoQuadraticSmoothRel&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_ARC_ABS:
-          value += wxString::Format(wxT("A%%f,%%f,%%f,%%f,%%f,%%f,%%f"),
-                      ((wxSVGPathSegArcAbs&)pathSeg).GetR1(),
-                      ((wxSVGPathSegArcAbs&)pathSeg).GetR2(),
-                      ((wxSVGPathSegArcAbs&)pathSeg).GetAngle(),
-                      ((wxSVGPathSegArcAbs&)pathSeg).GetLargeArcFlag(),
-                      ((wxSVGPathSegArcAbs&)pathSeg).GetSweepFlag(),
-                      ((wxSVGPathSegArcAbs&)pathSeg).GetX(),
-                      ((wxSVGPathSegArcAbs&)pathSeg).GetY());
-          break;
-        case wxPATHSEG_ARC_REL:
-          value += wxString::Format(wxT("a%%f,%%f,%%f,%%f,%%f,%%f,%%f"),
-                      ((wxSVGPathSegArcRel&)pathSeg).GetR1(),
-                      ((wxSVGPathSegArcRel&)pathSeg).GetR2(),
-                      ((wxSVGPathSegArcRel&)pathSeg).GetAngle(),
-                      ((wxSVGPathSegArcRel&)pathSeg).GetLargeArcFlag(),
-                      ((wxSVGPathSegArcRel&)pathSeg).GetSweepFlag(),
-                      ((wxSVGPathSegArcRel&)pathSeg).GetX(),
-                      ((wxSVGPathSegArcRel&)pathSeg).GetY());
-          break;
-      }
-    }
-    return value;
-  }
+    return m_pathSegList.GetValueAsString();
   else 
     return wxT("");
 
@@ -1683,12 +1364,7 @@ wxString wxSVGComponentTransferFunctionElement::GetAttribute(const wxString& att
   if (attrName == wxT("type"))
     return wxString::Format(wxT("%d"), (char) m_type.GetBaseVal());
   else if (attrName == wxT("tableValues"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_tableValues.GetBaseVal().GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(" ")) + wxString::Format(wxT("%f"), (double)m_tableValues.GetBaseVal()[i]);
-    return value;
-  }
+    return m_tableValues.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("slope"))
     return wxString::Format(wxT("%d"), m_slope.GetBaseVal());
   else if (attrName == wxT("intercept"))
@@ -1822,13 +1498,7 @@ wxString wxSVGColorProfileElement::GetAttribute(const wxString& attrName)
 wxString wxSVGAnimatedPoints::GetAttribute(const wxString& attrName)
 {
   if (attrName == wxT("points"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_points.GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(" ")) + 
-              wxString::Format(wxT("%f,%f"), m_points[i].GetX(), m_points[i].GetY());
-    return value;
-  }
+    return m_points.GetValueAsString();
   else 
     return wxT("");
 
@@ -2081,12 +1751,7 @@ wxString wxSVGTitleElement::GetAttribute(const wxString& attrName)
 wxString wxSVGFEConvolveMatrixElement::GetAttribute(const wxString& attrName)
 {
   if (attrName == wxT("kernelMatrix"))
-  {
-    wxString value;
-    for (int i=0; i<(int)m_kernelMatrix.GetBaseVal().GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(" ")) + wxString::Format(wxT("%f"), (double)m_kernelMatrix.GetBaseVal()[i]);
-    return value;
-  }
+    return m_kernelMatrix.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("divisor"))
     return wxString::Format(wxT("%d"), m_divisor.GetBaseVal());
   else if (attrName == wxT("bias"))

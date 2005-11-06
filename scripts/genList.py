@@ -3,7 +3,7 @@
 ## Purpose:     generates all SVG*List.h/cpp
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genList.py,v 1.4 2005-09-29 09:56:12 ntalex Exp $
+## RCS-ID:      $Id: genList.py,v 1.5 2005-11-06 17:37:28 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -15,25 +15,46 @@ import cppHeader
 import cppImpl
 
 def generate(name):
-    if name == "PathSeg":
+    if name == "PathSeg" or name == "ElementInstance":
         return
-	typename = genAnimated.getBaseType(name)
-	include = ""
-	if name == "String":
-		include = '#include "%s.h"\n'%name
-	elif typename not in cpp.builtin_types:
-		include = '#include "SVG%s.h"\n'%name
-	
-	output = '''%s#include <wx/dynarray.h>
-WX_DECLARE_OBJARRAY(%s, wxSVG%sList);'''%(include,typename,name)
-	header = cppHeader.Header("SVG%sList"%name, "genList.py")
-	header.add_content(output)
-	header.dump(path=config.include_dir)
-	
-	output = '''#include "SVG%sList.h"
+    typename = genAnimated.getBaseType(name)
+    include = ""
+    if name == "String":
+        include = '#include "%s.h"\n'%name
+    elif typename not in cpp.builtin_types:
+        include = '#include "SVG%s.h"\n'%name
+    
+    output = '''%s#include "String.h"
+#include <wx/dynarray.h>
+WX_DECLARE_OBJARRAY(%s, wxSVG%sListBase);
+
+class wxSVG%sList: public wxSVG%sListBase
+{
+  public:
+    wxSVG%sList() {}
+    
+    wxString GetValueAsString();
+    void SetValueAsString(const wxString& value);
+};'''%(include,typename,name,name,name,name)
+    header = cppHeader.Header("SVG%sList"%name, "genList.py")
+    header.add_content(output)
+    header.dump(path=config.include_dir)
+    
+    output = '''#include "SVG%sList.h"
 #include <wx/arrimpl.cpp>
-WX_DEFINE_OBJARRAY(wxSVG%sList);'''%(name,name)
-	impl = cppImpl.Impl("SVG%sList"%name, "genList.py")
-	impl.add_content(output)
-	impl.dump(path=config.src_dir)
+WX_DEFINE_OBJARRAY(wxSVG%sListBase);
+
+wxString wxSVG%sList::GetValueAsString()
+{
+  wxString value;
+  return value;
+}
+
+void wxSVG%sList::SetValueAsString(const wxString& value)
+{
+
+}'''%(name,name,name,name)
+#    impl = cppImpl.Impl("SVG%sList"%name, "genList.py")
+#    impl.add_content(output)
+#    impl.dump(path=config.src_dir)
 

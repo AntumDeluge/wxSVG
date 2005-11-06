@@ -332,16 +332,7 @@ bool wxSVGFEColorMatrixElement::SetAttribute(const wxString& attrName, const wxS
       m_type.SetBaseVal((char) value);
   }
   else if (attrName == wxT("values"))
-  {
-    double value;
-    wxStringTokenizer tkz(attrValue, wxT(", \t"));
-    while (tkz.HasMoreTokens()) 
-    { 
-      wxString token = tkz.GetNextToken(); 
-      if (token.length() && token.ToDouble(&value))
-        m_values.GetBaseVal().Add(value); 
-    }
-  }
+    m_values.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
   else 
@@ -430,43 +421,7 @@ bool wxSVGFEMergeNodeElement::SetAttribute(const wxString& attrName, const wxStr
 bool wxSVGTransformable::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("transform"))
-  {
-    wxStringTokenizer tkz(attrValue, wxT(" \t"));
-    while (tkz.HasMoreTokens()) 
-    { 
-      wxString token = tkz.GetNextToken(); 
-      if (token.length())
-      {
-        wxSVGTransform transform;
-        double params[6] = { 0, 0, 0, 0, 0, 0 };
-        wxStringTokenizer tkz2(
-          token.AfterFirst(wxT('(')).BeforeLast(wxT(')')), wxT(","));
-        int pi = 0;
-        while (tkz2.HasMoreTokens()) 
-        {
-          tkz2.GetNextToken().ToDouble(&params[pi]);
-          pi++;
-        }
-        if (pi == 0)
-          continue;
-        if (token.substr(0,9) == wxT("translate"))
-          transform.SetTranslate(params[0],params[1]);
-        else if (token.substr(0,5) == wxT("scale"))
-          transform.SetScale(params[0],params[0]);
-        else if (token.substr(0,6) == wxT("rotate"))
-          transform.SetRotate(params[0],params[1],params[2]);
-        else if (token.substr(0,5) == wxT("skewX"))
-          transform.SetSkewX(params[0]);
-        else if (token.substr(0,5) == wxT("skewY"))
-          transform.SetSkewY(params[0]);
-        else if (token.substr(0,6) == wxT("matrix"))
-		  transform.SetMatrix(wxSVGMatrix(params[0], params[1], params[2], params[3], params[4], params[5]));
-		else
-		  continue;
-        m_transform.GetBaseVal().Add(transform);
-      }
-    }
-  }
+    m_transform.GetBaseVal().SetValueAsString(attrValue);
   else 
       return false;
 
@@ -591,43 +546,7 @@ bool wxSVGGradientElement::SetAttribute(const wxString& attrName, const wxString
       m_gradientUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("gradientTransform"))
-  {
-    wxStringTokenizer tkz(attrValue, wxT(" \t"));
-    while (tkz.HasMoreTokens()) 
-    { 
-      wxString token = tkz.GetNextToken(); 
-      if (token.length())
-      {
-        wxSVGTransform transform;
-        double params[6] = { 0, 0, 0, 0, 0, 0 };
-        wxStringTokenizer tkz2(
-          token.AfterFirst(wxT('(')).BeforeLast(wxT(')')), wxT(","));
-        int pi = 0;
-        while (tkz2.HasMoreTokens()) 
-        {
-          tkz2.GetNextToken().ToDouble(&params[pi]);
-          pi++;
-        }
-        if (pi == 0)
-          continue;
-        if (token.substr(0,9) == wxT("translate"))
-          transform.SetTranslate(params[0],params[1]);
-        else if (token.substr(0,5) == wxT("scale"))
-          transform.SetScale(params[0],params[0]);
-        else if (token.substr(0,6) == wxT("rotate"))
-          transform.SetRotate(params[0],params[1],params[2]);
-        else if (token.substr(0,5) == wxT("skewX"))
-          transform.SetSkewX(params[0]);
-        else if (token.substr(0,5) == wxT("skewY"))
-          transform.SetSkewY(params[0]);
-        else if (token.substr(0,6) == wxT("matrix"))
-		  transform.SetMatrix(wxSVGMatrix(params[0], params[1], params[2], params[3], params[4], params[5]));
-		else
-		  continue;
-        m_gradientTransform.GetBaseVal().Add(transform);
-      }
-    }
-  }
+    m_gradientTransform.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("spreadMethod"))
   {
     long value;
@@ -834,43 +753,7 @@ bool wxSVGPatternElement::SetAttribute(const wxString& attrName, const wxString&
       m_patternContentUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("patternTransform"))
-  {
-    wxStringTokenizer tkz(attrValue, wxT(" \t"));
-    while (tkz.HasMoreTokens()) 
-    { 
-      wxString token = tkz.GetNextToken(); 
-      if (token.length())
-      {
-        wxSVGTransform transform;
-        double params[6] = { 0, 0, 0, 0, 0, 0 };
-        wxStringTokenizer tkz2(
-          token.AfterFirst(wxT('(')).BeforeLast(wxT(')')), wxT(","));
-        int pi = 0;
-        while (tkz2.HasMoreTokens()) 
-        {
-          tkz2.GetNextToken().ToDouble(&params[pi]);
-          pi++;
-        }
-        if (pi == 0)
-          continue;
-        if (token.substr(0,9) == wxT("translate"))
-          transform.SetTranslate(params[0],params[1]);
-        else if (token.substr(0,5) == wxT("scale"))
-          transform.SetScale(params[0],params[0]);
-        else if (token.substr(0,6) == wxT("rotate"))
-          transform.SetRotate(params[0],params[1],params[2]);
-        else if (token.substr(0,5) == wxT("skewX"))
-          transform.SetSkewX(params[0]);
-        else if (token.substr(0,5) == wxT("skewY"))
-          transform.SetSkewY(params[0]);
-        else if (token.substr(0,6) == wxT("matrix"))
-		  transform.SetMatrix(wxSVGMatrix(params[0], params[1], params[2], params[3], params[4], params[5]));
-		else
-		  continue;
-        m_patternTransform.GetBaseVal().Add(transform);
-      }
-    }
-  }
+    m_patternTransform.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("x"))
     m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
@@ -958,23 +841,11 @@ bool wxSVGFitToViewBox::SetAttribute(const wxString& attrName, const wxString& a
 bool wxSVGTests::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("requiredFeatures"))
-  {
-    wxStringTokenizer tkz(attrValue, wxT(","));
-    while (tkz.HasMoreTokens()) 
-      m_requiredFeatures.Add(tkz.GetNextToken()); 
-  }
+    m_requiredFeatures.SetValueAsString(attrValue);
   else if (attrName == wxT("requiredExtensions"))
-  {
-    wxStringTokenizer tkz(attrValue, wxT(","));
-    while (tkz.HasMoreTokens()) 
-      m_requiredExtensions.Add(tkz.GetNextToken()); 
-  }
+    m_requiredExtensions.SetValueAsString(attrValue);
   else if (attrName == wxT("systemLanguage"))
-  {
-    wxStringTokenizer tkz(attrValue, wxT(","));
-    while (tkz.HasMoreTokens()) 
-      m_systemLanguage.Add(tkz.GetNextToken()); 
-  }
+    m_systemLanguage.SetValueAsString(attrValue);
   else 
       return false;
 
@@ -1170,68 +1041,15 @@ bool wxSVGFEMergeElement::SetAttribute(const wxString& attrName, const wxString&
 bool wxSVGTextPositioningElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("x"))
-  {
-    wxStringTokenizer tkz(attrValue, wxT(", \t"));
-    while (tkz.HasMoreTokens())
-    {
-	  wxString token = tkz.GetNextToken();
-	  if (!token.length())
-		continue;
-      wxSVGLength* length = new wxSVGLength();
-      length->SetValueAsString(token);
-      m_x.GetBaseVal().Add(length);
-    }
-  }
+    m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
-  {
-    wxStringTokenizer tkz(attrValue, wxT(", \t"));
-    while (tkz.HasMoreTokens())
-    {
-	  wxString token = tkz.GetNextToken();
-	  if (!token.length())
-		continue;
-      wxSVGLength* length = new wxSVGLength();
-      length->SetValueAsString(token);
-      m_y.GetBaseVal().Add(length);
-    }
-  }
+    m_y.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("dx"))
-  {
-    wxStringTokenizer tkz(attrValue, wxT(", \t"));
-    while (tkz.HasMoreTokens())
-    {
-	  wxString token = tkz.GetNextToken();
-	  if (!token.length())
-		continue;
-      wxSVGLength* length = new wxSVGLength();
-      length->SetValueAsString(token);
-      m_dx.GetBaseVal().Add(length);
-    }
-  }
+    m_dx.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("dy"))
-  {
-    wxStringTokenizer tkz(attrValue, wxT(", \t"));
-    while (tkz.HasMoreTokens())
-    {
-	  wxString token = tkz.GetNextToken();
-	  if (!token.length())
-		continue;
-      wxSVGLength* length = new wxSVGLength();
-      length->SetValueAsString(token);
-      m_dy.GetBaseVal().Add(length);
-    }
-  }
+    m_dy.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("rotate"))
-  {
-    double value;
-    wxStringTokenizer tkz(attrValue, wxT(", \t"));
-    while (tkz.HasMoreTokens()) 
-    { 
-      wxString token = tkz.GetNextToken(); 
-      if (token.length() && token.ToDouble(&value))
-        m_rotate.GetBaseVal().Add(value); 
-    }
-  }
+    m_rotate.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGTextContentElement::SetAttribute(attrName, attrValue));
   else 
       return false;
@@ -1385,11 +1203,7 @@ bool wxSVGMaskElement::SetAttribute(const wxString& attrName, const wxString& at
 bool wxSVGViewElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("viewTarget"))
-  {
-    wxStringTokenizer tkz(attrValue, wxT(","));
-    while (tkz.HasMoreTokens()) 
-      m_viewTarget.Add(tkz.GetNextToken()); 
-  }
+    m_viewTarget.SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
   else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
@@ -1493,271 +1307,7 @@ bool wxSVGFEDiffuseLightingElement::SetAttribute(const wxString& attrName, const
 bool wxSVGAnimatedPathData::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("d"))
-  {
-    const wxString s_commands = wxT("MmZzLlHhVvCcSsQqTtAa");
-    const wxString s_numeric = wxT(".Ee0123456789");
-    const wxString s_numericFirst = wxT("+-") + s_numeric;
-    const wxString s_separators = wxT(" ,\t\n\r");
-    wxChar type = 0;
-    double number;
-    wxSVGNumberList numbers;
-    wxString value = attrValue;
-    while (value.Length() && s_separators.Contains(value.Left(1)))
-      value.Remove(0,1);
-    while (value.Length())
-    {
-      if (!s_commands.Contains(value.Left(1)))
-        break;
-      type = value.GetChar(0);
-      value.Remove(0,1);
-      
-      while (value.Length())
-      {
-        while (value.Length() && s_separators.Contains(value.Left(1)))
-          value.Remove(0,1);
-        
-        unsigned int pos;
-        if (value.Length()>0 && s_numericFirst.Contains(value.Left(1)))
-        {
-          pos = 1;
-          while (value.Length()>pos && s_numeric.Contains(value.Mid(pos,1)))
-            pos++;
-          value.Mid(0,pos).ToDouble(&number);
-          numbers.Add(number);
-          value.Remove(0,pos);
-        }
-        else
-          break;
-      }
-        
-      // new path segement
-      if (type == wxT('Z') || type == wxT('z'))
-        m_pathSegList.Add(new wxSVGPathSegClosePath);
-      
-      else if (type == wxT('M'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=2)
-        {
-          wxSVGPathSegMovetoAbs* pathSeg = new wxSVGPathSegMovetoAbs;
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('m'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=2)
-        {
-          wxSVGPathSegMovetoRel* pathSeg = new wxSVGPathSegMovetoRel;
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('L'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=2)
-        {
-          wxSVGPathSegLinetoAbs* pathSeg = new wxSVGPathSegLinetoAbs;
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('l'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=2)
-        {
-          wxSVGPathSegLinetoRel* pathSeg = new wxSVGPathSegLinetoRel;
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('H'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=1)
-        {
-          wxSVGPathSegLinetoHorizontalAbs* pathSeg = new wxSVGPathSegLinetoHorizontalAbs;
-		  pathSeg->SetX(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('h'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=1)
-        {
-          wxSVGPathSegLinetoHorizontalRel* pathSeg = new wxSVGPathSegLinetoHorizontalRel;
-		  pathSeg->SetX(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('V'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=1)
-        {
-          wxSVGPathSegLinetoVerticalAbs* pathSeg = new wxSVGPathSegLinetoVerticalAbs;
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('v'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=1)
-        {
-          wxSVGPathSegLinetoVerticalRel* pathSeg = new wxSVGPathSegLinetoVerticalRel;
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('C'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=6)
-        {
-          wxSVGPathSegCurvetoCubicAbs* pathSeg = new wxSVGPathSegCurvetoCubicAbs;
-		  pathSeg->SetX1(numbers[pos++]);
-		  pathSeg->SetY1(numbers[pos++]);
-		  pathSeg->SetX2(numbers[pos++]);
-		  pathSeg->SetY2(numbers[pos++]);
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('c'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=6)
-        {
-          wxSVGPathSegCurvetoCubicRel* pathSeg = new wxSVGPathSegCurvetoCubicRel;
-		  pathSeg->SetX1(numbers[pos++]);
-		  pathSeg->SetY1(numbers[pos++]);
-		  pathSeg->SetX2(numbers[pos++]);
-		  pathSeg->SetY2(numbers[pos++]);
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('S'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=4)
-        {
-          wxSVGPathSegCurvetoCubicSmoothAbs* pathSeg = new wxSVGPathSegCurvetoCubicSmoothAbs;
-		  pathSeg->SetX2(numbers[pos++]);
-		  pathSeg->SetY2(numbers[pos++]);
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('s'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=4)
-        {
-          wxSVGPathSegCurvetoCubicSmoothRel* pathSeg = new wxSVGPathSegCurvetoCubicSmoothRel;
-		  pathSeg->SetX2(numbers[pos++]);
-		  pathSeg->SetY2(numbers[pos++]);
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('Q'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=4)
-        {
-          wxSVGPathSegCurvetoQuadraticAbs* pathSeg = new wxSVGPathSegCurvetoQuadraticAbs;
-		  pathSeg->SetX1(numbers[pos++]);
-		  pathSeg->SetY1(numbers[pos++]);
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('q'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=4)
-        {
-          wxSVGPathSegCurvetoQuadraticRel* pathSeg = new wxSVGPathSegCurvetoQuadraticRel;
-		  pathSeg->SetX1(numbers[pos++]);
-		  pathSeg->SetY1(numbers[pos++]);
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('T'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=2)
-        {
-          wxSVGPathSegCurvetoQuadraticSmoothAbs* pathSeg = new wxSVGPathSegCurvetoQuadraticSmoothAbs;
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('t'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=2)
-        {
-          wxSVGPathSegCurvetoQuadraticSmoothRel* pathSeg = new wxSVGPathSegCurvetoQuadraticSmoothRel;
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('A'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=7)
-        {
-          wxSVGPathSegArcAbs* pathSeg = new wxSVGPathSegArcAbs;
-		  pathSeg->SetR1(numbers[pos++]);
-		  pathSeg->SetR2(numbers[pos++]);
-		  pathSeg->SetAngle(numbers[pos++]);
-		  pathSeg->SetLargeArcFlag(numbers[pos++]);
-		  pathSeg->SetSweepFlag(numbers[pos++]);
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      else if (type == wxT('a'))
-      {
-        int pos = 0;
-        while (numbers.Count()-pos>=7)
-        {
-          wxSVGPathSegArcRel* pathSeg = new wxSVGPathSegArcRel;
-		  pathSeg->SetR1(numbers[pos++]);
-		  pathSeg->SetR2(numbers[pos++]);
-		  pathSeg->SetAngle(numbers[pos++]);
-		  pathSeg->SetLargeArcFlag(numbers[pos++]);
-		  pathSeg->SetSweepFlag(numbers[pos++]);
-		  pathSeg->SetX(numbers[pos++]);
-		  pathSeg->SetY(numbers[pos++]);
-          m_pathSegList.Add(pathSeg);
-        }
-      }
-      type = 0;
-      numbers.Clear();
-    }
-  }
+    m_pathSegList.SetValueAsString(attrValue);
   else 
       return false;
 
@@ -2023,16 +1573,7 @@ bool wxSVGComponentTransferFunctionElement::SetAttribute(const wxString& attrNam
       m_type.SetBaseVal((char) value);
   }
   else if (attrName == wxT("tableValues"))
-  {
-    double value;
-    wxStringTokenizer tkz(attrValue, wxT(", \t"));
-    while (tkz.HasMoreTokens()) 
-    { 
-      wxString token = tkz.GetNextToken(); 
-      if (token.length() && token.ToDouble(&value))
-        m_tableValues.GetBaseVal().Add(value); 
-    }
-  }
+    m_tableValues.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("slope"))
   {
     double value;
@@ -2180,27 +1721,7 @@ bool wxSVGColorProfileElement::SetAttribute(const wxString& attrName, const wxSt
 bool wxSVGAnimatedPoints::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("points"))
-  {
-    int num = 0;
-    double numbers[2];
-    wxStringTokenizer tkz(attrValue, wxT(", \t"));
-    while (tkz.HasMoreTokens()) 
-    { 
-      wxString token = tkz.GetNextToken(); 
-      if (token.length() && token.ToDouble(&numbers[num]))
-      {
-        num++;
-        if (num == 2)
-        {
-          wxSVGPoint point;
-          point.SetX(numbers[0]);
-          point.SetY(numbers[1]);
-          m_points.Add(point);
-		  num = 0;
-        }
-      }
-    }
-  }
+    m_points.SetValueAsString(attrValue);
   else 
       return false;
 
@@ -2452,16 +1973,7 @@ bool wxSVGTitleElement::SetAttribute(const wxString& attrName, const wxString& a
 bool wxSVGFEConvolveMatrixElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("kernelMatrix"))
-  {
-    double value;
-    wxStringTokenizer tkz(attrValue, wxT(", \t"));
-    while (tkz.HasMoreTokens()) 
-    { 
-      wxString token = tkz.GetNextToken(); 
-      if (token.length() && token.ToDouble(&value))
-        m_kernelMatrix.GetBaseVal().Add(value); 
-    }
-  }
+    m_kernelMatrix.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("divisor"))
   {
     double value;

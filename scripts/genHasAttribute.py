@@ -4,7 +4,7 @@
 ##              -> HasAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genHasAttribute.py,v 1.1 2005-10-17 13:51:33 ntalex Exp $
+## RCS-ID:      $Id: genHasAttribute.py,v 1.2 2005-11-06 17:37:28 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -68,9 +68,10 @@ def process(classdecl):
         except AlreadyProcessed:
             res=1
         except KeyError:
-            if inh not in ["Element", "events::EventTarget", "events::DocumentEvent", "css::ViewCSS", "css::DocumentCSS",
-                           "css::CSSValue", "smil::ElementTimeControl", "Document", "events::UIEvent", "css::CSSRule",
-                           "events::Event"]:
+            if inh not in ["Element", "events::EventTarget", "events::DocumentEvent",
+                           "css::ViewCSS", "css::DocumentCSS", "css::CSSValue",
+                           "smil::ElementTimeControl", "Document", "events::UIEvent",
+                           "css::CSSRule", "events::Event"]:
                 raise
             else:
                 continue

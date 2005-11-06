@@ -4,7 +4,7 @@
 ##              -> GetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttribute.py,v 1.1 2005-10-17 13:51:33 ntalex Exp $
+## RCS-ID:      $Id: genGetAttribute.py,v 1.2 2005-11-06 17:37:28 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -93,139 +93,8 @@ def process(classdecl):
             get_attr = '    return wxString::Format(wxT("%%d"), %s);'%get_attr
         elif typestr == "css::CSSStyleDeclaration":
             get_attr = '    return %s.GetCSSText();'%get_attr
-        elif typestr in ["Length", "Rect", "PreserveAspectRatio"]:
+        elif typestr in ["Length", "Rect", "PreserveAspectRatio"]  or typestr[-4:] == "List":
             get_attr = '    return %s.GetValueAsString();'%get_attr
-        elif typestr == "SVGStringList":
-            get_attr = '''  {
-    wxString value;
-    for (int i=0; i<(int)%s.GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(",")) + %s[i];
-    return value;
-  }'''%(get_attr,get_attr)
-        elif typestr == "LengthList":
-            get_attr = '''  {
-    wxString value;
-    for (int i=0; i<(int)%s.GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(",")) + %s[i].GetValueAsString();
-    return value;
-  }'''%(get_attr,get_attr)
-        elif typestr == "NumberList":
-            get_attr = '''  {
-    wxString value;
-    for (int i=0; i<(int)%s.GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(" ")) + wxString::Format(wxT("%%f"), (double)%s[i]);
-    return value;
-  }'''%(get_attr,get_attr)
-        elif typestr == "SVGPointList":  ######### SVGPointList ##########
-            get_attr = '''  {
-    wxString value;
-    for (int i=0; i<(int)%s.GetCount(); i++)
-      value += (i==0 ? wxT("") : wxT(" ")) + 
-              wxString::Format(wxT("%%f,%%f"), %s[i].GetX(), %s[i].GetY());
-    return value;
-  }'''%(get_attr,get_attr,get_attr)
-        elif typestr == "SVGPathSegList":  ######### SVGPathSegList ##########
-            get_attr = '''  {
-    wxString value;
-    for (int i=0; i<(int)%s.GetCount(); i++)
-    {
-      value += i==0 ? wxT("") : wxT(" ");
-      
-      wxSVGPathSeg& pathSeg = %s[i];
-        
-      switch (pathSeg.GetPathSegType())
-      {
-        case wxPATHSEG_UNKNOWN:
-          break;
-        case wxPATHSEG_CLOSEPATH:
-          value += wxT("z");
-          break;
-      '''%(get_attr,get_attr)
-            paths = [["M", "wxSVGPathSegMovetoAbs", "wxPATHSEG_MOVETO_ABS", ["X", "Y"]],
-              ["m", "wxSVGPathSegMovetoRel", "wxPATHSEG_MOVETO_REL", ["X", "Y"]],
-              ["L", "wxSVGPathSegLinetoAbs", "wxPATHSEG_LINETO_ABS", ["X", "Y"]],
-              ["l", "wxSVGPathSegLinetoRel", "wxPATHSEG_LINETO_REL", ["X", "Y"]],
-              ["H", "wxSVGPathSegLinetoHorizontalAbs", "wxPATHSEG_LINETO_HORIZONTAL_ABS", ["X"]],
-              ["h", "wxSVGPathSegLinetoHorizontalRel", "wxPATHSEG_LINETO_HORIZONTAL_REL", ["X"]],
-              ["V", "wxSVGPathSegLinetoVerticalAbs", "wxPATHSEG_LINETO_VERTICAL_ABS", ["Y"]],
-              ["v", "wxSVGPathSegLinetoVerticalRel", "wxPATHSEG_LINETO_VERTICAL_REL", ["Y"]],
-              ["C", "wxSVGPathSegCurvetoCubicAbs", "wxPATHSEG_CURVETO_CUBIC_ABS", ["X1", "Y1", "X2", "Y2", "X", "Y"]],
-              ["c", "wxSVGPathSegCurvetoCubicRel", "wxPATHSEG_CURVETO_CUBIC_REL", ["X1", "Y1", "X2", "Y2", "X", "Y"]],
-              ["S", "wxSVGPathSegCurvetoCubicSmoothAbs", "wxPATHSEG_CURVETO_CUBIC_SMOOTH_ABS", ["X2", "Y2", "X", "Y"]],
-              ["s", "wxSVGPathSegCurvetoCubicSmoothRel", "wxPATHSEG_CURVETO_CUBIC_SMOOTH_REL", ["X2", "Y2", "X", "Y"]],
-              ["Q", "wxSVGPathSegCurvetoQuadraticAbs", "wxPATHSEG_CURVETO_QUADRATIC_ABS", ["X1", "Y1", "X", "Y"]],
-              ["q", "wxSVGPathSegCurvetoQuadraticRel", "wxPATHSEG_CURVETO_QUADRATIC_REL", ["X1", "Y1", "X", "Y"]],
-              ["T", "wxSVGPathSegCurvetoQuadraticSmoothAbs", "wxPATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS", ["X", "Y"]],
-              ["t", "wxSVGPathSegCurvetoQuadraticSmoothRel", "wxPATHSEG_CURVETO_QUADRATIC_SMOOTH_REL", ["X", "Y"]],
-              ["A", "wxSVGPathSegArcAbs", "wxPATHSEG_ARC_ABS", ["R1", "R2", "Angle", "LargeArcFlag", "SweepFlag", "X", "Y"]],
-              ["a", "wxSVGPathSegArcRel", "wxPATHSEG_ARC_REL", ["R1", "R2", "Angle", "LargeArcFlag", "SweepFlag", "X", "Y"]]]
-            for path in paths:
-                (seg_char, seg_class, seg_type, seg_methods) = path
-                seg_values1 = ''
-                seg_values2 = ''
-                for seg_method in seg_methods:
-                    if len(seg_values1) > 0:
-                        seg_values1 = seg_values1 + ","
-                    seg_values1 = seg_values1 + '%%f'
-                    seg_values2 = seg_values2 + ',\n                      '
-                    seg_values2 = seg_values2 + '((%s&)pathSeg).Get%s()'%(seg_class,seg_method)
-                get_attr = get_attr + '''
-        case %s:
-          value += wxString::Format(wxT("%s%s")%s);
-          break;'''%(seg_type,seg_char,seg_values1,seg_values2)
-            get_attr = get_attr + '''
-      }
-    }
-    return value;
-  }'''
-        elif typestr == "TransformList": ######### TransformList ##########
-            get_attr = '''  {
-    wxString value;
-    for (int i=0; i<(int)%s.GetCount(); i++)
-    {
-      value += i==0 ? wxT("") : wxT(" ");
-      
-      wxSVGTransform& transform = %s[i];
-        
-      switch (transform.GetType())
-      {
-        case wxSVG_TRANSFORM_UNKNOWN:
-          break;
-        case wxSVG_TRANSFORM_MATRIX:
-          value += wxString::Format(wxT("matrix(%%f,%%f,%%f,%%f,%%f,%%f)"),
-                      transform.GetMatrix().GetA(),
-                      transform.GetMatrix().GetB(),
-                      transform.GetMatrix().GetC(),
-                      transform.GetMatrix().GetD(),
-                      transform.GetMatrix().GetE(),
-                      transform.GetMatrix().GetF());
-          break;
-        case wxSVG_TRANSFORM_TRANSLATE:
-          value += wxString::Format(wxT("translate(%%f,%%f)"),
-                      transform.GetMatrix().GetE(),
-                      transform.GetMatrix().GetF());
-          break;
-        case wxSVG_TRANSFORM_SCALE:
-          value += wxString::Format(wxT("scale(%%f,%%f)"),
-                      transform.GetMatrix().GetA(),
-                      transform.GetMatrix().GetD());
-          break;
-        case wxSVG_TRANSFORM_ROTATE:
-          value += wxString::Format(wxT("rotate(%%f,%%f,%%f)"),
-                      transform.GetAngle(),
-                      transform.GetMatrix().GetE(),
-                      transform.GetMatrix().GetF());
-          break;
-        case wxSVG_TRANSFORM_SKEWX:
-          value += wxString::Format(wxT("skewX(%%f)"), transform.GetAngle());
-          break;
-        case wxSVG_TRANSFORM_SKEWY:
-          value += wxString::Format(wxT("skewY(%%f)"), transform.GetAngle());
-          break;
-      }
-    }
-    return value;
-  }'''%(get_attr,get_attr)
         else:
             get_attr = '    return ' + get_attr + ';'
         func_body = func_body + 'if (attrName == wxT("%s"))\n'%entity_name
@@ -237,9 +106,10 @@ def process(classdecl):
         except AlreadyProcessed:
             res=1
         except KeyError:
-            if inh not in ["Element", "events::EventTarget", "events::DocumentEvent", "css::ViewCSS", "css::DocumentCSS",
-                           "css::CSSValue", "smil::ElementTimeControl", "Document", "events::UIEvent", "css::CSSRule",
-                           "events::Event"]:
+            if inh not in ["Element", "events::EventTarget", "events::DocumentEvent",
+                           "css::ViewCSS", "css::DocumentCSS", "css::CSSValue",
+                           "smil::ElementTimeControl", "Document", "events::UIEvent",
+                           "css::CSSRule", "events::Event"]:
                 raise
             else:
                 continue
