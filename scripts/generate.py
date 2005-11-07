@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.12 2005-10-17 13:53:56 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.13 2005-11-07 17:47:43 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -451,8 +451,11 @@ if len(parse_idl.class_decls):
             methods_str = methods_str + '    bool HasAttribute(const wxString& name);\n';
             methods_str = methods_str + '    wxString GetAttribute(const wxString& name);\n';
             methods_str = methods_str + '    bool SetAttribute(const wxString& name, const wxString& value);\n';
+            methods_str = methods_str + '    wxXmlAttrHash GetAttributes() const;\n';
             if "String" not in includes:
                 includes.append("String")
+            if "Element" not in includes:
+                includes.append("Element")
             doGetAttrByName=1
             if classname in ["SVGStylable"]: #genSetAttribute.customParser
                 protected = protected + '    bool HasCustomAttribute(const wxString& name);\n';
@@ -543,7 +546,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.12 2005-10-17 13:53:56 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.13 2005-11-07 17:47:43 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -574,5 +577,6 @@ genCSS.generate()
 import genHasAttribute
 import genGetAttribute
 import genSetAttribute
+import genGetAttributes
 import genSvgElement
 

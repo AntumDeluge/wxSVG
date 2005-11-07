@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.13 2005-10-17 13:54:49 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.14 2005-11-07 17:43:51 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -240,7 +240,7 @@ inter.include_methods.append('''\
     wxSVGRect(): m_x(0), m_y(0), m_width(0), m_height(0), m_empty(true) {}
     wxSVGRect(double x, double y, double width, double height):
       m_x(x), m_y(y), m_width(width), m_height(height), m_empty(false) {}
-    wxString GetValueAsString();
+    wxString GetValueAsString() const;
     void SetValueAsString(const wxString& value);
 ''')
 inter.include_includes = ["String"]
@@ -270,7 +270,7 @@ inter = interface()
 interfaces["SVGPreserveAspectRatio"]=inter
 inter.include_methods.append('''    wxSVGPreserveAspectRatio():
       m_align(wxSVG_PRESERVEASPECTRATIO_UNKNOWN), m_meetOrSlice(wxSVG_MEETORSLICE_UNKNOWN) {}
-    wxString GetValueAsString();
+    wxString GetValueAsString() const;
     void SetValueAsString(const wxString& value);
 ''')
 inter.include_includes = ["String"]

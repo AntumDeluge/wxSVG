@@ -28,7 +28,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGElementInstanceList.cpp SVGLengthList.cpp SVGNumberList.cpp\
   SVGPathSegList.cpp SVGPointList.cpp SVGStringList.cpp SVGTransformList.cpp\
   Elements_CopyConstructors.cpp Elements_HasAttribute.cpp\
-  Elements_GetAttribute.cpp Elements_SetAttribute.cpp\
+  Elements_GetAttribute.cpp Elements_GetAttributes.cpp Elements_SetAttribute.cpp\
   CSSValue.cpp CSSStyleDeclaration.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp
 

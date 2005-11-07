@@ -3,7 +3,7 @@
 ## Purpose:     generates all SVG*List.h/cpp
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genList.py,v 1.5 2005-11-06 17:37:28 ntalex Exp $
+## RCS-ID:      $Id: genList.py,v 1.6 2005-11-07 17:47:43 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -33,7 +33,7 @@ class wxSVG%sList: public wxSVG%sListBase
   public:
     wxSVG%sList() {}
     
-    wxString GetValueAsString();
+    wxString GetValueAsString() const;
     void SetValueAsString(const wxString& value);
 };'''%(include,typename,name,name,name,name)
     header = cppHeader.Header("SVG%sList"%name, "genList.py")
