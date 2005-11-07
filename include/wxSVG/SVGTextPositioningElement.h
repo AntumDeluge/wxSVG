@@ -14,6 +14,7 @@
 #include "SVGAnimatedNumberList.h"
 #include "SVGSVGElement.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGTextPositioningElement:
   public wxSVGTextContentElement
@@ -55,6 +56,7 @@ class wxSVGTextPositioningElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
 };
 
 #endif // WX_SVG_TEXT_POSITIONING_ELEMENT_H

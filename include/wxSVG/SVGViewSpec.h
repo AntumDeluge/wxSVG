@@ -15,6 +15,7 @@ class wxSVGElement;
 #include "SVGFitToViewBox.h"
 #include "SVGTransformList.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGViewSpec:
   public wxSVGZoomAndPan,
@@ -53,6 +54,7 @@ class wxSVGViewSpec:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
 };
 
 #endif // WX_SVG_VIEW_SPEC_H

@@ -15,6 +15,7 @@
 #include "SVGAnimatedEnumeration.h"
 #include "SVGSVGElement.h"
 #include "String.h"
+#include "Element.h"
 
 
 enum wxTEXTPATH_METHODTYPE
@@ -62,6 +63,7 @@ class wxSVGTextPathElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
     virtual const wxSVGDTD GetDtd() const { return wxSVG_TEXTPATH_ELEMENT; }
 };
 

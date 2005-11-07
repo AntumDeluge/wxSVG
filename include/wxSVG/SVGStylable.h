@@ -13,6 +13,7 @@
 #include "CSSStyleDeclaration.h"
 #include "CSSValue.h"
 #include "String.h"
+#include "Element.h"
 #include "SVGElement.h"
 
 class wxSVGStylable
@@ -157,6 +158,7 @@ class wxSVGStylable
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
 };
 
 #endif // WX_SVG_STYLABLE_H

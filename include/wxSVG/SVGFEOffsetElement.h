@@ -14,6 +14,7 @@
 #include "SVGAnimatedString.h"
 #include "SVGAnimatedNumber.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGFEOffsetElement:
   public wxSVGElement,
@@ -45,6 +46,7 @@ class wxSVGFEOffsetElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEOFFSET_ELEMENT; }
 };
 

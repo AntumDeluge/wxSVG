@@ -17,6 +17,7 @@ class wxSVGElement;
 #include "ElementTimeControl.h"
 #include "EventTarget.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGAnimationElement:
   public wxSVGElement,
@@ -42,6 +43,7 @@ class wxSVGAnimationElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
 };
 
 #endif // WX_SVG_ANIMATION_ELEMENT_H

@@ -13,6 +13,7 @@
 #include "SVGURIReference.h"
 #include "SVGExternalResourcesRequired.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGScriptElement:
   public wxSVGElement,
@@ -34,6 +35,7 @@ class wxSVGScriptElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
     virtual const wxSVGDTD GetDtd() const { return wxSVG_SCRIPT_ELEMENT; }
 };
 

@@ -41,6 +41,7 @@ class wxSVGCanvasItem;
 #include "SVGPathSegCurvetoQuadraticSmoothAbs.h"
 #include "SVGPathSegCurvetoQuadraticSmoothRel.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGPathElement:
   public wxSVGElement,
@@ -99,6 +100,7 @@ class wxSVGPathElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
     virtual const wxSVGDTD GetDtd() const { return wxSVG_PATH_ELEMENT; }
 };
 

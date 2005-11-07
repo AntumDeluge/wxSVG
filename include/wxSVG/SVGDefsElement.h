@@ -17,6 +17,7 @@
 #include "SVGTransformable.h"
 #include "EventTarget.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGDefsElement:
   public wxSVGElement,
@@ -36,6 +37,7 @@ class wxSVGDefsElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
     virtual const wxSVGDTD GetDtd() const { return wxSVG_DEFS_ELEMENT; }
 };
 

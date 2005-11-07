@@ -18,6 +18,7 @@
 #include "SVGUnitTypes.h"
 #include "SVGAnimatedEnumeration.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGClipPathElement:
   public wxSVGElement,
@@ -44,6 +45,7 @@ class wxSVGClipPathElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
     virtual const wxSVGDTD GetDtd() const { return wxSVG_CLIPPATH_ELEMENT; }
 };
 

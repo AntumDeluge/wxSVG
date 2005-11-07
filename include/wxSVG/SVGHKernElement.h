@@ -11,6 +11,7 @@
 
 #include "SVGElement.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGHKernElement:
   public wxSVGElement
@@ -23,6 +24,7 @@ class wxSVGHKernElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
     virtual const wxSVGDTD GetDtd() const { return wxSVG_HKERN_ELEMENT; }
 };
 

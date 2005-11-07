@@ -15,6 +15,7 @@
 #include "SVGExternalResourcesRequired.h"
 #include "SVGFilterPrimitiveStandardAttributes.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGFEImageElement:
   public wxSVGElement,
@@ -31,6 +32,7 @@ class wxSVGFEImageElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FEIMAGE_ELEMENT; }
 };
 

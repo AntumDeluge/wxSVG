@@ -3,7 +3,7 @@
 // Purpose:     wxXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: xml.h,v 1.6 2005-09-29 09:44:50 ntalex Exp $
+// RCS-ID:      $Id: xml.h,v 1.7 2005-11-07 17:39:46 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -18,6 +18,7 @@
 #include <wx/string.h>
 #include <wx/object.h>
 #include <wx/list.h>
+#include <wx/hashmap.h>
 
 #ifndef WXDLLIMPEXP_BASE
   #define WXDLLIMPEXP_BASE
@@ -78,6 +79,19 @@ private:
     wxXmlProperty *m_next;
 };
 
+
+WX_DECLARE_STRING_HASH_MAP(wxString, wxXmlAttrHashBase);
+class wxXmlAttrHash: public wxXmlAttrHashBase
+{
+  public:
+    void Add(wxString key, wxString value) { (*this)[key] = value; }
+    void Add(const wxXmlAttrHash& value)
+    {
+      wxXmlAttrHash::const_iterator it; 
+      for(it = value.begin(); it != value.end(); ++it)
+        insert(*it);
+    }
+};
 
 
 // Represents node in XML document. Node has name and may have content
@@ -165,6 +179,8 @@ public: // W3C DOM Methods
     virtual bool HasAttribute(const wxString& name);
     virtual bool HasAttributeNS(const wxString& namespaceURI, 
 								const wxString& localName);
+    
+    virtual wxXmlAttrHash GetAttributes() const;
                                 
     void SetOwnerDocument(wxXmlDocument* ownerDocument);
 

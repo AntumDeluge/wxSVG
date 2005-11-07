@@ -13,6 +13,7 @@
 #include "SVGStylable.h"
 #include "SVGAnimatedNumber.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGStopElement:
   public wxSVGElement,
@@ -34,6 +35,7 @@ class wxSVGStopElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
     virtual const wxSVGDTD GetDtd() const { return wxSVG_STOP_ELEMENT; }
 };
 

@@ -15,6 +15,7 @@
 #include "SVGAnimatedEnumeration.h"
 #include "SVGAnimatedNumber.h"
 #include "String.h"
+#include "Element.h"
 
 
 enum wxSVG_FECOMPOSITE_OPERATOR
@@ -78,6 +79,7 @@ class wxSVGFECompositeElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
     virtual const wxSVGDTD GetDtd() const { return wxSVG_FECOMPOSITE_ELEMENT; }
 };
 

@@ -14,6 +14,7 @@ class wxSVGCanvasItem;
 #include "SVGTextPositioningElement.h"
 #include "SVGTransformable.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGTextElement:
   public wxSVGTextPositioningElement,
@@ -37,6 +38,7 @@ class wxSVGTextElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
     virtual const wxSVGDTD GetDtd() const { return wxSVG_TEXT_ELEMENT; }
 };
 

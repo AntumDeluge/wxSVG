@@ -19,6 +19,7 @@
 #include "EventTarget.h"
 #include "SVGAnimatedString.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGAElement:
   public wxSVGElement,
@@ -47,6 +48,7 @@ class wxSVGAElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
     virtual const wxSVGDTD GetDtd() const { return wxSVG_A_ELEMENT; }
 };
 

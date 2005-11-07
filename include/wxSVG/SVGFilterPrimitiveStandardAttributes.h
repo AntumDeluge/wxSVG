@@ -13,6 +13,7 @@
 #include "SVGAnimatedLength.h"
 #include "SVGAnimatedString.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGFilterPrimitiveStandardAttributes:
   public wxSVGStylable
@@ -50,6 +51,7 @@ class wxSVGFilterPrimitiveStandardAttributes:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
 };
 
 #endif // WX_SVG_FILTER_PRIMITIVE_STANDARD_ATTRIBUTES_H

@@ -12,6 +12,7 @@
 #include "SVGTextPositioningElement.h"
 #include "SVGURIReference.h"
 #include "String.h"
+#include "Element.h"
 
 class wxSVGAltGlyphElement:
   public wxSVGTextPositioningElement,
@@ -36,6 +37,7 @@ class wxSVGAltGlyphElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
+    wxXmlAttrHash GetAttributes() const;
     virtual const wxSVGDTD GetDtd() const { return wxSVG_ALTGLYPH_ELEMENT; }
 };
 
