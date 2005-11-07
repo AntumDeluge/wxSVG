@@ -4,7 +4,7 @@
 ##              -> GetAttributes() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttributes.py,v 1.1 2005-11-07 17:43:45 ntalex Exp $
+## RCS-ID:      $Id: genGetAttributes.py,v 1.2 2005-11-07 19:26:55 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -64,6 +64,7 @@ def process(classdecl):
                 check = get_attr
                 etype = '(bool) '
             elif typestr == "Enumeration":
+                check = '%s != 0'%get_attr
                 etype = '(char) '
             elif typestr == "unsigned short":
                 if classdecl.name == "SVGZoomAndPan":
@@ -74,6 +75,8 @@ def process(classdecl):
             get_attr = etype + get_attr
             get_attr = 'wxString::Format(wxT("%%d"), %s)'%get_attr
         elif typestr in ["float", "Number"]:
+            if attr.name == "pathLength":
+                check = '%s > 0'%get_attr
             get_attr = 'wxString::Format(wxT("%%d"), %s)'%get_attr
         elif typestr == "css::CSSStyleDeclaration":
             check = '!%s.empty()'%get_attr
