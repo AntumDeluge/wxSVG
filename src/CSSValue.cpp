@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.cpp,v 1.10 2005-11-05 19:21:48 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.cpp,v 1.11 2005-11-07 17:30:43 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ wxString wxCSSPrimitiveValue::GetStringValue() const
 	case wxCSS_UNKNOWN:
 	  break;
 	default:
-	  return wxString::Format(wxT("%f"), m_number);
+	  return wxString::Format(wxT("%g"), m_number);
   }
   return wxT("");
 }

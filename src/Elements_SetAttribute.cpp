@@ -7,8 +7,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "String.h"
-#include <wx/tokenzr.h>
-#include "String.h"
 #include "SVGAElement.h"
 #include "SVGElement.h"
 #include "SVGURIReference.h"
