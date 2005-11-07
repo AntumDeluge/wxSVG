@@ -25,7 +25,7 @@ wxString wxSVGTransformList::GetValueAsString() const
       case wxSVG_TRANSFORM_UNKNOWN:
         break;
       case wxSVG_TRANSFORM_MATRIX:
-        value += wxString::Format(wxT("matrix(%f,%f,%f,%f,%f,%f)"),
+        value += wxString::Format(wxT("matrix(%g,%g,%g,%g,%g,%g)"),
                     transform.GetMatrix().GetA(),
                     transform.GetMatrix().GetB(),
                     transform.GetMatrix().GetC(),
@@ -34,26 +34,26 @@ wxString wxSVGTransformList::GetValueAsString() const
                     transform.GetMatrix().GetF());
         break;
       case wxSVG_TRANSFORM_TRANSLATE:
-        value += wxString::Format(wxT("translate(%f,%f)"),
+        value += wxString::Format(wxT("translate(%g,%g)"),
                     transform.GetMatrix().GetE(),
                     transform.GetMatrix().GetF());
         break;
       case wxSVG_TRANSFORM_SCALE:
-        value += wxString::Format(wxT("scale(%f,%f)"),
+        value += wxString::Format(wxT("scale(%g,%g)"),
                     transform.GetMatrix().GetA(),
                     transform.GetMatrix().GetD());
         break;
       case wxSVG_TRANSFORM_ROTATE:
-        value += wxString::Format(wxT("rotate(%f,%f,%f)"),
+        value += wxString::Format(wxT("rotate(%g,%g,%g)"),
                     transform.GetAngle(),
                     transform.GetMatrix().GetE(),
                     transform.GetMatrix().GetF());
         break;
       case wxSVG_TRANSFORM_SKEWX:
-        value += wxString::Format(wxT("skewX(%f)"), transform.GetAngle());
+        value += wxString::Format(wxT("skewX(%g)"), transform.GetAngle());
         break;
       case wxSVG_TRANSFORM_SKEWY:
-        value += wxString::Format(wxT("skewY(%f)"), transform.GetAngle());
+        value += wxString::Format(wxT("skewY(%g)"), transform.GetAngle());
         break;
     }
   }

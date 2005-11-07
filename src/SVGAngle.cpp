@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGAngle.cpp,v 1.3 2005-06-17 13:24:50 ntalex Exp $
+// RCS-ID:      $Id: SVGAngle.cpp,v 1.4 2005-11-07 19:03:00 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@ void wxSVGAngle::SetValueInSpecifiedUnits(double n)
 
 wxString wxSVGAngle::GetValueAsString() const
 {
-  wxString value = wxString::Format(wxT("%f"), m_valueInSpecifiedUnits);
+  wxString value = wxString::Format(wxT("%g"), m_valueInSpecifiedUnits);
   switch (m_unitType)
   {
 	case wxSVG_ANGLETYPE_UNKNOWN: break;

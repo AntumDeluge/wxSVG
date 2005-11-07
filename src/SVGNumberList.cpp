@@ -16,7 +16,7 @@ wxString wxSVGNumberList::GetValueAsString() const
   wxString value;
   for (int i=0; i<(int)GetCount(); i++)
     value += (i==0 ? wxT("") : wxT(" ")) +
-      wxString::Format(wxT("%%f"), (double)Item(i));
+      wxString::Format(wxT("%g"), (double)Item(i));
   return value;
 }
 

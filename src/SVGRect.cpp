@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/09/27
-// RCS-ID:      $Id: SVGRect.cpp,v 1.2 2005-11-07 17:36:57 ntalex Exp $
+// RCS-ID:      $Id: SVGRect.cpp,v 1.3 2005-11-07 19:03:00 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
 
 wxString wxSVGRect::GetValueAsString() const
 {
-  return wxString::Format(wxT("%f %f %f %f"),
+  return wxString::Format(wxT("%g %g %g %g"),
     GetX(), GetY(), GetWidth(), GetHeight());
 }
 
