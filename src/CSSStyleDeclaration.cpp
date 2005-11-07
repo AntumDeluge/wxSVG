@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.7 2005-06-20 13:29:26 ntalex Exp $
+// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.8 2005-11-07 17:31:56 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -31,12 +31,12 @@ void wxCSSStyleDeclaration::Add(const wxCSSStyleDeclaration& style)
 	(*this)[it->first] = it->second->Clone();
 }
 
-wxString wxCSSStyleDeclaration::GetCSSText()
+wxString wxCSSStyleDeclaration::GetCSSText() const
 {
   wxString text;
-  iterator it;
+  const_iterator it;
   for (it = begin(); it != end(); ++it) 
-	text = GetPropertyName(it->first) + wxT(":") + it->second->GetCSSText() + wxT(";");
+	text = text + GetPropertyName(it->first) + wxT(":") + it->second->GetCSSText() + wxT(";");
   return text;
 }
 

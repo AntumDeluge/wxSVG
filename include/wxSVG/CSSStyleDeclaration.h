@@ -61,7 +61,7 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     void Add(const wxCSSStyleDeclaration& style);
 
   public:
-    wxString GetCSSText();
+    wxString GetCSSText() const;
     void SetCSSText(const wxString& text);
     
     inline wxString GetPropertyValue(const wxString& propertyName) const
