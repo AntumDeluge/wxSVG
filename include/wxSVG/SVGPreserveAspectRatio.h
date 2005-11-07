@@ -51,7 +51,7 @@ class wxSVGPreserveAspectRatio
   public:
     wxSVGPreserveAspectRatio():
       m_align(wxSVG_PRESERVEASPECTRATIO_UNKNOWN), m_meetOrSlice(wxSVG_MEETORSLICE_UNKNOWN) {}
-    wxString GetValueAsString();
+    wxString GetValueAsString() const;
     void SetValueAsString(const wxString& value);
 };
 

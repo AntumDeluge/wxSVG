@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/09/27
-// RCS-ID:      $Id: SVGPreserveAspectRatio.cpp,v 1.1 2005-10-17 13:51:33 ntalex Exp $
+// RCS-ID:      $Id: SVGPreserveAspectRatio.cpp,v 1.2 2005-11-07 17:36:57 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -11,7 +11,7 @@
 #include "SVGPreserveAspectRatio.h"
 #include <wx/tokenzr.h>
 
-wxString wxSVGPreserveAspectRatio::GetValueAsString()
+wxString wxSVGPreserveAspectRatio::GetValueAsString() const
 {
   wxString value;
   switch (m_align)

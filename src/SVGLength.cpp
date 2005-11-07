@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGLength.cpp,v 1.4 2005-06-17 13:24:50 ntalex Exp $
+// RCS-ID:      $Id: SVGLength.cpp,v 1.5 2005-11-07 17:39:59 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 
 wxString wxSVGLength::GetValueAsString() const
 {
-  wxString value = wxString::Format(wxT("%f"), m_valueInSpecifiedUnits);
+  wxString value = wxString::Format(wxT("%g"), m_valueInSpecifiedUnits);
   switch (m_unitType)
   {
 	case wxSVG_LENGTHTYPE_UNKNOWN: break;

@@ -19,7 +19,7 @@ class wxSVGTransformList: public wxSVGTransformListBase
   public:
     wxSVGTransformList() {}
     
-    wxString GetValueAsString();
+    wxString GetValueAsString() const;
     void SetValueAsString(const wxString& value);
 };
 

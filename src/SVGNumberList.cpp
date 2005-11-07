@@ -11,7 +11,7 @@
 #include <wx/arrimpl.cpp>
 WX_DEFINE_OBJARRAY(wxSVGNumberListBase);
 
-wxString wxSVGNumberList::GetValueAsString()
+wxString wxSVGNumberList::GetValueAsString() const
 {
   wxString value;
   for (int i=0; i<(int)GetCount(); i++)
