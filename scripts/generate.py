@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.13 2005-11-07 17:47:43 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.14 2005-11-10 10:40:24 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -39,7 +39,7 @@ import os
 used_lists = []
 used_animated = []
 copy_constructor_impl = ''
-copy_constructor_includes = []
+copy_constructor_includes = ['SVGCanvasItem']
 
 def find_dtd_attr_in_inherit(classdecl):
     if len(classdecl.attributes):
@@ -344,12 +344,12 @@ if len(parse_idl.class_decls):
             elif len(init_attibutes)>0:
                 methods_str = methods_str + '    %s(): %s {}\n'%(cname, init_attibutes[2:])
         
-        copy_constructor = 0
+        has_canvas_item = 0
         try:
-            copy_constructor=interfaces.interfaces[classname].copy_constructor
+            has_canvas_item=interfaces.interfaces[classname].has_canvas_item
         except KeyError:
             pass
-        if copy_constructor==1:
+        if has_canvas_item==1:
             methods_str = methods_str + '    %s(%s& src);\n'%(cname, cname)
             if classname not in copy_constructor_includes:
                 copy_constructor_includes.append(classname)
@@ -363,7 +363,13 @@ if len(parse_idl.class_decls):
 {%s
   m_canvasItem = NULL;
 }
-'''%(cname, cname, cname, cname, copy_constr_init, attr_init)
+
+%s::~%s()
+{
+  if (m_canvasItem)
+    delete m_canvasItem;
+}
+'''%(cname, cname, cname, cname, copy_constr_init, attr_init, cname, cname)
         
         ################# destructor #######################
         has_destructor = 0
@@ -371,8 +377,11 @@ if len(parse_idl.class_decls):
             has_destructor=interfaces.interfaces[classname].user_defined_destructor
         except KeyError:
             pass
-        if has_destructor==0:
-            methods_str = methods_str + '    virtual ~%s() {}\n'%cpp.fix_typename(classname)
+        if has_destructor == 0:
+            if has_canvas_item == 0:
+                methods_str = methods_str + '    virtual ~%s() {}\n'%cname
+            else:
+                methods_str = methods_str + '    virtual ~%s();\n'%cname
         
         ################# CloneNode #######################
         if string.find(classname, "Element")>0 and mapDtdIdl.elements_idl_dtd.has_key(classdecl):
@@ -546,7 +555,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.13 2005-11-07 17:47:43 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.14 2005-11-10 10:40:24 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

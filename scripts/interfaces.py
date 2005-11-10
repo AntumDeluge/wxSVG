@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.14 2005-11-07 17:43:51 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.15 2005-11-10 10:40:24 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -19,8 +19,8 @@ class interface:
         self.include_includes = []
         self.include_fwd_decls = []
         self.user_defined_constructor=0
-        self.copy_constructor=0
         self.user_defined_destructor=0
+        self.has_canvas_item=0
 
 interfaces={}
 
@@ -303,7 +303,7 @@ for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
 "SVGTextElement", "SVGImageElement"]: ##, "SVGClipPathElement"]:
   inter = interface()
   interfaces[name]=inter
-  inter.copy_constructor=1
+  inter.has_canvas_item=1
   inter.include_attributes.append('''
   protected:
 	wxSVGCanvasItem* m_canvasItem;
