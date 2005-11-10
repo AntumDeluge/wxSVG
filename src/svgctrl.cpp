@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.7 2005-10-19 07:43:10 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.8 2005-11-10 11:34:20 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -36,11 +36,9 @@ wxSVGCtrl::~wxSVGCtrl()
 void wxSVGCtrl::Clear()
 {
   if (m_doc && m_docDelete)
-  {
     delete m_doc;
-    m_doc = NULL;
-    m_docDelete = false;
-  }
+  m_doc = NULL;
+  m_docDelete = false;
 }
 
 void wxSVGCtrl::SetSVG(wxSVGDocument* doc)
