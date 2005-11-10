@@ -72,7 +72,7 @@ class wxSVGPathElement:
     wxSVGPathElement(wxString tagName = wxT("path")):
       wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGPathElement(wxSVGPathElement& src);
-    virtual ~wxSVGPathElement() {}
+    virtual ~wxSVGPathElement();
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPathElement(*this); }
     wxSVGRect GetBBox();
     virtual double GetTotalLength();

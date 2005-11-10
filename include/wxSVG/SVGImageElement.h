@@ -74,7 +74,7 @@ class wxSVGImageElement:
     wxSVGImageElement(wxString tagName = wxT("image")):
       wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGImageElement(wxSVGImageElement& src);
-    virtual ~wxSVGImageElement() {}
+    virtual ~wxSVGImageElement();
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGImageElement(*this); }
     wxSVGRect GetBBox();
     int GetDefaultWidth();

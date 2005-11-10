@@ -66,7 +66,7 @@ class wxSVGEllipseElement:
     wxSVGEllipseElement(wxString tagName = wxT("ellipse")):
       wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGEllipseElement(wxSVGEllipseElement& src);
-    virtual ~wxSVGEllipseElement() {}
+    virtual ~wxSVGEllipseElement();
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGEllipseElement(*this); }
     wxSVGRect GetBBox();
     bool HasAttribute(const wxString& name);

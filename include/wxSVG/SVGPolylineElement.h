@@ -44,7 +44,7 @@ class wxSVGPolylineElement:
     wxSVGPolylineElement(wxString tagName = wxT("polyline")):
       wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGPolylineElement(wxSVGPolylineElement& src);
-    virtual ~wxSVGPolylineElement() {}
+    virtual ~wxSVGPolylineElement();
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPolylineElement(*this); }
     wxSVGRect GetBBox();
     bool HasAttribute(const wxString& name);

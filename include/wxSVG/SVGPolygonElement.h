@@ -44,7 +44,7 @@ class wxSVGPolygonElement:
     wxSVGPolygonElement(wxString tagName = wxT("polygon")):
       wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGPolygonElement(wxSVGPolygonElement& src);
-    virtual ~wxSVGPolygonElement() {}
+    virtual ~wxSVGPolygonElement();
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPolygonElement(*this); }
     wxSVGRect GetBBox();
     bool HasAttribute(const wxString& name);
