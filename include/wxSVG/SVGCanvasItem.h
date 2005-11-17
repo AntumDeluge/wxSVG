@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////////////////
 // Name:        SVGCanvasItem.h
-// Purpose:     
+// Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.6 2005-09-25 11:47:18 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.7 2005-11-17 17:53:03 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,6 +13,7 @@
 
 #include "svg.h"
 
+/** Base class for canvas items */
 class wxSVGCanvasItem
 {
   public:
@@ -27,6 +28,7 @@ class wxSVGCanvasItem
 	virtual ~wxSVGCanvasItem() {}
 	wxSVGCanvasItemType GetType() { return m_type; }
 	
+    /** returns the bounding box of the item */
 	virtual wxSVGRect GetBBox() = 0;
 	//virtual wxSVGRect GetResultBBox() = 0;
 	
@@ -34,6 +36,9 @@ class wxSVGCanvasItem
 	wxSVGCanvasItemType m_type;
 };
 
+/** Canvas item, that saves a graphic path (SVGPathElement) and
+  * and other elements that can be converted to a path (SVGRectElement, etc.)
+  */
 class wxSVGCanvasPath: public wxSVGCanvasItem
 {
   public:
@@ -66,7 +71,7 @@ class wxSVGCanvasPath: public wxSVGCanvasItem
 	inline bool GetFill() { return m_fill; }
   
   protected:
-	bool m_fill;
+	bool m_fill; /* define, if a path can be filled (disabled for line) */
 	double m_curx, m_cury, m_cubicx, m_cubicy, m_quadx, m_quady, m_begx, m_begy;
 	virtual void MoveToImpl(double x, double y) = 0;
 	virtual void LineToImpl(double x, double y) = 0;
@@ -74,37 +79,60 @@ class wxSVGCanvasPath: public wxSVGCanvasItem
 	virtual bool ClosePathImpl() = 0;
 };
 
+/** text-chunk */
+struct wxSVGCanvasTextChunk
+{
+  wxSVGCanvasPath* path;
+  wxCSSStyleDeclaration style;
+  wxSVGMatrix matrix;
+};
+
+#include <wx/dynarray.h>
+WX_DECLARE_OBJARRAY(wxSVGCanvasTextChunk, wxSVGCanvasTextChunkList);
+
+/** Canvas item, that saves text (SVGTextElement) as list of chunks */
 class wxSVGCanvasText: public wxSVGCanvasItem
 {
   public:
-	wxSVGCanvasText();
-	virtual ~wxSVGCanvasText() {}
+	wxSVGCanvasText(wxSVGCanvas* canvas);
+	virtual ~wxSVGCanvasText();
 	
 	virtual void Init(wxSVGTextElement& element, wxCSSStyleDeclaration& style);
+    wxSVGRect GetBBox();
 	
+  public:
+    wxSVGCanvasTextChunkList m_chunks; /** list of text-chunks */
+	wxSVGCanvasTextChunk* m_chunk; /** current text-xhunk */
+  
   protected:
-    double m_tx, m_ty;
+    wxSVGCanvas* m_canvas;
+    double m_tx, m_ty; /** current text position */
+    wxCSS_VALUE m_textAnchor; /** current text anchor */
+	int m_textAnchorBeginIndex; /** index of first chunk with current text anchor */
+	double m_textAnchorBeginPos; /** x-coordinate of text with current text anchor */
 	virtual void Init(wxSVGTSpanElement& element, wxCSSStyleDeclaration& style);
 	virtual void InitChildren(wxSVGTextPositioningElement& element, wxCSSStyleDeclaration& style);
-    virtual void InitText(const wxString& text) = 0;
-	virtual void BeginChunk(wxCSSStyleDeclaration& style) = 0;
-	virtual void EndChunk() = 0;
+	virtual void BeginChunk(wxCSSStyleDeclaration& style);
+	virtual void EndTextAnchor();
+    /** Converts text in path and saves in current chunk (m_chunk->path) */
+    virtual void InitText(const wxString& text, wxCSSStyleDeclaration& style) = 0;
 };
 
+/** Canvas item, that saves image (SVGImageElement) */
 class wxSVGCanvasImage: public wxSVGCanvasItem
 {
   public:
 	wxSVGCanvasImage(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_IMAGE) {}
 	virtual ~wxSVGCanvasImage() {}
 	virtual void Init(wxSVGImageElement& element);
-	wxSVGRect GetBBox() { return wxSVGRect(); }
+	wxSVGRect GetBBox() { return wxSVGRect(); } /** not used */
     inline int GetDefaultWidth() { return m_image.GetWidth(); }
     inline int GetDefaultHeight() { return m_image.GetHeight(); }
   
   public:
-	double m_x, m_y, m_width, m_height;
-    wxString m_href;
-	wxImage m_image;
+	double m_x, m_y, m_width, m_height; /** position and size of image */
+    wxString m_href; /** link to the image (filename) */
+	wxImage m_image; /** image data */
 };
 
 #endif // WX_SVG_CANVAS_ITEM_H
