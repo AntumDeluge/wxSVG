@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/02
-// RCS-ID:      $Id: SVGCanvas.h,v 1.5 2005-09-25 11:42:39 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.h,v 1.6 2005-11-17 17:51:24 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,6 +13,7 @@
 
 #include "SVGCanvasItem.h"
 
+/** Base class for SVG-Renders (backends) */
 class wxSVGCanvas: public wxObject
 {
   public:
@@ -64,6 +65,8 @@ class wxSVGCanvas: public wxObject
 	
   protected:
 	bool m_itemsCached;
+    void DrawCanvasText(wxSVGCanvasText& canvasText, wxSVGMatrix& matrix,
+      wxCSSStyleDeclaration& style);
 };
 
 #endif // WX_SVG_CANVAS_H
