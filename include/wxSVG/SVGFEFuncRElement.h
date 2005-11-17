@@ -25,7 +25,7 @@ class wxSVGFEFuncRElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_FEFUNCR_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_FEFUNCR_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_FUNC_R_ELEMENT_H

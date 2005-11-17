@@ -25,7 +25,7 @@ class wxSVGTSpanElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_TSPAN_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_TSPAN_ELEMENT; }
 };
 
 #endif // WX_SVG_T_SPAN_ELEMENT_H

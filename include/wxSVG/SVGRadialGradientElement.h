@@ -55,7 +55,7 @@ class wxSVGRadialGradientElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_RADIALGRADIENT_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_RADIALGRADIENT_ELEMENT; }
 };
 
 #endif // WX_SVG_RADIAL_GRADIENT_ELEMENT_H

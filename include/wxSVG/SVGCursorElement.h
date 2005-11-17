@@ -46,7 +46,7 @@ class wxSVGCursorElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_CURSOR_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_CURSOR_ELEMENT; }
 };
 
 #endif // WX_SVG_CURSOR_ELEMENT_H

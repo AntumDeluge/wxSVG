@@ -58,7 +58,7 @@ class wxSVGFEBlendElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_FEBLEND_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_FEBLEND_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_BLEND_ELEMENT_H

@@ -50,7 +50,7 @@ class wxSVGLinearGradientElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_LINEARGRADIENT_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_LINEARGRADIENT_ELEMENT; }
 };
 
 #endif // WX_SVG_LINEAR_GRADIENT_ELEMENT_H

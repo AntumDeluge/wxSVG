@@ -71,7 +71,7 @@ class wxSVGMaskElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_MASK_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_MASK_ELEMENT; }
 };
 
 #endif // WX_SVG_MASK_ELEMENT_H

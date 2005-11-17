@@ -58,7 +58,7 @@ class wxSVGFEColorMatrixElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_FECOLORMATRIX_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_FECOLORMATRIX_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_COLOR_MATRIX_ELEMENT_H

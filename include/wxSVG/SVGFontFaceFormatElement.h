@@ -25,7 +25,7 @@ class wxSVGFontFaceFormatElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_FONT_FACE_FORMAT_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_FONT_FACE_FORMAT_ELEMENT; }
 };
 
 #endif // WX_SVG_FONT_FACE_FORMAT_ELEMENT_H

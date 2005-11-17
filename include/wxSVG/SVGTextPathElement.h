@@ -64,7 +64,7 @@ class wxSVGTextPathElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_TEXTPATH_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_TEXTPATH_ELEMENT; }
 };
 
 #endif // WX_SVG_TEXT_PATH_ELEMENT_H

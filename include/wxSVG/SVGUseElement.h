@@ -76,7 +76,7 @@ class wxSVGUseElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_USE_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_USE_ELEMENT; }
 };
 
 #endif // WX_SVG_USE_ELEMENT_H

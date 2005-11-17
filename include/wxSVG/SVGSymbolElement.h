@@ -35,7 +35,7 @@ class wxSVGSymbolElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_SYMBOL_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_SYMBOL_ELEMENT; }
 };
 
 #endif // WX_SVG_SYMBOL_ELEMENT_H

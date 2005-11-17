@@ -83,7 +83,7 @@ class wxSVGFilterElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_FILTER_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_FILTER_ELEMENT; }
 };
 
 #endif // WX_SVG_FILTER_ELEMENT_H

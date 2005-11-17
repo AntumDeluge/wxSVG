@@ -25,7 +25,7 @@ class wxSVGDefinitionSrcElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_DEFINITION_SRC_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_DEFINITION_SRC_ELEMENT; }
 };
 
 #endif // WX_SVG_DEFINITION_SRC_ELEMENT_H

@@ -25,7 +25,7 @@ class wxSVGAnimateMotionElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_ANIMATEMOTION_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_ANIMATEMOTION_ELEMENT; }
 };
 
 #endif // WX_SVG_ANIMATE_MOTION_ELEMENT_H

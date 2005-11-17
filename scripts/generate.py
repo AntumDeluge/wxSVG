@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.14 2005-11-10 10:40:24 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.15 2005-11-17 12:28:03 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -477,7 +477,7 @@ if len(parse_idl.class_decls):
             typename = cpp.fix_typename("SVGDTD")
             dtdname = "SVG_" + string.upper(element_string) + "_ELEMENT"
             dtdname = cpp.fix_typename(cpp.make_name(dtdname))
-            methods_str = methods_str + '    virtual const %s GetDtd() const { return %s; }\n'%(typename,dtdname)
+            methods_str = methods_str + '    virtual %s GetDtd() const { return %s; }\n'%(typename,dtdname)
         
         try:
             fwds = interfaces.interfaces[classname].include_fwd_decls
@@ -555,7 +555,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.14 2005-11-10 10:40:24 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.15 2005-11-17 12:28:03 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

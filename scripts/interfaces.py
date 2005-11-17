@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.15 2005-11-10 10:40:24 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.16 2005-11-17 12:28:03 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -34,7 +34,7 @@ inter.include_attributes.append('''
       m_ownerSVGElement(NULL), m_viewportElement(NULL) { }
     virtual ~wxSVGElement() {}
     
-    virtual const wxSVGDTD GetDtd() const = 0;
+    virtual wxSVGDTD GetDtd() const = 0;
     virtual void AddProperty(const wxString& name, const wxString& value)
       { SetAttribute(name, value); }
 ''')

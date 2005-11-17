@@ -46,7 +46,7 @@ class wxSVGElement:
       m_ownerSVGElement(NULL), m_viewportElement(NULL) { }
     virtual ~wxSVGElement() {}
     
-    virtual const wxSVGDTD GetDtd() const = 0;
+    virtual wxSVGDTD GetDtd() const = 0;
     virtual void AddProperty(const wxString& name, const wxString& value)
       { SetAttribute(name, value); }
   public:

@@ -29,7 +29,7 @@ class wxSVGTitleElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_TITLE_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_TITLE_ELEMENT; }
 };
 
 #endif // WX_SVG_TITLE_ELEMENT_H

@@ -68,7 +68,7 @@ class wxSVGFEDisplacementMapElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_FEDISPLACEMENTMAP_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_FEDISPLACEMENTMAP_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_DISPLACEMENT_MAP_ELEMENT_H

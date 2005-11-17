@@ -79,7 +79,7 @@ class wxSVGFETurbulenceElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_FETURBULENCE_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_FETURBULENCE_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_TURBULENCE_ELEMENT_H

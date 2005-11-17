@@ -94,7 +94,7 @@ class wxSVGMarkerElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_MARKER_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_MARKER_ELEMENT; }
 };
 
 #endif // WX_SVG_MARKER_ELEMENT_H

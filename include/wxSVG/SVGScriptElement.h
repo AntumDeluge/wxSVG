@@ -36,7 +36,7 @@ class wxSVGScriptElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_SCRIPT_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_SCRIPT_ELEMENT; }
 };
 
 #endif // WX_SVG_SCRIPT_ELEMENT_H

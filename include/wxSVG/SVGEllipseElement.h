@@ -73,7 +73,7 @@ class wxSVGEllipseElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_ELLIPSE_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_ELLIPSE_ELEMENT; }
 };
 
 #endif // WX_SVG_ELLIPSE_ELEMENT_H

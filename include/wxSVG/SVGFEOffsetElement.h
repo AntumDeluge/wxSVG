@@ -47,7 +47,7 @@ class wxSVGFEOffsetElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_FEOFFSET_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_FEOFFSET_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_OFFSET_ELEMENT_H

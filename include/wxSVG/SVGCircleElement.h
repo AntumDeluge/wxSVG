@@ -68,7 +68,7 @@ class wxSVGCircleElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_CIRCLE_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_CIRCLE_ELEMENT; }
 };
 
 #endif // WX_SVG_CIRCLE_ELEMENT_H

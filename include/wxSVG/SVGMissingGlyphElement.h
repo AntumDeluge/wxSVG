@@ -27,7 +27,7 @@ class wxSVGMissingGlyphElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_MISSING_GLYPH_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_MISSING_GLYPH_ELEMENT; }
 };
 
 #endif // WX_SVG_MISSING_GLYPH_ELEMENT_H

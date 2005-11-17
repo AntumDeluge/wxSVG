@@ -101,7 +101,7 @@ class wxSVGPathElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_PATH_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_PATH_ELEMENT; }
 };
 
 #endif // WX_SVG_PATH_ELEMENT_H

@@ -46,7 +46,7 @@ class wxSVGClipPathElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_CLIPPATH_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_CLIPPATH_ELEMENT; }
 };
 
 #endif // WX_SVG_CLIP_PATH_ELEMENT_H

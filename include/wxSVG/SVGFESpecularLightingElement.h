@@ -52,7 +52,7 @@ class wxSVGFESpecularLightingElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_FESPECULARLIGHTING_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_FESPECULARLIGHTING_ELEMENT; }
 };
 
 #endif // WX_SVG_FE_SPECULAR_LIGHTING_ELEMENT_H

@@ -39,7 +39,7 @@ class wxSVGViewElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_VIEW_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_VIEW_ELEMENT; }
 };
 
 #endif // WX_SVG_VIEW_ELEMENT_H

@@ -25,7 +25,7 @@ class wxSVGSetElement:
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
     wxXmlAttrHash GetAttributes() const;
-    virtual const wxSVGDTD GetDtd() const { return wxSVG_SET_ELEMENT; }
+    virtual wxSVGDTD GetDtd() const { return wxSVG_SET_ELEMENT; }
 };
 
 #endif // WX_SVG_SET_ELEMENT_H
