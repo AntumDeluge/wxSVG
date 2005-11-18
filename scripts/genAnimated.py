@@ -3,7 +3,7 @@
 ## Purpose:     generates all SVGAnimated*.h
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genAnimated.py,v 1.5 2005-07-28 20:10:44 ntalex Exp $
+## RCS-ID:      $Id: genAnimated.py,v 1.6 2005-11-18 19:12:28 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -70,7 +70,7 @@ class wxSVGAnimated%s
     ~wxSVGAnimated%s() { ResetAnimVal(); }
     
     inline wxSVGAnimated%s& operator=(const wxSVGAnimated%s& value)
-    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? m_animVal = new %s(*value.m_animVal) : NULL; return *this; }
+    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? new %s(*value.m_animVal) : NULL; return *this; }
     
     inline %s& GetBaseVal() { return m_baseVal; }
     inline const %s& GetBaseVal() const { return m_baseVal; }
