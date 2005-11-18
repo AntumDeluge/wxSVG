@@ -21,7 +21,7 @@ class wxSVGAnimatedRect
     ~wxSVGAnimatedRect() { ResetAnimVal(); }
     
     inline wxSVGAnimatedRect& operator=(const wxSVGAnimatedRect& value)
-    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? m_animVal = new wxSVGRect(*value.m_animVal) : NULL; return *this; }
+    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? new wxSVGRect(*value.m_animVal) : NULL; return *this; }
     
     inline wxSVGRect& GetBaseVal() { return m_baseVal; }
     inline const wxSVGRect& GetBaseVal() const { return m_baseVal; }

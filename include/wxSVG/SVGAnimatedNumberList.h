@@ -21,7 +21,7 @@ class wxSVGAnimatedNumberList
     ~wxSVGAnimatedNumberList() { ResetAnimVal(); }
     
     inline wxSVGAnimatedNumberList& operator=(const wxSVGAnimatedNumberList& value)
-    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? m_animVal = new wxSVGNumberList(*value.m_animVal) : NULL; return *this; }
+    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? new wxSVGNumberList(*value.m_animVal) : NULL; return *this; }
     
     inline wxSVGNumberList& GetBaseVal() { return m_baseVal; }
     inline const wxSVGNumberList& GetBaseVal() const { return m_baseVal; }

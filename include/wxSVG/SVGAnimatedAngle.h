@@ -21,7 +21,7 @@ class wxSVGAnimatedAngle
     ~wxSVGAnimatedAngle() { ResetAnimVal(); }
     
     inline wxSVGAnimatedAngle& operator=(const wxSVGAnimatedAngle& value)
-    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? m_animVal = new wxSVGAngle(*value.m_animVal) : NULL; return *this; }
+    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? new wxSVGAngle(*value.m_animVal) : NULL; return *this; }
     
     inline wxSVGAngle& GetBaseVal() { return m_baseVal; }
     inline const wxSVGAngle& GetBaseVal() const { return m_baseVal; }

@@ -21,7 +21,7 @@ class wxSVGAnimatedLength
     ~wxSVGAnimatedLength() { ResetAnimVal(); }
     
     inline wxSVGAnimatedLength& operator=(const wxSVGAnimatedLength& value)
-    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? m_animVal = new wxSVGLength(*value.m_animVal) : NULL; return *this; }
+    { m_baseVal = value.m_baseVal; m_animVal = value.m_animVal != NULL ? new wxSVGLength(*value.m_animVal) : NULL; return *this; }
     
     inline wxSVGLength& GetBaseVal() { return m_baseVal; }
     inline const wxSVGLength& GetBaseVal() const { return m_baseVal; }
