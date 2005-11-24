@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.16 2005-11-17 12:28:03 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.17 2005-11-24 11:37:34 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -295,6 +295,11 @@ for name in ["SVGSVGElement", "SVGGElement", "SVGDefsElement",
 ## SVGUseElement
 inter = interface()
 interfaces["SVGUseElement"]=inter
+inter.include_methods.append('    virtual wxSVGRect GetBBox();\n')
+
+## SVGVideoElement
+inter = interface()
+interfaces["SVGVideoElement"]=inter
 inter.include_methods.append('    virtual wxSVGRect GetBBox();\n')
 
 ## visible elements

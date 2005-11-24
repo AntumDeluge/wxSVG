@@ -104,6 +104,7 @@
 #include "SVGTitleElement.h"
 #include "SVGUseElement.h"
 #include "SVGVKernElement.h"
+#include "SVGVideoElement.h"
 #include "SVGViewElement.h"
 #include "SVGViewSpec.h"
 
@@ -944,6 +945,21 @@ bool wxSVGFontElement::HasAttribute(const wxString& attrName)
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGExternalResourcesRequired::HasAttribute(attrName) ||
     wxSVGStylable::HasAttribute(attrName);
+}      
+
+// wxSVGVideoElement
+bool wxSVGVideoElement::HasAttribute(const wxString& attrName)
+{
+  return attrName == wxT("x") ||
+    attrName == wxT("y") ||
+    attrName == wxT("width") ||
+    attrName == wxT("height") ||
+    attrName == wxT("preserveAspectRatio") ||
+    wxSVGElement::HasAttribute(attrName) ||
+    wxSVGURIReference::HasAttribute(attrName) ||
+    wxSVGLangSpace::HasAttribute(attrName) ||
+    wxSVGStylable::HasAttribute(attrName) ||
+    wxSVGTransformable::HasAttribute(attrName);
 }      
 
 // wxSVGRadialGradientElement

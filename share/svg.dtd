@@ -380,7 +380,7 @@
 <!ENTITY % svgExt "" >
 <!ELEMENT svg (desc|title|metadata|defs|
                    path|text|rect|circle|ellipse|line|polyline|polygon|
-                   use|image|svg|g|view|switch|a|altGlyphDef|
+                   use|image|video|svg|g|view|switch|a|altGlyphDef|
                    script|style|symbol|marker|clipPath|mask|
                    linearGradient|radialGradient|pattern|filter|cursor|font|
                    animate|set|animateMotion|animateColor|animateTransform|
@@ -410,7 +410,7 @@
 <!ENTITY % gExt "" >
 <!ELEMENT g (desc|title|metadata|defs|
                    path|text|rect|circle|ellipse|line|polyline|polygon|
-                   use|image|svg|g|view|switch|a|altGlyphDef|
+                   use|image|video|svg|g|view|switch|a|altGlyphDef|
                    script|style|symbol|marker|clipPath|mask|
                    linearGradient|radialGradient|pattern|filter|cursor|font|
                    animate|set|animateMotion|animateColor|animateTransform|
@@ -430,7 +430,7 @@
 <!ENTITY % defsExt "" >
 <!ELEMENT defs (desc|title|metadata|defs|
                    path|text|rect|circle|ellipse|line|polyline|polygon|
-                   use|image|svg|g|view|switch|a|altGlyphDef|
+                   use|image|video|svg|g|view|switch|a|altGlyphDef|
                    script|style|symbol|marker|clipPath|mask|
                    linearGradient|radialGradient|pattern|filter|cursor|font|
                    animate|set|animateMotion|animateColor|animateTransform|
@@ -468,7 +468,7 @@
 <!ENTITY % symbolExt "" >
 <!ELEMENT symbol (desc|title|metadata|defs|
                    path|text|rect|circle|ellipse|line|polyline|polygon|
-                   use|image|svg|g|view|switch|a|altGlyphDef|
+                   use|image|video|svg|g|view|switch|a|altGlyphDef|
                    script|style|symbol|marker|clipPath|mask|
                    linearGradient|radialGradient|pattern|filter|cursor|font|
                    animate|set|animateMotion|animateColor|animateTransform|
@@ -528,10 +528,33 @@
   width %Length; #REQUIRED
   height %Length; #REQUIRED >
 
+<!ELEMENT video (%descTitleMetadata;,(animate|set|animateMotion|animateColor|animateTransform
+                   %geExt;%imageExt;)*) >
+<!ATTLIST video 
+  %stdAttrs;
+  %xlinkRefAttrs;
+  xlink:href %URI; #REQUIRED
+  %testAttrs;
+  %langSpaceAttrs;
+  externalResourcesRequired %Boolean; #IMPLIED
+  class %ClassList; #IMPLIED
+  style %StyleSheet; #IMPLIED
+  %PresentationAttributes-Graphics;
+  %PresentationAttributes-Images;
+  %PresentationAttributes-Viewports;
+  transform %TransformList; #IMPLIED
+  preserveAspectRatio %PreserveAspectRatioSpec; 'xMidYMid meet'
+  %graphicsElementEvents;
+  x %Coordinate; #IMPLIED
+  y %Coordinate; #IMPLIED
+  width %Length; #REQUIRED
+  height %Length; #REQUIRED >
+						       
+
 <!ENTITY % switchExt "" >
 <!ELEMENT switch (%descTitleMetadata;,
                   (path|text|rect|circle|ellipse|line|polyline|polygon|
-                   use|image|svg|g|switch|a|foreignObject|
+                   use|image|video|svg|g|switch|a|foreignObject|
                    animate|set|animateMotion|animateColor|animateTransform
                    %ceExt;%switchExt;)*) >
 <!ATTLIST switch
@@ -855,7 +878,7 @@
 <!ENTITY % markerExt "" >
 <!ELEMENT marker (desc|title|metadata|defs|
                    path|text|rect|circle|ellipse|line|polyline|polygon|
-                   use|image|svg|g|view|switch|a|altGlyphDef|
+                   use|image|video|svg|g|view|switch|a|altGlyphDef|
                    script|style|symbol|marker|clipPath|mask|
                    linearGradient|radialGradient|pattern|filter|cursor|font|
                    animate|set|animateMotion|animateColor|animateTransform|
@@ -950,7 +973,7 @@
 <!ENTITY % patternExt "" >
 <!ELEMENT pattern (desc|title|metadata|defs|
                    path|text|rect|circle|ellipse|line|polyline|polygon|
-                   use|image|svg|g|view|switch|a|altGlyphDef|
+                   use|image|video|svg|g|view|switch|a|altGlyphDef|
                    script|style|symbol|marker|clipPath|mask|
                    linearGradient|radialGradient|pattern|filter|cursor|font|
                    animate|set|animateMotion|animateColor|animateTransform|
@@ -1004,7 +1027,7 @@
 <!ENTITY % maskExt "" >
 <!ELEMENT mask (desc|title|metadata|defs|
                    path|text|rect|circle|ellipse|line|polyline|polygon|
-                   use|image|svg|g|view|switch|a|altGlyphDef|
+                   use|image|video|svg|g|view|switch|a|altGlyphDef|
                    script|style|symbol|marker|clipPath|mask|
                    linearGradient|radialGradient|pattern|filter|cursor|font|
                    animate|set|animateMotion|animateColor|animateTransform|
@@ -1284,7 +1307,7 @@
 <!ENTITY % aExt "" >
 <!ELEMENT a       (#PCDATA|desc|title|metadata|defs|
                    path|text|rect|circle|ellipse|line|polyline|polygon|
-                   use|image|svg|g|view|switch|a|altGlyphDef|
+                   use|image|video|svg|g|view|switch|a|altGlyphDef|
                    script|style|symbol|marker|clipPath|mask|
                    linearGradient|radialGradient|pattern|filter|cursor|font|
                    animate|set|animateMotion|animateColor|animateTransform|
@@ -1482,7 +1505,7 @@
 <!ENTITY % glyphExt "" >
 <!ELEMENT glyph (desc|title|metadata|defs|
                    path|text|rect|circle|ellipse|line|polyline|polygon|
-                   use|image|svg|g|view|switch|a|altGlyphDef|
+                   use|image|video|svg|g|view|switch|a|altGlyphDef|
                    script|style|symbol|marker|clipPath|mask|
                    linearGradient|radialGradient|pattern|filter|cursor|font|
                    animate|set|animateMotion|animateColor|animateTransform|
@@ -1507,7 +1530,7 @@
 <!ENTITY % missing-glyphExt "" >
 <!ELEMENT missing-glyph (desc|title|metadata|defs|
                    path|text|rect|circle|ellipse|line|polyline|polygon|
-                   use|image|svg|g|view|switch|a|altGlyphDef|
+                   use|image|video|svg|g|view|switch|a|altGlyphDef|
                    script|style|symbol|marker|clipPath|mask|
                    linearGradient|radialGradient|pattern|filter|cursor|font|
                    animate|set|animateMotion|animateColor|animateTransform|

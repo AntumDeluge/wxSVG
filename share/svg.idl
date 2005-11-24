@@ -1745,7 +1745,19 @@ module svg
     readonly attribute SVGAnimatedLength height;
   };
 
+  interface SVGVideoElement :
+                SVGElement,
+                SVGURIReference,
+                SVGLangSpace,
+                SVGStylable,
+                SVGTransformable {
 
+    readonly attribute SVGAnimatedLength x;
+    readonly attribute SVGAnimatedLength y;
+    readonly attribute SVGAnimatedLength width;
+    readonly attribute SVGAnimatedLength height;
+    readonly attribute SVGAnimatedPreserveAspectRatio preserveAspectRatio;
+  };
 };
 
 #endif // _SVG_IDL_

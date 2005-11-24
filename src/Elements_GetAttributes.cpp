@@ -104,6 +104,7 @@
 #include "SVGTitleElement.h"
 #include "SVGUseElement.h"
 #include "SVGVKernElement.h"
+#include "SVGVideoElement.h"
 #include "SVGViewElement.h"
 #include "SVGViewSpec.h"
 
@@ -1255,6 +1256,28 @@ wxXmlAttrHash wxSVGFontElement::GetAttributes() const
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGExternalResourcesRequired::GetAttributes());
   attrs.Add(wxSVGStylable::GetAttributes());
+  return attrs;
+}
+
+// wxSVGVideoElement
+wxXmlAttrHash wxSVGVideoElement::GetAttributes() const
+{
+  wxXmlAttrHash attrs;
+  if (m_x.GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+    attrs.Add(wxT("x"), m_x.GetBaseVal().GetValueAsString());
+  if (m_y.GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+    attrs.Add(wxT("y"), m_y.GetBaseVal().GetValueAsString());
+  if (m_width.GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+    attrs.Add(wxT("width"), m_width.GetBaseVal().GetValueAsString());
+  if (m_height.GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+    attrs.Add(wxT("height"), m_height.GetBaseVal().GetValueAsString());
+  if (m_preserveAspectRatio.GetBaseVal().GetAlign() != wxSVG_PRESERVEASPECTRATIO_UNKNOWN && m_preserveAspectRatio.GetBaseVal().GetMeetOrSlice() != wxSVG_MEETORSLICE_UNKNOWN)
+    attrs.Add(wxT("preserveAspectRatio"), m_preserveAspectRatio.GetBaseVal().GetValueAsString());
+  attrs.Add(wxSVGElement::GetAttributes());
+  attrs.Add(wxSVGURIReference::GetAttributes());
+  attrs.Add(wxSVGLangSpace::GetAttributes());
+  attrs.Add(wxSVGStylable::GetAttributes());
+  attrs.Add(wxSVGTransformable::GetAttributes());
   return attrs;
 }
 

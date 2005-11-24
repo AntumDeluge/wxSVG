@@ -104,6 +104,7 @@
 #include "SVGTitleElement.h"
 #include "SVGUseElement.h"
 #include "SVGVKernElement.h"
+#include "SVGVideoElement.h"
 #include "SVGViewElement.h"
 #include "SVGViewSpec.h"
 
@@ -1912,6 +1913,33 @@ bool wxSVGFontElement::SetAttribute(const wxString& attrName, const wxString& at
   else 
   {
     //wxLogDebug(wxT("unknown attribute SVGFontElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGVideoElement
+bool wxSVGVideoElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("x"))
+    m_x.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y"))
+    m_y.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("width"))
+    m_width.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("height"))
+    m_height.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("preserveAspectRatio"))
+    m_preserveAspectRatio.GetBaseVal().SetValueAsString(attrValue);
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGVideoElement::") + attrName);
     return false;
   }
 

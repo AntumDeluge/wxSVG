@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.18 2005-11-18 18:28:51 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.19 2005-11-24 11:36:56 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -69,18 +69,48 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	  wxSVGRect viewbox = element->GetViewBox().GetAnimVal();
       if (viewbox.GetWidth()>0 && viewbox.GetHeight()>0)
       {
-        if (element->GetPreserveAspectRatio().GetAnimVal().GetAlign() == wxSVG_PRESERVEASPECTRATIO_NONE)
+        wxSVG_PRESERVEASPECTRATIO align =
+          element->GetPreserveAspectRatio().GetAnimVal().GetAlign();
+        if (align == wxSVG_PRESERVEASPECTRATIO_UNKNOWN)
+          align = wxSVG_PRESERVEASPECTRATIO_XMIDYMID;
+        if (align == wxSVG_PRESERVEASPECTRATIO_NONE)
+        {
           matrix = matrix.ScaleNonUniform(
             element->GetWidth().GetAnimVal()/viewbox.GetWidth(),
             element->GetHeight().GetAnimVal()/viewbox.GetHeight());
+        }
         else
         {
           double scale = 1;
           scale = element->GetWidth().GetAnimVal()/viewbox.GetWidth();
     	  if (scale>element->GetHeight().GetAnimVal()/viewbox.GetHeight())
     	    scale = element->GetHeight().GetAnimVal()/viewbox.GetHeight();
+          
+          double x = 0;
+          if (align == wxSVG_PRESERVEASPECTRATIO_XMIDYMIN ||
+              align == wxSVG_PRESERVEASPECTRATIO_XMIDYMID ||
+              align == wxSVG_PRESERVEASPECTRATIO_XMIDYMAX)
+            x = (element->GetWidth().GetAnimVal() - viewbox.GetWidth()*scale)/2;
+          else if (align == wxSVG_PRESERVEASPECTRATIO_XMAXYMIN ||
+                   align == wxSVG_PRESERVEASPECTRATIO_XMAXYMID ||
+                   align == wxSVG_PRESERVEASPECTRATIO_XMAXYMAX)
+            x = element->GetWidth().GetAnimVal() - viewbox.GetWidth()*scale;
+            
+          double y = 0;
+          if (align == wxSVG_PRESERVEASPECTRATIO_XMINYMID ||
+              align == wxSVG_PRESERVEASPECTRATIO_XMIDYMID ||
+              align == wxSVG_PRESERVEASPECTRATIO_XMAXYMID)
+            y = (element->GetHeight().GetAnimVal() - viewbox.GetHeight()*scale)/2;
+          else if (align == wxSVG_PRESERVEASPECTRATIO_XMINYMAX ||
+                   align == wxSVG_PRESERVEASPECTRATIO_XMIDYMAX ||
+                   align == wxSVG_PRESERVEASPECTRATIO_XMAXYMAX)
+            y = element->GetHeight().GetAnimVal() - viewbox.GetHeight()*scale;
+          
+          if (x !=0 || y !=0)
+    	    matrix = matrix.Translate(x, y);
+          
   	      matrix = matrix.Scale(scale);
-          if (viewbox.GetX()!=0 || viewbox.GetY()!=0)
+          if (viewbox.GetX() !=0 || viewbox.GetY() !=0)
     	    matrix = matrix.Translate(-viewbox.GetX(), -viewbox.GetY());
         }
       }
@@ -167,6 +197,38 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	  element->UpdateMatrix(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawImage(element, &matrix, &style);
+	  break;
+	}
+    case wxSVG_VIDEO_ELEMENT:
+	{
+	  wxSVGVideoElement* element = (wxSVGVideoElement*) elem;
+	  element->UpdateMatrix(matrix);
+	  style.Add(element->GetStyle());
+	  wxSVGGElement* gElem = new wxSVGGElement();
+      gElem->SetOwnerSVGElement(ownerSVGElement);
+      gElem->SetViewportElement(viewportElement);
+      gElem->SetStyle(element->GetStyle());
+      wxSVGRectElement* rectElem = new wxSVGRectElement();
+      rectElem->SetX(element->GetX().GetAnimVal());
+      rectElem->SetY(element->GetY().GetAnimVal());
+      rectElem->SetWidth(element->GetWidth().GetAnimVal());
+      rectElem->SetHeight(element->GetHeight().GetAnimVal());
+      rectElem->SetFill(wxSVGPaint(0,0,0));
+      gElem->AppendChild(rectElem);
+      wxSVGTextElement* textElem = new wxSVGTextElement;
+      textElem->SetX((double)element->GetX().GetAnimVal());
+      textElem->SetY(element->GetY().GetAnimVal() + (double)element->GetHeight().GetAnimVal()/10);
+      textElem->SetFontSize((double)element->GetHeight().GetAnimVal()/15);
+      textElem->SetFill(wxSVGPaint(255,255,255));
+      textElem->SetStroke(wxSVGPaint(255,255,255));
+      textElem->AddChild(new wxXmlNode(wxXML_TEXT_NODE, wxT(""),
+        wxT(" [") + element->GetHref() + wxT("]")));
+      gElem->AppendChild(textElem);
+      
+      // render
+      RenderElement(doc, gElem, &matrix, &style, ownerSVGElement, viewportElement);
+      // delete shadow tree
+      delete gElem;
 	  break;
 	}
 	case wxSVG_USE_ELEMENT:

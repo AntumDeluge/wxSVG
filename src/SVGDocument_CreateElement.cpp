@@ -30,8 +30,8 @@ wxXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespaceURI,
     res = new wxSVGFontFaceElement();
   else if (qualifiedName == wxT("set"))
     res = new wxSVGSetElement();
-  else if (qualifiedName == wxT("polyline"))
-    res = new wxSVGPolylineElement();
+  else if (qualifiedName == wxT("video"))
+    res = new wxSVGVideoElement();
   else if (qualifiedName == wxT("hkern"))
     res = new wxSVGHKernElement();
   else if (qualifiedName == wxT("marker"))
@@ -168,6 +168,8 @@ wxXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespaceURI,
     res = new wxSVGPatternElement();
   else if (qualifiedName == wxT("feMerge"))
     res = new wxSVGFEMergeElement();
+  else if (qualifiedName == wxT("polyline"))
+    res = new wxSVGPolylineElement();
   else if (qualifiedName == wxT("view"))
     res = new wxSVGViewElement();
   else if (qualifiedName == wxT("feMergeNode"))

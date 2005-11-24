@@ -104,6 +104,7 @@
 #include "SVGTitleElement.h"
 #include "SVGUseElement.h"
 #include "SVGVKernElement.h"
+#include "SVGVideoElement.h"
 #include "SVGViewElement.h"
 #include "SVGViewSpec.h"
 
@@ -1692,6 +1693,35 @@ wxString wxSVGFontElement::GetAttribute(const wxString& attrName)
     return wxSVGExternalResourcesRequired::GetAttribute(attrName);
   else if (wxSVGStylable::HasAttribute(attrName))
     return wxSVGStylable::GetAttribute(attrName);
+  else 
+    return wxT("");
+
+  return wxT("");
+}      
+
+// wxSVGVideoElement
+wxString wxSVGVideoElement::GetAttribute(const wxString& attrName)
+{
+  if (attrName == wxT("x"))
+    return m_x.GetBaseVal().GetValueAsString();
+  else if (attrName == wxT("y"))
+    return m_y.GetBaseVal().GetValueAsString();
+  else if (attrName == wxT("width"))
+    return m_width.GetBaseVal().GetValueAsString();
+  else if (attrName == wxT("height"))
+    return m_height.GetBaseVal().GetValueAsString();
+  else if (attrName == wxT("preserveAspectRatio"))
+    return m_preserveAspectRatio.GetBaseVal().GetValueAsString();
+  else if (wxSVGElement::HasAttribute(attrName))
+    return wxSVGElement::GetAttribute(attrName);
+  else if (wxSVGURIReference::HasAttribute(attrName))
+    return wxSVGURIReference::GetAttribute(attrName);
+  else if (wxSVGLangSpace::HasAttribute(attrName))
+    return wxSVGLangSpace::GetAttribute(attrName);
+  else if (wxSVGStylable::HasAttribute(attrName))
+    return wxSVGStylable::GetAttribute(attrName);
+  else if (wxSVGTransformable::HasAttribute(attrName))
+    return wxSVGTransformable::GetAttribute(attrName);
   else 
     return wxT("");
 

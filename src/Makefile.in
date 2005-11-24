@@ -132,7 +132,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGLineElement.cpp SVGLocatable.cpp SVGMarkerElement.cpp SVGPathElement.cpp\
   SVGPolylineElement.cpp SVGPolygonElement.cpp SVGRectElement.cpp\
   SVGSVGElement.cpp SVGTextContentElement.cpp SVGTextElement.cpp\
-  SVGUseElement.cpp\
+  SVGUseElement.cpp SVGVideoElement.cpp\
   SVGAngle.cpp SVGColor.cpp GetSVGDocument.cpp SVGLength.cpp\
   SVGMatrix.cpp SVGPaint.cpp SVGPoint.cpp SVGPreserveAspectRatio.cpp\
   SVGRect.cpp SVGTests.cpp SVGTransform.cpp\
@@ -179,16 +179,17 @@ am_libwxsvg_la_OBJECTS = SVGDocument.lo svgctrl.lo \
 	SVGMarkerElement.lo SVGPathElement.lo SVGPolylineElement.lo \
 	SVGPolygonElement.lo SVGRectElement.lo SVGSVGElement.lo \
 	SVGTextContentElement.lo SVGTextElement.lo SVGUseElement.lo \
-	SVGAngle.lo SVGColor.lo GetSVGDocument.lo SVGLength.lo \
-	SVGMatrix.lo SVGPaint.lo SVGPoint.lo SVGPreserveAspectRatio.lo \
-	SVGRect.lo SVGTests.lo SVGTransform.lo SVGStylable.lo \
-	SVGTransformable.lo SVGElementInstanceList.lo SVGLengthList.lo \
-	SVGNumberList.lo SVGPathSegList.lo SVGPointList.lo \
-	SVGStringList.lo SVGTransformList.lo \
-	Elements_CopyConstructors.lo Elements_HasAttribute.lo \
-	Elements_GetAttribute.lo Elements_GetAttributes.lo \
-	Elements_SetAttribute.lo CSSValue.lo CSSStyleDeclaration.lo \
-	SVGCanvas.lo SVGCanvasItem.lo NodeList.lo
+	SVGVideoElement.lo SVGAngle.lo SVGColor.lo GetSVGDocument.lo \
+	SVGLength.lo SVGMatrix.lo SVGPaint.lo SVGPoint.lo \
+	SVGPreserveAspectRatio.lo SVGRect.lo SVGTests.lo \
+	SVGTransform.lo SVGStylable.lo SVGTransformable.lo \
+	SVGElementInstanceList.lo SVGLengthList.lo SVGNumberList.lo \
+	SVGPathSegList.lo SVGPointList.lo SVGStringList.lo \
+	SVGTransformList.lo Elements_CopyConstructors.lo \
+	Elements_HasAttribute.lo Elements_GetAttribute.lo \
+	Elements_GetAttributes.lo Elements_SetAttribute.lo CSSValue.lo \
+	CSSStyleDeclaration.lo SVGCanvas.lo SVGCanvasItem.lo \
+	NodeList.lo
 libwxsvg_la_OBJECTS = $(am_libwxsvg_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -244,6 +245,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SVGTransformList.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGTransformable.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGUseElement.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SVGVideoElement.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/svgctrl.Plo
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -357,6 +359,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGTransformList.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGTransformable.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGUseElement.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGVideoElement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/svgctrl.Plo@am__quote@
 
 distclean-depend:
