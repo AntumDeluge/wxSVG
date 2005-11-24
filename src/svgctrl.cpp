@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.8 2005-11-10 11:34:20 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.9 2005-11-24 11:36:27 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -26,6 +26,7 @@ wxSVGCtrl::wxSVGCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos,
   m_doc = NULL;
   m_docDelete = false;
   m_repaint = false;
+  m_fitToFrame = true;
 }
 
 wxSVGCtrl::~wxSVGCtrl()
@@ -103,7 +104,7 @@ void wxSVGCtrl::OnPaint(wxPaintEvent& event)
   if (m_repaint)
   {
     int w = -1, h = -1;
-    if (m_FitToFrame)
+    if (m_fitToFrame)
       GetClientSize(&w, &h);
     
     //wxDateTime time = wxDateTime::UNow();

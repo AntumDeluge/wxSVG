@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.h,v 1.5 2005-10-06 08:18:55 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.h,v 1.6 2005-11-24 11:38:10 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -24,7 +24,7 @@ class wxSVGCtrl: public wxControl
       const wxString& name = wxPanelNameStr);
     ~wxSVGCtrl();
       
-	void SetFitToFrame(bool fit) { m_FitToFrame = fit; }
+    void SetFitToFrame(bool fit = true) { m_fitToFrame = fit; }
     double GetScale() const;
 
     void SetSVG(wxSVGDocument* doc);
@@ -51,7 +51,7 @@ class wxSVGCtrl: public wxControl
     bool m_repaint;
     wxRect m_repaintRect;
     wxBitmap m_buffer;
-	bool m_FitToFrame;
+    bool m_fitToFrame;
     
     void SendChangedEvent();
 
@@ -60,7 +60,7 @@ class wxSVGCtrl: public wxControl
     void OnEraseBackground(wxEraseEvent &event) {}
   
   private:
-	DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 BEGIN_DECLARE_EVENT_TYPES()
