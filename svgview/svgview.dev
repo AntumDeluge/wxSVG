@@ -1,7 +1,7 @@
 [Project]
 FileName=svgview.dev
 Name=svgview
-UnitCount=239
+UnitCount=241
 Type=0
 Ver=1
 ObjFiles=
@@ -11,7 +11,7 @@ PrivateResource=
 ResourceIncludes=
 MakeIncludes=
 Compiler=
-CppCompiler=-Wall _@@_-D__WXMSW__ _@@_-D__GNUWIN32__ _@@_-D__WIN95___@@_-DUSE_AGG_@@_
+CppCompiler=-Wall _@@_-D__WXMSW__ _@@_-D__GNUWIN32__ _@@_-D__WIN95___@@_-DUSE_RENDER_AGG_@@_
 Linker=-lwxmsw26u_adv_@@_-lwxmsw26u_core_@@_-lwxbase26u_@@_-lwxtiff _@@_-lwxjpeg _@@_-lwxpng _@@_-lwxzlib _@@_-lkernel32 _@@_-luser32 _@@_-lgdi32 _@@_-lcomdlg32 _@@_-lwinspool _@@_-lwinmm _@@_-lshell32 _@@_-lcomctl32 _@@_-lole32 _@@_-loleaut32 _@@_-luuid _@@_-lrpcrt4 _@@_-ladvapi32 _@@_-lwsock32 _@@_-lagg_@@_
 IsCpp=1
 Icon=
@@ -2429,6 +2429,26 @@ BuildCmd=
 
 [Unit239]
 FileName=..\src\SVGUseElement.cpp
+CompileCpp=1
+Folder=svgview
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit240]
+FileName=..\src\SVGVideoElement.cpp
+CompileCpp=1
+Folder=svgview
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit241]
+FileName=..\src\Elements_GetAttributes.cpp
 CompileCpp=1
 Folder=svgview
 Compile=1

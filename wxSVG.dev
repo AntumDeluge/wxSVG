@@ -1,7 +1,7 @@
 [Project]
 FileName=wxSVG.dev
 Name=wxSVG
-UnitCount=240
+UnitCount=242
 Type=2
 Ver=1
 ObjFiles=
@@ -2428,7 +2428,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit241]
-FileName=src\SVGRect.cpp
+FileName=src\SVGVideoElement.cpp
 CompileCpp=1
 Folder=wxSVG
 Compile=1
@@ -2438,7 +2438,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit242]
-FileName=src\SVGDocument_CreateElement.cpp
+FileName=src\Elements_GetAttributes.cpp
 CompileCpp=1
 Folder=wxSVG
 Compile=1
