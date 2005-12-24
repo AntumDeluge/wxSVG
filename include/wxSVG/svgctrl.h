@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.h,v 1.6 2005-11-24 11:38:10 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.h,v 1.7 2005-12-24 19:05:01 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -26,6 +26,7 @@ class wxSVGCtrl: public wxControl
       
     void SetFitToFrame(bool fit = true) { m_fitToFrame = fit; }
     double GetScale() const;
+    wxSVGMatrix GetScreenCTM() const;
 
     void SetSVG(wxSVGDocument* doc);
     wxSVGDocument* GetSVG() { return m_doc; }
@@ -37,13 +38,10 @@ class wxSVGCtrl: public wxControl
     /** renders svg and repaints window */
     void Refresh(bool eraseBackground = true, const wxRect* rect = NULL);
     void Refresh(const wxSVGRect* rect);
-    /** Causes a SVGCtrl-changed-event to be generated and repaints window */
-    void Update(const wxRect* rect = NULL) { SendChangedEvent(); Refresh(true, rect); }
-    void Update(const wxSVGRect* rect) { SendChangedEvent(); Refresh(rect); }
     /** Redraws the contents of the given rectangle:
         only the area inside it will be repainted. */
-    void UpdateRect(const wxRect& rect) { Update(&rect); }
-    void UpdateRect(const wxSVGRect& rect) { Update(&rect); }
+    void RefreshRect(const wxRect& rect) { Refresh(&rect); }
+    void RefreshRect(const wxSVGRect& rect) { Refresh(&rect); }
     
   protected:
     wxSVGDocument* m_doc;
@@ -53,8 +51,6 @@ class wxSVGCtrl: public wxControl
     wxBitmap m_buffer;
     bool m_fitToFrame;
     
-    void SendChangedEvent();
-
     void OnPaint(wxPaintEvent& event);
     void OnResize(wxSizeEvent& event) { Refresh(); }
     void OnEraseBackground(wxEraseEvent &event) {}
@@ -62,13 +58,5 @@ class wxSVGCtrl: public wxControl
   private:
     DECLARE_EVENT_TABLE()
 };
-
-BEGIN_DECLARE_EVENT_TYPES()
-  DECLARE_EVENT_TYPE(EVT_COMMAND_SVGCTRL_CHANGED, 3500)
-END_DECLARE_EVENT_TYPES()
-  
-#define EVT_SVGCTRL_CHANGED(id, fn)\
- DECLARE_EVENT_TABLE_ENTRY(EVT_COMMAND_SVGCTRL_CHANGED, id, wxID_ANY,\
- (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction)& fn, NULL),
 
 #endif // wxSVG_CTRL_H

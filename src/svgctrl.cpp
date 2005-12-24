@@ -3,12 +3,13 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.9 2005-11-24 11:36:27 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.10 2005-12-24 19:05:01 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "svgctrl.h"
+#include <SVGSVGElement.h>
 #include <wx/wx.h>
 
 BEGIN_EVENT_TABLE(wxSVGCtrl, wxControl)
@@ -16,8 +17,6 @@ BEGIN_EVENT_TABLE(wxSVGCtrl, wxControl)
   EVT_SIZE(wxSVGCtrl::OnResize)
   EVT_ERASE_BACKGROUND(wxSVGCtrl::OnEraseBackground)
 END_EVENT_TABLE()
-
-DEFINE_EVENT_TYPE(EVT_COMMAND_SVGCTRL_CHANGED)
 
 wxSVGCtrl::wxSVGCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos,
  const wxSize& size, long style, const wxValidator& validator, const wxString& name):
@@ -90,12 +89,6 @@ void wxSVGCtrl::Refresh(const wxSVGRect* rect)
   RefreshRect(winRect);
 }
 
-void wxSVGCtrl::SendChangedEvent()
-{
-  wxCommandEvent evt(EVT_COMMAND_SVGCTRL_CHANGED, this->GetId());
-  GetEventHandler()->ProcessEvent(evt);
-}
-
 void wxSVGCtrl::OnPaint(wxPaintEvent& event)
 {
   if (!m_doc)
@@ -148,4 +141,11 @@ double wxSVGCtrl::GetScale() const
   if (m_doc)
     return m_doc->GetScale();
   return 1;
+}
+
+wxSVGMatrix wxSVGCtrl::GetScreenCTM() const
+{
+  if (m_doc && m_doc->GetRootElement())
+    return m_doc->GetRootElement()->GetScreenCTM();
+  return wxSVGMatrix();
 }
