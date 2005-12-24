@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.6 2005-10-17 14:10:57 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.7 2005-12-24 19:08:40 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -24,7 +24,7 @@
 #include "wx/wx.h"
 #endif
 
-#ifndef __WXMSW__
+#ifndef __WXWINCE__
 #include <locale.h>
 #endif
 
@@ -39,7 +39,7 @@ IMPLEMENT_APP(SVGViewApp)
 
 bool SVGViewApp::OnInit()
 {
-#ifndef __WXMSW__
+#ifndef __WXWINCE__
   setlocale(LC_NUMERIC, "C");
 #endif
   //wxLog::SetActiveTarget(new wxLogStderr);
@@ -55,12 +55,13 @@ bool SVGViewApp::OnInit()
 //////////////////////////////////////////////////////////////////////////////
 enum
 {
-wxID_FIT = 1,
-wxID_HITTEST,
+  wxID_FIT = 1,
+  wxID_HITTEST,
 };
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
   EVT_MENU(wxID_OPEN, MainFrame::OnOpen)
+  EVT_MENU(wxID_SAVE, MainFrame::OnSave)
   EVT_MENU(wxID_FIT, MainFrame::Fit)
   EVT_MENU(wxID_HITTEST, MainFrame::Hittest)
   EVT_MENU(wxID_EXIT, MainFrame::OnExit)
@@ -78,10 +79,11 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title,
     // Make a menubar
     wxMenu *fileMenu = new wxMenu;
     fileMenu->Append(wxID_OPEN, _T("&Open..."));
+    fileMenu->Append(wxID_SAVE, _T("&Save as..."));
     fileMenu->AppendSeparator();
     fileMenu->Append(wxID_EXIT, _T("&Close"));
     fileMenu->AppendSeparator();
-    fileMenu->AppendCheckItem(wxID_FIT, _T("&FitToFrame"));
+    fileMenu->AppendCheckItem(wxID_FIT, _T("&FitToFrame"))->Check();
     fileMenu->AppendCheckItem(wxID_HITTEST, _T("&Hit-Test"));
     
     wxMenuBar *menuBar = new wxMenuBar;
@@ -94,6 +96,7 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title,
     else
       m_svgCtrl->Load(_T("tiger.svg"));
     
+    Center();
     Show(true);
 }
 
@@ -105,20 +108,24 @@ void MainFrame::OnOpen(wxCommandEvent& event)
     m_svgCtrl->Load(filename);
 }
 
+void MainFrame::OnSave(wxCommandEvent& event)
+{
+  wxString filename = wxFileSelector(_T("Choose a file to save"),
+    _T(""), _T(""), _T(""), _T("SVG files (*.svg)|*.svg|All files (*.*)|*.*"),
+    wxSAVE);
+  if (!filename.empty())
+    m_svgCtrl->GetSVG()->Save(filename);
+}
+
 void MainFrame::Hittest(wxCommandEvent& event)
 {
-	if(event.IsChecked())
-	{
-		m_svgCtrl->SetShowHitPopup(1);
-	}else{
-		m_svgCtrl->SetShowHitPopup(0);
-	}
+  m_svgCtrl->SetShowHitPopup(event.IsChecked());
 }
 
 void MainFrame::Fit(wxCommandEvent& event)
 {
-	m_svgCtrl->SetFitToFrame(event.IsChecked());
-    m_svgCtrl->Update();
+  m_svgCtrl->SetFitToFrame(event.IsChecked());
+  m_svgCtrl->Update();
 }
 
 void MainFrame::OnExit( wxCommandEvent& WXUNUSED(event) )

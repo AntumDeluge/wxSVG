@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.17 2005-11-24 11:37:34 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.18 2005-12-24 19:07:10 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -339,8 +339,8 @@ interfaces["SVGDocument"]=inter
 inter.exclude_attributes = ["rootElement"]
 inter.include_attributes.append('''
   protected:
-	wxSVGCanvas* m_canvas;\n
-    double m_scale;
+	wxSVGCanvas* m_canvas;
+    double m_scale;\n
 ''')
 inter.include_methods.append('''    wxSVGDocument() { Init(); }
 	wxSVGDocument(const wxString& filename, const wxString& encoding = wxT("UTF-8")):
@@ -364,7 +364,7 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
 	wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL);
 ''')
 inter.include_fwd_decls = ["SVGSVGElement","SVGElement","SVGCanvas"]
-inter.include_includes = ["SVGRect","<wx/image.h>"]
+inter.include_includes = ["SVGRect","SVGMatrix","<wx/image.h>"]
 inter.user_defined_contructor=1
 inter.user_defined_destructor=1
 

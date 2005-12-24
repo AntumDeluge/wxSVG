@@ -3,7 +3,7 @@
 // Purpose:     Widget to display svg documents using svg library
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgview.h,v 1.3 2005-07-31 12:01:17 ntalex Exp $
+// RCS-ID:      $Id: svgview.h,v 1.4 2005-12-24 19:08:40 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -41,6 +41,7 @@ class MainFrame: public wxFrame
   protected:
     MySVGCanvas* m_svgCtrl;
     void OnOpen(wxCommandEvent& event);
+    void OnSave(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
     void Fit(wxCommandEvent& event);
     void Hittest(wxCommandEvent& event);
