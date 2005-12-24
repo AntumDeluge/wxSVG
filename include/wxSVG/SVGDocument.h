@@ -17,6 +17,7 @@ class wxSVGCanvas;
 #include "DocumentEvent.h"
 #include "String.h"
 #include "SVGRect.h"
+#include "SVGMatrix.h"
 #include <wx/image.h>
 
 class wxSVGDocument:
@@ -45,8 +46,8 @@ class wxSVGDocument:
 
   protected:
 	wxSVGCanvas* m_canvas;
-
     double m_scale;
+
   public:
     wxSVGDocument() { Init(); }
 	wxSVGDocument(const wxString& filename, const wxString& encoding = wxT("UTF-8")):

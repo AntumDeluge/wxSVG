@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.19 2005-11-24 11:36:56 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.20 2005-12-24 18:51:18 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -114,6 +114,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
     	    matrix = matrix.Translate(-viewbox.GetX(), -viewbox.GetY());
         }
       }
+      element->SetScreenCTM(matrix);
 	  RenderChilds(doc, elem, &matrix, &style, element, element);
 	  break;
     }
@@ -121,6 +122,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGGElement* element = (wxSVGGElement*) elem;
 	  element->UpdateMatrix(matrix);
+	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  RenderChilds(doc, elem, &matrix, &style, ownerSVGElement, viewportElement);
 	  break;
@@ -129,6 +131,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGLineElement* element = (wxSVGLineElement*) elem;
 	  element->UpdateMatrix(matrix);
+	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawLine(element, &matrix, &style);
 	  break;
@@ -137,6 +140,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGPolylineElement* element = (wxSVGPolylineElement*) elem;
 	  element->UpdateMatrix(matrix);
+	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawPolyline(element, &matrix, &style);
 	  break;
@@ -145,6 +149,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGPolygonElement* element = (wxSVGPolygonElement*) elem;
 	  element->UpdateMatrix(matrix);
+	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawPolygon(element, &matrix, &style);
 	  break;
@@ -153,6 +158,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGRectElement* element = (wxSVGRectElement*) elem;
 	  element->UpdateMatrix(matrix);
+	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawRect(element, &matrix, &style);
 	  break;
@@ -161,6 +167,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGCircleElement* element = (wxSVGCircleElement*) elem;
 	  element->UpdateMatrix(matrix);
+	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawCircle(element, &matrix, &style);
 	  break;
@@ -169,6 +176,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGEllipseElement* element = (wxSVGEllipseElement*) elem;
 	  element->UpdateMatrix(matrix);
+	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawEllipse(element, &matrix, &style);
 	  break;
@@ -177,6 +185,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGPathElement* element = (wxSVGPathElement*) elem;
 	  element->UpdateMatrix(matrix);
+	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawPath(element, &matrix, &style);
 	  break;
@@ -187,6 +196,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGTextElement* element = (wxSVGTextElement*) elem;
 	  element->UpdateMatrix(matrix);
+	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawText(element, &matrix, &style);
 	  break;
@@ -195,6 +205,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGImageElement* element = (wxSVGImageElement*) elem;
 	  element->UpdateMatrix(matrix);
+	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawImage(element, &matrix, &style);
 	  break;
@@ -203,6 +214,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGVideoElement* element = (wxSVGVideoElement*) elem;
 	  element->UpdateMatrix(matrix);
+	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  wxSVGGElement* gElem = new wxSVGGElement();
       gElem->SetOwnerSVGElement(ownerSVGElement);
@@ -235,6 +247,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
     {
       wxSVGUseElement* element = (wxSVGUseElement*) elem;
 	  element->UpdateMatrix(matrix);
+	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
       // test if visible
       wxSVGPoint point(element->GetX().GetAnimVal(), element->GetY().GetAnimVal());
