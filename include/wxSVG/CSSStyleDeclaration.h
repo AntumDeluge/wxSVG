@@ -94,12 +94,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     static wxString GetPropertyName(wxCSS_PROPERTY propertyId);
   
   public:
-    inline const wxCSSPrimitiveValue& GetClipPath()
+    inline const wxCSSPrimitiveValue& GetClipPath() const
     {
-      iterator it = find(wxCSS_PROPERTY_CLIP_PATH);
+      const_iterator it = find(wxCSS_PROPERTY_CLIP_PATH);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
     }
-    inline bool HasClipPath() { return HasProperty(wxCSS_PROPERTY_CLIP_PATH); }
+    inline bool HasClipPath() const { return HasProperty(wxCSS_PROPERTY_CLIP_PATH); }
     inline void SetClipPath(const wxCSSPrimitiveValue& value)
     {
       iterator it = find(wxCSS_PROPERTY_CLIP_PATH);
@@ -113,12 +113,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxRGBColor GetColor()
+    inline wxRGBColor GetColor() const
     {
-      iterator it = find(wxCSS_PROPERTY_COLOR);
+      const_iterator it = find(wxCSS_PROPERTY_COLOR);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetRGBColorValue() : wxRGBColor();
     }
-    inline bool HasColor() { return HasProperty(wxCSS_PROPERTY_COLOR); }
+    inline bool HasColor() const { return HasProperty(wxCSS_PROPERTY_COLOR); }
     inline void SetColor(const wxRGBColor& value)
     {
       iterator it = find(wxCSS_PROPERTY_COLOR);
@@ -129,12 +129,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxCSS_VALUE GetDisplay()
+    inline wxCSS_VALUE GetDisplay() const
     {
-      iterator it = find(wxCSS_PROPERTY_DISPLAY);
+      const_iterator it = find(wxCSS_PROPERTY_DISPLAY);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_INLINE;
     }
-    inline bool HasDisplay() { return HasProperty(wxCSS_PROPERTY_DISPLAY); }
+    inline bool HasDisplay() const { return HasProperty(wxCSS_PROPERTY_DISPLAY); }
     inline void SetDisplay(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_DISPLAY);
@@ -145,12 +145,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline const wxSVGPaint& GetFill()
+    inline const wxSVGPaint& GetFill() const
     {
-      iterator it = find(wxCSS_PROPERTY_FILL);
+      const_iterator it = find(wxCSS_PROPERTY_FILL);
       return it != end() ? ((wxSVGPaint&)*it->second) : *s_blackSVGPaint;
     }
-    inline bool HasFill() { return HasProperty(wxCSS_PROPERTY_FILL); }
+    inline bool HasFill() const { return HasProperty(wxCSS_PROPERTY_FILL); }
     inline void SetFill(const wxSVGPaint& value)
     {
       iterator it = find(wxCSS_PROPERTY_FILL);
@@ -164,12 +164,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline double GetFillOpacity()
+    inline double GetFillOpacity() const
     {
-      iterator it = find(wxCSS_PROPERTY_FILL_OPACITY);
+      const_iterator it = find(wxCSS_PROPERTY_FILL_OPACITY);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetFloatValue() : 1;
     }
-    inline bool HasFillOpacity() { return HasProperty(wxCSS_PROPERTY_FILL_OPACITY); }
+    inline bool HasFillOpacity() const { return HasProperty(wxCSS_PROPERTY_FILL_OPACITY); }
     inline void SetFillOpacity(double value)
     {
       iterator it = find(wxCSS_PROPERTY_FILL_OPACITY);
@@ -180,12 +180,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxCSS_VALUE GetFillRule()
+    inline wxCSS_VALUE GetFillRule() const
     {
-      iterator it = find(wxCSS_PROPERTY_FILL_RULE);
+      const_iterator it = find(wxCSS_PROPERTY_FILL_RULE);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_NONZERO;
     }
-    inline bool HasFillRule() { return HasProperty(wxCSS_PROPERTY_FILL_RULE); }
+    inline bool HasFillRule() const { return HasProperty(wxCSS_PROPERTY_FILL_RULE); }
     inline void SetFillRule(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_FILL_RULE);
@@ -196,12 +196,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline const wxCSSPrimitiveValue& GetFilter()
+    inline const wxCSSPrimitiveValue& GetFilter() const
     {
-      iterator it = find(wxCSS_PROPERTY_FILTER);
+      const_iterator it = find(wxCSS_PROPERTY_FILTER);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
     }
-    inline bool HasFilter() { return HasProperty(wxCSS_PROPERTY_FILTER); }
+    inline bool HasFilter() const { return HasProperty(wxCSS_PROPERTY_FILTER); }
     inline void SetFilter(const wxCSSPrimitiveValue& value)
     {
       iterator it = find(wxCSS_PROPERTY_FILTER);
@@ -215,12 +215,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxString GetFontFamily()
+    inline wxString GetFontFamily() const
     {
-      iterator it = find(wxCSS_PROPERTY_FONT_FAMILY);
+      const_iterator it = find(wxCSS_PROPERTY_FONT_FAMILY);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetStringValue() : wxT("");
     }
-    inline bool HasFontFamily() { return HasProperty(wxCSS_PROPERTY_FONT_FAMILY); }
+    inline bool HasFontFamily() const { return HasProperty(wxCSS_PROPERTY_FONT_FAMILY); }
     inline void SetFontFamily(const wxString& value)
     {
       iterator it = find(wxCSS_PROPERTY_FONT_FAMILY);
@@ -231,12 +231,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline double GetFontSize()
+    inline double GetFontSize() const
     {
-      iterator it = find(wxCSS_PROPERTY_FONT_SIZE);
+      const_iterator it = find(wxCSS_PROPERTY_FONT_SIZE);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetFloatValue() : 20;
     }
-    inline bool HasFontSize() { return HasProperty(wxCSS_PROPERTY_FONT_SIZE); }
+    inline bool HasFontSize() const { return HasProperty(wxCSS_PROPERTY_FONT_SIZE); }
     inline void SetFontSize(double value)
     {
       iterator it = find(wxCSS_PROPERTY_FONT_SIZE);
@@ -247,12 +247,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxCSS_VALUE GetFontStretch()
+    inline wxCSS_VALUE GetFontStretch() const
     {
-      iterator it = find(wxCSS_PROPERTY_FONT_STRETCH);
+      const_iterator it = find(wxCSS_PROPERTY_FONT_STRETCH);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_NORMAL;
     }
-    inline bool HasFontStretch() { return HasProperty(wxCSS_PROPERTY_FONT_STRETCH); }
+    inline bool HasFontStretch() const { return HasProperty(wxCSS_PROPERTY_FONT_STRETCH); }
     inline void SetFontStretch(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_FONT_STRETCH);
@@ -263,12 +263,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxCSS_VALUE GetFontStyle()
+    inline wxCSS_VALUE GetFontStyle() const
     {
-      iterator it = find(wxCSS_PROPERTY_FONT_STYLE);
+      const_iterator it = find(wxCSS_PROPERTY_FONT_STYLE);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_NORMAL;
     }
-    inline bool HasFontStyle() { return HasProperty(wxCSS_PROPERTY_FONT_STYLE); }
+    inline bool HasFontStyle() const { return HasProperty(wxCSS_PROPERTY_FONT_STYLE); }
     inline void SetFontStyle(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_FONT_STYLE);
@@ -279,12 +279,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxCSS_VALUE GetFontVariant()
+    inline wxCSS_VALUE GetFontVariant() const
     {
-      iterator it = find(wxCSS_PROPERTY_FONT_VARIANT);
+      const_iterator it = find(wxCSS_PROPERTY_FONT_VARIANT);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_NORMAL;
     }
-    inline bool HasFontVariant() { return HasProperty(wxCSS_PROPERTY_FONT_VARIANT); }
+    inline bool HasFontVariant() const { return HasProperty(wxCSS_PROPERTY_FONT_VARIANT); }
     inline void SetFontVariant(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_FONT_VARIANT);
@@ -295,12 +295,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxCSS_VALUE GetFontWeight()
+    inline wxCSS_VALUE GetFontWeight() const
     {
-      iterator it = find(wxCSS_PROPERTY_FONT_WEIGHT);
+      const_iterator it = find(wxCSS_PROPERTY_FONT_WEIGHT);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_NORMAL;
     }
-    inline bool HasFontWeight() { return HasProperty(wxCSS_PROPERTY_FONT_WEIGHT); }
+    inline bool HasFontWeight() const { return HasProperty(wxCSS_PROPERTY_FONT_WEIGHT); }
     inline void SetFontWeight(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_FONT_WEIGHT);
@@ -311,12 +311,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxString GetMarker()
+    inline wxString GetMarker() const
     {
-      iterator it = find(wxCSS_PROPERTY_MARKER);
+      const_iterator it = find(wxCSS_PROPERTY_MARKER);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetStringValue() : wxT("");
     }
-    inline bool HasMarker() { return HasProperty(wxCSS_PROPERTY_MARKER); }
+    inline bool HasMarker() const { return HasProperty(wxCSS_PROPERTY_MARKER); }
     inline void SetMarker(const wxString& value)
     {
       iterator it = find(wxCSS_PROPERTY_MARKER);
@@ -327,12 +327,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline const wxCSSPrimitiveValue& GetMarkerEnd()
+    inline const wxCSSPrimitiveValue& GetMarkerEnd() const
     {
-      iterator it = find(wxCSS_PROPERTY_MARKER_END);
+      const_iterator it = find(wxCSS_PROPERTY_MARKER_END);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
     }
-    inline bool HasMarkerEnd() { return HasProperty(wxCSS_PROPERTY_MARKER_END); }
+    inline bool HasMarkerEnd() const { return HasProperty(wxCSS_PROPERTY_MARKER_END); }
     inline void SetMarkerEnd(const wxCSSPrimitiveValue& value)
     {
       iterator it = find(wxCSS_PROPERTY_MARKER_END);
@@ -346,12 +346,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline const wxCSSPrimitiveValue& GetMarkerMid()
+    inline const wxCSSPrimitiveValue& GetMarkerMid() const
     {
-      iterator it = find(wxCSS_PROPERTY_MARKER_MID);
+      const_iterator it = find(wxCSS_PROPERTY_MARKER_MID);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
     }
-    inline bool HasMarkerMid() { return HasProperty(wxCSS_PROPERTY_MARKER_MID); }
+    inline bool HasMarkerMid() const { return HasProperty(wxCSS_PROPERTY_MARKER_MID); }
     inline void SetMarkerMid(const wxCSSPrimitiveValue& value)
     {
       iterator it = find(wxCSS_PROPERTY_MARKER_MID);
@@ -365,12 +365,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline const wxCSSPrimitiveValue& GetMarkerStart()
+    inline const wxCSSPrimitiveValue& GetMarkerStart() const
     {
-      iterator it = find(wxCSS_PROPERTY_MARKER_START);
+      const_iterator it = find(wxCSS_PROPERTY_MARKER_START);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
     }
-    inline bool HasMarkerStart() { return HasProperty(wxCSS_PROPERTY_MARKER_START); }
+    inline bool HasMarkerStart() const { return HasProperty(wxCSS_PROPERTY_MARKER_START); }
     inline void SetMarkerStart(const wxCSSPrimitiveValue& value)
     {
       iterator it = find(wxCSS_PROPERTY_MARKER_START);
@@ -384,12 +384,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline double GetOpacity()
+    inline double GetOpacity() const
     {
-      iterator it = find(wxCSS_PROPERTY_OPACITY);
+      const_iterator it = find(wxCSS_PROPERTY_OPACITY);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetFloatValue() : 1;
     }
-    inline bool HasOpacity() { return HasProperty(wxCSS_PROPERTY_OPACITY); }
+    inline bool HasOpacity() const { return HasProperty(wxCSS_PROPERTY_OPACITY); }
     inline void SetOpacity(double value)
     {
       iterator it = find(wxCSS_PROPERTY_OPACITY);
@@ -400,12 +400,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline const wxSVGColor& GetStopColor()
+    inline const wxSVGColor& GetStopColor() const
     {
-      iterator it = find(wxCSS_PROPERTY_STOP_COLOR);
+      const_iterator it = find(wxCSS_PROPERTY_STOP_COLOR);
       return it != end() ? ((wxSVGColor&)*it->second) : *s_emptySVGColor;
     }
-    inline bool HasStopColor() { return HasProperty(wxCSS_PROPERTY_STOP_COLOR); }
+    inline bool HasStopColor() const { return HasProperty(wxCSS_PROPERTY_STOP_COLOR); }
     inline void SetStopColor(const wxSVGColor& value)
     {
       iterator it = find(wxCSS_PROPERTY_STOP_COLOR);
@@ -419,12 +419,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline double GetStopOpacity()
+    inline double GetStopOpacity() const
     {
-      iterator it = find(wxCSS_PROPERTY_STOP_OPACITY);
+      const_iterator it = find(wxCSS_PROPERTY_STOP_OPACITY);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetFloatValue() :  1;
     }
-    inline bool HasStopOpacity() { return HasProperty(wxCSS_PROPERTY_STOP_OPACITY); }
+    inline bool HasStopOpacity() const { return HasProperty(wxCSS_PROPERTY_STOP_OPACITY); }
     inline void SetStopOpacity(double value)
     {
       iterator it = find(wxCSS_PROPERTY_STOP_OPACITY);
@@ -435,12 +435,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline const wxSVGPaint& GetStroke()
+    inline const wxSVGPaint& GetStroke() const
     {
-      iterator it = find(wxCSS_PROPERTY_STROKE);
+      const_iterator it = find(wxCSS_PROPERTY_STROKE);
       return it != end() ? ((wxSVGPaint&)*it->second) : *s_emptySVGPaint;
     }
-    inline bool HasStroke() { return HasProperty(wxCSS_PROPERTY_STROKE); }
+    inline bool HasStroke() const { return HasProperty(wxCSS_PROPERTY_STROKE); }
     inline void SetStroke(const wxSVGPaint& value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE);
@@ -454,12 +454,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline double GetStrokeDashoffset()
+    inline double GetStrokeDashoffset() const
     {
-      iterator it = find(wxCSS_PROPERTY_STROKE_DASHOFFSET);
+      const_iterator it = find(wxCSS_PROPERTY_STROKE_DASHOFFSET);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetFloatValue() : 0;
     }
-    inline bool HasStrokeDashoffset() { return HasProperty(wxCSS_PROPERTY_STROKE_DASHOFFSET); }
+    inline bool HasStrokeDashoffset() const { return HasProperty(wxCSS_PROPERTY_STROKE_DASHOFFSET); }
     inline void SetStrokeDashoffset(double value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE_DASHOFFSET);
@@ -470,12 +470,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxCSS_VALUE GetStrokeLinecap()
+    inline wxCSS_VALUE GetStrokeLinecap() const
     {
-      iterator it = find(wxCSS_PROPERTY_STROKE_LINECAP);
+      const_iterator it = find(wxCSS_PROPERTY_STROKE_LINECAP);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_BUTT;
     }
-    inline bool HasStrokeLinecap() { return HasProperty(wxCSS_PROPERTY_STROKE_LINECAP); }
+    inline bool HasStrokeLinecap() const { return HasProperty(wxCSS_PROPERTY_STROKE_LINECAP); }
     inline void SetStrokeLinecap(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE_LINECAP);
@@ -486,12 +486,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxCSS_VALUE GetStrokeLinejoin()
+    inline wxCSS_VALUE GetStrokeLinejoin() const
     {
-      iterator it = find(wxCSS_PROPERTY_STROKE_LINEJOIN);
+      const_iterator it = find(wxCSS_PROPERTY_STROKE_LINEJOIN);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_MITER;
     }
-    inline bool HasStrokeLinejoin() { return HasProperty(wxCSS_PROPERTY_STROKE_LINEJOIN); }
+    inline bool HasStrokeLinejoin() const { return HasProperty(wxCSS_PROPERTY_STROKE_LINEJOIN); }
     inline void SetStrokeLinejoin(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE_LINEJOIN);
@@ -502,12 +502,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline double GetStrokeMiterlimit()
+    inline double GetStrokeMiterlimit() const
     {
-      iterator it = find(wxCSS_PROPERTY_STROKE_MITERLIMIT);
+      const_iterator it = find(wxCSS_PROPERTY_STROKE_MITERLIMIT);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetFloatValue() : 4;
     }
-    inline bool HasStrokeMiterlimit() { return HasProperty(wxCSS_PROPERTY_STROKE_MITERLIMIT); }
+    inline bool HasStrokeMiterlimit() const { return HasProperty(wxCSS_PROPERTY_STROKE_MITERLIMIT); }
     inline void SetStrokeMiterlimit(double value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE_MITERLIMIT);
@@ -518,12 +518,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline double GetStrokeOpacity()
+    inline double GetStrokeOpacity() const
     {
-      iterator it = find(wxCSS_PROPERTY_STROKE_OPACITY);
+      const_iterator it = find(wxCSS_PROPERTY_STROKE_OPACITY);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetFloatValue() : 1;
     }
-    inline bool HasStrokeOpacity() { return HasProperty(wxCSS_PROPERTY_STROKE_OPACITY); }
+    inline bool HasStrokeOpacity() const { return HasProperty(wxCSS_PROPERTY_STROKE_OPACITY); }
     inline void SetStrokeOpacity(double value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE_OPACITY);
@@ -534,12 +534,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline double GetStrokeWidth()
+    inline double GetStrokeWidth() const
     {
-      iterator it = find(wxCSS_PROPERTY_STROKE_WIDTH);
+      const_iterator it = find(wxCSS_PROPERTY_STROKE_WIDTH);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetFloatValue() : 1;
     }
-    inline bool HasStrokeWidth() { return HasProperty(wxCSS_PROPERTY_STROKE_WIDTH); }
+    inline bool HasStrokeWidth() const { return HasProperty(wxCSS_PROPERTY_STROKE_WIDTH); }
     inline void SetStrokeWidth(double value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE_WIDTH);
@@ -550,12 +550,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxCSS_VALUE GetTextAnchor()
+    inline wxCSS_VALUE GetTextAnchor() const
     {
-      iterator it = find(wxCSS_PROPERTY_TEXT_ANCHOR);
+      const_iterator it = find(wxCSS_PROPERTY_TEXT_ANCHOR);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_START;
     }
-    inline bool HasTextAnchor() { return HasProperty(wxCSS_PROPERTY_TEXT_ANCHOR); }
+    inline bool HasTextAnchor() const { return HasProperty(wxCSS_PROPERTY_TEXT_ANCHOR); }
     inline void SetTextAnchor(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_TEXT_ANCHOR);
@@ -566,12 +566,12 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxCSS_VALUE GetVisibility()
+    inline wxCSS_VALUE GetVisibility() const
     {
-      iterator it = find(wxCSS_PROPERTY_VISIBILITY);
+      const_iterator it = find(wxCSS_PROPERTY_VISIBILITY);
       return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_VISIBLE;
     }
-    inline bool HasVisibility() { return HasProperty(wxCSS_PROPERTY_VISIBILITY); }
+    inline bool HasVisibility() const { return HasProperty(wxCSS_PROPERTY_VISIBILITY); }
     inline void SetVisibility(wxCSS_VALUE value)
     {
       iterator it = find(wxCSS_PROPERTY_VISIBILITY);

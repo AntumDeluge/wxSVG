@@ -3,7 +3,7 @@
 ## Purpose:     generates CSSStyleDeclaration
 ## Author:      Alex Thuering
 ## Created:     2005/06/06
-## RCS-ID:      $Id: genCSS.py,v 1.9 2005-11-07 17:47:11 ntalex Exp $
+## RCS-ID:      $Id: genCSS.py,v 1.10 2006-01-04 18:09:30 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 
@@ -82,14 +82,14 @@ def genCSSStyleDeclaration():
         else:
             valueType = "const " + valueType + "&"
         get = '''\
-    inline %s Get%s()
+    inline %s Get%s() const
     {
-      iterator it = find(%s);
+      const_iterator it = find(%s);
       return it != end() ? %s : %s;
     }
     '''%(valueType, attr.name, propId(attr.dtdName), get, attr.defValue)
         
-        has = 'inline bool Has%s() { return HasProperty(%s); }\n'%(attr.name, propId(attr.dtdName))
+        has = 'inline bool Has%s() const { return HasProperty(%s); }\n'%(attr.name, propId(attr.dtdName))
         
         if len(attr.function):
             valueType = attr.valueType
