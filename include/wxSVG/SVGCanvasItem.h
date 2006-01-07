@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.7 2005-11-17 17:53:03 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.8 2006-01-07 20:55:01 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -29,8 +29,9 @@ class wxSVGCanvasItem
 	wxSVGCanvasItemType GetType() { return m_type; }
 	
     /** returns the bounding box of the item */
-	virtual wxSVGRect GetBBox() = 0;
-	//virtual wxSVGRect GetResultBBox() = 0;
+    virtual wxSVGRect GetBBox(const wxSVGMatrix& matrix = *(wxSVGMatrix*)NULL) { return wxSVGRect(); }
+    virtual wxSVGRect GetResultBBox(const wxCSSStyleDeclaration& style,
+      const wxSVGMatrix& matrix = *(wxSVGMatrix*)NULL) { return GetBBox(); }
 	
   protected:
 	wxSVGCanvasItemType m_type;
@@ -69,7 +70,7 @@ class wxSVGCanvasPath: public wxSVGCanvasItem
 	
 	inline void SetFill(bool fill = true) { m_fill = fill; }
 	inline bool GetFill() { return m_fill; }
-  
+    
   protected:
 	bool m_fill; /* define, if a path can be filled (disabled for line) */
 	double m_curx, m_cury, m_cubicx, m_cubicy, m_quadx, m_quady, m_begx, m_begy;
@@ -85,6 +86,7 @@ struct wxSVGCanvasTextChunk
   wxSVGCanvasPath* path;
   wxCSSStyleDeclaration style;
   wxSVGMatrix matrix;
+  wxSVGRect bbox;
 };
 
 #include <wx/dynarray.h>
@@ -97,8 +99,16 @@ class wxSVGCanvasText: public wxSVGCanvasItem
 	wxSVGCanvasText(wxSVGCanvas* canvas);
 	virtual ~wxSVGCanvasText();
 	
-	virtual void Init(wxSVGTextElement& element, wxCSSStyleDeclaration& style);
-    wxSVGRect GetBBox();
+	virtual void Init(wxSVGTextElement& element, const wxCSSStyleDeclaration& style);
+    virtual wxSVGRect GetBBox(const wxSVGMatrix& matrix = *(wxSVGMatrix*)NULL);
+	virtual long GetNumberOfChars();
+    virtual double GetComputedTextLength();
+    virtual double GetSubStringLength(unsigned long charnum, unsigned long nchars);
+    virtual wxSVGPoint GetStartPositionOfChar(unsigned long charnum);
+    virtual wxSVGPoint GetEndPositionOfChar(unsigned long charnum);
+    virtual wxSVGRect GetExtentOfChar(unsigned long charnum);
+    virtual double GetRotationOfChar(unsigned long charnum);
+    virtual long GetCharNumAtPosition(const wxSVGPoint& point);
 	
   public:
     wxSVGCanvasTextChunkList m_chunks; /** list of text-chunks */
@@ -110,12 +120,12 @@ class wxSVGCanvasText: public wxSVGCanvasItem
     wxCSS_VALUE m_textAnchor; /** current text anchor */
 	int m_textAnchorBeginIndex; /** index of first chunk with current text anchor */
 	double m_textAnchorBeginPos; /** x-coordinate of text with current text anchor */
-	virtual void Init(wxSVGTSpanElement& element, wxCSSStyleDeclaration& style);
-	virtual void InitChildren(wxSVGTextPositioningElement& element, wxCSSStyleDeclaration& style);
-	virtual void BeginChunk(wxCSSStyleDeclaration& style);
+	virtual void Init(wxSVGTSpanElement& element, const wxCSSStyleDeclaration& style);
+	virtual void InitChildren(wxSVGTextPositioningElement& element, const wxCSSStyleDeclaration& style);
+	virtual void BeginChunk(const wxCSSStyleDeclaration& style);
 	virtual void EndTextAnchor();
     /** Converts text in path and saves in current chunk (m_chunk->path) */
-    virtual void InitText(const wxString& text, wxCSSStyleDeclaration& style) = 0;
+    virtual void InitText(const wxString& text, const wxCSSStyleDeclaration& style) = 0;
 };
 
 /** Canvas item, that saves image (SVGImageElement) */
@@ -125,7 +135,6 @@ class wxSVGCanvasImage: public wxSVGCanvasItem
 	wxSVGCanvasImage(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_IMAGE) {}
 	virtual ~wxSVGCanvasImage() {}
 	virtual void Init(wxSVGImageElement& element);
-	wxSVGRect GetBBox() { return wxSVGRect(); } /** not used */
     inline int GetDefaultWidth() { return m_image.GetWidth(); }
     inline int GetDefaultHeight() { return m_image.GetHeight(); }
   
