@@ -34,7 +34,9 @@ class wxSVGTransformable:
     void Rotate(double angle, double cx = 0, double cy = 0);
     void SkewX(double angle);
     void SkewY(double angle);
-    void UpdateMatrix(wxSVGMatrix& matrix);
+    void UpdateMatrix(wxSVGMatrix& matrix) const;
+    static wxSVGTransformable* GetSVGTransformable(wxSVGElement& element);
+    static const wxSVGTransformable* GetSVGTransformable(const wxSVGElement& element);
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
