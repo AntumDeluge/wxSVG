@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.15 2005-11-17 12:28:03 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.16 2006-01-08 12:23:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -492,6 +492,18 @@ if len(parse_idl.class_decls):
                 public = public + '  public:\n'
             public = public + methods_str
         
+        # protected
+        methods_str = ''
+        try:
+            for i in interfaces.interfaces[classname].include_methods_protected:
+                methods_str = methods_str+i
+        except KeyError:
+            pass
+        if len(methods_str):
+            if len(public):
+                public = public + '\n  protected:\n'
+            public = public + methods_str
+        
         # end struct
         public = public + '};'
         
@@ -555,7 +567,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.15 2005-11-17 12:28:03 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.16 2006-01-08 12:23:35 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
