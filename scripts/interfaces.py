@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.19 2006-01-08 12:25:06 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.20 2006-01-08 19:32:33 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -55,12 +55,12 @@ inter.include_methods.append('    virtual wxSVGRect GetBBox(wxSVG_COORDINATES co
 inter.include_methods.append('    virtual wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) = 0;\n')
 inter.include_methods.append('    virtual wxSVGMatrix GetCTM() = 0;\n')
 inter.include_methods.append('    virtual wxSVGMatrix GetScreenCTM() = 0;\n')
-inter.include_methods_protected.append('    static wxSVGRect GetElementBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
-inter.include_methods_protected.append('    static wxSVGRect GetElementResultBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
-inter.include_methods_protected.append('    static wxSVGRect GetChildrenBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
-inter.include_methods_protected.append('    static wxSVGRect GetChildrenResultBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
-inter.include_methods_protected.append('    static wxSVGMatrix GetCTM(const wxSVGElement* element);\n')
-inter.include_methods_protected.append('    static wxSVGMatrix GetScreenCTM(const wxSVGElement* element);\n')
+inter.include_methods.append('    static wxSVGRect GetElementBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
+inter.include_methods.append('    static wxSVGRect GetElementResultBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
+inter.include_methods.append('    static wxSVGMatrix GetCTM(const wxSVGElement* element);\n')
+inter.include_methods.append('    static wxSVGMatrix GetScreenCTM(const wxSVGElement* element);\n')
+inter.include_methods_protected.append('    static wxSVGRect GetChildrenBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
+inter.include_methods_protected.append('    static wxSVGRect GetChildrenResultBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
 inter.include_methods_protected.append('    inline wxSVGMatrix GetMatrix(wxSVG_COORDINATES coordinates)\n')
 inter.include_methods_protected.append('    { return coordinates == wxSVG_COORDINATES_SCREEN ? GetScreenCTM() : (coordinates == wxSVG_COORDINATES_VIEWPORT ? GetCTM() : wxSVGMatrix()); }\n')
 inter.exclude_methods = ["GetBBox", "GetResultBBox", "GetCTM", "GetScreenCTM"]
@@ -307,8 +307,8 @@ for name in ["SVGSVGElement", "SVGGElement", "SVGDefsElement", "SVGAElement",
 "SVGSwitchElement", "SVGForeignObjectElement", "SVGClipPathElement"]:
   inter = interface()
   interfaces[name] = inter
-  inter.include_methods.append('    wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenBBox(*this, coordinates); }\n')
-  inter.include_methods.append('    wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenResultBBox(*this, coordinates); }\n')
+  inter.include_methods.append('    wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenBBox(this, coordinates); }\n')
+  inter.include_methods.append('    wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenResultBBox(this, coordinates); }\n')
   inter.include_methods.append('    wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }\n')
   inter.include_methods.append('    wxSVGMatrix GetScreenCTM() { return wxSVGLocatable::GetScreenCTM(this); }\n')
 

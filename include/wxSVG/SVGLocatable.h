@@ -37,15 +37,15 @@ class wxSVGLocatable
     virtual wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) = 0;
     virtual wxSVGMatrix GetCTM() = 0;
     virtual wxSVGMatrix GetScreenCTM() = 0;
+    static wxSVGRect GetElementBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    static wxSVGRect GetElementResultBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    static wxSVGMatrix GetCTM(const wxSVGElement* element);
+    static wxSVGMatrix GetScreenCTM(const wxSVGElement* element);
     virtual wxSVGMatrix GetTransformToElement(const wxSVGElement& element);
 
   protected:
-    static wxSVGRect GetElementBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
-    static wxSVGRect GetElementResultBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
-    static wxSVGRect GetChildrenBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
-    static wxSVGRect GetChildrenResultBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
-    static wxSVGMatrix GetCTM(const wxSVGElement* element);
-    static wxSVGMatrix GetScreenCTM(const wxSVGElement* element);
+    static wxSVGRect GetChildrenBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    static wxSVGRect GetChildrenResultBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
     inline wxSVGMatrix GetMatrix(wxSVG_COORDINATES coordinates)
     { return coordinates == wxSVG_COORDINATES_SCREEN ? GetScreenCTM() : (coordinates == wxSVG_COORDINATES_VIEWPORT ? GetCTM() : wxSVGMatrix()); }
 };

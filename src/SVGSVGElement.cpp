@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.6 2006-01-08 12:44:30 ntalex Exp $
+// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.7 2006-01-08 19:32:34 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -84,7 +84,7 @@ wxNodeList wxSVGSVGElement::GetEnclosureList(const wxSVGRect& rect, const wxSVGE
 
 bool wxSVGSVGElement::CheckIntersection(const wxSVGElement& element, const wxSVGRect& rect)
 {
-  wxSVGRect elemBBox = GetElementBBox(element);
+  wxSVGRect elemBBox = GetElementBBox(&element);
 
   float rect_x1 = rect.GetX();
   float rect_x2 = rect_x1 + rect.GetWidth();

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGLocatable.cpp,v 1.8 2006-01-08 12:44:30 ntalex Exp $
+// RCS-ID:      $Id: SVGLocatable.cpp,v 1.9 2006-01-08 19:32:34 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -13,18 +13,18 @@
 #include <math.h>
 #include <wx/log.h>
 
-wxSVGRect wxSVGLocatable::GetElementBBox(const wxSVGElement& elem,
+wxSVGRect wxSVGLocatable::GetElementBBox(const wxSVGElement* element,
   wxSVG_COORDINATES coordinates)
 {
   wxSVGRect elemBBox;
-  if (&elem == NULL || elem.GetType() != wxXML_ELEMENT_NODE)
+  if (element == NULL || element->GetType() != wxXML_ELEMENT_NODE)
     return elemBBox;
   // SVGLocatable
-  if (elem.GetDtd() == wxSVG_SVG_ELEMENT)
-    return ((wxSVGSVGElement&)elem).GetBBox(coordinates);
+  if (element->GetDtd() == wxSVG_SVG_ELEMENT)
+    return ((wxSVGSVGElement*)element)->GetBBox(coordinates);
   // SVGTransformable
   wxSVGTransformable* transformable =
-    wxSVGTransformable::GetSVGTransformable((wxSVGElement&)elem);
+    wxSVGTransformable::GetSVGTransformable(*(wxSVGElement*)element);
   if (!transformable)
       return elemBBox;
   // GetBBox and transfrom it to parent coordinate system
@@ -35,18 +35,18 @@ wxSVGRect wxSVGLocatable::GetElementBBox(const wxSVGElement& elem,
   return transformable->GetBBox().MatrixTransform(matrix);
 }
 
-wxSVGRect wxSVGLocatable::GetElementResultBBox(const wxSVGElement& elem,
+wxSVGRect wxSVGLocatable::GetElementResultBBox(const wxSVGElement* element,
   wxSVG_COORDINATES coordinates)
 {
   wxSVGRect elemBBox;
-  if (&elem == NULL || elem.GetType() != wxXML_ELEMENT_NODE)
+  if (element == NULL || element->GetType() != wxXML_ELEMENT_NODE)
     return elemBBox;
   // SVGLocatable
-  if (elem.GetDtd() == wxSVG_SVG_ELEMENT)
-    return ((wxSVGSVGElement&)elem).GetResultBBox(coordinates);
+  if (element->GetDtd() == wxSVG_SVG_ELEMENT)
+    return ((wxSVGSVGElement*)element)->GetResultBBox(coordinates);
   // SVGTransformable
   wxSVGTransformable* transformable =
-    wxSVGTransformable::GetSVGTransformable((wxSVGElement&)elem);
+    wxSVGTransformable::GetSVGTransformable(*(wxSVGElement*)element);
   if (!transformable)
       return elemBBox;
   // GetResultBBox and transfrom it to parent coordinate system
@@ -57,14 +57,14 @@ wxSVGRect wxSVGLocatable::GetElementResultBBox(const wxSVGElement& elem,
   return transformable->GetResultBBox().MatrixTransform(matrix);
 }
 
-wxSVGRect wxSVGLocatable::GetChildrenBBox(const wxSVGElement& element,
+wxSVGRect wxSVGLocatable::GetChildrenBBox(const wxSVGElement* element,
   wxSVG_COORDINATES coordinates)
 {
   wxSVGRect bbox;
-  wxSVGElement* child = (wxSVGElement*) element.GetChildren();
+  wxSVGElement* child = (wxSVGElement*) element->GetChildren();
   for (; child != NULL; child = (wxSVGElement*) child->GetNext())
   {
-    wxSVGRect childBBox = wxSVGLocatable::GetElementBBox(*child, coordinates);
+    wxSVGRect childBBox = wxSVGLocatable::GetElementBBox(child, coordinates);
     
     if (childBBox.IsEmpty())
       continue;
@@ -93,15 +93,15 @@ wxSVGRect wxSVGLocatable::GetChildrenBBox(const wxSVGElement& element,
   return bbox;
 }
 
-wxSVGRect wxSVGLocatable::GetChildrenResultBBox(const wxSVGElement& element,
+wxSVGRect wxSVGLocatable::GetChildrenResultBBox(const wxSVGElement* element,
   wxSVG_COORDINATES coordinates)
 {
   wxSVGRect bbox;
-  wxSVGElement* child = (wxSVGElement*) element.GetChildren();
+  wxSVGElement* child = (wxSVGElement*) element->GetChildren();
   for (; child != NULL; child = (wxSVGElement*) child->GetNext())
   {
     wxSVGRect childBBox =
-      wxSVGLocatable::GetElementResultBBox(*child, coordinates);
+      wxSVGLocatable::GetElementResultBBox(child, coordinates);
     
     if (childBBox.IsEmpty())
       continue;
