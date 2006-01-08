@@ -10,6 +10,7 @@
 #define WX_SVG_RECT_H
 
 #include "String.h"
+#include "SVGMatrix.h"
 
 class wxSVGRect
 {
@@ -44,6 +45,7 @@ class wxSVGRect
       m_x(x), m_y(y), m_width(width), m_height(height), m_empty(false) {}
     wxString GetValueAsString() const;
     void SetValueAsString(const wxString& value);
+    wxSVGRect MatrixTransform(const wxSVGMatrix& matrix);
 };
 
 #endif // WX_SVG_RECT_H
