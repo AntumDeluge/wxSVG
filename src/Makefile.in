@@ -136,7 +136,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGAngle.cpp SVGColor.cpp GetSVGDocument.cpp SVGLength.cpp\
   SVGMatrix.cpp SVGPaint.cpp SVGPoint.cpp SVGPreserveAspectRatio.cpp\
   SVGRect.cpp SVGTests.cpp SVGTransform.cpp\
-  SVGStylable.cpp SVGTransformable.cpp\
+  SVGFitToViewBox.cpp SVGStylable.cpp SVGTransformable.cpp\
   SVGElementInstanceList.cpp SVGLengthList.cpp SVGNumberList.cpp\
   SVGPathSegList.cpp SVGPointList.cpp SVGStringList.cpp SVGTransformList.cpp\
   Elements_CopyConstructors.cpp Elements_HasAttribute.cpp\
@@ -182,14 +182,14 @@ am_libwxsvg_la_OBJECTS = SVGDocument.lo svgctrl.lo \
 	SVGVideoElement.lo SVGAngle.lo SVGColor.lo GetSVGDocument.lo \
 	SVGLength.lo SVGMatrix.lo SVGPaint.lo SVGPoint.lo \
 	SVGPreserveAspectRatio.lo SVGRect.lo SVGTests.lo \
-	SVGTransform.lo SVGStylable.lo SVGTransformable.lo \
-	SVGElementInstanceList.lo SVGLengthList.lo SVGNumberList.lo \
-	SVGPathSegList.lo SVGPointList.lo SVGStringList.lo \
-	SVGTransformList.lo Elements_CopyConstructors.lo \
-	Elements_HasAttribute.lo Elements_GetAttribute.lo \
-	Elements_GetAttributes.lo Elements_SetAttribute.lo CSSValue.lo \
-	CSSStyleDeclaration.lo SVGCanvas.lo SVGCanvasItem.lo \
-	NodeList.lo
+	SVGTransform.lo SVGFitToViewBox.lo SVGStylable.lo \
+	SVGTransformable.lo SVGElementInstanceList.lo SVGLengthList.lo \
+	SVGNumberList.lo SVGPathSegList.lo SVGPointList.lo \
+	SVGStringList.lo SVGTransformList.lo \
+	Elements_CopyConstructors.lo Elements_HasAttribute.lo \
+	Elements_GetAttribute.lo Elements_GetAttributes.lo \
+	Elements_SetAttribute.lo CSSValue.lo CSSStyleDeclaration.lo \
+	SVGCanvas.lo SVGCanvasItem.lo NodeList.lo
 libwxsvg_la_OBJECTS = $(am_libwxsvg_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -217,6 +217,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/SVGEllipseElement.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGFEGaussianBlurElement.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGFilterElement.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/SVGFitToViewBox.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGImageElement.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGLength.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/SVGLengthList.Plo \
@@ -331,6 +332,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGEllipseElement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGFEGaussianBlurElement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGFilterElement.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGFitToViewBox.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGImageElement.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGLength.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SVGLengthList.Plo@am__quote@

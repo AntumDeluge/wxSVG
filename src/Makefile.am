@@ -24,7 +24,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGAngle.cpp SVGColor.cpp GetSVGDocument.cpp SVGLength.cpp\
   SVGMatrix.cpp SVGPaint.cpp SVGPoint.cpp SVGPreserveAspectRatio.cpp\
   SVGRect.cpp SVGTests.cpp SVGTransform.cpp\
-  SVGStylable.cpp SVGTransformable.cpp\
+  SVGFitToViewBox.cpp SVGStylable.cpp SVGTransformable.cpp\
   SVGElementInstanceList.cpp SVGLengthList.cpp SVGNumberList.cpp\
   SVGPathSegList.cpp SVGPointList.cpp SVGStringList.cpp SVGTransformList.cpp\
   Elements_CopyConstructors.cpp Elements_HasAttribute.cpp\
