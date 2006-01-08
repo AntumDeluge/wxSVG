@@ -48,27 +48,30 @@ class wxSVGDocument:
 	wxSVGCanvas* m_canvas;
     double m_scale;
 
+    wxSVGMatrix m_screenCTM;
+
   public:
     wxSVGDocument() { Init(); }
-	wxSVGDocument(const wxString& filename, const wxString& encoding = wxT("UTF-8")):
-	  wxXmlDocument(filename, encoding) { Init(); }
-	wxSVGDocument(wxInputStream& stream, const wxString& encoding = wxT("UTF-8")):
-	  wxXmlDocument(stream, encoding) { Init(); }
-	virtual ~wxSVGDocument();
-	
-	void Init();
-	inline wxSVGCanvas* GetCanvas() { return m_canvas; }
+    wxSVGDocument(const wxString& filename, const wxString& encoding = wxT("UTF-8")):
+      wxXmlDocument(filename, encoding) { Init(); }
+    wxSVGDocument(wxInputStream& stream, const wxString& encoding = wxT("UTF-8")):
+      wxXmlDocument(stream, encoding) { Init(); }
+    virtual ~wxSVGDocument();
+    
+    void Init();
+    inline wxSVGCanvas* GetCanvas() { return m_canvas; }
     inline double GetScale() { return m_scale; }
-	
-	wxXmlElement* CreateElement(const wxString& tagName);
-	wxXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
-	
-	wxSVGSVGElement* GetRootElement() { return (wxSVGSVGElement*) GetRoot(); }
-	void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxXmlElement*) n); }
+    const wxSVGMatrix& GetScreenCTM() { return m_screenCTM; }
+    
+    wxXmlElement* CreateElement(const wxString& tagName);
+    wxXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
+    
+    wxSVGSVGElement* GetRootElement() { return (wxSVGSVGElement*) GetRoot(); }
+    void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxXmlElement*) n); }
     
     wxSVGElement* GetElementById(const wxString& id);
-	
-	wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL);
+    
+    wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL);
 };
 
 #endif // WX_SVG_DOCUMENT_H

@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.20 2005-12-24 18:51:18 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.21 2006-01-08 12:41:16 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -47,11 +47,11 @@ wxSVGElement* wxSVGDocument::GetElementById(const wxString& id)
     (wxSVGElement*) GetRootElement()->GetElementById(id) : NULL;
 }
 
-void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent,
+void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent, const wxSVGRect* rect,
   const wxSVGMatrix* parentMatrix, const wxCSSStyleDeclaration* parentStyle,
   wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement);
 
-void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
+void RenderElement(wxSVGDocument* doc, wxSVGElement* elem, const wxSVGRect* rect,
   const wxSVGMatrix* parentMatrix, const wxCSSStyleDeclaration* parentStyle,
   wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement)
 {
@@ -65,73 +65,22 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	case wxSVG_SVG_ELEMENT:
     {
 	  wxSVGSVGElement* element = (wxSVGSVGElement*) elem;
-	  // view box
-	  wxSVGRect viewbox = element->GetViewBox().GetAnimVal();
-      if (viewbox.GetWidth()>0 && viewbox.GetHeight()>0)
-      {
-        wxSVG_PRESERVEASPECTRATIO align =
-          element->GetPreserveAspectRatio().GetAnimVal().GetAlign();
-        if (align == wxSVG_PRESERVEASPECTRATIO_UNKNOWN)
-          align = wxSVG_PRESERVEASPECTRATIO_XMIDYMID;
-        if (align == wxSVG_PRESERVEASPECTRATIO_NONE)
-        {
-          matrix = matrix.ScaleNonUniform(
-            element->GetWidth().GetAnimVal()/viewbox.GetWidth(),
-            element->GetHeight().GetAnimVal()/viewbox.GetHeight());
-        }
-        else
-        {
-          double scale = 1;
-          scale = element->GetWidth().GetAnimVal()/viewbox.GetWidth();
-    	  if (scale>element->GetHeight().GetAnimVal()/viewbox.GetHeight())
-    	    scale = element->GetHeight().GetAnimVal()/viewbox.GetHeight();
-          
-          double x = 0;
-          if (align == wxSVG_PRESERVEASPECTRATIO_XMIDYMIN ||
-              align == wxSVG_PRESERVEASPECTRATIO_XMIDYMID ||
-              align == wxSVG_PRESERVEASPECTRATIO_XMIDYMAX)
-            x = (element->GetWidth().GetAnimVal() - viewbox.GetWidth()*scale)/2;
-          else if (align == wxSVG_PRESERVEASPECTRATIO_XMAXYMIN ||
-                   align == wxSVG_PRESERVEASPECTRATIO_XMAXYMID ||
-                   align == wxSVG_PRESERVEASPECTRATIO_XMAXYMAX)
-            x = element->GetWidth().GetAnimVal() - viewbox.GetWidth()*scale;
-            
-          double y = 0;
-          if (align == wxSVG_PRESERVEASPECTRATIO_XMINYMID ||
-              align == wxSVG_PRESERVEASPECTRATIO_XMIDYMID ||
-              align == wxSVG_PRESERVEASPECTRATIO_XMAXYMID)
-            y = (element->GetHeight().GetAnimVal() - viewbox.GetHeight()*scale)/2;
-          else if (align == wxSVG_PRESERVEASPECTRATIO_XMINYMAX ||
-                   align == wxSVG_PRESERVEASPECTRATIO_XMIDYMAX ||
-                   align == wxSVG_PRESERVEASPECTRATIO_XMAXYMAX)
-            y = element->GetHeight().GetAnimVal() - viewbox.GetHeight()*scale;
-          
-          if (x !=0 || y !=0)
-    	    matrix = matrix.Translate(x, y);
-          
-  	      matrix = matrix.Scale(scale);
-          if (viewbox.GetX() !=0 || viewbox.GetY() !=0)
-    	    matrix = matrix.Translate(-viewbox.GetX(), -viewbox.GetY());
-        }
-      }
-      element->SetScreenCTM(matrix);
-	  RenderChilds(doc, elem, &matrix, &style, element, element);
+      element->UpdateMatrix(matrix);
+	  RenderChilds(doc, elem, rect, &matrix, &style, element, element);
 	  break;
     }
 	case wxSVG_G_ELEMENT:
 	{
 	  wxSVGGElement* element = (wxSVGGElement*) elem;
 	  element->UpdateMatrix(matrix);
-	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
-	  RenderChilds(doc, elem, &matrix, &style, ownerSVGElement, viewportElement);
+	  RenderChilds(doc, elem, rect, &matrix, &style, ownerSVGElement, viewportElement);
 	  break;
 	}
 	case wxSVG_LINE_ELEMENT:
 	{
 	  wxSVGLineElement* element = (wxSVGLineElement*) elem;
 	  element->UpdateMatrix(matrix);
-	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawLine(element, &matrix, &style);
 	  break;
@@ -140,7 +89,6 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGPolylineElement* element = (wxSVGPolylineElement*) elem;
 	  element->UpdateMatrix(matrix);
-	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawPolyline(element, &matrix, &style);
 	  break;
@@ -149,7 +97,6 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGPolygonElement* element = (wxSVGPolygonElement*) elem;
 	  element->UpdateMatrix(matrix);
-	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawPolygon(element, &matrix, &style);
 	  break;
@@ -158,7 +105,6 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGRectElement* element = (wxSVGRectElement*) elem;
 	  element->UpdateMatrix(matrix);
-	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawRect(element, &matrix, &style);
 	  break;
@@ -167,7 +113,6 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGCircleElement* element = (wxSVGCircleElement*) elem;
 	  element->UpdateMatrix(matrix);
-	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawCircle(element, &matrix, &style);
 	  break;
@@ -176,7 +121,6 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGEllipseElement* element = (wxSVGEllipseElement*) elem;
 	  element->UpdateMatrix(matrix);
-	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawEllipse(element, &matrix, &style);
 	  break;
@@ -185,7 +129,6 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGPathElement* element = (wxSVGPathElement*) elem;
 	  element->UpdateMatrix(matrix);
-	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawPath(element, &matrix, &style);
 	  break;
@@ -196,7 +139,6 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGTextElement* element = (wxSVGTextElement*) elem;
 	  element->UpdateMatrix(matrix);
-	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawText(element, &matrix, &style);
 	  break;
@@ -205,7 +147,6 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGImageElement* element = (wxSVGImageElement*) elem;
 	  element->UpdateMatrix(matrix);
-	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  doc->GetCanvas()->DrawImage(element, &matrix, &style);
 	  break;
@@ -214,7 +155,6 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
 	{
 	  wxSVGVideoElement* element = (wxSVGVideoElement*) elem;
 	  element->UpdateMatrix(matrix);
-	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
 	  wxSVGGElement* gElem = new wxSVGGElement();
       gElem->SetOwnerSVGElement(ownerSVGElement);
@@ -238,7 +178,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
       gElem->AppendChild(textElem);
       
       // render
-      RenderElement(doc, gElem, &matrix, &style, ownerSVGElement, viewportElement);
+      RenderElement(doc, gElem, rect, &matrix, &style, ownerSVGElement, viewportElement);
       // delete shadow tree
       delete gElem;
 	  break;
@@ -247,7 +187,6 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
     {
       wxSVGUseElement* element = (wxSVGUseElement*) elem;
 	  element->UpdateMatrix(matrix);
-	  element->SetScreenCTM(matrix);
 	  style.Add(element->GetStyle());
       // test if visible
       wxSVGPoint point(element->GetX().GetAnimVal(), element->GetY().GetAnimVal());
@@ -306,7 +245,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
       else
         gElem->AddChild(refElem->CloneNode());
       // render
-      RenderElement(doc, gElem, &matrix, &style, ownerSVGElement, viewportElement);
+      RenderElement(doc, gElem, rect, &matrix, &style, ownerSVGElement, viewportElement);
       // delete shadow tree
       delete gElem;
       break;
@@ -316,7 +255,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem,
   }
 }
 
-void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent,
+void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent, const wxSVGRect* rect,
   const wxSVGMatrix* parentMatrix, const wxCSSStyleDeclaration* parentStyle,
   wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement)
 {
@@ -324,8 +263,17 @@ void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent,
   while (elem)
   {
     if (elem->GetType() == wxXML_ELEMENT_NODE)
-      RenderElement(doc, elem, parentMatrix, parentStyle,
-        ownerSVGElement, viewportElement);
+    {
+      /* if (rect)
+      {
+      	if (doc->GetRootElement()->CheckIntersection(*elem, *rect))
+      	  RenderElement(doc, elem, rect, parentMatrix, parentStyle,
+            ownerSVGElement, viewportElement);
+      }
+      else*/
+      	RenderElement(doc, elem, rect, parentMatrix, parentStyle,
+          ownerSVGElement, viewportElement);
+    }
     elem = (wxSVGElement*) elem->GetNext();
   }
 }
@@ -335,7 +283,7 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect)
   if (!GetRootElement())
 	return wxImage();
   
-  wxSVGMatrix matrix;
+  m_screenCTM = wxSVGMatrix();
   
   if (GetRootElement()->GetWidth().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN ||
       GetRootElement()->GetHeight().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
@@ -343,7 +291,7 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect)
     wxSVGRect bbox = GetRootElement()->GetBBox();
     GetRootElement()->SetWidth(wxSVGLength(bbox.GetWidth()*0.95));
     GetRootElement()->SetHeight(wxSVGLength(bbox.GetHeight()*0.95));
-	matrix = matrix.Translate(width*0.025, height*0.025);
+	m_screenCTM = m_screenCTM.Translate(width*0.025, height*0.025);
   }
   
   if (width == -1 || height == -1)
@@ -383,7 +331,7 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect)
 	m_scale = width/GetRootElement()->GetWidth().GetAnimVal();
 	if (m_scale > height/GetRootElement()->GetHeight().GetAnimVal())
 	  m_scale = height/GetRootElement()->GetHeight().GetAnimVal();
-    matrix = matrix.Scale(m_scale);
+    m_screenCTM = m_screenCTM.Scale(m_scale);
     
     width = (int)(m_scale*GetRootElement()->GetWidth().GetAnimVal());
     height = (int)(m_scale*GetRootElement()->GetHeight().GetAnimVal());
@@ -392,7 +340,7 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect)
   // render only rect if specified
   if (rect && !rect->IsEmpty())
   {
-    matrix = matrix.Translate(-rect->GetX(), -rect->GetY());
+    m_screenCTM = m_screenCTM.Translate(-rect->GetX(), -rect->GetY());
     if (rect->GetWidth()*GetScale() < width)
       width = (int) (rect->GetWidth()*GetScale());
     if (rect->GetHeight()*GetScale() < height)
@@ -402,7 +350,7 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect)
   // render
   m_canvas->Init(width, height);
   m_canvas->Clear();
-  RenderElement(this, GetRootElement(), &matrix,
+  RenderElement(this, GetRootElement(), rect, &m_screenCTM,
 	&GetRootElement()->GetStyle(), NULL, NULL);
   
   return m_canvas->GetImage();

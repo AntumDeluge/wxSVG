@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/05
-// RCS-ID:      $Id: SVGMatrix.cpp,v 1.3 2005-06-17 13:24:50 ntalex Exp $
+// RCS-ID:      $Id: SVGMatrix.cpp,v 1.4 2006-01-08 12:39:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ wxSVGMatrix wxSVGMatrix::Multiply(const wxSVGMatrix& secondMatrix)
 wxSVGMatrix wxSVGMatrix::Inverse()
 {
   wxSVGMatrix res;
-  double d = 1/(GetA()*GetD() - GetB()*GetC());
+  double d = 1.0/(GetA()*GetD() - GetB()*GetC());
   res.SetA(GetD()*d);
   res.SetB(-GetB()*d);
   res.SetC(-GetC()*d);
