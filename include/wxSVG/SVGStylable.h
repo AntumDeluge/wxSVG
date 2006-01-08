@@ -21,6 +21,7 @@ class wxSVGStylable
   protected:
     wxSVGAnimatedString m_className;
     wxCSSStyleDeclaration m_style;
+    wxCSSStyleDeclaration m_animStyle;
     bool HasCustomAttribute(const wxString& name);
     wxString GetCustomAttribute(const wxString& name);
     bool SetCustomAttribute(const wxString& name, const wxString& value);
@@ -32,6 +33,9 @@ class wxSVGStylable
 
     inline const wxCSSStyleDeclaration& GetStyle() const { return m_style; }
     inline void SetStyle(const wxCSSStyleDeclaration& n) { m_style = n; }
+
+    inline const wxCSSStyleDeclaration& GetAnimStyle() const { return m_animStyle; }
+    inline void SetAnimStyle(const wxCSSStyleDeclaration& n) { m_animStyle = n; }
 
   public:
     inline void SetClipPath(const wxCSSPrimitiveValue& value) { m_style.SetClipPath(value); }
@@ -152,8 +156,10 @@ class wxSVGStylable
     
   public:
     virtual ~wxSVGStylable() {}
-    inline void UpdateStyle(wxCSSStyleDeclaration& style) { style.Add(GetStyle()); }
+    static wxSVGStylable* GetSVGStylable(wxSVGElement& element);
+    static const wxSVGStylable* GetSVGStylable(const wxSVGElement& element);
     static const wxCSSStyleDeclaration& GetElementStyle(const wxSVGElement& element);
+    static wxCSSStyleDeclaration GetResultStyle(const wxSVGElement& element);
     virtual const wxCSSValue& GetPresentationAttribute(const wxString& name);
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
