@@ -3,12 +3,13 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/09/27
-// RCS-ID:      $Id: SVGRect.cpp,v 1.3 2005-11-07 19:03:00 ntalex Exp $
+// RCS-ID:      $Id: SVGRect.cpp,v 1.4 2006-01-08 12:39:44 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGRect.h"
+#include "SVGPoint.h"
 #include <wx/tokenzr.h>
 
 wxString wxSVGRect::GetValueAsString() const
@@ -35,4 +36,19 @@ void wxSVGRect::SetValueAsString(const wxString& value)
     }
     pi++;
   }
+}
+
+wxSVGRect wxSVGRect::MatrixTransform(const wxSVGMatrix& matrix)
+{
+  wxSVGPoint point1(GetX(), GetY());
+  point1 = point1.MatrixTransform(matrix);
+  wxSVGPoint point2(GetX() + GetWidth(), GetY() + GetHeight());
+  point2 = point2.MatrixTransform(matrix);
+  
+  wxSVGRect rect;
+  rect.SetX(point1.GetX() < point2.GetX() ? point1.GetX() : point2.GetX());
+  rect.SetY(point1.GetY() < point2.GetY() ? point1.GetY() : point2.GetY());
+  rect.SetWidth(point1.GetX() < point2.GetX() ? point2.GetX() - rect.GetX() : point1.GetX() - rect.GetX());
+  rect.SetHeight(point1.GetY() < point2.GetY() ? point2.GetY() - rect.GetY() : point1.GetY() - rect.GetY());
+  return rect;
 }
