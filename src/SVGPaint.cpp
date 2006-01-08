@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGPaint.cpp,v 1.3 2005-06-07 22:30:30 ntalex Exp $
+// RCS-ID:      $Id: SVGPaint.cpp,v 1.4 2006-01-08 12:21:13 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -14,24 +14,24 @@ wxString wxSVGPaint::GetCSSText() const
 {
   switch (m_paintType)
   {
-	case wxSVG_PAINTTYPE_UNKNOWN:
-	  break;
-	case wxSVG_PAINTTYPE_RGBCOLOR:
-	case wxSVG_PAINTTYPE_RGBCOLOR_ICCCOLOR:
-	  return wxSVGColor::GetCSSText();
-	case wxSVG_PAINTTYPE_NONE:
-	  return wxT("none");
-	case wxSVG_PAINTTYPE_CURRENTCOLOR:
-	  return wxT("currentColor");
-	case wxSVG_PAINTTYPE_URI_NONE:
-	  return wxT("url(") + m_uri + wxT(") none");
-	case wxSVG_PAINTTYPE_URI_CURRENTCOLOR:
-	  return wxT("url(") + m_uri + wxT(") currentColor");
-	case wxSVG_PAINTTYPE_URI_RGBCOLOR:
-	case wxSVG_PAINTTYPE_URI_RGBCOLOR_ICCCOLOR:
-	  return wxT("url(") + m_uri + wxT(") ") + wxSVGColor::GetCSSText();
-	case wxSVG_PAINTTYPE_URI:
-	  return wxT("url(") + m_uri + wxT(")");
+    case wxSVG_PAINTTYPE_UNKNOWN:
+      break;
+    case wxSVG_PAINTTYPE_RGBCOLOR:
+    case wxSVG_PAINTTYPE_RGBCOLOR_ICCCOLOR:
+      return wxSVGColor::GetCSSText();
+    case wxSVG_PAINTTYPE_NONE:
+      return wxT("none");
+    case wxSVG_PAINTTYPE_CURRENTCOLOR:
+      return wxT("currentColor");
+    case wxSVG_PAINTTYPE_URI_NONE:
+      return wxT("url(") + m_uri + wxT(") none");
+    case wxSVG_PAINTTYPE_URI_CURRENTCOLOR:
+      return wxT("url(") + m_uri + wxT(") currentColor");
+    case wxSVG_PAINTTYPE_URI_RGBCOLOR:
+    case wxSVG_PAINTTYPE_URI_RGBCOLOR_ICCCOLOR:
+      return wxT("url(") + m_uri + wxT(") ") + wxSVGColor::GetCSSText();
+    case wxSVG_PAINTTYPE_URI:
+      return wxT("url(") + m_uri + wxT(")");
   }
   return wxT("");
 }
@@ -46,18 +46,18 @@ void wxSVGPaint::SetRGBColor(const wxRGBColor& rgbColor)
 {
   wxSVGColor::SetRGBColor(rgbColor);
   if (rgbColor.Ok())
-	m_paintType = m_uri.length() ? wxSVG_PAINTTYPE_URI_RGBCOLOR : wxSVG_PAINTTYPE_RGBCOLOR;
+    m_paintType = m_uri.length() ? wxSVG_PAINTTYPE_URI_RGBCOLOR : wxSVG_PAINTTYPE_RGBCOLOR;
   else
-	m_paintType = m_uri.length() ? wxSVG_PAINTTYPE_URI_NONE : wxSVG_PAINTTYPE_NONE;
+    m_paintType = m_uri.length() ? wxSVG_PAINTTYPE_URI_NONE : wxSVG_PAINTTYPE_NONE;
 }
 
 void wxSVGPaint::SetICCColor(const wxSVGICCColor& iccColor)
 {
   wxSVGColor::SetICCColor(iccColor);
   if (m_iccColor.GetColors().Count())
-	m_paintType = m_uri.length() ? wxSVG_PAINTTYPE_URI_RGBCOLOR_ICCCOLOR : wxSVG_PAINTTYPE_RGBCOLOR_ICCCOLOR;
+    m_paintType = m_uri.length() ? wxSVG_PAINTTYPE_URI_RGBCOLOR_ICCCOLOR : wxSVG_PAINTTYPE_RGBCOLOR_ICCCOLOR;
   else
-	m_paintType = m_uri.length() ? wxSVG_PAINTTYPE_URI_RGBCOLOR : wxSVG_PAINTTYPE_RGBCOLOR;
+    SetRGBColor(GetRGBColor());
 }
 
 void wxSVGPaint::SetPaint(wxSVG_PAINTTYPE paintType, const wxString& uri,
