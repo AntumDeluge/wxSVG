@@ -71,7 +71,10 @@ class wxSVGUseElement:
       wxSVGElement(tagName), m_instanceRoot(NULL), m_animatedInstanceRoot(NULL) {}
     virtual ~wxSVGUseElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGUseElement(*this); }
-    virtual wxSVGRect GetBBox();
+    wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
+    wxSVGMatrix GetScreenCTM() { return wxSVGLocatable::GetScreenCTM(this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);

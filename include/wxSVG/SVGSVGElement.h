@@ -120,7 +120,12 @@ class wxSVGSVGElement:
       wxSVGElement(tagName), m_pixelUnitToMillimeterX(0), m_pixelUnitToMillimeterY(0), m_screenPixelToMillimeterX(0), m_screenPixelToMillimeterY(0), m_useCurrentView(0), m_currentScale(0) {}
     virtual ~wxSVGSVGElement() {}
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGSVGElement(*this); }
-    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetChildrenBBox(*this); }
+    wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenBBox(*this, coordinates); }
+    wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenResultBBox(*this, coordinates); }
+    wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
+    wxSVGMatrix GetScreenCTM() { return wxSVGLocatable::GetScreenCTM(this); }
+    wxXmlElement* GetElementById(const wxString& elementId) const;
+    void UpdateMatrix(wxSVGMatrix& matrix) { wxSVGFitToViewBox::UpdateMatrix(matrix, GetWidth().GetAnimVal(), GetHeight().GetAnimVal()); }
     virtual unsigned long SuspendRedraw(unsigned long max_wait_milliseconds);
     virtual void UnsuspendRedraw(unsigned long suspend_handle_id);
     virtual void UnsuspendRedrawAll();
@@ -143,7 +148,6 @@ class wxSVGSVGElement:
     virtual wxSVGRect CreateSVGRect();
     virtual wxSVGTransform CreateSVGTransform();
     virtual wxSVGTransform CreateSVGTransformFromMatrix(const wxSVGMatrix& matrix);
-    virtual wxXmlElement* GetElementById(const wxString& elementId);
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);

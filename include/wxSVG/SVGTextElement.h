@@ -21,12 +21,11 @@ class wxSVGTextElement:
   public wxSVGTransformable
 {
   public:
-
   protected:
-	wxSVGCanvasItem* m_canvasItem;
+    wxSVGCanvasItem* m_canvasItem;
   public:
-	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	void SetCanvasItem(wxSVGCanvasItem* canvasItem);
+    inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
+    void SetCanvasItem(wxSVGCanvasItem* canvasItem);
 
   public:
     wxSVGTextElement(wxString tagName = wxT("text")):
@@ -34,7 +33,18 @@ class wxSVGTextElement:
     wxSVGTextElement(wxSVGTextElement& src);
     virtual ~wxSVGTextElement();
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTextElement(*this); }
-    wxSVGRect GetBBox();
+    wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
+    wxSVGMatrix GetScreenCTM() { return wxSVGLocatable::GetScreenCTM(this); }
+    long GetNumberOfChars();
+    double GetComputedTextLength();
+    double GetSubStringLength(unsigned long charnum, unsigned long nchars);
+    wxSVGPoint GetStartPositionOfChar(unsigned long charnum);
+    wxSVGPoint GetEndPositionOfChar(unsigned long charnum);
+    wxSVGRect GetExtentOfChar(unsigned long charnum);
+    double GetRotationOfChar(unsigned long charnum);
+    long GetCharNumAtPosition(const wxSVGPoint& point);
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);

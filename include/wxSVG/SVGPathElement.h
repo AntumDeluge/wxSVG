@@ -61,12 +61,11 @@ class wxSVGPathElement:
     inline void SetPathLength(const wxSVGAnimatedNumber& n) { m_pathLength = n; }
     inline void SetPathLength(float n) { m_pathLength.SetBaseVal(n); }
 
-
   protected:
-	wxSVGCanvasItem* m_canvasItem;
+    wxSVGCanvasItem* m_canvasItem;
   public:
-	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	void SetCanvasItem(wxSVGCanvasItem* canvasItem);
+    inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
+    void SetCanvasItem(wxSVGCanvasItem* canvasItem);
 
   public:
     wxSVGPathElement(wxString tagName = wxT("path")):
@@ -74,7 +73,10 @@ class wxSVGPathElement:
     wxSVGPathElement(wxSVGPathElement& src);
     virtual ~wxSVGPathElement();
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPathElement(*this); }
-    wxSVGRect GetBBox();
+    wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
+    wxSVGMatrix GetScreenCTM() { return wxSVGLocatable::GetScreenCTM(this); }
     virtual double GetTotalLength();
     virtual wxSVGPoint GetPointAtLength(double distance);
     virtual unsigned long GetPathSegAtLength(double distance);

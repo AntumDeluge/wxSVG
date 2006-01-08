@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.5 2005-09-25 11:41:06 ntalex Exp $
+// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.6 2006-01-08 12:44:30 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -156,11 +156,13 @@ wxSVGTransform wxSVGSVGElement::CreateSVGTransformFromMatrix(const wxSVGMatrix& 
 
 wxSVGElement* RecurseElementId(wxSVGElement* root, const wxString& elementId)
 {
-    if (root->GetId() == elementId) return root;
+    if (root->GetId() == elementId)
+        return root;
     wxSVGElement* n = (wxSVGElement*)root->GetChildren();
     while (n)
     {
-        if (n->GetType() == wxXML_ELEMENT_NODE)
+        if (n->GetType() == wxXML_ELEMENT_NODE &&
+            n->GetDtd() != wxSVG_SVG_ELEMENT)
         {
             wxSVGElement* res = RecurseElementId(n, elementId);
             if (res)
@@ -171,7 +173,7 @@ wxSVGElement* RecurseElementId(wxSVGElement* root, const wxString& elementId)
     return NULL;
 }
 
-wxXmlElement* wxSVGSVGElement::GetElementById(const wxString& elementId)
+wxXmlElement* wxSVGSVGElement::GetElementById(const wxString& elementId) const
 {
     return RecurseElementId((wxSVGElement*)this,elementId);
 }

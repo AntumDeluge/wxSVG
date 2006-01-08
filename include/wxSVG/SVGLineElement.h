@@ -55,12 +55,11 @@ class wxSVGLineElement:
     inline void SetY2(const wxSVGAnimatedLength& n) { m_y2 = n; }
     inline void SetY2(const wxSVGLength& n) { m_y2.SetBaseVal(n); }
 
-
   protected:
-	wxSVGCanvasItem* m_canvasItem;
+    wxSVGCanvasItem* m_canvasItem;
   public:
-	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	void SetCanvasItem(wxSVGCanvasItem* canvasItem);
+    inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
+    void SetCanvasItem(wxSVGCanvasItem* canvasItem);
 
   public:
     wxSVGLineElement(wxString tagName = wxT("line")):
@@ -68,7 +67,10 @@ class wxSVGLineElement:
     wxSVGLineElement(wxSVGLineElement& src);
     virtual ~wxSVGLineElement();
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGLineElement(*this); }
-    wxSVGRect GetBBox();
+    wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
+    wxSVGMatrix GetScreenCTM() { return wxSVGLocatable::GetScreenCTM(this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);

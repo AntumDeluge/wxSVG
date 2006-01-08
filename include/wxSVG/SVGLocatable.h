@@ -15,13 +15,13 @@ class wxSVGElement;
 #include "SVGRect.h"
 #include "SVGMatrix.h"
 #include "SVGElement.h"
+#include "SVGCoordinates.h"
 
 class wxSVGLocatable
 {
   protected:
     wxSVGElement* m_nearestViewportElement;
     wxSVGElement* m_farthestViewportElement;
-    wxSVGMatrix m_screenCTM;
 
   public:
     inline wxSVGElement* GetNearestViewportElement() const { return m_nearestViewportElement; }
@@ -30,17 +30,24 @@ class wxSVGLocatable
     inline wxSVGElement* GetFarthestViewportElement() const { return m_farthestViewportElement; }
     inline void SetFarthestViewportElement(wxSVGElement* n) { m_farthestViewportElement = n; }
 
-    inline const wxSVGMatrix& GetScreenCTM() const { return m_screenCTM; }
-    inline void SetScreenCTM(const wxSVGMatrix& n) { m_screenCTM = n; }
-
   public:
     wxSVGLocatable(): m_nearestViewportElement(NULL), m_farthestViewportElement(NULL) {}
     virtual ~wxSVGLocatable() {}
-    virtual wxSVGRect GetBBox() { return wxSVGRect(); }
-    static wxSVGRect GetElementBBox(const wxSVGElement& element);
-    static wxSVGRect GetChildrenBBox(const wxSVGElement& element);
-    virtual wxSVGMatrix GetCTM();
+    virtual wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) = 0;
+    virtual wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) = 0;
+    virtual wxSVGMatrix GetCTM() = 0;
+    virtual wxSVGMatrix GetScreenCTM() = 0;
     virtual wxSVGMatrix GetTransformToElement(const wxSVGElement& element);
+
+  protected:
+    static wxSVGRect GetElementBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    static wxSVGRect GetElementResultBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    static wxSVGRect GetChildrenBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    static wxSVGRect GetChildrenResultBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    static wxSVGMatrix GetCTM(const wxSVGElement* element);
+    static wxSVGMatrix GetScreenCTM(const wxSVGElement* element);
+    inline wxSVGMatrix GetMatrix(wxSVG_COORDINATES coordinates)
+    { return coordinates == wxSVG_COORDINATES_SCREEN ? GetScreenCTM() : (coordinates == wxSVG_COORDINATES_VIEWPORT ? GetCTM() : wxSVGMatrix()); }
 };
 
 #endif // WX_SVG_LOCATABLE_H

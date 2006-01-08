@@ -50,12 +50,11 @@ class wxSVGCircleElement:
     inline void SetR(const wxSVGAnimatedLength& n) { m_r = n; }
     inline void SetR(const wxSVGLength& n) { m_r.SetBaseVal(n); }
 
-
   protected:
-	wxSVGCanvasItem* m_canvasItem;
+    wxSVGCanvasItem* m_canvasItem;
   public:
-	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	void SetCanvasItem(wxSVGCanvasItem* canvasItem);
+    inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
+    void SetCanvasItem(wxSVGCanvasItem* canvasItem);
 
   public:
     wxSVGCircleElement(wxString tagName = wxT("circle")):
@@ -63,7 +62,10 @@ class wxSVGCircleElement:
     wxSVGCircleElement(wxSVGCircleElement& src);
     virtual ~wxSVGCircleElement();
     wxXmlNode* CloneNode(bool deep = true) { return new wxSVGCircleElement(*this); }
-    wxSVGRect GetBBox();
+    wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
+    wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
+    wxSVGMatrix GetScreenCTM() { return wxSVGLocatable::GetScreenCTM(this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
