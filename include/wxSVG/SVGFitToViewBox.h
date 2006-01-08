@@ -13,6 +13,8 @@
 #include "SVGAnimatedPreserveAspectRatio.h"
 #include "String.h"
 #include "Element.h"
+#include "SVGLength.h"
+#include "SVGMatrix.h"
 
 class wxSVGFitToViewBox
 {
@@ -31,6 +33,7 @@ class wxSVGFitToViewBox
 
   public:
     virtual ~wxSVGFitToViewBox() {}
+    void UpdateMatrix(wxSVGMatrix& matrix, const wxSVGLength& width, const wxSVGLength& height);
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
