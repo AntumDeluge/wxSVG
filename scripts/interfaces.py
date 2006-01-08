@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.18 2005-12-24 19:07:10 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.19 2006-01-08 12:25:06 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -13,6 +13,7 @@ class interface:
         self.exclude_methods = []
         self.exclude_attributes = []
         self.include_methods = []
+        self.include_methods_protected = []
         self.include_attributes = []
         self.include_attributes_init = []
         self.include_get_set_attributes = []
@@ -50,11 +51,20 @@ inter.user_defined_destructor=1
 # SVGLocatable
 inter = interface()
 interfaces["SVGLocatable"]=inter
-inter.include_get_set_attributes = [["wxSVGMatrix", "screenCTM", False, False]]
-inter.include_methods.append('    virtual wxSVGRect GetBBox() { return wxSVGRect(); }\n')
-inter.include_methods.append('    static wxSVGRect GetElementBBox(const wxSVGElement& element);\n')
-inter.include_methods.append('    static wxSVGRect GetChildrenBBox(const wxSVGElement& element);\n')
-inter.exclude_methods = ["GetBBox"]
+inter.include_methods.append('    virtual wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) = 0;\n')
+inter.include_methods.append('    virtual wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) = 0;\n')
+inter.include_methods.append('    virtual wxSVGMatrix GetCTM() = 0;\n')
+inter.include_methods.append('    virtual wxSVGMatrix GetScreenCTM() = 0;\n')
+inter.include_methods_protected.append('    static wxSVGRect GetElementBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
+inter.include_methods_protected.append('    static wxSVGRect GetElementResultBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
+inter.include_methods_protected.append('    static wxSVGRect GetChildrenBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
+inter.include_methods_protected.append('    static wxSVGRect GetChildrenResultBBox(const wxSVGElement& element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
+inter.include_methods_protected.append('    static wxSVGMatrix GetCTM(const wxSVGElement* element);\n')
+inter.include_methods_protected.append('    static wxSVGMatrix GetScreenCTM(const wxSVGElement* element);\n')
+inter.include_methods_protected.append('    inline wxSVGMatrix GetMatrix(wxSVG_COORDINATES coordinates)\n')
+inter.include_methods_protected.append('    { return coordinates == wxSVG_COORDINATES_SCREEN ? GetScreenCTM() : (coordinates == wxSVG_COORDINATES_VIEWPORT ? GetCTM() : wxSVGMatrix()); }\n')
+inter.exclude_methods = ["GetBBox", "GetResultBBox", "GetCTM", "GetScreenCTM"]
+inter.include_includes=["SVGCoordinates"]
 
 # SVGTransformable
 inter = interface()
@@ -66,18 +76,24 @@ inter.include_methods.append('    void Scale(double sx, double sy);\n')
 inter.include_methods.append('    void Rotate(double angle, double cx = 0, double cy = 0);\n')
 inter.include_methods.append('    void SkewX(double angle);\n')
 inter.include_methods.append('    void SkewY(double angle);\n')
-inter.include_methods.append('    void UpdateMatrix(wxSVGMatrix& matrix);\n')
+inter.include_methods.append('    void UpdateMatrix(wxSVGMatrix& matrix) const;\n')
+inter.include_methods.append('    static wxSVGTransformable* GetSVGTransformable(wxSVGElement& element);\n')
+inter.include_methods.append('    static const wxSVGTransformable* GetSVGTransformable(const wxSVGElement& element);\n')
 
 # SVGFitToViewBox
-#inter = interface()
-#interfaces["SVGFitToViewBox"]=inter
-#inter.include_methods.append('    void UpdateMatrix(wxSVGMatrix& matrix);\n')
+inter = interface()
+interfaces["SVGFitToViewBox"]=inter
+inter.include_methods.append('    void UpdateMatrix(wxSVGMatrix& matrix, const wxSVGLength& width, const wxSVGLength& height);\n')
+inter.include_includes=["SVGLength", "SVGMatrix"]
 
 # SVGStylable
 inter = interface()
 interfaces["SVGStylable"]=inter
-inter.include_methods.append('    inline void UpdateStyle(wxCSSStyleDeclaration& style) { style.Add(GetStyle()); }\n')
+inter.include_methods.append('    static wxSVGStylable* GetSVGStylable(wxSVGElement& element);\n')
+inter.include_methods.append('    static const wxSVGStylable* GetSVGStylable(const wxSVGElement& element);\n')
 inter.include_methods.append('    static const wxCSSStyleDeclaration& GetElementStyle(const wxSVGElement& element);\n')
+inter.include_methods.append('    static wxCSSStyleDeclaration GetResultStyle(const wxSVGElement& element);\n')
+inter.include_get_set_attributes = [["wxCSSStyleDeclaration", "animStyle", False, False]]
 inter.include_includes=["SVGElement"]
 
 # SVGElementInstance
@@ -242,8 +258,9 @@ inter.include_methods.append('''\
       m_x(x), m_y(y), m_width(width), m_height(height), m_empty(false) {}
     wxString GetValueAsString() const;
     void SetValueAsString(const wxString& value);
+    wxSVGRect MatrixTransform(const wxSVGMatrix& matrix);
 ''')
-inter.include_includes = ["String"]
+inter.include_includes = ["String", "SVGMatrix"]
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
@@ -286,45 +303,59 @@ inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
 ## container elements
-for name in ["SVGSVGElement", "SVGGElement", "SVGDefsElement",
-"SVGAElement", "SVGSwitchElement", "SVGForeignObjectElement"]:
+for name in ["SVGSVGElement", "SVGGElement", "SVGDefsElement", "SVGAElement",
+"SVGSwitchElement", "SVGForeignObjectElement", "SVGClipPathElement"]:
   inter = interface()
-  interfaces[name]=inter
-  inter.include_methods.append('    virtual wxSVGRect GetBBox() { return wxSVGLocatable::GetChildrenBBox(*this); }\n')
+  interfaces[name] = inter
+  inter.include_methods.append('    wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenBBox(*this, coordinates); }\n')
+  inter.include_methods.append('    wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenResultBBox(*this, coordinates); }\n')
+  inter.include_methods.append('    wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }\n')
+  inter.include_methods.append('    wxSVGMatrix GetScreenCTM() { return wxSVGLocatable::GetScreenCTM(this); }\n')
 
-## SVGUseElement
-inter = interface()
-interfaces["SVGUseElement"]=inter
-inter.include_methods.append('    virtual wxSVGRect GetBBox();\n')
-
-## SVGVideoElement
-inter = interface()
-interfaces["SVGVideoElement"]=inter
-inter.include_methods.append('    virtual wxSVGRect GetBBox();\n')
+## SVGSVGElement
+inter = interfaces["SVGSVGElement"]
+inter.include_methods.append('    wxXmlElement* GetElementById(const wxString& elementId) const;\n')
+inter.include_methods.append('    void UpdateMatrix(wxSVGMatrix& matrix) { wxSVGFitToViewBox::UpdateMatrix(matrix, GetWidth().GetAnimVal(), GetHeight().GetAnimVal()); }\n')
+inter.exclude_methods = ["GetElementById"]
 
 ## visible elements
 for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
 "SVGRectElement", "SVGCircleElement", "SVGEllipseElement", "SVGPathElement",
-"SVGTextElement", "SVGImageElement"]: ##, "SVGClipPathElement"]:
-  inter = interface()
-  interfaces[name]=inter
-  inter.has_canvas_item=1
-  inter.include_attributes.append('''
-  protected:
-	wxSVGCanvasItem* m_canvasItem;
-  public:
-	inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
-	void SetCanvasItem(wxSVGCanvasItem* canvasItem);\n
-''')
-  inter.include_attributes_init = [["canvasItem", True]]
-  inter.include_methods.append('    wxSVGRect GetBBox();\n')
-  inter.include_fwd_decls = ["SVGCanvasItem"]
+"SVGTextElement", "SVGImageElement", "SVGVideoElement", "SVGUseElement"]:
+    inter = interface()
+    interfaces[name]=inter
+    if name not in ["SVGUseElement", "SVGVideoElement"]:
+        inter.has_canvas_item=1
+        inter.include_attributes.append('  protected:\n')
+        inter.include_attributes.append('    wxSVGCanvasItem* m_canvasItem;\n')
+        inter.include_attributes.append('  public:\n')
+        inter.include_attributes.append('    inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }\n')
+        inter.include_attributes.append('    void SetCanvasItem(wxSVGCanvasItem* canvasItem);\n\n')
+        inter.include_attributes_init = [["canvasItem", True]]
+        inter.include_fwd_decls = ["SVGCanvasItem"]
+    inter.include_methods.append('    wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
+    inter.include_methods.append('    wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
+    inter.include_methods.append('    wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }\n')
+    inter.include_methods.append('    wxSVGMatrix GetScreenCTM() { return wxSVGLocatable::GetScreenCTM(this); }\n')
 
 # SVGImageElement
 inter = interfaces["SVGImageElement"]
 inter.include_methods.append('    int GetDefaultWidth();\n')
 inter.include_methods.append('    int GetDefaultHeight();\n')
 inter.include_methods.append('    void SetDefaultSize();\n')
+
+# SVGTextElement
+inter = interfaces["SVGTextElement"]
+inter.include_methods.append('''\
+    long GetNumberOfChars();
+    double GetComputedTextLength();
+    double GetSubStringLength(unsigned long charnum, unsigned long nchars);
+    wxSVGPoint GetStartPositionOfChar(unsigned long charnum);
+    wxSVGPoint GetEndPositionOfChar(unsigned long charnum);
+    wxSVGRect GetExtentOfChar(unsigned long charnum);
+    double GetRotationOfChar(unsigned long charnum);
+    long GetCharNumAtPosition(const wxSVGPoint& point);
+''')
 
 # SVGTextPositioningElement
 inter = interface()
@@ -341,27 +372,29 @@ inter.include_attributes.append('''
   protected:
 	wxSVGCanvas* m_canvas;
     double m_scale;\n
+    wxSVGMatrix m_screenCTM;\n
 ''')
 inter.include_methods.append('''    wxSVGDocument() { Init(); }
-	wxSVGDocument(const wxString& filename, const wxString& encoding = wxT("UTF-8")):
-	  wxXmlDocument(filename, encoding) { Init(); }
-	wxSVGDocument(wxInputStream& stream, const wxString& encoding = wxT("UTF-8")):
-	  wxXmlDocument(stream, encoding) { Init(); }
-	virtual ~wxSVGDocument();
-	
-	void Init();
-	inline wxSVGCanvas* GetCanvas() { return m_canvas; }
+    wxSVGDocument(const wxString& filename, const wxString& encoding = wxT("UTF-8")):
+      wxXmlDocument(filename, encoding) { Init(); }
+    wxSVGDocument(wxInputStream& stream, const wxString& encoding = wxT("UTF-8")):
+      wxXmlDocument(stream, encoding) { Init(); }
+    virtual ~wxSVGDocument();
+    
+    void Init();
+    inline wxSVGCanvas* GetCanvas() { return m_canvas; }
     inline double GetScale() { return m_scale; }
-	
-	wxXmlElement* CreateElement(const wxString& tagName);
-	wxXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
-	
-	wxSVGSVGElement* GetRootElement() { return (wxSVGSVGElement*) GetRoot(); }
-	void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxXmlElement*) n); }
+    const wxSVGMatrix& GetScreenCTM() { return m_screenCTM; }
+    
+    wxXmlElement* CreateElement(const wxString& tagName);
+    wxXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
+    
+    wxSVGSVGElement* GetRootElement() { return (wxSVGSVGElement*) GetRoot(); }
+    void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxXmlElement*) n); }
     
     wxSVGElement* GetElementById(const wxString& id);
-	
-	wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL);
+    
+    wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL);
 ''')
 inter.include_fwd_decls = ["SVGSVGElement","SVGElement","SVGCanvas"]
 inter.include_includes = ["SVGRect","SVGMatrix","<wx/image.h>"]
