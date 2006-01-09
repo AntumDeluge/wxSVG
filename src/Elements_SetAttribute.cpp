@@ -647,7 +647,12 @@ bool wxSVGStopElement::SetAttribute(const wxString& attrName, const wxString& at
   if (attrName == wxT("offset"))
   {
     double value;
-    if (attrValue.ToDouble(&value))
+    if (attrValue.Last() == wxT('%') && attrValue.Left(attrValue.Length()-1).ToDouble(&value))
+    {
+      value = value/100;
+      m_offset.SetBaseVal(value);
+    }
+    else if (attrValue.ToDouble(&value))
       m_offset.SetBaseVal(value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));

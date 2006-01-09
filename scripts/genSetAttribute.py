@@ -4,7 +4,7 @@
 ##              -> SetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSetAttribute.py,v 1.8 2005-11-07 17:47:43 ntalex Exp $
+## RCS-ID:      $Id: genSetAttribute.py,v 1.9 2006-01-09 12:36:40 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -81,11 +81,14 @@ def process(classdecl):
                 set_attr = '%s.SetBaseVal(value)'%set_attr
             else:
                 set_attr = '%s = value'%set_attr
+            calc_proc = ''
+            if classdecl.name == "SVGStopElement" and attr.name == "offset":
+               calc_proc = 'if (attrValue.Last() == wxT(\'%%\') && attrValue.Left(attrValue.Length()-1).ToDouble(&value))\n    {\n      value = value/100;\n      %s;\n    }\n    else '%set_attr
             set_attr = '''  {
     double value;
-    if (attrValue.ToDouble(&value))
+    %sif (attrValue.ToDouble(&value))
       %s;
-  }'''%set_attr
+  }'''%(calc_proc,set_attr)
         elif typestr == "css::CSSStyleDeclaration":
             set_attr = '    %s.SetCSSText(attrValue);'%set_attr
         elif typestr in ["Length", "Rect", "PreserveAspectRatio"] or typestr[-4:] == "List":
