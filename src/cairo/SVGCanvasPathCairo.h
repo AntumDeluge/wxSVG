@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas path
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasPathCairo.h,v 1.1 2005-08-06 19:25:51 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasPathCairo.h,v 1.2 2006-01-10 13:04:29 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ class wxSVGCanvasPathCairo: public wxSVGCanvasPath
 	virtual ~wxSVGCanvasPathCairo();
     
 	void End();
-	wxSVGRect GetBBox();
+	wxSVGRect GetBBox(const wxSVGMatrix& matrix = *(wxSVGMatrix*)NULL);
 	
 	cairo_path_t* GetPath();
 	
