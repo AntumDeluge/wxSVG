@@ -540,9 +540,12 @@ bool wxSVGGradientElement::SetAttribute(const wxString& attrName, const wxString
 {
   if (attrName == wxT("gradientUnits"))
   {
-    long value;
-    if (attrValue.ToLong(&value))
-      m_gradientUnits.SetBaseVal((char) value);
+    wxSVG_UNIT_TYPE value = wxSVG_UNIT_TYPE_UNKNOWN;
+    if (attrValue.Lower() == wxT("userspaceonuse"))
+        value = wxSVG_UNIT_TYPE_USERSPACEONUSE;
+    else if (attrValue.Lower() == wxT("objectboundingbox"))
+        value = wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX;
+    m_gradientUnits.SetBaseVal((char) value);
   }
   else if (attrName == wxT("gradientTransform"))
     m_gradientTransform.GetBaseVal().SetValueAsString(attrValue);

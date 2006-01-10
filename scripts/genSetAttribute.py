@@ -4,7 +4,7 @@
 ##              -> SetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSetAttribute.py,v 1.9 2006-01-09 12:36:40 ntalex Exp $
+## RCS-ID:      $Id: genSetAttribute.py,v 1.10 2006-01-10 12:51:52 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -53,7 +53,7 @@ def process(classdecl):
             if typestr not in ["float", "Number", "Integer", "Boolean", "Enumeration", "unsigned short"]:
                 set_attr = set_attr + '.GetBaseVal()'
         
-        #print classdecl.name, typestr
+        #print classdecl.name, attr.name, typestr
         if typestr in ["Integer", "Boolean", "Enumeration", "unsigned short"]:
             etype = ''
             if typestr == "Integer":
@@ -71,7 +71,17 @@ def process(classdecl):
                 set_attr = '%s.SetBaseVal(%svalue)'%(set_attr,etype)
             else:
                 set_attr = '%s = %svalue'%(set_attr,etype)
-            set_attr = '''  {
+            if classdecl.name == "SVGGradientElement" and attr.name == "gradientUnits":
+                set_attr = '''  {
+    wxSVG_UNIT_TYPE value = wxSVG_UNIT_TYPE_UNKNOWN;
+    if (attrValue.Lower() == wxT("userspaceonuse"))
+        value = wxSVG_UNIT_TYPE_USERSPACEONUSE;
+    else if (attrValue.Lower() == wxT("objectboundingbox"))
+        value = wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX;
+    %s;
+  }'''%set_attr
+            else:
+                set_attr = '''  {
     long value;
     if (attrValue.ToLong(&value))
       %s;
@@ -83,7 +93,7 @@ def process(classdecl):
                 set_attr = '%s = value'%set_attr
             calc_proc = ''
             if classdecl.name == "SVGStopElement" and attr.name == "offset":
-               calc_proc = 'if (attrValue.Last() == wxT(\'%%\') && attrValue.Left(attrValue.Length()-1).ToDouble(&value))\n    {\n      value = value/100;\n      %s;\n    }\n    else '%set_attr
+                calc_proc = 'if (attrValue.Last() == wxT(\'%%\') && attrValue.Left(attrValue.Length()-1).ToDouble(&value))\n    {\n      value = value/100;\n      %s;\n    }\n    else '%set_attr
             set_attr = '''  {
     double value;
     %sif (attrValue.ToDouble(&value))
