@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.8 2006-01-08 12:37:27 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.9 2006-01-10 12:50:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -127,7 +127,7 @@ void wxSVGCanvas::DrawCanvasText(wxSVGCanvasText& canvasText,
 }
 
 unsigned int wxSVGCanvas::GetGradientStops(const wxSVGSVGElement& svgElem,
-  const wxString& href, float overall_opacity, const wxSVGElement*& refElem)
+  const wxString& href, float opacity, const wxSVGElement*& refElem)
 {
     refElem = NULL;
     if (href.length() == 0 || href[0] != wxT('#') || &svgElem == NULL)
@@ -183,7 +183,7 @@ unsigned int wxSVGCanvas::GetGradientStops(const wxSVGSVGElement& svgElem,
             SetStopValue(
                 i++,
                 ((wxSVGStopElement*)stop_elem)->GetOffset(),
-                ((wxSVGStopElement*)stop_elem)->GetStopOpacity() * overall_opacity,
+                ((wxSVGStopElement*)stop_elem)->GetStopOpacity() * opacity,
                 ((wxSVGStopElement*)stop_elem)->GetStopColor().GetRGBColor());
         }
         stop_elem = (wxSVGElement*)stop_elem->GetNext();
@@ -191,62 +191,68 @@ unsigned int wxSVGCanvas::GetGradientStops(const wxSVGSVGElement& svgElem,
     return stop_count;
 }
 
-void wxSVGCanvas::GetLinearGradientVector(wxSVGPoint& p1, wxSVGPoint& p2, wxSVGMatrix& matrix, const wxSVGLinearGradientElement& gradElem)
+void wxSVGCanvas::GetLinearGradientVector(wxSVGPoint& p1, wxSVGPoint& p2,
+  const wxSVGLinearGradientElement& gradElem, wxSVGCanvasPath& path)
 {
-
-//					TODO : implement gradientUnits parsing in SVGGradientElement setattribute
-//					double affine[6];
-//					if (rlg->obj_bbox) {
-//						affine[0] = ctx->x1 - ctx->x0;
-//						affine[1] = 0.;		
-//						affine[2] = 0.;
-//						affine[3] = ctx->y1 - ctx->y0;
-//						affine[4] = ctx->x0;
-//						affine[5] = ctx->y0;
-//				
-//					} else {
-//						for (i = 0; i < 6; i++)
-//							affine[i] = ctx->affine[i];
-//					}
-
+    p1.SetX(gradElem.GetX1().GetAnimVal());
+	p1.SetY(gradElem.GetY1().GetAnimVal());
+	p2.SetX(gradElem.GetX2().GetAnimVal());
+	p2.SetY(gradElem.GetY2().GetAnimVal());
+    
+    if (gradElem.GetGradientUnits().GetAnimVal() == wxSVG_UNIT_TYPE_UNKNOWN ||
+        gradElem.GetGradientUnits().GetAnimVal() == wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX)
+    {
+        wxSVGRect bbox = path.GetBBox();
+        p1.SetX(bbox.GetX() + p1.GetX()*bbox.GetWidth());
+        p1.SetY(bbox.GetY() + p1.GetY()*bbox.GetHeight());
+        p2.SetX(bbox.GetX() + p2.GetX()*bbox.GetWidth());
+        p2.SetY(bbox.GetY() + p2.GetY()*bbox.GetHeight());
+    }
+    
 	// Compute gradient transformation matrix
-	wxSVGMatrix lg_matrix;
-	const wxSVGTransformList& transforms =  gradElem.GetGradientTransform().GetBaseVal();
+    wxSVGMatrix lg_matrix;
+	const wxSVGTransformList& transforms =  gradElem.GetGradientTransform().GetAnimVal();
 	for (int i=0; i<(int)transforms.Count(); i++)
-		lg_matrix = lg_matrix.Multiply(transforms[i].GetMatrix());
-
-	p1.SetX(gradElem.GetX1().GetBaseVal());
-	p1.SetY(gradElem.GetY1().GetBaseVal());
-	p2.SetX(gradElem.GetX2().GetBaseVal());
-	p2.SetY(gradElem.GetY2().GetBaseVal());
+        lg_matrix = lg_matrix.Multiply(transforms[i].GetMatrix());
+	
 	p1 = p1.MatrixTransform(lg_matrix);
 	p2 = p2.MatrixTransform(lg_matrix);
-	p1 = p1.MatrixTransform(matrix);
-	p2 = p2.MatrixTransform(matrix); 
 }
 
 
-void wxSVGCanvas::GetRadialGradientTransform(wxSVGPoint& Focus, wxSVGMatrix& matrix, const wxSVGRadialGradientElement& gradElem)
+void wxSVGCanvas::GetRadialGradientTransform(wxSVGPoint& focus,
+  wxSVGMatrix& matrix, const wxSVGRadialGradientElement& gradElem,
+  wxSVGCanvasPath& path, bool scale)
 {
-//					TODO : implement gradientUnits parsing in SVGGradientElement setattribute
+    double r, cx, cy, fx, fy;
+	r = gradElem.GetR().GetAnimVal();
+	cx = gradElem.GetCx().GetAnimVal();
+	cy = gradElem.GetCy().GetAnimVal();
+	fx = gradElem.GetFx().GetAnimVal();
+	fy = gradElem.GetFy().GetAnimVal();
+    
+    if (gradElem.GetGradientUnits().GetAnimVal() == wxSVG_UNIT_TYPE_UNKNOWN ||
+        gradElem.GetGradientUnits().GetAnimVal() == wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX)
+    {
+        wxSVGRect bbox = path.GetBBox();
+        r = r*sqrt(bbox.GetWidth()*bbox.GetWidth() + bbox.GetHeight()*bbox.GetHeight());
+        cx = bbox.GetX() + cx*bbox.GetWidth();
+        cy = bbox.GetY() + cy*bbox.GetHeight();
+        fx = bbox.GetX() + fx*bbox.GetWidth();
+        fy = bbox.GetY() + fy*bbox.GetHeight();
+    }
 
 	// Compute gradient transformation matrix
-	wxSVGMatrix rg_matrix;
-	const wxSVGTransformList& transforms =  gradElem.GetGradientTransform().GetBaseVal();
+	const wxSVGTransformList& transforms =  gradElem.GetGradientTransform().GetAnimVal();
 	for (int i=0; i<(int)transforms.Count(); i++)
-		rg_matrix = rg_matrix.Multiply(transforms[i].GetMatrix());
+		matrix = matrix.Multiply(transforms[i].GetMatrix());
 	
 	// Apply Gradient parameters to transformation
-	double R, Cx, Cy, Fx, Fy;
-	R = (wxSVGLength)gradElem.GetR();
-	Cx = (wxSVGLength)gradElem.GetCx();
-	Cy = (wxSVGLength)gradElem.GetCy();
-	Fx = (wxSVGLength)gradElem.GetFx();
-	Fy = (wxSVGLength)gradElem.GetFy();
-	matrix = matrix.Multiply(rg_matrix).Translate(Cx,Cy).Scale(R);
+	matrix = matrix.Translate(cx, cy); //.Scale(r);
+    if (scale)
+      matrix = matrix.Scale(r);
 	
 	// Change Focus reference to gradient reference
-	Focus.SetX((Fx - Cx) / R);
-	Focus.SetY((Fy - Cy) / R);
-
+	focus.SetX((fx - cx) / r);
+	focus.SetY((fy - cy) / r);
 }
