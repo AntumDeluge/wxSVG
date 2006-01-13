@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.21 2006-01-08 12:41:16 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.22 2006-01-13 11:23:25 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -65,6 +65,10 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem, const wxSVGRect* rect
 	case wxSVG_SVG_ELEMENT:
     {
 	  wxSVGSVGElement* element = (wxSVGSVGElement*) elem;
+      if (element->GetWidth().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
+        ((wxSVGAnimatedLength&)element->GetWidth()).SetAnimVal(wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
+      if (element->GetHeight().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
+        ((wxSVGAnimatedLength&)element->GetHeight()).SetAnimVal(wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
       element->UpdateMatrix(matrix);
 	  RenderChilds(doc, elem, rect, &matrix, &style, element, element);
 	  break;
@@ -220,26 +224,28 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem, const wxSVGRect* rect
       gElem->SetStyle(element->GetStyle());
       if (element->GetX().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
         gElem->Translate(element->GetX().GetAnimVal(), element->GetY().GetAnimVal());
-      if (refElem->GetDtd() == wxSVG_SYMBOL_ELEMENT)
+      if (refElem->GetDtd() == wxSVG_SYMBOL_ELEMENT ||
+          refElem->GetDtd() == wxSVG_SVG_ELEMENT)
       {
-        wxSVGSVGElement* svgElem = new wxSVGSVGElement();
+        wxSVGSVGElement* svgElem;
+        if (refElem->GetDtd() == wxSVG_SVG_ELEMENT)
+          svgElem = (wxSVGSVGElement*) refElem->CloneNode();
+        else
+        {
+          svgElem = new wxSVGSVGElement();
+          wxXmlElement* child = refElem->GetChildren();
+          while (child)
+          {
+       	    svgElem->AddChild(child->CloneNode());
+            child = child->GetNext();
+          }
+          svgElem->SetViewBox(((wxSVGSymbolElement*)refElem)->GetViewBox());
+          svgElem->SetPreserveAspectRatio(((wxSVGSymbolElement*)refElem)->GetPreserveAspectRatio());
+        }
         if (element->GetWidth().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
           svgElem->SetWidth(element->GetWidth().GetAnimVal());
-        else
-          svgElem->SetWidth(wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
         if (element->GetHeight().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
           svgElem->SetHeight(element->GetHeight().GetAnimVal());
-        else
-          svgElem->SetHeight(wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
-        svgElem->SetViewBox(((wxSVGSymbolElement*)refElem)->GetViewBox());
-        svgElem->SetPreserveAspectRatio(((wxSVGSymbolElement*)refElem)->GetPreserveAspectRatio());
-        wxXmlElement* child = refElem->GetChildren();
-        while (child)
-        {
-       	  if (elem->GetType() == wxXML_ELEMENT_NODE)
-       	    svgElem->AddChild(child->CloneNode());
-          child = child->GetNext();
-        }
         gElem->AddChild(svgElem);
       }
       else
@@ -285,14 +291,10 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect)
   
   m_screenCTM = wxSVGMatrix();
   
-  if (GetRootElement()->GetWidth().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN ||
-      GetRootElement()->GetHeight().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
-  {
-    wxSVGRect bbox = GetRootElement()->GetBBox();
-    GetRootElement()->SetWidth(wxSVGLength(bbox.GetWidth()*0.95));
-    GetRootElement()->SetHeight(wxSVGLength(bbox.GetHeight()*0.95));
-	m_screenCTM = m_screenCTM.Translate(width*0.025, height*0.025);
-  }
+  if (GetRootElement()->GetWidth().GetBaseVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
+    GetRootElement()->SetWidth(wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
+  if (GetRootElement()->GetHeight().GetBaseVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
+    GetRootElement()->SetHeight(wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
   
   if (width == -1 || height == -1)
   {
@@ -313,7 +315,6 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect)
       l.GetAnimVal().ToViewportWidth(width);
     GetRootElement()->SetWidth(l);
   }
-  
   if (GetRootElement()->GetHeight().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_PERCENTAGE)
   {
     wxSVGAnimatedLength l = GetRootElement()->GetHeight();
