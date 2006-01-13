@@ -268,7 +268,7 @@ wxString wxSVGFETileElement::GetAttribute(const wxString& attrName)
 wxString wxSVGPathElement::GetAttribute(const wxString& attrName)
 {
   if (attrName == wxT("pathLength"))
-    return wxString::Format(wxT("%d"), m_pathLength.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_pathLength.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGTests::HasAttribute(attrName))
@@ -336,9 +336,9 @@ wxString wxSVGFEOffsetElement::GetAttribute(const wxString& attrName)
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (attrName == wxT("dx"))
-    return wxString::Format(wxT("%d"), m_dx.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_dx.GetBaseVal());
   else if (attrName == wxT("dy"))
-    return wxString::Format(wxT("%d"), m_dy.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_dy.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName))
@@ -465,13 +465,13 @@ wxString wxSVGFECompositeElement::GetAttribute(const wxString& attrName)
   else if (attrName == wxT("operator"))
     return wxString::Format(wxT("%d"), (char) m_operator.GetBaseVal());
   else if (attrName == wxT("k1"))
-    return wxString::Format(wxT("%d"), m_k1.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_k1.GetBaseVal());
   else if (attrName == wxT("k2"))
-    return wxString::Format(wxT("%d"), m_k2.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_k2.GetBaseVal());
   else if (attrName == wxT("k3"))
-    return wxString::Format(wxT("%d"), m_k3.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_k3.GetBaseVal());
   else if (attrName == wxT("k4"))
-    return wxString::Format(wxT("%d"), m_k4.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_k4.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName))
@@ -486,7 +486,12 @@ wxString wxSVGFECompositeElement::GetAttribute(const wxString& attrName)
 wxString wxSVGGradientElement::GetAttribute(const wxString& attrName)
 {
   if (attrName == wxT("gradientUnits"))
-    return wxString::Format(wxT("%d"), (char) m_gradientUnits.GetBaseVal());
+  {
+    if (m_gradientUnits.GetBaseVal() == wxSVG_UNIT_TYPE_USERSPACEONUSE)
+      return wxT("userSpaceOnUse");
+    else if (m_gradientUnits.GetBaseVal() == wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX)
+      return wxT("objectBoundingBox");
+  }
   else if (attrName == wxT("gradientTransform"))
     return m_gradientTransform.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("spreadMethod"))
@@ -541,11 +546,11 @@ wxString wxSVGTextElement::GetAttribute(const wxString& attrName)
 wxString wxSVGFEPointLightElement::GetAttribute(const wxString& attrName)
 {
   if (attrName == wxT("x"))
-    return wxString::Format(wxT("%d"), m_x.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_x.GetBaseVal());
   else if (attrName == wxT("y"))
-    return wxString::Format(wxT("%d"), m_y.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_y.GetBaseVal());
   else if (attrName == wxT("z"))
-    return wxString::Format(wxT("%d"), m_z.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_z.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -569,7 +574,7 @@ wxString wxSVGHKernElement::GetAttribute(const wxString& attrName)
 wxString wxSVGStopElement::GetAttribute(const wxString& attrName)
 {
   if (attrName == wxT("offset"))
-    return wxString::Format(wxT("%d"), m_offset.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_offset.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGStylable::HasAttribute(attrName))
@@ -588,7 +593,7 @@ wxString wxSVGFEDisplacementMapElement::GetAttribute(const wxString& attrName)
   else if (attrName == wxT("in2"))
     return m_in2.GetBaseVal();
   else if (attrName == wxT("scale"))
-    return wxString::Format(wxT("%d"), m_scale.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_scale.GetBaseVal());
   else if (attrName == wxT("xChannelSelector"))
     return wxString::Format(wxT("%d"), (char) m_xChannelSelector.GetBaseVal());
   else if (attrName == wxT("yChannelSelector"))
@@ -1143,9 +1148,9 @@ wxString wxSVGFilterPrimitiveStandardAttributes::GetAttribute(const wxString& at
 wxString wxSVGFEDistantLightElement::GetAttribute(const wxString& attrName)
 {
   if (attrName == wxT("azimuth"))
-    return wxString::Format(wxT("%d"), m_azimuth.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_azimuth.GetBaseVal());
   else if (attrName == wxT("elevation"))
-    return wxString::Format(wxT("%d"), m_elevation.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_elevation.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -1160,9 +1165,9 @@ wxString wxSVGFEDiffuseLightingElement::GetAttribute(const wxString& attrName)
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (attrName == wxT("surfaceScale"))
-    return wxString::Format(wxT("%d"), m_surfaceScale.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_surfaceScale.GetBaseVal());
   else if (attrName == wxT("diffuseConstant"))
-    return wxString::Format(wxT("%d"), m_diffuseConstant.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_diffuseConstant.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName))
@@ -1264,13 +1269,13 @@ wxString wxSVGGlyphRefElement::GetAttribute(const wxString& attrName)
   else if (attrName == wxT("format"))
     return m_format;
   else if (attrName == wxT("x"))
-    return wxString::Format(wxT("%d"), m_x);
+    return wxString::Format(wxT("%g"), m_x);
   else if (attrName == wxT("y"))
-    return wxString::Format(wxT("%d"), m_y);
+    return wxString::Format(wxT("%g"), m_y);
   else if (attrName == wxT("dx"))
-    return wxString::Format(wxT("%d"), m_dx);
+    return wxString::Format(wxT("%g"), m_dx);
   else if (attrName == wxT("dy"))
-    return wxString::Format(wxT("%d"), m_dy);
+    return wxString::Format(wxT("%g"), m_dy);
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGURIReference::HasAttribute(attrName))
@@ -1287,21 +1292,21 @@ wxString wxSVGGlyphRefElement::GetAttribute(const wxString& attrName)
 wxString wxSVGFESpotLightElement::GetAttribute(const wxString& attrName)
 {
   if (attrName == wxT("x"))
-    return wxString::Format(wxT("%d"), m_x.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_x.GetBaseVal());
   else if (attrName == wxT("y"))
-    return wxString::Format(wxT("%d"), m_y.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_y.GetBaseVal());
   else if (attrName == wxT("z"))
-    return wxString::Format(wxT("%d"), m_z.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_z.GetBaseVal());
   else if (attrName == wxT("pointsAtX"))
-    return wxString::Format(wxT("%d"), m_pointsAtX.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_pointsAtX.GetBaseVal());
   else if (attrName == wxT("pointsAtY"))
-    return wxString::Format(wxT("%d"), m_pointsAtY.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_pointsAtY.GetBaseVal());
   else if (attrName == wxT("pointsAtZ"))
-    return wxString::Format(wxT("%d"), m_pointsAtZ.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_pointsAtZ.GetBaseVal());
   else if (attrName == wxT("specularExponent"))
-    return wxString::Format(wxT("%d"), m_specularExponent.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_specularExponent.GetBaseVal());
   else if (attrName == wxT("limitingConeAngle"))
-    return wxString::Format(wxT("%d"), m_limitingConeAngle.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_limitingConeAngle.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -1342,7 +1347,7 @@ wxString wxSVGFETurbulenceElement::GetAttribute(const wxString& attrName)
   if (attrName == wxT("numOctaves"))
     return wxString::Format(wxT("%d"), (long int) m_numOctaves.GetBaseVal());
   else if (attrName == wxT("seed"))
-    return wxString::Format(wxT("%d"), m_seed.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_seed.GetBaseVal());
   else if (attrName == wxT("stitchTiles"))
     return wxString::Format(wxT("%d"), (char) m_stitchTiles.GetBaseVal());
   else if (attrName == wxT("type"))
@@ -1365,15 +1370,15 @@ wxString wxSVGComponentTransferFunctionElement::GetAttribute(const wxString& att
   else if (attrName == wxT("tableValues"))
     return m_tableValues.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("slope"))
-    return wxString::Format(wxT("%d"), m_slope.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_slope.GetBaseVal());
   else if (attrName == wxT("intercept"))
-    return wxString::Format(wxT("%d"), m_intercept.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_intercept.GetBaseVal());
   else if (attrName == wxT("amplitude"))
-    return wxString::Format(wxT("%d"), m_amplitude.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_amplitude.GetBaseVal());
   else if (attrName == wxT("exponent"))
-    return wxString::Format(wxT("%d"), m_exponent.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_exponent.GetBaseVal());
   else if (attrName == wxT("offset"))
-    return wxString::Format(wxT("%d"), m_offset.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_offset.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -1781,9 +1786,9 @@ wxString wxSVGFEConvolveMatrixElement::GetAttribute(const wxString& attrName)
   if (attrName == wxT("kernelMatrix"))
     return m_kernelMatrix.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("divisor"))
-    return wxString::Format(wxT("%d"), m_divisor.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_divisor.GetBaseVal());
   else if (attrName == wxT("bias"))
-    return wxString::Format(wxT("%d"), m_bias.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_bias.GetBaseVal());
   else if (attrName == wxT("targetX"))
     return wxString::Format(wxT("%d"), (long int) m_targetX.GetBaseVal());
   else if (attrName == wxT("targetY"))
@@ -1890,11 +1895,11 @@ wxString wxSVGFESpecularLightingElement::GetAttribute(const wxString& attrName)
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (attrName == wxT("surfaceScale"))
-    return wxString::Format(wxT("%d"), m_surfaceScale.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_surfaceScale.GetBaseVal());
   else if (attrName == wxT("specularConstant"))
-    return wxString::Format(wxT("%d"), m_specularConstant.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_specularConstant.GetBaseVal());
   else if (attrName == wxT("specularExponent"))
-    return wxString::Format(wxT("%d"), m_specularExponent.GetBaseVal());
+    return wxString::Format(wxT("%g"), m_specularExponent.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName))

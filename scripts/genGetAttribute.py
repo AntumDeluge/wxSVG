@@ -4,7 +4,7 @@
 ##              -> GetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttribute.py,v 1.3 2005-11-07 17:47:43 ntalex Exp $
+## RCS-ID:      $Id: genGetAttribute.py,v 1.4 2006-01-13 13:14:04 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -66,10 +66,18 @@ def process(classdecl):
                     etype = '(wxSVG_ZOOMANDPAN) '
                 elif classdecl.name == "SVGColorProfileElement":
                     etype = '(wxRENDERING_INTENT) '
-            get_attr = etype + get_attr
-            get_attr = '    return wxString::Format(wxT("%%d"), %s);'%get_attr
+            if classdecl.name == "SVGGradientElement" and attr.name == "gradientUnits":
+                get_attr = '''  {
+    if (%s == wxSVG_UNIT_TYPE_USERSPACEONUSE)
+      return wxT("userSpaceOnUse");
+    else if (%s == wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX)
+      return wxT("objectBoundingBox");
+  }'''%(get_attr,get_attr)
+            else:
+                get_attr = etype + get_attr
+                get_attr = '    return wxString::Format(wxT("%%d"), %s);'%get_attr
         elif typestr in ["float", "Number"]:
-            get_attr = '    return wxString::Format(wxT("%%d"), %s);'%get_attr
+            get_attr = '    return wxString::Format(wxT("%%g"), %s);'%get_attr
         elif typestr == "css::CSSStyleDeclaration":
             get_attr = '    return %s.GetCSSText();'%get_attr
         elif typestr in ["Length", "Rect", "PreserveAspectRatio"]  or typestr[-4:] == "List":
