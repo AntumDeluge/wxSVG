@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/05
-// RCS-ID:      $Id: SVGTransformable.cpp,v 1.3 2006-01-08 12:33:04 ntalex Exp $
+// RCS-ID:      $Id: SVGTransformable.cpp,v 1.4 2006-01-23 09:14:52 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -80,6 +80,7 @@ wxSVGTransformable* wxSVGTransformable::GetSVGTransformable(wxSVGElement& elemen
     GET_TRANSFORMABLE(wxSVG_PATH_ELEMENT, wxSVGPathElement)
     GET_TRANSFORMABLE(wxSVG_TEXT_ELEMENT, wxSVGTextElement)
     GET_TRANSFORMABLE(wxSVG_G_ELEMENT, wxSVGGElement)
+    GET_TRANSFORMABLE(wxSVG_USE_ELEMENT, wxSVGUseElement)
     default:
       break;
   }
