@@ -1,7 +1,7 @@
 [Project]
 FileName=wxSVG.dev
 Name=wxSVG
-UnitCount=242
+UnitCount=243
 Type=2
 Ver=1
 ObjFiles=
@@ -2448,7 +2448,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit243]
-FileName=src\SVGPreserveAspectRatio.cpp
+FileName=src\SVGFitToViewBox.cpp
 CompileCpp=1
 Folder=wxSVG
 Compile=1
