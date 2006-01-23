@@ -4,6 +4,7 @@ Version 1.0b5 <2006.01.23>
   * added support of svg gradients
   * implemented GetResultBBox() (SVG1.2)
   * added parameter coordinates (wxSVG_COORDINATES) to GetBBox()
+  * initial release of svgui
   * some other small changes and bug fixes
 
 
