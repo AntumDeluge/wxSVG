@@ -3,12 +3,13 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.8 2006-01-13 11:19:34 ntalex Exp $
+// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.9 2006-01-23 09:20:26 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGSVGElement.h"
+#include <wx/log.h>
 
 unsigned long wxSVGSVGElement::SuspendRedraw(unsigned long max_wait_milliseconds)
 {
@@ -84,23 +85,11 @@ wxNodeList wxSVGSVGElement::GetEnclosureList(const wxSVGRect& rect, const wxSVGE
 
 bool wxSVGSVGElement::CheckIntersection(const wxSVGElement& element, const wxSVGRect& rect)
 {
-  wxSVGRect elemBBox = GetElementBBox(&element);
-
-  float rect_x1 = rect.GetX();
-  float rect_x2 = rect_x1 + rect.GetWidth();
-  float rect_y1 = rect.GetY();
-  float rect_y2 = rect_y1 + rect.GetHeight();
-
-  float elemBBox_x1 = elemBBox.GetX();
-  float elemBBox_x2 = elemBBox_x1 + elemBBox.GetWidth();
-  float elemBBox_y1 = elemBBox.GetY();
-  float elemBBox_y2 = elemBBox_y1 + elemBBox.GetHeight();
-
-  // test if rect overlap elemBBox
-  bool res = rect_x1 < elemBBox_x2 && rect_x2 > elemBBox_x1 && 
-  		rect_y1 < elemBBox_y2 && rect_y2 > elemBBox_y1;
-
-  return res;
+  wxSVGRect elemBBox = GetElementResultBBox(&element, wxSVG_COORDINATES_VIEWPORT);
+  return  elemBBox.GetX() + elemBBox.GetWidth() > rect.GetX() &&
+    elemBBox.GetX() < rect.GetX() + rect.GetWidth() &&
+    elemBBox.GetY() + elemBBox.GetHeight() > rect.GetY() &&
+    elemBBox.GetY() < rect.GetY() + rect.GetHeight();
 }
 
 bool wxSVGSVGElement::CheckEnclosure(const wxSVGElement& element, const wxSVGRect& rect)
