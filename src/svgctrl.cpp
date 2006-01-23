@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.10 2005-12-24 19:05:01 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.11 2006-01-23 15:57:51 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -92,9 +92,8 @@ void wxSVGCtrl::Refresh(const wxSVGRect* rect)
 void wxSVGCtrl::OnPaint(wxPaintEvent& event)
 {
   if (!m_doc)
-    return;
-  
-  if (m_repaint)
+    m_buffer = wxBitmap();
+  else if (m_repaint)
   {
     int w = -1, h = -1;
     if (m_fitToFrame)
