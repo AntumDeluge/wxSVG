@@ -1,5 +1,5 @@
 
-SUBDIRS = src svgview include svgui
+SUBDIRS = src svgview include
 
 ACLOCAL_AMFLAGS=-I.
 
