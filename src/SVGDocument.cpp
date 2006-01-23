@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.22 2006-01-13 11:23:25 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.23 2006-01-23 09:21:53 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -193,10 +193,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem, const wxSVGRect* rect
 	  element->UpdateMatrix(matrix);
 	  style.Add(element->GetStyle());
       // test if visible
-      wxSVGPoint point(element->GetX().GetAnimVal(), element->GetY().GetAnimVal());
-      point = point.MatrixTransform(matrix);
-      if (point.GetX() > doc->GetCanvas()->GetWidth() ||
-          point.GetY() > doc->GetCanvas()->GetHeight())
+      if (rect && !ownerSVGElement->CheckIntersection(*elem, *rect))
         break;
       if (element->GetWidth().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN &&
           element->GetHeight().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
@@ -270,14 +267,8 @@ void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent, const wxSVGRect* rec
   {
     if (elem->GetType() == wxXML_ELEMENT_NODE)
     {
-      /* if (rect)
-      {
-      	if (doc->GetRootElement()->CheckIntersection(*elem, *rect))
-      	  RenderElement(doc, elem, rect, parentMatrix, parentStyle,
-            ownerSVGElement, viewportElement);
-      }
-      else*/
-      	RenderElement(doc, elem, rect, parentMatrix, parentStyle,
+      //if (!rect || ownerSVGElement->CheckIntersection(*elem, *rect))
+        RenderElement(doc, elem, rect, parentMatrix, parentStyle,
           ownerSVGElement, viewportElement);
     }
     elem = (wxSVGElement*) elem->GetNext();
