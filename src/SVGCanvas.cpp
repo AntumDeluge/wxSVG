@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.9 2006-01-10 12:50:50 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.10 2006-01-24 18:13:52 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -149,7 +149,7 @@ unsigned int wxSVGCanvas::GetGradientStops(const wxSVGSVGElement& svgElem,
     do {
         tmp = NULL;
         wxString grad_href = reference_gradient->GetHref();
-        if(	grad_href.Length() > 1 && grad_href[0] == wxT('#'))
+        if (grad_href.Length() > 1 && grad_href.GetChar(0) == wxT('#'))
         {
             grad_href.Remove(0,1);
             tmp = (wxSVGSVGElement*) svgElem.GetElementById(grad_href);
