@@ -14,20 +14,20 @@ class wxSVGAnimatedEnumeration
 {
   public:
     wxSVGAnimatedEnumeration(): m_baseVal(0), m_animVal(0) {}
-	wxSVGAnimatedEnumeration(char value): m_baseVal(value), m_animVal(value) {}
+	wxSVGAnimatedEnumeration(unsigned char value): m_baseVal(value), m_animVal(value) {}
 	
-    inline char GetBaseVal() const { return m_baseVal; };
-	inline void SetBaseVal(char value) { m_baseVal = m_animVal = value; }
+    inline unsigned char GetBaseVal() const { return m_baseVal; };
+	inline void SetBaseVal(unsigned char value) { m_baseVal = m_animVal = value; }
 	
-    inline char GetAnimVal() const { return m_animVal; }
-	inline void SetAnimVal(char value) { m_animVal = value; }
+    inline unsigned char GetAnimVal() const { return m_animVal; }
+	inline void SetAnimVal(unsigned char value) { m_animVal = value; }
     
   public:
-    inline operator char() const { return GetBaseVal(); }
+    inline operator unsigned char() const { return GetBaseVal(); }
     
   protected:
-    char m_baseVal;
-    char m_animVal;
+    unsigned char m_baseVal;
+    unsigned char m_animVal;
 };
 
 
