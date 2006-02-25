@@ -3,7 +3,7 @@
 // Purpose:     wxXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: xml.h,v 1.7 2005-11-07 17:39:46 ntalex Exp $
+// RCS-ID:      $Id: xml.h,v 1.8 2006-02-25 17:11:24 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -147,6 +147,13 @@ public:
     wxXmlNode *GetParent() const { return m_parent; }
     wxXmlNode *GetNext() const { return m_next; }
     wxXmlNode *GetChildren() const { return m_children; }
+    
+    wxXmlNode* GetParentNode() const { return m_parent; }
+    wxXmlNode* GetChildNodes() const { return m_children; }
+    wxXmlNode* GetFirstChild() const { return m_children; }
+    wxXmlNode* GetLastChild() const;
+    wxXmlNode* GetPreviousSibling() const;
+    wxXmlNode* GetNextSibling() const { return m_next; }
 
     wxXmlProperty *GetProperties() const { return m_properties; }
     bool GetPropVal(const wxString& propName, wxString *value) const;
