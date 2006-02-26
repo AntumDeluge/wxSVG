@@ -53,7 +53,7 @@ class wxSVGFECompositeElement:
 
     inline const wxSVGAnimatedEnumeration& GetOperator() const { return m_operator; }
     inline void SetOperator(const wxSVGAnimatedEnumeration& n) { m_operator = n; }
-    inline void SetOperator(char n) { m_operator.SetBaseVal(n); }
+    inline void SetOperator(unsigned char n) { m_operator.SetBaseVal(n); }
 
     inline const wxSVGAnimatedNumber& GetK1() const { return m_k1; }
     inline void SetK1(const wxSVGAnimatedNumber& n) { m_k1 = n; }

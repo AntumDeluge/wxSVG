@@ -49,11 +49,11 @@ class wxSVGTextPathElement:
 
     inline const wxSVGAnimatedEnumeration& GetMethod() const { return m_method; }
     inline void SetMethod(const wxSVGAnimatedEnumeration& n) { m_method = n; }
-    inline void SetMethod(char n) { m_method.SetBaseVal(n); }
+    inline void SetMethod(unsigned char n) { m_method.SetBaseVal(n); }
 
     inline const wxSVGAnimatedEnumeration& GetSpacing() const { return m_spacing; }
     inline void SetSpacing(const wxSVGAnimatedEnumeration& n) { m_spacing = n; }
-    inline void SetSpacing(char n) { m_spacing.SetBaseVal(n); }
+    inline void SetSpacing(unsigned char n) { m_spacing.SetBaseVal(n); }
 
   public:
     wxSVGTextPathElement(wxString tagName = wxT("textPath")):

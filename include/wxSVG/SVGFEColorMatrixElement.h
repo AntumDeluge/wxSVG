@@ -43,7 +43,7 @@ class wxSVGFEColorMatrixElement:
 
     inline const wxSVGAnimatedEnumeration& GetType() const { return m_type; }
     inline void SetType(const wxSVGAnimatedEnumeration& n) { m_type = n; }
-    inline void SetType(char n) { m_type.SetBaseVal(n); }
+    inline void SetType(unsigned char n) { m_type.SetBaseVal(n); }
 
     inline const wxSVGAnimatedNumberList& GetValues() const { return m_values; }
     inline void SetValues(const wxSVGAnimatedNumberList& n) { m_values = n; }

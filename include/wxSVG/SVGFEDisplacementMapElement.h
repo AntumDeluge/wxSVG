@@ -53,11 +53,11 @@ class wxSVGFEDisplacementMapElement:
 
     inline const wxSVGAnimatedEnumeration& GetXChannelSelector() const { return m_xChannelSelector; }
     inline void SetXChannelSelector(const wxSVGAnimatedEnumeration& n) { m_xChannelSelector = n; }
-    inline void SetXChannelSelector(char n) { m_xChannelSelector.SetBaseVal(n); }
+    inline void SetXChannelSelector(unsigned char n) { m_xChannelSelector.SetBaseVal(n); }
 
     inline const wxSVGAnimatedEnumeration& GetYChannelSelector() const { return m_yChannelSelector; }
     inline void SetYChannelSelector(const wxSVGAnimatedEnumeration& n) { m_yChannelSelector = n; }
-    inline void SetYChannelSelector(char n) { m_yChannelSelector.SetBaseVal(n); }
+    inline void SetYChannelSelector(unsigned char n) { m_yChannelSelector.SetBaseVal(n); }
 
   public:
     wxSVGFEDisplacementMapElement(wxString tagName = wxT("feDisplacementMap")):

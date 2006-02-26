@@ -43,11 +43,11 @@ class wxSVGFilterElement:
   public:
     inline const wxSVGAnimatedEnumeration& GetFilterUnits() const { return m_filterUnits; }
     inline void SetFilterUnits(const wxSVGAnimatedEnumeration& n) { m_filterUnits = n; }
-    inline void SetFilterUnits(char n) { m_filterUnits.SetBaseVal(n); }
+    inline void SetFilterUnits(unsigned char n) { m_filterUnits.SetBaseVal(n); }
 
     inline const wxSVGAnimatedEnumeration& GetPrimitiveUnits() const { return m_primitiveUnits; }
     inline void SetPrimitiveUnits(const wxSVGAnimatedEnumeration& n) { m_primitiveUnits = n; }
-    inline void SetPrimitiveUnits(char n) { m_primitiveUnits.SetBaseVal(n); }
+    inline void SetPrimitiveUnits(unsigned char n) { m_primitiveUnits.SetBaseVal(n); }
 
     inline const wxSVGAnimatedLength& GetX() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_x, GetViewportElement()); return m_x; }
     inline void SetX(const wxSVGAnimatedLength& n) { m_x = n; }

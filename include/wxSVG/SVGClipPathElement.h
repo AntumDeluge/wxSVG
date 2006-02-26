@@ -35,7 +35,7 @@ class wxSVGClipPathElement:
   public:
     inline const wxSVGAnimatedEnumeration& GetClipPathUnits() const { return m_clipPathUnits; }
     inline void SetClipPathUnits(const wxSVGAnimatedEnumeration& n) { m_clipPathUnits = n; }
-    inline void SetClipPathUnits(char n) { m_clipPathUnits.SetBaseVal(n); }
+    inline void SetClipPathUnits(unsigned char n) { m_clipPathUnits.SetBaseVal(n); }
 
   public:
     wxSVGClipPathElement(wxString tagName = wxT("clipPath")):

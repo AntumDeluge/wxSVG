@@ -46,11 +46,11 @@ class wxSVGPatternElement:
   public:
     inline const wxSVGAnimatedEnumeration& GetPatternUnits() const { return m_patternUnits; }
     inline void SetPatternUnits(const wxSVGAnimatedEnumeration& n) { m_patternUnits = n; }
-    inline void SetPatternUnits(char n) { m_patternUnits.SetBaseVal(n); }
+    inline void SetPatternUnits(unsigned char n) { m_patternUnits.SetBaseVal(n); }
 
     inline const wxSVGAnimatedEnumeration& GetPatternContentUnits() const { return m_patternContentUnits; }
     inline void SetPatternContentUnits(const wxSVGAnimatedEnumeration& n) { m_patternContentUnits = n; }
-    inline void SetPatternContentUnits(char n) { m_patternContentUnits.SetBaseVal(n); }
+    inline void SetPatternContentUnits(unsigned char n) { m_patternContentUnits.SetBaseVal(n); }
 
     inline const wxSVGAnimatedTransformList& GetPatternTransform() const { return m_patternTransform; }
     inline void SetPatternTransform(const wxSVGAnimatedTransformList& n) { m_patternTransform = n; }

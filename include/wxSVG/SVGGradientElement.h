@@ -43,7 +43,7 @@ class wxSVGGradientElement:
   public:
     inline const wxSVGAnimatedEnumeration& GetGradientUnits() const { return m_gradientUnits; }
     inline void SetGradientUnits(const wxSVGAnimatedEnumeration& n) { m_gradientUnits = n; }
-    inline void SetGradientUnits(char n) { m_gradientUnits.SetBaseVal(n); }
+    inline void SetGradientUnits(unsigned char n) { m_gradientUnits.SetBaseVal(n); }
 
     inline const wxSVGAnimatedTransformList& GetGradientTransform() const { return m_gradientTransform; }
     inline void SetGradientTransform(const wxSVGAnimatedTransformList& n) { m_gradientTransform = n; }
@@ -51,7 +51,7 @@ class wxSVGGradientElement:
 
     inline const wxSVGAnimatedEnumeration& GetSpreadMethod() const { return m_spreadMethod; }
     inline void SetSpreadMethod(const wxSVGAnimatedEnumeration& n) { m_spreadMethod = n; }
-    inline void SetSpreadMethod(char n) { m_spreadMethod.SetBaseVal(n); }
+    inline void SetSpreadMethod(unsigned char n) { m_spreadMethod.SetBaseVal(n); }
 
   public:
     wxSVGGradientElement(wxString tagName = wxT("")):

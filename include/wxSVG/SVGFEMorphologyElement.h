@@ -43,7 +43,7 @@ class wxSVGFEMorphologyElement:
 
     inline const wxSVGAnimatedEnumeration& GetOperator() const { return m_operator; }
     inline void SetOperator(const wxSVGAnimatedEnumeration& n) { m_operator = n; }
-    inline void SetOperator(char n) { m_operator.SetBaseVal(n); }
+    inline void SetOperator(unsigned char n) { m_operator.SetBaseVal(n); }
 
     inline const wxSVGAnimatedLength& GetRadiusX() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_radiusX, GetViewportElement()); return m_radiusX; }
     inline void SetRadiusX(const wxSVGAnimatedLength& n) { m_radiusX = n; }

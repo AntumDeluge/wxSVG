@@ -64,11 +64,11 @@ class wxSVGFETurbulenceElement:
 
     inline const wxSVGAnimatedEnumeration& GetStitchTiles() const { return m_stitchTiles; }
     inline void SetStitchTiles(const wxSVGAnimatedEnumeration& n) { m_stitchTiles = n; }
-    inline void SetStitchTiles(char n) { m_stitchTiles.SetBaseVal(n); }
+    inline void SetStitchTiles(unsigned char n) { m_stitchTiles.SetBaseVal(n); }
 
     inline const wxSVGAnimatedEnumeration& GetType() const { return m_type; }
     inline void SetType(const wxSVGAnimatedEnumeration& n) { m_type = n; }
-    inline void SetType(char n) { m_type.SetBaseVal(n); }
+    inline void SetType(unsigned char n) { m_type.SetBaseVal(n); }
 
   public:
     wxSVGFETurbulenceElement(wxString tagName = wxT("feTurbulence")):

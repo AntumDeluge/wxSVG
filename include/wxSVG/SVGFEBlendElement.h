@@ -47,7 +47,7 @@ class wxSVGFEBlendElement:
 
     inline const wxSVGAnimatedEnumeration& GetMode() const { return m_mode; }
     inline void SetMode(const wxSVGAnimatedEnumeration& n) { m_mode = n; }
-    inline void SetMode(char n) { m_mode.SetBaseVal(n); }
+    inline void SetMode(unsigned char n) { m_mode.SetBaseVal(n); }
 
   public:
     wxSVGFEBlendElement(wxString tagName = wxT("feBlend")):

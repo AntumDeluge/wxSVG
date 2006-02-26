@@ -40,11 +40,11 @@ class wxSVGMaskElement:
   public:
     inline const wxSVGAnimatedEnumeration& GetMaskUnits() const { return m_maskUnits; }
     inline void SetMaskUnits(const wxSVGAnimatedEnumeration& n) { m_maskUnits = n; }
-    inline void SetMaskUnits(char n) { m_maskUnits.SetBaseVal(n); }
+    inline void SetMaskUnits(unsigned char n) { m_maskUnits.SetBaseVal(n); }
 
     inline const wxSVGAnimatedEnumeration& GetMaskContentUnits() const { return m_maskContentUnits; }
     inline void SetMaskContentUnits(const wxSVGAnimatedEnumeration& n) { m_maskContentUnits = n; }
-    inline void SetMaskContentUnits(char n) { m_maskContentUnits.SetBaseVal(n); }
+    inline void SetMaskContentUnits(unsigned char n) { m_maskContentUnits.SetBaseVal(n); }
 
     inline const wxSVGAnimatedLength& GetX() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_x, GetViewportElement()); return m_x; }
     inline void SetX(const wxSVGAnimatedLength& n) { m_x = n; }

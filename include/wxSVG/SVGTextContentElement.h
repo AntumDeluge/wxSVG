@@ -50,7 +50,7 @@ class wxSVGTextContentElement:
 
     inline const wxSVGAnimatedEnumeration& GetLengthAdjust() const { return m_lengthAdjust; }
     inline void SetLengthAdjust(const wxSVGAnimatedEnumeration& n) { m_lengthAdjust = n; }
-    inline void SetLengthAdjust(char n) { m_lengthAdjust.SetBaseVal(n); }
+    inline void SetLengthAdjust(unsigned char n) { m_lengthAdjust.SetBaseVal(n); }
 
   public:
     wxSVGTextContentElement(wxString tagName = wxT("")):

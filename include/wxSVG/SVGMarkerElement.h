@@ -65,7 +65,7 @@ class wxSVGMarkerElement:
 
     inline const wxSVGAnimatedEnumeration& GetMarkerUnits() const { return m_markerUnits; }
     inline void SetMarkerUnits(const wxSVGAnimatedEnumeration& n) { m_markerUnits = n; }
-    inline void SetMarkerUnits(char n) { m_markerUnits.SetBaseVal(n); }
+    inline void SetMarkerUnits(unsigned char n) { m_markerUnits.SetBaseVal(n); }
 
     inline const wxSVGAnimatedLength& GetMarkerWidth() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_markerWidth, GetViewportElement()); return m_markerWidth; }
     inline void SetMarkerWidth(const wxSVGAnimatedLength& n) { m_markerWidth = n; }
@@ -77,7 +77,7 @@ class wxSVGMarkerElement:
 
     inline const wxSVGAnimatedEnumeration& GetOrientType() const { return m_orientType; }
     inline void SetOrientType(const wxSVGAnimatedEnumeration& n) { m_orientType = n; }
-    inline void SetOrientType(char n) { m_orientType.SetBaseVal(n); }
+    inline void SetOrientType(unsigned char n) { m_orientType.SetBaseVal(n); }
 
     inline const wxSVGAnimatedAngle& GetOrientAngle() const { return m_orientAngle; }
     inline void SetOrientAngle(const wxSVGAnimatedAngle& n) { m_orientAngle = n; }

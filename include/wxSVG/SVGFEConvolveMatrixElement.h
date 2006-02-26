@@ -78,7 +78,7 @@ class wxSVGFEConvolveMatrixElement:
 
     inline const wxSVGAnimatedEnumeration& GetEdgeMode() const { return m_edgeMode; }
     inline void SetEdgeMode(const wxSVGAnimatedEnumeration& n) { m_edgeMode = n; }
-    inline void SetEdgeMode(char n) { m_edgeMode.SetBaseVal(n); }
+    inline void SetEdgeMode(unsigned char n) { m_edgeMode.SetBaseVal(n); }
 
     inline const wxSVGAnimatedLength& GetKernelUnitLengthX() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_kernelUnitLengthX, GetViewportElement()); return m_kernelUnitLengthX; }
     inline void SetKernelUnitLengthX(const wxSVGAnimatedLength& n) { m_kernelUnitLengthX = n; }
