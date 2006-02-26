@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/09/27
-// RCS-ID:      $Id: SVGRect.cpp,v 1.4 2006-01-08 12:39:44 ntalex Exp $
+// RCS-ID:      $Id: SVGRect.cpp,v 1.5 2006-02-26 14:50:01 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -38,7 +38,7 @@ void wxSVGRect::SetValueAsString(const wxString& value)
   }
 }
 
-wxSVGRect wxSVGRect::MatrixTransform(const wxSVGMatrix& matrix)
+wxSVGRect wxSVGRect::MatrixTransform(const wxSVGMatrix& matrix) const
 {
   wxSVGPoint point1(GetX(), GetY());
   point1 = point1.MatrixTransform(matrix);

@@ -45,7 +45,7 @@ class wxSVGRect
       m_x(x), m_y(y), m_width(width), m_height(height), m_empty(false) {}
     wxString GetValueAsString() const;
     void SetValueAsString(const wxString& value);
-    wxSVGRect MatrixTransform(const wxSVGMatrix& matrix);
+    wxSVGRect MatrixTransform(const wxSVGMatrix& matrix) const;
 };
 
 #endif // WX_SVG_RECT_H

@@ -28,7 +28,7 @@ class wxSVGPoint
     wxSVGPoint(): m_x(0), m_y(0) {}
     wxSVGPoint(double x, double y): m_x(x), m_y(y) {}
     virtual ~wxSVGPoint() {}
-    virtual wxSVGPoint MatrixTransform(const wxSVGMatrix& matrix);
+    virtual wxSVGPoint MatrixTransform(const wxSVGMatrix& matrix) const;
 };
 
 #endif // WX_SVG_POINT_H
