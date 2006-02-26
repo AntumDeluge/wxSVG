@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.23 2006-01-23 09:21:53 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.24 2006-02-26 14:51:37 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -70,7 +70,18 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem, const wxSVGRect* rect
       if (element->GetHeight().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
         ((wxSVGAnimatedLength&)element->GetHeight()).SetAnimVal(wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
       element->UpdateMatrix(matrix);
-	  RenderChilds(doc, elem, rect, &matrix, &style, element, element);
+      if (rect && element->GetParent())
+      {
+        wxSVGRect rect2 = *rect;
+        wxSVGElement* parent = (wxSVGElement*) element->GetParent();
+        wxSVGTransformable* transformable =
+           wxSVGTransformable::GetSVGTransformable(*parent);
+        if (transformable)
+          rect2 = rect2.MatrixTransform(transformable->GetCTM().Inverse());
+        RenderChilds(doc, elem, &rect2, &matrix, &style, element, element);
+      }
+      else
+	    RenderChilds(doc, elem, rect, &matrix, &style, element, element);
 	  break;
     }
 	case wxSVG_G_ELEMENT:
@@ -210,7 +221,8 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem, const wxSVGRect* rect
 	  if (href.length() == 0 || href.GetChar(0) != wxT('#'))
 	    break;
       href.Remove(0,1);
-      wxSVGElement* refElem = doc->GetElementById(href);
+      wxSVGElement* refElem =
+        (wxSVGElement*) ownerSVGElement->GetElementById(href);
       if (!refElem)
         break;
       
