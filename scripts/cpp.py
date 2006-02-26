@@ -3,15 +3,15 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: cpp.py,v 1.3 2005-06-17 13:22:29 ntalex Exp $
+## RCS-ID:      $Id: cpp.py,v 1.4 2006-02-26 14:41:20 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
 
 import string
 
-builtin_types = ["float", "double", "int", "unsigned long", "long", "unsigned short", "char", "bool", "void"]
-number_types = ["float", "double", "int", "unsigned long", "long", "unsigned short", "char", "bool"]
+builtin_types = ["float", "double", "int", "unsigned long", "long", "unsigned short", "char", "unsigned char", "bool", "void"]
+number_types = ["float", "double", "int", "unsigned long", "long", "unsigned short", "char", "unsigned char", "bool"]
 
 def make_name(name):
     tmp=name

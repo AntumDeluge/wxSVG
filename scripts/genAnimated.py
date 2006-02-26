@@ -3,7 +3,7 @@
 ## Purpose:     generates all SVGAnimated*.h
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genAnimated.py,v 1.6 2005-11-18 19:12:28 ntalex Exp $
+## RCS-ID:      $Id: genAnimated.py,v 1.7 2006-02-26 14:41:20 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -14,7 +14,7 @@ import cppHeader
 
 def getBaseType(name):
     if name=="Enumeration":
-        return "char"
+        return "unsigned char"
     elif name=="Boolean":
         return "bool"
     elif name=="Integer":

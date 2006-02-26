@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.20 2006-01-08 19:32:33 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.21 2006-02-26 14:41:20 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -221,6 +221,9 @@ interfaces["SVGPoint"]=inter
 inter.include_methods.append('    wxSVGPoint(): m_x(0), m_y(0) {}\n')
 inter.include_methods.append('    wxSVGPoint(double x, double y): m_x(x), m_y(y) {}\n')
 inter.include_methods.append('    virtual ~wxSVGPoint() {}\n')
+inter.include_methods.append('    virtual wxSVGPoint MatrixTransform(const wxSVGMatrix& matrix) const;\n')
+inter.exclude_methods = ["MatrixTransform"]
+inter.include_includes = ["SVGMatrix"]
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
@@ -258,7 +261,7 @@ inter.include_methods.append('''\
       m_x(x), m_y(y), m_width(width), m_height(height), m_empty(false) {}
     wxString GetValueAsString() const;
     void SetValueAsString(const wxString& value);
-    wxSVGRect MatrixTransform(const wxSVGMatrix& matrix);
+    wxSVGRect MatrixTransform(const wxSVGMatrix& matrix) const;
 ''')
 inter.include_includes = ["String", "SVGMatrix"]
 inter.user_defined_constructor=1
