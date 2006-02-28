@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.11 2006-01-08 11:55:31 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.12 2006-02-28 17:00:36 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -632,7 +632,7 @@ wxSVGRect wxSVGCanvasText::GetBBox(const wxSVGMatrix& matrix)
       tmpMatrix = ((wxSVGMatrix&) matrix).Multiply(m_chunks[i].matrix);
     wxSVGRect elemBBox = m_chunks[i].path->GetBBox(tmpMatrix);
     if (elemBBox.IsEmpty())
-      elemBBox = m_chunks[i].bbox;
+      elemBBox = m_chunks[i].bbox.MatrixTransform(tmpMatrix);
 	if (i == 0)
 	  bbox = elemBBox;
 	else

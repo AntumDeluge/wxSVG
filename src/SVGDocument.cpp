@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.24 2006-02-26 14:51:37 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.25 2006-02-28 17:00:36 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -204,11 +204,11 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem, const wxSVGRect* rect
 	  element->UpdateMatrix(matrix);
 	  style.Add(element->GetStyle());
       // test if visible
-      if (rect && !ownerSVGElement->CheckIntersection(*elem, *rect))
-        break;
       if (element->GetWidth().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN &&
           element->GetHeight().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
       {
+        if (rect && !ownerSVGElement->CheckIntersection(*elem, *rect))
+          break;
         wxSVGPoint point(
           element->GetX().GetAnimVal() + element->GetWidth().GetAnimVal(),
           element->GetY().GetAnimVal() + element->GetHeight().GetAnimVal());
