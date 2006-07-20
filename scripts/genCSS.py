@@ -3,7 +3,7 @@
 ## Purpose:     generates CSSStyleDeclaration
 ## Author:      Alex Thuering
 ## Created:     2005/06/06
-## RCS-ID:      $Id: genCSS.py,v 1.12 2006-07-20 01:48:55 ntalex Exp $
+## RCS-ID:      $Id: genCSS.py,v 1.13 2006-07-20 07:26:41 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 
@@ -64,7 +64,7 @@ def parseCSSProps():
                             val = child.getElementsByTagName('span')[0].childNodes[0].nodeValue
                             if val[0] == "<":
                                 propTypes.append(val[1:-1])
-                            elif val[0] != "'":
+                            elif val[0] != "'" and val != "inherit":
                                 propValuesStr = propValuesStr + val
                         else:
                             val = child.childNodes[0].nodeValue
@@ -116,7 +116,7 @@ def setCSSType(prop, propTypes):
         prop.valueType = 'wxSVGPaint'
     elif 'opacity-value' in propTypes or 'miterlimit' in propTypes :
         prop.valueType = 'double'
-    elif 'length' in propTypes and len(prop.values)<=1:
+    elif ('length' in propTypes or 'angle' in propTypes) and len(prop.values) == 0:
         prop.valueType = 'double'
     elif 'family-name' in propTypes:
         prop.valueType = 'wxString'
@@ -145,6 +145,8 @@ def setDefValue(prop, defValue):
         defValue = valueId(defValue)
     elif prop.valueType == 'double' and defValue == 'medium':
         defValue = '20'
+    elif prop.valueType == 'double' and defValue == '0deg':
+        defValue = '0'
     prop.defValue = defValue
     
 ######################### CSSStyleDeclaration.h ##############################
