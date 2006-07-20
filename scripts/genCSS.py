@@ -3,7 +3,7 @@
 ## Purpose:     generates CSSStyleDeclaration
 ## Author:      Alex Thuering
 ## Created:     2005/06/06
-## RCS-ID:      $Id: genCSS.py,v 1.11 2006-01-06 15:32:44 ntalex Exp $
+## RCS-ID:      $Id: genCSS.py,v 1.12 2006-07-20 01:48:55 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 
@@ -15,70 +15,154 @@ import cppImpl
 import sys
 from xml.dom.ext.reader import Sax2
 
-class Attribute:
-    def __init__(self, dtdName, name, cssType, valueType, function, defValue):
-        self.dtdName = dtdName
-        self.name = name
-        self.cssType = cssType
-        self.valueType = valueType
-        self.function = function
-        self.defValue = defValue
-
-## cssType, valueType, getFunction, name, dtdName, defValue
-attibutes = [
-Attribute('clip-path', 'ClipPath', 'wxCSSPrimitiveValue', 'wxCSSPrimitiveValue', '', '*s_emptyCSSValue'),
-Attribute('color', 'Color', 'wxCSSPrimitiveValue', 'wxRGBColor', 'RGBColorValue', 'wxRGBColor()'),
-Attribute('display', 'Display', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_INLINE'),
-Attribute('fill', 'Fill', 'wxSVGPaint', 'wxSVGPaint', '', '*s_blackSVGPaint'),
-Attribute('fill-opacity', 'FillOpacity', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '1'),
-Attribute('fill-rule', 'FillRule', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_NONZERO'),
-Attribute('filter', 'Filter', 'wxCSSPrimitiveValue', 'wxCSSPrimitiveValue', '', '*s_emptyCSSValue'),
-Attribute('font-family', 'FontFamily', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
-Attribute('font-size', 'FontSize', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '20'),
-Attribute('font-stretch', 'FontStretch', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_NORMAL'),
-Attribute('font-style', 'FontStyle', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_NORMAL'),
-Attribute('font-variant', 'FontVariant', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_NORMAL'),
-Attribute('font-weight', 'FontWeight', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_NORMAL'),
-Attribute('marker', 'Marker', 'wxCSSPrimitiveValue', 'wxString', 'StringValue', 'wxT("")'),
-Attribute('marker-end', 'MarkerEnd', 'wxCSSPrimitiveValue', 'wxCSSPrimitiveValue', '', '*s_emptyCSSValue'),
-Attribute('marker-mid', 'MarkerMid', 'wxCSSPrimitiveValue', 'wxCSSPrimitiveValue', '', '*s_emptyCSSValue'),
-Attribute('marker-start', 'MarkerStart', 'wxCSSPrimitiveValue', 'wxCSSPrimitiveValue', '', '*s_emptyCSSValue'),
-Attribute('opacity', 'Opacity', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '1'),
-Attribute('stop-color', 'StopColor', 'wxSVGColor', 'wxSVGColor', '', '*s_emptySVGColor'),
-Attribute('stop-opacity', 'StopOpacity', 'wxCSSPrimitiveValue', 'double', 'FloatValue', ' 1'),
-Attribute('stroke', 'Stroke', 'wxSVGPaint', 'wxSVGPaint', '', '*s_emptySVGPaint'),
-##Attribute('stroke-dasharray', 'StrokeDasharray', 'wxCSSValueList', 'wxCSSValueList', '', 'wxCSSValueList()'),
-Attribute('stroke-dashoffset', 'StrokeDashoffset', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '0'),
-Attribute('stroke-linecap', 'StrokeLinecap', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_BUTT'),
-Attribute('stroke-linejoin', 'StrokeLinejoin', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_MITER'),
-Attribute('stroke-miterlimit', 'StrokeMiterlimit', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '4'),
-Attribute('stroke-opacity', 'StrokeOpacity', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '1'),
-Attribute('stroke-width', 'StrokeWidth', 'wxCSSPrimitiveValue', 'double', 'FloatValue', '1'),
-Attribute('text-anchor', 'TextAnchor', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_START'),
-Attribute('visibility', 'Visibility', 'wxCSSPrimitiveValue', 'wxCSS_VALUE', 'IdentValue', 'wxCSS_VALUE_VISIBLE')]
-
-def propId(name):
-    return 'wxCSS_PROPERTY_' + string.upper(cpp.make_name(name))
-    
 def generate():
+    if len(cssProperties) == 0:
+        parseCSSProps()
     genCSSStyleDeclaration()
     genStyles()
-    #genValues()
+    genValues()
 
+####################### parseCSSProps ##############################
+cssProperties = []
+class Property:
+    def __init__(self, dtdName):
+        self.dtdName = dtdName
+        self.cssType = ''
+        self.valueType = ''
+        self.defValue = ''
+        self.values = []
+    def __str__(self):
+        return self.dtdName + "," + self.cssType + "," + self.valueType + "," + self.defValue
+
+# loads SVG11CSSpropidx.xhtml and fills cssProperties list
+def parseCSSProps():
+    reader = Sax2.Reader()
+    doc = reader.fromStream(config.share_dir + "/SVG11CSSpropidx.xhtml")
+    tbody = doc.getElementsByTagName('html')[0].getElementsByTagName('body')[0].getElementsByTagName('table')[0].getElementsByTagName('tbody')[0]
+    for tr in tbody.childNodes:
+        if tr.nodeName == "tr":
+            for propNode in tr.getElementsByTagName('td')[0].getElementsByTagName('a'):
+                propName = propNode.childNodes[0].childNodes[0].nodeValue
+                propName = propName[1:-1]
+                if propName == "marker":
+                    #tr.getElementsByTagName('td')[1].childNodes[0].nodeValue = "none | inherit | <uri>"
+                    #tr.getElementsByTagName('td')[2].childNodes[0].nodeValue = "none"
+                    continue
+                if propName == "font":
+                    #tr.getElementsByTagName('td')[1].childNodes[0].nodeValue = ""
+                    #tr.getElementsByTagName('td')[2].childNodes[0].nodeValue = ""
+                    continue
+                propDefValue = tr.getElementsByTagName('td')[2].childNodes[0].nodeValue
+                ## make propValuesStr
+                propValuesStr = ''
+                propTypes = []
+                for child in tr.getElementsByTagName('td')[1].childNodes:
+                    if child.nodeName == "#text":
+                        propValuesStr = propValuesStr + child.nodeValue
+                    elif child.nodeName == "a":
+                        if child.getElementsByTagName('span').length > 0:
+                            val = child.getElementsByTagName('span')[0].childNodes[0].nodeValue
+                            if val[0] == "<":
+                                propTypes.append(val[1:-1])
+                            elif val[0] != "'":
+                                propValuesStr = propValuesStr + val
+                        else:
+                            val = child.childNodes[0].nodeValue
+                            if val[0] == "<":
+                                propTypes.append(val[1:-1])
+                ## delete (...)
+                while 1:
+                    beg = propValuesStr.find("(")
+                    end = propValuesStr.find(")")
+                    if beg != -1 and end != -1 and beg < end:
+                        propValuesStr = propValuesStr[:beg] + propValuesStr[end+1:]
+                    else:
+                        break
+                ## delete [...], but not at the begin of string and not after "|"
+                beg = propValuesStr.find("[")
+                end = propValuesStr.rfind("]")
+                if beg > 1 and end != -1 and beg < end and propValuesStr[beg-2:beg] != "| ":
+                    propValuesStr = propValuesStr[:beg] + propValuesStr[end+1:]
+                ## delete all other non-alphanum characters
+                tmp = ''
+                for c in propValuesStr:
+                    if c in string.ascii_letters or c in string.digits or c in "|-_<>":
+                        tmp = tmp + c
+                propValuesStr = tmp
+                # create property and append it to the list
+                prop = Property(propName)
+                for val in propValuesStr.split('|'):
+                    if len(val) == 0:
+                        continue
+                    elif val[0] == "<":
+                        propTypes.append(val[1:-1])
+                    elif val not in prop.values:
+                        prop.values.append(val)
+                setCSSType(prop, propTypes)
+                setDefValue(prop, propDefValue)
+                cssProperties.append(prop)
+
+def setCSSType(prop, propTypes):
+    prop.cssType = 'wxCSSPrimitiveValue'
+    prop.valueType = 'wxCSS_VALUE'
+    if 'color' in propTypes:
+        if 'currentColor' in prop.values:
+            prop.cssType = 'wxSVGColor'
+            prop.valueType = 'wxSVGColor'
+        else:
+            prop.valueType = 'wxRGBColor'
+    elif 'paint' in propTypes:
+        prop.cssType = 'wxSVGPaint'
+        prop.valueType = 'wxSVGPaint'
+    elif 'opacity-value' in propTypes or 'miterlimit' in propTypes :
+        prop.valueType = 'double'
+    elif 'length' in propTypes and len(prop.values)<=1:
+        prop.valueType = 'double'
+    elif 'family-name' in propTypes:
+        prop.valueType = 'wxString'
+    elif len(propTypes):
+        prop.valueType = 'wxCSSPrimitiveValue'
+
+def setDefValue(prop, defValue):
+    ## fix some broken defs
+    if defValue == "see property description" or defValue == "see prose":
+        defValue = "auto"
+    ## defValue
+    if prop.valueType == 'wxRGBColor':
+        defValue = "wxRGBColor()"
+    elif prop.valueType == 'wxSVGPaint':
+        if defValue == "none":
+            defValue = '*s_emptySVGPaint'
+        else:
+            defValue = '*s_blackSVGPaint'
+    elif prop.valueType == 'wxSVGColor':
+        defValue = '*s_emptySVGColor'
+    elif prop.valueType == 'wxCSSPrimitiveValue':
+        defValue = '*s_emptyCSSValue'
+    elif prop.valueType == 'wxString':
+        defValue = 'wxT("")'
+    elif prop.valueType == 'wxCSS_VALUE':
+        defValue = valueId(defValue)
+    elif prop.valueType == 'double' and defValue == 'medium':
+        defValue = '20'
+    prop.defValue = defValue
+    
 ######################### CSSStyleDeclaration.h ##############################
 def genCSSStyleDeclaration():
     enum = ''
-    for attr in attibutes:
+    for prop in cssProperties:
         if (len(enum)):
             enum = enum + ',\n'
-        enum = enum + '  ' + propId(attr.dtdName)
+        enum = enum + '  ' + propId(prop.dtdName)
     
     methods = ''
-    for attr in attibutes:
-        valueType = attr.valueType
-        get = '((%s&)*it->second)'%attr.cssType
-        if len(attr.function):
-            get = get + '.Get' + attr.function + '()'
+    for prop in cssProperties:
+        methodName = makeMethodName(prop.dtdName)
+        valueType = prop.valueType
+        get = '((%s&)*it->second)'%prop.cssType
+        functionName = getFunctionName(prop.valueType)
+        if len(functionName):
+            get = get + '.Get' + functionName + '()'
         else:
             valueType = "const " + valueType + "&"
         get = '''\
@@ -87,18 +171,18 @@ def genCSSStyleDeclaration():
       const_iterator it = find(%s);
       return it != end() ? %s : %s;
     }
-    '''%(valueType, attr.name, propId(attr.dtdName), get, attr.defValue)
+    '''%(valueType, methodName, propId(prop.dtdName), get, prop.defValue)
         
-        has = 'inline bool Has%s() const { return HasProperty(%s); }\n'%(attr.name, propId(attr.dtdName))
+        has = 'inline bool Has%s() const { return HasProperty(%s); }\n'%(methodName, propId(prop.dtdName))
         
-        if len(attr.function):
-            valueType = attr.valueType
+        if len(functionName):
+            valueType = prop.valueType
             if valueType not in cpp.builtin_types and valueType != "wxCSS_VALUE":
                 valueType = "const " + valueType + "&"
             ptype = ""
-            if attr.valueType == "wxString":
+            if prop.valueType == "wxString":
                 ptype = "wxCSS_STRING, "
-            elif attr.valueType == "double":
+            elif prop.valueType == "double":
                 ptype = "wxCSS_NUMBER, "
             set = '''\
     inline void Set%s(%s value)
@@ -109,7 +193,7 @@ def genCSSStyleDeclaration():
       else
         (*this)[%s] = new %s(value);
     }
-    '''%(attr.name, valueType, propId(attr.dtdName), attr.cssType, attr.function, ptype, propId(attr.dtdName), attr.cssType)
+    '''%(methodName, valueType, propId(prop.dtdName), prop.cssType, functionName, ptype, propId(prop.dtdName), prop.cssType)
         else:
             set = '''\
     inline void Set%s(const %s& value)
@@ -123,7 +207,7 @@ def genCSSStyleDeclaration():
       else
         (*this)[%s] = new %s(value);
     }
-    '''%(attr.name, attr.valueType, propId(attr.dtdName), attr.valueType, propId(attr.dtdName), attr.valueType)
+    '''%(methodName, prop.valueType, propId(prop.dtdName), prop.valueType, propId(prop.dtdName), prop.valueType)
             
         
         if len(methods):
@@ -215,13 +299,39 @@ class wxCSSStyleRef: public wxCSSStyleDeclaration
     header.add_content(output)
     header.dump(path=config.include_dir)
 
+def getFunctionName(valueType):
+    if valueType == 'wxCSS_VALUE':
+        return 'IdentValue'
+    elif valueType == 'wxRGBColor':
+        return 'RGBColorValue'
+    elif valueType == 'double':
+        return 'FloatValue'
+    elif valueType == 'wxString':
+        return 'StringValue'
+    elif valueType == 'wxCSS_VALUE':
+        return 'IdentValue'
+    return ''
+
+def propId(name):
+    return 'wxCSS_PROPERTY_' + cpp.make_name(name).upper()
+
+def valueId(name):
+    return 'wxCSS_VALUE_' + cpp.make_name(name).upper()
+
+def makeMethodName(dtdName):
+    methodName = dtdName[0].upper() + dtdName[1:]
+    while methodName.find('-') != -1:
+        pos = methodName.find('-')
+        methodName = methodName[0:pos] + methodName[pos+1].upper() + methodName[pos+2:]
+    return methodName
+
 ####################### CSSStyleDeclaration_styles.h #########################
 def genStyles():
     properties = ''
-    for attr in attibutes:
+    for prop in cssProperties:
         if len(properties):
             properties = properties + ',\n'
-        properties = properties + '  wxT("%s")'%attr.dtdName
+        properties = properties + '  wxT("%s")'%prop.dtdName
     
     output = '''
 wxString s_cssPropertyStrings[] = 
@@ -235,64 +345,19 @@ wxString s_cssPropertyStrings[] =
     impl.dump(path=config.src_dir)
 
 ############################### CSSValues.h ##################################
-cssValues = []
-cssProperties = {}
-def parseCSSProps():
-    reader = Sax2.Reader()
-    doc = reader.fromStream(config.share_dir + "/CSS21propidx.html")
-    table = doc.getElementsByTagName('HTML')[0].getElementsByTagName('BODY')[0].getElementsByTagName('table')[0]
-    for tr in table.childNodes:
-        if tr.nodeName == "tr":
-            attrName = ''
-            attrValue = ''
-            i = 0
-            for td in tr.childNodes:
-                if td.nodeName == "td":
-                    i = i + 1
-                    if i == 1:
-                        attrName = td.childNodes[0].childNodes[0].childNodes[0].nodeValue
-                    else:
-                        for child in td.childNodes:
-                            if child.nodeName == "#text":
-                                attrValue = attrValue + child.nodeValue
-                        break
-            while 1:
-                beg = attrValue.find("{")
-                end = attrValue.find("}")
-                if beg != -1 and end != -1 and beg < end:
-                    attrValue = attrValue[:beg] + attrValue[end+1:]
-                else:
-                    break
-            tmp = ''
-            for c in attrValue:
-                if c in string.ascii_letters or c in string.digits or c in "|-_":
-                    tmp = tmp + c
-            attrValue = tmp
-            cssProperties[attrName] = []
-            for val in attrValue.split('|'):
-                if len(val) and val not in cssProperties[attrName]:
-                    cssProperties[attrName].append(val)
-    cssProperties['fill-rule'] = ['nonzero', 'evenodd']
-    cssProperties['stroke-linejoin'] = ['miter', 'round', 'bevel']
-    cssProperties['stroke-linecap'] = ['butt', 'round', 'square']
-    cssProperties['text-anchor'] = ['start', 'middle', 'end']
-    cssProperties['font-stretch'] = ['normal', 'wider', 'narrower', 'ultra-condensed',\
-        'extra-condensed', 'condensed', 'semi-condensed', 'semi-expanded',\
-        'expanded', 'extra-expanded', 'ultra-expanded']
-    for attrName in cssProperties.keys():
-        for val in cssProperties[attrName]:
+def genValues():
+    cssValues = []
+    for prop in cssProperties:
+        for val in prop.values:
             if val not in cssValues:
                 cssValues.append(val)
     cssValues.sort()
-    
-def genValues():
-    parseCSSProps()
     
     values = ''
     for value in cssValues:
         if len(values):
             values = values + ',\n'
-        values = values + '  wxCSS_VALUE_%s'%cpp.make_name(value).upper()
+        values = values + '  %s'%valueId(value)
     
     output = '''\
 enum wxCSS_VALUE
