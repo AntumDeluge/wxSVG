@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.8 2006-01-07 20:55:01 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.9 2006-07-20 07:34:01 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -118,6 +118,7 @@ class wxSVGCanvasText: public wxSVGCanvasItem
     wxSVGCanvas* m_canvas;
     double m_tx, m_ty; /** current text position */
     wxCSS_VALUE m_textAnchor; /** current text anchor */
+    wxCSS_VALUE m_dominantBaseline; /** current dominant baseline */
 	int m_textAnchorBeginIndex; /** index of first chunk with current text anchor */
 	double m_textAnchorBeginPos; /** x-coordinate of text with current text anchor */
 	virtual void Init(wxSVGTSpanElement& element, const wxCSSStyleDeclaration& style);

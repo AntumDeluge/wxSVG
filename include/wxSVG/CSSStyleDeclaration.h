@@ -17,27 +17,52 @@
 enum wxCSS_PROPERTY
 {
   wxCSS_PROPERTY_UNKNOWN,
+  wxCSS_PROPERTY_ALIGNMENT_BASELINE,
+  wxCSS_PROPERTY_BASELINE_SHIFT,
+  wxCSS_PROPERTY_CLIP,
   wxCSS_PROPERTY_CLIP_PATH,
+  wxCSS_PROPERTY_CLIP_RULE,
   wxCSS_PROPERTY_COLOR,
+  wxCSS_PROPERTY_COLOR_INTERPOLATION,
+  wxCSS_PROPERTY_COLOR_INTERPOLATION_FILTERS,
+  wxCSS_PROPERTY_COLOR_PROFILE,
+  wxCSS_PROPERTY_COLOR_RENDERING,
+  wxCSS_PROPERTY_CURSOR,
+  wxCSS_PROPERTY_DIRECTION,
   wxCSS_PROPERTY_DISPLAY,
+  wxCSS_PROPERTY_DOMINANT_BASELINE,
+  wxCSS_PROPERTY_ENABLE_BACKGROUND,
   wxCSS_PROPERTY_FILL,
   wxCSS_PROPERTY_FILL_OPACITY,
   wxCSS_PROPERTY_FILL_RULE,
   wxCSS_PROPERTY_FILTER,
+  wxCSS_PROPERTY_FLOOD_COLOR,
+  wxCSS_PROPERTY_FLOOD_OPACITY,
   wxCSS_PROPERTY_FONT_FAMILY,
   wxCSS_PROPERTY_FONT_SIZE,
+  wxCSS_PROPERTY_FONT_SIZE_ADJUST,
   wxCSS_PROPERTY_FONT_STRETCH,
   wxCSS_PROPERTY_FONT_STYLE,
   wxCSS_PROPERTY_FONT_VARIANT,
   wxCSS_PROPERTY_FONT_WEIGHT,
-  wxCSS_PROPERTY_MARKER,
+  wxCSS_PROPERTY_GLYPH_ORIENTATION_HORIZONTAL,
+  wxCSS_PROPERTY_GLYPH_ORIENTATION_VERTICAL,
+  wxCSS_PROPERTY_IMAGE_RENDERING,
+  wxCSS_PROPERTY_KERNING,
+  wxCSS_PROPERTY_LETTER_SPACING,
+  wxCSS_PROPERTY_LIGHTING_COLOR,
   wxCSS_PROPERTY_MARKER_END,
   wxCSS_PROPERTY_MARKER_MID,
   wxCSS_PROPERTY_MARKER_START,
+  wxCSS_PROPERTY_MASK,
   wxCSS_PROPERTY_OPACITY,
+  wxCSS_PROPERTY_OVERFLOW,
+  wxCSS_PROPERTY_POINTER_EVENTS,
+  wxCSS_PROPERTY_SHAPE_RENDERING,
   wxCSS_PROPERTY_STOP_COLOR,
   wxCSS_PROPERTY_STOP_OPACITY,
   wxCSS_PROPERTY_STROKE,
+  wxCSS_PROPERTY_STROKE_DASHARRAY,
   wxCSS_PROPERTY_STROKE_DASHOFFSET,
   wxCSS_PROPERTY_STROKE_LINECAP,
   wxCSS_PROPERTY_STROKE_LINEJOIN,
@@ -45,7 +70,12 @@ enum wxCSS_PROPERTY
   wxCSS_PROPERTY_STROKE_OPACITY,
   wxCSS_PROPERTY_STROKE_WIDTH,
   wxCSS_PROPERTY_TEXT_ANCHOR,
-  wxCSS_PROPERTY_VISIBILITY
+  wxCSS_PROPERTY_TEXT_DECORATION,
+  wxCSS_PROPERTY_TEXT_RENDERING,
+  wxCSS_PROPERTY_UNICODE_BIDI,
+  wxCSS_PROPERTY_VISIBILITY,
+  wxCSS_PROPERTY_WORD_SPACING,
+  wxCSS_PROPERTY_WRITING_MODE
 };
 
 WX_DECLARE_HASH_MAP(wxCSS_PROPERTY, wxCSSValue*, wxIntegerHash, wxIntegerEqual, wxHashMapCSSValue);
@@ -95,6 +125,60 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     static wxString GetPropertyName(wxCSS_PROPERTY propertyId);
   
   public:
+    inline wxCSS_VALUE GetAlignmentBaseline() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_ALIGNMENT_BASELINE);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_AUTO;
+    }
+    inline bool HasAlignmentBaseline() const { return HasProperty(wxCSS_PROPERTY_ALIGNMENT_BASELINE); }
+    inline void SetAlignmentBaseline(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_ALIGNMENT_BASELINE);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_ALIGNMENT_BASELINE] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline const wxCSSPrimitiveValue& GetBaselineShift() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_BASELINE_SHIFT);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
+    }
+    inline bool HasBaselineShift() const { return HasProperty(wxCSS_PROPERTY_BASELINE_SHIFT); }
+    inline void SetBaselineShift(const wxCSSPrimitiveValue& value)
+    {
+      iterator it = find(wxCSS_PROPERTY_BASELINE_SHIFT);
+      if (it != end())
+      {
+        delete it->second;
+        it->second = new wxCSSPrimitiveValue(value);
+      }
+      else
+        (*this)[wxCSS_PROPERTY_BASELINE_SHIFT] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline const wxCSSPrimitiveValue& GetClip() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_CLIP);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
+    }
+    inline bool HasClip() const { return HasProperty(wxCSS_PROPERTY_CLIP); }
+    inline void SetClip(const wxCSSPrimitiveValue& value)
+    {
+      iterator it = find(wxCSS_PROPERTY_CLIP);
+      if (it != end())
+      {
+        delete it->second;
+        it->second = new wxCSSPrimitiveValue(value);
+      }
+      else
+        (*this)[wxCSS_PROPERTY_CLIP] = new wxCSSPrimitiveValue(value);
+    }
+    
+
     inline const wxCSSPrimitiveValue& GetClipPath() const
     {
       const_iterator it = find(wxCSS_PROPERTY_CLIP_PATH);
@@ -114,6 +198,22 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
+    inline wxCSS_VALUE GetClipRule() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_CLIP_RULE);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_NONZERO;
+    }
+    inline bool HasClipRule() const { return HasProperty(wxCSS_PROPERTY_CLIP_RULE); }
+    inline void SetClipRule(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_CLIP_RULE);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_CLIP_RULE] = new wxCSSPrimitiveValue(value);
+    }
+    
+
     inline wxRGBColor GetColor() const
     {
       const_iterator it = find(wxCSS_PROPERTY_COLOR);
@@ -130,6 +230,108 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
+    inline wxCSS_VALUE GetColorInterpolation() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_COLOR_INTERPOLATION);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_SRGB;
+    }
+    inline bool HasColorInterpolation() const { return HasProperty(wxCSS_PROPERTY_COLOR_INTERPOLATION); }
+    inline void SetColorInterpolation(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_COLOR_INTERPOLATION);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_COLOR_INTERPOLATION] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline wxCSS_VALUE GetColorInterpolationFilters() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_COLOR_INTERPOLATION_FILTERS);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_LINEARRGB;
+    }
+    inline bool HasColorInterpolationFilters() const { return HasProperty(wxCSS_PROPERTY_COLOR_INTERPOLATION_FILTERS); }
+    inline void SetColorInterpolationFilters(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_COLOR_INTERPOLATION_FILTERS);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_COLOR_INTERPOLATION_FILTERS] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline const wxCSSPrimitiveValue& GetColorProfile() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_COLOR_PROFILE);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
+    }
+    inline bool HasColorProfile() const { return HasProperty(wxCSS_PROPERTY_COLOR_PROFILE); }
+    inline void SetColorProfile(const wxCSSPrimitiveValue& value)
+    {
+      iterator it = find(wxCSS_PROPERTY_COLOR_PROFILE);
+      if (it != end())
+      {
+        delete it->second;
+        it->second = new wxCSSPrimitiveValue(value);
+      }
+      else
+        (*this)[wxCSS_PROPERTY_COLOR_PROFILE] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline wxCSS_VALUE GetColorRendering() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_COLOR_RENDERING);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_AUTO;
+    }
+    inline bool HasColorRendering() const { return HasProperty(wxCSS_PROPERTY_COLOR_RENDERING); }
+    inline void SetColorRendering(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_COLOR_RENDERING);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_COLOR_RENDERING] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline const wxCSSPrimitiveValue& GetCursor() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_CURSOR);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
+    }
+    inline bool HasCursor() const { return HasProperty(wxCSS_PROPERTY_CURSOR); }
+    inline void SetCursor(const wxCSSPrimitiveValue& value)
+    {
+      iterator it = find(wxCSS_PROPERTY_CURSOR);
+      if (it != end())
+      {
+        delete it->second;
+        it->second = new wxCSSPrimitiveValue(value);
+      }
+      else
+        (*this)[wxCSS_PROPERTY_CURSOR] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline wxCSS_VALUE GetDirection() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_DIRECTION);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_LTR;
+    }
+    inline bool HasDirection() const { return HasProperty(wxCSS_PROPERTY_DIRECTION); }
+    inline void SetDirection(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_DIRECTION);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_DIRECTION] = new wxCSSPrimitiveValue(value);
+    }
+    
+
     inline wxCSS_VALUE GetDisplay() const
     {
       const_iterator it = find(wxCSS_PROPERTY_DISPLAY);
@@ -143,6 +345,38 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
         ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
       else
         (*this)[wxCSS_PROPERTY_DISPLAY] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline wxCSS_VALUE GetDominantBaseline() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_DOMINANT_BASELINE);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_AUTO;
+    }
+    inline bool HasDominantBaseline() const { return HasProperty(wxCSS_PROPERTY_DOMINANT_BASELINE); }
+    inline void SetDominantBaseline(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_DOMINANT_BASELINE);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_DOMINANT_BASELINE] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline wxCSS_VALUE GetEnableBackground() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_ENABLE_BACKGROUND);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_ACCUMULATE;
+    }
+    inline bool HasEnableBackground() const { return HasProperty(wxCSS_PROPERTY_ENABLE_BACKGROUND); }
+    inline void SetEnableBackground(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_ENABLE_BACKGROUND);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_ENABLE_BACKGROUND] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -216,6 +450,41 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
+    inline const wxSVGColor& GetFloodColor() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_FLOOD_COLOR);
+      return it != end() ? ((wxSVGColor&)*it->second) : *s_emptySVGColor;
+    }
+    inline bool HasFloodColor() const { return HasProperty(wxCSS_PROPERTY_FLOOD_COLOR); }
+    inline void SetFloodColor(const wxSVGColor& value)
+    {
+      iterator it = find(wxCSS_PROPERTY_FLOOD_COLOR);
+      if (it != end())
+      {
+        delete it->second;
+        it->second = new wxSVGColor(value);
+      }
+      else
+        (*this)[wxCSS_PROPERTY_FLOOD_COLOR] = new wxSVGColor(value);
+    }
+    
+
+    inline double GetFloodOpacity() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_FLOOD_OPACITY);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetFloatValue() : 1;
+    }
+    inline bool HasFloodOpacity() const { return HasProperty(wxCSS_PROPERTY_FLOOD_OPACITY); }
+    inline void SetFloodOpacity(double value)
+    {
+      iterator it = find(wxCSS_PROPERTY_FLOOD_OPACITY);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetFloatValue(wxCSS_NUMBER, value);
+      else
+        (*this)[wxCSS_PROPERTY_FLOOD_OPACITY] = new wxCSSPrimitiveValue(value);
+    }
+    
+
     inline wxString GetFontFamily() const
     {
       const_iterator it = find(wxCSS_PROPERTY_FONT_FAMILY);
@@ -245,6 +514,25 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
         ((wxCSSPrimitiveValue*)it->second)->SetFloatValue(wxCSS_NUMBER, value);
       else
         (*this)[wxCSS_PROPERTY_FONT_SIZE] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline const wxCSSPrimitiveValue& GetFontSizeAdjust() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_FONT_SIZE_ADJUST);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
+    }
+    inline bool HasFontSizeAdjust() const { return HasProperty(wxCSS_PROPERTY_FONT_SIZE_ADJUST); }
+    inline void SetFontSizeAdjust(const wxCSSPrimitiveValue& value)
+    {
+      iterator it = find(wxCSS_PROPERTY_FONT_SIZE_ADJUST);
+      if (it != end())
+      {
+        delete it->second;
+        it->second = new wxCSSPrimitiveValue(value);
+      }
+      else
+        (*this)[wxCSS_PROPERTY_FONT_SIZE_ADJUST] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -312,19 +600,111 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline wxString GetMarker() const
+    inline double GetGlyphOrientationHorizontal() const
     {
-      const_iterator it = find(wxCSS_PROPERTY_MARKER);
-      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetStringValue() : wxT("");
+      const_iterator it = find(wxCSS_PROPERTY_GLYPH_ORIENTATION_HORIZONTAL);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetFloatValue() : 0;
     }
-    inline bool HasMarker() const { return HasProperty(wxCSS_PROPERTY_MARKER); }
-    inline void SetMarker(const wxString& value)
+    inline bool HasGlyphOrientationHorizontal() const { return HasProperty(wxCSS_PROPERTY_GLYPH_ORIENTATION_HORIZONTAL); }
+    inline void SetGlyphOrientationHorizontal(double value)
     {
-      iterator it = find(wxCSS_PROPERTY_MARKER);
+      iterator it = find(wxCSS_PROPERTY_GLYPH_ORIENTATION_HORIZONTAL);
       if (it != end())
-        ((wxCSSPrimitiveValue*)it->second)->SetStringValue(wxCSS_STRING, value);
+        ((wxCSSPrimitiveValue*)it->second)->SetFloatValue(wxCSS_NUMBER, value);
       else
-        (*this)[wxCSS_PROPERTY_MARKER] = new wxCSSPrimitiveValue(value);
+        (*this)[wxCSS_PROPERTY_GLYPH_ORIENTATION_HORIZONTAL] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline const wxCSSPrimitiveValue& GetGlyphOrientationVertical() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_GLYPH_ORIENTATION_VERTICAL);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
+    }
+    inline bool HasGlyphOrientationVertical() const { return HasProperty(wxCSS_PROPERTY_GLYPH_ORIENTATION_VERTICAL); }
+    inline void SetGlyphOrientationVertical(const wxCSSPrimitiveValue& value)
+    {
+      iterator it = find(wxCSS_PROPERTY_GLYPH_ORIENTATION_VERTICAL);
+      if (it != end())
+      {
+        delete it->second;
+        it->second = new wxCSSPrimitiveValue(value);
+      }
+      else
+        (*this)[wxCSS_PROPERTY_GLYPH_ORIENTATION_VERTICAL] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline wxCSS_VALUE GetImageRendering() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_IMAGE_RENDERING);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_AUTO;
+    }
+    inline bool HasImageRendering() const { return HasProperty(wxCSS_PROPERTY_IMAGE_RENDERING); }
+    inline void SetImageRendering(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_IMAGE_RENDERING);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_IMAGE_RENDERING] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline const wxCSSPrimitiveValue& GetKerning() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_KERNING);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
+    }
+    inline bool HasKerning() const { return HasProperty(wxCSS_PROPERTY_KERNING); }
+    inline void SetKerning(const wxCSSPrimitiveValue& value)
+    {
+      iterator it = find(wxCSS_PROPERTY_KERNING);
+      if (it != end())
+      {
+        delete it->second;
+        it->second = new wxCSSPrimitiveValue(value);
+      }
+      else
+        (*this)[wxCSS_PROPERTY_KERNING] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline const wxCSSPrimitiveValue& GetLetterSpacing() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_LETTER_SPACING);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
+    }
+    inline bool HasLetterSpacing() const { return HasProperty(wxCSS_PROPERTY_LETTER_SPACING); }
+    inline void SetLetterSpacing(const wxCSSPrimitiveValue& value)
+    {
+      iterator it = find(wxCSS_PROPERTY_LETTER_SPACING);
+      if (it != end())
+      {
+        delete it->second;
+        it->second = new wxCSSPrimitiveValue(value);
+      }
+      else
+        (*this)[wxCSS_PROPERTY_LETTER_SPACING] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline const wxSVGColor& GetLightingColor() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_LIGHTING_COLOR);
+      return it != end() ? ((wxSVGColor&)*it->second) : *s_emptySVGColor;
+    }
+    inline bool HasLightingColor() const { return HasProperty(wxCSS_PROPERTY_LIGHTING_COLOR); }
+    inline void SetLightingColor(const wxSVGColor& value)
+    {
+      iterator it = find(wxCSS_PROPERTY_LIGHTING_COLOR);
+      if (it != end())
+      {
+        delete it->second;
+        it->second = new wxSVGColor(value);
+      }
+      else
+        (*this)[wxCSS_PROPERTY_LIGHTING_COLOR] = new wxSVGColor(value);
     }
     
 
@@ -385,6 +765,25 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
+    inline const wxCSSPrimitiveValue& GetMask() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_MASK);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
+    }
+    inline bool HasMask() const { return HasProperty(wxCSS_PROPERTY_MASK); }
+    inline void SetMask(const wxCSSPrimitiveValue& value)
+    {
+      iterator it = find(wxCSS_PROPERTY_MASK);
+      if (it != end())
+      {
+        delete it->second;
+        it->second = new wxCSSPrimitiveValue(value);
+      }
+      else
+        (*this)[wxCSS_PROPERTY_MASK] = new wxCSSPrimitiveValue(value);
+    }
+    
+
     inline double GetOpacity() const
     {
       const_iterator it = find(wxCSS_PROPERTY_OPACITY);
@@ -398,6 +797,54 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
         ((wxCSSPrimitiveValue*)it->second)->SetFloatValue(wxCSS_NUMBER, value);
       else
         (*this)[wxCSS_PROPERTY_OPACITY] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline wxCSS_VALUE GetOverflow() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_OVERFLOW);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_AUTO;
+    }
+    inline bool HasOverflow() const { return HasProperty(wxCSS_PROPERTY_OVERFLOW); }
+    inline void SetOverflow(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_OVERFLOW);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_OVERFLOW] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline wxCSS_VALUE GetPointerEvents() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_POINTER_EVENTS);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_VISIBLEPAINTED;
+    }
+    inline bool HasPointerEvents() const { return HasProperty(wxCSS_PROPERTY_POINTER_EVENTS); }
+    inline void SetPointerEvents(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_POINTER_EVENTS);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_POINTER_EVENTS] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline wxCSS_VALUE GetShapeRendering() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_SHAPE_RENDERING);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_AUTO;
+    }
+    inline bool HasShapeRendering() const { return HasProperty(wxCSS_PROPERTY_SHAPE_RENDERING); }
+    inline void SetShapeRendering(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_SHAPE_RENDERING);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_SHAPE_RENDERING] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -423,7 +870,7 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     inline double GetStopOpacity() const
     {
       const_iterator it = find(wxCSS_PROPERTY_STOP_OPACITY);
-      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetFloatValue() :  1;
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetFloatValue() : 1;
     }
     inline bool HasStopOpacity() const { return HasProperty(wxCSS_PROPERTY_STOP_OPACITY); }
     inline void SetStopOpacity(double value)
@@ -452,6 +899,25 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
       }
       else
         (*this)[wxCSS_PROPERTY_STROKE] = new wxSVGPaint(value);
+    }
+    
+
+    inline const wxCSSPrimitiveValue& GetStrokeDasharray() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_STROKE_DASHARRAY);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
+    }
+    inline bool HasStrokeDasharray() const { return HasProperty(wxCSS_PROPERTY_STROKE_DASHARRAY); }
+    inline void SetStrokeDasharray(const wxCSSPrimitiveValue& value)
+    {
+      iterator it = find(wxCSS_PROPERTY_STROKE_DASHARRAY);
+      if (it != end())
+      {
+        delete it->second;
+        it->second = new wxCSSPrimitiveValue(value);
+      }
+      else
+        (*this)[wxCSS_PROPERTY_STROKE_DASHARRAY] = new wxCSSPrimitiveValue(value);
     }
     
 
@@ -567,6 +1033,54 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
+    inline wxCSS_VALUE GetTextDecoration() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_TEXT_DECORATION);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_NONE;
+    }
+    inline bool HasTextDecoration() const { return HasProperty(wxCSS_PROPERTY_TEXT_DECORATION); }
+    inline void SetTextDecoration(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_TEXT_DECORATION);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_TEXT_DECORATION] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline wxCSS_VALUE GetTextRendering() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_TEXT_RENDERING);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_AUTO;
+    }
+    inline bool HasTextRendering() const { return HasProperty(wxCSS_PROPERTY_TEXT_RENDERING); }
+    inline void SetTextRendering(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_TEXT_RENDERING);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_TEXT_RENDERING] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline wxCSS_VALUE GetUnicodeBidi() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_UNICODE_BIDI);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_NORMAL;
+    }
+    inline bool HasUnicodeBidi() const { return HasProperty(wxCSS_PROPERTY_UNICODE_BIDI); }
+    inline void SetUnicodeBidi(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_UNICODE_BIDI);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_UNICODE_BIDI] = new wxCSSPrimitiveValue(value);
+    }
+    
+
     inline wxCSS_VALUE GetVisibility() const
     {
       const_iterator it = find(wxCSS_PROPERTY_VISIBILITY);
@@ -580,6 +1094,41 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
         ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
       else
         (*this)[wxCSS_PROPERTY_VISIBILITY] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline const wxCSSPrimitiveValue& GetWordSpacing() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_WORD_SPACING);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
+    }
+    inline bool HasWordSpacing() const { return HasProperty(wxCSS_PROPERTY_WORD_SPACING); }
+    inline void SetWordSpacing(const wxCSSPrimitiveValue& value)
+    {
+      iterator it = find(wxCSS_PROPERTY_WORD_SPACING);
+      if (it != end())
+      {
+        delete it->second;
+        it->second = new wxCSSPrimitiveValue(value);
+      }
+      else
+        (*this)[wxCSS_PROPERTY_WORD_SPACING] = new wxCSSPrimitiveValue(value);
+    }
+    
+
+    inline wxCSS_VALUE GetWritingMode() const
+    {
+      const_iterator it = find(wxCSS_PROPERTY_WRITING_MODE);
+      return it != end() ? ((wxCSSPrimitiveValue&)*it->second).GetIdentValue() : wxCSS_VALUE_LR_TB;
+    }
+    inline bool HasWritingMode() const { return HasProperty(wxCSS_PROPERTY_WRITING_MODE); }
+    inline void SetWritingMode(wxCSS_VALUE value)
+    {
+      iterator it = find(wxCSS_PROPERTY_WRITING_MODE);
+      if (it != end())
+        ((wxCSSPrimitiveValue*)it->second)->SetIdentValue(value);
+      else
+        (*this)[wxCSS_PROPERTY_WRITING_MODE] = new wxCSSPrimitiveValue(value);
     }
     
   
