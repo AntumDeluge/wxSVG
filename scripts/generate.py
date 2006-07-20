@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.16 2006-01-08 12:23:35 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.17 2006-07-20 01:49:14 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -279,16 +279,18 @@ if len(parse_idl.class_decls):
         ################# wxSVGStylable ####################
         if classname == "SVGStylable":
             public = public + "  public:\n"
-            for attr in genCSS.attibutes:
-                valueType = attr.valueType
+            genCSS.parseCSSProps()
+            for prop in genCSS.cssProperties:
+                methodName = genCSS.makeMethodName(prop.dtdName)
+                valueType = prop.valueType
                 if valueType not in cpp.builtin_types and valueType != "wxCSS_VALUE":
                     valueType = "const " + valueType + "&"
-                public = public + '    inline void Set%s(%s value) { m_style.Set%s(value); }\n'%(attr.name, valueType, attr.name)
-                valueType = attr.valueType
-                if len(attr.function) == 0:
+                public = public + '    inline void Set%s(%s value) { m_style.Set%s(value); }\n'%(methodName, valueType, methodName)
+                valueType = prop.valueType
+                if len(genCSS.getFunctionName(prop.valueType)) == 0:
                     valueType = "const " + valueType + "&"
-                public = public + '    inline %s Get%s() { return m_style.Get%s(); }\n'%(valueType, attr.name, attr.name)
-                public = public + '    inline bool Has%s() { return m_style.Has%s(); }\n'%(attr.name, attr.name)
+                public = public + '    inline %s Get%s() { return m_style.Get%s(); }\n'%(valueType, methodName, methodName)
+                public = public + '    inline bool Has%s() { return m_style.Has%s(); }\n'%(methodName, methodName)
                 public = public + '    \n'
         
 
@@ -567,7 +569,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.16 2006-01-08 12:23:35 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.17 2006-07-20 01:49:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
