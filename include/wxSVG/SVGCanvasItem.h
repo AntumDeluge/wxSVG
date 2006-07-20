@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.9 2006-07-20 07:34:01 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.10 2006-07-20 23:46:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,6 +12,7 @@
 #define WX_SVG_CANVAS_ITEM_H
 
 #include "svg.h"
+#include <wx/dynarray.h>
 
 /** Base class for canvas items */
 class wxSVGCanvasItem
@@ -80,16 +81,24 @@ class wxSVGCanvasPath: public wxSVGCanvasItem
 	virtual bool ClosePathImpl() = 0;
 };
 
+/** character */
+struct wxSVGCanvasTextChar
+{
+  wxSVGCanvasPath* path;
+  wxSVGRect bbox;
+};
+WX_DECLARE_OBJARRAY(wxSVGCanvasTextChar, wxSVGCanvasTextCharList);
+
 /** text-chunk */
 struct wxSVGCanvasTextChunk
 {
-  wxSVGCanvasPath* path;
+  wxSVGCanvasTextCharList chars;
   wxCSSStyleDeclaration style;
   wxSVGMatrix matrix;
-  wxSVGRect bbox;
+  wxSVGRect GetBBox(const wxSVGMatrix& matrix);
+  wxSVGRect GetBBox() { return GetBBox(*(wxSVGMatrix*)NULL); }
 };
 
-#include <wx/dynarray.h>
 WX_DECLARE_OBJARRAY(wxSVGCanvasTextChunk, wxSVGCanvasTextChunkList);
 
 /** Canvas item, that saves text (SVGTextElement) as list of chunks */
@@ -112,18 +121,21 @@ class wxSVGCanvasText: public wxSVGCanvasItem
 	
   public:
     wxSVGCanvasTextChunkList m_chunks; /** list of text-chunks */
-	wxSVGCanvasTextChunk* m_chunk; /** current text-xhunk */
+	wxSVGCanvasTextChar* m_char; /** current char */
   
   protected:
     wxSVGCanvas* m_canvas;
     double m_tx, m_ty; /** current text position */
     wxCSS_VALUE m_textAnchor; /** current text anchor */
-    wxCSS_VALUE m_dominantBaseline; /** current dominant baseline */
 	int m_textAnchorBeginIndex; /** index of first chunk with current text anchor */
 	double m_textAnchorBeginPos; /** x-coordinate of text with current text anchor */
+	wxCSS_VALUE m_dominantBaseline; /** current dominant baseline */
+    int m_dominantBaselineBeginIndex; /** index of first chunk with current baseline */
 	virtual void Init(wxSVGTSpanElement& element, const wxCSSStyleDeclaration& style);
 	virtual void InitChildren(wxSVGTextPositioningElement& element, const wxCSSStyleDeclaration& style);
 	virtual void BeginChunk(const wxCSSStyleDeclaration& style);
+	virtual void BeginChar();
+	virtual void EndChar();
 	virtual void EndTextAnchor();
     /** Converts text in path and saves in current chunk (m_chunk->path) */
     virtual void InitText(const wxString& text, const wxCSSStyleDeclaration& style) = 0;

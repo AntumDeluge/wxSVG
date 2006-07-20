@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.12 2006-02-28 17:00:36 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.13 2006-07-20 23:46:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -518,20 +518,23 @@ bool wxSVGCanvasPath::ClosePath()
 //////////////////////////////////////////////////////////////////////////////
 
 #include <wx/arrimpl.cpp>
+WX_DEFINE_OBJARRAY(wxSVGCanvasTextCharList);
 WX_DEFINE_OBJARRAY(wxSVGCanvasTextChunkList);
 
 wxSVGCanvasText::wxSVGCanvasText(wxSVGCanvas* canvas):
   wxSVGCanvasItem(wxSVG_CANVAS_ITEM_TEXT), m_canvas(canvas)
 {
-  m_chunk = NULL;
+  m_char = NULL;
   m_tx = m_ty = 0;
   m_textAnchor = wxCSS_VALUE_START;
+  m_dominantBaseline = wxCSS_VALUE_AUTO;
 }
 
 wxSVGCanvasText::~wxSVGCanvasText()
 {
   for (unsigned int i=0; i<m_chunks.Count(); i++)
-	delete m_chunks[i].path;
+  	for (unsigned int j=0; j<m_chunks[i].chars.Count(); j++)
+		delete m_chunks[i].chars[j].path;
 }
 
 void wxSVGCanvasText::Init(wxSVGTextElement& element,
@@ -584,20 +587,35 @@ void wxSVGCanvasText::InitChildren(wxSVGTextPositioningElement& element,
 
 void wxSVGCanvasText::BeginChunk(const wxCSSStyleDeclaration& style)
 {
-  if (m_chunk)
-	m_chunk->path->End();
-  
-  m_chunk = new wxSVGCanvasTextChunk;
-  m_chunk->path = m_canvas->CreateCanvasPath();
-  m_chunk->style.Add(style);
-  m_chunks.Add(m_chunk);
+  wxSVGCanvasTextChunk* chunk = new wxSVGCanvasTextChunk;
+  chunk->style.Add(style);
+  m_chunks.Add(chunk);
   
   if (style.HasTextAnchor() && m_textAnchor == wxCSS_VALUE_START)
   {
 	m_textAnchor = style.GetTextAnchor();
 	m_textAnchorBeginIndex = m_chunks.Count()-1;
+	// save x-pos: if text anchor is wxCSS_VALUE_END, we will continue from this point
 	m_textAnchorBeginPos = m_tx;
   }
+  if (style.HasDominantBaseline() && (m_dominantBaseline == wxCSS_VALUE_AUTO
+  		|| m_dominantBaseline == wxCSS_VALUE_ALPHABETIC))
+  {
+	m_dominantBaseline = style.GetDominantBaseline();
+	m_dominantBaselineBeginIndex = m_chunks.Count()-1;
+  }
+}
+
+void wxSVGCanvasText::BeginChar()
+{
+	m_char = new wxSVGCanvasTextChar;
+	m_char->path = m_canvas->CreateCanvasPath();
+	m_chunks[m_chunks.GetCount()-1].chars.Add(m_char);
+}
+
+void wxSVGCanvasText::EndChar()
+{
+	m_char->path->End();
 }
 
 void wxSVGCanvasText::EndTextAnchor()
@@ -618,9 +636,56 @@ void wxSVGCanvasText::EndTextAnchor()
 	  m_tx -= (m_textAnchorBeginPos-m_tx)/2;
 	m_textAnchor = wxCSS_VALUE_START;
   }
+  if (m_dominantBaseline != wxCSS_VALUE_AUTO
+  		&& m_dominantBaseline != wxCSS_VALUE_ALPHABETIC)
+  {
+	for (int i=m_dominantBaselineBeginIndex; i<(int)m_chunks.Count(); i++)
+	{
+		wxSVGCanvasTextChunk& chunk = m_chunks[i];
+		wxSVGRect chunkBBox = chunk.GetBBox();
+		if (chunkBBox.IsEmpty())
+			continue;
+		if (m_dominantBaseline == wxCSS_VALUE_MIDDLE
+	  			|| m_dominantBaseline == wxCSS_VALUE_CENTRAL)
+			chunk.matrix = chunk.matrix.Translate(0,
+					m_ty - chunkBBox.GetY() - chunkBBox.GetHeight()/2);
+	}
+	m_dominantBaseline = wxCSS_VALUE_AUTO;
+  }
 }
 
 extern wxSVGRect TransformRect(wxSVGRect rect, wxSVGMatrix& matrix);
+
+wxSVGRect wxSVGCanvasTextChunk::GetBBox(const wxSVGMatrix& matrix)
+{
+  wxSVGRect bbox;
+  for (int i=0; i<(int)chars.Count(); i++)
+  {
+    wxSVGRect elemBBox = chars[i].path->GetBBox(matrix);
+    if (elemBBox.IsEmpty())
+      elemBBox = &matrix ? chars[i].bbox.MatrixTransform(matrix) : chars[i].bbox;
+	if (i == 0)
+	  bbox = elemBBox;
+	else
+	{
+	  if (bbox.GetX() > elemBBox.GetX())
+	  {
+		bbox.SetWidth(bbox.GetWidth() + bbox.GetX() - elemBBox.GetX());
+		bbox.SetX(elemBBox.GetX());
+	  }
+	  if (bbox.GetY() > elemBBox.GetY())
+	  {
+		bbox.SetHeight(bbox.GetHeight() + bbox.GetY() - elemBBox.GetY());
+		bbox.SetY(elemBBox.GetY());
+	  }
+	  if (bbox.GetX() + bbox.GetWidth() < elemBBox.GetX() + elemBBox.GetWidth())
+		bbox.SetWidth(elemBBox.GetX() + elemBBox.GetWidth() - bbox.GetX());
+	  if (bbox.GetY() + bbox.GetHeight() < elemBBox.GetY() + elemBBox.GetHeight())
+		bbox.SetHeight(elemBBox.GetY() + elemBBox.GetHeight() - bbox.GetY());
+	}
+  }
+  return bbox;
+}
 
 wxSVGRect wxSVGCanvasText::GetBBox(const wxSVGMatrix& matrix)
 {
@@ -630,9 +695,7 @@ wxSVGRect wxSVGCanvasText::GetBBox(const wxSVGMatrix& matrix)
     wxSVGMatrix tmpMatrix = m_chunks[i].matrix;
     if (&matrix)
       tmpMatrix = ((wxSVGMatrix&) matrix).Multiply(m_chunks[i].matrix);
-    wxSVGRect elemBBox = m_chunks[i].path->GetBBox(tmpMatrix);
-    if (elemBBox.IsEmpty())
-      elemBBox = m_chunks[i].bbox.MatrixTransform(tmpMatrix);
+    wxSVGRect elemBBox = m_chunks[i].GetBBox(tmpMatrix);
 	if (i == 0)
 	  bbox = elemBBox;
 	else
@@ -658,19 +721,21 @@ wxSVGRect wxSVGCanvasText::GetBBox(const wxSVGMatrix& matrix)
 
 long wxSVGCanvasText::GetNumberOfChars()
 {
-	return m_chunks.GetCount();
+	return m_chunks.GetCount() > 0 ? m_chunks[0].chars.GetCount() : 0;
 }
 
 double wxSVGCanvasText::GetComputedTextLength()
 {
-	if (m_chunks.Count())
+	if (m_chunks.Count() && m_chunks[0].chars.GetCount())
 	{
-		wxSVGRect bboxfirst = m_chunks[0].path->GetBBox().MatrixTransform(m_chunks[0].matrix);
+		wxSVGCanvasTextChunk& firstChunk = m_chunks[0]; 
+		wxSVGRect bboxfirst = firstChunk.chars[0].path->GetBBox().MatrixTransform(firstChunk.matrix);
 		if (bboxfirst.IsEmpty())
-			bboxfirst = m_chunks[0].bbox;
-		wxSVGRect bboxlast = m_chunks[m_chunks.Count()-1].path->GetBBox().MatrixTransform(m_chunks[m_chunks.Count()-1].matrix);
+			bboxfirst = firstChunk.chars[0].bbox;
+		wxSVGCanvasTextChunk& lastChunk = m_chunks[m_chunks.Count()-1];
+		wxSVGRect bboxlast = lastChunk.chars[lastChunk.chars.Count()-1].path->GetBBox().MatrixTransform(lastChunk.matrix);
 		if (bboxlast.IsEmpty())
-			bboxlast = m_chunks[m_chunks.Count()-1].bbox;
+			bboxlast = lastChunk.chars[lastChunk.chars.Count()-1].bbox;
 		return (double)(bboxlast.GetX() + bboxlast.GetWidth() - bboxfirst.GetX());
 	}
 	return 0;
@@ -678,7 +743,7 @@ double wxSVGCanvasText::GetComputedTextLength()
 
 double wxSVGCanvasText::GetSubStringLength(unsigned long charnum, unsigned long nchars)
 {
-	if (nchars)
+	/* TODO if (nchars)
 	{
 		if ((charnum + nchars) <= m_chunks.Count())
 		{
@@ -690,50 +755,50 @@ double wxSVGCanvasText::GetSubStringLength(unsigned long charnum, unsigned long 
 				bboxlast = m_chunks[charnum+nchars-1].bbox;
 			return (double)(bboxlast.GetX() + bboxlast.GetWidth() - bboxfirst.GetX());
 		}
-	}
+	}*/
 	return 0;
 }
 
 wxSVGPoint wxSVGCanvasText::GetStartPositionOfChar(unsigned long charnum)
 {
-	if (charnum < m_chunks.Count())
+	/* TODO if (charnum < m_chunks.Count())
 	{
 		wxSVGRect bbox = m_chunks[charnum].path->GetBBox().MatrixTransform(m_chunks[charnum].matrix);
 		if (bbox.IsEmpty())
 			bbox = m_chunks[charnum].bbox;
 		return wxSVGPoint(bbox.GetX(), bbox.GetY());
-	}
+	}*/
 	return wxSVGPoint(0, 0);
 }
 
 wxSVGPoint wxSVGCanvasText::GetEndPositionOfChar(unsigned long charnum)
 {
-    if (charnum < m_chunks.Count())
+    /* TODO if (charnum < m_chunks.Count())
     {
         wxSVGRect bbox = m_chunks[charnum].path->GetBBox().MatrixTransform(m_chunks[charnum].matrix);
         if (bbox.IsEmpty())
             bbox = m_chunks[charnum].bbox;
         return wxSVGPoint(bbox.GetX() + bbox.GetWidth(), bbox.GetY());
-    }
+    }*/
     return wxSVGPoint(0, 0);
 }
 
 wxSVGRect wxSVGCanvasText::GetExtentOfChar(unsigned long charnum)
 {
-    if (charnum < m_chunks.Count())
+    /* TODO if (charnum < m_chunks.Count())
     {
         wxSVGRect bbox = m_chunks[charnum].path->GetBBox().MatrixTransform(m_chunks[charnum].matrix);
         if (bbox.IsEmpty())
             bbox = m_chunks[charnum].bbox.MatrixTransform(m_chunks[charnum].matrix);
         return bbox;
-    }
+    }*/
     return wxSVGRect(0, 0, 0, 0);
 }
 
 long wxSVGCanvasText::GetCharNumAtPosition(const wxSVGPoint& point)
 {
     long index = -1;
-    wxSVGRect bbox;
+    /* TODO wxSVGRect bbox;
     long i;
     double X = point.GetX();
     double Y = point.GetY();
@@ -750,7 +815,7 @@ long wxSVGCanvasText::GetCharNumAtPosition(const wxSVGPoint& point)
         {
             index = i;
         }
-    }
+    }*/
     return index;
 }
 

@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.10 2006-01-24 18:13:52 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.11 2006-07-20 23:46:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -122,7 +122,8 @@ void wxSVGCanvas::DrawCanvasText(wxSVGCanvasText& canvasText,
 	wxSVGCanvasTextChunk& chunk = canvasText.m_chunks[i];
 	chunk.style.SetFillRule(wxCSS_VALUE_EVENODD);
 	wxSVGMatrix pathMatrix = matrix.Multiply(chunk.matrix);
-	DrawItem(*chunk.path, pathMatrix, chunk.style, svgElem);
+	for (unsigned int j=0; j<chunk.chars.Count(); j++)
+		DrawItem(*chunk.chars[j].path, pathMatrix, chunk.style, svgElem);
   }
 }
 
