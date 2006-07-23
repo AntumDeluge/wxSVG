@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.14 2006-07-23 16:26:04 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.15 2006-07-23 16:42:11 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -649,6 +649,12 @@ void wxSVGCanvasText::EndTextAnchor()
 	  			|| m_dominantBaseline == wxCSS_VALUE_CENTRAL)
 			chunk.matrix = chunk.matrix.Translate(0,
 					m_ty - chunkBBox.GetY() - chunkBBox.GetHeight()/2);
+		else if (m_dominantBaseline == wxCSS_VALUE_TEXT_AFTER_EDGE)
+			chunk.matrix = chunk.matrix.Translate(0,
+					m_ty - chunkBBox.GetY());
+		else if (m_dominantBaseline == wxCSS_VALUE_TEXT_BEFORE_EDGE)
+			chunk.matrix = chunk.matrix.Translate(0,
+					m_ty - chunkBBox.GetY() - chunkBBox.GetHeight());
 	}
 	m_dominantBaseline = wxCSS_VALUE_AUTO;
   }
