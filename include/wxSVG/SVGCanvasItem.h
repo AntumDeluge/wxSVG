@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.10 2006-07-20 23:46:14 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.11 2006-07-23 16:26:04 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -137,6 +137,7 @@ class wxSVGCanvasText: public wxSVGCanvasItem
 	virtual void BeginChar();
 	virtual void EndChar();
 	virtual void EndTextAnchor();
+	wxSVGCanvasTextChunk* getChunk(unsigned long& charnum);
     /** Converts text in path and saves in current chunk (m_chunk->path) */
     virtual void InitText(const wxString& text, const wxCSSStyleDeclaration& style) = 0;
 };

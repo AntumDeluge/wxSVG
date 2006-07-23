@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.13 2006-07-20 23:46:14 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.14 2006-07-23 16:26:04 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -721,7 +721,21 @@ wxSVGRect wxSVGCanvasText::GetBBox(const wxSVGMatrix& matrix)
 
 long wxSVGCanvasText::GetNumberOfChars()
 {
-	return m_chunks.GetCount() > 0 ? m_chunks[0].chars.GetCount() : 0;
+	long res = 0;
+	for (int i=0; i<(int)m_chunks.Count(); i++)
+		res += m_chunks[i].chars.GetCount();
+	return res;
+}
+
+wxSVGCanvasTextChunk* wxSVGCanvasText::getChunk(unsigned long& charnum)
+{
+	for (int i=0; i<(int)m_chunks.Count(); i++)
+	{
+		if (charnum<m_chunks[i].chars.GetCount())
+			return &m_chunks[i];
+		charnum -= m_chunks[i].chars.GetCount();
+	}
+	return NULL;
 }
 
 double wxSVGCanvasText::GetComputedTextLength()
@@ -729,94 +743,101 @@ double wxSVGCanvasText::GetComputedTextLength()
 	if (m_chunks.Count() && m_chunks[0].chars.GetCount())
 	{
 		wxSVGCanvasTextChunk& firstChunk = m_chunks[0]; 
-		wxSVGRect bboxfirst = firstChunk.chars[0].path->GetBBox().MatrixTransform(firstChunk.matrix);
-		if (bboxfirst.IsEmpty())
-			bboxfirst = firstChunk.chars[0].bbox;
+		wxSVGRect bboxFirst = firstChunk.chars[0].path->GetBBox();
+		if (bboxFirst.IsEmpty())
+			bboxFirst = firstChunk.chars[0].bbox;
+		bboxFirst = bboxFirst.MatrixTransform(firstChunk.matrix);
 		wxSVGCanvasTextChunk& lastChunk = m_chunks[m_chunks.Count()-1];
-		wxSVGRect bboxlast = lastChunk.chars[lastChunk.chars.Count()-1].path->GetBBox().MatrixTransform(lastChunk.matrix);
-		if (bboxlast.IsEmpty())
-			bboxlast = lastChunk.chars[lastChunk.chars.Count()-1].bbox;
-		return (double)(bboxlast.GetX() + bboxlast.GetWidth() - bboxfirst.GetX());
+		wxSVGRect bboxLast = lastChunk.chars[lastChunk.chars.Count()-1].path->GetBBox();
+		if (bboxLast.IsEmpty())
+			bboxLast = lastChunk.chars[lastChunk.chars.Count()-1].bbox;
+		bboxLast = bboxLast.MatrixTransform(lastChunk.matrix);
+		return (double)(bboxLast.GetX() + bboxLast.GetWidth() - bboxFirst.GetX());
 	}
 	return 0;
 }
 
 double wxSVGCanvasText::GetSubStringLength(unsigned long charnum, unsigned long nchars)
 {
-	/* TODO if (nchars)
+	unsigned long lastCharnum = charnum + nchars - 1;
+	wxSVGCanvasTextChunk* firstChunk = getChunk(charnum);
+	wxSVGCanvasTextChunk* lastChunk = getChunk(lastCharnum);
+	if (firstChunk != NULL && lastChunk != NULL)
 	{
-		if ((charnum + nchars) <= m_chunks.Count())
-		{
-			wxSVGRect bboxfirst = m_chunks[charnum].path->GetBBox().MatrixTransform(m_chunks[charnum].matrix);
-			if (bboxfirst.IsEmpty())
-				bboxfirst = m_chunks[charnum].bbox;
-			wxSVGRect bboxlast = m_chunks[charnum+nchars-1].path->GetBBox().MatrixTransform(m_chunks[charnum+nchars-1].matrix);
-			if (bboxlast.IsEmpty())
-				bboxlast = m_chunks[charnum+nchars-1].bbox;
-			return (double)(bboxlast.GetX() + bboxlast.GetWidth() - bboxfirst.GetX());
-		}
-	}*/
+		wxSVGRect bboxFirst = firstChunk->chars[charnum].path->GetBBox();
+		if (bboxFirst.IsEmpty())
+			bboxFirst = firstChunk->chars[charnum].bbox;
+		bboxFirst = bboxFirst.MatrixTransform(firstChunk->matrix);
+		wxSVGRect bboxLast = lastChunk->chars[lastCharnum].path->GetBBox();
+		if (bboxLast.IsEmpty())
+			bboxLast = lastChunk->chars[lastCharnum].bbox;
+		bboxLast = bboxLast.MatrixTransform(lastChunk->matrix);
+		return (double)(bboxLast.GetX() + bboxLast.GetWidth() - bboxFirst.GetX());
+	}
 	return 0;
 }
 
 wxSVGPoint wxSVGCanvasText::GetStartPositionOfChar(unsigned long charnum)
 {
-	/* TODO if (charnum < m_chunks.Count())
+	wxSVGCanvasTextChunk* chunk = getChunk(charnum);
+	if (chunk != NULL)
 	{
-		wxSVGRect bbox = m_chunks[charnum].path->GetBBox().MatrixTransform(m_chunks[charnum].matrix);
+		wxSVGRect bbox = chunk->chars[charnum].path->GetBBox();
 		if (bbox.IsEmpty())
-			bbox = m_chunks[charnum].bbox;
+			bbox = chunk->chars[charnum].bbox;
+		bbox = bbox.MatrixTransform(chunk->matrix);
 		return wxSVGPoint(bbox.GetX(), bbox.GetY());
-	}*/
+	}
 	return wxSVGPoint(0, 0);
 }
 
 wxSVGPoint wxSVGCanvasText::GetEndPositionOfChar(unsigned long charnum)
 {
-    /* TODO if (charnum < m_chunks.Count())
-    {
-        wxSVGRect bbox = m_chunks[charnum].path->GetBBox().MatrixTransform(m_chunks[charnum].matrix);
-        if (bbox.IsEmpty())
-            bbox = m_chunks[charnum].bbox;
+    wxSVGCanvasTextChunk* chunk = getChunk(charnum);
+	if (chunk != NULL)
+	{
+		wxSVGRect bbox = chunk->chars[charnum].path->GetBBox();
+		if (bbox.IsEmpty())
+			bbox = chunk->chars[charnum].bbox;
+		bbox = bbox.MatrixTransform(chunk->matrix);
         return wxSVGPoint(bbox.GetX() + bbox.GetWidth(), bbox.GetY());
-    }*/
+    }
     return wxSVGPoint(0, 0);
 }
 
 wxSVGRect wxSVGCanvasText::GetExtentOfChar(unsigned long charnum)
 {
-    /* TODO if (charnum < m_chunks.Count())
-    {
-        wxSVGRect bbox = m_chunks[charnum].path->GetBBox().MatrixTransform(m_chunks[charnum].matrix);
-        if (bbox.IsEmpty())
-            bbox = m_chunks[charnum].bbox.MatrixTransform(m_chunks[charnum].matrix);
-        return bbox;
-    }*/
+    wxSVGCanvasTextChunk* chunk = getChunk(charnum);
+	if (chunk != NULL)
+	{
+		wxSVGRect bbox = chunk->chars[charnum].path->GetBBox();
+		if (bbox.IsEmpty())
+			bbox = chunk->chars[charnum].bbox;
+		return bbox.MatrixTransform(chunk->matrix);
+    }
     return wxSVGRect(0, 0, 0, 0);
 }
 
 long wxSVGCanvasText::GetCharNumAtPosition(const wxSVGPoint& point)
 {
-    long index = -1;
-    /* TODO wxSVGRect bbox;
-    long i;
-    double X = point.GetX();
-    double Y = point.GetY();
-    for (i = 0; i < (long)m_chunks.Count();i++)
-    {
-        bbox = m_chunks[i].path->GetBBox().MatrixTransform(m_chunks[i].matrix);
-        if (bbox.IsEmpty())
-            bbox = m_chunks[i].bbox;
-        double Xmin = bbox.GetX();
-        double Xmax = Xmin + bbox.GetWidth(); 
-        double Ymin = bbox.GetY();
-        double Ymax = Ymin + bbox.GetHeight(); 
-        if (X >= Xmin && X <= Xmax && Y >= Ymin && Y <= Ymax)
-        {
-            index = i;
-        }
-    }*/
-    return index;
+	double X = point.GetX();
+	double Y = point.GetY();
+	for (int n = 0; n < (int)m_chunks.Count(); n++)
+	{
+		wxSVGCanvasTextChunk& chunk = m_chunks[n];
+		wxSVGRect bbox;
+		for (int i = 0; i < (int)chunk.chars.Count();i++)
+		{
+			bbox = chunk.chars[i].path->GetBBox().MatrixTransform(chunk.matrix);
+			double Xmin = bbox.GetX();
+			double Xmax = Xmin + bbox.GetWidth(); 
+			double Ymin = bbox.GetY();
+			double Ymax = Ymin + bbox.GetHeight(); 
+			if (X >= Xmin && X <= Xmax && Y >= Ymin && Y <= Ymax)
+				return i;
+		}
+	}
+    return -1;
 }
 
 double wxSVGCanvasText::GetRotationOfChar(unsigned long charnum)
