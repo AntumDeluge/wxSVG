@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.7 2005-12-24 19:08:40 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.8 2006-10-27 07:17:26 etisserant Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -83,7 +83,7 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title,
     fileMenu->AppendSeparator();
     fileMenu->Append(wxID_EXIT, _T("&Close"));
     fileMenu->AppendSeparator();
-    fileMenu->AppendCheckItem(wxID_FIT, _T("&FitToFrame"))->Check();
+    fileMenu->AppendCheckItem(wxID_FIT, _T("&FitToFrame"));
     fileMenu->AppendCheckItem(wxID_HITTEST, _T("&Hit-Test"));
     
     wxMenuBar *menuBar = new wxMenuBar;
