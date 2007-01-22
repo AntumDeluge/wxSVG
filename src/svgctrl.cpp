@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.11 2006-01-23 15:57:51 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.12 2007-01-22 12:34:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -58,7 +58,7 @@ bool wxSVGCtrl::Load(const wxString& filename)
   if (!m_doc->Load(filename))
     return false;
   
-  Update();
+  Refresh();
   return true;
 }
 
@@ -83,10 +83,12 @@ void wxSVGCtrl::Refresh(bool eraseBackground, const wxRect* rect)
 void wxSVGCtrl::Refresh(const wxSVGRect* rect)
 {
   if (!rect || rect->IsEmpty())
-    return;
-  wxRect winRect((int)(rect->GetX()*GetScale()), (int)(rect->GetY()*GetScale()),
-    (int)(rect->GetWidth()*GetScale()), (int)(rect->GetHeight()*GetScale()));
-  RefreshRect(winRect);
+    Refresh(true, NULL);
+  else {
+	  wxRect winRect((int)(rect->GetX()*GetScale()), (int)(rect->GetY()*GetScale()),
+	    (int)(rect->GetWidth()*GetScale()), (int)(rect->GetHeight()*GetScale()));
+	  RefreshRect(winRect);
+  }
 }
 
 void wxSVGCtrl::OnPaint(wxPaintEvent& event)
