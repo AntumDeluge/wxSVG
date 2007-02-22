@@ -102,14 +102,14 @@ FREETYPE_LIBS="`freetype-config --libs` $LIBS $FONTCONFIG_LIBS $PANGO_LIBS"
 AC_SUBST(FREETYPE_CFLAGS)
 AC_SUBST(FREETYPE_LIBS)
 
-dnl check wxWidgets >= 2.4.2
-AM_PATH_WXCONFIG(2.4.2, WXFOUND=1)
+dnl check wxWidgets >= 2.6.3
+AM_PATH_WXCONFIG(2.6.3, WXFOUND=1)
 if test "$WXFOUND" != 1; then
     AC_MSG_ERROR([
         Please check that wx-config is in path, the directory
         where wxWidgets libraries are installed (returned by
         'wx-config --libs' command) is in LD_LIBRARY_PATH or
-        equivalent variable and wxWidgets is version 2.4.2 or above.
+        equivalent variable and wxWidgets is version 2.6.3 or above.
     ])
 fi
 CXXFLAGS="$CXXFLAGS $DEBUG_FLAGS $WX_CXXFLAGS "
