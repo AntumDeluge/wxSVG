@@ -66,7 +66,7 @@ class wxSVGEllipseElement:
       wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGEllipseElement(wxSVGEllipseElement& src);
     virtual ~wxSVGEllipseElement();
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGEllipseElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGEllipseElement(*this); }
     wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
     wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
     wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
@@ -74,7 +74,7 @@ class wxSVGEllipseElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_ELLIPSE_ELEMENT; }
 };
 

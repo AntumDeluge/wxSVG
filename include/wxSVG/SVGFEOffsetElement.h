@@ -42,11 +42,11 @@ class wxSVGFEOffsetElement:
     wxSVGFEOffsetElement(wxString tagName = wxT("feOffset")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGFEOffsetElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEOffsetElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGFEOffsetElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_FEOFFSET_ELEMENT; }
 };
 

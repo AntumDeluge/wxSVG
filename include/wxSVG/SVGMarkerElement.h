@@ -87,13 +87,13 @@ class wxSVGMarkerElement:
     wxSVGMarkerElement(wxString tagName = wxT("marker")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGMarkerElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGMarkerElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGMarkerElement(*this); }
     virtual void SetOrientToAuto();
     virtual void SetOrientToAngle(const wxSVGAngle& angle);
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_MARKER_ELEMENT; }
 };
 

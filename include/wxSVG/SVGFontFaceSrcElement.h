@@ -20,11 +20,11 @@ class wxSVGFontFaceSrcElement:
     wxSVGFontFaceSrcElement(wxString tagName = wxT("font-face-src")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGFontFaceSrcElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFontFaceSrcElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGFontFaceSrcElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_FONT_FACE_SRC_ELEMENT; }
 };
 

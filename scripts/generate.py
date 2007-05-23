@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.17 2006-07-20 01:49:14 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.18 2007-05-23 15:15:18 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -387,7 +387,7 @@ if len(parse_idl.class_decls):
         
         ################# CloneNode #######################
         if string.find(classname, "Element")>0 and mapDtdIdl.elements_idl_dtd.has_key(classdecl):
-            methods_str = methods_str + '    wxXmlNode* CloneNode(bool deep = true) { return new %s(*this); }\n'%cpp.fix_typename(classname)
+            methods_str = methods_str + '    wxSvgXmlNode* CloneNode(bool deep = true) { return new %s(*this); }\n'%cpp.fix_typename(classname)
         
         ################### methods #########################
         try:
@@ -462,7 +462,7 @@ if len(parse_idl.class_decls):
             methods_str = methods_str + '    bool HasAttribute(const wxString& name);\n';
             methods_str = methods_str + '    wxString GetAttribute(const wxString& name);\n';
             methods_str = methods_str + '    bool SetAttribute(const wxString& name, const wxString& value);\n';
-            methods_str = methods_str + '    wxXmlAttrHash GetAttributes() const;\n';
+            methods_str = methods_str + '    wxSvgXmlAttrHash GetAttributes() const;\n';
             if "String" not in includes:
                 includes.append("String")
             if "Element" not in includes:
@@ -569,7 +569,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.17 2006-07-20 01:49:14 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.18 2007-05-23 15:15:18 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

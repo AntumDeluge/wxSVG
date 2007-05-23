@@ -45,11 +45,11 @@ class wxSVGLinearGradientElement:
     wxSVGLinearGradientElement(wxString tagName = wxT("linearGradient")):
       wxSVGGradientElement(tagName) {}
     virtual ~wxSVGLinearGradientElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGLinearGradientElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGLinearGradientElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_LINEARGRADIENT_ELEMENT; }
 };
 

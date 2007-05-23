@@ -66,7 +66,7 @@ class wxSVGLineElement:
       wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGLineElement(wxSVGLineElement& src);
     virtual ~wxSVGLineElement();
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGLineElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGLineElement(*this); }
     wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
     wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
     wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
@@ -74,7 +74,7 @@ class wxSVGLineElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_LINE_ELEMENT; }
 };
 

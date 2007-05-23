@@ -53,11 +53,11 @@ class wxSVGFEColorMatrixElement:
     wxSVGFEColorMatrixElement(wxString tagName = wxT("feColorMatrix")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGFEColorMatrixElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEColorMatrixElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGFEColorMatrixElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_FECOLORMATRIX_ELEMENT; }
 };
 

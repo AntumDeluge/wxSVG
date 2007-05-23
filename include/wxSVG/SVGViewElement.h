@@ -34,11 +34,11 @@ class wxSVGViewElement:
     wxSVGViewElement(wxString tagName = wxT("view")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGViewElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGViewElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGViewElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_VIEW_ELEMENT; }
 };
 

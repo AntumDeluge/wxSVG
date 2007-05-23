@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: cpp.py,v 1.4 2006-02-26 14:41:20 ntalex Exp $
+## RCS-ID:      $Id: cpp.py,v 1.5 2007-05-23 15:15:18 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -33,7 +33,7 @@ def fix_typename(name):
     elif name == "DOMString" or name == "String":
         name = "wxString"
     elif name == "Document" or name == "Element":
-        name = "wxXml" + name
+        name = "wxSvgXml" + name
     elif name not in builtin_types:  #elif name[:3]=="SVG":
         name = "wx" + name
     return name

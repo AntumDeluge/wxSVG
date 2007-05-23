@@ -57,7 +57,7 @@ class wxSVGForeignObjectElement:
     wxSVGForeignObjectElement(wxString tagName = wxT("foreignObject")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGForeignObjectElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGForeignObjectElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGForeignObjectElement(*this); }
     wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenBBox(this, coordinates); }
     wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenResultBBox(this, coordinates); }
     wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
@@ -65,7 +65,7 @@ class wxSVGForeignObjectElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_FOREIGNOBJECT_ELEMENT; }
 };
 

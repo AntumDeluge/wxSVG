@@ -20,11 +20,11 @@ class wxSVGMetadataElement:
     wxSVGMetadataElement(wxString tagName = wxT("metadata")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGMetadataElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGMetadataElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGMetadataElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_METADATA_ELEMENT; }
 };
 

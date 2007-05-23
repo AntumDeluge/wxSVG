@@ -20,11 +20,11 @@ class wxSVGTSpanElement:
     wxSVGTSpanElement(wxString tagName = wxT("tspan")):
       wxSVGTextPositioningElement(tagName) {}
     virtual ~wxSVGTSpanElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTSpanElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGTSpanElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_TSPAN_ELEMENT; }
 };
 

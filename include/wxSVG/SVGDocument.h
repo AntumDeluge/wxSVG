@@ -21,7 +21,7 @@ class wxSVGCanvas;
 #include <wx/image.h>
 
 class wxSVGDocument:
-  public wxXmlDocument,
+  public wxSvgXmlDocument,
   public wxDocumentEvent
 {
   protected:
@@ -53,9 +53,9 @@ class wxSVGDocument:
   public:
     wxSVGDocument() { Init(); }
     wxSVGDocument(const wxString& filename, const wxString& encoding = wxT("UTF-8")):
-      wxXmlDocument(filename, encoding) { Init(); }
+      wxSvgXmlDocument(filename, encoding) { Init(); }
     wxSVGDocument(wxInputStream& stream, const wxString& encoding = wxT("UTF-8")):
-      wxXmlDocument(stream, encoding) { Init(); }
+      wxSvgXmlDocument(stream, encoding) { Init(); }
     virtual ~wxSVGDocument();
     
     void Init();
@@ -63,11 +63,11 @@ class wxSVGDocument:
     inline double GetScale() { return m_scale; }
     const wxSVGMatrix& GetScreenCTM() { return m_screenCTM; }
     
-    wxXmlElement* CreateElement(const wxString& tagName);
-    wxXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
+    wxSvgXmlElement* CreateElement(const wxString& tagName);
+    wxSvgXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
     
     wxSVGSVGElement* GetRootElement() { return (wxSVGSVGElement*) GetRoot(); }
-    void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxXmlElement*) n); }
+    void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxSvgXmlElement*) n); }
     
     wxSVGElement* GetElementById(const wxString& id);
     

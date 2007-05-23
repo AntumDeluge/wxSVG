@@ -39,11 +39,11 @@ class wxSVGFEPointLightElement:
     wxSVGFEPointLightElement(wxString tagName = wxT("fePointLight")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGFEPointLightElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEPointLightElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGFEPointLightElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_FEPOINTLIGHT_ELEMENT; }
 };
 

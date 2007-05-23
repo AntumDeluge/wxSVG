@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.25 2006-02-28 17:00:36 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.26 2007-05-23 15:15:19 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ void wxSVGDocument::Init()
   m_scale = 1;
 }
 
-wxXmlElement* wxSVGDocument::CreateElement(const wxString& tagName)
+wxSvgXmlElement* wxSVGDocument::CreateElement(const wxString& tagName)
 {
   return CreateElementNS(wxT(""), tagName);
 }
@@ -188,7 +188,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem, const wxSVGRect* rect
       textElem->SetFontSize((double)element->GetHeight().GetAnimVal()/15);
       textElem->SetFill(wxSVGPaint(255,255,255));
       textElem->SetStroke(wxSVGPaint(255,255,255));
-      textElem->AddChild(new wxXmlNode(wxXML_TEXT_NODE, wxT(""),
+      textElem->AddChild(new wxSvgXmlNode(wxXML_TEXT_NODE, wxT(""),
         wxT(" [") + element->GetHref() + wxT("]")));
       gElem->AppendChild(textElem);
       
@@ -242,7 +242,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem, const wxSVGRect* rect
         else
         {
           svgElem = new wxSVGSVGElement();
-          wxXmlElement* child = refElem->GetChildren();
+          wxSvgXmlElement* child = refElem->GetChildren();
           while (child)
           {
        	    svgElem->AddChild(child->CloneNode());

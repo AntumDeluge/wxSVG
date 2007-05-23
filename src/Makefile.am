@@ -36,4 +36,4 @@ libwxsvg_la_LIBADD = xml/libwxxml.la freetype/libwxsvg_freetype.la\
  $(RENDER_LIB)
 libwxsvg_la_LDFLAGS = -version-info 0:0:0
 
-INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG
+INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG -DWXMAKINGDLL_WXSVG

@@ -28,11 +28,11 @@ class wxSVGFEImageElement:
     wxSVGFEImageElement(wxString tagName = wxT("feImage")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGFEImageElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEImageElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGFEImageElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_FEIMAGE_ELEMENT; }
 };
 

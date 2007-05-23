@@ -74,7 +74,7 @@ class wxSVGImageElement:
       wxSVGElement(tagName), m_canvasItem(NULL) {}
     wxSVGImageElement(wxSVGImageElement& src);
     virtual ~wxSVGImageElement();
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGImageElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGImageElement(*this); }
     wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
     wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
     wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
@@ -85,7 +85,7 @@ class wxSVGImageElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_IMAGE_ELEMENT; }
 };
 

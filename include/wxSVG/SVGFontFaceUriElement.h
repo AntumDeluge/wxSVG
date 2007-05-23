@@ -20,11 +20,11 @@ class wxSVGFontFaceUriElement:
     wxSVGFontFaceUriElement(wxString tagName = wxT("font-face-uri")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGFontFaceUriElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFontFaceUriElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGFontFaceUriElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_FONT_FACE_URI_ELEMENT; }
 };
 

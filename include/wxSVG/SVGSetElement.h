@@ -20,11 +20,11 @@ class wxSVGSetElement:
     wxSVGSetElement(wxString tagName = wxT("set")):
       wxSVGAnimationElement(tagName) {}
     virtual ~wxSVGSetElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGSetElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGSetElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_SET_ELEMENT; }
 };
 

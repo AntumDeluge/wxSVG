@@ -31,11 +31,11 @@ class wxSVGScriptElement:
     wxSVGScriptElement(wxString tagName = wxT("script")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGScriptElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGScriptElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGScriptElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_SCRIPT_ELEMENT; }
 };
 

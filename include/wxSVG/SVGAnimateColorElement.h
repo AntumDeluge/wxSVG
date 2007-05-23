@@ -20,11 +20,11 @@ class wxSVGAnimateColorElement:
     wxSVGAnimateColorElement(wxString tagName = wxT("animateColor")):
       wxSVGAnimationElement(tagName) {}
     virtual ~wxSVGAnimateColorElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGAnimateColorElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGAnimateColorElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_ANIMATECOLOR_ELEMENT; }
 };
 

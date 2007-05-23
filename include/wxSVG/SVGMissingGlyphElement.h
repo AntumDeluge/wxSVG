@@ -22,11 +22,11 @@ class wxSVGMissingGlyphElement:
     wxSVGMissingGlyphElement(wxString tagName = wxT("missing-glyph")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGMissingGlyphElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGMissingGlyphElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGMissingGlyphElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_MISSING_GLYPH_ELEMENT; }
 };
 

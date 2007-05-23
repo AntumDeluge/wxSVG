@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.12 2007-01-22 12:34:14 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.13 2007-05-23 15:15:19 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,28 +12,39 @@
 #include <SVGSVGElement.h>
 #include <wx/wx.h>
 
-BEGIN_EVENT_TABLE(wxSVGCtrl, wxControl)
-  EVT_PAINT(wxSVGCtrl::OnPaint)
-  EVT_SIZE(wxSVGCtrl::OnResize)
-  EVT_ERASE_BACKGROUND(wxSVGCtrl::OnEraseBackground)
+IMPLEMENT_ABSTRACT_CLASS(wxSVGCtrlBase, wxControl)
+
+BEGIN_EVENT_TABLE(wxSVGCtrlBase, wxControl)
+  EVT_PAINT(wxSVGCtrlBase::OnPaint)
+  EVT_SIZE(wxSVGCtrlBase::OnResize)
+  EVT_ERASE_BACKGROUND(wxSVGCtrlBase::OnEraseBackground)
 END_EVENT_TABLE()
 
-wxSVGCtrl::wxSVGCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos,
- const wxSize& size, long style, const wxValidator& validator, const wxString& name):
-  wxControl(parent, id, pos, size, style, validator, name)
+wxSVGCtrlBase::wxSVGCtrlBase():
+    m_doc(NULL), m_docDelete(false), m_repaint(false),m_fitToFrame(true)
 {
-  m_doc = NULL;
-  m_docDelete = false;
-  m_repaint = false;
-  m_fitToFrame = true;
 }
 
-wxSVGCtrl::~wxSVGCtrl()
+wxSVGCtrlBase::wxSVGCtrlBase(wxWindow* parent, wxWindowID id, const wxPoint& pos,
+ const wxSize& size, long style, const wxValidator& validator, const wxString& name):
+    m_doc(NULL), m_docDelete(false), m_repaint(false),m_fitToFrame(true)
+{
+ Create( parent,  id,  pos, size, style, validator, name);
+}
+
+bool wxSVGCtrlBase::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
+ const wxSize& size, long style, const wxValidator& validator, const wxString& name)
+{   
+   bool tmp = wxControl::Create(parent, id, pos, size, style, validator, name);
+   return tmp; 
+}
+
+wxSVGCtrlBase::~wxSVGCtrlBase()
 {
   Clear();
 }
 
-void wxSVGCtrl::Clear()
+void wxSVGCtrlBase::Clear()
 {
   if (m_doc && m_docDelete)
     delete m_doc;
@@ -41,13 +52,13 @@ void wxSVGCtrl::Clear()
   m_docDelete = false;
 }
 
-void wxSVGCtrl::SetSVG(wxSVGDocument* doc)
+void wxSVGCtrlBase::SetSVG(wxSVGDocument* doc)
 {
   Clear();
   m_doc = doc;
 }
 
-bool wxSVGCtrl::Load(const wxString& filename)
+bool wxSVGCtrlBase::Load(const wxString& filename)
 {
   if (!m_doc)
   {
@@ -55,14 +66,14 @@ bool wxSVGCtrl::Load(const wxString& filename)
     m_docDelete = true;
   }
   
-  if (!m_doc->Load(filename))
+  if (!m_doc->Load(filename)){
     return false;
-  
+  }  
   Refresh();
   return true;
 }
 
-void wxSVGCtrl::Refresh(bool eraseBackground, const wxRect* rect)
+void wxSVGCtrlBase::Refresh(bool eraseBackground, const wxRect* rect)
 {
   m_repaint = true;
   if (rect && m_repaintRect.width>0 && m_repaintRect.height>0)
@@ -76,11 +87,10 @@ void wxSVGCtrl::Refresh(bool eraseBackground, const wxRect* rect)
   }
   else
     m_repaintRect = rect ? *rect : wxRect();
-  
   wxControl::Refresh(false, rect);
 }
 
-void wxSVGCtrl::Refresh(const wxSVGRect* rect)
+void wxSVGCtrlBase::Refresh(const wxSVGRect* rect)
 {
   if (!rect || rect->IsEmpty())
     Refresh(true, NULL);
@@ -91,7 +101,7 @@ void wxSVGCtrl::Refresh(const wxSVGRect* rect)
   }
 }
 
-void wxSVGCtrl::OnPaint(wxPaintEvent& event)
+void wxSVGCtrlBase::OnPaint(wxPaintEvent& event)
 {
   if (!m_doc)
     m_buffer = wxBitmap();
@@ -137,14 +147,25 @@ void wxSVGCtrl::OnPaint(wxPaintEvent& event)
   dc.DrawBitmap(m_buffer, 0, 0);
 }
 
-double wxSVGCtrl::GetScale() const
+double wxSVGCtrlBase::GetScale() const
 {
   if (m_doc)
     return m_doc->GetScale();
   return 1;
 }
 
-wxSVGMatrix wxSVGCtrl::GetScreenCTM() const
+IMPLEMENT_ABSTRACT_CLASS(wxSVGCtrl, wxSVGCtrlBase)
+wxSVGCtrl::wxSVGCtrl()
+{
+}
+
+wxSVGCtrl::wxSVGCtrl(wxWindow* parent, wxWindowID id,
+      const wxPoint& pos, const wxSize& size,
+      long style, const wxString& name)
+{
+ Create( parent,  id,  pos, size, style, wxDefaultValidator, name);
+}
+wxSVGMatrix wxSVGCtrlBase::GetScreenCTM() const
 {
   if (m_doc && m_doc->GetRootElement())
     return m_doc->GetRootElement()->GetScreenCTM();

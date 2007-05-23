@@ -20,11 +20,11 @@ class wxSVGAltGlyphDefElement:
     wxSVGAltGlyphDefElement(wxString tagName = wxT("altGlyphDef")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGAltGlyphDefElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGAltGlyphDefElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGAltGlyphDefElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_ALTGLYPHDEF_ELEMENT; }
 };
 

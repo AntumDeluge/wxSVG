@@ -33,11 +33,11 @@ class wxSVGAltGlyphElement:
     wxSVGAltGlyphElement(wxString tagName = wxT("altGlyph")):
       wxSVGTextPositioningElement(tagName) {}
     virtual ~wxSVGAltGlyphElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGAltGlyphElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGAltGlyphElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_ALTGLYPH_ELEMENT; }
 };
 

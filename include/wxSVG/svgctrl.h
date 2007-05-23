@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.h,v 1.8 2006-01-23 09:13:12 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.h,v 1.9 2007-05-23 15:15:15 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -15,14 +15,27 @@
 #include <wx/control.h>
 #include <wx/bitmap.h>
 
-class wxSVGCtrl: public wxControl
+#ifdef WXMAKINGDLL_WXSVG
+    #define WXDLLIMPEXP_WXSVG WXEXPORT
+#elif defined(WXUSINGDLL)
+    #define WXDLLIMPEXP_WXSVG WXIMPORT
+#else // not making nor using DLL
+    #define WXDLLIMPEXP_WXSVG
+#endif
+
+class WXDLLIMPEXP_WXSVG wxSVGCtrlBase: public wxControl
 {
   public:
-    wxSVGCtrl(wxWindow* parent, wxWindowID id = wxID_ANY,
+    wxSVGCtrlBase();
+    wxSVGCtrlBase(wxWindow* parent, wxWindowID id = wxID_ANY,
       const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
       long style = 0, const wxValidator& validator = wxDefaultValidator,
       const wxString& name = wxPanelNameStr);
-    ~wxSVGCtrl();
+    bool Create(wxWindow* parent, wxWindowID id = wxID_ANY,
+      const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
+      long style = 0, const wxValidator& validator = wxDefaultValidator,
+      const wxString& name = wxPanelNameStr);
+    ~wxSVGCtrlBase();
       
     void SetFitToFrame(bool fit = true) { m_fitToFrame = fit; }
     double GetScale() const;
@@ -56,7 +69,21 @@ class wxSVGCtrl: public wxControl
     void OnEraseBackground(wxEraseEvent &event) {}
   
   private:
+    DECLARE_ABSTRACT_CLASS(wxSVGCtrlBase)
     DECLARE_EVENT_TABLE()
+
 };
+
+class WXDLLIMPEXP_WXSVG wxSVGCtrl: public wxSVGCtrlBase
+{
+  public:
+    wxSVGCtrl();
+    wxSVGCtrl(wxWindow* parent, wxWindowID id = wxID_ANY,
+      const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
+      long style = 0, const wxString& name = wxPanelNameStr);
+private:
+    DECLARE_DYNAMIC_CLASS(wxSVGCtrl)
+};
+
 
 #endif // wxSVG_CTRL_H

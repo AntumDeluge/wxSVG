@@ -32,7 +32,7 @@ class wxSVGGElement:
     wxSVGGElement(wxString tagName = wxT("g")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGGElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGGElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGGElement(*this); }
     wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenBBox(this, coordinates); }
     wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenResultBBox(this, coordinates); }
     wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
@@ -40,7 +40,7 @@ class wxSVGGElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_G_ELEMENT; }
 };
 

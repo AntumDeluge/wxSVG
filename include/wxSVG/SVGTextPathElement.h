@@ -59,11 +59,11 @@ class wxSVGTextPathElement:
     wxSVGTextPathElement(wxString tagName = wxT("textPath")):
       wxSVGTextContentElement(tagName) {}
     virtual ~wxSVGTextPathElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTextPathElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGTextPathElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_TEXTPATH_ELEMENT; }
 };
 

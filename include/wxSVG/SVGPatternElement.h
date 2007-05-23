@@ -76,11 +76,11 @@ class wxSVGPatternElement:
     wxSVGPatternElement(wxString tagName = wxT("pattern")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGPatternElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGPatternElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGPatternElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_PATTERN_ELEMENT; }
 };
 

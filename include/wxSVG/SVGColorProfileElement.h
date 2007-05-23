@@ -39,11 +39,11 @@ class wxSVGColorProfileElement:
     wxSVGColorProfileElement(wxString tagName = wxT("color-profile")):
       wxSVGElement(tagName), m_renderingIntent(wxRENDERING_INTENT(0)) {}
     virtual ~wxSVGColorProfileElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGColorProfileElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGColorProfileElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_COLOR_PROFILE_ELEMENT; }
 };
 

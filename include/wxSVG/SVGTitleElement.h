@@ -24,11 +24,11 @@ class wxSVGTitleElement:
     wxSVGTitleElement(wxString tagName = wxT("title")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGTitleElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTitleElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGTitleElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_TITLE_ELEMENT; }
 };
 

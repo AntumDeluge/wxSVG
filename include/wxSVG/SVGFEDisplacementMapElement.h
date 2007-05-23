@@ -63,11 +63,11 @@ class wxSVGFEDisplacementMapElement:
     wxSVGFEDisplacementMapElement(wxString tagName = wxT("feDisplacementMap")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGFEDisplacementMapElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEDisplacementMapElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGFEDisplacementMapElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_FEDISPLACEMENTMAP_ELEMENT; }
 };
 

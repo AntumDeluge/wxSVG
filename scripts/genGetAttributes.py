@@ -4,7 +4,7 @@
 ##              -> GetAttributes() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttributes.py,v 1.3 2006-01-13 13:14:05 ntalex Exp $
+## RCS-ID:      $Id: genGetAttributes.py,v 1.4 2007-05-23 15:15:18 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -112,9 +112,9 @@ def process(classdecl):
     if nattr>0:
         output_cpp = '''
 // wx%s
-wxXmlAttrHash wx%s::GetAttributes() const
+wxSvgXmlAttrHash wx%s::GetAttributes() const
 {
-  wxXmlAttrHash attrs;
+  wxSvgXmlAttrHash attrs;
 %s\
   return attrs;
 }

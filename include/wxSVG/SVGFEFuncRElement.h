@@ -20,11 +20,11 @@ class wxSVGFEFuncRElement:
     wxSVGFEFuncRElement(wxString tagName = wxT("feFuncR")):
       wxSVGComponentTransferFunctionElement(tagName) {}
     virtual ~wxSVGFEFuncRElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEFuncRElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGFEFuncRElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_FEFUNCR_ELEMENT; }
 };
 

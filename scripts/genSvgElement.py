@@ -3,7 +3,7 @@
 ## Purpose:     generates svg.h, SVGDTD.h and SVGDocument_CreateElement.cpp
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSvgElement.py,v 1.4 2005-10-17 13:54:49 ntalex Exp $
+## RCS-ID:      $Id: genSvgElement.py,v 1.5 2007-05-23 15:15:18 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -70,7 +70,7 @@ for element_dtd_name in all_elements:
     res = new wxSVG%sElement();
   else '''%(element_dtd_name, classname)
 
-create = '''wxXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespaceURI,
+create = '''wxSvgXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespaceURI,
   const wxString& qualifiedName)
 {
   wxSVGElement* res = NULL;

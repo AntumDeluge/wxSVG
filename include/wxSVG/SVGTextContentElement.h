@@ -68,7 +68,7 @@ class wxSVGTextContentElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
 };
 
 #endif // WX_SVG_TEXT_CONTENT_ELEMENT_H

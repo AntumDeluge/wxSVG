@@ -1,18 +1,18 @@
 //////////////////////////////////////////////////////////////////////////////
-// Name:        xml.h
-// Purpose:     wxXmlDocument - XML parser & data holder class
+// Name:        svgxml.h
+// Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: xml.h,v 1.8 2006-02-25 17:11:24 ntalex Exp $
+// RCS-ID:      $Id: svgxml.h,v 1.1 2007-05-23 15:15:18 etisserant Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef _WX_XML_H_
-#define _WX_XML_H_
+#ifndef _WX_SVGXML_H_
+#define _WX_SVGXML_H_
 
 #if defined(__GNUG__) && !defined(NO_GCC_PRAGMA)
-#pragma interface "xml.h"
+#pragma interface "svgxml.h"
 #endif
 
 #include <wx/string.h>
@@ -25,16 +25,16 @@
 #endif
 #define WXDLLIMPEXP_XML
 	
-class WXDLLIMPEXP_XML wxXmlNode;
-class WXDLLIMPEXP_XML wxXmlProperty;
-class WXDLLIMPEXP_XML wxXmlDocument;
-class WXDLLIMPEXP_XML wxXmlIOHandler;
+class WXDLLIMPEXP_XML wxSvgXmlNode;
+class WXDLLIMPEXP_XML wxSvgXmlProperty;
+class WXDLLIMPEXP_XML wxSvgXmlDocument;
+class WXDLLIMPEXP_XML wxSvgXmlIOHandler;
 class WXDLLIMPEXP_BASE wxInputStream;
 class WXDLLIMPEXP_BASE wxOutputStream;
 
 
 // Represents XML node type.
-enum wxXmlNodeType
+enum wxSvgXmlNodeType
 {
     // note: values are synchronized with xmlElementType from libxml
     wxXML_ELEMENT_NODE       =  1,
@@ -57,37 +57,37 @@ enum wxXmlNodeType
 // Example: in <img src="hello.gif" id="3"/> "src" is property with value
 //          "hello.gif" and "id" is prop. with value "3".
 
-class WXDLLIMPEXP_XML wxXmlProperty
+class WXDLLIMPEXP_XML wxSvgXmlProperty
 {
 public:
-    wxXmlProperty() : m_next(NULL) {}
-    wxXmlProperty(const wxString& name, const wxString& value,
-                  wxXmlProperty *next)
+    wxSvgXmlProperty() : m_next(NULL) {}
+    wxSvgXmlProperty(const wxString& name, const wxString& value,
+                  wxSvgXmlProperty *next)
             : m_name(name), m_value(value), m_next(next) {}
 
     wxString GetName() const { return m_name; }
     wxString GetValue() const { return m_value; }
-    wxXmlProperty *GetNext() const { return m_next; }
+    wxSvgXmlProperty *GetNext() const { return m_next; }
 
     void SetName(const wxString& name) { m_name = name; }
     void SetValue(const wxString& value) { m_value = value; }
-    void SetNext(wxXmlProperty *next) { m_next = next; }
+    void SetNext(wxSvgXmlProperty *next) { m_next = next; }
 
 private:
     wxString m_name;
     wxString m_value;
-    wxXmlProperty *m_next;
+    wxSvgXmlProperty *m_next;
 };
 
 
-WX_DECLARE_STRING_HASH_MAP(wxString, wxXmlAttrHashBase);
-class wxXmlAttrHash: public wxXmlAttrHashBase
+WX_DECLARE_STRING_HASH_MAP(wxString, wxSvgXmlAttrHashBase);
+class wxSvgXmlAttrHash: public wxSvgXmlAttrHashBase
 {
   public:
     void Add(wxString key, wxString value) { (*this)[key] = value; }
-    void Add(const wxXmlAttrHash& value)
+    void Add(const wxSvgXmlAttrHash& value)
     {
-      wxXmlAttrHash::const_iterator it; 
+      wxSvgXmlAttrHash::const_iterator it; 
       for(it = value.begin(); it != value.end(); ++it)
         insert(*it);
     }
@@ -103,74 +103,74 @@ class wxXmlAttrHash: public wxXmlAttrHashBase
 // If wxUSE_UNICODE is 0, all strings are encoded in the encoding given to Load
 // (default is UTF-8).
 
-class WXDLLIMPEXP_XML wxXmlNode
+class WXDLLIMPEXP_XML wxSvgXmlNode
 {
 public:
-    wxXmlNode() : m_properties(NULL), m_parent(NULL),
+    wxSvgXmlNode() : m_properties(NULL), m_parent(NULL),
                   m_children(NULL), m_next(NULL), m_ownerDocument(NULL) {}
-    wxXmlNode(wxXmlNode* parent, wxXmlNodeType type,
+    wxSvgXmlNode(wxSvgXmlNode* parent, wxSvgXmlNodeType type,
               const wxString& name, const wxString& content,
-              wxXmlProperty* props, wxXmlNode *next);
-    virtual ~wxXmlNode();
+              wxSvgXmlProperty* props, wxSvgXmlNode *next);
+    virtual ~wxSvgXmlNode();
 
     // copy ctor & operator=. Note that this does NOT copy syblings
     // and parent pointer, i.e. m_parent and m_next will be NULL
     // after using copy ctor and are never unmodified by operator=.
     // On the other hand, it DOES copy children and properties.
-    wxXmlNode(const wxXmlNode& node);
-    wxXmlNode& operator=(const wxXmlNode& node);
-	virtual wxXmlNode* CloneNode(bool deep = true) { return new wxXmlNode(*this); }
+    wxSvgXmlNode(const wxSvgXmlNode& node);
+    wxSvgXmlNode& operator=(const wxSvgXmlNode& node);
+	virtual wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSvgXmlNode(*this); }
 
     // user-friendly creation:
-    wxXmlNode(wxXmlNodeType type, const wxString& name,
+    wxSvgXmlNode(wxSvgXmlNodeType type, const wxString& name,
               const wxString& content = wxEmptyString);
 	
-    void AddChild(wxXmlNode* child);
-	inline wxXmlNode* AppendChild(wxXmlNode* child)
+    void AddChild(wxSvgXmlNode* child);
+	inline wxSvgXmlNode* AppendChild(wxSvgXmlNode* child)
 	{ AddChild(child); return child; }
 	
-    void InsertChild(wxXmlNode *child, wxXmlNode *before_node);
-	inline wxXmlNode* InsertBefore(wxXmlNode *newChild, wxXmlNode *refChild)
+    void InsertChild(wxSvgXmlNode *child, wxSvgXmlNode *before_node);
+	inline wxSvgXmlNode* InsertBefore(wxSvgXmlNode *newChild, wxSvgXmlNode *refChild)
 	{ InsertChild(newChild, refChild); return newChild; }
 	
-    bool RemoveChild(wxXmlNode *child);
+    bool RemoveChild(wxSvgXmlNode *child);
 	
     virtual void AddProperty(const wxString& name, const wxString& value);
     virtual bool DeleteProperty(const wxString& name);
 
     // access methods:
-    wxXmlNodeType GetType() const { return m_type; }
+    wxSvgXmlNodeType GetType() const { return m_type; }
     wxString GetName() const { return m_name; }
     wxString GetContent() const { return m_content; }
 
-    wxXmlDocument *GetOwnerDocument() const { return m_ownerDocument; }
-    wxXmlNode *GetParent() const { return m_parent; }
-    wxXmlNode *GetNext() const { return m_next; }
-    wxXmlNode *GetChildren() const { return m_children; }
+    wxSvgXmlDocument *GetOwnerDocument() const { return m_ownerDocument; }
+    wxSvgXmlNode *GetParent() const { return m_parent; }
+    wxSvgXmlNode *GetNext() const { return m_next; }
+    wxSvgXmlNode *GetChildren() const { return m_children; }
     
-    wxXmlNode* GetParentNode() const { return m_parent; }
-    wxXmlNode* GetChildNodes() const { return m_children; }
-    wxXmlNode* GetFirstChild() const { return m_children; }
-    wxXmlNode* GetLastChild() const;
-    wxXmlNode* GetPreviousSibling() const;
-    wxXmlNode* GetNextSibling() const { return m_next; }
+    wxSvgXmlNode* GetParentNode() const { return m_parent; }
+    wxSvgXmlNode* GetChildNodes() const { return m_children; }
+    wxSvgXmlNode* GetFirstChild() const { return m_children; }
+    wxSvgXmlNode* GetLastChild() const;
+    wxSvgXmlNode* GetPreviousSibling() const;
+    wxSvgXmlNode* GetNextSibling() const { return m_next; }
 
-    wxXmlProperty *GetProperties() const { return m_properties; }
+    wxSvgXmlProperty *GetProperties() const { return m_properties; }
     bool GetPropVal(const wxString& propName, wxString *value) const;
     wxString GetPropVal(const wxString& propName,
                         const wxString& defaultVal) const;
     bool HasProp(const wxString& propName) const;
 
-    void SetType(wxXmlNodeType type) { m_type = type; }
+    void SetType(wxSvgXmlNodeType type) { m_type = type; }
     void SetName(const wxString& name) { m_name = name; }
     void SetContent(const wxString& con) { m_content = con; }
 
-    void SetParent(wxXmlNode *parent) { m_parent = parent; }
-    void SetNext(wxXmlNode *next) { m_next = next; }
-    void SetChildren(wxXmlNode *child) { m_children = child; }
+    void SetParent(wxSvgXmlNode *parent) { m_parent = parent; }
+    void SetNext(wxSvgXmlNode *next) { m_next = next; }
+    void SetChildren(wxSvgXmlNode *child) { m_children = child; }
 
-    void SetProperties(wxXmlProperty *prop) { m_properties = prop; }
-    void AddProperty(wxXmlProperty *prop);
+    void SetProperties(wxSvgXmlProperty *prop) { m_properties = prop; }
+    void AddProperty(wxSvgXmlProperty *prop);
 
 public: // W3C DOM Methods
 	virtual wxString GetAttribute(const wxString& name);
@@ -187,39 +187,39 @@ public: // W3C DOM Methods
     virtual bool HasAttributeNS(const wxString& namespaceURI, 
 								const wxString& localName);
     
-    virtual wxXmlAttrHash GetAttributes() const;
+    virtual wxSvgXmlAttrHash GetAttributes() const;
                                 
-    void SetOwnerDocument(wxXmlDocument* ownerDocument);
+    void SetOwnerDocument(wxSvgXmlDocument* ownerDocument);
 
 private:
-    wxXmlNodeType m_type;
+    wxSvgXmlNodeType m_type;
     wxString m_name;
     wxString m_content;
-    wxXmlProperty *m_properties;
-    wxXmlNode *m_parent, *m_children, *m_next;
-    wxXmlDocument *m_ownerDocument;
+    wxSvgXmlProperty *m_properties;
+    wxSvgXmlNode *m_parent, *m_children, *m_next;
+    wxSvgXmlDocument *m_ownerDocument;
 
-    void DoCopy(const wxXmlNode& node);
+    void DoCopy(const wxSvgXmlNode& node);
 };
 
 
-typedef wxXmlNode wxXmlElement;
-typedef wxXmlProperty wxXmlAttr;
+typedef wxSvgXmlNode wxSvgXmlElement;
+typedef wxSvgXmlProperty wxSvgXmlAttr;
 
 // This class holds XML data/document as parsed by XML parser.
 
-class WXDLLIMPEXP_XML wxXmlDocument : public wxObject
+class WXDLLIMPEXP_XML wxSvgXmlDocument : public wxObject
 {
 public:
-    wxXmlDocument();
-    wxXmlDocument(const wxString& filename,
+    wxSvgXmlDocument();
+    wxSvgXmlDocument(const wxString& filename,
                   const wxString& encoding = wxT("UTF-8"));
-    wxXmlDocument(wxInputStream& stream,
+    wxSvgXmlDocument(wxInputStream& stream,
                   const wxString& encoding = wxT("UTF-8"));
-    virtual ~wxXmlDocument() { delete m_root; }
+    virtual ~wxSvgXmlDocument() { delete m_root; }
 
-    wxXmlDocument(const wxXmlDocument& doc);
-    wxXmlDocument& operator=(const wxXmlDocument& doc);
+    wxSvgXmlDocument(const wxSvgXmlDocument& doc);
+    wxSvgXmlDocument& operator=(const wxSvgXmlDocument& doc);
 
     // Parses .xml file and loads data. Returns TRUE on success, FALSE
     // otherwise.
@@ -235,7 +235,7 @@ public:
     bool IsOk() const { return m_root != NULL; }
 
     // Returns root node of the document.
-    wxXmlNode *GetRoot() const { return m_root; }
+    wxSvgXmlNode *GetRoot() const { return m_root; }
 
     // Returns version of document (may be empty).
     wxString GetVersion() const { return m_version; }
@@ -245,7 +245,7 @@ public:
     wxString GetFileEncoding() const { return m_fileEncoding; }
 
     // Write-access methods:
-    void SetRoot(wxXmlNode *node);
+    void SetRoot(wxSvgXmlNode *node);
     void SetVersion(const wxString& version) { m_version = version; }
     void SetFileEncoding(const wxString& encoding) { m_fileEncoding = encoding; }
 
@@ -258,16 +258,16 @@ public:
 #endif
 
 public: // W3C DOM Methods
-	virtual wxXmlElement* CreateElement(const wxString& tagName);
-	virtual wxXmlElement* CreateElementNS(const wxString& namespaceURI,
+	virtual wxSvgXmlElement* CreateElement(const wxString& tagName);
+	virtual wxSvgXmlElement* CreateElementNS(const wxString& namespaceURI,
 										  const wxString& qualifiedName);
 										  
-	inline wxXmlNode* AppendChild(wxXmlNode* child)
+	inline wxSvgXmlNode* AppendChild(wxSvgXmlNode* child)
 	{ if (!m_root) SetRoot(child); return child; }
-	inline wxXmlNode* RemoveChild(wxXmlNode* child)
+	inline wxSvgXmlNode* RemoveChild(wxSvgXmlNode* child)
 	{ if (m_root != child) return NULL; m_root = NULL; return child; }
 	
-	inline wxXmlNode* GetFirstChild() { return m_root; }
+	inline wxSvgXmlNode* GetFirstChild() { return m_root; }
 
 private:
     wxString   m_version;
@@ -275,9 +275,9 @@ private:
 #if !wxUSE_UNICODE
     wxString   m_encoding;
 #endif
-    wxXmlNode *m_root;
+    wxSvgXmlNode *m_root;
 
-    void DoCopy(const wxXmlDocument& doc);
+    void DoCopy(const wxSvgXmlDocument& doc);
 };
 
-#endif // _WX_XML_H_
+#endif // _WX_SVGXML_H_

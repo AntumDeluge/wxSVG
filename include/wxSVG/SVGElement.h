@@ -18,7 +18,7 @@ class wxSVGDocument;
 #include "SVGDTD.h"
 
 class wxSVGElement:
-  public wxXmlElement
+  public wxSvgXmlElement
 {
   protected:
     wxString m_id;
@@ -42,7 +42,7 @@ class wxSVGElement:
 
   public:
     wxSVGElement(wxString tagName = wxT("")):
-      wxXmlElement(wxXML_ELEMENT_NODE, tagName),
+      wxSvgXmlElement(wxXML_ELEMENT_NODE, tagName),
       m_ownerSVGElement(NULL), m_viewportElement(NULL) { }
     virtual ~wxSVGElement() {}
     
@@ -53,7 +53,7 @@ class wxSVGElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
 };
 
 #endif // WX_SVG_ELEMENT_H

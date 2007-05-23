@@ -39,7 +39,7 @@ class wxSVGAnimatedPathData
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
 };
 
 #endif // WX_SVG_ANIMATED_PATH_DATA_H

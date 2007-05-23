@@ -20,11 +20,11 @@ class wxSVGDefinitionSrcElement:
     wxSVGDefinitionSrcElement(wxString tagName = wxT("definition-src")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGDefinitionSrcElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGDefinitionSrcElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGDefinitionSrcElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_DEFINITION_SRC_ELEMENT; }
 };
 

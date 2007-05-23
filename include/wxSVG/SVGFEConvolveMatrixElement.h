@@ -96,11 +96,11 @@ class wxSVGFEConvolveMatrixElement:
     wxSVGFEConvolveMatrixElement(wxString tagName = wxT("feConvolveMatrix")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGFEConvolveMatrixElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEConvolveMatrixElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGFEConvolveMatrixElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_FECONVOLVEMATRIX_ELEMENT; }
 };
 

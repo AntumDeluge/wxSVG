@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.9 2006-01-23 09:20:26 ntalex Exp $
+// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.10 2007-05-23 15:15:19 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -170,7 +170,7 @@ wxSVGElement* RecurseElementId(wxSVGElement* root, const wxString& elementId)
     return NULL;
 }
 
-wxXmlElement* wxSVGSVGElement::GetElementById(const wxString& elementId) const
+wxSvgXmlElement* wxSVGSVGElement::GetElementById(const wxString& elementId) const
 {
     return RecurseElementId((wxSVGElement*)this,elementId);
 }

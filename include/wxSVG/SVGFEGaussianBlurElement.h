@@ -42,12 +42,12 @@ class wxSVGFEGaussianBlurElement:
     wxSVGFEGaussianBlurElement(wxString tagName = wxT("feGaussianBlur")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGFEGaussianBlurElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGFEGaussianBlurElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGFEGaussianBlurElement(*this); }
     virtual void SetStdDeviation(double stdDeviationX, double stdDeviationY);
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_FEGAUSSIANBLUR_ELEMENT; }
 };
 

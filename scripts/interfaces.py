@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.21 2006-02-26 14:41:20 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.22 2007-05-23 15:15:18 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -31,7 +31,7 @@ interfaces["SVGElement"]=inter
 inter.include_attributes.append('''
   public:
     wxSVGElement(wxString tagName = wxT("")):
-      wxXmlElement(wxXML_ELEMENT_NODE, tagName),
+      wxSvgXmlElement(wxXML_ELEMENT_NODE, tagName),
       m_ownerSVGElement(NULL), m_viewportElement(NULL) { }
     virtual ~wxSVGElement() {}
     
@@ -317,7 +317,7 @@ for name in ["SVGSVGElement", "SVGGElement", "SVGDefsElement", "SVGAElement",
 
 ## SVGSVGElement
 inter = interfaces["SVGSVGElement"]
-inter.include_methods.append('    wxXmlElement* GetElementById(const wxString& elementId) const;\n')
+inter.include_methods.append('    wxSvgXmlElement* GetElementById(const wxString& elementId) const;\n')
 inter.include_methods.append('    void UpdateMatrix(wxSVGMatrix& matrix) { wxSVGFitToViewBox::UpdateMatrix(matrix, GetWidth().GetAnimVal(), GetHeight().GetAnimVal()); }\n')
 inter.exclude_methods = ["GetElementById"]
 
@@ -379,9 +379,9 @@ inter.include_attributes.append('''
 ''')
 inter.include_methods.append('''    wxSVGDocument() { Init(); }
     wxSVGDocument(const wxString& filename, const wxString& encoding = wxT("UTF-8")):
-      wxXmlDocument(filename, encoding) { Init(); }
+      wxSvgXmlDocument(filename, encoding) { Init(); }
     wxSVGDocument(wxInputStream& stream, const wxString& encoding = wxT("UTF-8")):
-      wxXmlDocument(stream, encoding) { Init(); }
+      wxSvgXmlDocument(stream, encoding) { Init(); }
     virtual ~wxSVGDocument();
     
     void Init();
@@ -389,11 +389,11 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     inline double GetScale() { return m_scale; }
     const wxSVGMatrix& GetScreenCTM() { return m_screenCTM; }
     
-    wxXmlElement* CreateElement(const wxString& tagName);
-    wxXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
+    wxSvgXmlElement* CreateElement(const wxString& tagName);
+    wxSvgXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
     
     wxSVGSVGElement* GetRootElement() { return (wxSVGSVGElement*) GetRoot(); }
-    void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxXmlElement*) n); }
+    void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxSvgXmlElement*) n); }
     
     wxSVGElement* GetElementById(const wxString& id);
     

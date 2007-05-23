@@ -32,7 +32,7 @@ class wxSVGSwitchElement:
     wxSVGSwitchElement(wxString tagName = wxT("switch")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGSwitchElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGSwitchElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGSwitchElement(*this); }
     wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenBBox(this, coordinates); }
     wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenResultBBox(this, coordinates); }
     wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
@@ -40,7 +40,7 @@ class wxSVGSwitchElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_SWITCH_ELEMENT; }
 };
 

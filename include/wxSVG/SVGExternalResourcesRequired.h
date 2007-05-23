@@ -28,7 +28,7 @@ class wxSVGExternalResourcesRequired
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
 };
 
 #endif // WX_SVG_EXTERNAL_RESOURCES_REQUIRED_H

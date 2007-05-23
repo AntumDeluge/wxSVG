@@ -20,11 +20,11 @@ class wxSVGAnimateTransformElement:
     wxSVGAnimateTransformElement(wxString tagName = wxT("animateTransform")):
       wxSVGAnimationElement(tagName) {}
     virtual ~wxSVGAnimateTransformElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGAnimateTransformElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGAnimateTransformElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_ANIMATETRANSFORM_ELEMENT; }
 };
 

@@ -51,7 +51,7 @@ class wxSVGFilterPrimitiveStandardAttributes:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
 };
 
 #endif // WX_SVG_FILTER_PRIMITIVE_STANDARD_ATTRIBUTES_H

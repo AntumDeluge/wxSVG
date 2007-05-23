@@ -32,7 +32,7 @@ class wxSVGTextElement:
       wxSVGTextPositioningElement(tagName), m_canvasItem(NULL) {}
     wxSVGTextElement(wxSVGTextElement& src);
     virtual ~wxSVGTextElement();
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGTextElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGTextElement(*this); }
     wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
     wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
     wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
@@ -48,7 +48,7 @@ class wxSVGTextElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_TEXT_ELEMENT; }
 };
 

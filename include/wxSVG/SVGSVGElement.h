@@ -119,12 +119,12 @@ class wxSVGSVGElement:
     wxSVGSVGElement(wxString tagName = wxT("svg")):
       wxSVGElement(tagName), m_pixelUnitToMillimeterX(0), m_pixelUnitToMillimeterY(0), m_screenPixelToMillimeterX(0), m_screenPixelToMillimeterY(0), m_useCurrentView(0), m_currentScale(0) {}
     virtual ~wxSVGSVGElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGSVGElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGSVGElement(*this); }
     wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenBBox(this, coordinates); }
     wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenResultBBox(this, coordinates); }
     wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
     wxSVGMatrix GetScreenCTM() { return wxSVGLocatable::GetScreenCTM(this); }
-    wxXmlElement* GetElementById(const wxString& elementId) const;
+    wxSvgXmlElement* GetElementById(const wxString& elementId) const;
     void UpdateMatrix(wxSVGMatrix& matrix) { wxSVGFitToViewBox::UpdateMatrix(matrix, GetWidth().GetAnimVal(), GetHeight().GetAnimVal()); }
     virtual unsigned long SuspendRedraw(unsigned long max_wait_milliseconds);
     virtual void UnsuspendRedraw(unsigned long suspend_handle_id);
@@ -151,7 +151,7 @@ class wxSVGSVGElement:
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_SVG_ELEMENT; }
 };
 

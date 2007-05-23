@@ -41,11 +41,11 @@ class wxSVGCursorElement:
     wxSVGCursorElement(wxString tagName = wxT("cursor")):
       wxSVGElement(tagName) {}
     virtual ~wxSVGCursorElement() {}
-    wxXmlNode* CloneNode(bool deep = true) { return new wxSVGCursorElement(*this); }
+    wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGCursorElement(*this); }
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);
-    wxXmlAttrHash GetAttributes() const;
+    wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_CURSOR_ELEMENT; }
 };
 
