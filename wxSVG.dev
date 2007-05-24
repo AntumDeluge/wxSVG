@@ -5,7 +5,7 @@ UnitCount=243
 Type=2
 Ver=1
 ObjFiles=
-Includes=include;include/wxXML;include/wxSVG
+Includes=include;include/wxSVGXML;include/wxSVG
 Libs=
 PrivateResource=
 ResourceIncludes=
@@ -30,7 +30,7 @@ CompilerSet=0
 CompilerSettings=0000000000000000000000
 
 [Unit1]
-FileName=include\wxXML\svgxml.h
+FileName=include\wxSVGXML\svgxml.h
 CompileCpp=1
 Folder=wxSVG
 Compile=1
@@ -40,7 +40,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit2]
-FileName=include\wxXML\svgxmlhelpr.h
+FileName=include\wxSVGXML\svgxmlhelpr.h
 CompileCpp=1
 Folder=wxSVG
 Compile=1

@@ -125,10 +125,10 @@ dnl create Makefiles
 AC_OUTPUT([
   Makefile
   include/Makefile
-  include/wxXML/Makefile
+  include/wxSVGXML/Makefile
   include/wxSVG/Makefile
-  src/xml/Makefile
-  src/xml/expat/Makefile
+  src/svgxml/Makefile
+  src/svgxml/expat/Makefile
   src/Makefile
   src/agg/Makefile
   src/cairo/Makefile

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGLocatable.cpp,v 1.9 2006-01-08 19:32:34 ntalex Exp $
+// RCS-ID:      $Id: SVGLocatable.cpp,v 1.10 2007-05-24 08:59:09 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@ wxSVGRect wxSVGLocatable::GetElementBBox(const wxSVGElement* element,
   wxSVG_COORDINATES coordinates)
 {
   wxSVGRect elemBBox;
-  if (element == NULL || element->GetType() != wxXML_ELEMENT_NODE)
+  if (element == NULL || element->GetType() != wxSVGXML_ELEMENT_NODE)
     return elemBBox;
   // SVGLocatable
   if (element->GetDtd() == wxSVG_SVG_ELEMENT)
@@ -39,7 +39,7 @@ wxSVGRect wxSVGLocatable::GetElementResultBBox(const wxSVGElement* element,
   wxSVG_COORDINATES coordinates)
 {
   wxSVGRect elemBBox;
-  if (element == NULL || element->GetType() != wxXML_ELEMENT_NODE)
+  if (element == NULL || element->GetType() != wxSVGXML_ELEMENT_NODE)
     return elemBBox;
   // SVGLocatable
   if (element->GetDtd() == wxSVG_SVG_ELEMENT)
@@ -132,7 +132,7 @@ wxSVGRect wxSVGLocatable::GetChildrenResultBBox(const wxSVGElement* element,
 
 wxSVGMatrix wxSVGLocatable::GetCTM(const wxSVGElement* element)
 {  
-  if (element == NULL || element->GetType() != wxXML_ELEMENT_NODE ||
+  if (element == NULL || element->GetType() != wxSVGXML_ELEMENT_NODE ||
       element->GetDtd() == wxSVG_SVG_ELEMENT)
       return wxSVGMatrix();
   wxSVGMatrix matrix = GetCTM((wxSVGElement*)(element->GetParent()));
@@ -146,7 +146,7 @@ wxSVGMatrix wxSVGLocatable::GetCTM(const wxSVGElement* element)
 
 wxSVGMatrix wxSVGLocatable::GetScreenCTM(const wxSVGElement* element)
 {  
-  if (element == NULL || element->GetType() != wxXML_ELEMENT_NODE)
+  if (element == NULL || element->GetType() != wxSVGXML_ELEMENT_NODE)
       return wxSVGMatrix();
   
   wxSVGMatrix matrix;

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.15 2006-07-23 16:42:11 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.16 2007-05-24 08:59:09 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -568,12 +568,12 @@ void wxSVGCanvasText::InitChildren(wxSVGTextPositioningElement& element,
   wxSVGElement* elem = (wxSVGElement*) element.GetChildren();
   while (elem)
   {
-	if (elem->GetType() == wxXML_TEXT_NODE)
+	if (elem->GetType() == wxSVGXML_TEXT_NODE)
 	{
 	  BeginChunk(style);
 	  InitText(elem->GetContent(), style);
 	}
-	if (elem->GetType() == wxXML_ELEMENT_NODE &&
+	if (elem->GetType() == wxSVGXML_ELEMENT_NODE &&
 		elem->GetDtd() == wxSVG_TSPAN_ELEMENT)
 	{
 	  wxSVGTSpanElement& tElem = (wxSVGTSpanElement&)*elem;

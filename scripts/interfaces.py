@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.22 2007-05-23 15:15:18 etisserant Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.23 2007-05-24 08:59:13 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -31,7 +31,7 @@ interfaces["SVGElement"]=inter
 inter.include_attributes.append('''
   public:
     wxSVGElement(wxString tagName = wxT("")):
-      wxSvgXmlElement(wxXML_ELEMENT_NODE, tagName),
+      wxSvgXmlElement(wxSVGXML_ELEMENT_NODE, tagName),
       m_ownerSVGElement(NULL), m_viewportElement(NULL) { }
     virtual ~wxSVGElement() {}
     

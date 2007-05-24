@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.10 2007-05-23 15:15:19 etisserant Exp $
+// RCS-ID:      $Id: SVGSVGElement.cpp,v 1.11 2007-05-24 08:59:09 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -62,7 +62,7 @@ void RecurseIntersectionList(const wxSVGSVGElement& root, const wxSVGElement& el
   {
     res.Add((wxSVGElement*)&element);
     wxSVGElement* n = (wxSVGElement*)element.GetChildren();
-    while (n && n->GetType() == wxXML_ELEMENT_NODE)
+    while (n && n->GetType() == wxSVGXML_ELEMENT_NODE)
     {
       RecurseIntersectionList(root, *n, rect, res);
       n = (wxSVGElement*)n->GetNext();
@@ -151,7 +151,7 @@ wxSVGElement* RecurseElementId(wxSVGElement* root, const wxString& elementId)
     wxSVGElement* child = (wxSVGElement*)root->GetChildren();
     while (child)
     {
-        if (child->GetType() == wxXML_ELEMENT_NODE)
+        if (child->GetType() == wxSVGXML_ELEMENT_NODE)
         {
             if (child->GetDtd() == wxSVG_SVG_ELEMENT)
             {

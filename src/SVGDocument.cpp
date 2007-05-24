@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.26 2007-05-23 15:15:19 etisserant Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.27 2007-05-24 08:59:09 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -188,7 +188,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem, const wxSVGRect* rect
       textElem->SetFontSize((double)element->GetHeight().GetAnimVal()/15);
       textElem->SetFill(wxSVGPaint(255,255,255));
       textElem->SetStroke(wxSVGPaint(255,255,255));
-      textElem->AddChild(new wxSvgXmlNode(wxXML_TEXT_NODE, wxT(""),
+      textElem->AddChild(new wxSvgXmlNode(wxSVGXML_TEXT_NODE, wxT(""),
         wxT(" [") + element->GetHref() + wxT("]")));
       gElem->AppendChild(textElem);
       
@@ -277,7 +277,7 @@ void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent, const wxSVGRect* rec
   wxSVGElement* elem = (wxSVGElement*) parent->GetChildren();
   while (elem)
   {
-    if (elem->GetType() == wxXML_ELEMENT_NODE)
+    if (elem->GetType() == wxSVGXML_ELEMENT_NODE)
     {
       //if (!rect || ownerSVGElement->CheckIntersection(*elem, *rect))
         RenderElement(doc, elem, rect, parentMatrix, parentStyle,

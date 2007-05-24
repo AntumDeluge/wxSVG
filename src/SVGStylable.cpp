@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGStylable.cpp,v 1.4 2006-01-08 12:34:17 ntalex Exp $
+// RCS-ID:      $Id: SVGStylable.cpp,v 1.5 2007-05-24 08:59:09 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -58,7 +58,7 @@ case the_dtd:\
   
 wxSVGStylable* wxSVGStylable::GetSVGStylable(wxSVGElement& element)
 {
-  if (element.GetType() != wxXML_ELEMENT_NODE)
+  if (element.GetType() != wxSVGXML_ELEMENT_NODE)
     return NULL;
   switch (element.GetDtd())
   {

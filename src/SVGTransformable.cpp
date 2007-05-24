@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/05
-// RCS-ID:      $Id: SVGTransformable.cpp,v 1.4 2006-01-23 09:14:52 ntalex Exp $
+// RCS-ID:      $Id: SVGTransformable.cpp,v 1.5 2007-05-24 08:59:09 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@ case the_dtd:\
 
 wxSVGTransformable* wxSVGTransformable::GetSVGTransformable(wxSVGElement& element)
 {
-  if (&element == NULL || element.GetType() != wxXML_ELEMENT_NODE)
+  if (&element == NULL || element.GetType() != wxSVGXML_ELEMENT_NODE)
       return NULL;
   switch (element.GetDtd())
   {

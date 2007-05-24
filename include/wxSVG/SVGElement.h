@@ -42,7 +42,7 @@ class wxSVGElement:
 
   public:
     wxSVGElement(wxString tagName = wxT("")):
-      wxSvgXmlElement(wxXML_ELEMENT_NODE, tagName),
+      wxSvgXmlElement(wxSVGXML_ELEMENT_NODE, tagName),
       m_ownerSVGElement(NULL), m_viewportElement(NULL) { }
     virtual ~wxSVGElement() {}
     

@@ -11,7 +11,7 @@ RENDER_LIB = libart/libwxsvg_libart.la
 endif
 endif
 
-SUBDIRS = xml freetype $(RENDER_DIR)
+SUBDIRS = svgxml freetype $(RENDER_DIR)
 
 lib_LTLIBRARIES = libwxsvg.la
 libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
@@ -32,7 +32,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   CSSValue.cpp CSSStyleDeclaration.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp
 
-libwxsvg_la_LIBADD = xml/libwxxml.la freetype/libwxsvg_freetype.la\
+libwxsvg_la_LIBADD = svgxml/libwxsvgxml.la freetype/libwxsvg_freetype.la\
  $(RENDER_LIB)
 libwxsvg_la_LDFLAGS = -version-info 0:0:0
 
