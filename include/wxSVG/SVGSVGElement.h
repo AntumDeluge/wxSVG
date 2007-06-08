@@ -34,7 +34,15 @@
 #include "SVGTransform.h"
 #include "Element.h"
 
-class wxSVGSVGElement:
+#ifdef WXMAKINGDLL_WXSVG
+    #define WXDLLIMPEXP_WXSVG WXEXPORT
+#elif defined(WXUSINGDLL)
+    #define WXDLLIMPEXP_WXSVG WXIMPORT
+#else // not making nor using DLL
+    #define WXDLLIMPEXP_WXSVG
+#endif
+
+class WXDLLIMPEXP_WXSVG wxSVGSVGElement:
   public wxSVGElement,
   public wxSVGTests,
   public wxSVGLangSpace,
@@ -117,7 +125,7 @@ class wxSVGSVGElement:
 
   public:
     wxSVGSVGElement(wxString tagName = wxT("svg")):
-      wxSVGElement(tagName), m_pixelUnitToMillimeterX(0), m_pixelUnitToMillimeterY(0), m_screenPixelToMillimeterX(0), m_screenPixelToMillimeterY(0), m_useCurrentView(0), m_currentScale(0) {}
+      wxSVGElement(tagName), m_pixelUnitToMillimeterX(0), m_pixelUnitToMillimeterY(0), m_screenPixelToMillimeterX(0), m_screenPixelToMillimeterY(0), m_useCurrentView(0), m_currentScale(0) { }
     virtual ~wxSVGSVGElement() {}
     wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGSVGElement(*this); }
     wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER) { return wxSVGLocatable::GetChildrenBBox(this, coordinates); }

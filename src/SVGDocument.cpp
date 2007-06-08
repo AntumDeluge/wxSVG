@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.27 2007-05-24 08:59:09 etisserant Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.28 2007-06-08 08:50:13 gusstdie Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -22,6 +22,9 @@
 #endif
 
 #include <wx/log.h>
+
+
+IMPLEMENT_ABSTRACT_CLASS(wxSVGDocument, wxSvgXmlDocument)
 
 wxSVGDocument::~wxSVGDocument()
 {

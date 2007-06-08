@@ -11,3 +11,6 @@
 #include "NodeList.h"
 #include <wx/arrimpl.cpp>
 WX_DEFINE_OBJARRAY(wxNodeList);
+
+#include "NodeListCls.h"
+
