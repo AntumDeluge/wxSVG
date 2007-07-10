@@ -17,6 +17,7 @@ class wxSVGElement;
 #include "SVGElement.h"
 #include "SVGCoordinates.h"
 
+
 class wxSVGLocatable
 {
   protected:
@@ -48,6 +49,7 @@ class wxSVGLocatable
     static wxSVGRect GetChildrenResultBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
     inline wxSVGMatrix GetMatrix(wxSVG_COORDINATES coordinates)
     { return coordinates == wxSVG_COORDINATES_SCREEN ? GetScreenCTM() : (coordinates == wxSVG_COORDINATES_VIEWPORT ? GetCTM() : wxSVGMatrix()); }
+
 };
 
 #endif // WX_SVG_LOCATABLE_H

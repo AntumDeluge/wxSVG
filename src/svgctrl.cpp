@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.13 2007-05-23 15:15:19 etisserant Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.14 2007-07-10 09:36:21 gusstdie Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -29,12 +29,13 @@ wxSVGCtrlBase::wxSVGCtrlBase(wxWindow* parent, wxWindowID id, const wxPoint& pos
  const wxSize& size, long style, const wxValidator& validator, const wxString& name):
     m_doc(NULL), m_docDelete(false), m_repaint(false),m_fitToFrame(true)
 {
+
  Create( parent,  id,  pos, size, style, validator, name);
 }
 
 bool wxSVGCtrlBase::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos,
  const wxSize& size, long style, const wxValidator& validator, const wxString& name)
-{   
+{
    bool tmp = wxControl::Create(parent, id, pos, size, style, validator, name);
    return tmp; 
 }
@@ -163,7 +164,7 @@ wxSVGCtrl::wxSVGCtrl(wxWindow* parent, wxWindowID id,
       const wxPoint& pos, const wxSize& size,
       long style, const wxString& name)
 {
- Create( parent,  id,  pos, size, style, wxDefaultValidator, name);
+ 	Create( parent,  id,  pos, size, style, wxDefaultValidator, name);
 }
 wxSVGMatrix wxSVGCtrlBase::GetScreenCTM() const
 {
