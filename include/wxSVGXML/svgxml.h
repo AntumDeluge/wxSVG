@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.h,v 1.1 2007-05-24 08:59:13 etisserant Exp $
+// RCS-ID:      $Id: svgxml.h,v 1.2 2007-07-20 08:27:39 gusstdie Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -32,6 +32,7 @@ class WXDLLIMPEXP_XML wxSvgXmlIOHandler;
 class WXDLLIMPEXP_BASE wxInputStream;
 class WXDLLIMPEXP_BASE wxOutputStream;
 
+class wxSVGElement;
 
 // Represents XML node type.
 enum wxSvgXmlNodeType
@@ -154,6 +155,8 @@ public:
     wxSvgXmlNode* GetLastChild() const;
     wxSvgXmlNode* GetPreviousSibling() const;
     wxSvgXmlNode* GetNextSibling() const { return m_next; }
+    
+    virtual wxSVGElement* GetSvgElement(){return NULL;}
 
     wxSvgXmlProperty *GetProperties() const { return m_properties; }
     bool GetPropVal(const wxString& propName, wxString *value) const;

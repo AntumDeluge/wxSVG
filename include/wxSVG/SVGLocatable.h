@@ -10,7 +10,6 @@
 #define WX_SVG_LOCATABLE_H
 
 class wxSVGElement;
-class wxSVGElement;
 
 #include "SVGRect.h"
 #include "SVGMatrix.h"
@@ -43,6 +42,8 @@ class wxSVGLocatable
     static wxSVGMatrix GetCTM(const wxSVGElement* element);
     static wxSVGMatrix GetScreenCTM(const wxSVGElement* element);
     virtual wxSVGMatrix GetTransformToElement(const wxSVGElement& element);
+		static wxSVGMatrix GetParentMatrix(const wxSVGElement* element);
+    
 
   protected:
     static wxSVGRect GetChildrenBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);

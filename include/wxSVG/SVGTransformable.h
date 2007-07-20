@@ -17,7 +17,7 @@
 class wxSVGTransformable:
   public wxSVGLocatable
 {
-  protected:
+  public:
     wxSVGAnimatedTransformList m_transform;
 
   public:

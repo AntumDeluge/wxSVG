@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/05
-// RCS-ID:      $Id: SVGTransformable.cpp,v 1.5 2007-05-24 08:59:09 etisserant Exp $
+// RCS-ID:      $Id: SVGTransformable.cpp,v 1.6 2007-07-20 08:27:39 gusstdie Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -67,8 +67,9 @@ case the_dtd:\
 
 wxSVGTransformable* wxSVGTransformable::GetSVGTransformable(wxSVGElement& element)
 {
-  if (&element == NULL || element.GetType() != wxSVGXML_ELEMENT_NODE)
+  if (&element == NULL || element.GetType() != wxSVGXML_ELEMENT_NODE){
       return NULL;
+  }
   switch (element.GetDtd())
   {
     GET_TRANSFORMABLE(wxSVG_LINE_ELEMENT, wxSVGLineElement)
@@ -95,6 +96,6 @@ const wxSVGTransformable* wxSVGTransformable::GetSVGTransformable(const wxSVGEle
 void wxSVGTransformable::UpdateMatrix(wxSVGMatrix& matrix) const
 {
   const wxSVGTransformList& transforms = GetTransform().GetBaseVal();
-  for (int i=0; i<(int)transforms.Count(); i++)
-	matrix = matrix.Multiply(transforms[i].GetMatrix());
+	for (int i=0; i<(int)transforms.Count(); i++)
+		matrix = matrix.Multiply(transforms[i].GetMatrix());
 }

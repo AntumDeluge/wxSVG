@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGLocatable.cpp,v 1.10 2007-05-24 08:59:09 etisserant Exp $
+// RCS-ID:      $Id: SVGLocatable.cpp,v 1.11 2007-07-20 08:27:39 gusstdie Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -25,15 +25,48 @@ wxSVGRect wxSVGLocatable::GetElementBBox(const wxSVGElement* element,
   // SVGTransformable
   wxSVGTransformable* transformable =
     wxSVGTransformable::GetSVGTransformable(*(wxSVGElement*)element);
-  if (!transformable)
-      return elemBBox;
+  if (!transformable){
+  		//printf("%f\n", GetCTM((wxSVGElement*)(element->GetParent())).GetE());
+      return elemBBox.MatrixTransform(GetCTM(element));
+  }
   // GetBBox and transfrom it to parent coordinate system
   if (coordinates != wxSVG_COORDINATES_USER)
     return transformable->GetBBox(coordinates);
+    
+    
   wxSVGMatrix matrix;
-  transformable->UpdateMatrix(matrix);
+  //matrix = GetCTM(element);
+   	/*
+  if (((wxSVGElement*)(element->GetParent()))->GetDtd() == wxSVG_G_ELEMENT){
+ 		matrix = GetCTM((wxSVGElement*)(element->GetParent()->GetParent()));
+ 		
+  }
+ 	else
+ 		matrix = GetCTM(element);*/
+  
+  //transformable->UpdateMatrix(matrix);
   return transformable->GetBBox().MatrixTransform(matrix);
+  //return transformable->GetBBox();
 }
+
+wxSVGMatrix wxSVGLocatable::GetParentMatrix(const wxSVGElement* element)
+{
+	wxSVGMatrix matrix;
+	wxSvgXmlNode *parent = element->GetParentNode();
+	if (parent)
+	{
+		wxSVGElement *parent_element = parent->GetSvgElement();
+		if (parent_element) {
+			matrix = GetParentMatrix(parent_element);
+			wxSVGTransformable* transformableParent =
+    		wxSVGTransformable::GetSVGTransformable(*parent_element);
+    	if (transformableParent != NULL)
+  			transformableParent->UpdateMatrix(matrix);
+		}
+	}
+	return matrix;
+}
+
 
 wxSVGRect wxSVGLocatable::GetElementResultBBox(const wxSVGElement* element,
   wxSVG_COORDINATES coordinates)
@@ -51,9 +84,9 @@ wxSVGRect wxSVGLocatable::GetElementResultBBox(const wxSVGElement* element,
       return elemBBox;
   // GetResultBBox and transfrom it to parent coordinate system
   if (coordinates != wxSVG_COORDINATES_USER)
-    return transformable->GetResultBBox(coordinates);
+    return transformable->GetBBox(wxSVG_COORDINATES_USER);
   wxSVGMatrix matrix;
-  transformable->UpdateMatrix(matrix);
+  //transformable->UpdateMatrix(matrix);
   return transformable->GetResultBBox().MatrixTransform(matrix);
 }
 
@@ -65,7 +98,6 @@ wxSVGRect wxSVGLocatable::GetChildrenBBox(const wxSVGElement* element,
   for (; child != NULL; child = (wxSVGElement*) child->GetNext())
   {
     wxSVGRect childBBox = wxSVGLocatable::GetElementBBox(child, coordinates);
-    
     if (childBBox.IsEmpty())
       continue;
     

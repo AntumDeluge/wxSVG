@@ -80,6 +80,7 @@ class WXDLLIMPEXP_WXSVG wxSVGDocument:
     wxSVGElement* GetElementById(const wxString& id);
     
     wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL);
+    wxImage RenderElementById(const wxString& id);
   private:
   	DECLARE_DYNAMIC_CLASS(wxSVGDocument)
 };

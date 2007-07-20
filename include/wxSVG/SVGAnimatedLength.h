@@ -11,7 +11,15 @@
 
 #include "SVGLength.h"
 
-class wxSVGAnimatedLength
+#ifdef WXMAKINGDLL_WXSVG
+    #define WXDLLIMPEXP_WXSVG WXEXPORT
+#elif defined(WXUSINGDLL)
+    #define WXDLLIMPEXP_WXSVG WXIMPORT
+#else // not making nor using DLL
+    #define WXDLLIMPEXP_WXSVG
+#endif
+
+class WXDLLIMPEXP_WXSVG wxSVGAnimatedLength
 {
   public:
     wxSVGAnimatedLength(): m_animVal(NULL) {}

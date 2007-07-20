@@ -11,7 +11,15 @@
 
 #include "SVGRect.h"
 
-class wxSVGAnimatedRect
+#ifdef WXMAKINGDLL_WXSVG
+    #define WXDLLIMPEXP_WXSVG WXEXPORT
+#elif defined(WXUSINGDLL)
+    #define WXDLLIMPEXP_WXSVG WXIMPORT
+#else // not making nor using DLL
+    #define WXDLLIMPEXP_WXSVG
+#endif
+
+class WXDLLIMPEXP_WXSVG wxSVGAnimatedRect
 {
   public:
     wxSVGAnimatedRect(): m_animVal(NULL) {}

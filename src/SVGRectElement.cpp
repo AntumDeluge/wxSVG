@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGRectElement.cpp,v 1.4 2006-01-08 12:44:30 ntalex Exp $
+// RCS-ID:      $Id: SVGRectElement.cpp,v 1.5 2007-07-20 08:27:39 gusstdie Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -18,11 +18,13 @@ const double pi = 3.1415926;
 
 wxSVGRect wxSVGRectElement::GetBBox(wxSVG_COORDINATES coordinates)
 {
+	wxSVGMatrix matrix = wxSVGLocatable::GetCTM(this);
   WX_SVG_CREATE_M_CANVAS_ITEM
   wxSVGRect bbox = coordinates == wxSVG_COORDINATES_USER ? 
     m_canvasItem->GetBBox() : m_canvasItem->GetBBox(GetMatrix(coordinates));
   WX_SVG_CLEAR_M_CANVAS_ITEM
-  return bbox;
+  return bbox.MatrixTransform(matrix);
+  //return bbox;
 }
 
 wxSVGRect wxSVGRectElement::GetResultBBox(wxSVG_COORDINATES coordinates)

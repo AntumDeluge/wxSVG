@@ -29,7 +29,15 @@ enum wxSVG_LENGTHTYPE
   wxSVG_LENGTHTYPE_PC = 10
 };
 
-class wxSVGLength
+#ifdef WXMAKINGDLL_WXSVG
+    #define WXDLLIMPEXP_WXSVG WXEXPORT
+#elif defined(WXUSINGDLL)
+    #define WXDLLIMPEXP_WXSVG WXIMPORT
+#else // not making nor using DLL
+    #define WXDLLIMPEXP_WXSVG
+#endif
+
+class WXDLLIMPEXP_WXSVG wxSVGLength
 {
   protected:
     wxSVG_LENGTHTYPE m_unitType;

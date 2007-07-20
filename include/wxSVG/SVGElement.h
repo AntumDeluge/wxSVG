@@ -47,6 +47,8 @@ class WXDLLIMPEXP_WXSVG wxSVGElement:
 
     inline wxSVGElement* GetViewportElement() const { return m_viewportElement; }
     inline void SetViewportElement(wxSVGElement* n) { m_viewportElement = n; }
+    
+    virtual wxSVGElement* GetSvgElement(){return this;}
 
 
   public:

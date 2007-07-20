@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGCircleElement.cpp,v 1.5 2006-01-08 12:44:30 ntalex Exp $
+// RCS-ID:      $Id: SVGCircleElement.cpp,v 1.6 2007-07-20 08:27:39 gusstdie Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -18,13 +18,14 @@ const double pi = 3.1415926;
 
 wxSVGRect wxSVGCircleElement::GetBBox(wxSVG_COORDINATES coordinates)
 {
-  if (coordinates == wxSVG_COORDINATES_USER)
+	wxSVGMatrix matrix = wxSVGLocatable::GetCTM(this);
+  if (coordinates == wxSVG_COORDINATES_USER){
+  	
     return wxSVGRect(GetCx().GetAnimVal() - GetR().GetAnimVal(),
       GetCy().GetAnimVal() - GetR().GetAnimVal(),
-      2*GetR().GetAnimVal(), 2*GetR().GetAnimVal());
-  
-  wxSVGMatrix matrix = GetMatrix(coordinates);
-  
+      2*GetR().GetAnimVal(), 2*GetR().GetAnimVal()).MatrixTransform(matrix);
+  }
+    
   double angles[4];
   angles[0] = atan(matrix.GetC() / matrix.GetA());
   angles[1] = atan(matrix.GetD() / matrix.GetB());
@@ -62,7 +63,7 @@ wxSVGRect wxSVGCircleElement::GetBBox(wxSVG_COORDINATES coordinates)
 	if (bbox.GetY() + bbox.GetHeight() < pi.GetY())
 	  bbox.SetHeight(pi.GetY() - bbox.GetY());
   }
-  return bbox;
+  return bbox.MatrixTransform(matrix);
 }
 
 wxSVGRect wxSVGCircleElement::GetResultBBox(wxSVG_COORDINATES coordinates)

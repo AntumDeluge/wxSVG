@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.h,v 1.9 2007-05-23 15:15:15 etisserant Exp $
+// RCS-ID:      $Id: svgctrl.h,v 1.10 2007-07-20 08:27:39 gusstdie Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,8 +12,11 @@
 #define wxSVG_CTRL_H
 
 #include "SVGDocument.h"
+#include "SVGRectElement.h"
+#include "SVGTransformable.h"
 #include <wx/control.h>
 #include <wx/bitmap.h>
+
 
 #ifdef WXMAKINGDLL_WXSVG
     #define WXDLLIMPEXP_WXSVG WXEXPORT
@@ -55,6 +58,8 @@ class WXDLLIMPEXP_WXSVG wxSVGCtrlBase: public wxControl
         only the area inside it will be repainted. */
     void RefreshRect(const wxRect& rect) { Refresh(true, &rect); }
     void RefreshRect(const wxSVGRect& rect) { Refresh(&rect); }
+    
+    void MoveElement(wxSVGElement* elem, double Xposition, double Yposition);
     
   protected:
     wxSVGDocument* m_doc;

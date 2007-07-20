@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.14 2007-07-10 09:36:21 gusstdie Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.15 2007-07-20 08:27:39 gusstdie Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -153,6 +153,38 @@ double wxSVGCtrlBase::GetScale() const
   if (m_doc)
     return m_doc->GetScale();
   return 1;
+}
+
+void wxSVGCtrlBase::MoveElement(wxSVGElement* elem, double Xposition, double Yposition)
+{
+	if (elem->GetDtd() == wxSVG_RECT_ELEMENT)
+	{
+		double stroke_width = 0;
+  		if (((wxSVGRectElement*)elem)->GetStroke().GetPaintType() != wxSVG_PAINTTYPE_NONE)
+  			stroke_width = ((wxSVGRectElement*)elem)->GetStrokeWidth();
+		wxSVGMatrix CTM = ((wxSVGRectElement*)elem)->GetCTM();
+		double denom = CTM.GetB()*CTM.GetC() - CTM.GetA()*CTM.GetD();
+		double x = (CTM.GetC()*(Yposition-CTM.GetF()) - CTM.GetD()*(Xposition-CTM.GetE())) / denom;
+		double y = (CTM.GetB()*(Xposition-CTM.GetE()) - CTM.GetA()*(Yposition-CTM.GetF())) / denom;
+		wxSVGLength Xvalue(x + stroke_width / 2);
+		wxSVGLength Yvalue(y + stroke_width / 2);
+		((wxSVGRectElement*)elem)->SetX(Xvalue);
+		((wxSVGRectElement*)elem)->SetY(Yvalue);
+	}
+	else
+	{
+		wxSVGTransformable* element = wxSVGTransformable::GetSVGTransformable(*elem);
+        wxSVGMatrix CTM = element->GetCTM();
+		wxSVGTransformList transforms = element->GetTransform().GetBaseVal();
+		wxSVGMatrix matrix = transforms[(int)transforms.Count()-1].GetMatrix();
+		wxSVGRect bbox = element->GetResultBBox(wxSVG_COORDINATES_VIEWPORT);
+		wxSVGPoint LeftUp = wxSVGPoint(bbox.GetX(), bbox.GetY());
+		wxSVGMatrix new_matrix = wxSVGMatrix();
+		new_matrix = new_matrix.Translate(Xposition - LeftUp.GetX(), Yposition - LeftUp.GetY());
+		new_matrix = matrix.Multiply(CTM.Inverse().Multiply(new_matrix.Multiply(CTM)));
+		transforms[transforms.Count()-1].SetMatrix(new_matrix);
+		element->SetTransform(transforms);
+	}
 }
 
 IMPLEMENT_ABSTRACT_CLASS(wxSVGCtrl, wxSVGCtrlBase)
