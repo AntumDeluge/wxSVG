@@ -30,7 +30,10 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   Elements_CopyConstructors.cpp Elements_HasAttribute.cpp\
   Elements_GetAttribute.cpp Elements_GetAttributes.cpp Elements_SetAttribute.cpp\
   CSSValue.cpp CSSStyleDeclaration.cpp\
-  SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp
+  SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp\
+  SVGUIButton.cpp SVGUIContainer.cpp SVGUIControl.cpp SVGUIElement.cpp\
+  SVGUINoteBook.cpp SVGUIRotatingCtrl.cpp SVGUIScrollBar.cpp\
+  SVGUITextCtrl.cpp SVGUITransform.cpp SVGUIWindow.cpp ElementTransform.cpp
 
 libwxsvg_la_LIBADD = svgxml/libwxsvgxml.la freetype/libwxsvg_freetype.la\
  $(RENDER_LIB)
