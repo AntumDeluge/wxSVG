@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIWindow.h,v 1.1 2007-08-31 08:56:17 gusstdie Exp $
+// RCS-ID:      $Id: SVGUIWindow.h,v 1.2 2007-08-31 13:38:53 gusstdie Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -65,6 +65,7 @@ class WXDLLIMPEXP_WXSVG SVGUIWindow:
 		
 		SVGUIContainer* GetSVGUIRootElement();
 		SVGUIElement* GetElementById(const wxString& id);
+		SVGUIElement* GetElementByName(const wxString& name);
 		SVGUIScrollBar* GetScrollBarById(const wxString& id);
 		static int GetSVGUIID(const wxChar *str_id);
 

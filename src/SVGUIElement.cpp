@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIElement.cpp,v 1.1 2007-08-31 08:56:15 gusstdie Exp $
+// RCS-ID:      $Id: SVGUIElement.cpp,v 1.2 2007-08-31 13:38:52 gusstdie Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -60,6 +60,11 @@ SVGUIElement::SVGUIElement(wxSVGDocument* doc)
 wxString SVGUIElement::GetId()
 {
 	return GetAttribute(wxT("id"));
+}
+
+wxString SVGUIElement::GetName()
+{
+	return GetAttribute(wxT("name"));
 }
 
 void SVGUIElement::AddProperty(const wxString& name, const wxString& value)

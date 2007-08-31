@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIWindow.cpp,v 1.1 2007-08-31 08:56:15 gusstdie Exp $
+// RCS-ID:      $Id: SVGUIWindow.cpp,v 1.2 2007-08-31 13:38:52 gusstdie Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -89,6 +89,23 @@ SVGUIElement* RecurseElementId(SVGUIElement* elem, const wxString& id)
     return NULL;
 } 
 
+SVGUIElement* RecurseElementName(SVGUIElement* elem, const wxString& name)
+{
+    if (elem->GetName() == name) return elem;
+		/*printf("MY_ID : %s\n",id.c_str());
+		printf("FOUND_ID : %s\n",found_id.c_str());*/
+    SVGUIElement* n = (SVGUIElement*)elem->GetChildren();
+    while (n)
+    {
+        SVGUIElement* res = RecurseElementName(n, name);
+        if (res)
+           return res;
+        else
+           n = (SVGUIElement*)n->GetNext();
+    }
+    return NULL;
+} 
+
 SVGUIContainer* SVGUIWindow::GetSVGUIRootElement()
 {
 	return (SVGUIContainer*)GetRoot();
@@ -108,6 +125,11 @@ SVGUIElement* SVGUIWindow::GetElementById(const wxString& id)
 		m_selected_element = my_elem;
 	}
 	return my_elem;
+}
+
+SVGUIElement* SVGUIWindow::GetElementByName(const wxString& name)
+{
+	return RecurseElementName((SVGUIElement*)GetRoot(), name);
 }
 
 SVGUIScrollBar* SVGUIWindow::GetScrollBarById(const wxString& id)

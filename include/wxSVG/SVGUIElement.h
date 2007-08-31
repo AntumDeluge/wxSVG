@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIElement.h,v 1.1 2007-08-31 08:56:17 gusstdie Exp $
+// RCS-ID:      $Id: SVGUIElement.h,v 1.2 2007-08-31 13:38:53 gusstdie Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -40,6 +40,7 @@ class WXDLLIMPEXP_WXSVG SVGUIElement:
 		SVGUIElement();
 		SVGUIElement(wxSVGDocument* doc);
 		wxString GetId();
+		wxString GetName();
 		
 		virtual void DefineCenter(wxSVGPoint* pt){Update_Elements();}
 		virtual wxSVGPoint* GetCenter(){return NULL;}
