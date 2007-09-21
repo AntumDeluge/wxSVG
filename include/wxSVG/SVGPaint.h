@@ -10,7 +10,7 @@
 #define WX_SVG_PAINT_H
 
 #include "SVGColor.h"
-#include "String.h"
+#include "String_wxsvg.h"
 
 
 enum wxSVG_PAINTTYPE

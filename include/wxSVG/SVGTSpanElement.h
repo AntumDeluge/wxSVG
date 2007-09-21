@@ -10,7 +10,7 @@
 #define WX_SVG_T_SPAN_ELEMENT_H
 
 #include "SVGTextPositioningElement.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGTSpanElement:

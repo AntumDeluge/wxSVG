@@ -9,7 +9,7 @@
 #ifndef WX_SVG_LENGTH_H
 #define WX_SVG_LENGTH_H
 
-#include "String.h"
+#include "String_wxsvg.h"
 #include "SVGLengthCalculate.h"
 #include "math.h"
 

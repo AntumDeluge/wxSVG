@@ -13,7 +13,7 @@
 #include "SVGAnimatedEnumeration.h"
 #include "SVGAnimatedNumberList.h"
 #include "SVGAnimatedNumber.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 

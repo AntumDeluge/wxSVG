@@ -12,7 +12,7 @@
 #include "SVGElement.h"
 #include "SVGStylable.h"
 #include "SVGAnimatedNumber.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGStopElement:

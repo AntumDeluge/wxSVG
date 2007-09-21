@@ -9,7 +9,7 @@
 #ifndef WX_SVG_NUMBER_LIST_H
 #define WX_SVG_NUMBER_LIST_H
 
-#include "String.h"
+#include "String_wxsvg.h"
 #include <wx/dynarray.h>
 WX_DECLARE_OBJARRAY(float, wxSVGNumberListBase);
 

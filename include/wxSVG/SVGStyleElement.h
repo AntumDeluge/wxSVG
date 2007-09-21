@@ -10,7 +10,7 @@
 #define WX_SVG_STYLE_ELEMENT_H
 
 #include "SVGElement.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGStyleElement:

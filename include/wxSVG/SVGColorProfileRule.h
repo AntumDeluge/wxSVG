@@ -11,7 +11,7 @@
 
 #include "SVGCSSRule.h"
 #include "SVGRenderingIntent.h"
-#include "String.h"
+#include "String_wxsvg.h"
 
 class wxSVGColorProfileRule:
   public wxSVGCSSRule,

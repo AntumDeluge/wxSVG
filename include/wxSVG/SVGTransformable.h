@@ -11,7 +11,7 @@
 
 #include "SVGLocatable.h"
 #include "SVGAnimatedTransformList.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGTransformable:

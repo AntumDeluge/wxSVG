@@ -10,7 +10,7 @@
 #define WX_SVG_POINT_LIST_H
 
 #include "SVGPoint.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include <wx/dynarray.h>
 WX_DECLARE_OBJARRAY(wxSVGPoint, wxSVGPointListBase);
 

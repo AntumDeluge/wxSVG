@@ -20,7 +20,7 @@ class wxSVGCanvasItem;
 #include "EventTarget.h"
 #include "SVGAnimatedLength.h"
 #include "SVGSVGElement.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGEllipseElement:

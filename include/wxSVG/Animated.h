@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: Animated.h,v 1.2 2005-06-17 13:24:04 ntalex Exp $
+// RCS-ID:      $Id: Animated.h,v 1.3 2007-09-21 06:47:34 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -11,7 +11,7 @@
 #ifndef WXSVG_ANIMATED_H
 #define WXSVG_ANIMATED_H
 
-#include "String.h"
+#include "String_wxsvg.h"
 
 #define WXSVG_MAKE_ANIMATED(X, T) class wxSVGAnimated##X\
 {\

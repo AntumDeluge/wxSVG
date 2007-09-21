@@ -14,7 +14,7 @@
 #include "SVGAnimatedLength.h"
 #include "SVGAnimatedEnumeration.h"
 #include "SVGSVGElement.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 

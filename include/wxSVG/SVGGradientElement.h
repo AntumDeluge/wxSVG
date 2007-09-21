@@ -16,7 +16,7 @@
 #include "SVGUnitTypes.h"
 #include "SVGAnimatedEnumeration.h"
 #include "SVGAnimatedTransformList.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 

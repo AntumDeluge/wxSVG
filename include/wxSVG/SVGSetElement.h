@@ -10,7 +10,7 @@
 #define WX_SVG_SET_ELEMENT_H
 
 #include "SVGAnimationElement.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGSetElement:

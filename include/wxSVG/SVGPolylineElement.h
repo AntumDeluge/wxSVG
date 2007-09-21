@@ -19,7 +19,7 @@ class wxSVGCanvasItem;
 #include "SVGTransformable.h"
 #include "EventTarget.h"
 #include "SVGAnimatedPoints.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGPolylineElement:

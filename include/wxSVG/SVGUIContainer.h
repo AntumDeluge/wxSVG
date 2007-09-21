@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/05
-// RCS-ID:      $Id: SVGUIContainer.h,v 1.1 2007-08-31 08:56:16 gusstdie Exp $
+// RCS-ID:      $Id: SVGUIContainer.h,v 1.2 2007-09-21 06:47:34 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ class WXDLLIMPEXP_WXSVG SVGUIContainer:
 		virtual wxSVGRect GetBBox();
 		virtual void SendMouseEvent(wxMouseEvent& event);
 		virtual void SendKeyEvent(wxKeyEvent& event);
-		virtual void SendNotebookEvent(wxNotebookEvent& event);
+		//virtual void SendNotebookEvent(wxNotebookEvent& event);
 	  virtual void SendScrollEvent(wxScrollEvent& event);
 	  virtual void SendCommandEvent(wxCommandEvent& event);
 };

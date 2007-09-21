@@ -22,7 +22,7 @@
 #include "ViewCSS.h"
 #include "DocumentCSS.h"
 #include "SVGAnimatedLength.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "SVGRect.h"
 #include "SVGViewSpec.h"
 #include "SVGPoint.h"

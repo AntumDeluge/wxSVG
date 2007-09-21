@@ -13,7 +13,7 @@ class wxSVGCanvasItem;
 
 #include "SVGTextPositioningElement.h"
 #include "SVGTransformable.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGTextElement:

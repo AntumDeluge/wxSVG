@@ -15,7 +15,7 @@
 #include "SVGStylable.h"
 #include "SVGFitToViewBox.h"
 #include "EventTarget.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGSymbolElement:

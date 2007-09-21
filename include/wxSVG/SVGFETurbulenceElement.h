@@ -14,7 +14,7 @@
 #include "SVGAnimatedNumber.h"
 #include "SVGAnimatedInteger.h"
 #include "SVGAnimatedEnumeration.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 

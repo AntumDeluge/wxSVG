@@ -11,7 +11,7 @@
 
 #include "SVGTextPositioningElement.h"
 #include "SVGURIReference.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGTRefElement:

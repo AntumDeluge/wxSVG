@@ -9,7 +9,7 @@
 #ifndef WX_SVG_ZOOM_AND_PAN_H
 #define WX_SVG_ZOOM_AND_PAN_H
 
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 

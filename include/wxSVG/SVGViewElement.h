@@ -14,7 +14,7 @@
 #include "SVGFitToViewBox.h"
 #include "SVGZoomAndPan.h"
 #include "SVGStringList.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGViewElement:

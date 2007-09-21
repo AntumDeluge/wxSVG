@@ -10,7 +10,7 @@
 #define WX_SVG_TRANSFORM_LIST_H
 
 #include "SVGTransform.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include <wx/dynarray.h>
 WX_DECLARE_OBJARRAY(wxSVGTransform, wxSVGTransformListBase);
 

@@ -18,7 +18,7 @@
 #include "SVGTransformable.h"
 #include "EventTarget.h"
 #include "SVGAnimatedString.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGAElement:

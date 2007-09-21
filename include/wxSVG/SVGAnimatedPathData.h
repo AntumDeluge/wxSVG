@@ -10,7 +10,7 @@
 #define WX_SVG_ANIMATED_PATH_DATA_H
 
 #include "SVGPathSegList.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGAnimatedPathData

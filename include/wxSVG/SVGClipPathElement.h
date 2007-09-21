@@ -17,7 +17,7 @@
 #include "SVGTransformable.h"
 #include "SVGUnitTypes.h"
 #include "SVGAnimatedEnumeration.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGClipPathElement:

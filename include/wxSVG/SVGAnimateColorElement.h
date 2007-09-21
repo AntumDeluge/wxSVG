@@ -10,7 +10,7 @@
 #define WX_SVG_ANIMATE_COLOR_ELEMENT_H
 
 #include "SVGAnimationElement.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGAnimateColorElement:

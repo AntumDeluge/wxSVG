@@ -16,7 +16,7 @@
 #include "SVGStylable.h"
 #include "SVGTransformable.h"
 #include "EventTarget.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGDefsElement:

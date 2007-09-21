@@ -9,7 +9,7 @@
 #ifndef WX_SVG_ANGLE_H
 #define WX_SVG_ANGLE_H
 
-#include "String.h"
+#include "String_wxsvg.h"
 
 
 enum wxSVG_ANGLETYPE

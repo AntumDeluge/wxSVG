@@ -16,7 +16,7 @@ class wxSVGElement;
 #include "SVGExternalResourcesRequired.h"
 #include "ElementTimeControl.h"
 #include "EventTarget.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGAnimationElement:

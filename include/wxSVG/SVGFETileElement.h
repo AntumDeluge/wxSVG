@@ -12,7 +12,7 @@
 #include "SVGElement.h"
 #include "SVGFilterPrimitiveStandardAttributes.h"
 #include "SVGAnimatedString.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGFETileElement:

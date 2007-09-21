@@ -10,7 +10,7 @@
 #define WX_SVG_FE_FUNC_A_ELEMENT_H
 
 #include "SVGComponentTransferFunctionElement.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGFEFuncAElement:

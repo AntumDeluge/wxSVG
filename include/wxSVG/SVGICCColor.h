@@ -9,7 +9,7 @@
 #ifndef WX_SVG_ICC_COLOR_H
 #define WX_SVG_ICC_COLOR_H
 
-#include "String.h"
+#include "String_wxsvg.h"
 #include "SVGNumberList.h"
 
 class wxSVGICCColor

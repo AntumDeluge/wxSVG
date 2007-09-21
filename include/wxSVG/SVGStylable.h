@@ -12,7 +12,7 @@
 #include "SVGAnimatedString.h"
 #include "CSSStyleDeclaration.h"
 #include "CSSValue.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 #include "SVGElement.h"
 

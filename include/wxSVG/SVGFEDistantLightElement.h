@@ -11,7 +11,7 @@
 
 #include "SVGElement.h"
 #include "SVGAnimatedNumber.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGFEDistantLightElement:

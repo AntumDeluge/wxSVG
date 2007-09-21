@@ -15,7 +15,7 @@ class wxSVGCanvas;
 
 #include "Document.h"
 #include "DocumentEvent.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "SVGRect.h"
 #include "SVGMatrix.h"
 #include <wx/image.h>

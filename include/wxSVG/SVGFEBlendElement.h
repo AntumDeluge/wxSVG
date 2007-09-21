@@ -13,7 +13,7 @@
 #include "SVGFilterPrimitiveStandardAttributes.h"
 #include "SVGAnimatedString.h"
 #include "SVGAnimatedEnumeration.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 

@@ -19,7 +19,7 @@
 #include "SVGAnimatedAngle.h"
 #include "SVGSVGElement.h"
 #include "SVGAngle.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 

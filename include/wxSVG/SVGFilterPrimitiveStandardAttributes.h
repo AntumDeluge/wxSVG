@@ -12,7 +12,7 @@
 #include "SVGStylable.h"
 #include "SVGAnimatedLength.h"
 #include "SVGAnimatedString.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGFilterPrimitiveStandardAttributes:

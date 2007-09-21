@@ -20,7 +20,7 @@
 #include "SVGSVGElement.h"
 #include "SVGPoint.h"
 #include "SVGRect.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 

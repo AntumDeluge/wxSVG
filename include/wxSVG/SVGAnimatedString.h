@@ -9,7 +9,7 @@
 #ifndef WX_SVG_ANIMATED_STRING_H
 #define WX_SVG_ANIMATED_STRING_H
 
-#include "String.h"
+#include "String_wxsvg.h"
 
 class wxSVGAnimatedString
 {

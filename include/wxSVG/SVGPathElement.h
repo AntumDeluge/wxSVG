@@ -40,7 +40,7 @@ class wxSVGCanvasItem;
 #include "SVGPathSegCurvetoCubicSmoothRel.h"
 #include "SVGPathSegCurvetoQuadraticSmoothAbs.h"
 #include "SVGPathSegCurvetoQuadraticSmoothRel.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGPathElement:

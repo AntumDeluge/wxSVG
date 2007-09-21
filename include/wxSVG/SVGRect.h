@@ -9,7 +9,7 @@
 #ifndef WX_SVG_RECT_H
 #define WX_SVG_RECT_H
 
-#include "String.h"
+#include "String_wxsvg.h"
 #include "SVGMatrix.h"
 
 class wxSVGRect

@@ -12,7 +12,7 @@
 #include "CSSValue.h"
 #include "RGBColor.h"
 #include "SVGICCColor.h"
-#include "String.h"
+#include "String_wxsvg.h"
 
 
 enum wxSVG_COLORTYPE

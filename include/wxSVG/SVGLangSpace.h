@@ -9,7 +9,7 @@
 #ifndef WX_SVG_LANG_SPACE_H
 #define WX_SVG_LANG_SPACE_H
 
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGLangSpace

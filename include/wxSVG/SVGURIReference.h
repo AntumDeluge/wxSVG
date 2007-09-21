@@ -10,7 +10,7 @@
 #define WX_SVG_URI_REFERENCE_H
 
 #include "SVGAnimatedString.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGURIReference

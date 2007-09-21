@@ -11,7 +11,7 @@
 
 #include "SVGAnimatedRect.h"
 #include "SVGAnimatedPreserveAspectRatio.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 #include "SVGLength.h"
 #include "SVGMatrix.h"

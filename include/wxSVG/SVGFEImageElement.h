@@ -14,7 +14,7 @@
 #include "SVGLangSpace.h"
 #include "SVGExternalResourcesRequired.h"
 #include "SVGFilterPrimitiveStandardAttributes.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGFEImageElement:

@@ -14,7 +14,7 @@ class wxSVGElement;
 class wxSVGDocument;
 
 #include "Element.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "SVGDTD.h"
 
 

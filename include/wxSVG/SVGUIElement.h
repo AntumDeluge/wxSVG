@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIElement.h,v 1.2 2007-08-31 13:38:53 gusstdie Exp $
+// RCS-ID:      $Id: SVGUIElement.h,v 1.3 2007-09-21 06:47:35 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,6 +12,7 @@
 #define SVGUI_ELEMENT_H
 
 #include <wx/wx.h>
+//#include <wx/notebook.h>
 #include <wxSVGXML/svgxml.h>
 #include <wxSVG/svg.h>
 #include <wxSVG/SVGElement.h>
@@ -49,7 +50,7 @@ class WXDLLIMPEXP_WXSVG SVGUIElement:
 		virtual wxSVGRect GetBBox() = 0;
 		virtual void SendMouseEvent(wxMouseEvent& event) = 0;
 		virtual void SendKeyEvent(wxKeyEvent& event) = 0;
-		virtual void SendNotebookEvent(wxNotebookEvent& event) = 0;
+		//virtual void SendNotebookEvent(wxNotebookEvent& event) = 0;
 		virtual void SendScrollEvent(wxScrollEvent& event) = 0;
 		virtual void SendCommandEvent(wxCommandEvent& event) = 0;
 		virtual void Update_Elements() = 0;

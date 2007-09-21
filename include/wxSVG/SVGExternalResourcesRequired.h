@@ -10,7 +10,7 @@
 #define WX_SVG_EXTERNAL_RESOURCES_REQUIRED_H
 
 #include "SVGAnimatedBoolean.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGExternalResourcesRequired

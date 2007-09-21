@@ -12,7 +12,7 @@
 #include "SVGElement.h"
 #include "SVGLangSpace.h"
 #include "SVGStylable.h"
-#include "String.h"
+#include "String_wxsvg.h"
 #include "Element.h"
 
 class wxSVGTitleElement:

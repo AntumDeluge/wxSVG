@@ -9,7 +9,7 @@
 #ifndef WX_SVG_PATH_SEG_H
 #define WX_SVG_PATH_SEG_H
 
-#include "String.h"
+#include "String_wxsvg.h"
 
 
 enum wxPATHSEG

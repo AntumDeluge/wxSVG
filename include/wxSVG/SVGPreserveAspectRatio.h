@@ -9,7 +9,7 @@
 #ifndef WX_SVG_PRESERVE_ASPECT_RATIO_H
 #define WX_SVG_PRESERVE_ASPECT_RATIO_H
 
-#include "String.h"
+#include "String_wxsvg.h"
 
 
 enum wxSVG_PRESERVEASPECTRATIO
