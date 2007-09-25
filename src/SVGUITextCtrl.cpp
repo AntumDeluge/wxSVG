@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/29
-// RCS-ID:      $Id: SVGUITextCtrl.cpp,v 1.1 2007-08-31 08:56:15 gusstdie Exp $
+// RCS-ID:      $Id: SVGUITextCtrl.cpp,v 1.2 2007-09-25 15:45:38 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@ void SVGUITextCtrl::SetSelected(const bool selected)
 		m_selected = selected;
 		Update_Elements();
 		wxCommandEvent refresh_evt(wxEVT_COMMAND_ENTER, -1);
-		refresh_evt.m_commandString = GetId();
+		refresh_evt.SetString(GetId());
 		m_window->ProcessEvent(refresh_evt);
 	}
 }

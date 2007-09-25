@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/05
-// RCS-ID:      $Id: SVGUIContainer.cpp,v 1.1 2007-08-31 08:56:15 gusstdie Exp $
+// RCS-ID:      $Id: SVGUIContainer.cpp,v 1.2 2007-09-25 15:45:38 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -146,12 +146,12 @@ void SVGUIContainer::SendKeyEvent(wxKeyEvent& event)
 	if (m_FocusedElement)
 		m_FocusedElement->SendKeyEvent(event);
 }
-
+/*
 void SVGUIContainer::SendNotebookEvent(wxNotebookEvent& event)
 {
 	((wxEvtHandler*)this)->ProcessEvent(event);
 }
-
+*/
 void SVGUIContainer::SendScrollEvent(wxScrollEvent& event)
 {
 	if (m_FocusedElement)

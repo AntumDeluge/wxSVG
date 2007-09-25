@@ -3,12 +3,13 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIControl.cpp,v 1.1 2007-08-31 08:56:15 gusstdie Exp $
+// RCS-ID:      $Id: SVGUIControl.cpp,v 1.2 2007-09-25 15:45:38 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGUIControl.h"
+
 
 BEGIN_EVENT_TABLE(SVGUIControlBase, wxEvtHandler)
   EVT_LEFT_DOWN	(SVGUIControlBase::OnLeftDown)
@@ -44,7 +45,7 @@ bool SVGUIControlBase::HitTest(wxPoint pt)
 void SVGUIControlBase::Refresh()
 {
 	wxCommandEvent refresh_evt(wxEVT_COMMAND_ENTER, -1);
-	refresh_evt.m_commandString = GetId();
+	refresh_evt.SetString(GetId());
 	m_window->ProcessEvent(refresh_evt);
 }
 
@@ -86,12 +87,12 @@ void SVGUIControlBase::SendKeyEvent(wxKeyEvent& event)
 {
 	((wxEvtHandler*)this)->ProcessEvent(event);
 }
-
+/*
 void SVGUIControlBase::SendNotebookEvent(wxNotebookEvent& event)
 {
 	((wxEvtHandler*)this)->ProcessEvent(event);
 }
-
+*/
 void SVGUIControlBase::SendScrollEvent(wxScrollEvent& event)
 {
 	((wxEvtHandler*)this)->ProcessEvent(event);
