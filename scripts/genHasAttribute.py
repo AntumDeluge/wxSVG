@@ -4,7 +4,7 @@
 ##              -> HasAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genHasAttribute.py,v 1.3 2005-11-07 17:47:43 ntalex Exp $
+## RCS-ID:      $Id: genHasAttribute.py,v 1.4 2007-10-30 21:59:23 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -19,7 +19,7 @@ import cppImpl
 
 customParser = ["SVGStylable"] ##TODO["SVGFEGaussianBlurElement", "SVGMarkerElement"]
 
-includes = ["String"]
+includes = ["String_wxsvg"]
 already_done={}
 output_cpps = {}
 

@@ -21,7 +21,6 @@ class wxSVGTransformList: public wxSVGTransformListBase
     
     wxString GetValueAsString() const;
     void SetValueAsString(const wxString& value);
-    bool HasValue(){return (int)GetCount()!=0;}
 };
 
 #endif // WX_SVG_TRANSFORM_LIST_H

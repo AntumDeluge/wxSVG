@@ -3,7 +3,7 @@
 ## Purpose:     generates all SVG*List.h/cpp
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genList.py,v 1.6 2005-11-07 17:47:43 ntalex Exp $
+## RCS-ID:      $Id: genList.py,v 1.7 2007-10-30 21:59:23 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -20,11 +20,11 @@ def generate(name):
     typename = genAnimated.getBaseType(name)
     include = ""
     if name == "String":
-        include = '#include "%s.h"\n'%name
+        include = '#include "String_wxsvg.h"\n'
     elif typename not in cpp.builtin_types:
         include = '#include "SVG%s.h"\n'%name
     
-    output = '''%s#include "String.h"
+    output = '''%s#include "String_wxsvg.h"
 #include <wx/dynarray.h>
 WX_DECLARE_OBJARRAY(%s, wxSVG%sListBase);
 

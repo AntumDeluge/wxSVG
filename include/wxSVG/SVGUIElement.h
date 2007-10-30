@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIElement.h,v 1.3 2007-09-21 06:47:35 etisserant Exp $
+// RCS-ID:      $Id: SVGUIElement.h,v 1.4 2007-10-30 21:59:22 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -20,15 +20,7 @@
 
 void SetDisplay(wxSVGElement* elem, wxCSS_VALUE value);
 
-#ifdef WXMAKINGDLL_WXSVG
-    #define WXDLLIMPEXP_WXSVG WXEXPORT
-#elif defined(WXUSINGDLL)
-    #define WXDLLIMPEXP_WXSVG WXIMPORT
-#else // not making nor using DLL
-    #define WXDLLIMPEXP_WXSVG
-#endif
-
-class WXDLLIMPEXP_WXSVG SVGUIElement:
+class SVGUIElement:
 	public wxSvgXmlElement
 {
 	protected:

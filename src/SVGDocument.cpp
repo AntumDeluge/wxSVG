@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.29 2007-07-20 08:27:39 gusstdie Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.30 2007-10-30 21:59:24 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 #elif defined USE_RENDER_CAIRO
 #include "cairo/SVGCanvasCairo.h"
 #define WX_SVG_CANVAS wxSVGCanvasCairo
-#else // USE_RENDER_LIBART
+#else USE_RENDER_LIBART
 #include "libart/SVGCanvasLibart.h"
 #define WX_SVG_CANVAS wxSVGCanvasLibart
 #endif

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Jonathan Hurtrel
 // Created:     2007/06/08
-// RCS-ID:      $Id: NodeListCls.h,v 1.1 2007-06-08 08:50:14 gusstdie Exp $
+// RCS-ID:      $Id: NodeListCls.h,v 1.2 2007-10-30 21:59:22 etisserant Exp $
 // Copyright:   (c) 2005 Jonathan Hurtrel
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -14,17 +14,7 @@
 #include "SVGElement.h"
 #include "NodeList.h"
 
-
-
-#ifdef WXMAKINGDLL_WXSVG
-    #define WXDLLIMPEXP_WXSVG WXEXPORT
-#elif defined(WXUSINGDLL)
-    #define WXDLLIMPEXP_WXSVG WXIMPORT
-#else // not making nor using DLL
-    #define WXDLLIMPEXP_WXSVG
-#endif
-
-class WXDLLIMPEXP_WXSVG wxNodeListCls
+class wxNodeListCls
 {
 	protected:
 		int list_size;

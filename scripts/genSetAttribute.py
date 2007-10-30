@@ -4,7 +4,7 @@
 ##              -> SetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSetAttribute.py,v 1.10 2006-01-10 12:51:52 ntalex Exp $
+## RCS-ID:      $Id: genSetAttribute.py,v 1.11 2007-10-30 21:59:23 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -19,7 +19,7 @@ import cppImpl
 
 customParser = ["SVGStylable"] ##TODO["SVGFEGaussianBlurElement", "SVGMarkerElement"]
 
-includes = ["String"]
+includes = ["String_wxsvg"]
 already_done={}
 output_cpps = {}
 

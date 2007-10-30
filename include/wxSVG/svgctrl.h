@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.h,v 1.10 2007-07-20 08:27:39 gusstdie Exp $
+// RCS-ID:      $Id: svgctrl.h,v 1.11 2007-10-30 21:59:22 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -18,15 +18,7 @@
 #include <wx/bitmap.h>
 
 
-#ifdef WXMAKINGDLL_WXSVG
-    #define WXDLLIMPEXP_WXSVG WXEXPORT
-#elif defined(WXUSINGDLL)
-    #define WXDLLIMPEXP_WXSVG WXIMPORT
-#else // not making nor using DLL
-    #define WXDLLIMPEXP_WXSVG
-#endif
-
-class WXDLLIMPEXP_WXSVG wxSVGCtrlBase: public wxControl
+class wxSVGCtrlBase: public wxControl
 {
   public:
     wxSVGCtrlBase();
@@ -79,7 +71,7 @@ class WXDLLIMPEXP_WXSVG wxSVGCtrlBase: public wxControl
 
 };
 
-class WXDLLIMPEXP_WXSVG wxSVGCtrl: public wxSVGCtrlBase
+class wxSVGCtrl: public wxSVGCtrlBase
 {
   public:
     wxSVGCtrl();

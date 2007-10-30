@@ -16,15 +16,7 @@
 #include "SVGLength.h"
 #include "SVGMatrix.h"
 
-#ifdef WXMAKINGDLL_WXSVG
-    #define WXDLLIMPEXP_WXSVG WXEXPORT
-#elif defined(WXUSINGDLL)
-    #define WXDLLIMPEXP_WXSVG WXIMPORT
-#else // not making nor using DLL
-    #define WXDLLIMPEXP_WXSVG
-#endif
-
-class WXDLLIMPEXP_WXSVG wxSVGFitToViewBox
+class wxSVGFitToViewBox
 {
   protected:
     wxSVGAnimatedRect m_viewBox;

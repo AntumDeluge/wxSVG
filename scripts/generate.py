@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.18 2007-05-23 15:15:18 etisserant Exp $
+## RCS-ID:      $Id: generate.py,v 1.19 2007-10-30 21:59:23 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -164,8 +164,8 @@ if len(parse_idl.class_decls):
                         print '"'+classname+'::'+attr.name +'": "' + tmp + '" ,'
 
                 elif typename=="DOMString":
-                    if "String" not in includes:
-                        includes.append("String")
+                    if "String_wxsvg" not in includes:
+                        includes.append("String_wxsvg")
                 else:
                     if cpp.fix_typename(typename) not in cpp.builtin_types:
                         if typename not in includes:
@@ -401,8 +401,8 @@ if len(parse_idl.class_decls):
             return_type = cpp.fix_typename(meth.return_type.name)
             if return_type not in cpp.builtin_types:
                 if meth.return_type.name in ["DOMString"]: # confusion between typedef and class
-                    if "String" not in includes:
-                        includes.append("String")
+                    if "String_wxsvg" not in includes:
+                        includes.append("String_wxsvg")
                 else:
                     if meth.return_type.name not in includes:
                         includes.append(meth.return_type.name)
@@ -431,8 +431,8 @@ if len(parse_idl.class_decls):
                         method_decl = method_decl + '%s* %s'%(arg_type, arg.name)
 
                     if arg.type.name in ["DOMString"]: # confusion between typedef and class
-                        if "String" not in includes:
-                            includes.append("String")
+                        if "String_wxsvg" not in includes:
+                            includes.append("String_wxsvg")
                     else:
                         if arg.type.name not in includes:
                             includes.append(arg.type.name)
@@ -463,8 +463,8 @@ if len(parse_idl.class_decls):
             methods_str = methods_str + '    wxString GetAttribute(const wxString& name);\n';
             methods_str = methods_str + '    bool SetAttribute(const wxString& name, const wxString& value);\n';
             methods_str = methods_str + '    wxSvgXmlAttrHash GetAttributes() const;\n';
-            if "String" not in includes:
-                includes.append("String")
+            if "String_wxsvg" not in includes:
+                includes.append("String_wxsvg")
             if "Element" not in includes:
                 includes.append("Element")
             doGetAttrByName=1
@@ -569,7 +569,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.18 2007-05-23 15:15:18 etisserant Exp $
+// RCS-ID:      $Id: generate.py,v 1.19 2007-10-30 21:59:23 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

@@ -6,12 +6,22 @@ if USE_RENDER_CAIRO
 RENDER_DIR = cairo
 RENDER_LIB = cairo/libwxsvg_cairo.la
 else
+if USE_RENDER_LIBART
 RENDER_DIR = libart
 RENDER_LIB = libart/libwxsvg_libart.la
 endif
 endif
+endif
 
-SUBDIRS = svgxml freetype $(RENDER_DIR)
+if USE_FREETYPE
+TEXT_DIR = freetype
+TEXT_LIB = freetype/libwxsvg_freetype.la
+else
+TEXT_DIR = 
+TEXT_LIB = 
+endif
+
+SUBDIRS = svgxml $(TEXT_DIR) $(RENDER_DIR)
 
 lib_LTLIBRARIES = libwxsvg.la
 libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
@@ -35,8 +45,6 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGUINoteBook.cpp SVGUIRotatingCtrl.cpp SVGUIScrollBar.cpp\
   SVGUITextCtrl.cpp SVGUITransform.cpp SVGUIWindow.cpp ElementTransform.cpp
 
-libwxsvg_la_LIBADD = svgxml/libwxsvgxml.la freetype/libwxsvg_freetype.la\
- $(RENDER_LIB)
-libwxsvg_la_LDFLAGS = -version-info 0:0:0
+libwxsvg_la_LIBADD = svgxml/libwxsvgxml.la $(RENDER_LIB) $(TEXT_LIB)
 
-INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG -DWXMAKINGDLL_WXSVG
+INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG

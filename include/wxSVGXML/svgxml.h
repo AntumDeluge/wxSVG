@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.h,v 1.2 2007-07-20 08:27:39 gusstdie Exp $
+// RCS-ID:      $Id: svgxml.h,v 1.3 2007-10-30 21:59:25 etisserant Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -23,12 +23,14 @@
 #ifndef WXDLLIMPEXP_BASE
   #define WXDLLIMPEXP_BASE
 #endif
-#define WXDLLIMPEXP_XML
+//#define WXDLLIMPEXP_XML
+
+#define WXDLLIMPEXP_SVGXML
 	
-class WXDLLIMPEXP_XML wxSvgXmlNode;
-class WXDLLIMPEXP_XML wxSvgXmlProperty;
-class WXDLLIMPEXP_XML wxSvgXmlDocument;
-class WXDLLIMPEXP_XML wxSvgXmlIOHandler;
+class WXDLLIMPEXP_SVGXML wxSvgXmlNode;
+class WXDLLIMPEXP_SVGXML wxSvgXmlProperty;
+class WXDLLIMPEXP_SVGXML wxSvgXmlDocument;
+class WXDLLIMPEXP_SVGXML wxSvgXmlIOHandler;
 class WXDLLIMPEXP_BASE wxInputStream;
 class WXDLLIMPEXP_BASE wxOutputStream;
 
@@ -58,7 +60,7 @@ enum wxSvgXmlNodeType
 // Example: in <img src="hello.gif" id="3"/> "src" is property with value
 //          "hello.gif" and "id" is prop. with value "3".
 
-class WXDLLIMPEXP_XML wxSvgXmlProperty
+class WXDLLIMPEXP_SVGXML wxSvgXmlProperty
 {
 public:
     wxSvgXmlProperty() : m_next(NULL) {}
@@ -104,7 +106,7 @@ class wxSvgXmlAttrHash: public wxSvgXmlAttrHashBase
 // If wxUSE_UNICODE is 0, all strings are encoded in the encoding given to Load
 // (default is UTF-8).
 
-class WXDLLIMPEXP_XML wxSvgXmlNode
+class WXDLLIMPEXP_SVGXML wxSvgXmlNode
 {
 public:
     wxSvgXmlNode() : m_properties(NULL), m_parent(NULL),
@@ -211,7 +213,7 @@ typedef wxSvgXmlProperty wxSvgXmlAttr;
 
 // This class holds XML data/document as parsed by XML parser.
 
-class WXDLLIMPEXP_XML wxSvgXmlDocument : public wxObject
+class WXDLLIMPEXP_SVGXML wxSvgXmlDocument : public wxObject
 {
 public:
     wxSvgXmlDocument();

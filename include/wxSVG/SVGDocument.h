@@ -20,15 +20,7 @@ class wxSVGCanvas;
 #include "SVGMatrix.h"
 #include <wx/image.h>
 
-#ifdef WXMAKINGDLL_WXSVG
-    #define WXDLLIMPEXP_WXSVG WXEXPORT
-#elif defined(WXUSINGDLL)
-    #define WXDLLIMPEXP_WXSVG WXIMPORT
-#else // not making nor using DLL
-    #define WXDLLIMPEXP_WXSVG
-#endif
-
-class WXDLLIMPEXP_WXSVG wxSVGDocument:
+class wxSVGDocument:
   public wxSvgXmlDocument,
   public wxDocumentEvent
 {
@@ -74,7 +66,7 @@ class WXDLLIMPEXP_WXSVG wxSVGDocument:
     wxSvgXmlElement* CreateElement(const wxString& tagName);
     wxSvgXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
     
-    wxSVGSVGElement* GetRootElement() { return ( wxSVGSVGElement*) GetRoot(); }
+    wxSVGSVGElement* GetRootElement() { return (wxSVGSVGElement*) GetRoot(); }
     void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxSvgXmlElement*) n); }
     
     wxSVGElement* GetElementById(const wxString& id);
@@ -82,7 +74,7 @@ class WXDLLIMPEXP_WXSVG wxSVGDocument:
     wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL);
     wxImage RenderElementById(const wxString& id);
   private:
-  	DECLARE_DYNAMIC_CLASS(wxSVGDocument)
+      DECLARE_DYNAMIC_CLASS(wxSVGDocument)
 };
 
 #endif // WX_SVG_DOCUMENT_H

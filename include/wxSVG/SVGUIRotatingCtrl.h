@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIRotatingCtrl.h,v 1.1 2007-08-31 08:56:17 gusstdie Exp $
+// RCS-ID:      $Id: SVGUIRotatingCtrl.h,v 1.2 2007-10-30 21:59:22 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -21,15 +21,7 @@
 #include <wxSVG/CSSValue.h>
 #include <wx/wx.h>
 
-#ifdef WXMAKINGDLL_WXSVG
-    #define WXDLLIMPEXP_WXSVG WXEXPORT
-#elif defined(WXUSINGDLL)
-    #define WXDLLIMPEXP_WXSVG WXIMPORT
-#else // not making nor using DLL
-    #define WXDLLIMPEXP_WXSVG
-#endif
-
-class WXDLLIMPEXP_WXSVG SVGUIRotatingCtrl:
+class SVGUIRotatingCtrl:
 	public SVGUIControl
 {
 	protected:

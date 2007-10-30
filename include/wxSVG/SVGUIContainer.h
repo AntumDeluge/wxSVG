@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/05
-// RCS-ID:      $Id: SVGUIContainer.h,v 1.2 2007-09-21 06:47:34 etisserant Exp $
+// RCS-ID:      $Id: SVGUIContainer.h,v 1.3 2007-10-30 21:59:21 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -17,15 +17,7 @@
 #include "SVGUIElement.h"
 #include "SVGUITextCtrl.h"
 
-#ifdef WXMAKINGDLL_WXSVG
-    #define WXDLLIMPEXP_WXSVG WXEXPORT
-#elif defined(WXUSINGDLL)
-    #define WXDLLIMPEXP_WXSVG WXIMPORT
-#else // not making nor using DLL
-    #define WXDLLIMPEXP_WXSVG
-#endif
-
-class WXDLLIMPEXP_WXSVG SVGUIContainer:
+class SVGUIContainer:
 	public SVGUIElement
 {
 	protected:

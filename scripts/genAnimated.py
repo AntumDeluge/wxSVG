@@ -3,7 +3,7 @@
 ## Purpose:     generates all SVGAnimated*.h
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genAnimated.py,v 1.7 2006-02-26 14:41:20 ntalex Exp $
+## RCS-ID:      $Id: genAnimated.py,v 1.8 2007-10-30 21:59:23 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -31,7 +31,7 @@ def generate(name):
     typename = getBaseType(name)
     include = ''
     if name == "String":
-        include = '#include "String.h"\n'
+        include = '#include "String_wxsvg.h"\n'
     elif typename not in cpp.builtin_types:
         include = '#include "SVG%s.h"\n'%name
     

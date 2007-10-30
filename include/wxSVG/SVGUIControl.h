@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIControl.h,v 1.2 2007-09-21 06:47:34 etisserant Exp $
+// RCS-ID:      $Id: SVGUIControl.h,v 1.3 2007-10-30 21:59:22 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -21,15 +21,7 @@
 
 wxSVGRect SumBBox(wxSVGRect bbox1, wxSVGRect bbox2);
 
-#ifdef WXMAKINGDLL_WXSVG
-    #define WXDLLIMPEXP_WXSVG WXEXPORT
-#elif defined(WXUSINGDLL)
-    #define WXDLLIMPEXP_WXSVG WXIMPORT
-#else // not making nor using DLL
-    #define WXDLLIMPEXP_WXSVG
-#endif
-
-class WXDLLIMPEXP_WXSVG SVGUIControlBase:
+class SVGUIControlBase:
 	public SVGUIElement,
 	public wxEvtHandler
 {
@@ -64,7 +56,7 @@ class WXDLLIMPEXP_WXSVG SVGUIControlBase:
 };
 
 
-class WXDLLIMPEXP_WXSVG SVGUIControl: public SVGUIControlBase
+class SVGUIControl: public SVGUIControlBase
 {
   public:
     SVGUIControl();

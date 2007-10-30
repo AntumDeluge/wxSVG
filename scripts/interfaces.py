@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.23 2007-05-24 08:59:13 etisserant Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.24 2007-10-30 21:59:23 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -30,6 +30,7 @@ inter = interface()
 interfaces["SVGElement"]=inter
 inter.include_attributes.append('''
   public:
+    virtual wxSVGElement* GetSvgElement(){return this;}
     wxSVGElement(wxString tagName = wxT("")):
       wxSvgXmlElement(wxSVGXML_ELEMENT_NODE, tagName),
       m_ownerSVGElement(NULL), m_viewportElement(NULL) { }
@@ -59,6 +60,7 @@ inter.include_methods.append('    static wxSVGRect GetElementBBox(const wxSVGEle
 inter.include_methods.append('    static wxSVGRect GetElementResultBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
 inter.include_methods.append('    static wxSVGMatrix GetCTM(const wxSVGElement* element);\n')
 inter.include_methods.append('    static wxSVGMatrix GetScreenCTM(const wxSVGElement* element);\n')
+inter.include_methods.append('    static wxSVGMatrix GetParentMatrix(const wxSVGElement* element);\n')
 inter.include_methods_protected.append('    static wxSVGRect GetChildrenBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
 inter.include_methods_protected.append('    static wxSVGRect GetChildrenResultBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
 inter.include_methods_protected.append('    inline wxSVGMatrix GetMatrix(wxSVG_COORDINATES coordinates)\n')
@@ -188,7 +190,7 @@ inter.include_methods.append('''
 ''')
 inter.exclude_methods = ["GetValue", "SetValue", "GetValueInSpecifiedUnits", "GetValueInSpecifiedUnits"]
 inter.exclude_attributes = ["valueAsString"]
-inter.include_includes = ["String", "SVGLengthCalculate", "math"]
+inter.include_includes = ["String_wxsvg", "SVGLengthCalculate", "math"]
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
@@ -211,7 +213,7 @@ inter.include_methods.append('    void SetValueAsString(const wxString& n);\n')
 inter.include_methods.append('    \n')
 inter.exclude_methods = ["GetValue", "SetValue", "GetValueInSpecifiedUnits", "GetValueInSpecifiedUnits"]
 inter.exclude_attributes = ["valueAsString"]
-inter.include_includes = ["String"]
+inter.include_includes = ["String_wxsvg"]
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
@@ -263,7 +265,7 @@ inter.include_methods.append('''\
     void SetValueAsString(const wxString& value);
     wxSVGRect MatrixTransform(const wxSVGMatrix& matrix) const;
 ''')
-inter.include_includes = ["String", "SVGMatrix"]
+inter.include_includes = ["String_wxsvg", "SVGMatrix"]
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
@@ -293,7 +295,7 @@ inter.include_methods.append('''    wxSVGPreserveAspectRatio():
     wxString GetValueAsString() const;
     void SetValueAsString(const wxString& value);
 ''')
-inter.include_includes = ["String"]
+inter.include_includes = ["String_wxsvg"]
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 
@@ -398,6 +400,9 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     wxSVGElement* GetElementById(const wxString& id);
     
     wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL);
+    wxImage RenderElementById(const wxString& id);
+  private:
+      DECLARE_DYNAMIC_CLASS(wxSVGDocument)
 ''')
 inter.include_fwd_decls = ["SVGSVGElement","SVGElement","SVGCanvas"]
 inter.include_includes = ["SVGRect","SVGMatrix","<wx/image.h>"]

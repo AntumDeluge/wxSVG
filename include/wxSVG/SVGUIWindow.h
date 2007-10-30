@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIWindow.h,v 1.2 2007-08-31 13:38:53 gusstdie Exp $
+// RCS-ID:      $Id: SVGUIWindow.h,v 1.3 2007-10-30 21:59:22 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -25,15 +25,7 @@
 #include "SVGUITransform.h"
 #include "SVGUIContainer.h"
 
-#ifdef WXMAKINGDLL_WXSVG
-    #define WXDLLIMPEXP_WXSVG WXEXPORT
-#elif defined(WXUSINGDLL)
-    #define WXDLLIMPEXP_WXSVG WXIMPORT
-#else // not making nor using DLL
-    #define WXDLLIMPEXP_WXSVG
-#endif
-
-class WXDLLIMPEXP_WXSVG SVGUIWindow:
+class SVGUIWindow:
 	public wxSvgXmlDocument,
 	public SVGUIContainer,
 	public wxSVGCtrl

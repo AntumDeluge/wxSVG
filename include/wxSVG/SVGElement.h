@@ -17,16 +17,7 @@ class wxSVGDocument;
 #include "String_wxsvg.h"
 #include "SVGDTD.h"
 
-
-#ifdef WXMAKINGDLL_WXSVG
-    #define WXDLLIMPEXP_WXSVG WXEXPORT
-#elif defined(WXUSINGDLL)
-    #define WXDLLIMPEXP_WXSVG WXIMPORT
-#else // not making nor using DLL
-    #define WXDLLIMPEXP_WXSVG
-#endif
-
-class WXDLLIMPEXP_WXSVG wxSVGElement:
+class wxSVGElement:
   public wxSvgXmlElement
 {
   protected:
@@ -47,11 +38,10 @@ class WXDLLIMPEXP_WXSVG wxSVGElement:
 
     inline wxSVGElement* GetViewportElement() const { return m_viewportElement; }
     inline void SetViewportElement(wxSVGElement* n) { m_viewportElement = n; }
-    
-    virtual wxSVGElement* GetSvgElement(){return this;}
 
 
   public:
+    virtual wxSVGElement* GetSvgElement(){return this;}
     wxSVGElement(wxString tagName = wxT("")):
       wxSvgXmlElement(wxSVGXML_ELEMENT_NODE, tagName),
       m_ownerSVGElement(NULL), m_viewportElement(NULL) { }
