@@ -21,6 +21,10 @@ TEXT_DIR =
 TEXT_LIB = 
 endif
 
+if USE_FFMPEG
+FFMPEG_SRC = mediadec_ffmpeg.cpp
+endif
+
 SUBDIRS = svgxml $(TEXT_DIR) $(RENDER_DIR)
 
 lib_LTLIBRARIES = libwxsvg.la
@@ -43,7 +47,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp\
   SVGUIButton.cpp SVGUIContainer.cpp SVGUIControl.cpp SVGUIElement.cpp\
   SVGUINoteBook.cpp SVGUIRotatingCtrl.cpp SVGUIScrollBar.cpp\
-  SVGUITextCtrl.cpp SVGUITransform.cpp SVGUIWindow.cpp ElementTransform.cpp
+  SVGUITextCtrl.cpp SVGUITransform.cpp SVGUIWindow.cpp ElementTransform.cpp $(FFMPEG_SRC)
 
 libwxsvg_la_LIBADD = svgxml/libwxsvgxml.la $(RENDER_LIB) $(TEXT_LIB)
 
