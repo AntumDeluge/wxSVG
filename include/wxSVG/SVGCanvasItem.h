@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.11 2006-07-23 16:26:04 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.12 2007-11-11 20:05:45 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,8 @@ class wxSVGCanvasItem
 	{
 	  wxSVG_CANVAS_ITEM_PATH,
 	  wxSVG_CANVAS_ITEM_TEXT,
-	  wxSVG_CANVAS_ITEM_IMAGE
+	  wxSVG_CANVAS_ITEM_IMAGE,
+	  wxSVG_CANVAS_ITEM_VIDEO
 	};
 	
 	wxSVGCanvasItem(wxSVGCanvasItemType type) { m_type = type; }
@@ -147,6 +148,7 @@ class wxSVGCanvasImage: public wxSVGCanvasItem
 {
   public:
 	wxSVGCanvasImage(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_IMAGE) {}
+	wxSVGCanvasImage(wxSVGCanvasItemType type): wxSVGCanvasItem(type) {}
 	virtual ~wxSVGCanvasImage() {}
 	virtual void Init(wxSVGImageElement& element);
     inline int GetDefaultWidth() { return m_image.GetWidth(); }
@@ -156,6 +158,22 @@ class wxSVGCanvasImage: public wxSVGCanvasItem
 	double m_x, m_y, m_width, m_height; /** position and size of image */
     wxString m_href; /** link to the image (filename) */
 	wxImage m_image; /** image data */
+};
+
+/** Canvas item, that saves video (wxSVGVideoElement) */
+class wxFfmpegMediaDecoder;
+class wxSVGCanvasVideo: public wxSVGCanvasImage
+{
+  public:
+	wxSVGCanvasVideo();
+	virtual ~wxSVGCanvasVideo();
+	virtual void Init(wxSVGVideoElement& element);
+    double GetDuration() { return m_duration; }
+  
+  public:
+	double m_time; /** time of the loaded frame */
+	double m_duration;
+	wxFfmpegMediaDecoder* m_mediaDecoder;
 };
 
 #endif // WX_SVG_CANVAS_ITEM_H

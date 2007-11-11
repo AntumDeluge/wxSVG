@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.11 2006-07-20 23:46:14 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.12 2007-11-11 20:05:46 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -16,61 +16,32 @@
 ////////////////////////// Create item functions /////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
-wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVGLineElement* element)
-{
-  wxSVGCanvasPath* canvasPath = CreateCanvasPath();
-  canvasPath->Init(*element);
-  return canvasPath;
+#define WX_SVG_CREATE_USING_PATH(elem_name)\
+wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVG##elem_name##Element* element)\
+{\
+  wxSVGCanvasPath* canvasItem = CreateCanvasPath();\
+  canvasItem->Init(*element);\
+  return canvasItem;\
 }
 
-wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVGPolylineElement* element)
-{
-  wxSVGCanvasPath* canvasPath = CreateCanvasPath();
-  canvasPath->Init(*element);
-  return canvasPath;
+WX_SVG_CREATE_USING_PATH(Line)
+WX_SVG_CREATE_USING_PATH(Polyline)
+WX_SVG_CREATE_USING_PATH(Polygon)
+WX_SVG_CREATE_USING_PATH(Rect)
+WX_SVG_CREATE_USING_PATH(Circle)
+WX_SVG_CREATE_USING_PATH(Ellipse)
+WX_SVG_CREATE_USING_PATH(Path)
+
+#define WX_SVG_CREATE(elem_name)\
+wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVG##elem_name##Element* element)\
+{\
+  wxSVGCanvas##elem_name* canvasItem = new wxSVGCanvas##elem_name;\
+  canvasItem->Init(*element);\
+  return canvasItem;\
 }
 
-wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVGPolygonElement* element)
-{
-  wxSVGCanvasPath* canvasPath = CreateCanvasPath();
-  canvasPath->Init(*element);
-  return canvasPath;
-}
-
-wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVGRectElement* element)
-{
-  wxSVGCanvasPath* canvasPath = CreateCanvasPath();
-  canvasPath->Init(*element);
-  return canvasPath;
-}
-
-wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVGCircleElement* element)
-{
-  wxSVGCanvasPath* canvasPath = CreateCanvasPath();
-  canvasPath->Init(*element);
-  return canvasPath;
-}
-
-wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVGEllipseElement* element)
-{
-  wxSVGCanvasPath* canvasPath = CreateCanvasPath();
-  canvasPath->Init(*element);
-  return canvasPath;
-}
-
-wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVGPathElement* element)
-{
-  wxSVGCanvasPath* canvasPath = CreateCanvasPath();
-  canvasPath->Init(*element);
-  return canvasPath;
-}
-
-wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVGImageElement* element)
-{
-  wxSVGCanvasImage* canvasImage = new wxSVGCanvasImage;
-  canvasImage->Init(*element);
-  return canvasImage;
-}
+WX_SVG_CREATE(Image)
+WX_SVG_CREATE(Video)
 
 //////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// Draw functions ////////////////////////////////
@@ -99,6 +70,7 @@ WX_SVG_DRAW(Circle)
 WX_SVG_DRAW(Ellipse)
 WX_SVG_DRAW(Path)
 WX_SVG_DRAW(Image)
+WX_SVG_DRAW(Video)
 
 void wxSVGCanvas::DrawText(wxSVGTextElement* element,
   wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style)

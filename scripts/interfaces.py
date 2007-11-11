@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.24 2007-10-30 21:59:23 etisserant Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.25 2007-11-11 20:05:45 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -329,7 +329,7 @@ for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
 "SVGTextElement", "SVGImageElement", "SVGVideoElement", "SVGUseElement"]:
     inter = interface()
     interfaces[name]=inter
-    if name not in ["SVGUseElement", "SVGVideoElement"]:
+    if name not in ["SVGUseElement"]:
         inter.has_canvas_item=1
         inter.include_attributes.append('  protected:\n')
         inter.include_attributes.append('    wxSVGCanvasItem* m_canvasItem;\n')
@@ -348,6 +348,10 @@ inter = interfaces["SVGImageElement"]
 inter.include_methods.append('    int GetDefaultWidth();\n')
 inter.include_methods.append('    int GetDefaultHeight();\n')
 inter.include_methods.append('    void SetDefaultSize();\n')
+
+# SVGVideElement
+inter = interfaces["SVGVideoElement"]
+inter.include_methods.append('    double GetDuration();\n')
 
 # SVGTextElement
 inter = interfaces["SVGTextElement"]
@@ -375,9 +379,11 @@ interfaces["SVGDocument"]=inter
 inter.exclude_attributes = ["rootElement"]
 inter.include_attributes.append('''
   protected:
-	wxSVGCanvas* m_canvas;
+    wxSVGCanvas* m_canvas;
     double m_scale;\n
     wxSVGMatrix m_screenCTM;\n
+    double m_time;
+    double GetDuration(wxSVGElement* parent);
 ''')
 inter.include_methods.append('''    wxSVGDocument() { Init(); }
     wxSVGDocument(const wxString& filename, const wxString& encoding = wxT("UTF-8")):
@@ -398,6 +404,10 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxSvgXmlElement*) n); }
     
     wxSVGElement* GetElementById(const wxString& id);
+    
+    double GetDuration();
+    double GetCurrentTime() { return m_time; }
+    void SetCurrentTime(double seconds);
     
     wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL);
     wxImage RenderElementById(const wxString& id);

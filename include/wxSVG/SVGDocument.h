@@ -45,11 +45,13 @@ class wxSVGDocument:
 
 
   protected:
-	wxSVGCanvas* m_canvas;
+    wxSVGCanvas* m_canvas;
     double m_scale;
 
     wxSVGMatrix m_screenCTM;
 
+    double m_time;
+    double GetDuration(wxSVGElement* parent);
   public:
     wxSVGDocument() { Init(); }
     wxSVGDocument(const wxString& filename, const wxString& encoding = wxT("UTF-8")):
@@ -70,6 +72,10 @@ class wxSVGDocument:
     void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxSvgXmlElement*) n); }
     
     wxSVGElement* GetElementById(const wxString& id);
+    
+    double GetDuration();
+    double GetCurrentTime() { return m_time; }
+    void SetCurrentTime(double seconds);
     
     wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL);
     wxImage RenderElementById(const wxString& id);

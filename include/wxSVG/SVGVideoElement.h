@@ -9,6 +9,8 @@
 #ifndef WX_SVG_VIDEO_ELEMENT_H
 #define WX_SVG_VIDEO_ELEMENT_H
 
+class wxSVGCanvasItem;
+
 #include "SVGElement.h"
 #include "SVGURIReference.h"
 #include "SVGLangSpace.h"
@@ -55,15 +57,23 @@ class wxSVGVideoElement:
     inline void SetPreserveAspectRatio(const wxSVGAnimatedPreserveAspectRatio& n) { m_preserveAspectRatio = n; }
     inline void SetPreserveAspectRatio(const wxSVGPreserveAspectRatio& n) { m_preserveAspectRatio.SetBaseVal(n); }
 
+  protected:
+    wxSVGCanvasItem* m_canvasItem;
+  public:
+    inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }
+    void SetCanvasItem(wxSVGCanvasItem* canvasItem);
+
   public:
     wxSVGVideoElement(wxString tagName = wxT("video")):
-      wxSVGElement(tagName) {}
-    virtual ~wxSVGVideoElement() {}
+      wxSVGElement(tagName), m_canvasItem(NULL) {}
+    wxSVGVideoElement(wxSVGVideoElement& src);
+    virtual ~wxSVGVideoElement();
     wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGVideoElement(*this); }
     wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
     wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
     wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
     wxSVGMatrix GetScreenCTM() { return wxSVGLocatable::GetScreenCTM(this); }
+    double GetDuration();
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);

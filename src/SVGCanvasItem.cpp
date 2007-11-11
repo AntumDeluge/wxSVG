@@ -3,15 +3,20 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.16 2007-05-24 08:59:09 etisserant Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.17 2007-11-11 20:05:46 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
+#include <wx/wx.h>
 #include "SVGCanvasItem.h"
 #include "SVGCanvas.h"
 #include <math.h>
 #include <wx/log.h>
+
+#ifdef USE_FFMPEG
+#include <wxSVG/mediadec_ffmpeg.h>
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// wxSVGCanvasPath //////////////////////////////
@@ -867,5 +872,89 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element)
   if (prevItem != NULL && prevItem->m_href == m_href)
     m_image = prevItem->m_image;
   else if (m_href.length())
-    m_image.LoadFile(m_href);
+  {
+    long pos = 0;
+    wxString filename = m_href;
+    if (m_href.Find(wxT('#')) != wxNOT_FOUND)
+    {
+      filename = m_href.Before(wxT('#'));
+      m_href.After(wxT('#')).ToLong(&pos);
+    }
+#ifdef USE_FFMPEG
+    bool log = wxLog::EnableLogging(false);
+    m_image.LoadFile(filename);
+    wxLog::EnableLogging(log);
+    if (!m_image.Ok())
+    {
+      wxFfmpegMediaDecoder decoder;
+      if (decoder.Load(filename))
+      {
+        double duration = decoder.GetDuration();
+        if (pos > 0 || duration > 0) {
+          decoder.SetPosition(pos > 0 ? pos/1000 : duration * 0.05);
+        }
+        m_image = decoder.GetNextFrame();
+        decoder.Close();
+      }
+    }
+#else
+    m_image.LoadFile(filename);
+#endif
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////////
+////////////////////////////// wxSVGCanvasVideo //////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+wxSVGCanvasVideo::wxSVGCanvasVideo(): wxSVGCanvasImage(wxSVG_CANVAS_ITEM_VIDEO)
+{
+  m_mediaDecoder = NULL;
+}
+
+wxSVGCanvasVideo::~wxSVGCanvasVideo()
+{
+  if (m_mediaDecoder)
+    delete m_mediaDecoder;
+}
+
+void wxSVGCanvasVideo::Init(wxSVGVideoElement& element)
+{
+  m_x = element.GetX().GetAnimVal();
+  m_y = element.GetY().GetAnimVal();
+  m_width = element.GetWidth().GetAnimVal();
+  m_height = element.GetHeight().GetAnimVal();
+  m_href = element.GetHref();
+  m_time = ((wxSVGDocument*)element.GetOwnerDocument())->GetCurrentTime();
+  wxSVGCanvasVideo* prevItem = (wxSVGCanvasVideo*) element.GetCanvasItem();
+  if (prevItem != NULL && prevItem->m_href == m_href)
+  {
+    m_mediaDecoder = prevItem->m_mediaDecoder;
+    prevItem->m_mediaDecoder = NULL;
+    m_duration = prevItem->m_duration;
+    if (prevItem->m_time != m_time)
+    {
+      if (m_time > 0)
+        m_mediaDecoder->SetPosition(m_time);
+      m_image = m_mediaDecoder->GetNextFrame();
+    } else
+      m_image = prevItem->m_image;
+  }
+  else if (m_href.length())
+  {
+#ifdef USE_FFMPEG
+    m_mediaDecoder = new wxFfmpegMediaDecoder();
+    if (m_mediaDecoder->Load(m_href)) {
+      m_duration = m_mediaDecoder->GetDuration();
+      if (m_time > 0)
+        m_mediaDecoder->SetPosition(m_time);
+      m_image = m_mediaDecoder->GetNextFrame();
+    }
+    else
+    {
+      delete m_mediaDecoder;
+      m_mediaDecoder = NULL;
+    }
+#endif
+  }
 }

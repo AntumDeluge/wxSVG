@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.30 2007-10-30 21:59:24 etisserant Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.31 2007-11-11 20:05:46 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -23,7 +23,6 @@
 
 #include <wx/log.h>
 
-
 IMPLEMENT_ABSTRACT_CLASS(wxSVGDocument, wxSvgXmlDocument)
 
 wxSVGDocument::~wxSVGDocument()
@@ -35,6 +34,7 @@ void wxSVGDocument::Init()
 {
   m_canvas = new WX_SVG_CANVAS;
   m_scale = 1;
+  m_time = 0;
 }
 
 wxSvgXmlElement* wxSVGDocument::CreateElement(const wxString& tagName)
@@ -48,6 +48,62 @@ wxSVGElement* wxSVGDocument::GetElementById(const wxString& id)
 {
   return GetRootElement() ?
     (wxSVGElement*) GetRootElement()->GetElementById(id) : NULL;
+}
+
+double wxSVGDocument::GetDuration(wxSVGElement* parent)
+{
+  float result = 0;
+  wxSVGElement* elem = (wxSVGElement*) parent->GetChildren();
+  while (elem)
+  {
+    float duration = 0;
+    if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd() == wxSVG_VIDEO_ELEMENT)
+      duration = ((wxSVGVideoElement*) elem)->GetDuration();
+    else if (elem->GetChildren())
+       duration = GetDuration(elem);
+    if (result < duration)
+      result = duration;
+    elem = (wxSVGElement*) elem->GetNext();
+  }
+  return result;
+}
+
+double wxSVGDocument::GetDuration()
+{
+  return GetDuration(GetRootElement());
+}
+
+void wxSVGDocument::SetCurrentTime(double seconds)
+{
+  m_time = seconds;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////// Render /////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+void LoadImages(wxSVGDocument* doc, wxSVGElement* parent1, wxSVGElement* parent2)
+{
+  wxSVGElement* elem1 = (wxSVGElement*) parent1->GetChildren();
+  wxSVGElement* elem2 = (wxSVGElement*) parent2->GetChildren();
+  while (elem1 && elem2)
+  {
+    if (elem1->GetType() == wxSVGXML_ELEMENT_NODE
+        && elem1->GetDtd() == wxSVG_IMAGE_ELEMENT)
+    {
+      wxSVGImageElement* img1 = (wxSVGImageElement*) elem1;
+      if (img1->GetHref().GetAnimVal().length())
+      {
+        if (img1->GetCanvasItem() == NULL
+            || ((wxSVGCanvasImage*)img1->GetCanvasItem())->m_href != img1->GetHref())
+          img1->SetCanvasItem(doc->GetCanvas()->CreateItem(img1));
+        ((wxSVGImageElement*)elem2)->SetCanvasItem(doc->GetCanvas()->CreateItem(img1));
+      }
+    } else if (elem1->GetChildren())
+      LoadImages(doc, elem1, elem2);
+    elem1 = (wxSVGElement*) elem1->GetNext();
+    elem2 = (wxSVGElement*) elem2->GetNext();
+  }
 }
 
 void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent, const wxSVGRect* rect,
@@ -174,36 +230,40 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem, const wxSVGRect* rect
 	  wxSVGVideoElement* element = (wxSVGVideoElement*) elem;
 	  element->UpdateMatrix(matrix);
 	  style.Add(element->GetStyle());
+#ifdef USE_FFMPEG
+	  doc->GetCanvas()->DrawVideo(element, &matrix, &style);
+#else
 	  wxSVGGElement* gElem = new wxSVGGElement();
-      gElem->SetOwnerSVGElement(ownerSVGElement);
-      gElem->SetViewportElement(viewportElement);
-      gElem->SetStyle(element->GetStyle());
-      wxSVGRectElement* rectElem = new wxSVGRectElement();
-      rectElem->SetX(element->GetX().GetAnimVal());
-      rectElem->SetY(element->GetY().GetAnimVal());
-      rectElem->SetWidth(element->GetWidth().GetAnimVal());
-      rectElem->SetHeight(element->GetHeight().GetAnimVal());
-      rectElem->SetFill(wxSVGPaint(0,0,0));
-      gElem->AppendChild(rectElem);
-      wxSVGTextElement* textElem = new wxSVGTextElement;
-      textElem->SetX((double)element->GetX().GetAnimVal());
-      textElem->SetY(element->GetY().GetAnimVal() + (double)element->GetHeight().GetAnimVal()/10);
-      textElem->SetFontSize((double)element->GetHeight().GetAnimVal()/15);
-      textElem->SetFill(wxSVGPaint(255,255,255));
-      textElem->SetStroke(wxSVGPaint(255,255,255));
-      textElem->AddChild(new wxSvgXmlNode(wxSVGXML_TEXT_NODE, wxT(""),
-        wxT(" [") + element->GetHref() + wxT("]")));
-      gElem->AppendChild(textElem);
-      
-      // render
-      RenderElement(doc, gElem, rect, &matrix, &style, ownerSVGElement, viewportElement);
-      // delete shadow tree
-      delete gElem;
+	  gElem->SetOwnerSVGElement(ownerSVGElement);
+	  gElem->SetViewportElement(viewportElement);
+	  gElem->SetStyle(element->GetStyle());
+	  wxSVGRectElement* rectElem = new wxSVGRectElement();
+	  rectElem->SetX(element->GetX().GetAnimVal());
+	  rectElem->SetY(element->GetY().GetAnimVal());
+	  rectElem->SetWidth(element->GetWidth().GetAnimVal());
+	  rectElem->SetHeight(element->GetHeight().GetAnimVal());
+	  rectElem->SetFill(wxSVGPaint(0,0,0));
+	  gElem->AppendChild(rectElem);
+	  wxSVGTextElement* textElem = new wxSVGTextElement;
+	  textElem->SetX((double)element->GetX().GetAnimVal());
+	  textElem->SetY(element->GetY().GetAnimVal()+(double)element->GetHeight().GetAnimVal()/10);
+	  textElem->SetFontSize((double)element->GetHeight().GetAnimVal()/15);
+	  textElem->SetFill(wxSVGPaint(255,255,255));
+	  textElem->SetStroke(wxSVGPaint(255,255,255));
+	  textElem->AddChild(new wxSvgXmlNode(wxSVGXML_TEXT_NODE, wxT(""),
+		wxT(" [") + element->GetHref() + wxT("]")));
+	  gElem->AppendChild(textElem);
+	  
+	  // render
+	  RenderElement(doc, gElem, rect, &matrix, &style, ownerSVGElement, viewportElement);
+	  // delete shadow tree
+	  delete gElem;
+#endif
 	  break;
 	}
 	case wxSVG_USE_ELEMENT:
-    {
-      wxSVGUseElement* element = (wxSVGUseElement*) elem;
+	{
+	  wxSVGUseElement* element = (wxSVGUseElement*) elem;
 	  element->UpdateMatrix(matrix);
 	  style.Add(element->GetStyle());
       // test if visible
@@ -259,6 +319,7 @@ void RenderElement(wxSVGDocument* doc, wxSVGElement* elem, const wxSVGRect* rect
         if (element->GetHeight().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
           svgElem->SetHeight(element->GetHeight().GetAnimVal());
         gElem->AddChild(svgElem);
+        LoadImages(doc, refElem, svgElem);
       }
       else
         gElem->AddChild(refElem->CloneNode());

@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/02
-// RCS-ID:      $Id: SVGCanvas.h,v 1.8 2006-01-10 12:50:32 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.h,v 1.9 2007-11-11 20:05:45 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -23,9 +23,9 @@ class wxSVGCanvas: public wxObject
 	virtual ~wxSVGCanvas() {}
 	
 	virtual void Init(int width, int height) = 0;
-    virtual int GetWidth() = 0;
-    virtual int GetHeight() = 0;
-    virtual wxImage GetImage() = 0;
+	virtual int GetWidth() = 0;
+	virtual int GetHeight() = 0;
+	virtual wxImage GetImage() = 0;
 	virtual void Clear(wxRGBColor color = wxRGBColor(0xFF,0xFF,0xFF)) = 0;
 	
 	virtual wxSVGCanvasPath* CreateCanvasPath() = 0;
@@ -39,6 +39,7 @@ class wxSVGCanvas: public wxObject
 	virtual wxSVGCanvasItem* CreateItem(wxSVGTextElement* element,
 	  const wxCSSStyleDeclaration* style = NULL) = 0;
 	wxSVGCanvasItem* CreateItem(wxSVGImageElement* element);
+	wxSVGCanvasItem* CreateItem(wxSVGVideoElement* element);
 	
 	virtual void DrawItem(wxSVGCanvasItem& item, wxSVGMatrix& matrix,
       const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem) = 0;
@@ -61,13 +62,16 @@ class wxSVGCanvas: public wxObject
 	  wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style = NULL);
 	void DrawImage(wxSVGImageElement* element,
 	  wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style = NULL);
+	void DrawVideo(wxSVGVideoElement* element,
+	  wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style = NULL);
 	
 	inline bool IsItemsCached() { return m_itemsCached; }
 	inline void EnableItemsCache(bool enable = true) { m_itemsCached = enable; }
 	
   protected:
 	bool m_itemsCached;
-    void DrawCanvasText(wxSVGCanvasText& canvasText, wxSVGMatrix& matrix,
+	
+	void DrawCanvasText(wxSVGCanvasText& canvasText, wxSVGMatrix& matrix,
       const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem);
 	
 	unsigned int GetGradientStops(const wxSVGSVGElement& svgElem,

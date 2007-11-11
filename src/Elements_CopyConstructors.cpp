@@ -16,6 +16,7 @@
 #include "SVGPolylineElement.h"
 #include "SVGCircleElement.h"
 #include "SVGImageElement.h"
+#include "SVGVideoElement.h"
 
 // wxSVGPathElement
 wxSVGPathElement::wxSVGPathElement(wxSVGPathElement& src):
@@ -205,6 +206,28 @@ wxSVGImageElement::wxSVGImageElement(wxSVGImageElement& src):
 }
 
 wxSVGImageElement::~wxSVGImageElement()
+{
+  if (m_canvasItem)
+    delete m_canvasItem;
+}
+
+// wxSVGVideoElement
+wxSVGVideoElement::wxSVGVideoElement(wxSVGVideoElement& src):
+  wxSVGElement(src),
+  wxSVGURIReference(src),
+  wxSVGLangSpace(src),
+  wxSVGStylable(src),
+  wxSVGTransformable(src)
+{
+  m_x = src.m_x;
+  m_y = src.m_y;
+  m_width = src.m_width;
+  m_height = src.m_height;
+  m_preserveAspectRatio = src.m_preserveAspectRatio;
+  m_canvasItem = NULL;
+}
+
+wxSVGVideoElement::~wxSVGVideoElement()
 {
   if (m_canvasItem)
     delete m_canvasItem;
