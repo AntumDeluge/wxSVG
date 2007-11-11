@@ -1,18 +1,18 @@
 [Project]
 FileName=wxSVG.dev
 Name=wxSVG
-UnitCount=243
+UnitCount=246
 Type=2
 Ver=1
 ObjFiles=
-Includes=include;include/wxSVGXML;include/wxSVG
+Includes=include;include/wxXML;include/wxSVG
 Libs=
 PrivateResource=
 ResourceIncludes=
 MakeIncludes=
 Compiler=
-CppCompiler=-Wall _@@_-D__WXMSW__ _@@_-D__GNUWIN32__ _@@_-D__WIN95___@@_-DUSE_RENDER_AGG_@@_
-Linker=-lwxmsw26u_@@_-lwxtiff _@@_-lwxjpeg _@@_-lwxpng _@@_-lwxzlib _@@_-lkernel32 _@@_-luser32 _@@_-lgdi32 _@@_-lcomdlg32 _@@_-lwinspool _@@_-lwinmm _@@_-lshell32 _@@_-lcomctl32 _@@_-lole32 _@@_-loleaut32 _@@_-luuid _@@_-lrpcrt4 _@@_-ladvapi32 _@@_-lwsock32 _@@_-lagg_@@_
+CppCompiler=-Wall _@@_-DWINVER=0x0400_@@_-D__WIN95___@@_-D__GNUWIN32__ _@@_-D__WIN32___@@_-D__WXMSW__ _@@_-DHAVE_W32API_H_@@_-D__WINDOWS___@@_-DUSE_RENDER_AGG_@@_-fno-pcc-struct-return_@@_-O2 -Os_@@_-fno-rtti -fno-exceptions_@@_-fomit-frame-pointer_@@_
+Linker=-lwxmsw28u_@@_-lwxtiff _@@_-lwxjpeg _@@_-lwxpng _@@_-lwxzlib _@@_-lkernel32 _@@_-luser32 _@@_-lgdi32 _@@_-lcomdlg32 _@@_-lwinspool _@@_-lwinmm _@@_-lshell32 _@@_-lcomctl32 _@@_-lole32 _@@_-loleaut32 _@@_-luuid _@@_-lrpcrt4 _@@_-ladvapi32 _@@_-lwsock32 _@@_-lagg_@@_
 IsCpp=1
 Icon=
 ExeOutput=
@@ -30,7 +30,7 @@ CompilerSet=0
 CompilerSettings=0000000000000000000000
 
 [Unit1]
-FileName=include\wxSVGXML\svgxml.h
+FileName=include\wxXML\xml.h
 CompileCpp=1
 Folder=wxSVG
 Compile=1
@@ -40,7 +40,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit2]
-FileName=include\wxSVGXML\svgxmlhelpr.h
+FileName=include\wxXML\xmlhelpr.h
 CompileCpp=1
 Folder=wxSVG
 Compile=1
@@ -1927,7 +1927,7 @@ Compile=1
 Link=1
 Priority=1000
 OverrideBuildCmd=0
-BuildCmd=
+BuildCmd=$(CPP) -c SVGCanvasItem.cpp -o SVGCanvasItem.o $(CXXFLAGS)
 
 [Unit194]
 FileName=src\SVGCircleElement.cpp
@@ -2458,7 +2458,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit244]
-FileName=src\SVGRect.cpp
+FileName=include\wxSVG\SVGVideoElement.h
 CompileCpp=1
 Folder=wxSVG
 Compile=1
@@ -2479,6 +2479,26 @@ BuildCmd=
 
 [Unit239]
 FileName=src\SVGPreserveAspectRatio.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit245]
+FileName=src\mediactrl_ffmpeg.cpp
+CompileCpp=1
+Folder=wxSVG
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit246]
+FileName=include\wxSVG\mediactrl_ffmpeg.h
 CompileCpp=1
 Folder=wxSVG
 Compile=1
