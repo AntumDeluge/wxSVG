@@ -13,7 +13,10 @@ AC_ARG_ENABLE(debug,
  USE_DEBUG="$enableval", USE_DEBUG="no")
 AC_ARG_ENABLE(render,
  [  --enable-render[=render]          Specify the render: libart (default), agg or cairo],
- [USE_RENDER=$enableval], [USE_RENDER=agg])
+ [USE_RENDER=$enableval], [USE_RENDER=libart])
+AC_ARG_ENABLE(ffmpeg,
+ [  --enable-ffmpeg         Enable ffmpeg decoder support (default: enabled)],
+ [enable_ffmpeg=$enableval],[enable_ffmpeg=yes])
 
 AC_MSG_CHECKING(for install location)
 case "$prefix" in
@@ -132,6 +135,16 @@ if test "$WXFOUND" != 1; then
 fi
 CXXFLAGS="$CXXFLAGS $DEBUG_FLAGS $WX_CXXFLAGS "
 LIBS="$LIBS $WX_LIBS"
+
+dnl check ffmpg
+AM_CONDITIONAL(USE_FFMPEG, [test x$enable_ffmpeg = xyes])
+if test x$enable_ffmpeg = xyes; then
+  AC_CHECK_LIB(avformat, av_register_all, [], [*** missing ffmpeg library: libavformat])
+  AC_CHECK_LIB(avcodec, avcodec_decode_audio2, [], [*** missing ffmpeg library: libavcodec])
+  AC_CHECK_HEADERS(ffmpeg/avcodec.h, [], [*** missing ffmpeg header file: ffmpeg/avcodec.h.])
+  CXXFLAGS="$CXXFLAGS -DUSE_FFMPEG"
+fi
+
 
 dnl vars
 AC_SUBST(LDFLAGS)
