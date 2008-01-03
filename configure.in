@@ -103,7 +103,8 @@ dnl Font_engine
 case "$font_engine" in
 freetype)
   dnl check for pango and freetype library
-  PKG_CHECK_MODULES(PANGO, pangoft2 >= 1.2.0)
+  PKG_PROG_PKG_CONFIG()
+  PKG_CHECK_MODULES(PANGO, pangoft2)
   PKG_CHECK_MODULES(FONTCONFIG, fontconfig)
   AC_CHECK_PROG(FREETYPE_CONFIG, freetype-config, yes, no)
   if test $FREETYPE_CONFIG = no; then
