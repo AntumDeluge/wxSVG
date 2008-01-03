@@ -1,3 +1,10 @@
+Version 1.0b8 <2008.01.02>
+--------------------------
+
+  * added ffmpeg media decoder
+  * added support of agg 2.5
+  * some other changes
+
 Version 1.0b7 <2006.10.12>
 --------------------------
 
