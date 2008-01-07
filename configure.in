@@ -140,9 +140,10 @@ LIBS="$LIBS $WX_LIBS"
 dnl check ffmpg
 AM_CONDITIONAL(USE_FFMPEG, [test x$enable_ffmpeg = xyes])
 if test x$enable_ffmpeg = xyes; then
-  AC_CHECK_LIB(avformat, av_register_all, [], [*** missing ffmpeg library: libavformat])
-  AC_CHECK_LIB(avcodec, avcodec_decode_audio2, [], [*** missing ffmpeg library: libavcodec])
-  AC_CHECK_HEADERS(ffmpeg/avcodec.h, [], [*** missing ffmpeg header file: ffmpeg/avcodec.h.])
+  AC_CHECK_LIB(avformat, av_register_all, [], [AC_MSG_ERROR([*** missing ffmpeg library: libavformat])])
+  AC_CHECK_LIB(avcodec, avcodec_decode_audio2, [], [AC_MSG_ERROR([*** missing ffmpeg library: libavcodec])])
+  AC_CHECK_LIB(swscale, sws_getContext)
+  AC_CHECK_HEADERS(ffmpeg/avcodec.h, [], [AC_MSG_ERROR([*** missing ffmpeg header file: ffmpeg/avcodec.h.])])
   CXXFLAGS="$CXXFLAGS -DUSE_FFMPEG"
 fi
 
