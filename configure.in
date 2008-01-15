@@ -78,10 +78,13 @@ agg)
   LDFLAGS="$LDFLAGS $LIBAGG_LIBS"
   case "$host" in
     *mingw*)
-    LIBS="$LIBS -laggfontwin32tt"
+    font_engine=fontwin32tt_agg
+    ;;
+    *gnu*)
+    font_engine=fontfreetype_agg
     ;;
     *)
-    font_engine=freetype
+    font_engine=fontfreetype
     ;;
   esac
   ;;
@@ -118,6 +121,21 @@ freetype)
   AC_SUBST(FREETYPE_CFLAGS)
   AC_SUBST(FREETYPE_LIBS)
   LDFLAGS="$LDFLAGS $FREETYPE_LIBS"
+  ;;
+fontfreetype_agg)
+  AC_CHECK_PROG(FREETYPE_CONFIG, freetype-config, yes, no)
+  if test $FREETYPE_CONFIG = no; then
+    AC_MSG_ERROR([
+      wxSVG requires freetype library.
+      Please check that freetype-config is in path.
+    ])
+  fi
+  FREETYPE_CFLAGS="`freetype-config --cflags`"
+  CXXFLAGS="$CXXFLAGS $FREETYPE_CFLAGS"
+  LIBS="$LIBS -laggfontfreetype"
+  ;;
+fontwin32tt_agg)
+  LIBS="$LIBS -laggfontwin32tt"
   ;;
 *)
   ;;
