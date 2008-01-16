@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.17 2007-11-11 20:05:46 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.18 2008-01-16 16:28:38 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -909,13 +909,17 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element)
 
 wxSVGCanvasVideo::wxSVGCanvasVideo(): wxSVGCanvasImage(wxSVG_CANVAS_ITEM_VIDEO)
 {
+#ifdef USE_FFMPEG
   m_mediaDecoder = NULL;
+#endif
 }
 
 wxSVGCanvasVideo::~wxSVGCanvasVideo()
 {
+#ifdef USE_FFMPEG
   if (m_mediaDecoder)
     delete m_mediaDecoder;
+#endif
 }
 
 void wxSVGCanvasVideo::Init(wxSVGVideoElement& element)
@@ -929,14 +933,18 @@ void wxSVGCanvasVideo::Init(wxSVGVideoElement& element)
   wxSVGCanvasVideo* prevItem = (wxSVGCanvasVideo*) element.GetCanvasItem();
   if (prevItem != NULL && prevItem->m_href == m_href)
   {
+#ifdef USE_FFMPEG
     m_mediaDecoder = prevItem->m_mediaDecoder;
     prevItem->m_mediaDecoder = NULL;
+#endif
     m_duration = prevItem->m_duration;
     if (prevItem->m_time != m_time)
     {
+#ifdef USE_FFMPEG
       if (m_time > 0)
         m_mediaDecoder->SetPosition(m_time);
       m_image = m_mediaDecoder->GetNextFrame();
+#endif
     } else
       m_image = prevItem->m_image;
   }

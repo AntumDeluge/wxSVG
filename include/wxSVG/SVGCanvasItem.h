@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.12 2007-11-11 20:05:45 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.13 2008-01-16 16:28:37 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -161,7 +161,9 @@ class wxSVGCanvasImage: public wxSVGCanvasItem
 };
 
 /** Canvas item, that saves video (wxSVGVideoElement) */
+#ifdef USE_FFMPEG
 class wxFfmpegMediaDecoder;
+#endif
 class wxSVGCanvasVideo: public wxSVGCanvasImage
 {
   public:
@@ -173,7 +175,9 @@ class wxSVGCanvasVideo: public wxSVGCanvasImage
   public:
 	double m_time; /** time of the loaded frame */
 	double m_duration;
+#ifdef USE_FFMPEG
 	wxFfmpegMediaDecoder* m_mediaDecoder;
+#endif
 };
 
 #endif // WX_SVG_CANVAS_ITEM_H
