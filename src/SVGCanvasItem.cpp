@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.18 2008-01-16 16:28:38 etisserant Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.19 2008-02-03 17:41:37 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -938,14 +938,14 @@ void wxSVGCanvasVideo::Init(wxSVGVideoElement& element)
     prevItem->m_mediaDecoder = NULL;
 #endif
     m_duration = prevItem->m_duration;
+#ifdef USE_FFMPEG
     if (prevItem->m_time != m_time)
     {
-#ifdef USE_FFMPEG
       if (m_time > 0)
         m_mediaDecoder->SetPosition(m_time);
       m_image = m_mediaDecoder->GetNextFrame();
-#endif
     } else
+#endif
       m_image = prevItem->m_image;
   }
   else if (m_href.length())
