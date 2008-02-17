@@ -10,6 +10,7 @@
 #define WX_SVG_TRANSFORM_H
 
 #include "SVGMatrix.h"
+#include "String_wxsvg.h"
 
 
 enum wxSVG_TRANSFORM
@@ -29,6 +30,8 @@ class wxSVGTransform
     wxSVG_TRANSFORM m_type;
     wxSVGMatrix m_matrix;
     double m_angle;
+    double m_cx;
+    double m_cy;
 
   public:
     inline wxSVG_TRANSFORM GetType() const { return m_type; }
@@ -39,9 +42,13 @@ class wxSVGTransform
     inline void SetAngle(double n) { m_angle = n; }
 
   public:
-    wxSVGTransform(): m_type(wxSVG_TRANSFORM(0)), m_angle(0) {}
+    wxSVGTransform(): m_type(wxSVG_TRANSFORM(0)), m_angle(0), m_cx(0), m_cy(0) {}
     wxSVGTransform(const wxSVGMatrix& matrix): m_type(wxSVG_TRANSFORM_MATRIX), m_matrix(matrix), m_angle(0) {}
     virtual ~wxSVGTransform() {}
+    
+    wxString GetValueAsString() const;
+    void SetValueAsString(const wxString& value);
+    
     inline void SetMatrix(const wxSVGMatrix& n) { m_type = wxSVG_TRANSFORM_MATRIX; m_matrix = n; }
     virtual void SetTranslate(double tx, double ty);
     virtual void SetScale(double sx, double sy);

@@ -3,13 +3,14 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGTransform.cpp,v 1.5 2005-06-17 13:24:50 ntalex Exp $
+// RCS-ID:      $Id: SVGTransform.cpp,v 1.6 2008-02-17 19:03:46 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGTransform.h"
 #include <math.h>
+#include <wx/tokenzr.h>
 
 void wxSVGTransform::SetTranslate(double tx, double ty)
 {
@@ -29,6 +30,8 @@ void wxSVGTransform::SetRotate(double angle, double cx, double cy)
 {
   m_type = wxSVG_TRANSFORM_ROTATE;
   m_angle = angle;
+  m_cx = cx;
+  m_cy = cy;
   if (cx == 0 && cy == 0)
   {
 	angle = angle*M_PI/180;
@@ -36,8 +39,8 @@ void wxSVGTransform::SetRotate(double angle, double cx, double cy)
   }
   else
   {
-	m_matrix = wxSVGMatrix(1, 0, 0, 1, cx, cy);
-	m_matrix = m_matrix.Rotate(angle);
+  	angle = angle*M_PI/180;
+	m_matrix = wxSVGMatrix(cos(angle), sin(angle), -sin(angle), cos(angle), cx, cy);
 	m_matrix = m_matrix.Translate(-cx, -cy);
   }
 }
@@ -54,4 +57,76 @@ void wxSVGTransform::SetSkewY(double angle)
   m_type = wxSVG_TRANSFORM_SKEWY;
   m_angle = angle;
   m_matrix = wxSVGMatrix(1, tan(angle*M_PI/180), 0, 1, 0, 0);
+}
+
+wxString wxSVGTransform::GetValueAsString() const
+{
+  wxString value;
+  switch (m_type)
+  {
+    case wxSVG_TRANSFORM_UNKNOWN:
+      break;
+    case wxSVG_TRANSFORM_MATRIX:
+      value = wxString::Format(wxT("matrix(%g,%g,%g,%g,%g,%g)"),
+          m_matrix.GetA(), m_matrix.GetB(), m_matrix.GetC(),
+          m_matrix.GetD(), m_matrix.GetE(), m_matrix.GetF());
+        break;
+    case wxSVG_TRANSFORM_TRANSLATE:
+      value = wxString::Format(wxT("translate(%g,%g)"), m_matrix.GetE(), m_matrix.GetF());
+      break;
+    case wxSVG_TRANSFORM_SCALE:
+      if (m_matrix.GetA() == m_matrix.GetD())
+        value = wxString::Format(wxT("scale(%g)"), m_matrix.GetA());
+      else
+        value = wxString::Format(wxT("scale(%g,%g)"), m_matrix.GetA(), m_matrix.GetD());
+      break;
+    case wxSVG_TRANSFORM_ROTATE:
+      if (m_cx == 0 && m_cy == 0)
+        value = wxString::Format(wxT("rotate(%g)"), m_angle);
+      else
+//      double a = m_angle*M_PI/180;
+//      double cosa = cos(a);
+//      double sina = sin(a);
+//      double e = m_matrix.GetE();
+//      double f = m_matrix.GetF();
+//      double cx = cosa != 1 ? (e*(1-cosa) - f*sina)/(1-cosa)/2 : 0;
+//      double cy = cosa != 1 ? e*sina/(1-cosa)/2 + f/2 : 0;
+        value = wxString::Format(wxT("rotate(%g,%g,%g)"), m_angle, m_cx, m_cy);
+      break;
+    case wxSVG_TRANSFORM_SKEWX:
+      value = wxString::Format(wxT("skewX(%g)"), m_angle);
+      break;
+    case wxSVG_TRANSFORM_SKEWY:
+      value = wxString::Format(wxT("skewY(%g)"), m_angle);
+      break;
+  }
+  return value;
+}
+
+void wxSVGTransform::SetValueAsString(const wxString& value)
+{
+  if (value.length() == 0)
+    return;
+  double params[6] = { 0, 0, 0, 0, 0, 0 };
+  wxStringTokenizer tkz(value.AfterFirst(wxT('(')).BeforeLast(wxT(')')), wxT(","));
+  int pi = 0;
+  while (tkz.HasMoreTokens()) 
+  {
+    tkz.GetNextToken().ToDouble(&params[pi]);
+    pi++;
+  }
+  if (pi == 0)
+    return;
+  if (value.substr(0,9) == wxT("translate"))
+    SetTranslate(params[0],params[1]);
+  else if (value.substr(0,5) == wxT("scale"))
+    SetScale(params[0], pi == 1 ? params[0] : params[1]);
+  else if (value.substr(0,6) == wxT("rotate"))
+    SetRotate(params[0], params[1], params[2]);
+  else if (value.substr(0,5) == wxT("skewX"))
+    SetSkewX(params[0]);
+  else if (value.substr(0,5) == wxT("skewY"))
+    SetSkewY(params[0]);
+  else if (value.substr(0,6) == wxT("matrix"))
+    SetMatrix(wxSVGMatrix(params[0], params[1], params[2], params[3], params[4], params[5]));
 }
