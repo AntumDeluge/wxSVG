@@ -11,99 +11,27 @@
 #include <wx/arrimpl.cpp>
 WX_DEFINE_OBJARRAY(wxSVGTransformListBase);
 
-wxString wxSVGTransformList::GetValueAsString() const
-{
+wxString wxSVGTransformList::GetValueAsString() const {
   wxString value;
-  for (int i=0; i<(int)GetCount(); i++)
-  {
-    value += i==0 ? wxT("") : wxT(" ");
-    
-    wxSVGTransform& transform = Item(i);
-      
-    switch (transform.GetType())
-    {
-      case wxSVG_TRANSFORM_UNKNOWN:
-        break;
-      case wxSVG_TRANSFORM_MATRIX:
-        value += wxString::Format(wxT("matrix(%g,%g,%g,%g,%g,%g)"),
-                    transform.GetMatrix().GetA(),
-                    transform.GetMatrix().GetB(),
-                    transform.GetMatrix().GetC(),
-                    transform.GetMatrix().GetD(),
-                    transform.GetMatrix().GetE(),
-                    transform.GetMatrix().GetF());
-        break;
-      case wxSVG_TRANSFORM_TRANSLATE:
-        value += wxString::Format(wxT("translate(%g,%g)"),
-                    transform.GetMatrix().GetE(),
-                    transform.GetMatrix().GetF());
-        break;
-      case wxSVG_TRANSFORM_SCALE:
-        if (transform.GetMatrix().GetA() == transform.GetMatrix().GetD())
-          value += wxString::Format(wxT("scale(%g)"),
-                    transform.GetMatrix().GetA());
-        else
-          value += wxString::Format(wxT("scale(%g,%g)"),
-                    transform.GetMatrix().GetA(),
-                    transform.GetMatrix().GetD());
-        break;
-      case wxSVG_TRANSFORM_ROTATE:
-        if (transform.GetMatrix().GetE() == 0 &&
-            transform.GetMatrix().GetF() == 0)
-          value += wxString::Format(wxT("rotate(%g)"),
-                    transform.GetAngle());
-        else
-          value += wxString::Format(wxT("rotate(%g,%g,%g)"),
-                    transform.GetAngle(),
-                    transform.GetMatrix().GetE(),
-                    transform.GetMatrix().GetF());
-        break;
-      case wxSVG_TRANSFORM_SKEWX:
-        value += wxString::Format(wxT("skewX(%g)"), transform.GetAngle());
-        break;
-      case wxSVG_TRANSFORM_SKEWY:
-        value += wxString::Format(wxT("skewY(%g)"), transform.GetAngle());
-        break;
-    }
+  for (int i = 0; i < (int)GetCount(); i++) {
+  	if (i > 0)
+      value += wxT(" ");
+    value += Item(i).GetValueAsString();
   }
   return value;
 }
 
-void wxSVGTransformList::SetValueAsString(const wxString& value)
-{
+void wxSVGTransformList::SetValueAsString(const wxString& value) {
+  Clear();
   wxStringTokenizer tkz(value, wxT(" \t"));
   while (tkz.HasMoreTokens()) 
   { 
     wxString token = tkz.GetNextToken(); 
-    if (token.length())
-    {
-      wxSVGTransform transform;
-      double params[6] = { 0, 0, 0, 0, 0, 0 };
-      wxStringTokenizer tkz2(
-        token.AfterFirst(wxT('(')).BeforeLast(wxT(')')), wxT(","));
-      int pi = 0;
-      while (tkz2.HasMoreTokens()) 
-      {
-        tkz2.GetNextToken().ToDouble(&params[pi]);
-        pi++;
-      }
-      if (pi == 0)
-        continue;
-      if (token.substr(0,9) == wxT("translate"))
-        transform.SetTranslate(params[0],params[1]);
-      else if (token.substr(0,5) == wxT("scale"))
-        transform.SetScale(params[0], pi == 1 ? params[0] : params[1]);
-      else if (token.substr(0,6) == wxT("rotate"))
-        transform.SetRotate(params[0], params[1], params[2]);
-      else if (token.substr(0,5) == wxT("skewX"))
-        transform.SetSkewX(params[0]);
-      else if (token.substr(0,5) == wxT("skewY"))
-        transform.SetSkewY(params[0]);
-      else if (token.substr(0,6) == wxT("matrix"))
-        transform.SetMatrix(wxSVGMatrix(params[0], params[1], params[2], params[3], params[4], params[5]));
-      else
-        continue;
+    if (token.length() == 0)
+    	continue;
+    wxSVGTransform transform;
+    transform.SetValueAsString(token);
+    if (transform.GetType() != wxSVG_TRANSFORM_UNKNOWN)
       Add(transform);
-    }
   }
 }

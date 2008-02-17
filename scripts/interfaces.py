@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.25 2007-11-11 20:05:45 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.26 2008-02-17 19:04:36 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -281,10 +281,16 @@ inter.user_defined_destructor=1
 # SVGTransform
 inter = interface()
 interfaces["SVGTransform"]=inter
+inter.include_get_set_attributes = [["double", "cx", False, False], ["double", "cy", False, False]]
 inter.include_methods.append('    wxSVGTransform(const wxSVGMatrix& matrix): m_type(wxSVG_TRANSFORM_MATRIX), m_matrix(matrix), m_angle(0) {}\n')
 inter.include_methods.append('    virtual ~wxSVGTransform() {}\n')
+inter.include_methods.append('    \n')
+inter.include_methods.append('    wxString GetValueAsString() const;\n')
+inter.include_methods.append('    void SetValueAsString(const wxString& value);\n')
+inter.include_methods.append('    \n')
 inter.include_methods.append('    inline void SetMatrix(const wxSVGMatrix& n) { m_type = wxSVG_TRANSFORM_MATRIX; m_matrix = n; }\n')
-inter.exclude_methods = ["SetMatrix"]
+inter.exclude_methods = ["SetMatrix", "GetCx", "SetCx", "GetCy", "SetCy"]
+inter.include_includes = ["String_wxsvg"]
 inter.user_defined_destructor=1
 
 # SVGPreserveAspectRatio
