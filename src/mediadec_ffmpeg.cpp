@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.1 2007-11-11 19:53:07 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.2 2008-03-02 18:43:54 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,6 +13,13 @@
 
 #define INT64_C(val) val##LL
 #define UINT64_C(val) val##ULL
+#ifndef int64_t_C
+#define int64_t_C(c)     (c ## LL)
+#define uint64_t_C(c)    (c ## ULL)
+#endif
+#ifndef INT64_MAX
+#define INT64_MAX int64_t_C(0x7fffffffffffffff)
+#endif
 extern "C" {
 #define __STDC_CONSTANT_MACROS
 #define __STDC_LIMIT_MACROS
@@ -128,18 +135,31 @@ bool wxFfmpegMediaDecoder::BeginDecode(int width, int height)
     return true;
 }
 
-bool wxFfmpegMediaDecoder::SetPosition(double pos)
-{
+bool wxFfmpegMediaDecoder::SetPosition(double pos) {
     if (m_formatCtx == NULL)
         return false;
-    int64_t timestamp = pos * AV_TIME_BASE;
+    int64_t timestamp = (int64_t) (pos * AV_TIME_BASE);
     if (m_formatCtx->start_time != AV_NOPTS_VALUE)
         timestamp += m_formatCtx->start_time;
-    return av_seek_frame(m_formatCtx, -1, timestamp, AVSEEK_FLAG_BACKWARD) >= 0;
+    return av_seek_frame(m_formatCtx, -1, timestamp, AVSEEK_FLAG_ANY|AVSEEK_FLAG_BACKWARD) >= 0;
 }
 
-wxImage wxFfmpegMediaDecoder::GetNextFrame()
-{
+double wxFfmpegMediaDecoder::GetPosition() {
+	if (m_formatCtx == NULL || m_formatCtx->iformat == NULL)
+		return -1;
+	int streamIndex = av_find_default_stream_index(m_formatCtx);
+	if (streamIndex < 0)
+		return -1;
+	AVStream *st = m_formatCtx->streams[streamIndex];
+	int64_t timestamp = st->cur_dts;
+	if (timestamp == AV_NOPTS_VALUE)
+		return -1;
+	timestamp = av_rescale(timestamp, AV_TIME_BASE * (int64_t)st->time_base.num, st->time_base.den);
+	timestamp -= m_formatCtx->start_time;
+	return ((double)timestamp)/AV_TIME_BASE;
+}
+
+wxImage wxFfmpegMediaDecoder::GetNextFrame() {
     if (!m_frame && !BeginDecode())
         return wxImage();
     
