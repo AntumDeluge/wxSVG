@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/29
-// RCS-ID:      $Id: SVGUITextCtrl.cpp,v 1.2 2007-09-25 15:45:38 etisserant Exp $
+// RCS-ID:      $Id: SVGUITextCtrl.cpp,v 1.3 2008-03-10 17:15:28 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -193,7 +193,7 @@ void SVGUITextCtrl::SetText(const wxString& value)
     	wxSVGElement* text = NULL;
     	if (n && n->GetType() == wxSVGXML_ELEMENT_NODE)
     	{
-			text = (wxSVGElement*)n->GetChildren();
+			    text = (wxSVGElement*)n->GetChildren();
         	if (text && text->GetType() == wxSVGXML_TEXT_NODE)
            		text->SetContent(LocaleToUTF8(value));
     	}

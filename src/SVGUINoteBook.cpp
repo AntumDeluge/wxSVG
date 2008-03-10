@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/09/08
-// RCS-ID:      $Id: SVGUINoteBook.cpp,v 1.1 2007-08-31 08:56:15 gusstdie Exp $
+// RCS-ID:      $Id: SVGUINoteBook.cpp,v 1.2 2008-03-10 17:15:28 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -158,13 +158,13 @@ void SVGUINoteBook::OnLeftDown(wxMouseEvent &event)
 	if (m_Page0Element && m_doc->GetRootElement()->CheckIntersection(*m_Page0Element, rect) && m_current_page != 0)
 	{
 		MoveTabs(0);
-		wxCommandEvent evt(wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, SVGUIWindow::GetSVGUIID(GetId()));
+		wxCommandEvent evt(wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, SVGUIWindow::GetSVGUIID(GetName()));
 		m_window->ProcessEvent(evt);
 	}
 	else if (m_Page1Element && m_doc->GetRootElement()->CheckIntersection(*m_Page1Element, rect) && m_current_page != 1)
 	{
 		MoveTabs(1);
-		wxCommandEvent evt(wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, SVGUIWindow::GetSVGUIID(GetId()));
+		wxCommandEvent evt(wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, SVGUIWindow::GetSVGUIID(GetName()));
 		m_window->ProcessEvent(evt);
 	}
 	event.Skip();

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIRotatingCtrl.cpp,v 1.1 2007-08-31 08:56:15 gusstdie Exp $
+// RCS-ID:      $Id: SVGUIRotatingCtrl.cpp,v 1.2 2008-03-10 17:15:28 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -241,7 +241,7 @@ void SVGUIRotatingCtrl::OnMotion(wxMouseEvent &event)
 			angle = -angle;
 		}
 		Rotate(angle);
-		wxScrollEvent evt(wxEVT_SCROLL_THUMBTRACK, SVGUIWindow::GetSVGUIID(GetId()));
+		wxScrollEvent evt(wxEVT_SCROLL_THUMBTRACK, SVGUIWindow::GetSVGUIID(GetName()));
 		m_window->ProcessEvent(evt);
 		m_last_cursor_position = new_cursor_position;
 		
@@ -259,7 +259,7 @@ void SVGUIRotatingCtrl::OnMotion(wxMouseEvent &event)
 void SVGUIRotatingCtrl::OnLeftUp(wxMouseEvent &event)
 {
 	m_last_cursor_position = NULL;
-	wxScrollEvent evt(wxEVT_SCROLL_THUMBRELEASE, SVGUIWindow::GetSVGUIID(GetId()));
+	wxScrollEvent evt(wxEVT_SCROLL_THUMBRELEASE, SVGUIWindow::GetSVGUIID(GetName()));
 	m_window->ProcessEvent(evt);
 	event.Skip();
 }

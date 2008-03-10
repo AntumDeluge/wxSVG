@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Jonathan Hurtrel
 // Created:     2007/08/13
-// RCS-ID:      $Id: SVGUITransform.cpp,v 1.1 2007-08-31 08:56:15 gusstdie Exp $
+// RCS-ID:      $Id: SVGUITransform.cpp,v 1.2 2008-03-10 17:15:28 etisserant Exp $
 // Copyright:   (c) Jonathan Hurtrel
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -176,7 +176,7 @@ void SVGUITransform::OnMotion(wxMouseEvent &event)
 		Move(move_x,move_y);
 		Scale(0.4,0.4);
 		//Rotate(90);
-		wxScrollEvent evt(wxEVT_SCROLL_THUMBTRACK, SVGUIWindow::GetSVGUIID(GetId()));
+		wxScrollEvent evt(wxEVT_SCROLL_THUMBTRACK, SVGUIWindow::GetSVGUIID(GetName()));
 		m_window->ProcessEvent(evt);
 		m_last_cursor_position = new_cursor_position;
 	}
@@ -186,7 +186,7 @@ void SVGUITransform::OnMotion(wxMouseEvent &event)
 void SVGUITransform::OnLeftUp(wxMouseEvent &event)
 {
 	m_last_cursor_position = NULL;
-	wxScrollEvent evt(wxEVT_SCROLL_THUMBRELEASE, SVGUIWindow::GetSVGUIID(GetId()));
+	wxScrollEvent evt(wxEVT_SCROLL_THUMBRELEASE, SVGUIWindow::GetSVGUIID(GetName()));
 	m_window->ProcessEvent(evt);
 	event.Skip();
 }
