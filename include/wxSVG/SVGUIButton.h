@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIButton.h,v 1.2 2007-10-30 21:59:22 etisserant Exp $
+// RCS-ID:      $Id: SVGUIButton.h,v 1.3 2008-03-25 18:04:11 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -23,6 +23,8 @@ class SVGUIButton:
 {
 	protected:
 		bool m_up;
+    bool m_state;
+    bool m_toggle;
 		wxSVGElement* m_SelectedElement;
 		wxSVGElement* m_UnselectedElement;		
 	
@@ -32,7 +34,10 @@ class SVGUIButton:
 		bool HitTest(wxPoint pt);
 		wxSVGRect GetBBox();
 		bool SetAttribute(const wxString& attrName, const wxString& attrValue);
-		void Update_Elements();
+    void Update_Elements();
+    
+    void SetToggle(bool toggle);
+    bool GetToggle();
 		
 		void OnLeftDown(wxMouseEvent &event);
 		void OnMotion(wxMouseEvent &event);

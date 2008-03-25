@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIButton.cpp,v 1.2 2008-03-10 17:15:28 etisserant Exp $
+// RCS-ID:      $Id: SVGUIButton.cpp,v 1.3 2008-03-25 18:04:11 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -17,6 +17,8 @@ SVGUIButton::SVGUIButton(wxSVGDocument* doc, wxEvtHandler* window): SVGUIControl
 	m_SelectedElement = NULL;
 	m_UnselectedElement = NULL;
 	m_enable = true;
+  m_toggle = false;
+  m_state = false;
 	SetName(wxT("Button"));
 }
 
@@ -28,6 +30,8 @@ bool SVGUIButton::SetAttribute(const wxString& attrName, const wxString& attrVal
   	m_SelectedElement = (wxSVGElement*)m_doc->GetElementById(attrValue);
   else if (attrName == wxT("unselected_id"))
   	m_UnselectedElement = (wxSVGElement*)m_doc->GetElementById(attrValue);
+  else if (attrName == wxT("toggle"))
+    m_toggle = attrValue.compare(wxT("true")) == 0;
   else 
     return false;
   return true;
@@ -50,7 +54,7 @@ bool SVGUIButton::HitTest(wxPoint pt)
 wxSVGRect SVGUIButton::GetBBox()
 {
 	wxSVGRect res(0, 0, 0, 0);
-    if (m_BackgroundElement)
+  if (m_BackgroundElement)
 		res = wxSVGLocatable::GetElementResultBBox(m_BackgroundElement, wxSVG_COORDINATES_VIEWPORT);
 	else if (m_up && m_UnselectedElement)
 		res = wxSVGLocatable::GetElementResultBBox(m_UnselectedElement, wxSVG_COORDINATES_VIEWPORT);
@@ -73,9 +77,25 @@ void SVGUIButton::Update_Elements()
 	}
 }
 
+void SVGUIButton::SetToggle(bool toggle)
+{
+  m_state = toggle;
+  m_up = !m_state;
+  Update_Elements();
+  Refresh();
+}
+
+bool SVGUIButton::GetToggle()
+{
+  return m_state;
+}
+
 void SVGUIButton::OnLeftDown(wxMouseEvent &event)
 {
-	m_up = false;
+  if (m_toggle)
+    m_up = m_state;
+  else
+	 m_up = false;
 	Update_Elements();
 	Refresh();
 }
@@ -86,24 +106,45 @@ void SVGUIButton::OnMotion(wxMouseEvent &event)
 	{
 		wxPoint pt(event.GetX(), event.GetY());
 		bool over = HitTest(pt);
-		if (m_up && over)
+	  if ((m_toggle && (m_state && !over || !m_state && over)) ||
+        (!m_toggle && m_up && over))
 		{
 			m_up = false;
 			Update_Elements();
 			Refresh();
 		}
-		else if (!m_up && !over)
+		else if ((m_toggle && (m_state && over || !m_state && !over)) ||
+             (!m_toggle && !m_up && !over))
 		{
 			m_up = true;
 			Update_Elements();
 			Refresh();
 		}
-	}
+  }
 }
 
 void SVGUIButton::OnLeftUp(wxMouseEvent &event)
 {
-	if (!m_up)
+	if (m_toggle)
+  {
+    if (m_state && m_up)
+    {
+      m_state = false;
+      Update_Elements();
+      wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED, SVGUIWindow::GetSVGUIID(GetName()));
+      m_window->ProcessEvent(evt);
+      Refresh();
+    }
+    else if (!m_state && !m_up)
+    {
+      m_state = true;
+      Update_Elements();
+      wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED, SVGUIWindow::GetSVGUIID(GetName()));
+      m_window->ProcessEvent(evt);
+      Refresh();
+    }
+  }
+  else if (!m_up)
 	{
 		m_up = true;
 		Update_Elements();
