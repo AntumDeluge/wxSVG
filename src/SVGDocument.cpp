@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.32 2008-02-17 19:04:46 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.33 2008-03-28 17:24:36 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -338,16 +338,18 @@ void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent, const wxSVGRect* rec
   const wxSVGMatrix* parentMatrix, const wxCSSStyleDeclaration* parentStyle,
   wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement)
 {
-  wxSVGElement* elem = (wxSVGElement*) parent->GetChildren();
-  while (elem)
-  {
-    if (elem->GetType() == wxSVGXML_ELEMENT_NODE)
+  if (parentStyle->GetDisplay() == wxCSS_VALUE_INLINE) {
+    wxSVGElement* elem = (wxSVGElement*) parent->GetChildren();
+    while (elem)
     {
-      //if (!rect || ownerSVGElement->CheckIntersection(*elem, *rect))
-        RenderElement(doc, elem, rect, parentMatrix, parentStyle,
-          ownerSVGElement, viewportElement);
+      if (elem->GetType() == wxSVGXML_ELEMENT_NODE)
+      {
+        //if (!rect || ownerSVGElement->CheckIntersection(*elem, *rect))
+          RenderElement(doc, elem, rect, parentMatrix, parentStyle,
+            ownerSVGElement, viewportElement);
+      }
+      elem = (wxSVGElement*) elem->GetNext();
     }
-    elem = (wxSVGElement*) elem->GetNext();
   }
 }
 
