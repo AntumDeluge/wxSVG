@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Jonathan Hurtrel
 // Created:     2007/08/13
-// RCS-ID:      $Id: SVGUITransform.cpp,v 1.2 2008-03-10 17:15:28 etisserant Exp $
+// RCS-ID:      $Id: SVGUITransform.cpp,v 1.3 2008-03-31 16:54:41 etisserant Exp $
 // Copyright:   (c) Jonathan Hurtrel
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -125,8 +125,8 @@ void SVGUITransform::Rotate(double angle)
 
 bool SVGUITransform::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (attrName == wxT("background_id"))
-  	m_BackgroundElement = (wxSVGElement*)m_doc->GetElementById(attrValue);
+  if (SVGUIElement::SetAttribute(attrName, attrValue))
+    return true;
   else if (attrName == wxT("moving_id"))
   	m_MovingElement = (wxSVGElement*)m_doc->GetElementById(attrValue);
   else 

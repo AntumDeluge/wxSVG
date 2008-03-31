@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIButton.cpp,v 1.3 2008-03-25 18:04:11 etisserant Exp $
+// RCS-ID:      $Id: SVGUIButton.cpp,v 1.4 2008-03-31 16:54:41 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -24,8 +24,8 @@ SVGUIButton::SVGUIButton(wxSVGDocument* doc, wxEvtHandler* window): SVGUIControl
 
 bool SVGUIButton::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (attrName == wxT("background_id"))
-  	m_BackgroundElement = (wxSVGElement*)m_doc->GetElementById(attrValue);
+  if (SVGUIElement::SetAttribute(attrName, attrValue))
+    return true;
   else if (attrName == wxT("selected_id"))
   	m_SelectedElement = (wxSVGElement*)m_doc->GetElementById(attrValue);
   else if (attrName == wxT("unselected_id"))
@@ -77,7 +77,7 @@ void SVGUIButton::Update_Elements()
 	}
 }
 
-void SVGUIButton::SetToggle(bool toggle)
+void SVGUIButton::SetToggle(bool toggle, bool refresh = false)
 {
   m_state = toggle;
   m_up = !m_state;

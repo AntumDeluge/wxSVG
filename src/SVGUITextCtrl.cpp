@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/29
-// RCS-ID:      $Id: SVGUITextCtrl.cpp,v 1.3 2008-03-10 17:15:28 etisserant Exp $
+// RCS-ID:      $Id: SVGUITextCtrl.cpp,v 1.4 2008-03-31 16:54:41 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -39,8 +39,8 @@ SVGUITextCtrl::SVGUITextCtrl(wxSVGDocument* doc, wxEvtHandler* window): SVGUICon
 
 bool SVGUITextCtrl::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (attrName == wxT("background_id"))
-  	m_BackgroundElement = (wxSVGElement*)m_doc->GetElementById(attrValue);
+  if (SVGUIElement::SetAttribute(attrName, attrValue))
+    return true;
   else if (attrName == wxT("text_id"))
   	m_TextElement = (wxSVGElement*)m_doc->GetElementById(attrValue);
   else if (attrName == wxT("cursor_id"))

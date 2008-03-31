@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIScrollBar.cpp,v 1.2 2008-03-10 17:15:28 etisserant Exp $
+// RCS-ID:      $Id: SVGUIScrollBar.cpp,v 1.3 2008-03-31 16:54:41 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,9 @@ SVGUIScrollBar::SVGUIScrollBar(wxSVGDocument* doc, wxEvtHandler* window): SVGUIC
 
 bool SVGUIScrollBar::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (attrName == wxT("orientation"))
+  if (SVGUIElement::SetAttribute(attrName, attrValue))
+    return true;
+  else if (attrName == wxT("orientation"))
   {
     if (attrValue == wxT("vertical"))
     {
@@ -41,8 +43,6 @@ bool SVGUIScrollBar::SetAttribute(const wxString& attrName, const wxString& attr
       m_direction.SetY(0);
     }
   }
-  else if (attrName == wxT("background_id"))
-  	m_BackgroundElement = (wxSVGElement*)m_doc->GetElementById(attrValue);
   else if (attrName == wxT("thumb_back_id"))
   	m_ThumbBackElement = (wxSVGElement*)m_doc->GetElementById(attrValue);
   else if (attrName == wxT("thumb_middle_id"))
