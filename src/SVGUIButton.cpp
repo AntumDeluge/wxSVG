@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIButton.cpp,v 1.4 2008-03-31 16:54:41 etisserant Exp $
+// RCS-ID:      $Id: SVGUIButton.cpp,v 1.5 2008-04-03 16:52:46 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -77,7 +77,7 @@ void SVGUIButton::Update_Elements()
 	}
 }
 
-void SVGUIButton::SetToggle(bool toggle, bool refresh = false)
+void SVGUIButton::SetToggle(bool toggle)
 {
   m_state = toggle;
   m_up = !m_state;
