@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIRotatingCtrl.h,v 1.2 2007-10-30 21:59:22 etisserant Exp $
+// RCS-ID:      $Id: SVGUIRotatingCtrl.h,v 1.3 2008-04-03 17:03:08 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -30,11 +30,11 @@ class SVGUIRotatingCtrl:
 		wxSVGPoint* m_last_cursor_position;
 		wxSVGPoint* m_init_pos;
 		double m_angle;
-		double m_x_center;
-		double m_y_center;
 		double m_min_angle;
 		double m_max_angle;
+    bool m_show_center;
 		wxSVGElement* m_RotatingElement;
+    wxSVGElement* m_CenterElement;
 	
 	public:
 		SVGUIRotatingCtrl(wxSVGDocument* doc, wxEvtHandler* window);

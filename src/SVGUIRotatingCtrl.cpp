@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIRotatingCtrl.cpp,v 1.3 2008-03-31 16:54:41 etisserant Exp $
+// RCS-ID:      $Id: SVGUIRotatingCtrl.cpp,v 1.4 2008-04-03 16:59:22 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -21,12 +21,12 @@ SVGUIRotatingCtrl::SVGUIRotatingCtrl(wxSVGDocument* doc, wxEvtHandler* window): 
 	m_min_angle = 0;
 	m_max_angle = 360;
 	m_angle = 0;
-	m_x_center = -1;
-	m_y_center = -1;
 	m_center = NULL;
+  m_show_center = false;
 	m_init_pos = NULL;
 	m_last_cursor_position = NULL;
 	m_RotatingElement = NULL;
+  m_CenterElement = NULL;
 	SetName(wxT("RotatingCtrl"));
 }
 
@@ -117,14 +117,14 @@ bool SVGUIRotatingCtrl::SetAttribute(const wxString& attrName, const wxString& a
     return true;
   else if (attrName == wxT("rotating_id"))
   	m_RotatingElement = (wxSVGElement*)m_doc->GetElementById(attrValue);
+  else if (attrName == wxT("center_id"))
+    m_CenterElement = (wxSVGElement*)m_doc->GetElementById(attrValue);
+  else if (attrName == wxT("show_center"))
+    m_show_center = attrValue == wxT("true");
   else if (attrName == wxT("min_angle"))
   	attrValue.ToDouble(&m_min_angle);
   else if (attrName == wxT("max_angle"))
   	attrValue.ToDouble(&m_max_angle);
-  else if (attrName == wxT("x_center"))
-  	attrValue.ToDouble(&m_x_center);
-  else if (attrName == wxT("y_center"))
-  	attrValue.ToDouble(&m_y_center);
   else 
     return false;
   return true;
@@ -170,20 +170,26 @@ void SVGUIRotatingCtrl::Update_Elements()
 		Initialize();
 	else if (m_init_pos)
 	{
-		if (m_BackgroundElement)
-		{
-			wxSVGRect bbox = wxSVGLocatable::GetElementBBox(m_BackgroundElement);
-			if ((bbox.GetX() != m_init_pos->GetX()) ||(bbox.GetY() != m_init_pos->GetY()))
-				Initialize();
-		}
-		else if (m_RotatingElement)
-		{
-			wxSVGRect bbox = wxSVGLocatable::GetElementBBox(m_RotatingElement);
-			if ((bbox.GetX() + bbox.GetWidth() / 2 != m_init_pos->GetX()) ||(bbox.GetX() + bbox.GetHeight() / 2 != m_init_pos->GetY()))
-				Initialize();
-		}
-	}
-	if (m_RotatingElement)
+    if (m_CenterElement)
+    {
+      wxSVGRect bbox = wxSVGLocatable::GetElementBBox(m_CenterElement);
+      if ((bbox.GetX() != m_init_pos->GetX()) ||(bbox.GetY() != m_init_pos->GetY()))
+        Initialize();
+    }
+    else if (m_BackgroundElement)
+    {
+      wxSVGRect bbox = wxSVGLocatable::GetElementBBox(m_BackgroundElement);
+      if ((bbox.GetX() != m_init_pos->GetX()) ||(bbox.GetY() != m_init_pos->GetY()))
+        Initialize();
+    }
+    else if (m_RotatingElement)
+    {
+  		wxSVGRect bbox = wxSVGLocatable::GetElementBBox(m_RotatingElement);
+  		if ((bbox.GetX() + bbox.GetWidth() / 2 != m_init_pos->GetX()) ||(bbox.GetY() + bbox.GetHeight() / 2 != m_init_pos->GetY()))
+  		  Initialize();
+    }
+  }
+  if (m_RotatingElement)
 	{
 		ResetElementMatrix(m_RotatingElement);
 		RotateElement(m_RotatingElement, m_angle, m_center);
@@ -192,23 +198,31 @@ void SVGUIRotatingCtrl::Update_Elements()
 
 void SVGUIRotatingCtrl::Initialize()
 {
-	if (m_x_center != -1 && m_y_center != -1)
-		m_center = new wxSVGPoint(m_x_center, m_y_center);
-	else if (m_BackgroundElement)
+	if (m_CenterElement)
+  {
+		wxSVGRect center_bbox = wxSVGLocatable::GetElementBBox(m_CenterElement);
+    m_center = new wxSVGPoint(center_bbox.GetX() + center_bbox.GetWidth() / 2, center_bbox.GetY() + center_bbox.GetHeight() / 2);
+    if (m_show_center)
+      SetDisplay(m_CenterElement, wxCSS_VALUE_INLINE);
+    else
+      SetDisplay(m_CenterElement, wxCSS_VALUE_NONE);
+    m_init_pos = new wxSVGPoint(center_bbox.GetX(), center_bbox.GetY());
+  }
+  else if (m_BackgroundElement)
 	{
 		wxSVGRect background_bbox = wxSVGLocatable::GetElementBBox(m_BackgroundElement);
 		m_center = new wxSVGPoint(background_bbox.GetX() + background_bbox.GetWidth() / 2, background_bbox.GetY() + background_bbox.GetHeight() / 2);
-		m_init_pos = new wxSVGPoint(background_bbox.GetX(),background_bbox.GetY());
-	}
+	  m_init_pos = new wxSVGPoint(background_bbox.GetX(), background_bbox.GetY());
+  }
 	else if (m_RotatingElement)
 	{
 		wxSVGRect rotating_bbox = wxSVGLocatable::GetElementBBox(m_RotatingElement);
 		m_center = new wxSVGPoint(rotating_bbox.GetX() + rotating_bbox.GetWidth() / 2, rotating_bbox.GetY() + rotating_bbox.GetHeight() / 2);
-		m_init_pos = m_center;
-	}
+	  m_init_pos = new wxSVGPoint(rotating_bbox.GetX() + rotating_bbox.GetWidth() / 2, rotating_bbox.GetY() + rotating_bbox.GetHeight() / 2);
+  }
 	if (m_RotatingElement){
 		wxSVGRect rotating_bbox = wxSVGLocatable::GetElementBBox(m_RotatingElement);
-		InitElementMatrix(m_RotatingElement);
+    InitElementMatrix(m_RotatingElement);
 	}
 	m_initialised = true;
 }
@@ -247,8 +261,6 @@ void SVGUIRotatingCtrl::OnMotion(wxMouseEvent &event)
 		
 		wxSVGRect rect = m_doc->GetRootElement()->GetBBox();
 		Refresh();
-		//wxSVGRect rect = GetBBox();
-		
 	}
 	Update_Elements();
 	
