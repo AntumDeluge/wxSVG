@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Jonathan Hurtrel
 // Created:     2007/08/13
-// RCS-ID:      $Id: SVGUITransform.h,v 1.2 2007-10-30 21:59:22 etisserant Exp $
+// RCS-ID:      $Id: SVGUITransform.h,v 1.3 2008-04-03 17:03:19 etisserant Exp $
 // Copyright:   (c) Jonathan Hurtrel
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -29,36 +29,34 @@ class SVGUITransform:
 		double m_angle;
 		double m_x_pos;
 		double m_y_pos;
-		wxSVGPoint* m_pos;
 		double m_x_scale;
 		double m_y_scale;
-		double m_init_pos_x;
-		double m_init_pos_y;
 		wxSVGPoint* m_last_cursor_position;
-		wxSVGPoint* m_init_pos;
+		wxSVGRect* m_moving_zone;
 				
 		wxSVGElement* m_MovingElement;
 		
 	public:
 		SVGUITransform(wxSVGDocument* doc, wxEvtHandler* window);
 		void Initialize();
-		double GetX(){return m_x_pos;}
-		double GetY(){return m_y_pos;}
-		double GetXScale(){return m_y_scale;}
-		double GetYScale(){return m_y_scale;}
-		double GetAngle(){return m_angle;}
-		void Move(double x, double y);
-		void Scale(double x, double y);
-		void Rotate(double angle);
 		
-		bool SetAttribute(const wxString& attrName, const wxString& attrValue);
-		
+		bool HitTest(wxPoint pt);
+    wxSVGRect GetBBox();
+    bool SetAttribute(const wxString& attrName, const wxString& attrValue);
+		void Update_Elements();
+    
+    double GetX(){return m_x_pos;}
+    double GetY(){return m_y_pos;}
+    double GetXScale(){return m_y_scale;}
+    double GetYScale(){return m_y_scale;}
+    double GetAngle(){return m_angle;}
+    void Move(double x, double y);
+    void Scale(double x, double y);
+    void Rotate(double angle);
+    
 		void OnLeftDown(wxMouseEvent &event);
 		void OnMotion(wxMouseEvent &event);
 		void OnLeftUp(wxMouseEvent &event);
-		
-		wxSVGRect GetBBox();
-		void Update_Elements();
 };
 
 #endif //SVGUI_TRANSFORM_H
