@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIElement.h,v 1.4 2007-10-30 21:59:22 etisserant Exp $
+// RCS-ID:      $Id: SVGUIElement.h,v 1.5 2008-04-03 17:02:48 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -47,6 +47,7 @@ class SVGUIElement:
 		virtual void SendCommandEvent(wxCommandEvent& event) = 0;
 		virtual void Update_Elements() = 0;
 		bool IsVisible(){return m_visible;}
+    bool IsEnabled(){return m_enable;}
 		
 		void Hide();
 		void Show();
