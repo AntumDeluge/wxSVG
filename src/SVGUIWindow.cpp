@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIWindow.cpp,v 1.2 2007-08-31 13:38:52 gusstdie Exp $
+// RCS-ID:      $Id: SVGUIWindow.cpp,v 1.3 2008-04-04 16:14:18 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -181,7 +181,7 @@ void SVGUIWindow::Update_Elements()
 	}
 }
 
-void SVGUIWindow::OnLeftDown (wxMouseEvent& event)
+void SVGUIWindow::OnLeftDown(wxMouseEvent& event)
 {
 	if (m_scale && GetRoot())
 	{
@@ -189,20 +189,20 @@ void SVGUIWindow::OnLeftDown (wxMouseEvent& event)
 		event.m_y = (long)((float)event.m_y * m_scale);
 		((SVGUIElement*)GetRoot())->HitTest(event.GetPosition());
 		//CaptureMouse();
-		((SVGUIElement*)GetRoot())->SendMouseEvent(event);
+		((SVGUIElement*)GetRoot())->OnLeftDown(event);
 		m_clicked = true;
 	}
 	
 	event.Skip();
 }
 
-void SVGUIWindow::OnMotion (wxMouseEvent& event)
+void SVGUIWindow::OnMotion(wxMouseEvent& event)
 {
 	if (m_scale && GetRoot())
 	{
 		event.m_x = (long)((float)event.m_x * m_scale);
 		event.m_y = (long)((float)event.m_y * m_scale);
-		((SVGUIElement*)GetRoot())->SendMouseEvent(event);
+		((SVGUIElement*)GetRoot())->OnMotion(event);
 		if (m_clicked)
 		{
 			Refresh();
@@ -211,13 +211,13 @@ void SVGUIWindow::OnMotion (wxMouseEvent& event)
 	event.Skip();
 }
 
-void SVGUIWindow::OnLeftUp (wxMouseEvent& event)
+void SVGUIWindow::OnLeftUp(wxMouseEvent& event)
 {
 	if (m_scale && GetRoot())
 	{
 		event.m_x = (long)((float)event.m_x * m_scale);
 		event.m_y = (long)((float)event.m_y * m_scale);
-		((SVGUIElement*)GetRoot())->SendMouseEvent(event);
+		((SVGUIElement*)GetRoot())->OnLeftUp(event);
 		m_clicked = false;
 		//ReleaseMouse();
 	}
@@ -227,7 +227,7 @@ void SVGUIWindow::OnLeftUp (wxMouseEvent& event)
 
 void SVGUIWindow::OnChar(wxKeyEvent& event)
 {
-	((SVGUIElement*)GetRoot())->SendKeyEvent(event);
+	((SVGUIElement*)GetRoot())->OnChar(event);
 	event.Skip();
 }
 

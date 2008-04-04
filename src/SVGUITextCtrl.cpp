@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/29
-// RCS-ID:      $Id: SVGUITextCtrl.cpp,v 1.4 2008-03-31 16:54:41 etisserant Exp $
+// RCS-ID:      $Id: SVGUITextCtrl.cpp,v 1.5 2008-04-04 16:14:18 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -33,7 +33,6 @@ SVGUITextCtrl::SVGUITextCtrl(wxSVGDocument* doc, wxEvtHandler* window): SVGUICon
 	m_cursor_position = 0;
 	m_TextElement = NULL;
 	m_CursorElement = NULL;
-	m_enable = true;
 	SetName(wxT("TextCtrl"));
 }
 
@@ -66,15 +65,13 @@ bool SVGUITextCtrl::SetAttribute(const wxString& attrName, const wxString& attrV
   return true;
 }
 
-void SVGUITextCtrl::SetSelected(const bool selected)
+void SVGUITextCtrl::SetSelected(bool selected)
 {
 	if (selected != m_selected)
 	{
-		m_selected = selected;
+    m_selected = selected;
 		Update_Elements();
-		wxCommandEvent refresh_evt(wxEVT_COMMAND_ENTER, -1);
-		refresh_evt.SetString(GetId());
-		m_window->ProcessEvent(refresh_evt);
+		Refresh();
 	}
 }
 
@@ -443,18 +440,12 @@ void SVGUITextCtrl::Update_Cursor()
 				Xposition = last.GetX();
 			}
 		}
-		MoveElement(m_CursorElement,Xposition,Yposition);
+		MoveElement(m_CursorElement, Xposition, Yposition);
 	}
 }
 
 void SVGUITextCtrl::OnLeftDown(wxMouseEvent &event)
 {
-	if (!m_selected)
-	{
-		m_selected = true;
-		Update_Elements();
-	}
-	SetValue(GetValue());
 	wxSVGPoint point(event.GetX(), event.GetY());
 	FindCursorIndex(point);
 	Update_Cursor();

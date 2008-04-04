@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIButton.cpp,v 1.5 2008-04-03 16:52:46 etisserant Exp $
+// RCS-ID:      $Id: SVGUIButton.cpp,v 1.6 2008-04-04 16:14:18 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,6 @@ SVGUIButton::SVGUIButton(wxSVGDocument* doc, wxEvtHandler* window): SVGUIControl
 	m_up = true;
 	m_SelectedElement = NULL;
 	m_UnselectedElement = NULL;
-	m_enable = true;
   m_toggle = false;
   m_state = false;
 	SetName(wxT("Button"));

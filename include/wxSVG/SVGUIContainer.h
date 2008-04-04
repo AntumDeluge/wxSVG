@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/05
-// RCS-ID:      $Id: SVGUIContainer.h,v 1.3 2007-10-30 21:59:21 etisserant Exp $
+// RCS-ID:      $Id: SVGUIContainer.h,v 1.4 2008-04-04 16:14:19 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -37,11 +37,11 @@ class SVGUIContainer:
 		
 		virtual bool HitTest(wxPoint pt);
 		virtual wxSVGRect GetBBox();
-		virtual void SendMouseEvent(wxMouseEvent& event);
-		virtual void SendKeyEvent(wxKeyEvent& event);
-		//virtual void SendNotebookEvent(wxNotebookEvent& event);
-	  virtual void SendScrollEvent(wxScrollEvent& event);
-	  virtual void SendCommandEvent(wxCommandEvent& event);
+
+    virtual void OnLeftDown(wxMouseEvent& event);   
+    virtual void OnLeftUp(wxMouseEvent& event);
+    virtual void OnMotion(wxMouseEvent& event);
+    virtual void OnChar(wxKeyEvent& event);
 };
 
 #endif //SVGUI_CONTAINER_H

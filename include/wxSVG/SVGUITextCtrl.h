@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/29
-// RCS-ID:      $Id: SVGUITextCtrl.h,v 1.2 2007-10-30 21:59:22 etisserant Exp $
+// RCS-ID:      $Id: SVGUITextCtrl.h,v 1.3 2008-04-04 16:14:19 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -23,7 +23,6 @@ class SVGUITextCtrl:
 {
 	protected:
 		bool m_initialised;
-		bool m_selected;
 		bool m_fixed_size;
 		bool m_show_background;
 		long m_style;
@@ -50,7 +49,7 @@ class SVGUITextCtrl:
 		void SetValue(const wxString& value);
 		void SetStyle(long style) {m_style = style;}
 		long GetStyle() {return m_style;}
-		void SetSelected(const bool selected);
+		void SetSelected(bool selected);
 		bool IsSelected(){return m_selected;}
 		
 		void AddCharInText(const wxString& character);

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIElement.h,v 1.5 2008-04-03 17:02:48 etisserant Exp $
+// RCS-ID:      $Id: SVGUIElement.h,v 1.6 2008-04-04 16:14:19 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -28,10 +28,11 @@ class SVGUIElement:
 		wxSVGElement* m_BackgroundElement;
 		bool m_enable;
 		bool m_visible;
+    bool m_selected;
 		
 	public:
-		SVGUIElement();
-		SVGUIElement(wxSVGDocument* doc);
+		SVGUIElement(){};
+    SVGUIElement(wxSVGDocument* doc);
 		wxString GetId();
 		wxString GetName();
 		
@@ -40,15 +41,11 @@ class SVGUIElement:
 		virtual void Initialize(){Update_Elements();}		
 		virtual bool HitTest(wxPoint pt) = 0;
 		virtual wxSVGRect GetBBox() = 0;
-		virtual void SendMouseEvent(wxMouseEvent& event) = 0;
-		virtual void SendKeyEvent(wxKeyEvent& event) = 0;
-		//virtual void SendNotebookEvent(wxNotebookEvent& event) = 0;
-		virtual void SendScrollEvent(wxScrollEvent& event) = 0;
-		virtual void SendCommandEvent(wxCommandEvent& event) = 0;
 		virtual void Update_Elements() = 0;
-		bool IsVisible(){return m_visible;}
+		virtual void SetSelected(bool selected) {m_selected = selected;}
+    bool IsVisible(){return m_visible;}
     bool IsEnabled(){return m_enable;}
-		
+    
 		void Hide();
 		void Show();
 		void Enable(){m_enable = true;}
@@ -56,6 +53,11 @@ class SVGUIElement:
 		
 		virtual void AddProperty(const wxString& name, const wxString& value);
 		virtual bool SetAttribute(const wxString& attrName, const wxString& attrValue); 
+
+    virtual void OnLeftDown(wxMouseEvent& event) = 0;   
+    virtual void OnLeftUp(wxMouseEvent& event) = 0;
+    virtual void OnMotion(wxMouseEvent& event) = 0;
+    virtual void OnChar(wxKeyEvent& event) = 0;
 };
 
 #endif //SVGUI_ELEMENT_H

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIScrollBar.cpp,v 1.3 2008-03-31 16:54:41 etisserant Exp $
+// RCS-ID:      $Id: SVGUIScrollBar.cpp,v 1.4 2008-04-04 16:14:18 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,6 @@ SVGUIScrollBar::SVGUIScrollBar(wxSVGDocument* doc, wxEvtHandler* window): SVGUIC
 	m_ThumbMiddleElement = NULL;
 	m_UpArrowElement = NULL;
 	m_DownArrowElement = NULL;
-	m_enable = true;
 	SetName(wxT("ScrollBar"));
 }
 

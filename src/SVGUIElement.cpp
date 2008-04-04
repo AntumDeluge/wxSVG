@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIElement.cpp,v 1.3 2008-03-31 16:54:41 etisserant Exp $
+// RCS-ID:      $Id: SVGUIElement.cpp,v 1.4 2008-04-04 16:14:18 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -41,20 +41,11 @@ void SetDisplay(wxSVGElement* elem, wxCSS_VALUE value)
 	}
 }
 
-
-
-SVGUIElement::SVGUIElement()
-{
-	m_doc = NULL;
-	m_BackgroundElement = NULL;
-	m_enable = true;
-}
-
-
 SVGUIElement::SVGUIElement(wxSVGDocument* doc)
 {
 	m_doc = doc;
 	m_BackgroundElement = NULL;
+  m_enable = true;
 }
 
 wxString SVGUIElement::GetId()
@@ -97,3 +88,4 @@ void SVGUIElement::Show()
 		SetDisplay(m_BackgroundElement, wxCSS_VALUE_INLINE);
 	Enable();
 }
+

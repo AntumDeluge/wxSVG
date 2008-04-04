@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/05
-// RCS-ID:      $Id: SVGUIContainer.cpp,v 1.2 2007-09-25 15:45:38 etisserant Exp $
+// RCS-ID:      $Id: SVGUIContainer.cpp,v 1.3 2008-04-04 16:14:18 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,6 @@
 SVGUIContainer::SVGUIContainer(wxSVGDocument* doc):
 	SVGUIElement(doc)
 {
-	m_enable = true;
 	m_visible = true;
 	m_FocusedElement = NULL;
 	SetName(wxT("Container"));
@@ -24,27 +23,25 @@ bool SVGUIContainer::HitTest(wxPoint pt)
 	if (!m_enable)
 		return false;
 	bool res = false;
-    SVGUIElement* elem = NULL;
-    SVGUIElement* n = (SVGUIElement*) GetChildren();
-    while (n)
-    {
-    	if (n->HitTest(pt))
-           elem = n;
-        n = (SVGUIElement*)n->GetNext();
-    }
-    if (m_FocusedElement != elem && m_FocusedElement)
-    {
-    	if (m_FocusedElement->GetName() == wxT("TextCtrl"))
-    		((SVGUITextCtrl*)m_FocusedElement)->SetSelected(false);
-    }
-    m_FocusedElement = elem;
-    if (m_FocusedElement)
-    {
-		if (m_FocusedElement->GetName() == wxT("TextCtrl"))
-    		((SVGUITextCtrl*)m_FocusedElement)->SetSelected(true);
-    	res = true;
-    }
-    else if (m_BackgroundElement)
+  SVGUIElement* elem = NULL;
+  SVGUIElement* n = (SVGUIElement*) GetChildren();
+  while (n)
+  {
+  	if (n->HitTest(pt))
+      elem = n;
+    n = (SVGUIElement*)n->GetNext();
+  }
+  if (m_FocusedElement != elem && m_FocusedElement)
+  {
+  	m_FocusedElement->SetSelected(false);
+  }
+  m_FocusedElement = elem;
+  if (m_FocusedElement)
+  {
+    m_FocusedElement->SetSelected(true);
+  	res = true;
+  }
+  else if (m_BackgroundElement)
 	{
 		wxSVGRect rect(pt.x, pt.y, 1, 1);
 		res = m_doc->GetRootElement()->CheckIntersection(*m_BackgroundElement, rect);
@@ -135,33 +132,31 @@ void SVGUIContainer::Disable()
   }
 }
 
-void SVGUIContainer::SendMouseEvent(wxMouseEvent& event)
+void SVGUIContainer::OnLeftDown(wxMouseEvent& event)
 {
-	if (m_FocusedElement)
-		m_FocusedElement->SendMouseEvent(event);
+  if (m_FocusedElement)
+    m_FocusedElement->OnLeftDown(event);
+  event.Skip();
+}
+    
+void SVGUIContainer::OnLeftUp(wxMouseEvent& event)
+{
+  if (m_FocusedElement)
+    m_FocusedElement->OnLeftUp(event);
+  event.Skip();
 }
 
-void SVGUIContainer::SendKeyEvent(wxKeyEvent& event)
+void SVGUIContainer::OnMotion(wxMouseEvent& event)
 {
-	if (m_FocusedElement)
-		m_FocusedElement->SendKeyEvent(event);
-}
-/*
-void SVGUIContainer::SendNotebookEvent(wxNotebookEvent& event)
-{
-	((wxEvtHandler*)this)->ProcessEvent(event);
-}
-*/
-void SVGUIContainer::SendScrollEvent(wxScrollEvent& event)
-{
-	if (m_FocusedElement)
-		m_FocusedElement->SendScrollEvent(event);
+  if (m_FocusedElement)
+    m_FocusedElement->OnMotion(event);
+  event.Skip();
 }
 
-void SVGUIContainer::SendCommandEvent(wxCommandEvent& event)
+void SVGUIContainer::OnChar(wxKeyEvent& event)
 {
-	if (m_FocusedElement)
-		m_FocusedElement->SendCommandEvent(event);
+  if (m_FocusedElement)
+    m_FocusedElement->OnChar(event);
+  event.Skip();
 }
-
 
