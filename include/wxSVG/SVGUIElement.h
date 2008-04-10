@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIElement.h,v 1.6 2008-04-04 16:14:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUIElement.h,v 1.7 2008-04-10 17:37:19 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -21,38 +21,38 @@
 void SetDisplay(wxSVGElement* elem, wxCSS_VALUE value);
 
 class SVGUIElement:
-	public wxSvgXmlElement
+  public wxSvgXmlElement
 {
-	protected:
-		wxSVGDocument* m_doc;
-		wxSVGElement* m_BackgroundElement;
-		bool m_enable;
-		bool m_visible;
+  protected:
+    wxSVGDocument* m_doc;
+    wxSVGElement* m_BackgroundElement;
+    bool m_enable;
+    bool m_visible;
     bool m_selected;
-		
-	public:
-		SVGUIElement(){};
+    
+  public:
+    SVGUIElement(){};
     SVGUIElement(wxSVGDocument* doc);
-		wxString GetId();
-		wxString GetName();
-		
-		virtual void DefineCenter(wxSVGPoint* pt){Update_Elements();}
-		virtual wxSVGPoint* GetCenter(){return NULL;}
-		virtual void Initialize(){Update_Elements();}		
-		virtual bool HitTest(wxPoint pt) = 0;
-		virtual wxSVGRect GetBBox() = 0;
-		virtual void Update_Elements() = 0;
-		virtual void SetSelected(bool selected) {m_selected = selected;}
+    wxString GetId();
+    wxString GetName();
+    
+    virtual void DefineCenter(wxSVGPoint* pt){Update_Elements();}
+    virtual wxSVGPoint* GetCenter(){return NULL;}
+    virtual void Initialize(){Update_Elements();}
+    virtual bool HitTest(wxPoint pt) = 0;
+    virtual wxSVGRect GetBBox() = 0;
+    virtual void Update_Elements() = 0;
+    virtual void SetSelected(bool selected) {m_selected = selected;}
     bool IsVisible(){return m_visible;}
     bool IsEnabled(){return m_enable;}
     
-		void Hide();
-		void Show();
-		void Enable(){m_enable = true;}
-		void Disable(){m_enable = false;}
-		
-		virtual void AddProperty(const wxString& name, const wxString& value);
-		virtual bool SetAttribute(const wxString& attrName, const wxString& attrValue); 
+    void Hide();
+    void Show();
+    void Enable(){m_enable = true;}
+    void Disable(){m_enable = false;}
+    
+    virtual void AddProperty(const wxString& name, const wxString& value);
+    virtual bool SetAttribute(const wxString& attrName, const wxString& attrValue); 
 
     virtual void OnLeftDown(wxMouseEvent& event) = 0;   
     virtual void OnLeftUp(wxMouseEvent& event) = 0;
