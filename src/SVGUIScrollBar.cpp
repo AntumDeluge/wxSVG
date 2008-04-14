@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIScrollBar.cpp,v 1.5 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUIScrollBar.cpp,v 1.6 2008-04-14 15:36:41 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -78,9 +78,9 @@ bool SVGUIScrollBar::HitTest(wxPoint pt)
     if (element)\
     {\
       if (res.IsEmpty())\
-        res = wxSVGLocatable::GetElementResultBBox(element, wxSVG_COORDINATES_VIEWPORT);\
+        res = wxSVGLocatable::GetElementBBox(element);\
       else\
-        res = SumBBox(res, wxSVGLocatable::GetElementResultBBox(element, wxSVG_COORDINATES_VIEWPORT));\
+        res = SumBBox(res, wxSVGLocatable::GetElementBBox(element));\
     }
 
 wxSVGRect SVGUIScrollBar::GetBBox()
@@ -107,7 +107,7 @@ void SVGUIScrollBar::Init_ScrollBar(unsigned int position, unsigned int thumb, u
   {
     if (m_BackgroundElement)
     {
-      wxSVGRect background_bbox = wxSVGLocatable::GetElementResultBBox(m_BackgroundElement, wxSVG_COORDINATES_VIEWPORT);
+      wxSVGRect background_bbox = wxSVGLocatable::GetElementBBox(m_BackgroundElement);
       if (m_direction.GetX() > 0)
         m_position_size.SetX((background_bbox.GetWidth() - 2 * m_offset.GetX()) / (float)m_range);
       if (m_direction.GetY() > 0)
@@ -115,15 +115,12 @@ void SVGUIScrollBar::Init_ScrollBar(unsigned int position, unsigned int thumb, u
     }
     else if (m_UpArrowElement && m_DownArrowElement)
     {
-      wxSVGRect uparrow_bbox = wxSVGLocatable::GetElementResultBBox(m_UpArrowElement, wxSVG_COORDINATES_VIEWPORT);
-      wxSVGRect downarrow_bbox = wxSVGLocatable::GetElementResultBBox(m_DownArrowElement, wxSVG_COORDINATES_VIEWPORT);
-      wxSVGPoint size;
-      size.SetX(downarrow_bbox.GetX() + downarrow_bbox.GetWidth() - uparrow_bbox.GetX());
-      size.SetY(downarrow_bbox.GetY() + downarrow_bbox.GetHeight() - uparrow_bbox.GetY());
+      wxSVGRect uparrow_bbox = wxSVGLocatable::GetElementBBox(m_UpArrowElement);
+      wxSVGRect downarrow_bbox = wxSVGLocatable::GetElementBBox(m_DownArrowElement);
       if (m_direction.GetX() > 0)
-        m_position_size.SetX((size.GetX() - 2 * m_offset.GetX()) / (float)m_range);
+        m_position_size.SetX((downarrow_bbox.GetX() + downarrow_bbox.GetWidth() - uparrow_bbox.GetX() - 2 * m_offset.GetX()) / (float)m_range);
       if (m_direction.GetY() > 0)
-        m_position_size.SetY((size.GetY() - 2 * m_offset.GetY()) / (float)m_range);
+        m_position_size.SetY((downarrow_bbox.GetY() + downarrow_bbox.GetHeight() - uparrow_bbox.GetY() - 2 * m_offset.GetY()) / (float)m_range);
     }
   }
   Update_Elements();
@@ -142,7 +139,7 @@ void SVGUIScrollBar::Update_Elements()
     double Yposition = 0;
     double Xscale = 1;
     double Yscale = 1;
-    wxSVGRect thumb_bbox = wxSVGLocatable::GetElementResultBBox(m_ThumbBackElement, wxSVG_COORDINATES_VIEWPORT);
+    wxSVGRect thumb_bbox = wxSVGLocatable::GetElementBBox(m_ThumbBackElement);
     double new_Xposition = 0;
     double new_Yposition = 0;
     double new_width = thumb_bbox.GetWidth();
@@ -161,41 +158,25 @@ void SVGUIScrollBar::Update_Elements()
     Yscale = new_height / thumb_bbox.GetHeight();
     if (m_BackgroundElement)
     {
-      wxSVGRect background_bbox = wxSVGLocatable::GetElementResultBBox(m_BackgroundElement, wxSVG_COORDINATES_VIEWPORT);
+      wxSVGRect background_bbox = wxSVGLocatable::GetElementBBox(m_BackgroundElement);
       Xposition = background_bbox.GetX() + m_offset.GetX() + new_Xposition;
       Yposition = background_bbox.GetY() + m_offset.GetY() + new_Yposition;
     }
     else if (m_UpArrowElement && m_DownArrowElement)
     {
-      wxSVGRect uparrow_bbox = wxSVGLocatable::GetElementResultBBox(m_UpArrowElement, wxSVG_COORDINATES_VIEWPORT);
-      wxSVGRect downarrow_bbox = wxSVGLocatable::GetElementResultBBox(m_DownArrowElement, wxSVG_COORDINATES_VIEWPORT);
-      Xposition = uparrow_bbox.GetX() + m_offset.GetX() + new_Xposition;
-      Yposition = uparrow_bbox.GetY() + m_offset.GetY() + new_Yposition;
+      wxSVGRect uparrow_bbox = wxSVGLocatable::GetElementBBox(m_UpArrowElement);
+      Xposition = uparrow_bbox.GetX() + uparrow_bbox.GetWidth() + m_offset.GetX() + new_Xposition;
+      Yposition = uparrow_bbox.GetY() + uparrow_bbox.GetHeight() + m_offset.GetY() + new_Yposition;
     }
     MoveElement(m_ThumbBackElement, Xposition, Yposition);
     ScaleElement(m_ThumbBackElement, Xscale, Yscale);
-    if (m_ThumbMiddleElement && m_BackgroundElement)
+    if (m_ThumbMiddleElement)
     {
-      wxSVGRect background_bbox = wxSVGLocatable::GetElementResultBBox(m_BackgroundElement, wxSVG_COORDINATES_VIEWPORT);
-      wxSVGRect thumbBack_bbox = wxSVGLocatable::GetElementResultBBox(m_ThumbBackElement, wxSVG_COORDINATES_VIEWPORT);
-      wxSVGRect middle_bbox = wxSVGLocatable::GetElementResultBBox(m_ThumbMiddleElement, wxSVG_COORDINATES_VIEWPORT);
-      double middle_Xposition = middle_bbox.GetX();
-      double middle_Yposition = middle_bbox.GetY();
+      wxSVGRect middle_bbox = wxSVGLocatable::GetElementBBox(m_ThumbMiddleElement);
+      Xposition += (new_width - middle_bbox.GetWidth()) / 2;
+      Yposition += (new_height - middle_bbox.GetHeight()) / 2;
       
-      if (m_direction.GetX() != 0){
-        double gap = background_bbox.GetWidth()/(m_range);
-        double middle_XInit = background_bbox.GetX()+thumbBack_bbox.GetWidth()/2-middle_bbox.GetWidth()/2;
-        middle_Xposition =  middle_XInit + (gap*(m_position));
-        middle_Yposition = thumbBack_bbox.GetY()+thumbBack_bbox.GetHeight()/2-middle_bbox.GetHeight()/2;
-      }
-      if (m_direction.GetY() != 0){
-        double gap = background_bbox.GetHeight()/(m_range);
-        double middle_YInit = background_bbox.GetY()+thumbBack_bbox.GetHeight()/2-middle_bbox.GetHeight()/2;
-        middle_Yposition =  middle_YInit + (gap*(m_position));
-        middle_Xposition = thumbBack_bbox.GetX()+thumbBack_bbox.GetWidth()/2-middle_bbox.GetWidth()/2;
-      }
-      ResetElementMatrix(m_ThumbMiddleElement);
-      MoveElement(m_ThumbMiddleElement, middle_Xposition, middle_Yposition);
+      MoveElement(m_ThumbMiddleElement, Xposition, Yposition);
     }
     SetDisplay(m_BackgroundElement, wxCSS_VALUE_INLINE);
     SetDisplay(m_ThumbBackElement, wxCSS_VALUE_INLINE);
@@ -217,8 +198,8 @@ void SVGUIScrollBar::Initialize()
 {
   if (m_BackgroundElement && m_ThumbBackElement)
   {
-    wxSVGRect background_bbox = wxSVGLocatable::GetElementResultBBox(m_BackgroundElement, wxSVG_COORDINATES_VIEWPORT);
-    wxSVGRect thumb_bbox = wxSVGLocatable::GetElementResultBBox(m_ThumbBackElement, wxSVG_COORDINATES_VIEWPORT);
+    wxSVGRect background_bbox = wxSVGLocatable::GetElementBBox(m_BackgroundElement);
+    wxSVGRect thumb_bbox = wxSVGLocatable::GetElementBBox(m_ThumbBackElement);
     m_offset.SetX(thumb_bbox.GetX() - background_bbox.GetX());
     m_offset.SetY(thumb_bbox.GetY() - background_bbox.GetY());
     InitElementMatrix(m_ThumbBackElement);
@@ -227,10 +208,10 @@ void SVGUIScrollBar::Initialize()
   }
   else if (m_UpArrowElement && m_DownArrowElement && m_ThumbBackElement)
   {
-    wxSVGRect thumb_bbox = wxSVGLocatable::GetElementResultBBox(m_ThumbBackElement, wxSVG_COORDINATES_VIEWPORT);
-    wxSVGRect uparrow_bbox = wxSVGLocatable::GetElementResultBBox(m_UpArrowElement, wxSVG_COORDINATES_VIEWPORT);
-    m_offset.SetX(thumb_bbox.GetX() - uparrow_bbox.GetX());
-    m_offset.SetY(thumb_bbox.GetY() - uparrow_bbox.GetY());
+    wxSVGRect thumb_bbox = wxSVGLocatable::GetElementBBox(m_ThumbBackElement);
+    wxSVGRect uparrow_bbox = wxSVGLocatable::GetElementBBox(m_UpArrowElement);
+    m_offset.SetX(thumb_bbox.GetX() - uparrow_bbox.GetX() - uparrow_bbox.GetWidth());
+    m_offset.SetY(thumb_bbox.GetY() - uparrow_bbox.GetY() - uparrow_bbox.GetHeight());
     InitElementMatrix(m_ThumbBackElement);
     if (m_ThumbMiddleElement)
       InitElementMatrix(m_ThumbMiddleElement);
@@ -292,7 +273,7 @@ void SVGUIScrollBar::OnLeftDown(wxMouseEvent &event)
       m_last_cursor_position = new wxSVGPoint(event.GetX(), event.GetY());
     else if (m_ThumbBackElement)
     {
-      wxSVGRect thumb_bbox = wxSVGLocatable::GetElementResultBBox(m_ThumbBackElement, wxSVG_COORDINATES_VIEWPORT);
+      wxSVGRect thumb_bbox = wxSVGLocatable::GetElementBBox(m_ThumbBackElement);
       if (m_direction.GetX() > 0)
       {
         if (event.GetX() < thumb_bbox.GetX())

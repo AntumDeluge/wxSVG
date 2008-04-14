@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/29
-// RCS-ID:      $Id: SVGUITextCtrl.h,v 1.4 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUITextCtrl.h,v 1.5 2008-04-14 15:36:43 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -24,18 +24,19 @@ class SVGUITextCtrl:
   protected:
     bool m_initialised;
     bool m_fixed_size;
-    bool m_show_background;
     long m_style;
-    float m_offset_ctm_x;
-    float m_offset_ctm_y;
-    wxSVGPoint m_offset;
-    wxSVGRect m_last_bbox;
+    bool m_show_background;
+    double m_background_scale;
+    wxSVGPoint m_text_offset;
+    wxSVGPoint m_text_size;
+    wxSVGPoint m_cursor_offset;
     unsigned int m_cursor_position;
     wxSVGElement* m_TextElement;
     wxSVGElement* m_CursorElement;
     
     unsigned int RecursiveCursorSearch(wxSVGPoint& point, unsigned int start, unsigned int end);
     unsigned int AjustSize(unsigned int start, unsigned int end, wxSVGRect back, wxSVGRect text);
+    void SetText(const wxString& value);
     
   public:
     SVGUITextCtrl(wxSVGDocument* doc, wxEvtHandler* window);
@@ -45,12 +46,10 @@ class SVGUITextCtrl:
     wxSVGRect GetBBox();
     bool SetAttribute(const wxString& attrName, const wxString& attrValue);
     wxString GetValue();
-    void SetText(const wxString& value);
     void SetValue(const wxString& value);
     void SetStyle(long style) {m_style = style;}
     long GetStyle() {return m_style;}
     void SetSelected(bool selected);
-    bool IsSelected(){return m_selected;}
     
     void AddCharInText(const wxString& character);
     void DelCharInText(const bool backward=false);
@@ -58,7 +57,6 @@ class SVGUITextCtrl:
     
     void FindCursorIndex(wxSVGPoint& point);
     void Update_Elements();
-    void Update_Cursor();
     
     void OnLeftDown(wxMouseEvent &event);
     void OnMotion(wxMouseEvent &event);

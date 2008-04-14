@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIElement.h,v 1.7 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUIElement.h,v 1.8 2008-04-14 15:36:43 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,6 @@
 #define SVGUI_ELEMENT_H
 
 #include <wx/wx.h>
-//#include <wx/notebook.h>
 #include <wxSVGXML/svgxml.h>
 #include <wxSVG/svg.h>
 #include <wxSVG/SVGElement.h>
@@ -43,6 +42,7 @@ class SVGUIElement:
     virtual wxSVGRect GetBBox() = 0;
     virtual void Update_Elements() = 0;
     virtual void SetSelected(bool selected) {m_selected = selected;}
+    virtual bool IsSelected(){return m_selected;}
     bool IsVisible(){return m_visible;}
     bool IsEnabled(){return m_enable;}
     
