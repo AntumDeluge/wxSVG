@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: ElementTransform.cpp,v 1.2 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: ElementTransform.cpp,v 1.3 2008-04-14 15:44:05 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -41,35 +41,25 @@ void MoveElement(wxSVGElement* elem, double Xposition, double Yposition)
     double denom = CTM.GetB()*CTM.GetC() - CTM.GetA()*CTM.GetD();
     double x = (CTM.GetC()*(Yposition-CTM.GetF()) - CTM.GetD()*(Xposition-CTM.GetE())) / denom;
     double y = (CTM.GetB()*(Xposition-CTM.GetE()) - CTM.GetA()*(Yposition-CTM.GetF())) / denom;
-    wxSVGLength Xvalue(x + stroke_width / 2);
-    wxSVGLength Yvalue(y + stroke_width / 2);
+    //wxSVGLength Xvalue(x + stroke_width / 2);
+    //wxSVGLength Yvalue(y + stroke_width / 2);
+    wxSVGLength Xvalue(x);
+    wxSVGLength Yvalue(y);
     ((wxSVGRectElement*)elem)->SetX(Xvalue);
     ((wxSVGRectElement*)elem)->SetY(Yvalue);
   }
   else
   {
+    wxSVGRect bbox = wxSVGLocatable::GetElementBBox(elem);
     wxSVGTransformable* element = wxSVGTransformable::GetSVGTransformable(*elem);
-        wxSVGMatrix CTM = element->GetCTM();
+    wxSVGMatrix CTM = element->GetCTM();
     wxSVGTransformList transforms = element->GetTransform().GetBaseVal();
-    /*wxSVGMatrix matrix = transforms[(int)transforms.Count()-1].GetMatrix();
-    wxSVGRect bbox = element->GetResultBBox(wxSVG_COORDINATES_VIEWPORT).MatrixTransform(CTM.Inverse());
-    wxSVGPoint LeftUp = wxSVGPoint(bbox.GetX(), bbox.GetY());
-    
-    //new_matrix = new_matrix.Translate(Xposition - LeftUp.GetX(), Yposition - LeftUp.GetY());
-    //new_matrix = matrix.Multiply(CTM.Inverse().Multiply(new_matrix.Multiply(CTM)));
-    wxSVGMatrix new_matrix = wxSVGMatrix();
-    new_matrix = new_matrix.Translate(Xposition, Yposition);
-    transforms[transforms.Count()-1].SetMatrix(new_matrix);
-    element->SetTransform(transforms);*/
-    
     wxSVGMatrix matrix = transforms[(int)transforms.Count()-1].GetMatrix();
-    wxSVGRect bbox = element->GetResultBBox(wxSVG_COORDINATES_VIEWPORT);
     wxSVGPoint LeftUp = wxSVGPoint(bbox.GetX(), bbox.GetY());
     
     wxSVGMatrix new_matrix = wxSVGMatrix();
-    matrix = matrix.Translate(Xposition - LeftUp.GetX(), Yposition - LeftUp.GetY());
-    new_matrix = new_matrix.Multiply(CTM.Inverse().Multiply(matrix.Multiply(CTM)));
-    //new_matrix = matrix.Translate(Xposition, Yposition);
+    new_matrix = new_matrix.Translate(Xposition - LeftUp.GetX(), Yposition - LeftUp.GetY());
+    new_matrix = matrix.Multiply(CTM.Inverse().Multiply(new_matrix.Multiply(CTM)));
     transforms[transforms.Count()-1].SetMatrix(new_matrix);
     element->SetTransform(transforms);
   }
@@ -77,6 +67,7 @@ void MoveElement(wxSVGElement* elem, double Xposition, double Yposition)
 
 void MoveElementByCenter(wxSVGElement* elem, double Xposition, double Yposition)
 {
+  wxSVGRect bbox = wxSVGLocatable::GetElementBBox(elem);
   if (elem->GetDtd() == wxSVG_RECT_ELEMENT)
   {
     double stroke_width = 0;
@@ -86,9 +77,10 @@ void MoveElementByCenter(wxSVGElement* elem, double Xposition, double Yposition)
     double denom = CTM.GetB()*CTM.GetC() - CTM.GetA()*CTM.GetD();
     double xcenter = (CTM.GetC()*(Yposition-CTM.GetF()) - CTM.GetD()*(Xposition-CTM.GetE())) / denom;
     double ycenter = (CTM.GetB()*(Xposition-CTM.GetE()) - CTM.GetA()*(Yposition-CTM.GetF())) / denom;
-    wxSVGRect bbox = ((wxSVGRectElement*)elem)->GetResultBBox(wxSVG_COORDINATES_VIEWPORT);
-    wxSVGLength Xvalue(xcenter + (stroke_width - bbox.GetWidth()) / 2);
-    wxSVGLength Yvalue(ycenter + (stroke_width - bbox.GetHeight()) / 2);
+    //wxSVGLength Xvalue(xcenter + (stroke_width - bbox.GetWidth()) / 2);
+    //wxSVGLength Yvalue(ycenter + (stroke_width - bbox.GetHeight()) / 2);
+    wxSVGLength Xvalue(xcenter - bbox.GetWidth() / 2);
+    wxSVGLength Yvalue(ycenter - bbox.GetHeight() / 2);
     ((wxSVGRectElement*)elem)->SetX(Xvalue);
     ((wxSVGRectElement*)elem)->SetY(Yvalue);
   }
@@ -98,7 +90,6 @@ void MoveElementByCenter(wxSVGElement* elem, double Xposition, double Yposition)
         wxSVGMatrix CTM = element->GetCTM();
     wxSVGTransformList transforms = element->GetTransform().GetBaseVal();
     wxSVGMatrix matrix = transforms[(int)transforms.Count()-1].GetMatrix();
-    wxSVGRect bbox = element->GetResultBBox(wxSVG_COORDINATES_VIEWPORT);
     wxSVGPoint Center = wxSVGPoint(bbox.GetX() + bbox.GetWidth(), bbox.GetY() + bbox.GetHeight());
     wxSVGMatrix new_matrix = wxSVGMatrix();
     new_matrix = new_matrix.Translate(Xposition - Center.GetX(), Yposition - Center.GetY());
@@ -119,11 +110,11 @@ void ScaleElement(wxSVGElement* elem, double Xscale, double Yscale)
   }
   else
   {
+    wxSVGRect bbox = wxSVGLocatable::GetElementBBox(elem);
     wxSVGTransformable* element = wxSVGTransformable::GetSVGTransformable(*elem);
         wxSVGMatrix CTM = element->GetCTM();
     wxSVGTransformList transforms = element->GetTransform().GetBaseVal();
     wxSVGMatrix matrix = transforms[(int)transforms.Count()-1].GetMatrix();
-    wxSVGRect bbox = element->GetResultBBox(wxSVG_COORDINATES_VIEWPORT);
     wxSVGPoint LeftUp = wxSVGPoint(bbox.GetX(), bbox.GetY());
     wxSVGMatrix new_matrix = wxSVGMatrix();
     new_matrix = new_matrix.Translate(LeftUp.GetX(),LeftUp.GetY());
