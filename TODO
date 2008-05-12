@@ -10,4 +10,3 @@ TODO
   * implement animated style attributes
   * fix SVGAnimatedPathData and SVGAnimatedPoints
   * libart backend: optimize DrawCanvasImage -> too slow
-
