@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.2 2008-03-02 18:43:54 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.3 2008-05-18 15:19:17 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -61,10 +61,8 @@ void wxFfmpegMediaDecoder::Close()
     m_formatCtx = NULL;
 }
 
-double wxFfmpegMediaDecoder::GetDuration()
-{
-    return m_formatCtx != NULL && m_formatCtx->duration != AV_NOPTS_VALUE ?
-      m_formatCtx->duration / AV_TIME_BASE : -1;
+unsigned int wxFfmpegMediaDecoder::GetStreamCount() {
+	return m_formatCtx != NULL ? m_formatCtx->nb_streams : 0;
 }
 
 wxSize wxFfmpegMediaDecoder::GetVideoSize()
@@ -73,13 +71,50 @@ wxSize wxFfmpegMediaDecoder::GetVideoSize()
     return m_codecCtx ? wxSize(m_codecCtx->width, m_codecCtx->height) : wxSize();
 }
 
+StreamType wxFfmpegMediaDecoder::GetStreamType(unsigned int streamIndex) {
+	if (m_formatCtx == NULL || streamIndex >= m_formatCtx->nb_streams)
+		return stUNKNOWN;
+	switch (m_formatCtx->streams[streamIndex]->codec->codec_type) {
+	case CODEC_TYPE_VIDEO:
+		return stVIDEO;
+	case CODEC_TYPE_AUDIO:
+		return stAUDIO;
+	case CODEC_TYPE_SUBTITLE:
+		return stSUBTITLE;
+	default:
+		break;
+	}
+	return stUNKNOWN;
+}
+
+wxString wxFfmpegMediaDecoder::GetCodecName(unsigned int streamIndex) {
+	char buf[256];
+	avcodec_string(buf, sizeof(buf), m_formatCtx->streams[streamIndex]->codec, false);
+	wxString name = wxString(buf, wxConvLocal).BeforeFirst(wxT(','));
+	return name.Index(wxT(':')) > 0 ? name.AfterFirst(wxT(':')).Trim(false) : name;
+}
+
+int wxFfmpegMediaDecoder::GetChannelNumber(unsigned int streamIndex) {
+	return m_formatCtx ? m_formatCtx->streams[streamIndex]->codec->channels : -1;
+}
+
+int wxFfmpegMediaDecoder::GetSampleRate(unsigned int streamIndex) {
+	return m_formatCtx ? m_formatCtx->streams[streamIndex]->codec->sample_rate : -1;
+}
+
+double wxFfmpegMediaDecoder::GetDuration()
+{
+    return m_formatCtx != NULL && m_formatCtx->duration != (int)AV_NOPTS_VALUE ?
+      m_formatCtx->duration / AV_TIME_BASE : -1;
+}
+
 bool wxFfmpegMediaDecoder::OpenVideoDecoder()
 {
     if (m_codecCtx)
         return true;
     // find the first video stream
     m_videoStream = -1;
-    for (int i=0; i<m_formatCtx->nb_streams; i++)
+    for (int i=0; i<(int)m_formatCtx->nb_streams; i++)
     {
         if (m_formatCtx->streams[i]->codec->codec_type == CODEC_TYPE_VIDEO)
         {
@@ -139,7 +174,7 @@ bool wxFfmpegMediaDecoder::SetPosition(double pos) {
     if (m_formatCtx == NULL)
         return false;
     int64_t timestamp = (int64_t) (pos * AV_TIME_BASE);
-    if (m_formatCtx->start_time != AV_NOPTS_VALUE)
+    if (m_formatCtx->start_time != (int)AV_NOPTS_VALUE)
         timestamp += m_formatCtx->start_time;
     return av_seek_frame(m_formatCtx, -1, timestamp, AVSEEK_FLAG_ANY|AVSEEK_FLAG_BACKWARD) >= 0;
 }
@@ -152,7 +187,7 @@ double wxFfmpegMediaDecoder::GetPosition() {
 		return -1;
 	AVStream *st = m_formatCtx->streams[streamIndex];
 	int64_t timestamp = st->cur_dts;
-	if (timestamp == AV_NOPTS_VALUE)
+	if (timestamp == (int)AV_NOPTS_VALUE)
 		return -1;
 	timestamp = av_rescale(timestamp, AV_TIME_BASE * (int64_t)st->time_base.num, st->time_base.den);
 	timestamp -= m_formatCtx->start_time;
