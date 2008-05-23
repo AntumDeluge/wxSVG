@@ -3,19 +3,55 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: ElementTransform.cpp,v 1.3 2008-04-14 15:44:05 etisserant Exp $
+// RCS-ID:      $Id: ElementTransform.cpp,v 1.4 2008-05-23 16:36:49 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
+#include <list>
 #include "ElementTransform.h"
 
-void InitElementMatrix(wxSVGElement* elem)
+typedef struct
+{
+  int id;
+} ELEMENT_INIT;
+
+std::list<ELEMENT_INIT> element_init_list;
+
+void ClearList(void) {
+  element_init_list.clear();
+}
+
+bool HasBeenInitialised(wxSVGElement* elem)
+{
+  int svguiid = GetSVGUIID(elem->GetId());
+  std::list<ELEMENT_INIT>::iterator pt;
+  for(pt = element_init_list.begin(); pt != element_init_list.end(); pt++) {
+    if (pt->id == svguiid)
+      return true;
+  }
+  return false;
+}
+
+void _InitElementMatrix(wxSVGElement* elem)
 {
   wxSVGTransformable* element = wxSVGTransformable::GetSVGTransformable(*elem);
   wxSVGTransformList transforms = element->GetTransform().GetBaseVal();
   wxSVGTransform* t = new wxSVGTransform;
+  wxSVGMatrix matrix;
   transforms.Add(t);
+  t->SetMatrix(matrix);
+  element->SetTransform(transforms);
+  ELEMENT_INIT *element_init;
+  element_init = new ELEMENT_INIT;
+  element_init->id = GetSVGUIID(elem->GetId());
+  element_init_list.push_back(*element_init);
+}
+
+void _ResetElementMatrix(wxSVGElement* elem)
+{
+  wxSVGTransformable* element = wxSVGTransformable::GetSVGTransformable(*elem);
+  wxSVGTransformList transforms = element->GetTransform().GetBaseVal();
   wxSVGMatrix matrix;
   transforms[transforms.Count()-1].SetMatrix(matrix);
   element->SetTransform(transforms);
@@ -23,15 +59,17 @@ void InitElementMatrix(wxSVGElement* elem)
 
 void ResetElementMatrix(wxSVGElement* elem)
 {
-  wxSVGTransformable* element = wxSVGTransformable::GetSVGTransformable(*elem);
-  wxSVGTransformList transforms = element->GetTransform().GetBaseVal();
-  wxSVGMatrix matrix;
-  transforms[transforms.Count()-1].SetMatrix(matrix);
-  element->SetTransform(transforms);
+  if (HasBeenInitialised(elem))
+    _ResetElementMatrix(elem);
+  else
+    _InitElementMatrix(elem);
 }
 
 void MoveElement(wxSVGElement* elem, double Xposition, double Yposition)
 {
+  if (!HasBeenInitialised(elem))
+    _InitElementMatrix(elem);
+  
   if (elem->GetDtd() == wxSVG_RECT_ELEMENT)
   {
     double stroke_width = 0;
@@ -67,6 +105,9 @@ void MoveElement(wxSVGElement* elem, double Xposition, double Yposition)
 
 void MoveElementByCenter(wxSVGElement* elem, double Xposition, double Yposition)
 {
+  if (!HasBeenInitialised(elem))
+    _InitElementMatrix(elem);
+  
   wxSVGRect bbox = wxSVGLocatable::GetElementBBox(elem);
   if (elem->GetDtd() == wxSVG_RECT_ELEMENT)
   {
@@ -101,6 +142,9 @@ void MoveElementByCenter(wxSVGElement* elem, double Xposition, double Yposition)
 
 void ScaleElement(wxSVGElement* elem, double Xscale, double Yscale)
 {
+  if (!HasBeenInitialised(elem))
+    _InitElementMatrix(elem);
+  
   if (elem->GetDtd() == wxSVG_RECT_ELEMENT)
   {
     wxSVGLength Width(((wxSVGRectElement*)elem)->GetWidth().GetBaseVal()*Xscale);
@@ -128,6 +172,9 @@ void ScaleElement(wxSVGElement* elem, double Xscale, double Yscale)
 
 void RotateElement(wxSVGElement* elem, double angle, wxSVGPoint* center)
 {
+  if (!HasBeenInitialised(elem))
+    _InitElementMatrix(elem);
+  
   wxSVGTransformable* element = wxSVGTransformable::GetSVGTransformable(*elem);
     wxSVGMatrix CTM = element->GetCTM();
   wxSVGTransformList transforms = element->GetTransform().GetBaseVal();
