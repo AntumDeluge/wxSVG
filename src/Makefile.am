@@ -47,7 +47,8 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp\
   SVGUIButton.cpp SVGUIContainer.cpp SVGUIControl.cpp SVGUIElement.cpp\
   SVGUINoteBook.cpp SVGUINoteBookContent.cpp SVGUIRotatingCtrl.cpp SVGUIScrollBar.cpp\
-  SVGUITextCtrl.cpp SVGUITransform.cpp SVGUIWindow.cpp ElementTransform.cpp $(FFMPEG_SRC)
+  SVGUITextCtrl.cpp SVGUITransform.cpp SVGUIWindow.cpp ElementTransform.cpp\
+  SVGUIID.cpp $(FFMPEG_SRC)
 
 libwxsvg_la_LIBADD = svgxml/libwxsvgxml.la $(RENDER_LIB) $(TEXT_LIB)
 
