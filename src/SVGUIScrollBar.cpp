@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIScrollBar.cpp,v 1.6 2008-04-14 15:36:41 etisserant Exp $
+// RCS-ID:      $Id: SVGUIScrollBar.cpp,v 1.7 2008-05-23 13:47:53 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -202,9 +202,6 @@ void SVGUIScrollBar::Initialize()
     wxSVGRect thumb_bbox = wxSVGLocatable::GetElementBBox(m_ThumbBackElement);
     m_offset.SetX(thumb_bbox.GetX() - background_bbox.GetX());
     m_offset.SetY(thumb_bbox.GetY() - background_bbox.GetY());
-    InitElementMatrix(m_ThumbBackElement);
-    if (m_ThumbMiddleElement)
-      InitElementMatrix(m_ThumbMiddleElement);
   }
   else if (m_UpArrowElement && m_DownArrowElement && m_ThumbBackElement)
   {
@@ -212,9 +209,6 @@ void SVGUIScrollBar::Initialize()
     wxSVGRect uparrow_bbox = wxSVGLocatable::GetElementBBox(m_UpArrowElement);
     m_offset.SetX(thumb_bbox.GetX() - uparrow_bbox.GetX() - uparrow_bbox.GetWidth());
     m_offset.SetY(thumb_bbox.GetY() - uparrow_bbox.GetY() - uparrow_bbox.GetHeight());
-    InitElementMatrix(m_ThumbBackElement);
-    if (m_ThumbMiddleElement)
-      InitElementMatrix(m_ThumbMiddleElement);
   }
   m_initialised = true;
 }
@@ -258,13 +252,13 @@ void SVGUIScrollBar::OnLeftDown(wxMouseEvent &event)
   if (m_UpArrowElement && m_doc->GetRootElement()->CheckIntersection(*m_UpArrowElement, rect))
   {
     MoveThumbByUnit(-1);
-    wxScrollEvent evt(wxEVT_SCROLL_LINEUP, SVGUIWindow::GetSVGUIID(GetName()));
+    wxScrollEvent evt(wxEVT_SCROLL_LINEUP, m_svguiid);
     m_window->ProcessEvent(evt);
   }
   else if (m_DownArrowElement && m_doc->GetRootElement()->CheckIntersection(*m_DownArrowElement, rect))
   {
     MoveThumbByUnit(1);
-    wxScrollEvent evt(wxEVT_SCROLL_LINEDOWN, SVGUIWindow::GetSVGUIID(GetName()));
+    wxScrollEvent evt(wxEVT_SCROLL_LINEDOWN, m_svguiid);
     m_window->ProcessEvent(evt);
   }
   else if (m_BackgroundElement && m_doc->GetRootElement()->CheckIntersection(*m_BackgroundElement, rect))
@@ -279,13 +273,13 @@ void SVGUIScrollBar::OnLeftDown(wxMouseEvent &event)
         if (event.GetX() < thumb_bbox.GetX())
         {
           MoveThumbByPage(-1);
-          wxScrollEvent evt(wxEVT_SCROLL_PAGEUP, SVGUIWindow::GetSVGUIID(GetName()));
+          wxScrollEvent evt(wxEVT_SCROLL_PAGEUP, m_svguiid);
           m_window->ProcessEvent(evt);
         }
         else if (event.GetX() > thumb_bbox.GetX() + thumb_bbox.GetWidth())
         {
           MoveThumbByPage(1);
-          wxScrollEvent evt(wxEVT_SCROLL_PAGEDOWN, SVGUIWindow::GetSVGUIID(GetName()));
+          wxScrollEvent evt(wxEVT_SCROLL_PAGEDOWN, m_svguiid);
           m_window->ProcessEvent(evt);
         }
       }
@@ -294,13 +288,13 @@ void SVGUIScrollBar::OnLeftDown(wxMouseEvent &event)
         if (event.GetY() < thumb_bbox.GetY())
         {
           MoveThumbByPage(-1);
-          wxScrollEvent evt(wxEVT_SCROLL_PAGEUP, SVGUIWindow::GetSVGUIID(GetName()));
+          wxScrollEvent evt(wxEVT_SCROLL_PAGEUP, m_svguiid);
           m_window->ProcessEvent(evt);
         }
         else if (event.GetY() > thumb_bbox.GetY() + thumb_bbox.GetHeight())
         {
           MoveThumbByPage(1);
-          wxScrollEvent evt(wxEVT_SCROLL_PAGEDOWN, SVGUIWindow::GetSVGUIID(GetName()));
+          wxScrollEvent evt(wxEVT_SCROLL_PAGEDOWN, m_svguiid);
           m_window->ProcessEvent(evt);
         }
       }
@@ -320,7 +314,7 @@ void SVGUIScrollBar::OnMotion(wxMouseEvent &event)
       if (abs(dp) > 0)
       {
         MoveThumbByUnit(dp);
-        wxScrollEvent evt(wxEVT_SCROLL_THUMBTRACK, SVGUIWindow::GetSVGUIID(GetName()));
+        wxScrollEvent evt(wxEVT_SCROLL_THUMBTRACK, m_svguiid);
         m_window->ProcessEvent(evt);
         m_last_cursor_position->SetX(m_last_cursor_position->GetX() + m_position_size.GetX() * dp);
       }
@@ -331,7 +325,7 @@ void SVGUIScrollBar::OnMotion(wxMouseEvent &event)
       if (abs(dp) > 0)
       {
         MoveThumbByUnit(dp);
-        wxScrollEvent evt(wxEVT_SCROLL_THUMBTRACK, SVGUIWindow::GetSVGUIID(GetName()));
+        wxScrollEvent evt(wxEVT_SCROLL_THUMBTRACK, m_svguiid);
         m_window->ProcessEvent(evt);
         m_last_cursor_position->SetY(m_last_cursor_position->GetY() + m_position_size.GetY() * dp);
       }
@@ -343,7 +337,7 @@ void SVGUIScrollBar::OnMotion(wxMouseEvent &event)
 void SVGUIScrollBar::OnLeftUp(wxMouseEvent &event)
 {
   m_last_cursor_position = NULL;
-  wxScrollEvent evt(wxEVT_SCROLL_THUMBRELEASE, SVGUIWindow::GetSVGUIID(GetName()));
+  wxScrollEvent evt(wxEVT_SCROLL_THUMBRELEASE, m_svguiid);
   m_window->ProcessEvent(evt);
   event.Skip();
 }

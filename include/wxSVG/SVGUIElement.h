@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIElement.h,v 1.8 2008-04-14 15:36:43 etisserant Exp $
+// RCS-ID:      $Id: SVGUIElement.h,v 1.9 2008-05-23 13:47:22 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -28,6 +28,7 @@ class SVGUIElement:
     bool m_enable;
     bool m_visible;
     bool m_selected;
+    int m_svguiid;
     
   public:
     SVGUIElement(){};
@@ -35,8 +36,6 @@ class SVGUIElement:
     wxString GetId();
     wxString GetName();
     
-    virtual void DefineCenter(wxSVGPoint* pt){Update_Elements();}
-    virtual wxSVGPoint* GetCenter(){return NULL;}
     virtual void Initialize(){Update_Elements();}
     virtual bool HitTest(wxPoint pt) = 0;
     virtual wxSVGRect GetBBox() = 0;

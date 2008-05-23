@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/29
-// RCS-ID:      $Id: SVGUITextCtrl.cpp,v 1.7 2008-04-14 15:36:41 etisserant Exp $
+// RCS-ID:      $Id: SVGUITextCtrl.cpp,v 1.8 2008-05-23 13:47:53 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -95,16 +95,11 @@ wxSVGRect SVGUITextCtrl::GetBBox()
 
 void SVGUITextCtrl::Initialize()
 {
-  if (m_BackgroundElement) {
-    InitElementMatrix(m_BackgroundElement);
-    if (m_TextElement)
-    {
-      wxSVGRect background_bbox = wxSVGLocatable::GetElementBBox(m_BackgroundElement);
-      wxSVGRect text_bbox = wxSVGLocatable::GetElementBBox(m_TextElement);
-      m_text_offset.SetX(text_bbox.GetX() - background_bbox.GetX());
-      m_text_offset.SetY(text_bbox.GetY() - background_bbox.GetY());
-      InitElementMatrix(m_TextElement);
-    }
+  if (m_BackgroundElement && m_TextElement) {
+    wxSVGRect background_bbox = wxSVGLocatable::GetElementBBox(m_BackgroundElement);
+    wxSVGRect text_bbox = wxSVGLocatable::GetElementBBox(m_TextElement);
+    m_text_offset.SetX(text_bbox.GetX() - background_bbox.GetX());
+    m_text_offset.SetY(text_bbox.GetY() - background_bbox.GetY());
   }
   m_initialised = true;
 }
@@ -113,13 +108,11 @@ void SVGUITextCtrl::Update_Elements()
 {
   if (!m_initialised)
     Initialize();
-  if (m_selected)
-  {
+  if (m_selected) {
     SetDisplay(m_BackgroundElement, wxCSS_VALUE_INLINE);
     SetDisplay(m_CursorElement, wxCSS_VALUE_INLINE);
   }
-  else
-  {
+  else {
     if (!m_show_background)
       SetDisplay(m_BackgroundElement, wxCSS_VALUE_NONE);
     else
@@ -171,8 +164,7 @@ void SVGUITextCtrl::Update_Elements()
 wxString SVGUITextCtrl::GetValue()
 {
   wxString res = wxT("");
-  if (m_TextElement)
-  {
+  if (m_TextElement) {
     wxSVGElement* n = (wxSVGElement*)m_TextElement->GetChildren();
     if (n && n->GetType() == wxSVGXML_ELEMENT_NODE)
     {

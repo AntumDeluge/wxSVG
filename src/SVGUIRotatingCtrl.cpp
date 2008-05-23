@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIRotatingCtrl.cpp,v 1.5 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUIRotatingCtrl.cpp,v 1.6 2008-05-23 13:47:53 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -220,10 +220,6 @@ void SVGUIRotatingCtrl::Initialize()
     m_center = new wxSVGPoint(rotating_bbox.GetX() + rotating_bbox.GetWidth() / 2, rotating_bbox.GetY() + rotating_bbox.GetHeight() / 2);
     m_init_pos = new wxSVGPoint(rotating_bbox.GetX() + rotating_bbox.GetWidth() / 2, rotating_bbox.GetY() + rotating_bbox.GetHeight() / 2);
   }
-  if (m_RotatingElement){
-    wxSVGRect rotating_bbox = wxSVGLocatable::GetElementBBox(m_RotatingElement);
-    InitElementMatrix(m_RotatingElement);
-  }
   m_initialised = true;
 }
 
@@ -261,7 +257,7 @@ void SVGUIRotatingCtrl::OnMotion(wxMouseEvent &event)
         angle = m_max_angle - m_angle;
     }
     Rotate(angle);
-    wxScrollEvent evt(wxEVT_SCROLL_THUMBTRACK, SVGUIWindow::GetSVGUIID(GetName()));
+    wxScrollEvent evt(wxEVT_SCROLL_THUMBTRACK, m_svguiid);
     m_window->ProcessEvent(evt);
     m_last_cursor_position = new wxSVGPoint(m_center->GetX() + last_vector.GetX() * cos(angle * pi / 180.0) + last_vector.GetY() * sin(angle * pi / 180.0),
                                             m_center->GetY() - last_vector.GetX() * sin(angle * pi / 180.0) + last_vector.GetY() * cos(angle * pi / 180.0));
@@ -276,7 +272,7 @@ void SVGUIRotatingCtrl::OnMotion(wxMouseEvent &event)
 void SVGUIRotatingCtrl::OnLeftUp(wxMouseEvent &event)
 {
   m_last_cursor_position = NULL;
-  wxScrollEvent evt(wxEVT_SCROLL_THUMBRELEASE, SVGUIWindow::GetSVGUIID(GetName()));
+  wxScrollEvent evt(wxEVT_SCROLL_THUMBRELEASE, m_svguiid);
   m_window->ProcessEvent(evt);
   event.Skip();
 }

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIWindow.h,v 1.4 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUIWindow.h,v 1.5 2008-05-23 13:47:22 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -59,7 +59,6 @@ class SVGUIWindow:
     SVGUIElement* GetElementById(const wxString& id);
     SVGUIElement* GetElementByName(const wxString& name);
     SVGUIScrollBar* GetScrollBarById(const wxString& id);
-    static int GetSVGUIID(const wxChar *str_id);
 
     virtual void OnLeftDown(wxMouseEvent& event);
     virtual void OnLeftUp(wxMouseEvent& event);
@@ -68,7 +67,5 @@ class SVGUIWindow:
     virtual void OnSize(wxSizeEvent& event);
     virtual void OnRefresh(wxCommandEvent& event);
 };
-
-#define SVGUIID(str_id)  SVGUIWindow::GetSVGUIID(wxT(str_id))
 
 #endif // SVGUI_WINDOW_H

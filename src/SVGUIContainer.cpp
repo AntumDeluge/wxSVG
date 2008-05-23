@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/05
-// RCS-ID:      $Id: SVGUIContainer.cpp,v 1.4 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUIContainer.cpp,v 1.5 2008-05-23 13:47:53 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@ bool SVGUIContainer::HitTest(wxPoint pt)
   bool res = false;
   SVGUIElement* elem = NULL;
   SVGUIElement* n = (SVGUIElement*) GetChildren();
-  while (n)
+  while (n && !elem)
   {
     if (n->HitTest(pt))
       elem = n;
@@ -45,6 +45,12 @@ bool SVGUIContainer::HitTest(wxPoint pt)
     res = m_doc->GetRootElement()->CheckIntersection(*m_BackgroundElement, rect);
   }
   return res;
+}
+
+void SVGUIContainer::SetSelected(bool selected)
+{
+  if (m_FocusedElement)
+    m_FocusedElement->SetSelected(selected);
 }
 
 wxSVGRect SVGUIContainer::GetBBox()

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Jonathan Hurtrel
 // Created:     2007/08/13
-// RCS-ID:      $Id: SVGUITransform.cpp,v 1.5 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUITransform.cpp,v 1.6 2008-05-23 13:47:53 etisserant Exp $
 // Copyright:   (c) Jonathan Hurtrel
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -159,7 +159,7 @@ void SVGUITransform::OnMotion(wxMouseEvent &event)
         move_y = m_moving_zone->GetHeight() - moving_bbox.GetHeight() - m_y_pos;
     }
     Move(m_x_pos + move_x, m_y_pos + move_y);
-    wxScrollEvent evt(wxEVT_SCROLL_THUMBTRACK, SVGUIWindow::GetSVGUIID(GetName()));
+    wxScrollEvent evt(wxEVT_SCROLL_THUMBTRACK, m_svguiid);
     m_window->ProcessEvent(evt);
     m_last_cursor_position = new wxSVGPoint(m_last_cursor_position->GetX() + move_x, m_last_cursor_position->GetY() + move_y);
   }
@@ -169,7 +169,7 @@ void SVGUITransform::OnMotion(wxMouseEvent &event)
 void SVGUITransform::OnLeftUp(wxMouseEvent &event)
 {
   m_last_cursor_position = NULL;
-  wxScrollEvent evt(wxEVT_SCROLL_THUMBRELEASE, SVGUIWindow::GetSVGUIID(GetName()));
+  wxScrollEvent evt(wxEVT_SCROLL_THUMBRELEASE, m_svguiid);
   m_window->ProcessEvent(evt);
   event.Skip();
 }

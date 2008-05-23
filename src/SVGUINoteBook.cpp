@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/09/08
-// RCS-ID:      $Id: SVGUINoteBook.cpp,v 1.5 2008-04-10 17:34:21 etisserant Exp $
+// RCS-ID:      $Id: SVGUINoteBook.cpp,v 1.6 2008-05-23 13:47:53 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -176,7 +176,7 @@ void SVGUINoteBook::OnLeftDown(wxMouseEvent &event)
         m_current_content = n;
         Update_Elements();
         Refresh();
-        wxCommandEvent evt(wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, SVGUIWindow::GetSVGUIID(GetName()));
+        wxCommandEvent evt(wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, m_svguiid);
         m_window->ProcessEvent(evt);
       }
       break;

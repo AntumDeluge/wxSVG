@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIElement.cpp,v 1.5 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUIElement.cpp,v 1.6 2008-05-23 13:47:53 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -70,7 +70,9 @@ bool SVGUIElement::SetAttribute(const wxString& attrName, const wxString& attrVa
     m_BackgroundElement = (wxSVGElement*)m_doc->GetElementById(attrValue);
   else if (attrName ==  wxT("enable"))
     m_enable = attrValue == wxT("true");
-  else 
+  else if (attrName == wxT("name"))
+    m_svguiid = GetSVGUIID(attrValue);
+  else
     return false;
   return true;
 }
@@ -88,4 +90,3 @@ void SVGUIElement::Show()
     SetDisplay(m_BackgroundElement, wxCSS_VALUE_INLINE);
   Enable();
 }
-

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: ElementTransform.h,v 1.1 2007-08-31 08:56:16 gusstdie Exp $
+// RCS-ID:      $Id: ElementTransform.h,v 1.2 2008-05-23 13:47:22 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -14,8 +14,9 @@
 #include <wxSVG/svg.h>
 #include <wxSVG/SVGElement.h>
 #include "math.h"
+#include "SVGUIID.h"
 
-void InitElementMatrix(wxSVGElement* elem);
+void ClearList(void);
 void ResetElementMatrix(wxSVGElement* elem);
 void MoveElement(wxSVGElement* elem, double Xposition, double Yposition);
 void MoveElementByCenter(wxSVGElement* elem, double Xposition, double Yposition);

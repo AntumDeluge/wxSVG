@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIButton.cpp,v 1.7 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUIButton.cpp,v 1.8 2008-05-23 13:47:53 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -130,7 +130,7 @@ void SVGUIButton::OnLeftUp(wxMouseEvent &event)
     {
       m_state = false;
       Update_Elements();
-      wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED, SVGUIWindow::GetSVGUIID(GetName()));
+      wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED, m_svguiid);
       m_window->ProcessEvent(evt);
       Refresh();
     }
@@ -138,7 +138,7 @@ void SVGUIButton::OnLeftUp(wxMouseEvent &event)
     {
       m_state = true;
       Update_Elements();
-      wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED, SVGUIWindow::GetSVGUIID(GetName()));
+      wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED, m_svguiid);
       m_window->ProcessEvent(evt);
       Refresh();
     }
@@ -147,7 +147,7 @@ void SVGUIButton::OnLeftUp(wxMouseEvent &event)
   {
     m_up = true;
     Update_Elements();
-    wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED, SVGUIWindow::GetSVGUIID(GetName()));
+    wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED, m_svguiid);
     m_window->ProcessEvent(evt);
     Refresh();
   }
