@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Jonathan Hurtrel
 // Created:     2007/08/13
-// RCS-ID:      $Id: SVGUITransform.cpp,v 1.7 2008-06-27 17:07:09 etisserant Exp $
+// RCS-ID:      $Id: SVGUITransform.cpp,v 1.8 2008-06-28 17:25:22 etisserant Exp $
 // Copyright:   (c) Jonathan Hurtrel
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -34,8 +34,8 @@ void SVGUITransform::Initialize()
     wxSVGRect background_bbox = wxSVGLocatable::GetElementBBox(m_BackgroundElement);
     wxSVGRect moving_bbox = wxSVGLocatable::GetElementBBox(m_MovingElement);
     m_moving_zone = new wxSVGRect(background_bbox.GetX(), background_bbox.GetY(), background_bbox.GetWidth(), background_bbox.GetHeight());
-    //m_x_pos = (m_moving_zone->GetWidth() - moving_bbox.GetWidth()) / 2;
-    //m_y_pos = (m_moving_zone->GetHeight() - moving_bbox.GetHeight()) / 2;
+    m_x_pos = moving_bbox.GetX() - background_bbox.GetX();
+    m_y_pos = moving_bbox.GetY() - background_bbox.GetY();
   }
   else if (m_MovingElement)
   {
