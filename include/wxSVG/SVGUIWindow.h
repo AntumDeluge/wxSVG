@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIWindow.h,v 1.5 2008-05-23 13:47:22 etisserant Exp $
+// RCS-ID:      $Id: SVGUIWindow.h,v 1.6 2008-06-30 13:07:13 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -31,7 +31,6 @@ class SVGUIWindow:
   public wxSVGCtrl
 {
   protected:
-    float m_scale;
     bool m_clicked;
   
   public:
@@ -52,8 +51,6 @@ class SVGUIWindow:
     
     bool LoadFiles(const wxString& svgfile, const wxString& deffile);
     void Update_Elements();
-    void RefreshScale();
-    float GetScale(){return m_scale;}
     
     SVGUIContainer* GetSVGUIRootElement();
     SVGUIElement* GetElementById(const wxString& id);
@@ -64,7 +61,6 @@ class SVGUIWindow:
     virtual void OnLeftUp(wxMouseEvent& event);
     virtual void OnMotion(wxMouseEvent& event);
     virtual void OnChar(wxKeyEvent& event);
-    virtual void OnSize(wxSizeEvent& event);
     virtual void OnRefresh(wxCommandEvent& event);
 };
 

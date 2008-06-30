@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIWindow.cpp,v 1.5 2008-05-23 13:47:53 etisserant Exp $
+// RCS-ID:      $Id: SVGUIWindow.cpp,v 1.6 2008-06-30 13:06:53 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,6 @@ BEGIN_EVENT_TABLE(SVGUIWindow, wxSVGCtrl)
   EVT_MOTION (SVGUIWindow::OnMotion)
   EVT_LEFT_UP (SVGUIWindow::OnLeftUp)
   EVT_CHAR (SVGUIWindow::OnChar)
-  EVT_SIZE (SVGUIWindow::OnSize)
   EVT_COMMAND(-1, wxEVT_COMMAND_ENTER, SVGUIWindow::OnRefresh)
 END_EVENT_TABLE()
 
@@ -23,7 +22,6 @@ SVGUIWindow::SVGUIWindow(wxWindow* parent, wxWindowID id, const wxPoint& pos,
   const wxSize& size, long style, const wxString& name): 
   wxSVGCtrl(parent, id, pos, size, style, name)
 {
-  m_scale = 1.;
 }
 
 bool SVGUIWindow::LoadFiles(const wxString& svgfile, const wxString& deffile)
@@ -78,8 +76,6 @@ SVGUIElement* RecurseElementId(SVGUIElement* elem, const wxString& id)
 {
   wxString found_id = elem->GetId();
   if (elem->GetId() == id) return elem;
-  /*printf("MY_ID : %s\n",id.c_str());
-  printf("FOUND_ID : %s\n",found_id.c_str());*/
   SVGUIElement* n = (SVGUIElement*)elem->GetChildren();
   while (n)
   {
@@ -95,8 +91,6 @@ SVGUIElement* RecurseElementId(SVGUIElement* elem, const wxString& id)
 SVGUIElement* RecurseElementName(SVGUIElement* elem, const wxString& name)
 {
   if (elem->GetName() == name) return elem;
-  /*printf("MY_ID : %s\n",id.c_str());
-  printf("FOUND_ID : %s\n",found_id.c_str());*/
   SVGUIElement* n = (SVGUIElement*)elem->GetChildren();
   while (n)
   {
@@ -138,42 +132,6 @@ SVGUIScrollBar* SVGUIWindow::GetScrollBarById(const wxString& id)
   return (SVGUIScrollBar*)RecurseElementId((SVGUIElement*)GetRoot(), id);
 }
 
-void SVGUIWindow::RefreshScale()
-{
-  if (wxSVGCtrl::m_doc)
-  {
-    if (m_fitToFrame)
-    {
-      wxSVGRect rect = wxSVGCtrl::m_doc->GetRootElement()->GetBBox();
-      float width = (float)wxSVGCtrl::m_doc->GetRootElement()->GetWidth().GetBaseVal().GetValue();
-      float height = (float)wxSVGCtrl::m_doc->GetRootElement()->GetHeight().GetBaseVal().GetValue();
-      wxSize size = GetClientSize();
-      if ( ((width < (float)rect.GetWidth()) && (width < (float)rect.GetWidth())) || (width  > (float)rect.GetWidth() && height > (float)rect.GetHeight() ) ) 
-      {
-        rect.SetX(0);
-        rect.SetY(0);
-        if (m_fitToFrame == true)
-        {
-          rect.SetHeight(height);
-          rect.SetWidth(width);
-        }
-        else
-        {
-          rect.SetHeight((float)size.GetHeight());
-          rect.SetWidth((float)size.GetWidth());
-        }
-      }
-      //printf("Rect : %f | Client : %f | Root : %f\n",(float)rect.GetWidth(),(float)size.GetWidth(), width);
-      if ((float)rect.GetWidth()/(float)rect.GetHeight() > (float)size.GetWidth()/(float)size.GetHeight())
-        m_scale = (float)rect.GetWidth() / (float)size.GetWidth();
-      else
-        m_scale = (float)rect.GetHeight() / (float)size.GetHeight();
-    }
-    else
-      m_scale = 1;
-  }
-}
-
 void SVGUIWindow::Update_Elements()
 {
   if (GetRoot())
@@ -182,10 +140,10 @@ void SVGUIWindow::Update_Elements()
 
 void SVGUIWindow::OnLeftDown(wxMouseEvent& event)
 {
-  if (m_scale && GetRoot())
+  if (GetRoot())
   {
-    event.m_x = (long)((float)event.m_x * m_scale);
-    event.m_y = (long)((float)event.m_y * m_scale);
+    event.m_x = (long)((float)event.m_x / GetScale());
+    event.m_y = (long)((float)event.m_y / GetScale());
     ((SVGUIElement*)GetRoot())->HitTest(event.GetPosition());
     //CaptureMouse();
     ((SVGUIElement*)GetRoot())->OnLeftDown(event);
@@ -197,10 +155,10 @@ void SVGUIWindow::OnLeftDown(wxMouseEvent& event)
 
 void SVGUIWindow::OnMotion(wxMouseEvent& event)
 {
-  if (m_scale && GetRoot())
+  if (GetRoot())
   {
-    event.m_x = (long)((float)event.m_x * m_scale);
-    event.m_y = (long)((float)event.m_y * m_scale);
+    event.m_x = (long)((float)event.m_x / GetScale());
+    event.m_y = (long)((float)event.m_y / GetScale());
     ((SVGUIElement*)GetRoot())->OnMotion(event);
     if (m_clicked)
     {
@@ -212,10 +170,10 @@ void SVGUIWindow::OnMotion(wxMouseEvent& event)
 
 void SVGUIWindow::OnLeftUp(wxMouseEvent& event)
 {
-  if (m_scale && GetRoot())
+  if (GetRoot())
   {
-    event.m_x = (long)((float)event.m_x * m_scale);
-    event.m_y = (long)((float)event.m_y * m_scale);
+    event.m_x = (long)((float)event.m_x / GetScale());
+    event.m_y = (long)((float)event.m_y / GetScale());
     ((SVGUIElement*)GetRoot())->OnLeftUp(event);
     m_clicked = false;
     //ReleaseMouse();
@@ -232,29 +190,14 @@ void SVGUIWindow::OnChar(wxKeyEvent& event)
 
 void SVGUIWindow::OnRefresh(wxCommandEvent& event)
 {
-  /*wxRect *rect = new wxRect(0,0,300,300);
-  Refresh(true,rect);*/
   wxString elem_name = event.GetString();
   if (elem_name.length())
   {
     SVGUIElement* elem = GetElementById(elem_name);
     if (elem){
-      //wxSVGRect rect = elem->GetBBox();
-      //rect.SetX(rect.GetX()*(m_scale));
-      //rect.SetY(rect.GetY()*(m_scale));
-      //rect.SetHeight(rect.GetHeight()*1/m_scale);
-      //rect.SetWidth(rect.GetWidth()*1/m_scale);
-      //Refresh(&rect);
       Refresh();
-      //RefreshRect(elem->GetBBox());
     }
   }
   else
     Refresh();
-}
-
-void SVGUIWindow::OnSize(wxSizeEvent& event)
-{
-  RefreshScale();
-  event.Skip();
 }
