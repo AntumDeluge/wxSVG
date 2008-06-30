@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Jonathan Hurtrel
 // Created:     2007/08/13
-// RCS-ID:      $Id: SVGUITransform.cpp,v 1.8 2008-06-28 17:25:22 etisserant Exp $
+// RCS-ID:      $Id: SVGUITransform.cpp,v 1.9 2008-06-30 13:05:51 etisserant Exp $
 // Copyright:   (c) Jonathan Hurtrel
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -37,11 +37,11 @@ void SVGUITransform::Initialize()
     m_x_pos = moving_bbox.GetX() - background_bbox.GetX();
     m_y_pos = moving_bbox.GetY() - background_bbox.GetY();
   }
-  else if (m_MovingElement)
-  {
-    wxSVGRect moving_bbox = wxSVGLocatable::GetElementBBox(m_MovingElement);
-    m_moving_zone = new wxSVGRect(moving_bbox.GetX(), moving_bbox.GetY(), 0, 0);
-  }
+//  else if (m_MovingElement)
+//  {
+//    wxSVGRect moving_bbox = wxSVGLocatable::GetElementBBox(m_MovingElement);
+//    m_moving_zone = new wxSVGRect(moving_bbox.GetX(), moving_bbox.GetY(), 0, 0);
+//  }
   m_initialised = true;
 }
 
@@ -50,20 +50,32 @@ bool SVGUITransform::HitTest(wxPoint pt)
   if (!m_enable)
     return false;
   wxSVGRect rect(pt.x, pt.y, 1, 1);
+  bool res=false;
   if (m_BackgroundElement)
-    return m_doc->GetRootElement()->CheckIntersection(*m_BackgroundElement, rect);
-  else if (m_MovingElement)
-    return m_doc->GetRootElement()->CheckIntersection(*m_MovingElement, rect);
-  return false;
+    res |= m_doc->GetRootElement()->CheckIntersection(*m_BackgroundElement, rect);
+  if (m_MovingElement)
+    res |= m_doc->GetRootElement()->CheckIntersection(*m_MovingElement, rect);
+  return res;
 }
+
+#define UpdateBBox_macro(element)\
+    if (element)\
+    {\
+      if (empty)\
+        {\
+      res = wxSVGLocatable::GetElementBBox(element);\
+      empty = false;\
+        }\
+        else\
+          res = SumBBox(res, wxSVGLocatable::GetElementBBox(element));\
+    }
 
 wxSVGRect SVGUITransform::GetBBox()
 {
-  wxSVGRect res(0, 0, 0, 0);
-  if (m_BackgroundElement)
-    res = wxSVGLocatable::GetElementResultBBox(m_BackgroundElement, wxSVG_COORDINATES_VIEWPORT);
-  else if (m_MovingElement)
-    res = wxSVGLocatable::GetElementResultBBox(m_MovingElement, wxSVG_COORDINATES_VIEWPORT);
+  wxSVGRect res;
+  bool empty = true;
+  UpdateBBox_macro(m_BackgroundElement)
+  UpdateBBox_macro(m_MovingElement)
   return res;
 }
 
@@ -79,12 +91,12 @@ void SVGUITransform::Update_Elements()
       if ((bbox.GetX() != m_moving_zone->GetX()) ||(bbox.GetY() != m_moving_zone->GetY()))
         Initialize();
     }
-    else if (m_MovingElement)
-    {
-      wxSVGRect bbox = wxSVGLocatable::GetElementBBox(m_MovingElement);
-      if ((bbox.GetX() != m_moving_zone->GetX()) ||(bbox.GetY() != m_moving_zone->GetY()))
-        Initialize();
-    }
+//    else if (m_MovingElement)
+//    {
+//      wxSVGRect bbox = wxSVGLocatable::GetElementBBox(m_MovingElement);
+//      if ((bbox.GetX() != m_moving_zone->GetX()) ||(bbox.GetY() != m_moving_zone->GetY()))
+//        Initialize();
+//    }
   }
   if (m_MovingElement)
   {
@@ -149,14 +161,14 @@ void SVGUITransform::OnMotion(wxMouseEvent &event)
     if (m_BackgroundElement)
     {
       wxSVGRect background_bbox = wxSVGLocatable::GetElementBBox(m_BackgroundElement);
+      if (m_x_pos + move_x + moving_bbox.GetWidth() > m_moving_zone->GetWidth())
+        move_x = m_moving_zone->GetWidth() - moving_bbox.GetWidth() - m_x_pos;
       if (m_x_pos + move_x < 0)
         move_x = -m_x_pos;
-      else if (m_x_pos + move_x + moving_bbox.GetWidth() > m_moving_zone->GetWidth())
-        move_x = m_moving_zone->GetWidth() - moving_bbox.GetWidth() - m_x_pos;
+      if (m_y_pos + move_y + moving_bbox.GetHeight() > m_moving_zone->GetHeight())
+        move_y = m_moving_zone->GetHeight() - moving_bbox.GetHeight() - m_y_pos;
       if (m_y_pos + move_y < 0)
         move_y = -m_y_pos;
-      else if (m_y_pos + move_y + moving_bbox.GetHeight() > m_moving_zone->GetHeight())
-        move_y = m_moving_zone->GetHeight() - moving_bbox.GetHeight() - m_y_pos;
     }
     Move(m_x_pos + move_x, m_y_pos + move_y);
     wxScrollEvent evt(wxEVT_SCROLL_THUMBTRACK, m_svguiid);
