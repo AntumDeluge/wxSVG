@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.26 2008-02-17 19:04:36 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.27 2008-07-01 10:50:07 etisserant Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -261,6 +261,7 @@ inter.include_methods.append('''\
     wxSVGRect(): m_x(0), m_y(0), m_width(0), m_height(0), m_empty(true) {}
     wxSVGRect(double x, double y, double width, double height):
       m_x(x), m_y(y), m_width(width), m_height(height), m_empty(false) {}
+    ~wxSVGRect() {}
     wxString GetValueAsString() const;
     void SetValueAsString(const wxString& value);
     wxSVGRect MatrixTransform(const wxSVGMatrix& matrix) const;

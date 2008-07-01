@@ -43,6 +43,7 @@ class wxSVGRect
     wxSVGRect(): m_x(0), m_y(0), m_width(0), m_height(0), m_empty(true) {}
     wxSVGRect(double x, double y, double width, double height):
       m_x(x), m_y(y), m_width(width), m_height(height), m_empty(false) {}
+    ~wxSVGRect() {}
     wxString GetValueAsString() const;
     void SetValueAsString(const wxString& value);
     wxSVGRect MatrixTransform(const wxSVGMatrix& matrix) const;
