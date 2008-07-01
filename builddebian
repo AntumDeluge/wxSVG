@@ -1,3 +1,22 @@
+# deb package production script by Uwe Bugla <uwe.bugla@gmx.de>
 #!/bin/sh
+case "$1" in
+		lenny)
+echo "building 2 deb packages (shared library and developer library) for Debian Lenny / Sid"
+patch -p1 -i ffmpeg1.patch
+cp -v debian/control.lenny debian/control
+cp -v debian/changelog.lenny debian/changelog
 ./autogen.sh
 fakeroot debian/rules binary
+;;
+		ubuntu)
+echo "building 2 deb packages (shared library and developer library) for Ubuntu Hardy Heron"
+cp -v debian/control.ubuntu debian/control
+cp -v debian/changelog.ubuntu debian/changelog
+./autogen.sh
+fakeroot debian/rules binary
+;;
+		*)
+echo "Usage: $0 {lenny|ubuntu}"
+exit 1
+esac
