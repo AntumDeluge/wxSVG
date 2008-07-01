@@ -1,0 +1,24 @@
+--- a/configure.in
++++ b/configure.in
+@@ -161,7 +161,7 @@
+   AC_CHECK_LIB(avformat, av_register_all, [], [AC_MSG_ERROR([*** missing ffmpeg library: libavformat])])
+   AC_CHECK_LIB(avcodec, avcodec_decode_audio2, [], [AC_MSG_ERROR([*** missing ffmpeg library: libavcodec])])
+   AC_CHECK_LIB(swscale, sws_getContext)
+-  AC_CHECK_HEADERS(ffmpeg/avcodec.h, [], [AC_MSG_ERROR([*** missing ffmpeg header file: ffmpeg/avcodec.h.])])
++  AC_CHECK_HEADERS(ffmpeg/libavcodec/avcodec.h, [], [AC_MSG_ERROR([*** missing ffmpeg header file: ffmpeg/libavcodec/avcodec.h.])])
+   CXXFLAGS="$CXXFLAGS -DUSE_FFMPEG"
+ fi
+ 
+--- a/src/mediadec_ffmpeg.cpp
++++ b/src/mediadec_ffmpeg.cpp
+@@ -23,8 +23,8 @@
+ extern "C" {
+ #define __STDC_CONSTANT_MACROS
+ #define __STDC_LIMIT_MACROS
+-#include <ffmpeg/avformat.h>
+-#include <ffmpeg/swscale.h>
++#include <ffmpeg/libavformat/avformat.h>
++#include <ffmpeg/libswscale/swscale.h>
+ }
+ 
+ wxFfmpegMediaDecoder::wxFfmpegMediaDecoder():
