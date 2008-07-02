@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Jonathan Hurtrel
 // Created:     2007/08/13
-// RCS-ID:      $Id: SVGUITransform.cpp,v 1.9 2008-06-30 13:05:51 etisserant Exp $
+// RCS-ID:      $Id: SVGUITransform.cpp,v 1.10 2008-07-02 14:18:33 etisserant Exp $
 // Copyright:   (c) Jonathan Hurtrel
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -25,6 +25,14 @@ SVGUITransform::SVGUITransform(wxSVGDocument* doc, wxEvtHandler* window): SVGUIC
   m_last_cursor_position = NULL;
   m_MovingElement = NULL;
   SetName(wxT("Transform"));
+}
+
+SVGUITransform::~SVGUITransform() {
+  if (m_moving_zone)
+    delete m_moving_zone;
+  if (m_last_cursor_position)
+    delete m_last_cursor_position;
+  m_MovingElement = NULL;
 }
 
 void SVGUITransform::Initialize()

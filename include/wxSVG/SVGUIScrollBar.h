@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIScrollBar.h,v 1.3 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUIScrollBar.h,v 1.4 2008-07-02 14:18:35 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -38,6 +38,7 @@ class SVGUIScrollBar:
   
   public:
     SVGUIScrollBar(wxSVGDocument* doc, wxEvtHandler* window);
+    ~SVGUIScrollBar();
     void Init_ScrollBar(unsigned int position, unsigned int thumb, unsigned int range);
     void Initialize();
     unsigned int GetThumbPosition(){return m_position;}

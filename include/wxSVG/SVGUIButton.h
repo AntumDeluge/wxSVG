@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIButton.h,v 1.4 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUIButton.h,v 1.5 2008-07-02 14:18:35 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -30,6 +30,7 @@ class SVGUIButton:
   
   public:
     SVGUIButton(wxSVGDocument* doc, wxEvtHandler* window);
+    ~SVGUIButton();
     
     bool HitTest(wxPoint pt);
     wxSVGRect GetBBox();

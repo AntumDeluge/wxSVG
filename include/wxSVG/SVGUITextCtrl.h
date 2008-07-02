@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/29
-// RCS-ID:      $Id: SVGUITextCtrl.h,v 1.5 2008-04-14 15:36:43 etisserant Exp $
+// RCS-ID:      $Id: SVGUITextCtrl.h,v 1.6 2008-07-02 14:18:35 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -40,6 +40,7 @@ class SVGUITextCtrl:
     
   public:
     SVGUITextCtrl(wxSVGDocument* doc, wxEvtHandler* window);
+    ~SVGUITextCtrl();
     void Initialize();
     
     bool HitTest(const wxPoint pt);

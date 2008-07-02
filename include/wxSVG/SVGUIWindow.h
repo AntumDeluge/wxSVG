@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIWindow.h,v 1.6 2008-06-30 13:07:13 etisserant Exp $
+// RCS-ID:      $Id: SVGUIWindow.h,v 1.7 2008-07-02 14:18:35 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,6 @@
 
 class SVGUIWindow:
   public wxSvgXmlDocument,
-  public SVGUIContainer,
   public wxSVGCtrl
 {
   protected:
@@ -43,7 +42,8 @@ class SVGUIWindow:
     SVGUIWindow(wxWindow* parent, wxWindowID id = wxID_ANY,
       const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
       long style = 0, const wxString& name = wxPanelNameStr);
-      
+    ~SVGUIWindow();
+    
     SVGUIElement* CreateElement(const wxString& tagName);
     SVGUIElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
     

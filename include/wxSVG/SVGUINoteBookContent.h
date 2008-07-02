@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2008/03/09
-// RCS-ID:      $Id: SVGUINoteBookContent.h,v 1.1 2008-04-10 17:33:34 etisserant Exp $
+// RCS-ID:      $Id: SVGUINoteBookContent.h,v 1.2 2008-07-02 14:18:35 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -27,6 +27,7 @@ class SVGUINoteBookContent:
     
   public:
     SVGUINoteBookContent(wxSVGDocument* doc);
+    ~SVGUINoteBookContent();
     
     bool SetAttribute(const wxString& attrName, const wxString& attrValue);
     wxSVGElement* GetTabElement() {return m_TabElement;}

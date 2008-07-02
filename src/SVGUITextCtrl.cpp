@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/29
-// RCS-ID:      $Id: SVGUITextCtrl.cpp,v 1.8 2008-05-23 13:47:53 etisserant Exp $
+// RCS-ID:      $Id: SVGUITextCtrl.cpp,v 1.9 2008-07-02 14:18:33 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -34,6 +34,11 @@ SVGUITextCtrl::SVGUITextCtrl(wxSVGDocument* doc, wxEvtHandler* window): SVGUICon
   m_TextElement = NULL;
   m_CursorElement = NULL;
   SetName(wxT("TextCtrl"));
+}
+
+SVGUITextCtrl::~SVGUITextCtrl() {
+  m_TextElement = NULL;
+  m_CursorElement = NULL;
 }
 
 bool SVGUITextCtrl::SetAttribute(const wxString& attrName, const wxString& attrValue)

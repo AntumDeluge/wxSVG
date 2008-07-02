@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/05
-// RCS-ID:      $Id: SVGUIContainer.h,v 1.6 2008-05-23 13:47:22 etisserant Exp $
+// RCS-ID:      $Id: SVGUIContainer.h,v 1.7 2008-07-02 14:18:35 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -26,6 +26,7 @@ class SVGUIContainer:
   public:
     SVGUIContainer(){};
     SVGUIContainer(wxSVGDocument* doc);
+    ~SVGUIContainer();
     wxString GetFocusedElement();
     wxString GetFocusedElementName();
     virtual void SetSelected(bool selected);

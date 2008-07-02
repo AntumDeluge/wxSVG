@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/09/08
-// RCS-ID:      $Id: SVGUINoteBookContent.cpp,v 1.1 2008-04-10 17:34:21 etisserant Exp $
+// RCS-ID:      $Id: SVGUINoteBookContent.cpp,v 1.2 2008-07-02 14:18:33 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -16,6 +16,11 @@ SVGUINoteBookContent::SVGUINoteBookContent(wxSVGDocument* doc):
   m_TabElement = NULL;
   m_ContentElement = NULL;
   SetName(wxT("NoteBookContent"));
+}
+
+SVGUINoteBookContent::~SVGUINoteBookContent() {
+  m_TabElement = NULL;
+  m_ContentElement = NULL;
 }
 
 bool SVGUINoteBookContent::SetAttribute(const wxString& attrName, const wxString& attrValue)

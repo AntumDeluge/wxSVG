@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIElement.cpp,v 1.6 2008-05-23 13:47:53 etisserant Exp $
+// RCS-ID:      $Id: SVGUIElement.cpp,v 1.7 2008-07-02 14:18:33 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -46,6 +46,11 @@ SVGUIElement::SVGUIElement(wxSVGDocument* doc)
   m_doc = doc;
   m_BackgroundElement = NULL;
   m_enable = true;
+}
+
+SVGUIElement::~SVGUIElement() {
+  m_doc = NULL;
+  m_BackgroundElement = NULL;
 }
 
 wxString SVGUIElement::GetId()

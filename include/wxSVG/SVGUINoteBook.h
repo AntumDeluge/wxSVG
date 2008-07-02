@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/09/08
-// RCS-ID:      $Id: SVGUINoteBook.h,v 1.3 2008-04-10 17:33:34 etisserant Exp $
+// RCS-ID:      $Id: SVGUINoteBook.h,v 1.4 2008-07-02 14:18:35 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -32,6 +32,7 @@ class SVGUINoteBook:
     
   public:
     SVGUINoteBook(wxSVGDocument* doc, wxEvtHandler* window);
+    ~SVGUINoteBook();
     
     bool HitTest(wxPoint pt);
     wxSVGRect GetBBox();

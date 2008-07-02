@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIRotatingCtrl.h,v 1.4 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUIRotatingCtrl.h,v 1.5 2008-07-02 14:18:35 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -38,6 +38,7 @@ class SVGUIRotatingCtrl:
   
   public:
     SVGUIRotatingCtrl(wxSVGDocument* doc, wxEvtHandler* window);
+    ~SVGUIRotatingCtrl();
     void Initialize();
     
     double GetAngle(){return m_angle;}

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/18
-// RCS-ID:      $Id: SVGUIElement.h,v 1.9 2008-05-23 13:47:22 etisserant Exp $
+// RCS-ID:      $Id: SVGUIElement.h,v 1.10 2008-07-02 14:18:35 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -33,6 +33,7 @@ class SVGUIElement:
   public:
     SVGUIElement(){};
     SVGUIElement(wxSVGDocument* doc);
+    ~SVGUIElement();
     wxString GetId();
     wxString GetName();
     

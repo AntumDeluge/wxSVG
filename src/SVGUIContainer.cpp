@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/08/05
-// RCS-ID:      $Id: SVGUIContainer.cpp,v 1.5 2008-05-23 13:47:53 etisserant Exp $
+// RCS-ID:      $Id: SVGUIContainer.cpp,v 1.6 2008-07-02 14:18:33 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -16,6 +16,10 @@ SVGUIContainer::SVGUIContainer(wxSVGDocument* doc):
   m_visible = true;
   m_FocusedElement = NULL;
   SetName(wxT("Container"));
+}
+
+SVGUIContainer::~SVGUIContainer() {
+  m_FocusedElement = NULL;
 }
 
 bool SVGUIContainer::HitTest(wxPoint pt)

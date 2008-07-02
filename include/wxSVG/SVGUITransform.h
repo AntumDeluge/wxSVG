@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Jonathan Hurtrel
 // Created:     2007/08/13
-// RCS-ID:      $Id: SVGUITransform.h,v 1.4 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUITransform.h,v 1.5 2008-07-02 14:18:35 etisserant Exp $
 // Copyright:   (c) Jonathan Hurtrel
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -38,6 +38,7 @@ class SVGUITransform:
     
   public:
     SVGUITransform(wxSVGDocument* doc, wxEvtHandler* window);
+    ~SVGUITransform();
     void Initialize();
     
     bool HitTest(wxPoint pt);

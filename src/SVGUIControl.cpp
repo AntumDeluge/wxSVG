@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIControl.cpp,v 1.4 2008-04-10 17:37:19 etisserant Exp $
+// RCS-ID:      $Id: SVGUIControl.cpp,v 1.5 2008-07-02 14:18:33 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -15,6 +15,10 @@ SVGUIControl::SVGUIControl(wxSVGDocument* doc, wxEvtHandler* window):
   SVGUIElement(doc)
 {
   m_window = window;
+}
+
+SVGUIControl::~SVGUIControl() {
+  m_window = NULL;
 }
 
 bool SVGUIControl::HitTest(wxPoint pt)

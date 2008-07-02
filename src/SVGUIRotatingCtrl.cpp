@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIRotatingCtrl.cpp,v 1.6 2008-05-23 13:47:53 etisserant Exp $
+// RCS-ID:      $Id: SVGUIRotatingCtrl.cpp,v 1.7 2008-07-02 14:18:33 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -28,6 +28,17 @@ SVGUIRotatingCtrl::SVGUIRotatingCtrl(wxSVGDocument* doc, wxEvtHandler* window): 
   m_RotatingElement = NULL;
   m_CenterElement = NULL;
   SetName(wxT("RotatingCtrl"));
+}
+
+SVGUIRotatingCtrl::~SVGUIRotatingCtrl() {
+  if (m_center)
+    delete m_center;
+  if (m_init_pos)
+    delete m_init_pos;
+  if (m_last_cursor_position)
+    delete m_last_cursor_position;
+  m_RotatingElement = NULL;
+  m_CenterElement = NULL;
 }
 
 void SVGUIRotatingCtrl::DefineLimits(double min_angle, double max_angle)

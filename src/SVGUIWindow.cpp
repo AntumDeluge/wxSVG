@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Laurent Bessard
 // Created:     2005/07/28
-// RCS-ID:      $Id: SVGUIWindow.cpp,v 1.6 2008-06-30 13:06:53 etisserant Exp $
+// RCS-ID:      $Id: SVGUIWindow.cpp,v 1.7 2008-07-02 14:18:30 etisserant Exp $
 // Copyright:   (c) Laurent Bessard
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -22,6 +22,12 @@ SVGUIWindow::SVGUIWindow(wxWindow* parent, wxWindowID id, const wxPoint& pos,
   const wxSize& size, long style, const wxString& name): 
   wxSVGCtrl(parent, id, pos, size, style, name)
 {
+  m_selected_element = NULL;
+}
+
+SVGUIWindow::~SVGUIWindow() {
+  m_selected_element = NULL;
+  ClearList();
 }
 
 bool SVGUIWindow::LoadFiles(const wxString& svgfile, const wxString& deffile)
