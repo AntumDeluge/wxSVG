@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.3 2008-05-18 15:19:17 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.4 2008-07-13 19:30:14 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -23,8 +23,8 @@
 extern "C" {
 #define __STDC_CONSTANT_MACROS
 #define __STDC_LIMIT_MACROS
-#include <ffmpeg/avformat.h>
-#include <ffmpeg/swscale.h>
+#include <avformat.h>
+#include <swscale.h>
 }
 
 wxFfmpegMediaDecoder::wxFfmpegMediaDecoder():
