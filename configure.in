@@ -159,6 +159,8 @@ dnl check ffmpg
 AM_CONDITIONAL(USE_FFMPEG, [test x$enable_ffmpeg = xyes])
 if test x$enable_ffmpeg = xyes; then
   PKG_CHECK_MODULES(FFMPEG, [libavformat >= 50.0.0 libavcodec >= 51.0.0 libavutil >= 49.0.0 libswscale])
+  dnl check path for old ffmpeg
+  AC_CHECK_HEADERS([ffmpeg/avutil.h]) 
   CXXFLAGS="$CXXFLAGS -DUSE_FFMPEG $FFMPEG_CFLAGS"
   LIBS="$LIBS $FFMPEG_LIBS"
 fi
