@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.9 2008-11-08 17:46:22 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.10 2008-11-08 17:47:27 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -30,7 +30,9 @@
 
 #include "svgview.h"
 #include <wxSVG/svg.h>
+#ifdef USE_FFMPEG
 #include <wxSVG/mediadec_ffmpeg.h>
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////  Application /////////////////////////////////
