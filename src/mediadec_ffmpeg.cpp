@@ -3,13 +3,14 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.5 2008-08-24 20:34:07 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.6 2008-11-08 17:45:13 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
 #include <wxSVG/mediadec_ffmpeg.h>
 #include <wx/wx.h>
+#include <errno.h>
 
 #define INT64_C(val) val##LL
 #define UINT64_C(val) val##ULL
@@ -32,38 +33,63 @@ extern "C" {
 #endif
 }
 
-wxFfmpegMediaDecoder::wxFfmpegMediaDecoder():
-  m_formatCtx(NULL), m_codecCtx(NULL), m_frame(NULL)
-{
+wxFfmpegMediaDecoder::wxFfmpegMediaDecoder(): m_formatCtx(NULL), m_codecCtx(NULL), m_frame(NULL) {
+	// nothing to do
 }
 
-wxFfmpegMediaDecoder::~wxFfmpegMediaDecoder()
-{
+wxFfmpegMediaDecoder::~wxFfmpegMediaDecoder() {
     Close();
 }
 
-void wxFfmpegMediaDecoder::Init()
-{
+void wxFfmpegMediaDecoder::Init() {
     av_register_all();
 }
 
-bool wxFfmpegMediaDecoder::Load(const wxString& fileName)
-{
-    Close();
-    if (av_open_input_file(&m_formatCtx, fileName.mb_str(), NULL, 0, NULL) !=0)
-       return false;
-    // Retrieve stream information
-    if (av_find_stream_info(m_formatCtx)<0)
-       return false;
-    return true;
+void PrintError(const wxString& msg, int err) {
+	switch (err) {
+	case AVERROR_INVALIDDATA:
+		wxLogError(wxT("%s: Error while parsing header"), msg.c_str());
+		break;
+	case AVERROR_NOFMT:
+		wxLogError(wxT("%s: Unknown format"), msg.c_str());
+		break;
+	case AVERROR(EIO):
+		wxLogError(wxT("%s: I/O error occured\n"
+				"Usually that means that input file is truncated and/or corrupted."), msg.c_str());
+		break;
+	case AVERROR(ENOMEM):
+		wxLogError(wxT("%s: memory allocation error occured"), msg.c_str());
+		break;
+	case AVERROR(ENOENT):
+		wxLogError(wxT("%s: no such file or directory"), msg.c_str());
+		break;
+	default:
+		wxLogError(wxT("%s: Error while opening file"), msg.c_str());
+		break;
+	}
 }
 
-void wxFfmpegMediaDecoder::Close()
-{
-    EndDecode();
-    if (m_formatCtx)
-        av_close_input_file(m_formatCtx);
-    m_formatCtx = NULL;
+
+bool wxFfmpegMediaDecoder::Load(const wxString& fileName) {
+	Close();
+	int err = av_open_input_file(&m_formatCtx, fileName.mb_str(), NULL, 0, NULL);
+	if (err !=0) {
+		PrintError(fileName, err);
+		return false;
+	}
+	// Retrieve stream information
+	if (av_find_stream_info(m_formatCtx)<0) {
+		wxLogError(wxT("%s: could not find codec parameters"), fileName.c_str());
+		return false;
+	}
+	return true;
+}
+
+void wxFfmpegMediaDecoder::Close() {
+	EndDecode();
+	if (m_formatCtx)
+		av_close_input_file(m_formatCtx);
+	m_formatCtx = NULL;
 }
 
 unsigned int wxFfmpegMediaDecoder::GetStreamCount() {
@@ -175,13 +201,14 @@ bool wxFfmpegMediaDecoder::BeginDecode(int width, int height)
     return true;
 }
 
-bool wxFfmpegMediaDecoder::SetPosition(double pos) {
+bool wxFfmpegMediaDecoder::SetPosition(double pos, bool keyFrame) {
     if (m_formatCtx == NULL)
         return false;
     int64_t timestamp = (int64_t) (pos * AV_TIME_BASE);
     if (m_formatCtx->start_time != (int)AV_NOPTS_VALUE)
         timestamp += m_formatCtx->start_time;
-    return av_seek_frame(m_formatCtx, -1, timestamp, AVSEEK_FLAG_ANY|AVSEEK_FLAG_BACKWARD) >= 0;
+    return av_seek_frame(m_formatCtx, -1, timestamp,
+    		keyFrame ? AVSEEK_FLAG_BACKWARD : AVSEEK_FLAG_ANY|AVSEEK_FLAG_BACKWARD) >= 0;
 }
 
 double wxFfmpegMediaDecoder::GetPosition() {
