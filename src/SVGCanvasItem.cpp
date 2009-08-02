@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.21 2008-11-08 17:45:52 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.22 2009-08-02 22:04:10 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -861,50 +861,52 @@ double wxSVGCanvasText::GetRotationOfChar(unsigned long charnum)
 ////////////////////////////// wxSVGCanvasImage //////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
-void wxSVGCanvasImage::Init(wxSVGImageElement& element)
-{
-  m_x = element.GetX().GetAnimVal();
-  m_y = element.GetY().GetAnimVal();
-  m_width = element.GetWidth().GetAnimVal();
-  m_height = element.GetHeight().GetAnimVal();
-  m_href = element.GetHref();
-  wxSVGCanvasImage* prevItem = (wxSVGCanvasImage*) element.GetCanvasItem();
-  if (prevItem != NULL && prevItem->m_href == m_href)
-    m_image = prevItem->m_image;
-  else if (m_href.length())
-  {
-    long pos = 0;
-    wxString filename = m_href;
-    if (m_href.Find(wxT('#')) != wxNOT_FOUND)
-    {
-      filename = m_href.Before(wxT('#'));
-      m_href.After(wxT('#')).ToLong(&pos);
-    }
+void wxSVGCanvasImage::Init(wxSVGImageElement& element) {
+	m_x = element.GetX().GetAnimVal();
+	m_y = element.GetY().GetAnimVal();
+	m_width = element.GetWidth().GetAnimVal();
+	m_height = element.GetHeight().GetAnimVal();
+	m_href = element.GetHref();
+	wxSVGCanvasImage* prevItem = (wxSVGCanvasImage*) element.GetCanvasItem();
+	if (prevItem != NULL && prevItem->m_href == m_href)
+		m_image = prevItem->m_image;
+	else if (m_href.length()) {
+		long pos = 0;
+		wxString filename = m_href;
+		if (m_href.Find(wxT('#')) != wxNOT_FOUND) {
+			filename = m_href.Before(wxT('#'));
+			m_href.After(wxT('#')).ToLong(&pos);
+		}
+		if (!wxFileExists(filename)) {
+			wxLogError(_("Can't load image from file '%s': file does not exist."), filename.c_str());
+			return;
+		}
 #ifdef USE_FFMPEG
-    bool log = wxLog::EnableLogging(false);
-    m_image.LoadFile(filename);
-    wxLog::EnableLogging(log);
-    if (!m_image.Ok())
-    {
-      wxFfmpegMediaDecoder decoder;
-      if (decoder.Load(filename))
-      {
-        double duration = decoder.GetDuration();
-        if (duration > 0) {
-        	double dpos = pos > 0 ? ((double)pos)/1000 : duration * 0.05;
-        	decoder.SetPosition(dpos);
-        	do {
-        		m_image = decoder.GetNextFrame();
-	        } while (decoder.GetPosition() < dpos);
-        } else
-        	m_image = decoder.GetNextFrame();
-        decoder.Close();
-      }
-    }
+		bool log = wxLog::EnableLogging(false);
+		m_image.LoadFile(filename);
+		wxLog::EnableLogging(log);
+		if (!m_image.Ok()) {
+			wxFfmpegMediaDecoder decoder;
+			if (decoder.Load(filename)) {
+				double duration = decoder.GetDuration();
+				if (duration > 0) {
+					double dpos = duration * 0.05;
+					decoder.SetPosition(dpos);
+					for (int i = 0; i < 100; i++) {
+						m_image = decoder.GetNextFrame();
+						double pos = decoder.GetPosition();
+						if (pos >= dpos || pos < 0)
+							break;
+					}
+				} else
+					m_image = decoder.GetNextFrame();
+				decoder.Close();
+			}
+		}
 #else
-    m_image.LoadFile(filename);
+		m_image.LoadFile(filename);
 #endif
-  }
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////

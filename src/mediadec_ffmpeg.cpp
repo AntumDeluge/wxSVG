@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.7 2008-11-09 13:42:43 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.8 2009-08-02 22:03:46 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -226,7 +226,8 @@ double wxFfmpegMediaDecoder::GetPosition() {
 	if (timestamp == (int)AV_NOPTS_VALUE)
 		return -1;
 	timestamp = av_rescale(timestamp, AV_TIME_BASE * (int64_t)st->time_base.num, st->time_base.den);
-	timestamp -= m_formatCtx->start_time;
+	if (m_formatCtx->start_time != (int)AV_NOPTS_VALUE)
+		timestamp -= m_formatCtx->start_time;
 	return ((double)timestamp)/AV_TIME_BASE;
 }
 
