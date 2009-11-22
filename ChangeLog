@@ -3,6 +3,7 @@ Version 1.0.1 <2009.11.22>
 
   * fixed ffmpeg media decoder
   * updated for new version of ffmpeg (SVN-r20373)
+  * removed SVGUI classes
   
 Version 1.0 <2008.11.11>
 --------------------------
