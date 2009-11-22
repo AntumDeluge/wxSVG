@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.8 2009-08-02 22:03:46 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.9 2009-11-22 11:26:19 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -243,7 +243,11 @@ wxImage wxFfmpegMediaDecoder::GetNextFrame() {
       if(packet.stream_index == m_videoStream)
       {
         // decode video frame
-        avcodec_decode_video(m_codecCtx, m_frame, &frameFinished, packet.data, packet.size);        
+#if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(52, 35, 0)
+        avcodec_decode_video2(m_codecCtx, m_frame, &frameFinished, &packet);
+#else
+		avcodec_decode_video(m_codecCtx, m_frame, &frameFinished, packet.data, packet.size);
+#endif
         if (frameFinished)
         {
             SwsContext* imgConvertCtx = sws_getContext(m_codecCtx->width, m_codecCtx->height,
