@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.10 2008-11-08 17:47:27 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.11 2010-02-22 20:00:41 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -117,8 +117,7 @@ void MainFrame::OnOpen(wxCommandEvent& event)
 void MainFrame::OnSave(wxCommandEvent& event)
 {
   wxString filename = wxFileSelector(_T("Choose a file to save"),
-    _T(""), _T(""), _T(""), _T("SVG files (*.svg)|*.svg|All files (*.*)|*.*"),
-    wxSAVE);
+    _T(""), _T(""), _T(""), _T("SVG files (*.svg)|*.svg|All files (*.*)|*.*"), wxFD_SAVE);
   if (!filename.empty())
     m_svgCtrl->GetSVG()->Save(filename);
 }

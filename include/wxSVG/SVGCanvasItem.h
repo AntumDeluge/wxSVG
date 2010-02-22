@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.13 2008-01-16 16:28:37 etisserant Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.14 2010-02-22 20:00:40 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -151,8 +151,8 @@ class wxSVGCanvasImage: public wxSVGCanvasItem
 	wxSVGCanvasImage(wxSVGCanvasItemType type): wxSVGCanvasItem(type) {}
 	virtual ~wxSVGCanvasImage() {}
 	virtual void Init(wxSVGImageElement& element);
-    inline int GetDefaultWidth() { return m_image.GetWidth(); }
-    inline int GetDefaultHeight() { return m_image.GetHeight(); }
+    inline int GetDefaultWidth() { return m_image.Ok() ? m_image.GetWidth() : 0; }
+    inline int GetDefaultHeight() { return m_image.Ok() ? m_image.GetHeight() : 0; }
   
   public:
 	double m_x, m_y, m_width, m_height; /** position and size of image */

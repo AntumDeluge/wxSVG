@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.cpp,v 1.1 2007-05-24 08:59:09 etisserant Exp $
+// RCS-ID:      $Id: svgxml.cpp,v 1.2 2010-02-22 20:00:42 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -33,10 +33,13 @@
 #include "wx/log.h"
 #include "wx/intl.h"
 #include "wx/strconv.h"
+#include "wx/string.h"
 
 // DLL options compatibility check:
 #include "wx/app.h"
 //WX_CHECK_BUILD_OPTIONS("wxSVGXML")
+
+
 
 //-----------------------------------------------------------------------------
 //  wxSvgXmlNode
@@ -480,7 +483,7 @@ bool wxSvgXmlDocument::Save(const wxString& filename) const
 
 // converts Expat-produced string in UTF-8 into wxString.
 inline static wxString CharToString(wxMBConv *conv,
-                                    const char *s, size_t len = wxSTRING_MAXLEN)
+                                    const char *s, size_t len = wxString::npos)
 {
 #if wxUSE_UNICODE
     (void)conv;

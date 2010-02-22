@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.33 2008-03-28 17:24:36 etisserant Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.34 2010-02-22 20:00:03 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -431,88 +431,12 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect)
 wxImage wxSVGDocument::RenderElementById(const wxString& id)
 {
 	wxSVGElement* my_element = GetElementById(id);
-	int width = -1;
-	int height = -1;
 	const wxSVGRect* rect = NULL;
 	m_screenCTM = wxSVGMatrix();
 	m_screenCTM = m_screenCTM.Translate(-10, -10);
 	
 	m_canvas->Clear();
-	RenderElement(this, my_element, rect, &m_screenCTM, 
-	&GetRootElement()->GetStyle(), NULL,NULL);
+	RenderElement(this, my_element, rect, &m_screenCTM, &GetRootElement()->GetStyle(), NULL,NULL);
 	 
-  return m_canvas->GetImage();
-  
-	
-/*	
-		
-  if (!my_element)
-	return wxImage();
-  
-  m_screenCTM = wxSVGMatrix();
-  
-  if (my_element->GetWidth().GetBaseVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
-    my_element->SetWidth(wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
-  if (my_element->GetHeight().GetBaseVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
-    my_element->SetHeight(wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
-  
-  if (width == -1 || height == -1)
-  {
-	width = (int) my_element->GetWidth().GetAnimVal();
-	height = (int) my_element->GetHeight().GetAnimVal();
-	if (width <= 0 || height <= 0)
-	{
-	  width = (int) my_element->GetViewBox().GetAnimVal().GetWidth();
-	  height = (int) my_element->GetViewBox().GetAnimVal().GetHeight();
-	}
-  }
-  
-  if (my_element->GetWidth().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_PERCENTAGE)
-  {
-    wxSVGAnimatedLength l = my_element->GetWidth();
-    l.GetBaseVal().ToViewportWidth(width);
-    if (l.GetBaseVal() != ((const wxSVGAnimatedLength&) l).GetAnimVal())
-      l.GetAnimVal().ToViewportWidth(width);
-    my_element->SetWidth(l);
-  }
-  if (my_element->GetHeight().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_PERCENTAGE)
-  {
-    wxSVGAnimatedLength l = my_element->GetHeight();
-    l.GetBaseVal().ToViewportHeight(height);
-    if (l.GetBaseVal() != ((const wxSVGAnimatedLength&) l).GetAnimVal())
-      l.GetAnimVal().ToViewportHeight(height);
-    my_element->SetHeight(l);
-  }
-  
-  // scale it to fit in
-  m_scale = 1;
-  if (my_element->GetWidth().GetAnimVal()>0 &&
-      my_element->GetHeight().GetAnimVal()>0)
-  {
-	m_scale = width/my_element->GetWidth().GetAnimVal();
-	if (m_scale > height/my_element->GetHeight().GetAnimVal())
-	  m_scale = height/my_element->GetHeight().GetAnimVal();
-    m_screenCTM = m_screenCTM.Scale(m_scale);
-    
-    width = (int)(m_scale*my_element->GetWidth().GetAnimVal());
-    height = (int)(m_scale*my_element->GetHeight().GetAnimVal());
-  }
-  
-  // render only rect if specified
-  if (rect && !rect->IsEmpty())
-  {
-    m_screenCTM = m_screenCTM.Translate(-rect->GetX(), -rect->GetY());
-    if (rect->GetWidth()*GetScale() < width)
-      width = (int) (rect->GetWidth()*GetScale());
-    if (rect->GetHeight()*GetScale() < height)
-      height = (int) (rect->GetHeight()*GetScale());
-  }
-  
-  // render
-  m_canvas->Init(width, height);
-  m_canvas->Clear();
-  RenderElement(this, my_element, rect, &m_screenCTM,
-	&my_element->GetStyle(), NULL, NULL);
-  
-  return m_canvas->GetImage();*/
+	return m_canvas->GetImage();
 }
