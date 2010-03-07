@@ -2,6 +2,7 @@ Version 1.0.3 <2010.03.07>
 --------------------------
 
   * fixed handling of image alpha channel
+  * changed to use system expat library
 
 Version 1.0.2 <2009.12.10>
 --------------------------
