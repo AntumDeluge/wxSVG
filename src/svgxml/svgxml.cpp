@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.cpp,v 1.2 2010-02-22 20:00:42 ntalex Exp $
+// RCS-ID:      $Id: svgxml.cpp,v 1.3 2010-03-07 15:54:33 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -21,11 +21,7 @@
 
 #include "svgxml.h"
 
-#ifdef SYSEXPAT
 #include <expat.h>
-#else
-#include "expat/xmlparse.h"
-#endif
 
 #include "wx/wfstream.h"
 #include "wx/datstrm.h"

@@ -156,6 +156,10 @@ fi
 CXXFLAGS="$CXXFLAGS $DEBUG_FLAGS $WX_CXXFLAGS "
 LIBS="$LIBS $WX_LIBS"
 
+dnl check expat
+AC_CHECK_LIB([expat],[XML_ParserCreate],[],[AC_MSG_ERROR([*** missing expat library])])
+AC_CHECK_HEADER([expat.h],[],[AC_MSG_ERROR([*** missing expat library])])
+
 dnl check ffmpg
 AM_CONDITIONAL(USE_FFMPEG, [test x$enable_ffmpeg = xyes])
 if test x$enable_ffmpeg = xyes; then
@@ -165,7 +169,6 @@ if test x$enable_ffmpeg = xyes; then
   CXXFLAGS="$CXXFLAGS -DUSE_FFMPEG $FFMPEG_CFLAGS"
   LIBS="$LIBS $FFMPEG_LIBS"
 fi
-
 
 dnl vars
 AC_SUBST(LDFLAGS)
@@ -180,7 +183,6 @@ AC_OUTPUT([
   include/wxSVGXML/Makefile
   include/wxSVG/Makefile
   src/svgxml/Makefile
-  src/svgxml/expat/Makefile
   src/Makefile
   src/agg/Makefile
   src/cairo/Makefile
