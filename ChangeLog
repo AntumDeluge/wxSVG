@@ -1,3 +1,8 @@
+Version 1.0.4 <2010.03.28>
+--------------------------
+  
+  * fixed memory leak (thanks to Lucian Ion)
+
 Version 1.0.3 <2010.03.07>
 --------------------------
 
