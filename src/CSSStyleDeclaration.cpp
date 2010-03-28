@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.9 2006-07-20 07:34:47 ntalex Exp $
+// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.10 2010-03-28 11:38:05 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -19,16 +19,30 @@ wxSVGPaint* wxCSSStyleDeclaration::s_blackSVGPaint = new wxSVGPaint(0,0,0);
 
 wxCSSStyleDeclaration::~wxCSSStyleDeclaration()
 {
-  iterator it;
-  for (it = begin(); it != end(); ++it)
+  for (iterator it = begin(); it != end(); ++it)
 	delete it->second;
+}
+
+wxCSSStyleDeclaration& wxCSSStyleDeclaration::operator=(const wxCSSStyleDeclaration& src)
+{
+  for (iterator it = begin(); it != end(); ++it)
+	delete it->second;
+  clear();
+  Add(src);
+  return *this;
 }
 
 void wxCSSStyleDeclaration::Add(const wxCSSStyleDeclaration& style)
 {
   const_iterator it;
-  for (it = style.begin(); it != style.end(); ++it)
-	(*this)[it->first] = it->second->Clone();
+  for (it = style.begin(); it != style.end(); ++it) {
+	iterator it2 = find(it->first);
+	if (it2 != end()) { // replace old value with new one
+		delete it2->second;
+		it2->second = it->second->Clone();
+	} else
+		(*this)[it->first] = it->second->Clone();
+  }
 }
 
 wxString wxCSSStyleDeclaration::GetCSSText() const

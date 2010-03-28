@@ -88,7 +88,7 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     wxCSSStyleDeclaration() {}
     wxCSSStyleDeclaration(const wxCSSStyleDeclaration& src) { Add(src); }
     ~wxCSSStyleDeclaration();
-    wxCSSStyleDeclaration& operator=(const wxCSSStyleDeclaration& src) { clear(); Add(src); return *this; }
+    wxCSSStyleDeclaration& operator=(const wxCSSStyleDeclaration& src);
     void Add(const wxCSSStyleDeclaration& style);
 
   public:
