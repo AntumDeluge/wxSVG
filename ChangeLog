@@ -1,3 +1,9 @@
+Version 1.0.5 <2010.07.22>
+--------------------------
+  
+  * added possibility to render without preserving aspect ratio 
+  * fixed bug in wxSVGCanvasTextFreetype
+
 Version 1.0.4 <2010.03.28>
 --------------------------
   
