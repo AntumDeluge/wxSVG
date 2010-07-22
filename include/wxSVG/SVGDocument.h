@@ -47,6 +47,7 @@ class wxSVGDocument:
   protected:
     wxSVGCanvas* m_canvas;
     double m_scale;
+    double m_scaleY;
 
     wxSVGMatrix m_screenCTM;
 
@@ -63,6 +64,8 @@ class wxSVGDocument:
     void Init();
     inline wxSVGCanvas* GetCanvas() { return m_canvas; }
     inline double GetScale() { return m_scale; }
+    inline double GetScaleX() { return m_scale; }
+    inline double GetScaleY() { return m_scaleY > 0 ? m_scaleY : m_scale; }
     const wxSVGMatrix& GetScreenCTM() { return m_screenCTM; }
     
     wxSvgXmlElement* CreateElement(const wxString& tagName);
@@ -77,7 +80,7 @@ class wxSVGDocument:
     double GetCurrentTime() { return m_time; }
     void SetCurrentTime(double seconds);
     
-    wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL);
+    wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL, bool preserveAspectRatio = true);
     wxImage RenderElementById(const wxString& id);
   private:
       DECLARE_DYNAMIC_CLASS(wxSVGDocument)
