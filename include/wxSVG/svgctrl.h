@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.h,v 1.11 2007-10-30 21:59:22 etisserant Exp $
+// RCS-ID:      $Id: svgctrl.h,v 1.12 2010-07-22 20:20:42 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -17,23 +17,18 @@
 #include <wx/control.h>
 #include <wx/bitmap.h>
 
-
-class wxSVGCtrlBase: public wxControl
-{
-  public:
+class wxSVGCtrlBase: public wxControl {
+public:
     wxSVGCtrlBase();
-    wxSVGCtrlBase(wxWindow* parent, wxWindowID id = wxID_ANY,
-      const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
-      long style = 0, const wxValidator& validator = wxDefaultValidator,
-      const wxString& name = wxPanelNameStr);
-    bool Create(wxWindow* parent, wxWindowID id = wxID_ANY,
-      const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
-      long style = 0, const wxValidator& validator = wxDefaultValidator,
-      const wxString& name = wxPanelNameStr);
-    ~wxSVGCtrlBase();
+    wxSVGCtrlBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition,
+    		const wxSize& size = wxDefaultSize, long style = 0, const wxValidator& validator = wxDefaultValidator,
+    		const wxString& name = wxPanelNameStr);
+    virtual ~wxSVGCtrlBase();
       
     void SetFitToFrame(bool fit = true) { m_fitToFrame = fit; }
     double GetScale() const;
+    double GetScaleX() const;
+    double GetScaleY() const;
     wxSVGMatrix GetScreenCTM() const;
 
     void SetSVG(wxSVGDocument* doc);
@@ -53,7 +48,7 @@ class wxSVGCtrlBase: public wxControl
     
     void MoveElement(wxSVGElement* elem, double Xposition, double Yposition);
     
-  protected:
+protected:
     wxSVGDocument* m_doc;
     bool m_docDelete;
     bool m_repaint;
@@ -61,23 +56,22 @@ class wxSVGCtrlBase: public wxControl
     wxBitmap m_buffer;
     bool m_fitToFrame;
     
-    void OnPaint(wxPaintEvent& event);
-    void OnResize(wxSizeEvent& event) { Refresh(); }
-    void OnEraseBackground(wxEraseEvent &event) {}
+    virtual void Init();
+    virtual void OnPaint(wxPaintEvent& event);
+    virtual void OnResize(wxSizeEvent& event) { Refresh(); }
+    virtual void OnEraseBackground(wxEraseEvent &event) {}
+    virtual void RepaintBuffer();
   
-  private:
+private:
     DECLARE_ABSTRACT_CLASS(wxSVGCtrlBase)
     DECLARE_EVENT_TABLE()
-
 };
 
-class wxSVGCtrl: public wxSVGCtrlBase
-{
-  public:
+class wxSVGCtrl: public wxSVGCtrlBase {
+public:
     wxSVGCtrl();
-    wxSVGCtrl(wxWindow* parent, wxWindowID id = wxID_ANY,
-      const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize,
-      long style = 0, const wxString& name = wxPanelNameStr);
+    wxSVGCtrl(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition,
+    		const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = wxPanelNameStr);
 private:
     DECLARE_DYNAMIC_CLASS(wxSVGCtrl)
 };
