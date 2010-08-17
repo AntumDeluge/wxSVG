@@ -1,13 +1,27 @@
-dnl Process this file with autoconf to produce a configure script.
+# Process this file with autoconf to produce a configure script.
 
-dnl initialization
+# initialization
 AC_PREREQ(2.57)
-AC_INIT([wxsvg], [1.0.5], [wx-svg-users@lists.sourceforge.net])
+AC_INIT([wxsvg], [1.0.6], [wx-svg-users@lists.sourceforge.net])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE
 AM_MAINTAINER_MODE
 
-dnl options
+# library versioning (quoted from libtool doc)
+# 1. Update the version information only immediately before a public release
+# 2. If the library source code has changed at all since the last update,
+#    then increment revision (`c:r:a' becomes `c:r+1:a').
+# 3. If any interfaces have been added, removed, or changed since the last
+#    update, increment current, and set revision to 0.
+# 4. If any interfaces have been added since the last public release,
+#    then increment age.
+# 5. If any interfaces have been removed since the last public release,
+#    then set age to 0.
+
+LIBRARY_VERSION=0:1:0 # libwxsvg.so.(C-A).(A).(R)
+AC_SUBST(LIBRARY_VERSION)
+
+# options
 AM_OPTIONS_WXCONFIG
 AC_ARG_ENABLE(debug,
  [  --enable-debug          Enable debugging information],
@@ -32,7 +46,7 @@ esac
 prefix=$m_cv_prefix
 
 
-dnl Checks for programs.
+# Checks for programs.
 AC_LANG_CPLUSPLUS
 AC_PROG_INSTALL
 AC_PROG_LN_S
@@ -41,7 +55,7 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_CXXCPP
 
-dnl debug flags
+# debug flags
 case "$USE_DEBUG" in
 yes)
   DEBUG_FLAGS="-g -Wall -DDEBUG"
@@ -51,13 +65,13 @@ yes)
   ;;
 esac
 
-dnl render
+# render
 AM_CONDITIONAL(USE_RENDER_AGG, [test "$USE_RENDER" = "agg"])
 AM_CONDITIONAL(USE_RENDER_CAIRO, [test "$USE_RENDER" = "cairo"])
 AM_CONDITIONAL(USE_RENDER_LIBART, [test "$USE_RENDER" = "libart"])
 case "$USE_RENDER" in
 libart)
-  dnl check for libart library
+  # check for libart library
   AC_CHECK_PROG(LIBART_CONFIG, libart2-config, yes, no)
   if test $LIBART_CONFIG = no; then
     AC_MSG_ERROR([
@@ -73,7 +87,7 @@ libart)
   font_engine=freetype
   ;;
 agg)
-  dnl check for agg
+  # check for agg
   AC_CHECK_LIBAGG( 2.5, [], [AC_MSG_ERROR([*** missing library AGG])])
   CXXFLAGS="$CXXFLAGS -DUSE_RENDER_AGG $LIBAGG_CFLAGS"
   LDFLAGS="$LDFLAGS $LIBAGG_LIBS"
@@ -90,7 +104,7 @@ agg)
   esac
   ;;
 cairo)
-  dnl check for cairo
+  # check for cairo
   AC_CHECK_LIB(cairo, main, [CAIRO_LIBS=-lcairo], [AC_MSG_ERROR([*** missing cairo library])])
   AC_CHECK_HEADER([cairo/cairo.h], [], [AC_MSG_ERROR([*** missing cairo library])])
   AC_SUBST(CAIRO_CFLAGS)
@@ -103,10 +117,10 @@ cairo)
   ;;
 esac
 
-dnl Font_engine
+# Font_engine
 case "$font_engine" in
 freetype)
-  dnl check for pango and freetype library
+  # check for pango and freetype library
   PKG_PROG_PKG_CONFIG()
   PKG_CHECK_MODULES(PANGO, pangoft2)
   PKG_CHECK_MODULES(FONTCONFIG, fontconfig)
@@ -143,7 +157,7 @@ fontwin32tt_agg)
 esac
 AM_CONDITIONAL(USE_FREETYPE, [test "$font_engine" = "freetype"])
 
-dnl check wxWidgets >= 2.6.3
+# check wxWidgets >= 2.6.3
 AM_PATH_WXCONFIG(2.6.3, WXFOUND=1)
 if test "$WXFOUND" != 1; then
     AC_MSG_ERROR([
@@ -156,27 +170,27 @@ fi
 CXXFLAGS="$CXXFLAGS $DEBUG_FLAGS $WX_CXXFLAGS "
 LIBS="$LIBS $WX_LIBS"
 
-dnl check expat
+# check expat
 AC_CHECK_LIB([expat],[XML_ParserCreate],[],[AC_MSG_ERROR([*** missing expat library])])
 AC_CHECK_HEADER([expat.h],[],[AC_MSG_ERROR([*** missing expat library])])
 
-dnl check ffmpg
+# check ffmpg
 AM_CONDITIONAL(USE_FFMPEG, [test x$enable_ffmpeg = xyes])
 if test x$enable_ffmpeg = xyes; then
   PKG_CHECK_MODULES(FFMPEG, [libavformat >= 50.0.0 libavcodec >= 51.0.0 libavutil >= 49.0.0 libswscale])
-  dnl check path for old ffmpeg
+  # check path for old ffmpeg
   AC_CHECK_HEADERS([ffmpeg/avutil.h]) 
   CXXFLAGS="$CXXFLAGS -DUSE_FFMPEG $FFMPEG_CFLAGS"
   LIBS="$LIBS $FFMPEG_LIBS"
 fi
 
-dnl vars
+# vars
 AC_SUBST(LDFLAGS)
 AC_SUBST(CFLAGS)
 AC_SUBST(CXXFLAGS)
 AC_SUBST(WX_CONFIG_NAME)
 
-dnl create Makefiles
+# create Makefiles
 AC_OUTPUT([
   Makefile
   include/Makefile
