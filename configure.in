@@ -32,6 +32,10 @@ AC_ARG_ENABLE(render,
 AC_ARG_ENABLE(ffmpeg,
  [  --enable-ffmpeg         Enable ffmpeg decoder support (default: enabled)],
  [enable_ffmpeg=$enableval],[enable_ffmpeg=yes])
+AC_ARG_WITH(datarootdir,
+ [  --with-datarootdir=DIR  Use DIR as the data root [[PREFIX/share]]],
+ [datarootdir="\${prefix}/$with_datarootdir"], [datarootdir='$(prefix)/share'])
+AC_SUBST(datarootdir)
 
 AC_MSG_CHECKING(for install location)
 case "$prefix" in
@@ -193,6 +197,7 @@ AC_SUBST(WX_CONFIG_NAME)
 # create Makefiles
 AC_OUTPUT([
   Makefile
+  libwxsvg.pc
   include/Makefile
   include/wxSVGXML/Makefile
   include/wxSVG/Makefile
