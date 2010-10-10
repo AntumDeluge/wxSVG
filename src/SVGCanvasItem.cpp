@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.24 2010-08-17 07:00:23 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.25 2010-10-10 16:17:22 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -889,7 +889,7 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element) {
 			wxFfmpegMediaDecoder decoder;
 			if (decoder.Load(filename)) {
 				double duration = decoder.GetDuration();
-				if (duration > 0) {
+				if (duration > 0 || pos > 0) {
 					double dpos = pos > 0 ? ((double)pos)/1000 : duration * 0.05;
 					if (!decoder.SetPosition(dpos > 0.5 ? dpos - 0.5 : dpos)) {
 						wxLog* oldLog = wxLog::SetActiveTarget(new wxLogStderr());
@@ -903,8 +903,10 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element) {
 						if (dpos1 >= dpos || dpos1 < 0)
 							break;
 					}
-				} else
-					m_image = decoder.GetNextFrame();
+				} else {
+					for (int i = 0; i < 15; i++)
+						m_image = decoder.GetNextFrame();
+				}
 				decoder.Close();
 			}
 		}
