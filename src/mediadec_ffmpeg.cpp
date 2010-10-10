@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.9 2009-11-22 11:26:19 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.10 2010-10-10 16:16:36 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -96,10 +96,26 @@ unsigned int wxFfmpegMediaDecoder::GetStreamCount() {
 	return m_formatCtx != NULL ? m_formatCtx->nb_streams : 0;
 }
 
-wxSize wxFfmpegMediaDecoder::GetVideoSize()
-{
+wxSize wxFfmpegMediaDecoder::GetVideoSize() {
     OpenVideoDecoder();
     return m_codecCtx ? wxSize(m_codecCtx->width, m_codecCtx->height) : wxSize();
+}
+
+float wxFfmpegMediaDecoder::GetFrameAspectRatio() {
+	float frame_aspect_ratio = -1;
+	for (int i=0; i<(int)m_formatCtx->nb_streams; i++) {
+		AVStream *st = m_formatCtx->streams[i];
+		AVCodecContext *enc = st->codec;
+		if (enc->codec_type == CODEC_TYPE_VIDEO) {
+			if(st->sample_aspect_ratio.num)
+				frame_aspect_ratio = av_q2d(st->sample_aspect_ratio);
+			else
+				frame_aspect_ratio = av_q2d(enc->sample_aspect_ratio);
+			frame_aspect_ratio *= (float) enc->width / enc->height;
+			break;
+		}
+	}
+	return frame_aspect_ratio;
 }
 
 StreamType wxFfmpegMediaDecoder::GetStreamType(unsigned int streamIndex) {
@@ -143,32 +159,28 @@ double wxFfmpegMediaDecoder::GetDuration()
       m_formatCtx->duration / AV_TIME_BASE : -1;
 }
 
-bool wxFfmpegMediaDecoder::OpenVideoDecoder()
-{
-    if (m_codecCtx)
-        return true;
-    // find the first video stream
-    m_videoStream = -1;
-    for (int i=0; i<(int)m_formatCtx->nb_streams; i++)
-    {
-        if (m_formatCtx->streams[i]->codec->codec_type == CODEC_TYPE_VIDEO)
-        {
-            m_videoStream = i;
-            break;
-        }
-    }
-    if(m_videoStream == -1)
-        return false;
-    // get a pointer to the codec context for the video stream 
-    m_codecCtx = m_formatCtx->streams[m_videoStream]->codec;
-    // find and open the decoder for the video stream 
-    AVCodec* codec = avcodec_find_decoder(m_codecCtx->codec_id);
-    if (!codec || avcodec_open(m_codecCtx, codec)<0)
-    {
-        m_codecCtx = NULL;
-        return false;
-    }
-    return true;
+bool wxFfmpegMediaDecoder::OpenVideoDecoder() {
+	if (m_codecCtx)
+		return true;
+	// find the first video stream
+	m_videoStream = -1;
+	for (int i=0; i<(int)m_formatCtx->nb_streams; i++) {
+		if (m_formatCtx->streams[i]->codec->codec_type == CODEC_TYPE_VIDEO) {
+			m_videoStream = i;
+			break;
+		}
+	}
+	if(m_videoStream == -1)
+		return false;
+	// get a pointer to the codec context for the video stream 
+	m_codecCtx = m_formatCtx->streams[m_videoStream]->codec;
+	// find and open the decoder for the video stream 
+	AVCodec* codec = avcodec_find_decoder(m_codecCtx->codec_id);
+	if (!codec || avcodec_open(m_codecCtx, codec)<0) {
+		m_codecCtx = NULL;
+		return false;
+	}
+	return true;
 }
 
 void wxFfmpegMediaDecoder::CloseVideoDecoder()
