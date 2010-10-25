@@ -3,7 +3,7 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: libexif
+Name: libwxsvg
 Description: C++ library to create, manipulate and render SVG files 
 Requires:
 Version: @VERSION@
