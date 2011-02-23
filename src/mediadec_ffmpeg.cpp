@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.10 2010-10-10 16:16:36 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.11 2011-02-23 19:25:24 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -107,10 +107,12 @@ float wxFfmpegMediaDecoder::GetFrameAspectRatio() {
 		AVStream *st = m_formatCtx->streams[i];
 		AVCodecContext *enc = st->codec;
 		if (enc->codec_type == CODEC_TYPE_VIDEO) {
-			if(st->sample_aspect_ratio.num)
+			if (st->sample_aspect_ratio.num)
 				frame_aspect_ratio = av_q2d(st->sample_aspect_ratio);
-			else
+			else if (enc->sample_aspect_ratio.num)
 				frame_aspect_ratio = av_q2d(enc->sample_aspect_ratio);
+			else
+				frame_aspect_ratio = 1;
 			frame_aspect_ratio *= (float) enc->width / enc->height;
 			break;
 		}
