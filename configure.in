@@ -2,23 +2,20 @@
 
 # initialization
 AC_PREREQ(2.57)
-AC_INIT([wxsvg], [1.0.6], [wx-svg-users@lists.sourceforge.net])
+AC_INIT([wxsvg], [1.0.8], [wx-svg-users@lists.sourceforge.net])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE
 AM_MAINTAINER_MODE
 
 # library versioning (quoted from libtool doc)
 # 1. Update the version information only immediately before a public release
-# 2. If the library source code has changed at all since the last update,
-#    then increment revision (`c:r:a' becomes `c:r+1:a').
-# 3. If any interfaces have been added, removed, or changed since the last
-#    update, increment current, and set revision to 0.
-# 4. If any interfaces have been added since the last public release,
-#    then increment age.
-# 5. If any interfaces have been removed since the last public release,
-#    then set age to 0.
+# 2. If the library source code has changed then increment revision (`c:r:a' becomes `c:r+1:a').
+# 3. If any interfaces have been added, removed, or changed since the last update, increment current,
+#    and set revision to 0.
+# 4. If any interfaces have been added since the last public release, then increment age.
+# 5. If any interfaces have been removed since the last public release then set age to 0.
 
-LIBRARY_VERSION=0:1:0 # libwxsvg.so.(C-A).(A).(R)
+LIBRARY_VERSION=0:2:0 # current:revision:age -> libwxsvg.so.(C-A).(A).(R)
 AC_SUBST(LIBRARY_VERSION)
 
 # options

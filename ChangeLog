@@ -1,3 +1,8 @@
+Version 1.0.8 <2011.02.23>
+--------------------------
+  
+  * fixed wxFfmpegMediaDecoder::GetFrameAspectRatio()
+
 Version 1.0.7 <2010.10.10>
 --------------------------
   
