@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.27 2008-07-01 10:50:07 etisserant Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.28 2011-03-10 20:22:55 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -185,7 +185,7 @@ inter.include_methods.append('''
 	inline void ToViewportSize(float viewportWidth, float viewportHeight)
 	{
 	  m_value = m_valueInSpecifiedUnits*
-		sqrt(viewportWidth*viewportWidth + viewportHeight*viewportHeight)/sqrt(2)/100;
+		sqrt(viewportWidth*viewportWidth + viewportHeight*viewportHeight)/sqrt(2.0)/100;
 	}\n
 ''')
 inter.exclude_methods = ["GetValue", "SetValue", "GetValueInSpecifiedUnits", "GetValueInSpecifiedUnits"]

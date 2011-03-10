@@ -96,11 +96,8 @@ agg)
     *mingw*)
     font_engine=fontwin32tt_agg
     ;;
-    *gnu*)
-    font_engine=fontfreetype_agg
-    ;;
     *)
-    font_engine=fontfreetype
+    font_engine=freetype
     ;;
   esac
   ;;

@@ -62,7 +62,7 @@ class wxSVGLength
 	inline void ToViewportSize(float viewportWidth, float viewportHeight)
 	{
 	  m_value = m_valueInSpecifiedUnits*
-		sqrt(viewportWidth*viewportWidth + viewportHeight*viewportHeight)/sqrt(2)/100;
+		sqrt(viewportWidth*viewportWidth + viewportHeight*viewportHeight)/sqrt(2.0)/100;
 	}
 
     virtual void NewValueSpecifiedUnits(wxSVG_LENGTHTYPE unitType, double valueInSpecifiedUnits);
