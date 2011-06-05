@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.25 2010-10-10 16:17:22 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.26 2011-06-05 19:30:28 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -867,10 +867,12 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element) {
 	m_width = element.GetWidth().GetAnimVal();
 	m_height = element.GetHeight().GetAnimVal();
 	m_href = element.GetHref();
+	m_defHeightScale = 1;
 	wxSVGCanvasImage* prevItem = (wxSVGCanvasImage*) element.GetCanvasItem();
-	if (prevItem != NULL && prevItem->m_href == m_href)
+	if (prevItem != NULL && prevItem->m_href == m_href) {
 		m_image = prevItem->m_image;
-	else if (m_href.length()) {
+		m_defHeightScale = prevItem->m_defHeightScale;
+	} else if (m_href.length()) {
 		long pos = 0;
 		wxString filename = m_href;
 		if (m_href.Find(wxT('#')) != wxNOT_FOUND) {
@@ -907,6 +909,8 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element) {
 					for (int i = 0; i < 15; i++)
 						m_image = decoder.GetNextFrame();
 				}
+				if (m_image.Ok() && decoder.GetFrameAspectRatio() > 0)
+					m_defHeightScale = ((double)m_image.GetWidth())/m_image.GetHeight()/decoder.GetFrameAspectRatio();
 				decoder.Close();
 			}
 		}

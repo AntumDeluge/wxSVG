@@ -2,9 +2,9 @@
 
 # initialization
 AC_PREREQ(2.57)
-AC_INIT([wxsvg], [1.0.8], [wx-svg-users@lists.sourceforge.net])
+AC_INIT([wxsvg], [1.0.9], [wx-svg-users@lists.sourceforge.net])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE(foreign)
 AM_MAINTAINER_MODE
 
 # library versioning (quoted from libtool doc)
@@ -15,7 +15,7 @@ AM_MAINTAINER_MODE
 # 4. If any interfaces have been added since the last public release, then increment age.
 # 5. If any interfaces have been removed since the last public release then set age to 0.
 
-LIBRARY_VERSION=0:2:0 # current:revision:age -> libwxsvg.so.(C-A).(A).(R)
+LIBRARY_VERSION=0:3:0 # current:revision:age -> libwxsvg.so.(C-A).(A).(R)
 AC_SUBST(LIBRARY_VERSION)
 
 # options
@@ -133,7 +133,6 @@ freetype)
   FREETYPE_LIBS="`freetype-config --libs` $LIBS $FONTCONFIG_LIBS $PANGO_LIBS"
   AC_SUBST(FREETYPE_CFLAGS)
   AC_SUBST(FREETYPE_LIBS)
-  LDFLAGS="$LDFLAGS $FREETYPE_LIBS"
   ;;
 fontfreetype_agg)
   AC_CHECK_PROG(FREETYPE_CONFIG, freetype-config, yes, no)

@@ -1,3 +1,8 @@
+Version 1.0.9 <2011.06.05>
+--------------------------
+  
+  * fixed wxSVGCanvasImage::GetDefaultHeight()
+
 Version 1.0.8 <2011.02.23>
 --------------------------
   
