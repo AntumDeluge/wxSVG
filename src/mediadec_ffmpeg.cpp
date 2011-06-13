@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.11 2011-02-23 19:25:24 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.12 2011-06-13 19:42:06 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -246,42 +246,34 @@ double wxFfmpegMediaDecoder::GetPosition() {
 }
 
 wxImage wxFfmpegMediaDecoder::GetNextFrame() {
-    if (!m_frame && !BeginDecode())
-        return wxImage();
-    
-    int frameFinished;
-    AVPacket packet;
-    while (av_read_frame(m_formatCtx, &packet) >=0)
-    {
-      // is this a packet from the video stream?
-      if(packet.stream_index == m_videoStream)
-      {
-        // decode video frame
-#if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(52, 35, 0)
-        avcodec_decode_video2(m_codecCtx, m_frame, &frameFinished, &packet);
-#else
-		avcodec_decode_video(m_codecCtx, m_frame, &frameFinished, packet.data, packet.size);
-#endif
-        if (frameFinished)
-        {
-            SwsContext* imgConvertCtx = sws_getContext(m_codecCtx->width, m_codecCtx->height,
-                m_codecCtx->pix_fmt, m_width, m_height, PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
-            if (imgConvertCtx == NULL)
-                return wxImage();
-            
-            wxImage img(m_width, m_height);
-            uint8_t *rgbSrc[3]= {img.GetData(), NULL, NULL};
-            int rgbStride[3]={3*m_width, 0, 0}; 
-            sws_scale(imgConvertCtx, m_frame->data, m_frame->linesize,
-                0, m_codecCtx->height, rgbSrc, rgbStride);
-            av_free_packet(&packet);
-            return img;
-        }
-      }
-      // free the packet that was allocated by av_read_frame
-      av_free_packet(&packet);
-    }
-    return wxImage();
+	if (!m_frame && !BeginDecode())
+		return wxImage();
+
+	int frameFinished;
+	AVPacket packet;
+	 while (av_read_frame(m_formatCtx, &packet) >=0) {
+		// is this a packet from the video stream?
+		if (packet.stream_index == m_videoStream) {
+			// decode video frame
+			avcodec_decode_video2(m_codecCtx, m_frame, &frameFinished, &packet);
+			if (frameFinished) {
+				SwsContext* imgConvertCtx = sws_getContext(m_codecCtx->width, m_codecCtx->height, m_codecCtx->pix_fmt,
+						m_width, m_height, PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
+				if (imgConvertCtx == NULL)
+					return wxImage();
+
+				wxImage img(m_width, m_height);
+				uint8_t *rgbSrc[3] = { img.GetData(), NULL, NULL };
+				int rgbStride[3] = { 3 * m_width, 0, 0 };
+				sws_scale(imgConvertCtx, m_frame->data, m_frame->linesize, 0, m_codecCtx->height, rgbSrc, rgbStride);
+				av_free_packet(&packet);
+				return img;
+			}
+		}
+		// free the packet that was allocated by av_read_frame
+		av_free_packet(&packet);
+	}
+	return wxImage();
 }
 
 void wxFfmpegMediaDecoder::EndDecode()
