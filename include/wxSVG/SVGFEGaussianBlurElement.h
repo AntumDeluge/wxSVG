@@ -24,6 +24,9 @@ class wxSVGFEGaussianBlurElement:
     wxSVGAnimatedString m_in1;
     wxSVGAnimatedNumber m_stdDeviationX;
     wxSVGAnimatedNumber m_stdDeviationY;
+    bool HasCustomAttribute(const wxString& name);
+    wxString GetCustomAttribute(const wxString& name);
+    bool SetCustomAttribute(const wxString& name, const wxString& value);
 
   public:
     inline const wxSVGAnimatedString& GetIn1() const { return m_in1; }
