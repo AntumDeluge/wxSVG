@@ -1006,7 +1006,8 @@ bool wxSVGFEGaussianBlurElement::HasAttribute(const wxString& attrName)
 {
   return attrName == wxT("in") ||
     wxSVGElement::HasAttribute(attrName) ||
-    wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName);
+    wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName) ||
+    HasCustomAttribute(attrName);
 }      
 
 // wxSVGGlyphElement

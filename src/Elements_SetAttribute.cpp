@@ -2062,7 +2062,8 @@ bool wxSVGFEGaussianBlurElement::SetAttribute(const wxString& attrName, const wx
 	m_in1.GetBaseVal() = attrValue;
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
-  else 
+  else if (SetCustomAttribute(attrName, attrValue));
+  else
   {
     //wxLogDebug(wxT("unknown attribute SVGFEGaussianBlurElement::") + attrName);
     return false;

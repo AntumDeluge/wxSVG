@@ -3,7 +3,7 @@
 ## Purpose:     generates CSSStyleDeclaration
 ## Author:      Alex Thuering
 ## Created:     2005/06/06
-## RCS-ID:      $Id: genCSS.py,v 1.13 2006-07-20 07:26:41 ntalex Exp $
+## RCS-ID:      $Id: genCSS.py,v 1.14 2011-06-23 11:27:04 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 
@@ -237,7 +237,7 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     wxCSSStyleDeclaration() {}
     wxCSSStyleDeclaration(const wxCSSStyleDeclaration& src) { Add(src); }
     ~wxCSSStyleDeclaration();
-    wxCSSStyleDeclaration& operator=(const wxCSSStyleDeclaration& src) { clear(); Add(src); return *this; }
+    wxCSSStyleDeclaration& operator=(const wxCSSStyleDeclaration& src);
     void Add(const wxCSSStyleDeclaration& style);
 
   public:

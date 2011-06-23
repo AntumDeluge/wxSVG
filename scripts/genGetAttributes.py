@@ -4,7 +4,7 @@
 ##              -> GetAttributes() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttributes.py,v 1.5 2007-10-30 21:59:23 etisserant Exp $
+## RCS-ID:      $Id: genGetAttributes.py,v 1.6 2011-06-23 11:27:04 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -17,7 +17,7 @@ import genFile
 import cpp
 import cppImpl
 
-customParser = ["SVGStylable"] ##TODO["SVGFEGaussianBlurElement", "SVGMarkerElement"]
+customParser = ["SVGStylable", "SVGFEGaussianBlurElement"] ##TODO["SVGMarkerElement"]
 
 includes = ["String_wxsvg"]
 already_done={}

@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.28 2011-03-10 20:22:55 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.29 2011-06-23 11:27:04 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -387,7 +387,8 @@ inter.exclude_attributes = ["rootElement"]
 inter.include_attributes.append('''
   protected:
     wxSVGCanvas* m_canvas;
-    double m_scale;\n
+    double m_scale;
+    double m_scaleY;\n
     wxSVGMatrix m_screenCTM;\n
     double m_time;
     double GetDuration(wxSVGElement* parent);
@@ -402,6 +403,8 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     void Init();
     inline wxSVGCanvas* GetCanvas() { return m_canvas; }
     inline double GetScale() { return m_scale; }
+    inline double GetScaleX() { return m_scale; }
+    inline double GetScaleY() { return m_scaleY > 0 ? m_scaleY : m_scale; }
     const wxSVGMatrix& GetScreenCTM() { return m_screenCTM; }
     
     wxSvgXmlElement* CreateElement(const wxString& tagName);
@@ -416,7 +419,7 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     double GetCurrentTime() { return m_time; }
     void SetCurrentTime(double seconds);
     
-    wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL);
+    wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL, bool preserveAspectRatio = true);
     wxImage RenderElementById(const wxString& id);
   private:
       DECLARE_DYNAMIC_CLASS(wxSVGDocument)

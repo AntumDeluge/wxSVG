@@ -1816,7 +1816,9 @@ wxString wxSVGFEGaussianBlurElement::GetAttribute(const wxString& attrName)
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName))
     return wxSVGFilterPrimitiveStandardAttributes::GetAttribute(attrName);
-  else 
+  else if (HasCustomAttribute(attrName))
+    return GetCustomAttribute(attrName);
+  else
     return wxT("");
 
   return wxT("");

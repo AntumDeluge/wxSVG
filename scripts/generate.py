@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.19 2007-10-30 21:59:23 etisserant Exp $
+## RCS-ID:      $Id: generate.py,v 1.20 2011-06-23 11:27:04 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -468,7 +468,7 @@ if len(parse_idl.class_decls):
             if "Element" not in includes:
                 includes.append("Element")
             doGetAttrByName=1
-            if classname in ["SVGStylable"]: #genSetAttribute.customParser
+            if classname in ["SVGStylable", "SVGFEGaussianBlurElement"]: #genSetAttribute.customParser
                 protected = protected + '    bool HasCustomAttribute(const wxString& name);\n';
                 protected = protected + '    wxString GetCustomAttribute(const wxString& name);\n';
                 protected = protected + '    bool SetCustomAttribute(const wxString& name, const wxString& value);\n';
@@ -569,7 +569,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.19 2007-10-30 21:59:23 etisserant Exp $
+// RCS-ID:      $Id: generate.py,v 1.20 2011-06-23 11:27:04 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
