@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas path
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasPathCairo.cpp,v 1.3 2011-06-23 11:29:22 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasPathCairo.cpp,v 1.4 2011-06-27 21:14:58 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -30,7 +30,6 @@ cairo_path_t* wxSVGCanvasPathCairo::GetPath() {
 }
 
 wxSVGRect wxSVGCanvasPathCairo::GetBBox(const wxSVGMatrix& matrix) {
-	double x1, y1, x2, y2;
 	if (&matrix) {
 		cairo_matrix_t affine;
 		affine.xx = matrix.GetA();
@@ -41,6 +40,7 @@ wxSVGRect wxSVGCanvasPathCairo::GetBBox(const wxSVGMatrix& matrix) {
 		affine.y0 = matrix.GetF();
 		cairo_set_matrix(m_cr, &affine);
 	}
+	double x1, y1, x2, y2;
 	cairo_fill_extents(m_cr, &x1, &y1, &x2, &y2);
 	return wxSVGRect(x1, y1, x2 - x1, y2 - y1);
 }

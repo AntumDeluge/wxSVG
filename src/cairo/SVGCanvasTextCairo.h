@@ -3,8 +3,8 @@
 // Purpose:     Cairo canvas text
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasTextCairo.h,v 1.1 2011-06-23 11:29:14 ntalex Exp $
-// Copyright:   (c) 2005 Alex Thuering
+// RCS-ID:      $Id: SVGCanvasTextCairo.h,v 1.2 2011-06-27 21:14:58 ntalex Exp $
+// Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 

@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/02
-// RCS-ID:      $Id: SVGCanvas.h,v 1.9 2007-11-11 20:05:45 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.h,v 1.10 2011-06-27 21:14:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ class wxSVGCanvas: public wxObject
 	wxSVGCanvas():  m_itemsCached(true) {}
 	virtual ~wxSVGCanvas() {}
 	
-	virtual void Init(int width, int height) = 0;
+	virtual void Init(int width, int height, bool alpha = false) = 0;
 	virtual int GetWidth() = 0;
 	virtual int GetHeight() = 0;
 	virtual wxImage GetImage() = 0;
@@ -36,10 +36,9 @@ class wxSVGCanvas: public wxObject
 	wxSVGCanvasItem* CreateItem(wxSVGCircleElement* element);
 	wxSVGCanvasItem* CreateItem(wxSVGEllipseElement* element);
 	wxSVGCanvasItem* CreateItem(wxSVGPathElement* element);
-	virtual wxSVGCanvasItem* CreateItem(wxSVGTextElement* element,
-	  const wxCSSStyleDeclaration* style = NULL) = 0;
-	wxSVGCanvasItem* CreateItem(wxSVGImageElement* element);
-	wxSVGCanvasItem* CreateItem(wxSVGVideoElement* element);
+	virtual wxSVGCanvasItem* CreateItem(wxSVGTextElement* element, const wxCSSStyleDeclaration* style = NULL) = 0;
+	virtual wxSVGCanvasItem* CreateItem(wxSVGImageElement* element, const wxCSSStyleDeclaration* style = NULL);
+	virtual wxSVGCanvasItem* CreateItem(wxSVGVideoElement* element, const wxCSSStyleDeclaration* style = NULL);
 	
 	virtual void DrawItem(wxSVGCanvasItem& item, wxSVGMatrix& matrix,
       const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem) = 0;
@@ -74,8 +73,8 @@ class wxSVGCanvas: public wxObject
 	void DrawCanvasText(wxSVGCanvasText& canvasText, wxSVGMatrix& matrix,
       const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem);
 	
-	unsigned int GetGradientStops(const wxSVGSVGElement& svgElem,
-      const wxString& href, float overall_opacity, const wxSVGElement*& refElem);
+	wxSVGGradientElement* GetGradientElement(const wxSVGSVGElement& svgElem, const wxString& href);
+	unsigned int GetGradientStops(const wxSVGSVGElement& svgElem, wxSVGGradientElement* gradElem, float opacity);
 	virtual void SetStopValue(unsigned int index, float offset, float opacity, const wxRGBColor& RGBColor) = 0;
 	virtual void AllocateGradientStops(unsigned int stop_count) = 0;
 	void GetLinearGradientVector(wxSVGPoint& p1, wxSVGPoint& p2,

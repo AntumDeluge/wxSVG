@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.12 2007-11-11 20:05:46 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.13 2011-06-27 21:14:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -33,10 +33,11 @@ WX_SVG_CREATE_USING_PATH(Ellipse)
 WX_SVG_CREATE_USING_PATH(Path)
 
 #define WX_SVG_CREATE(elem_name)\
-wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVG##elem_name##Element* element)\
+wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVG##elem_name##Element* element,\
+ const wxCSSStyleDeclaration* style)\
 {\
   wxSVGCanvas##elem_name* canvasItem = new wxSVGCanvas##elem_name;\
-  canvasItem->Init(*element);\
+  canvasItem->Init(*element, style != NULL ? *style : (wxCSSStyleDeclaration&) element->GetStyle());\
   return canvasItem;\
 }
 
@@ -99,69 +100,54 @@ void wxSVGCanvas::DrawCanvasText(wxSVGCanvasText& canvasText,
   }
 }
 
-unsigned int wxSVGCanvas::GetGradientStops(const wxSVGSVGElement& svgElem,
-  const wxString& href, float opacity, const wxSVGElement*& refElem)
-{
-    refElem = NULL;
-    if (href.length() == 0 || href[0] != wxT('#') || &svgElem == NULL)
-      return 0;
-    
-    wxString tmp_href = href;
-    tmp_href.Remove(0,1);
-    refElem = (wxSVGSVGElement*) svgElem.GetElementById(tmp_href);
+wxSVGGradientElement* wxSVGCanvas::GetGradientElement(const wxSVGSVGElement& svgElem, const wxString& href) {
+	if (href.length() == 0 || href[0] != wxT('#') || &svgElem == NULL)
+	    return NULL;
+	wxSVGGradientElement* elem = (wxSVGGradientElement*) svgElem.GetElementById(href.substr(1));
+	return elem != NULL && (elem->GetDtd() == wxSVG_LINEARGRADIENT_ELEMENT
+			|| elem->GetDtd() == wxSVG_RADIALGRADIENT_ELEMENT) ? elem : NULL;
+}
 
-    // Gradient filling
-    if (!refElem || (refElem->GetDtd() != wxSVG_LINEARGRADIENT_ELEMENT &&
-                     refElem->GetDtd() != wxSVG_RADIALGRADIENT_ELEMENT))
-      return 0;
-      
-    // Search for the most referenced gradient
-    // (we assume that this is the one that contain stops)
-    wxSVGElement* tmp;
-    wxSVGLinearGradientElement* reference_gradient = (wxSVGLinearGradientElement*)refElem;
-    do {
-        tmp = NULL;
-        wxString grad_href = reference_gradient->GetHref();
-        if (grad_href.Length() > 1 && grad_href.GetChar(0) == wxT('#'))
-        {
-            grad_href.Remove(0,1);
-            tmp = (wxSVGSVGElement*) svgElem.GetElementById(grad_href);
-            if (tmp && tmp->GetDtd() == wxSVG_LINEARGRADIENT_ELEMENT)
-                reference_gradient = (wxSVGLinearGradientElement*)tmp;
-        }
-    } while (tmp);
-        
-    //Count number of stop element
-    wxSVGElement* stop_elem = (wxSVGElement*)reference_gradient->GetChildren();
-    unsigned int stop_count = 0; 
-    while (stop_elem)
-    {
-        if(stop_elem->GetDtd() == wxSVG_STOP_ELEMENT)
-            stop_count++;
-        stop_elem = (wxSVGElement*)stop_elem->GetNext();
-    }
-    stop_elem = (wxSVGElement*)reference_gradient->GetChildren();
-    if (stop_count == 0)
-      return 0;
+unsigned int wxSVGCanvas::GetGradientStops(const wxSVGSVGElement& svgElem, wxSVGGradientElement* gradElem, float opacity) {
+	if (gradElem == NULL)
+		return 0;
 
-    // Allocate enough stops
-    AllocateGradientStops(stop_count);
+	// Search for the most referenced gradient (we assume that this is the one that contain stops)
+	while (true) {
+		wxString grad_href = gradElem->GetHref();
+		if (grad_href.length() <= 1 || grad_href.GetChar(0) != wxT('#'))
+			break;
+		wxSVGElement* tmp = (wxSVGSVGElement*) svgElem.GetElementById(grad_href.substr(1));
+		if (tmp == NULL || (tmp->GetDtd() != wxSVG_LINEARGRADIENT_ELEMENT
+				&& tmp->GetDtd() != wxSVG_RADIALGRADIENT_ELEMENT))
+			break;
+		gradElem = (wxSVGGradientElement*) tmp;
+	}
 
-    // Fill the stops
-    int i = 0;
-    while (stop_elem)
-    {
-        if (stop_elem->GetDtd() == wxSVG_STOP_ELEMENT)
-        {
-            SetStopValue(
-                i++,
-                ((wxSVGStopElement*)stop_elem)->GetOffset(),
-                ((wxSVGStopElement*)stop_elem)->GetStopOpacity() * opacity,
-                ((wxSVGStopElement*)stop_elem)->GetStopColor().GetRGBColor());
-        }
-        stop_elem = (wxSVGElement*)stop_elem->GetNext();
-    }
-    return stop_count;
+	// Count number of stop element
+	wxSVGStopElement* stop_elem = (wxSVGStopElement*) gradElem->GetChildren();
+	unsigned int stop_count = 0;
+	while (stop_elem) {
+		if (stop_elem->GetDtd() == wxSVG_STOP_ELEMENT)
+			stop_count++;
+		stop_elem = (wxSVGStopElement*) stop_elem->GetNext();
+	}
+	if (stop_count == 0)
+		return 0;
+
+	// Allocate enough stops
+	AllocateGradientStops(stop_count);
+	
+	// Fill the stops
+	stop_elem = (wxSVGStopElement*) gradElem->GetChildren();
+	int i = 0;
+	while (stop_elem) {
+		if (stop_elem->GetDtd() == wxSVG_STOP_ELEMENT)
+			SetStopValue(i++, stop_elem->GetOffset(), stop_elem->GetStopOpacity() * opacity,
+					stop_elem->GetStopColor().GetRGBColor());
+		stop_elem = (wxSVGStopElement*) stop_elem->GetNext();
+	}
+	return stop_count;
 }
 
 void wxSVGCanvas::GetLinearGradientVector(wxSVGPoint& p1, wxSVGPoint& p2,

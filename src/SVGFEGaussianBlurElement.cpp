@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGFEGaussianBlurElement.cpp,v 1.3 2011-06-23 11:12:19 ntalex Exp $
+// RCS-ID:      $Id: SVGFEGaussianBlurElement.cpp,v 1.4 2011-06-27 21:14:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -29,5 +29,7 @@ bool wxSVGFEGaussianBlurElement::SetCustomAttribute(const wxString& name, const 
 	if (name == wxT("stdDeviation") && value.ToDouble(&dvalue)) {
 		m_stdDeviationX.SetBaseVal(dvalue);
 		m_stdDeviationY.SetBaseVal(dvalue);
+		return true;
 	}
+	return false;
 }

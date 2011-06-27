@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.15 2011-06-05 19:30:28 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.16 2011-06-27 21:14:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -91,8 +91,7 @@ struct wxSVGCanvasTextChar
 WX_DECLARE_OBJARRAY(wxSVGCanvasTextChar, wxSVGCanvasTextCharList);
 
 /** text-chunk */
-struct wxSVGCanvasTextChunk
-{
+struct wxSVGCanvasTextChunk {
   wxSVGCanvasTextCharList chars;
   wxCSSStyleDeclaration style;
   wxSVGMatrix matrix;
@@ -144,17 +143,16 @@ class wxSVGCanvasText: public wxSVGCanvasItem
 };
 
 /** Canvas item, that saves image (SVGImageElement) */
-class wxSVGCanvasImage: public wxSVGCanvasItem
-{
-  public:
+class wxSVGCanvasImage: public wxSVGCanvasItem {
+public:
 	wxSVGCanvasImage(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_IMAGE) {}
 	wxSVGCanvasImage(wxSVGCanvasItemType type): wxSVGCanvasItem(type) {}
 	virtual ~wxSVGCanvasImage() {}
-	virtual void Init(wxSVGImageElement& element);
-    inline int GetDefaultWidth() { return m_image.Ok() ? m_image.GetWidth() : 0; }
-    inline int GetDefaultHeight() { return m_image.Ok() ? m_image.GetHeight() * m_defHeightScale : 0; }
-  
-  public:
+	virtual void Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style);
+	virtual int GetDefaultWidth() { return m_image.Ok() ? m_image.GetWidth() : 0; }
+	virtual int GetDefaultHeight() { return m_image.Ok() ? m_image.GetHeight() * m_defHeightScale : 0; }
+	
+public:
 	double m_x, m_y, m_width, m_height; /** position and size of image */
     wxString m_href; /** link to the image (filename) */
 	wxImage m_image; /** image data */
@@ -170,7 +168,7 @@ class wxSVGCanvasVideo: public wxSVGCanvasImage
   public:
 	wxSVGCanvasVideo();
 	virtual ~wxSVGCanvasVideo();
-	virtual void Init(wxSVGVideoElement& element);
+	virtual void Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style);
     double GetDuration() { return m_duration; }
   
   public:

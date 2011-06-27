@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.35 2010-07-22 20:22:39 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.36 2011-06-27 21:14:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -74,28 +74,24 @@ void wxSVGDocument::SetCurrentTime(double seconds) {
 //////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// Render /////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
-void LoadImages(wxSVGDocument* doc, wxSVGElement* parent1, wxSVGElement* parent2)
-{
-  wxSVGElement* elem1 = (wxSVGElement*) parent1->GetChildren();
-  wxSVGElement* elem2 = (wxSVGElement*) parent2->GetChildren();
-  while (elem1 && elem2)
-  {
-    if (elem1->GetType() == wxSVGXML_ELEMENT_NODE
-        && elem1->GetDtd() == wxSVG_IMAGE_ELEMENT)
-    {
-      wxSVGImageElement* img1 = (wxSVGImageElement*) elem1;
-      if (img1->GetHref().GetAnimVal().length())
-      {
-        if (img1->GetCanvasItem() == NULL
-            || ((wxSVGCanvasImage*)img1->GetCanvasItem())->m_href != img1->GetHref())
-          img1->SetCanvasItem(doc->GetCanvas()->CreateItem(img1));
-        ((wxSVGImageElement*)elem2)->SetCanvasItem(doc->GetCanvas()->CreateItem(img1));
-      }
-    } else if (elem1->GetChildren())
-      LoadImages(doc, elem1, elem2);
-    elem1 = (wxSVGElement*) elem1->GetNext();
-    elem2 = (wxSVGElement*) elem2->GetNext();
-  }
+void LoadImages(wxSVGDocument* doc, wxSVGElement* parent1, wxSVGElement* parent2) {
+	wxSVGElement* elem1 = (wxSVGElement*) parent1->GetChildren();
+	wxSVGElement* elem2 = (wxSVGElement*) parent2->GetChildren();
+	while (elem1 && elem2) {
+		if (elem1->GetType() == wxSVGXML_ELEMENT_NODE && elem1->GetDtd() == wxSVG_IMAGE_ELEMENT
+				&& elem2->GetType() == wxSVGXML_ELEMENT_NODE && elem2->GetDtd() == wxSVG_IMAGE_ELEMENT) {
+			wxSVGImageElement* img1 = (wxSVGImageElement*) elem1;
+			if (img1->GetHref().GetAnimVal().length()) {
+				if (img1->GetCanvasItem() == NULL
+						|| ((wxSVGCanvasImage*) img1->GetCanvasItem())->m_href != img1->GetHref())
+					img1->SetCanvasItem(doc->GetCanvas()->CreateItem(img1));
+				((wxSVGImageElement*) elem2)->SetCanvasItem(doc->GetCanvas()->CreateItem(img1));
+			}
+		} else if (elem1->GetChildren())
+			LoadImages(doc, elem1, elem2);
+		elem1 = (wxSVGElement*) elem1->GetNext();
+		elem2 = (wxSVGElement*) elem2->GetNext();
+	}
 }
 
 void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent, const wxSVGRect* rect, const wxSVGMatrix* parentMatrix,
@@ -311,7 +307,7 @@ void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent, const wxSVGRect* rec
 	}
 }
 
-wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool preserveAspectRatio) {
+wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool preserveAspectRatio, bool alpha) {
 	if (!GetRootElement())
 		return wxImage();
 
@@ -375,7 +371,7 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool
 	}
 
 	// render
-	m_canvas->Init(width, height);
+	m_canvas->Init(width, height, alpha);
 	m_canvas->Clear();
 	RenderElement(this, GetRootElement(), rect, &m_screenCTM, &GetRootElement()->GetStyle(), NULL, NULL);
 

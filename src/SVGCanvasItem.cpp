@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.27 2011-06-13 19:42:28 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.28 2011-06-27 21:14:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -667,35 +667,30 @@ void wxSVGCanvasText::EndTextAnchor()
 
 extern wxSVGRect TransformRect(wxSVGRect rect, wxSVGMatrix& matrix);
 
-wxSVGRect wxSVGCanvasTextChunk::GetBBox(const wxSVGMatrix& matrix)
-{
-  wxSVGRect bbox;
-  for (int i=0; i<(int)chars.Count(); i++)
-  {
-    wxSVGRect elemBBox = chars[i].path->GetBBox(matrix);
-    if (elemBBox.IsEmpty())
-      elemBBox = &matrix ? chars[i].bbox.MatrixTransform(matrix) : chars[i].bbox;
-	if (i == 0)
-	  bbox = elemBBox;
-	else
-	{
-	  if (bbox.GetX() > elemBBox.GetX())
-	  {
-		bbox.SetWidth(bbox.GetWidth() + bbox.GetX() - elemBBox.GetX());
-		bbox.SetX(elemBBox.GetX());
-	  }
-	  if (bbox.GetY() > elemBBox.GetY())
-	  {
-		bbox.SetHeight(bbox.GetHeight() + bbox.GetY() - elemBBox.GetY());
-		bbox.SetY(elemBBox.GetY());
-	  }
-	  if (bbox.GetX() + bbox.GetWidth() < elemBBox.GetX() + elemBBox.GetWidth())
-		bbox.SetWidth(elemBBox.GetX() + elemBBox.GetWidth() - bbox.GetX());
-	  if (bbox.GetY() + bbox.GetHeight() < elemBBox.GetY() + elemBBox.GetHeight())
-		bbox.SetHeight(elemBBox.GetY() + elemBBox.GetHeight() - bbox.GetY());
+wxSVGRect wxSVGCanvasTextChunk::GetBBox(const wxSVGMatrix& matrix) {
+	wxSVGRect bbox;
+	for (int i = 0; i < (int) chars.Count(); i++) {
+		wxSVGRect elemBBox = chars[i].path->GetBBox(matrix);
+		if (elemBBox.IsEmpty())
+			elemBBox = &matrix ? chars[i].bbox.MatrixTransform(matrix) : chars[i].bbox;
+		if (i == 0)
+			bbox = elemBBox;
+		else {
+			if (bbox.GetX() > elemBBox.GetX()) {
+				bbox.SetWidth(bbox.GetWidth() + bbox.GetX() - elemBBox.GetX());
+				bbox.SetX(elemBBox.GetX());
+			}
+			if (bbox.GetY() > elemBBox.GetY()) {
+				bbox.SetHeight(bbox.GetHeight() + bbox.GetY() - elemBBox.GetY());
+				bbox.SetY(elemBBox.GetY());
+			}
+			if (bbox.GetX() + bbox.GetWidth() < elemBBox.GetX() + elemBBox.GetWidth())
+				bbox.SetWidth(elemBBox.GetX() + elemBBox.GetWidth() - bbox.GetX());
+			if (bbox.GetY() + bbox.GetHeight() < elemBBox.GetY() + elemBBox.GetHeight())
+				bbox.SetHeight(elemBBox.GetY() + elemBBox.GetHeight() - bbox.GetY());
+		}
 	}
-  }
-  return bbox;
+	return bbox;
 }
 
 wxSVGRect wxSVGCanvasText::GetBBox(const wxSVGMatrix& matrix)
@@ -861,7 +856,7 @@ double wxSVGCanvasText::GetRotationOfChar(unsigned long charnum)
 ////////////////////////////// wxSVGCanvasImage //////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
-void wxSVGCanvasImage::Init(wxSVGImageElement& element) {
+void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style) {
 	m_x = element.GetX().GetAnimVal();
 	m_y = element.GetY().GetAnimVal();
 	m_width = element.GetWidth().GetAnimVal();
@@ -940,8 +935,7 @@ wxSVGCanvasVideo::~wxSVGCanvasVideo()
 #endif
 }
 
-void wxSVGCanvasVideo::Init(wxSVGVideoElement& element)
-{
+void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style) {
   m_x = element.GetX().GetAnimVal();
   m_y = element.GetY().GetAnimVal();
   m_width = element.GetWidth().GetAnimVal();

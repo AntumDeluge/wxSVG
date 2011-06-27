@@ -3,8 +3,8 @@
 // Purpose:     Cairo canvas text
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.1 2011-06-23 11:29:14 ntalex Exp $
-// Copyright:   (c) 2005 Alex Thuering
+// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.2 2011-06-27 21:14:58 ntalex Exp $
+// Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
@@ -28,9 +28,10 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 				: (style.GetFontStyle() == wxCSS_VALUE_OBLIQUE ? CAIRO_FONT_SLANT_OBLIQUE : CAIRO_FONT_SLANT_NORMAL),
 			style.GetFontWeight() == wxCSS_VALUE_BOLD ? CAIRO_FONT_WEIGHT_BOLD : CAIRO_FONT_WEIGHT_NORMAL);
 	cairo_set_font_size(cr, style.GetFontSize());
-	cairo_show_text(cr, (const char*) text.wc_str());
+	cairo_text_path(cr, (const char*) text.utf8_str());
 	
 	cairo_text_extents_t extents;
-	cairo_text_extents(cr, (const char*) text.wc_str(), &extents);
+	cairo_text_extents(cr, (const char*) text.utf8_str(), &extents);
 	m_char->bbox = wxSVGRect(m_tx + extents.x_bearing, m_ty + extents.y_bearing, extents.width, extents.height);
+	m_tx += extents.width;
 }
