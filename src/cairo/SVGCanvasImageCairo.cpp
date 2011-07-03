@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas image
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasImageCairo.cpp,v 1.1 2011-06-27 21:10:40 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasImageCairo.cpp,v 1.2 2011-07-03 14:53:18 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -11,9 +11,8 @@
 #include "SVGCanvasImageCairo.h"
 #include <wx/log.h>
 
-wxSVGCanvasImageCairoData::wxSVGCanvasImageCairoData(wxImage image, double opacity) {
+wxSVGCanvasImageCairoData::wxSVGCanvasImageCairoData(wxImage image) {
 	m_count = 1;
-	m_opacity = opacity;
 	
 	int bw = image.GetWidth();
 	int bh = image.GetHeight();
@@ -22,7 +21,7 @@ wxSVGCanvasImageCairoData::wxSVGCanvasImageCairoData(wxImage image, double opaci
 	
 	// Create a surface object and copy the bitmap pixel data to it
 	unsigned char* srcPix = image.GetData();
-	if (image.HasAlpha() || opacity < 1.0) { // alpha or opacity < 1 
+	if (image.HasAlpha()) { // alpha 
 		m_surface = cairo_image_surface_create_for_data(m_buffer, CAIRO_FORMAT_ARGB32, bw, bh, bw*4);
 		unsigned char* srcAlpha = image.GetAlpha();
 		for (int y = 0; y < bh; y++) {
@@ -30,7 +29,7 @@ wxSVGCanvasImageCairoData::wxSVGCanvasImageCairoData(wxImage image, double opaci
 				// Each pixel in CAIRO_FORMAT_ARGB32 is a 32-bit quantity, with alpha in the upper 8 bits,
 				// then red, then green, then blue. The 32-bit quantities are stored native-endian.
 				// Pre-multiplied alpha is used.
-				unsigned char alpha = (srcAlpha != NULL ? (*srcAlpha) : 255) * opacity;
+				unsigned char alpha = srcAlpha != NULL ? (*srcAlpha) : 255;
 				if (alpha == 0)
 					*data = 0;
 				else
@@ -42,7 +41,7 @@ wxSVGCanvasImageCairoData::wxSVGCanvasImageCairoData(wxImage image, double opaci
 					srcAlpha++;
 			}
 		}
-	} else { // no alpha and opacity = 1
+	} else { // no alpha
 		m_surface = cairo_image_surface_create_for_data(m_buffer, CAIRO_FORMAT_RGB24, bw, bh, bw * 4);
 		for (int y = 0; y < bh; y++) {
 			for (int x = 0; x < bw; x++) {
@@ -79,11 +78,9 @@ wxSVGCanvasImageCairo::~wxSVGCanvasImageCairo() {
 
 void wxSVGCanvasImageCairo::Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style) {
 	wxSVGCanvasImage::Init(element, style);
-	double opacity = style.GetOpacity();
 	
 	wxSVGCanvasImageCairo* prevItem = (wxSVGCanvasImageCairo*) element.GetCanvasItem();
-	if (prevItem != NULL && prevItem->m_href == m_href
-			&& prevItem->m_data != NULL && prevItem->m_data->GetOpacity() == opacity) {
+	if (prevItem != NULL && prevItem->m_href == m_href && prevItem->m_data != NULL) {
 		m_data = prevItem->m_data;
 		m_data->IncRef();
 		return;
@@ -92,7 +89,7 @@ void wxSVGCanvasImageCairo::Init(wxSVGImageElement& element, const wxCSSStyleDec
 	if (!m_image.Ok())
 		return;
 	
-	m_data = new wxSVGCanvasImageCairoData(m_image, opacity); 
+	m_data = new wxSVGCanvasImageCairoData(m_image); 
 }
 
 
@@ -107,11 +104,9 @@ wxSVGCanvasVideoCairo::~wxSVGCanvasVideoCairo() {
 
 void wxSVGCanvasVideoCairo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style) {
 	wxSVGCanvasVideo::Init(element, style);
-	double opacity = style.GetOpacity();
 	
 	wxSVGCanvasVideoCairo* prevItem = (wxSVGCanvasVideoCairo*) element.GetCanvasItem();
-	if (prevItem != NULL && prevItem->m_image.GetData() == m_image.GetData()
-			&& prevItem->m_data != NULL && prevItem->m_data->GetOpacity() == opacity) {
+	if (prevItem != NULL && prevItem->m_image.GetData() == m_image.GetData() && prevItem->m_data != NULL) {
 		m_data = prevItem->m_data;
 		m_data->IncRef();
 		return;
@@ -120,5 +115,5 @@ void wxSVGCanvasVideoCairo::Init(wxSVGVideoElement& element, const wxCSSStyleDec
 	if (!m_image.Ok())
 		return;
 	
-	m_data = new wxSVGCanvasImageCairoData(m_image, opacity); 
+	m_data = new wxSVGCanvasImageCairoData(m_image); 
 }

@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas image
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasImageCairo.h,v 1.1 2011-06-27 21:10:40 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasImageCairo.h,v 1.2 2011-07-03 14:53:18 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -16,18 +16,16 @@
 
 class wxSVGCanvasImageCairoData {
 public:
-	wxSVGCanvasImageCairoData(wxImage image, double opacity);
+	wxSVGCanvasImageCairoData(wxImage image);
 	~wxSVGCanvasImageCairoData();
 	
 	void IncRef() { m_count++; }
 	int DecRef() { return (--m_count); }
 	
-	double GetOpacity() { return m_opacity; }
 	cairo_pattern_t* GetPattern() { return m_pattern; }
 	
 private:
     int m_count;
-    double m_opacity;
 	unsigned char* m_buffer;
 	cairo_surface_t* m_surface;
 	cairo_pattern_t* m_pattern;
