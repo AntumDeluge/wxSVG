@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.36 2011-06-27 21:14:14 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.37 2011-07-03 15:00:40 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -310,14 +310,14 @@ void RenderChilds(wxSVGDocument* doc, wxSVGElement* parent, const wxSVGRect* rec
 wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool preserveAspectRatio, bool alpha) {
 	if (!GetRootElement())
 		return wxImage();
-
+	
 	m_screenCTM = wxSVGMatrix();
-  
+	
 	if (GetRootElement()->GetWidth().GetBaseVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
 		GetRootElement()->SetWidth(wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
 	if (GetRootElement()->GetHeight().GetBaseVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
 		GetRootElement()->SetHeight(wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
-
+	
 	if (width == -1 || height == -1) {
 		width = (int) GetRootElement()->GetWidth().GetAnimVal();
 		height = (int) GetRootElement()->GetHeight().GetAnimVal();
@@ -326,7 +326,7 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool
 			height = (int) GetRootElement()->GetViewBox().GetAnimVal().GetHeight();
 		}
 	}
-
+	
 	if (GetRootElement()->GetWidth().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_PERCENTAGE) {
 		wxSVGAnimatedLength l = GetRootElement()->GetWidth();
 		l.GetBaseVal().ToViewportWidth(width);
@@ -341,7 +341,7 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool
 			l.GetAnimVal().ToViewportHeight(height);
 		GetRootElement()->SetHeight(l);
 	}
-
+	
 	// scale it to fit in
 	m_scale = 1;
 	m_scaleY = -1; // == m_scale
@@ -360,7 +360,7 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool
 			m_screenCTM = m_screenCTM.ScaleNonUniform(m_scale, m_scaleY);
 		}
 	}
-
+	
 	// render only rect if specified
 	if (rect && !rect->IsEmpty()) {
 		m_screenCTM = m_screenCTM.Translate(-rect->GetX(), -rect->GetY());
@@ -369,10 +369,10 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool
 		if (rect->GetHeight() * GetScaleY() < height)
 			height = (int) (rect->GetHeight() * GetScaleY());
 	}
-
+	
 	// render
 	m_canvas->Init(width, height, alpha);
-	m_canvas->Clear();
+	m_canvas->Clear(alpha ? *wxBLACK : *wxWHITE);
 	RenderElement(this, GetRootElement(), rect, &m_screenCTM, &GetRootElement()->GetStyle(), NULL, NULL);
 
 	return m_canvas->GetImage();
