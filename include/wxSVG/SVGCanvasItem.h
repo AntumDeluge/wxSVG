@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.16 2011-06-27 21:14:14 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.17 2011-07-03 20:51:58 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -85,13 +85,16 @@ class wxSVGCanvasPath: public wxSVGCanvasItem
 /** character */
 struct wxSVGCanvasTextChar
 {
-  wxSVGCanvasPath* path;
+  wxSVGCanvasPath* path; // TODO: move to wxSVGCanvasTextChunk
   wxSVGRect bbox;
 };
 WX_DECLARE_OBJARRAY(wxSVGCanvasTextChar, wxSVGCanvasTextCharList);
 
 /** text-chunk */
 struct wxSVGCanvasTextChunk {
+  double x;
+  double y;
+  wxString text;
   wxSVGCanvasTextCharList chars;
   wxCSSStyleDeclaration style;
   wxSVGMatrix matrix;

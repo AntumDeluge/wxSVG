@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas image
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasImageCairo.cpp,v 1.2 2011-07-03 14:53:18 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasImageCairo.cpp,v 1.3 2011-07-03 20:51:58 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -72,7 +72,7 @@ wxSVGCanvasImageCairo::wxSVGCanvasImageCairo(wxSVGCanvasItemType type): wxSVGCan
 }
 
 wxSVGCanvasImageCairo::~wxSVGCanvasImageCairo() {
-	if (m_data->DecRef() == 0)
+	if (m_data != NULL && m_data->DecRef() == 0)
 		delete m_data;
 }
 

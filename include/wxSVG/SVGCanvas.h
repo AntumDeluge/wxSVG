@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/02
-// RCS-ID:      $Id: SVGCanvas.h,v 1.10 2011-06-27 21:14:14 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.h,v 1.11 2011-07-03 20:51:58 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -16,9 +16,8 @@ class wxSVGDocument;
 #include "SVGCanvasItem.h"
 
 /** Base class for SVG-Renders (backends) */
-class wxSVGCanvas: public wxObject
-{
-  public:
+class wxSVGCanvas: public wxObject {
+public:
 	wxSVGCanvas():  m_itemsCached(true) {}
 	virtual ~wxSVGCanvas() {}
 	
@@ -67,18 +66,17 @@ class wxSVGCanvas: public wxObject
 	inline bool IsItemsCached() { return m_itemsCached; }
 	inline void EnableItemsCache(bool enable = true) { m_itemsCached = enable; }
 	
-  protected:
+protected:
 	bool m_itemsCached;
 	
-	void DrawCanvasText(wxSVGCanvasText& canvasText, wxSVGMatrix& matrix,
-      const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem);
-	
+	virtual void DrawCanvasText(wxSVGCanvasText& canvasText, wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style,
+			wxSVGSVGElement& svgElem);
 	wxSVGGradientElement* GetGradientElement(const wxSVGSVGElement& svgElem, const wxString& href);
 	unsigned int GetGradientStops(const wxSVGSVGElement& svgElem, wxSVGGradientElement* gradElem, float opacity);
 	virtual void SetStopValue(unsigned int index, float offset, float opacity, const wxRGBColor& RGBColor) = 0;
 	virtual void AllocateGradientStops(unsigned int stop_count) = 0;
-	void GetLinearGradientVector(wxSVGPoint& p1, wxSVGPoint& p2,
-      const wxSVGLinearGradientElement& gradElem, wxSVGCanvasPath& path);
+	void GetLinearGradientVector(wxSVGPoint& p1, wxSVGPoint& p2, const wxSVGLinearGradientElement& gradElem,
+			wxSVGCanvasPath& path);
 	void GetRadialGradientTransform(wxSVGPoint& Focus, wxSVGMatrix& matrix,
       const wxSVGRadialGradientElement& gradElem, wxSVGCanvasPath& path,
       bool scale = false);

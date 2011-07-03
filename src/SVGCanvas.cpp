@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.13 2011-06-27 21:14:14 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.14 2011-07-03 20:51:58 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -150,9 +150,8 @@ unsigned int wxSVGCanvas::GetGradientStops(const wxSVGSVGElement& svgElem, wxSVG
 	return stop_count;
 }
 
-void wxSVGCanvas::GetLinearGradientVector(wxSVGPoint& p1, wxSVGPoint& p2,
-  const wxSVGLinearGradientElement& gradElem, wxSVGCanvasPath& path)
-{
+void wxSVGCanvas::GetLinearGradientVector(wxSVGPoint& p1, wxSVGPoint& p2, const wxSVGLinearGradientElement& gradElem,
+		wxSVGCanvasPath& path) {
     p1.SetX(gradElem.GetX1().GetAnimVal());
 	p1.SetY(gradElem.GetY1().GetAnimVal());
 	p2.SetX(gradElem.GetX2().GetAnimVal());
