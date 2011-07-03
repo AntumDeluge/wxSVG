@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.4 2011-06-27 21:14:58 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.5 2011-07-03 14:59:59 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ wxImage wxSVGCanvasCairo::GetImage() {
 }
 
 void wxSVGCanvasCairo::Clear(wxRGBColor color) {
-	if (!m_cr || !m_surface || color == wxRGBColor(0xFF,0xFF,0xFF))
+	if (!m_cr || !m_surface || color == *wxBLACK)
 		return;
 	cairo_set_source_rgb(m_cr, color.Red() / 255.0, color.Green() / 255.0, color.Blue() / 255.0);
 	cairo_rectangle(m_cr, 0, 0, GetWidth(), GetHeight());
@@ -169,14 +169,9 @@ void wxSVGCanvasCairo::AllocateGradientStops(unsigned int stop_count) {
 
 void wxSVGCanvasCairo::DrawCanvasPath(wxSVGCanvasPathCairo& canvasPath,
 		wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem) {
-	cairo_matrix_t affine;
-	affine.xx = matrix.GetA();
-	affine.yx = matrix.GetB();
-	affine.xy = matrix.GetC();
-	affine.yy = matrix.GetD();
-	affine.x0 = matrix.GetE();
-	affine.y0 = matrix.GetF();
-	cairo_set_matrix(m_cr, &affine);
+	cairo_matrix_t mat;
+	cairo_matrix_init(&mat, matrix.GetA(), matrix.GetB(), matrix.GetC(), matrix.GetD(), matrix.GetE(), matrix.GetF());
+	cairo_set_matrix(m_cr, &mat);
 	
 	// Filling
 	if (canvasPath.GetFill() && style.GetFill().Ok() && style.GetFill().GetPaintType() != wxSVG_PAINTTYPE_NONE) {
@@ -204,37 +199,27 @@ void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImageCairo& canvasImage, wxSVG
 	if (canvasImage.GetCairoPattern() == NULL)
 		return;
 	
-	cairo_matrix_t affine;
-	affine.xx = matrix.GetA();
-	affine.yx = matrix.GetB();
-	affine.xy = matrix.GetC();
-	affine.yy = matrix.GetD();
-	affine.x0 = matrix.GetE();
-	affine.y0 = matrix.GetF();
-	cairo_set_matrix(m_cr, &affine);
-	
-	wxSize size = wxSize(canvasImage.m_image.GetWidth(), canvasImage.m_image.GetHeight());
-	double x = canvasImage.m_x;
-	double y = canvasImage.m_y;
-	double w = canvasImage.m_width;
-	double h = canvasImage.m_height;
+	cairo_matrix_t mat;
+	cairo_matrix_init(&mat, matrix.GetA(), matrix.GetB(), matrix.GetC(), matrix.GetD(), matrix.GetE(), matrix.GetF());
+	cairo_set_matrix(m_cr, &mat);
 	
 	cairo_save(m_cr); 
 	
 	// In case we're scaling the image by using a width and height different
 	// than the bitmap's size create a pattern transformation on the surface and
 	// draw the transformed pattern.
-	wxDouble scaleX = w / size.GetWidth();
-	wxDouble scaleY = h / size.GetHeight();
+	wxDouble scaleX = canvasImage.m_width / canvasImage.m_image.GetWidth();
+	wxDouble scaleY = canvasImage.m_height / canvasImage.m_image.GetHeight();
 	cairo_scale(m_cr, scaleX, scaleY);
-
+	
 	// prepare to draw the image
 	cairo_set_source(m_cr, canvasImage.GetCairoPattern());
 	// use the original size here since the context is scaled already...
-	cairo_rectangle(m_cr, x, y, size.GetWidth(), size.GetHeight());
+	cairo_rectangle(m_cr, canvasImage.m_x, canvasImage.m_y,
+			canvasImage.m_image.GetWidth(), canvasImage.m_image.GetHeight());
 	// fill the rectangle using the pattern
-	cairo_fill(m_cr);
-
+	cairo_paint_with_alpha(m_cr, style.GetOpacity());
+	
 	// clean up
 	cairo_restore(m_cr);
 }
