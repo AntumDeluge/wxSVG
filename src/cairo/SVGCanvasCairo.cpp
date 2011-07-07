@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.6 2011-07-03 20:51:58 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.7 2011-07-07 19:25:58 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -202,7 +202,10 @@ void wxSVGCanvasCairo::DrawCanvasText(wxSVGCanvasText& canvasText, wxSVGMatrix& 
 		wxSVGCanvasTextChunk& chunk = canvasText.m_chunks[i];
 		chunk.style.SetFillRule(wxCSS_VALUE_EVENODD);
 		wxSVGMatrix pathMatrix = matrix.Multiply(chunk.matrix);
-		if (chunk.style.GetFill().GetPaintType() != wxSVG_PAINTTYPE_NONE) {
+		if (chunk.style.GetStroke().GetPaintType() != wxSVG_PAINTTYPE_NONE) {
+			for (unsigned int j=0; j<chunk.chars.Count(); j++)
+				DrawCanvasPath((wxSVGCanvasPathCairo&) *chunk.chars[j].path, pathMatrix, chunk.style, svgElem);
+		} else if (chunk.style.GetFill().GetPaintType() != wxSVG_PAINTTYPE_NONE && chunk.style.GetFillOpacity() > 0) {
 			cairo_matrix_t mat;
 			cairo_matrix_init(&mat, pathMatrix.GetA(), pathMatrix.GetB(), pathMatrix.GetC(),
 					pathMatrix.GetD(), pathMatrix.GetE(), pathMatrix.GetF());
@@ -212,14 +215,6 @@ void wxSVGCanvasCairo::DrawCanvasText(wxSVGCanvasText& canvasText, wxSVGMatrix& 
 					svgElem);
 			cairo_move_to(m_cr, chunk.x, chunk.y);
 			cairo_show_text(m_cr, (const char*) chunk.text.utf8_str());
-		}
-		
-		if (chunk.style.GetStroke().GetPaintType() != wxSVG_PAINTTYPE_NONE) {
-			wxCSSStyleDeclaration strokeStyle;
-			strokeStyle.Add(chunk.style);
-			strokeStyle.SetFill(wxSVGPaint());
-			for (unsigned int j=0; j<chunk.chars.Count(); j++)
-				DrawCanvasPath((wxSVGCanvasPathCairo&) *chunk.chars[j].path, pathMatrix, chunk.style, svgElem);
 		}
 	}
 }
