@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.7 2011-07-07 19:25:58 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.8 2011-07-11 19:56:22 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -229,10 +229,9 @@ void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImageCairo& canvasImage, wxSVG
 	cairo_matrix_t mat;
 	cairo_matrix_init(&mat, matrix.GetA(), matrix.GetB(), matrix.GetC(), matrix.GetD(), matrix.GetE(), matrix.GetF());
 	cairo_set_matrix(m_cr, &mat);
+	cairo_translate(m_cr, canvasImage.m_x, canvasImage.m_y);
 	
-	// In case we're scaling the image by using a width and height different
-	// than the bitmap's size create a pattern transformation on the surface and
-	// draw the transformed pattern.
+	// scale context
 	wxDouble scaleX = canvasImage.m_width / canvasImage.m_image.GetWidth();
 	wxDouble scaleY = canvasImage.m_height / canvasImage.m_image.GetHeight();
 	cairo_scale(m_cr, scaleX, scaleY);
@@ -240,8 +239,7 @@ void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImageCairo& canvasImage, wxSVG
 	// prepare to draw the image
 	cairo_set_source(m_cr, canvasImage.GetCairoPattern());
 	// use the original size here since the context is scaled already...
-	cairo_rectangle(m_cr, canvasImage.m_x, canvasImage.m_y,
-			canvasImage.m_image.GetWidth(), canvasImage.m_image.GetHeight());
+	cairo_rectangle(m_cr, 0, 0, canvasImage.m_image.GetWidth(), canvasImage.m_image.GetHeight());
 	// fill the rectangle using the pattern
 	cairo_paint_with_alpha(m_cr, style.GetOpacity());
 	cairo_new_path(m_cr);
