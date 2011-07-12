@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.8 2011-07-11 19:56:22 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.9 2011-07-12 06:08:55 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -51,7 +51,7 @@ wxImage wxSVGCanvasCairo::GetImage() {
 		dst[1] = src[1];
 		dst[2] = src[0];
 		if (dstAlpha != NULL) {
-			*dstAlpha = src[4];
+			*dstAlpha = src[3];
 			dstAlpha++;
 		}
 		src += 4;
