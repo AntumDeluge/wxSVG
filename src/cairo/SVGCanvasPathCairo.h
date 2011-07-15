@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas path
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasPathCairo.h,v 1.3 2011-06-23 11:29:22 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasPathCairo.h,v 1.4 2011-07-15 14:00:48 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -24,17 +24,20 @@ protected:
 public:
 	wxSVGCanvasPathCairo();
 	virtual ~wxSVGCanvasPathCairo();
-
+	
 	void End();
 	wxSVGRect GetBBox(const wxSVGMatrix& matrix = *(wxSVGMatrix*) NULL);
-
+	wxSVGRect GetResultBBox(const wxCSSStyleDeclaration& style, const wxSVGMatrix& matrix = *(wxSVGMatrix*) NULL);
+	
 	cairo_t* GetCr() { return m_cr; }
 	cairo_path_t* GetPath();
-
+	
 	void MoveToImpl(double x, double y);
 	void LineToImpl(double x, double y);
 	void CurveToCubicImpl(double x1, double y1, double x2, double y2, double x, double y);
 	bool ClosePathImpl();
+	
+	static void ApplyStrokeStyle(cairo_t* cr, const wxCSSStyleDeclaration& style);
 };
 
 #endif // WX_SVG_CANVAS_PATH_CAIRO_H

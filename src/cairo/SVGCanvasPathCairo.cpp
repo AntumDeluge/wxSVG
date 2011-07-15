@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas path
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasPathCairo.cpp,v 1.4 2011-06-27 21:14:58 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasPathCairo.cpp,v 1.5 2011-07-15 14:00:48 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -31,17 +31,24 @@ cairo_path_t* wxSVGCanvasPathCairo::GetPath() {
 
 wxSVGRect wxSVGCanvasPathCairo::GetBBox(const wxSVGMatrix& matrix) {
 	if (&matrix) {
-		cairo_matrix_t affine;
-		affine.xx = matrix.GetA();
-		affine.yx = matrix.GetB();
-		affine.xy = matrix.GetC();
-		affine.yy = matrix.GetD();
-		affine.x0 = matrix.GetE();
-		affine.y0 = matrix.GetF();
-		cairo_set_matrix(m_cr, &affine);
+		cairo_matrix_t m;
+		cairo_matrix_init(&m, matrix.GetA(), matrix.GetB(), matrix.GetC(), matrix.GetD(), matrix.GetE(), matrix.GetF());
+		cairo_set_matrix(m_cr, &m);
 	}
 	double x1, y1, x2, y2;
 	cairo_fill_extents(m_cr, &x1, &y1, &x2, &y2);
+	return wxSVGRect(x1, y1, x2 - x1, y2 - y1);
+}
+
+wxSVGRect wxSVGCanvasPathCairo::GetResultBBox(const wxCSSStyleDeclaration& style, const wxSVGMatrix& matrix) {
+	if (&matrix) {
+		cairo_matrix_t m;
+		cairo_matrix_init(&m, matrix.GetA(), matrix.GetB(), matrix.GetC(), matrix.GetD(), matrix.GetE(), matrix.GetF());
+		cairo_set_matrix(m_cr, &m);
+	}
+	ApplyStrokeStyle(m_cr, style);
+	double x1, y1, x2, y2;
+	cairo_stroke_extents(m_cr, &x1, &y1, &x2, &y2);
 	return wxSVGRect(x1, y1, x2 - x1, y2 - y1);
 }
 
@@ -63,3 +70,31 @@ bool wxSVGCanvasPathCairo::ClosePathImpl() {
 	return true;
 }
 
+void wxSVGCanvasPathCairo::ApplyStrokeStyle(cairo_t* cr, const wxCSSStyleDeclaration& style) {
+	cairo_set_line_width(cr, style.GetStrokeWidth());
+	switch (style.GetStrokeLinecap()) {
+	case wxCSS_VALUE_ROUND:
+		cairo_set_line_cap(cr, CAIRO_LINE_CAP_ROUND);
+		break;
+	case wxCSS_VALUE_SQUARE:
+		cairo_set_line_cap(cr, CAIRO_LINE_CAP_SQUARE);
+		break;
+	case wxCSS_VALUE_BUTT:
+	default:
+		cairo_set_line_cap(cr, CAIRO_LINE_CAP_BUTT);
+		break;
+	}
+	switch (style.GetStrokeLinejoin()) {
+	case wxCSS_VALUE_BEVEL:
+		cairo_set_line_join(cr, CAIRO_LINE_JOIN_BEVEL);
+		break;
+	case wxCSS_VALUE_ROUND:
+		cairo_set_line_join(cr, CAIRO_LINE_JOIN_ROUND);
+		break;
+	case wxCSS_VALUE_MITER:
+	default:
+		cairo_set_line_join(cr, CAIRO_LINE_JOIN_MITER);
+		break;
+	}
+//		cairo_set_dash(cr, (double*) lengths, count, 0.0);
+}
