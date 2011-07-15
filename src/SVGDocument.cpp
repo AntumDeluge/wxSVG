@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.37 2011-07-03 15:00:40 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.38 2011-07-15 13:59:52 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -372,7 +372,8 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool
 	
 	// render
 	m_canvas->Init(width, height, alpha);
-	m_canvas->Clear(alpha ? *wxBLACK : *wxWHITE);
+	if (!alpha)
+		m_canvas->Clear(*wxWHITE);
 	RenderElement(this, GetRootElement(), rect, &m_screenCTM, &GetRootElement()->GetStyle(), NULL, NULL);
 
 	return m_canvas->GetImage();
