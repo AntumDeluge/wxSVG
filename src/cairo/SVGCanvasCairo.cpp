@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.9 2011-07-12 06:08:55 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.10 2011-07-15 13:59:26 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -16,6 +16,14 @@
 #include <wx/file.h>
 
 wxSVGCanvasCairo::~wxSVGCanvasCairo() {
+	Destroy();
+}
+
+void wxSVGCanvasCairo::Destroy() {
+	if (m_pattern) {
+		cairo_pattern_destroy(m_pattern);
+		m_pattern = NULL;
+	}
 	if (m_cr)
 		cairo_destroy(m_cr);
 	if (m_surface)
@@ -23,6 +31,17 @@ wxSVGCanvasCairo::~wxSVGCanvasCairo() {
 }
 
 void wxSVGCanvasCairo::Init(int width, int height, bool alpha) {
+	if (m_surface != NULL && m_alpha == alpha
+			&& cairo_image_surface_get_width(m_surface) == width
+			&& cairo_image_surface_get_height(m_surface) == height) {
+		if (alpha) {
+			cairo_set_source_rgba(m_cr, 0.0, 0.0, 0.0, 0.0);
+			cairo_rectangle(m_cr, 0, 0, GetWidth(), GetHeight());
+			cairo_fill(m_cr);
+		}
+		return;
+	}
+	Destroy();
 	m_alpha = alpha;
 	m_surface = cairo_image_surface_create(alpha ? CAIRO_FORMAT_ARGB32 : CAIRO_FORMAT_RGB24, width, height);
 	m_cr = cairo_create(m_surface);
@@ -61,7 +80,7 @@ wxImage wxSVGCanvasCairo::GetImage() {
 }
 
 void wxSVGCanvasCairo::Clear(wxRGBColor color) {
-	if (!m_cr || !m_surface || color == *wxBLACK)
+	if (!m_cr || !m_surface)
 		return;
 	cairo_set_source_rgb(m_cr, color.Red() / 255.0, color.Green() / 255.0, color.Blue() / 255.0);
 	cairo_rectangle(m_cr, 0, 0, GetWidth(), GetHeight());
@@ -112,7 +131,10 @@ void wxSVGCanvasCairo::SetPaint(const wxSVGPaint& paint, float opacity, wxSVGCan
 	if (paint.GetPaintType() >= wxSVG_PAINTTYPE_URI_NONE && paint.GetPaintType() <= wxSVG_PAINTTYPE_URI) {
 		wxSVGGradientElement* gradElem = GetGradientElement(svgElem, paint.GetUri());
 		if (gradElem != NULL) {
-			m_pattern = NULL;
+			if (m_pattern != NULL) {
+				cairo_pattern_destroy(m_pattern);
+				m_pattern = NULL;
+			}
 			switch (gradElem->GetDtd()) {
 			case wxSVG_LINEARGRADIENT_ELEMENT: {
 				wxSVGPoint p1, p2;
@@ -145,11 +167,12 @@ void wxSVGCanvasCairo::SetPaint(const wxSVGPaint& paint, float opacity, wxSVGCan
 			}
 			if (m_pattern != NULL) {
 				int nstops = GetGradientStops(svgElem, gradElem, opacity);
-				if (nstops)
+				if (nstops) {
 					cairo_set_source(m_cr, m_pattern);
-				else
+				} else {
 					cairo_pattern_destroy(m_pattern);
-				m_pattern = NULL;
+					m_pattern = NULL;
+				}
 			}
 		}
 	} else {
@@ -190,7 +213,7 @@ void wxSVGCanvasCairo::DrawCanvasPath(wxSVGCanvasPathCairo& canvasPath,
 		cairo_path_t* path = canvasPath.GetPath();
 		cairo_append_path(m_cr, path);
 		SetPaint(style.GetStroke(), style.GetOpacity()*style.GetStrokeOpacity(), canvasPath, svgElem);
-		cairo_set_line_width(m_cr, style.GetStrokeWidth());
+		wxSVGCanvasPathCairo::ApplyStrokeStyle(m_cr, style);
 		cairo_stroke(m_cr);
 		cairo_path_destroy(path);
 	}
