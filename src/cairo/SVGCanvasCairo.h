@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.6 2011-07-15 13:59:26 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.7 2011-07-22 21:53:02 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -40,11 +40,8 @@ public:
 protected:
 	void DrawCanvasPath(wxSVGCanvasPathCairo& canvasPath, wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style,
 			wxSVGSVGElement& svgElem);
-    void SetStopValue(unsigned int index, float offset, float opacity,
-      const wxRGBColor& rgbColor);
+    void SetStopValue(unsigned int index, float offset, float opacity, const wxRGBColor& rgbColor);
 	void AllocateGradientStops(unsigned int stop_count);
-	void DrawCanvasText(wxSVGCanvasText& canvasText, wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style,
-			wxSVGSVGElement& svgElem);
 	void DrawCanvasImage(wxSVGCanvasImageCairo& canvasImage, wxSVGMatrix& matrix,
 			const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem);
 
@@ -54,8 +51,7 @@ private:
 	cairo_pattern_t* m_pattern;
     bool m_alpha;
     void Destroy();
-    void SetPaint(const wxSVGPaint & paint, float opacity, wxSVGCanvasPathCairo& canvasPath,
-    		wxSVGSVGElement& svgElem);
+    void SetPaint(const wxSVGPaint & paint, float opacity, wxSVGCanvasPathCairo& canvasPath, wxSVGSVGElement& svgElem);
 };
 
 #endif // WX_SVG_CANVAS_CAIRO_H
