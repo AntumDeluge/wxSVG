@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.13 2011-06-19 18:11:07 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.14 2011-07-22 20:57:15 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -46,29 +46,14 @@ void wxFfmpegMediaDecoder::Init() {
 }
 
 void PrintError(const wxString& msg, int err) {
-	switch (err) {
-	case AVERROR_INVALIDDATA:
-		wxLogError(wxT("%s: Error while parsing header"), msg.c_str());
-		break;
-	case AVERROR_NOFMT:
-		wxLogError(wxT("%s: Unknown format"), msg.c_str());
-		break;
-	case AVERROR(EIO):
-		wxLogError(wxT("%s: I/O error occured\n"
-				"Usually that means that input file is truncated and/or corrupted."), msg.c_str());
-		break;
-	case AVERROR(ENOMEM):
-		wxLogError(wxT("%s: memory allocation error occured"), msg.c_str());
-		break;
-	case AVERROR(ENOENT):
-		wxLogError(wxT("%s: no such file or directory"), msg.c_str());
-		break;
-	default:
-		wxLogError(wxT("%s: Error while opening file"), msg.c_str());
-		break;
-	}
+	char errbuf[128];
+	const char *errbuf_ptr = errbuf;
+	
+	if (av_strerror(err, errbuf, sizeof(errbuf)) < 0)
+		errbuf_ptr = strerror(AVUNERROR(err));
+	wxString errorStr(errbuf_ptr, wxConvUTF8);
+	wxLogError(msg + wxT(": ") + errorStr);
 }
-
 
 bool wxFfmpegMediaDecoder::Load(const wxString& fileName) {
 	Close();
@@ -110,7 +95,7 @@ float wxFfmpegMediaDecoder::GetFrameAspectRatio() {
 	for (int i=0; i<(int)m_formatCtx->nb_streams; i++) {
 		AVStream *st = m_formatCtx->streams[i];
 		AVCodecContext *enc = st->codec;
-		if (enc->codec_type == CODEC_TYPE_VIDEO) {
+		if (enc->codec_type == AVMEDIA_TYPE_VIDEO) {
 			if (st->sample_aspect_ratio.num)
 				frame_aspect_ratio = av_q2d(st->sample_aspect_ratio);
 			else if (enc->sample_aspect_ratio.num)
@@ -128,11 +113,11 @@ StreamType wxFfmpegMediaDecoder::GetStreamType(unsigned int streamIndex) {
 	if (m_formatCtx == NULL || streamIndex >= m_formatCtx->nb_streams)
 		return stUNKNOWN;
 	switch (m_formatCtx->streams[streamIndex]->codec->codec_type) {
-	case CODEC_TYPE_VIDEO:
+	case AVMEDIA_TYPE_VIDEO:
 		return stVIDEO;
-	case CODEC_TYPE_AUDIO:
+	case AVMEDIA_TYPE_AUDIO:
 		return stAUDIO;
-	case CODEC_TYPE_SUBTITLE:
+	case AVMEDIA_TYPE_SUBTITLE:
 		return stSUBTITLE;
 	default:
 		break;
@@ -171,7 +156,7 @@ bool wxFfmpegMediaDecoder::OpenVideoDecoder() {
 	// find the first video stream
 	m_videoStream = -1;
 	for (int i=0; i<(int)m_formatCtx->nb_streams; i++) {
-		if (m_formatCtx->streams[i]->codec->codec_type == CODEC_TYPE_VIDEO) {
+		if (m_formatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
 			m_videoStream = i;
 			break;
 		}
