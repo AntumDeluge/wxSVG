@@ -81,7 +81,7 @@ class wxSVGDocument:
     void SetCurrentTime(double seconds);
     
     wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL, bool preserveAspectRatio = true,
-    		bool alpha = false);
+		bool alpha = false);
     wxImage RenderElementById(const wxString& id);
   private:
       DECLARE_DYNAMIC_CLASS(wxSVGDocument)

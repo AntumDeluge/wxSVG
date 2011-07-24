@@ -97,6 +97,7 @@
 #include "SVGStyleElement.h"
 #include "SVGSwitchElement.h"
 #include "SVGSymbolElement.h"
+#include "SVGTBreakElement.h"
 #include "SVGTRefElement.h"
 #include "SVGTSpanElement.h"
 #include "SVGTextElement.h"
@@ -410,6 +411,19 @@ bool wxSVGFEMergeNodeElement::SetAttribute(const wxString& attrName, const wxStr
   else 
   {
     //wxLogDebug(wxT("unknown attribute SVGFEMergeNodeElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGTBreakElement
+bool wxSVGTBreakElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGTBreakElement::") + attrName);
     return false;
   }
 

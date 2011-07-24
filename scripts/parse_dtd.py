@@ -4,7 +4,7 @@
 ##              names or the other way round
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: parse_dtd.py,v 1.2 2005-05-16 11:00:17 ntalex Exp $
+## RCS-ID:      $Id: parse_dtd.py,v 1.3 2011-07-24 16:30:12 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		It must be rewritten, because can't parse dtd file from svg 1.1
 ##              Now it use dtd file from svg 1.0
@@ -34,6 +34,7 @@ entity_type_decls={}
 entity_common_attrs={}
 elements={}
 attlists={}
+attlists["tbreak"] = ""
 
 beg=0
 while 1:

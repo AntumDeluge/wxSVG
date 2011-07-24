@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.29 2011-07-03 20:51:58 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.30 2011-07-24 16:30:12 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -526,149 +526,128 @@ bool wxSVGCanvasPath::ClosePath()
 WX_DEFINE_OBJARRAY(wxSVGCanvasTextCharList);
 WX_DEFINE_OBJARRAY(wxSVGCanvasTextChunkList);
 
-wxSVGCanvasText::wxSVGCanvasText(wxSVGCanvas* canvas):
-  wxSVGCanvasItem(wxSVG_CANVAS_ITEM_TEXT), m_canvas(canvas)
-{
-  m_char = NULL;
-  m_tx = m_ty = 0;
-  m_textAnchor = wxCSS_VALUE_START;
-  m_dominantBaseline = wxCSS_VALUE_AUTO;
+wxSVGCanvasText::wxSVGCanvasText(wxSVGCanvas* canvas) :
+	wxSVGCanvasItem(wxSVG_CANVAS_ITEM_TEXT), m_canvas(canvas) {
+	m_char = NULL;
+	m_tx = m_ty = 0;
+	m_textAnchor = wxCSS_VALUE_START;
+	m_dominantBaseline = wxCSS_VALUE_AUTO;
 }
 
-wxSVGCanvasText::~wxSVGCanvasText()
-{
-  for (unsigned int i=0; i<m_chunks.Count(); i++)
-  	for (unsigned int j=0; j<m_chunks[i].chars.Count(); j++)
-		delete m_chunks[i].chars[j].path;
+wxSVGCanvasText::~wxSVGCanvasText() {
+	for (unsigned int i = 0; i < m_chunks.Count(); i++)
+		for (unsigned int j = 0; j < m_chunks[i].chars.Count(); j++)
+			delete m_chunks[i].chars[j].path;
 }
 
-void wxSVGCanvasText::Init(wxSVGTextElement& element,
-  const wxCSSStyleDeclaration& style)
-{
-  m_tx = element.GetX().GetAnimVal().Count() ? element.GetX().GetAnimVal()[0] : wxSVGLength(0);
-  m_ty = element.GetY().GetAnimVal().Count() ? element.GetY().GetAnimVal()[0] : wxSVGLength(0);
-  InitChildren(element, style);
-  EndTextAnchor();
-}
-
-void wxSVGCanvasText::Init(wxSVGTSpanElement& element,
-  const wxCSSStyleDeclaration& style)
-{
-  if (element.GetX().GetAnimVal().Count())
-	EndTextAnchor();
-  
-  if (element.GetX().GetAnimVal().Count())
-	m_tx = element.GetX().GetAnimVal()[0];
-  if (element.GetY().GetAnimVal().Count())
-	m_ty = element.GetY().GetAnimVal()[0];
-  InitChildren(element, style);
-  
-  if (element.GetX().GetAnimVal().Count())
+void wxSVGCanvasText::Init(wxSVGTextElement& element, const wxCSSStyleDeclaration& style) {
+	m_tx = element.GetX().GetAnimVal().Count() ? element.GetX().GetAnimVal()[0] : wxSVGLength(0);
+	m_ty = element.GetY().GetAnimVal().Count() ? element.GetY().GetAnimVal()[0] : wxSVGLength(0);
+	InitChildren(element, style);
 	EndTextAnchor();
 }
 
-void wxSVGCanvasText::InitChildren(wxSVGTextPositioningElement& element,
-  const wxCSSStyleDeclaration& style)
-{
-  wxSVGElement* elem = (wxSVGElement*) element.GetChildren();
-  while (elem)
-  {
-	if (elem->GetType() == wxSVGXML_TEXT_NODE)
-	{
-	  BeginChunk(style);
-	  m_chunks[m_chunks.GetCount()-1].x = m_tx;
-	  m_chunks[m_chunks.GetCount()-1].y = m_ty;
-	  m_chunks[m_chunks.GetCount()-1].text = elem->GetContent();
-	  InitText(elem->GetContent(), style);
-	}
-	if (elem->GetType() == wxSVGXML_ELEMENT_NODE &&
-		elem->GetDtd() == wxSVG_TSPAN_ELEMENT)
-	{
-	  wxSVGTSpanElement& tElem = (wxSVGTSpanElement&)*elem;
-	  wxCSSStyleDeclaration tStyle(style);
-	  tStyle.Add(tElem.GetStyle());
-	  Init(tElem, tStyle);
-	}
-	elem = (wxSVGElement*) elem->GetNext();
-  }
+void wxSVGCanvasText::Init(wxSVGTSpanElement& element, const wxCSSStyleDeclaration& style) {
+	if (element.GetX().GetAnimVal().Count())
+		EndTextAnchor();
+	
+	if (element.GetX().GetAnimVal().Count())
+		m_tx = element.GetX().GetAnimVal()[0];
+	if (element.GetY().GetAnimVal().Count())
+		m_ty = element.GetY().GetAnimVal()[0];
+	InitChildren(element, style);
+	
+	if (element.GetX().GetAnimVal().Count())
+		EndTextAnchor();
 }
 
-void wxSVGCanvasText::BeginChunk(const wxCSSStyleDeclaration& style)
-{
-  wxSVGCanvasTextChunk* chunk = new wxSVGCanvasTextChunk;
-  chunk->style.Add(style);
-  m_chunks.Add(chunk);
-  
-  if (style.HasTextAnchor() && m_textAnchor == wxCSS_VALUE_START)
-  {
-	m_textAnchor = style.GetTextAnchor();
-	m_textAnchorBeginIndex = m_chunks.Count()-1;
-	// save x-pos: if text anchor is wxCSS_VALUE_END, we will continue from this point
-	m_textAnchorBeginPos = m_tx;
-  }
-  if (style.HasDominantBaseline() && (m_dominantBaseline == wxCSS_VALUE_AUTO
-  		|| m_dominantBaseline == wxCSS_VALUE_ALPHABETIC))
-  {
-	m_dominantBaseline = style.GetDominantBaseline();
-	m_dominantBaselineBeginIndex = m_chunks.Count()-1;
-  }
+void wxSVGCanvasText::InitChildren(wxSVGTextPositioningElement& element, const wxCSSStyleDeclaration& style) {
+	wxString text;
+	wxSVGElement* elem = (wxSVGElement*) element.GetChildren();
+	while (elem) {
+		if (elem->GetType() == wxSVGXML_TEXT_NODE)
+			text += elem->GetContent();
+		else if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd() == wxSVG_TBREAK_ELEMENT)
+			text += wxT("\n");
+		else if (text.length())
+			AddChunk(text, style);
+		
+		if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd() == wxSVG_TSPAN_ELEMENT) {
+			wxSVGTSpanElement& tElem = (wxSVGTSpanElement&) *elem;
+			wxCSSStyleDeclaration tStyle(style);
+			tStyle.Add(tElem.GetStyle());
+			Init(tElem, tStyle);
+		}
+		elem = (wxSVGElement*) elem->GetNext();
+	}
+	if (text.length())
+		AddChunk(text, style);
 }
 
-void wxSVGCanvasText::BeginChar()
-{
+void wxSVGCanvasText::AddChunk(const wxString& text, const wxCSSStyleDeclaration& style) {
+	wxSVGCanvasTextChunk* chunk = new wxSVGCanvasTextChunk;
+	chunk->style.Add(style);
+	chunk->x = m_tx;
+	chunk->y = m_ty;
+	chunk->text = text;
+	m_chunks.Add(chunk);
+	
+	// set textAnchor and dominantBaseline if they are not already set
+	if (style.HasTextAnchor() && m_textAnchor == wxCSS_VALUE_START) {
+		m_textAnchor = style.GetTextAnchor();
+		m_textAnchorBeginIndex = m_chunks.Count() - 1;
+		m_textAnchorBeginPos = m_tx;
+	}
+	if (style.HasDominantBaseline() && (m_dominantBaseline == wxCSS_VALUE_AUTO || m_dominantBaseline
+			== wxCSS_VALUE_ALPHABETIC)) {
+		m_dominantBaseline = style.GetDominantBaseline();
+		m_dominantBaselineBeginIndex = m_chunks.Count() - 1;
+	}
+	
+	InitText(text, style);
+}
+
+void wxSVGCanvasText::BeginChar() {
 	m_char = new wxSVGCanvasTextChar;
 	m_char->path = m_canvas->CreateCanvasPath();
-	m_chunks[m_chunks.GetCount()-1].chars.Add(m_char);
+	m_chunks[m_chunks.GetCount() - 1].chars.Add(m_char);
 }
 
-void wxSVGCanvasText::EndChar()
-{
+void wxSVGCanvasText::EndChar() {
 	m_char->path->End();
 }
 
-void wxSVGCanvasText::EndTextAnchor()
-{
-  if (m_textAnchor != wxCSS_VALUE_START)
-  {
-	for (int i=m_textAnchorBeginIndex; i<(int)m_chunks.Count(); i++)
-	{
-	  wxSVGCanvasTextChunk& chunk = m_chunks[i];
-	  if (m_textAnchor == wxCSS_VALUE_END)
-		chunk.matrix = chunk.matrix.Translate(m_textAnchorBeginPos-m_tx, 0);
-	  else if (m_textAnchor == wxCSS_VALUE_MIDDLE)
-		chunk.matrix = chunk.matrix.Translate((m_textAnchorBeginPos-m_tx)/2, 0);
+void wxSVGCanvasText::EndTextAnchor() {
+	if (m_textAnchor != wxCSS_VALUE_START) {
+		for (int i = m_textAnchorBeginIndex; i < (int) m_chunks.Count(); i++) {
+			wxSVGCanvasTextChunk& chunk = m_chunks[i];
+			if (m_textAnchor == wxCSS_VALUE_END)
+				chunk.matrix = chunk.matrix.Translate(m_textAnchorBeginPos - m_tx, 0);
+			else if (m_textAnchor == wxCSS_VALUE_MIDDLE)
+				chunk.matrix = chunk.matrix.Translate((m_textAnchorBeginPos - m_tx) / 2, 0);
+		}
+		if (m_textAnchor == wxCSS_VALUE_END)
+			m_tx = m_textAnchorBeginPos;
+		else if (m_textAnchor == wxCSS_VALUE_MIDDLE)
+			m_tx -= (m_textAnchorBeginPos - m_tx) / 2;
+		m_textAnchor = wxCSS_VALUE_START;
 	}
-	if (m_textAnchor == wxCSS_VALUE_END)
-	  m_tx = m_textAnchorBeginPos;
-	else if (m_textAnchor == wxCSS_VALUE_MIDDLE)
-	  m_tx -= (m_textAnchorBeginPos-m_tx)/2;
-	m_textAnchor = wxCSS_VALUE_START;
-  }
-  if (m_dominantBaseline != wxCSS_VALUE_AUTO
-  		&& m_dominantBaseline != wxCSS_VALUE_ALPHABETIC)
-  {
-	for (int i=m_dominantBaselineBeginIndex; i<(int)m_chunks.Count(); i++)
-	{
-		wxSVGCanvasTextChunk& chunk = m_chunks[i];
-		wxSVGRect chunkBBox = chunk.GetBBox();
-		if (chunkBBox.IsEmpty())
-			continue;
-		if (m_dominantBaseline == wxCSS_VALUE_MIDDLE
-	  			|| m_dominantBaseline == wxCSS_VALUE_CENTRAL)
-			chunk.matrix = chunk.matrix.Translate(0,
-					m_ty - chunkBBox.GetY() - chunkBBox.GetHeight()/2);
-		else if (m_dominantBaseline == wxCSS_VALUE_TEXT_AFTER_EDGE)
-			chunk.matrix = chunk.matrix.Translate(0,
-					m_ty - chunkBBox.GetY());
-		else if (m_dominantBaseline == wxCSS_VALUE_TEXT_BEFORE_EDGE)
-			chunk.matrix = chunk.matrix.Translate(0,
-					m_ty - chunkBBox.GetY() - chunkBBox.GetHeight());
+	if (m_dominantBaseline != wxCSS_VALUE_AUTO && m_dominantBaseline != wxCSS_VALUE_ALPHABETIC) {
+		for (int i = m_dominantBaselineBeginIndex; i < (int) m_chunks.Count(); i++) {
+			wxSVGCanvasTextChunk& chunk = m_chunks[i];
+			wxSVGRect chunkBBox = chunk.GetBBox();
+			if (chunkBBox.IsEmpty())
+				continue;
+			if (m_dominantBaseline == wxCSS_VALUE_MIDDLE || m_dominantBaseline == wxCSS_VALUE_CENTRAL)
+				chunk.matrix = chunk.matrix.Translate(0, m_ty - chunkBBox.GetY() - chunkBBox.GetHeight() / 2);
+			else if (m_dominantBaseline == wxCSS_VALUE_TEXT_AFTER_EDGE)
+				chunk.matrix = chunk.matrix.Translate(0, m_ty - chunkBBox.GetY());
+			else if (m_dominantBaseline == wxCSS_VALUE_TEXT_BEFORE_EDGE)
+				chunk.matrix = chunk.matrix.Translate(0, m_ty - chunkBBox.GetY() - chunkBBox.GetHeight());
+		}
+		m_dominantBaseline = wxCSS_VALUE_AUTO;
 	}
-	m_dominantBaseline = wxCSS_VALUE_AUTO;
-  }
 }
-
-extern wxSVGRect TransformRect(wxSVGRect rect, wxSVGMatrix& matrix);
 
 wxSVGRect wxSVGCanvasTextChunk::GetBBox(const wxSVGMatrix& matrix) {
 	wxSVGRect bbox;
@@ -736,7 +715,7 @@ long wxSVGCanvasText::GetNumberOfChars()
 	return res;
 }
 
-wxSVGCanvasTextChunk* wxSVGCanvasText::getChunk(unsigned long& charnum)
+wxSVGCanvasTextChunk* wxSVGCanvasText::GetChunk(unsigned long& charnum)
 {
 	for (int i=0; i<(int)m_chunks.Count(); i++)
 	{
@@ -769,8 +748,8 @@ double wxSVGCanvasText::GetComputedTextLength()
 double wxSVGCanvasText::GetSubStringLength(unsigned long charnum, unsigned long nchars)
 {
 	unsigned long lastCharnum = charnum + nchars - 1;
-	wxSVGCanvasTextChunk* firstChunk = getChunk(charnum);
-	wxSVGCanvasTextChunk* lastChunk = getChunk(lastCharnum);
+	wxSVGCanvasTextChunk* firstChunk = GetChunk(charnum);
+	wxSVGCanvasTextChunk* lastChunk = GetChunk(lastCharnum);
 	if (firstChunk != NULL && lastChunk != NULL)
 	{
 		wxSVGRect bboxFirst = firstChunk->chars[charnum].path->GetBBox();
@@ -788,7 +767,7 @@ double wxSVGCanvasText::GetSubStringLength(unsigned long charnum, unsigned long 
 
 wxSVGPoint wxSVGCanvasText::GetStartPositionOfChar(unsigned long charnum)
 {
-	wxSVGCanvasTextChunk* chunk = getChunk(charnum);
+	wxSVGCanvasTextChunk* chunk = GetChunk(charnum);
 	if (chunk != NULL)
 	{
 		wxSVGRect bbox = chunk->chars[charnum].path->GetBBox();
@@ -802,7 +781,7 @@ wxSVGPoint wxSVGCanvasText::GetStartPositionOfChar(unsigned long charnum)
 
 wxSVGPoint wxSVGCanvasText::GetEndPositionOfChar(unsigned long charnum)
 {
-    wxSVGCanvasTextChunk* chunk = getChunk(charnum);
+    wxSVGCanvasTextChunk* chunk = GetChunk(charnum);
 	if (chunk != NULL)
 	{
 		wxSVGRect bbox = chunk->chars[charnum].path->GetBBox();
@@ -816,7 +795,7 @@ wxSVGPoint wxSVGCanvasText::GetEndPositionOfChar(unsigned long charnum)
 
 wxSVGRect wxSVGCanvasText::GetExtentOfChar(unsigned long charnum)
 {
-    wxSVGCanvasTextChunk* chunk = getChunk(charnum);
+    wxSVGCanvasTextChunk* chunk = GetChunk(charnum);
 	if (chunk != NULL)
 	{
 		wxSVGRect bbox = chunk->chars[charnum].path->GetBBox();

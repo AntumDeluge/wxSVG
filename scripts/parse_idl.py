@@ -3,7 +3,7 @@
 ## Purpose:     parses idl file
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: parse_idl.py,v 1.2 2005-05-16 11:00:17 ntalex Exp $
+## RCS-ID:      $Id: parse_idl.py,v 1.3 2011-07-24 16:30:12 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -40,6 +40,8 @@ content = f.read()
 
 
 class_decls={}
+class_decls["SVGTBreakElement"] = idl.class_decl(name="SVGTBreakElement")
+class_decls["SVGTBreakElement"].inherits = ["SVGElement"]
 
 while 1:
 	# search for "interface"

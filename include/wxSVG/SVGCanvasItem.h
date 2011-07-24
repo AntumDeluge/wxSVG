@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.17 2011-07-03 20:51:58 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.18 2011-07-24 16:30:12 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -83,10 +83,9 @@ class wxSVGCanvasPath: public wxSVGCanvasItem
 };
 
 /** character */
-struct wxSVGCanvasTextChar
-{
-  wxSVGCanvasPath* path; // TODO: move to wxSVGCanvasTextChunk
-  wxSVGRect bbox;
+struct wxSVGCanvasTextChar {
+	wxSVGCanvasPath* path;
+	wxSVGRect bbox;
 };
 WX_DECLARE_OBJARRAY(wxSVGCanvasTextChar, wxSVGCanvasTextCharList);
 
@@ -136,11 +135,11 @@ class wxSVGCanvasText: public wxSVGCanvasItem
     int m_dominantBaselineBeginIndex; /** index of first chunk with current baseline */
 	virtual void Init(wxSVGTSpanElement& element, const wxCSSStyleDeclaration& style);
 	virtual void InitChildren(wxSVGTextPositioningElement& element, const wxCSSStyleDeclaration& style);
-	virtual void BeginChunk(const wxCSSStyleDeclaration& style);
+	virtual void AddChunk(const wxString& text, const wxCSSStyleDeclaration& style);
 	virtual void BeginChar();
 	virtual void EndChar();
 	virtual void EndTextAnchor();
-	wxSVGCanvasTextChunk* getChunk(unsigned long& charnum);
+	wxSVGCanvasTextChunk* GetChunk(unsigned long& charnum);
     /** Converts text in path and saves in current chunk (m_chunk->path) */
     virtual void InitText(const wxString& text, const wxCSSStyleDeclaration& style) = 0;
 };

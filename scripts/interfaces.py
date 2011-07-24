@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.29 2011-06-23 11:27:04 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.30 2011-07-24 16:30:12 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -419,7 +419,8 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     double GetCurrentTime() { return m_time; }
     void SetCurrentTime(double seconds);
     
-    wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL, bool preserveAspectRatio = true);
+    wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL, bool preserveAspectRatio = true,
+		bool alpha = false);
     wxImage RenderElementById(const wxString& id);
   private:
       DECLARE_DYNAMIC_CLASS(wxSVGDocument)

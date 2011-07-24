@@ -97,6 +97,7 @@
 #include "SVGStyleElement.h"
 #include "SVGSwitchElement.h"
 #include "SVGSymbolElement.h"
+#include "SVGTBreakElement.h"
 #include "SVGTRefElement.h"
 #include "SVGTSpanElement.h"
 #include "SVGTextElement.h"
@@ -374,6 +375,17 @@ wxString wxSVGFEMergeNodeElement::GetAttribute(const wxString& attrName)
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (wxSVGElement::HasAttribute(attrName))
+    return wxSVGElement::GetAttribute(attrName);
+  else 
+    return wxT("");
+
+  return wxT("");
+}      
+
+// wxSVGTBreakElement
+wxString wxSVGTBreakElement::GetAttribute(const wxString& attrName)
+{
+  if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
     return wxT("");

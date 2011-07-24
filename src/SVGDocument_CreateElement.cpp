@@ -40,8 +40,8 @@ wxSvgXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespaceURI,
     res = new wxSVGAltGlyphElement();
   else if (qualifiedName == wxT("animate"))
     res = new wxSVGAnimateElement();
-  else if (qualifiedName == wxT("font"))
-    res = new wxSVGFontElement();
+  else if (qualifiedName == wxT("feBlend"))
+    res = new wxSVGFEBlendElement();
   else if (qualifiedName == wxT("color-profile"))
     res = new wxSVGColorProfileElement();
   else if (qualifiedName == wxT("ellipse"))
@@ -52,8 +52,8 @@ wxSvgXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespaceURI,
     res = new wxSVGCursorElement();
   else if (qualifiedName == wxT("use"))
     res = new wxSVGUseElement();
-  else if (qualifiedName == wxT("font-face-src"))
-    res = new wxSVGFontFaceSrcElement();
+  else if (qualifiedName == wxT("font"))
+    res = new wxSVGFontElement();
   else if (qualifiedName == wxT("polygon"))
     res = new wxSVGPolygonElement();
   else if (qualifiedName == wxT("title"))
@@ -64,10 +64,12 @@ wxSvgXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespaceURI,
     res = new wxSVGTSpanElement();
   else if (qualifiedName == wxT("feFlood"))
     res = new wxSVGFEFloodElement();
-  else if (qualifiedName == wxT("feBlend"))
-    res = new wxSVGFEBlendElement();
+  else if (qualifiedName == wxT("tbreak"))
+    res = new wxSVGTBreakElement();
   else if (qualifiedName == wxT("vkern"))
     res = new wxSVGVKernElement();
+  else if (qualifiedName == wxT("font-face-src"))
+    res = new wxSVGFontFaceSrcElement();
   else if (qualifiedName == wxT("feSpecularLighting"))
     res = new wxSVGFESpecularLightingElement();
   else if (qualifiedName == wxT("feColorMatrix"))

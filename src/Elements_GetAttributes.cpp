@@ -97,6 +97,7 @@
 #include "SVGStyleElement.h"
 #include "SVGSwitchElement.h"
 #include "SVGSymbolElement.h"
+#include "SVGTBreakElement.h"
 #include "SVGTRefElement.h"
 #include "SVGTSpanElement.h"
 #include "SVGTextElement.h"
@@ -301,6 +302,14 @@ wxSvgXmlAttrHash wxSVGFEMergeNodeElement::GetAttributes() const
   wxSvgXmlAttrHash attrs;
   if (!m_in1.GetBaseVal().IsEmpty())
     attrs.Add(wxT("in"), m_in1.GetBaseVal());
+  attrs.Add(wxSVGElement::GetAttributes());
+  return attrs;
+}
+
+// wxSVGTBreakElement
+wxSvgXmlAttrHash wxSVGTBreakElement::GetAttributes() const
+{
+  wxSvgXmlAttrHash attrs;
   attrs.Add(wxSVGElement::GetAttributes());
   return attrs;
 }
