@@ -1,3 +1,10 @@
+Version 1.1.0 <2011.07.24>
+--------------------------
+  
+  * updated cairo backend - it's default backend now
+  * added rendering with alpha
+  * added wxSVGTBreakElement
+
 Version 1.0.10 <2011.06.13>
 --------------------------
   
