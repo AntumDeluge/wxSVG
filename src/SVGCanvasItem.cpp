@@ -3,12 +3,13 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.30 2011-07-24 16:30:12 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.31 2011-07-24 17:15:32 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include <wx/wx.h>
+#include <wx/tokenzr.h>
 #include "SVGCanvasItem.h"
 #include "SVGCanvas.h"
 #include <math.h>
@@ -565,9 +566,14 @@ void wxSVGCanvasText::InitChildren(wxSVGTextPositioningElement& element, const w
 	wxString text;
 	wxSVGElement* elem = (wxSVGElement*) element.GetChildren();
 	while (elem) {
-		if (elem->GetType() == wxSVGXML_TEXT_NODE)
-			text += elem->GetContent();
-		else if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd() == wxSVG_TBREAK_ELEMENT)
+		if (elem->GetType() == wxSVGXML_TEXT_NODE) {
+			wxStringTokenizer tokenizer(elem->GetContent());
+			while (tokenizer.HasMoreTokens()) {
+				text += tokenizer.GetNextToken();
+				if (tokenizer.HasMoreTokens())
+					text += wxT(" ");
+			}
+		} else if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd() == wxSVG_TBREAK_ELEMENT)
 			text += wxT("\n");
 		else if (text.length())
 			AddChunk(text, style);
