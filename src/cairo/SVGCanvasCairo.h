@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.7 2011-07-22 21:53:02 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.8 2011-08-02 06:49:56 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -42,7 +42,7 @@ protected:
 			wxSVGSVGElement& svgElem);
     void SetStopValue(unsigned int index, float offset, float opacity, const wxRGBColor& rgbColor);
 	void AllocateGradientStops(unsigned int stop_count);
-	void DrawCanvasImage(wxSVGCanvasImageCairo& canvasImage, wxSVGMatrix& matrix,
+	void DrawCanvasImage(wxSVGCanvasImage& canvasImage, cairo_pattern_t* cairoPattern, wxSVGMatrix& matrix,
 			const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem);
 
 private:

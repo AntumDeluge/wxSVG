@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.11 2011-07-22 21:53:02 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.12 2011-08-02 06:49:56 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -115,13 +115,16 @@ void wxSVGCanvasCairo::DrawItem(wxSVGCanvasItem& item, wxSVGMatrix& matrix,
 	case wxSVGCanvasItem::wxSVG_CANVAS_ITEM_PATH:
 		DrawCanvasPath((wxSVGCanvasPathCairo&) item, matrix, style, svgElem);
 		break;
-	case wxSVGCanvasItem::wxSVG_CANVAS_ITEM_TEXT: {
+	case wxSVGCanvasItem::wxSVG_CANVAS_ITEM_TEXT:
 		DrawCanvasText((wxSVGCanvasText&) item, matrix, style, svgElem);
 		break;
-	}
 	case wxSVGCanvasItem::wxSVG_CANVAS_ITEM_IMAGE:
+		DrawCanvasImage((wxSVGCanvasImage&) item, ((wxSVGCanvasImageCairo&) item).GetCairoPattern(),
+				matrix, style, svgElem);
+		break;
 	case wxSVGCanvasItem::wxSVG_CANVAS_ITEM_VIDEO:
-		DrawCanvasImage((wxSVGCanvasImageCairo&) item, matrix, style, svgElem);
+		DrawCanvasImage((wxSVGCanvasImage&) item, ((wxSVGCanvasVideoCairo&) item).GetCairoPattern(),
+				matrix, style, svgElem);
 		break;
 	}
 }
@@ -219,9 +222,9 @@ void wxSVGCanvasCairo::DrawCanvasPath(wxSVGCanvasPathCairo& canvasPath,
 	}
 }
 
-void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImageCairo& canvasImage, wxSVGMatrix& matrix,
-		const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem) {
-	if (canvasImage.GetCairoPattern() == NULL)
+void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImage& canvasImage, cairo_pattern_t* cairoPattern,
+		wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem) {
+	if (cairoPattern == NULL)
 		return;
 	
 	cairo_save(m_cr);
@@ -237,7 +240,7 @@ void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImageCairo& canvasImage, wxSVG
 	cairo_scale(m_cr, scaleX, scaleY);
 	
 	// prepare to draw the image
-	cairo_set_source(m_cr, canvasImage.GetCairoPattern());
+	cairo_set_source(m_cr, cairoPattern);
 	// use the original size here since the context is scaled already...
 	cairo_rectangle(m_cr, 0, 0, canvasImage.m_image.GetWidth(), canvasImage.m_image.GetHeight());
 	// fill the rectangle using the pattern
