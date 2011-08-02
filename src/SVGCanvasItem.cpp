@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.31 2011-07-24 17:15:32 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.32 2011-08-02 19:03:19 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -880,7 +880,7 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 					if (!decoder.SetPosition(dpos > 1.0 ? dpos - 1.0 : 0.0)) {
 						wxLog* oldLog = wxLog::SetActiveTarget(new wxLogStderr());
 						wxLogError(wxT("decoder.GetDuration(): %f"), duration);
-						wxLogError(wxT("decoder.SetPosition(%f) failed"), dpos > 0.5 ? dpos - 0.5 : dpos);
+						wxLogError(wxT("decoder.SetPosition(%f) failed"), dpos > 1.0 ? dpos - 1.0 : dpos);
 						delete wxLog::SetActiveTarget(oldLog);
 					}
 					for (int i = 0; i < 60; i++) {
@@ -924,45 +924,64 @@ wxSVGCanvasVideo::~wxSVGCanvasVideo()
 }
 
 void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style) {
-  m_x = element.GetX().GetAnimVal();
-  m_y = element.GetY().GetAnimVal();
-  m_width = element.GetWidth().GetAnimVal();
-  m_height = element.GetHeight().GetAnimVal();
-  m_href = element.GetHref();
-  m_time = ((wxSVGDocument*)element.GetOwnerDocument())->GetCurrentTime();
-  wxSVGCanvasVideo* prevItem = (wxSVGCanvasVideo*) element.GetCanvasItem();
-  if (prevItem != NULL && prevItem->m_href == m_href)
-  {
+	m_x = element.GetX().GetAnimVal();
+	m_y = element.GetY().GetAnimVal();
+	m_width = element.GetWidth().GetAnimVal();
+	m_height = element.GetHeight().GetAnimVal();
+	m_href = element.GetHref();
+	m_time = ((wxSVGDocument*) element.GetOwnerDocument())->GetCurrentTime();
+	wxSVGCanvasVideo* prevItem = (wxSVGCanvasVideo*) element.GetCanvasItem();
+	if (prevItem != NULL && prevItem->m_href == m_href
 #ifdef USE_FFMPEG
-    m_mediaDecoder = prevItem->m_mediaDecoder;
-    prevItem->m_mediaDecoder = NULL;
+			&& prevItem->m_mediaDecoder != NULL
 #endif
-    m_duration = prevItem->m_duration;
+			) {
 #ifdef USE_FFMPEG
-    if (prevItem->m_time != m_time)
-    {
-      if (m_time > 0)
-        m_mediaDecoder->SetPosition(m_time);
-      m_image = m_mediaDecoder->GetNextFrame();
-    } else
+		m_mediaDecoder = prevItem->m_mediaDecoder;
+		prevItem->m_mediaDecoder = NULL;
 #endif
-      m_image = prevItem->m_image;
-  }
-  else if (m_href.length())
-  {
+		m_duration = prevItem->m_duration;
 #ifdef USE_FFMPEG
-    m_mediaDecoder = new wxFfmpegMediaDecoder();
-    if (m_mediaDecoder->Load(m_href)) {
-      m_duration = m_mediaDecoder->GetDuration();
-      if (m_time > 0)
-        m_mediaDecoder->SetPosition(m_time);
-      m_image = m_mediaDecoder->GetNextFrame();
-    }
-    else
-    {
-      delete m_mediaDecoder;
-      m_mediaDecoder = NULL;
-    }
+		double ftime = m_mediaDecoder->GetFps() != -1 ? 1.0 / m_mediaDecoder->GetFps() : 0.04;
+		double currTime = m_mediaDecoder->GetPosition();
+		if (currTime != m_time && (m_time < currTime || m_time - currTime >= ftime - 0.001)) {
+			if (m_time < currTime || m_time - currTime > 50*ftime)
+				m_mediaDecoder->SetPosition(m_time > 1.0 ? m_time - 1.0 : 0.0);
+			for (int i = 0; i < 60; i++) {
+				m_image = m_mediaDecoder->GetNextFrame();
+				currTime = m_mediaDecoder->GetPosition();
+				if (currTime >= m_time - 0.001 || currTime < 0)
+					break;
+			}
+		} else
 #endif
-  }
+			m_image = prevItem->m_image;
+	} else if (m_href.length()) {
+#ifdef USE_FFMPEG
+		m_mediaDecoder = new wxFfmpegMediaDecoder();
+		if (m_mediaDecoder->Load(m_href)) {
+			m_duration = m_mediaDecoder->GetDuration();
+			if (m_time > 0) {
+				m_image = m_mediaDecoder->GetNextFrame();
+				if (!m_mediaDecoder->SetPosition(m_time > 1.0 ? m_time - 1.0 : 0.0)) {
+					wxLog* oldLog = wxLog::SetActiveTarget(new wxLogStderr());
+					wxLogError(wxT("decoder.GetDuration(): %f"), m_duration);
+					wxLogError(wxT("decoder.SetPosition(%f) failed"), m_time > 1.0 ? m_time - 1.0 : m_time);
+					delete wxLog::SetActiveTarget(oldLog);
+				}
+				for (int i = 0; i < 60; i++) {
+					m_image = m_mediaDecoder->GetNextFrame();
+					double currTime = m_mediaDecoder->GetPosition();
+					if (currTime >= m_time || currTime < 0)
+						break;
+				}
+			} else
+				m_image = m_mediaDecoder->GetNextFrame();
+		} else {
+			delete m_mediaDecoder;
+			m_mediaDecoder = NULL;
+			m_duration = 0;
+		}
+#endif
+	}
 }
