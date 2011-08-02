@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.h,v 1.6 2010-10-10 16:16:36 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.h,v 1.7 2011-08-02 06:48:13 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -47,6 +47,7 @@ public:
 	
 	virtual wxSize GetVideoSize();
 	virtual float GetFrameAspectRatio();
+	virtual float GetFps();
 	
 	virtual bool BeginDecode(int width = -1, int height = -1);
 	virtual wxImage GetNextFrame();

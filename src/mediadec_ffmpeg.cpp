@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.14 2011-07-22 20:57:15 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.15 2011-08-02 06:48:14 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -91,8 +91,10 @@ wxSize wxFfmpegMediaDecoder::GetVideoSize() {
 }
 
 float wxFfmpegMediaDecoder::GetFrameAspectRatio() {
+	if (m_formatCtx == NULL)
+		return -1;
 	float frame_aspect_ratio = -1;
-	for (int i=0; i<(int)m_formatCtx->nb_streams; i++) {
+	for (unsigned int i = 0; i < m_formatCtx->nb_streams; i++) {
 		AVStream *st = m_formatCtx->streams[i];
 		AVCodecContext *enc = st->codec;
 		if (enc->codec_type == AVMEDIA_TYPE_VIDEO) {
@@ -107,6 +109,20 @@ float wxFfmpegMediaDecoder::GetFrameAspectRatio() {
 		}
 	}
 	return frame_aspect_ratio;
+}
+
+float wxFfmpegMediaDecoder::GetFps() {
+	if (m_formatCtx == NULL)
+		return -1;
+	float result = -1;
+	for (unsigned int i = 0; i < m_formatCtx->nb_streams; i++) {
+		AVStream* st = m_formatCtx->streams[i];
+		if (st->codec->codec_type == AVMEDIA_TYPE_VIDEO && st->r_frame_rate.num && st->r_frame_rate.den) {
+			result = ((float) st->r_frame_rate.num) / st->r_frame_rate.den;
+			break;
+		}
+	}
+	return result;
 }
 
 StreamType wxFfmpegMediaDecoder::GetStreamType(unsigned int streamIndex) {
