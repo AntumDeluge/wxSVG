@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas image
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasImageCairo.cpp,v 1.3 2011-07-03 20:51:58 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasImageCairo.cpp,v 1.4 2011-08-02 06:50:28 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -98,7 +98,7 @@ wxSVGCanvasVideoCairo::wxSVGCanvasVideoCairo(): wxSVGCanvasVideo() {
 }
 
 wxSVGCanvasVideoCairo::~wxSVGCanvasVideoCairo() {
-	if (m_data->DecRef() == 0)
+	if (m_data != NULL && m_data->DecRef() == 0)
 		delete m_data;
 }
 
@@ -106,7 +106,7 @@ void wxSVGCanvasVideoCairo::Init(wxSVGVideoElement& element, const wxCSSStyleDec
 	wxSVGCanvasVideo::Init(element, style);
 	
 	wxSVGCanvasVideoCairo* prevItem = (wxSVGCanvasVideoCairo*) element.GetCanvasItem();
-	if (prevItem != NULL && prevItem->m_image.GetData() == m_image.GetData() && prevItem->m_data != NULL) {
+	if (prevItem != NULL && prevItem->m_href == m_href && prevItem->m_time == m_time && prevItem->m_data != NULL) {
 		m_data = prevItem->m_data;
 		m_data->IncRef();
 		return;
