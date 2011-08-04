@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas text
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.4 2011-07-22 21:53:02 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.5 2011-08-04 19:56:05 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -11,6 +11,14 @@
 #include "SVGCanvasTextCairo.h"
 #include "SVGCanvasPathCairo.h"
 #include <wx/log.h>
+#include <wx/font.h>
+#include <wx/tokenzr.h>
+#include <cairo/cairo.h>
+#ifdef __WXMSW__
+#include <cairo/cairo-win32.h>
+#else
+#include <pango/pangocairo.h>
+#endif
 
 wxSVGCanvasTextCairo::wxSVGCanvasTextCairo(wxSVGCanvas* canvas): wxSVGCanvasText(canvas) {
 }
@@ -23,6 +31,68 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 	
 	// create path from text
 	cairo_t* cr = ((wxSVGCanvasPathCairo*) m_char->path)->GetCr();
+	
+#ifdef __WXMSW__
+	int size = (int) style.GetFontSize();
+	int fstyle = style.GetFontStyle() == wxCSS_VALUE_ITALIC ? wxFONTSTYLE_ITALIC
+			: (style.GetFontStyle() == wxCSS_VALUE_OBLIQUE ? wxFONTSTYLE_SLANT : wxFONTSTYLE_NORMAL);
+	wxFontWeight weight = style.GetFontWeight() == wxCSS_VALUE_BOLD ? wxFONTWEIGHT_BOLD
+			: style.GetFontWeight() == wxCSS_VALUE_BOLDER ? wxFONTWEIGHT_MAX
+			: style.GetFontWeight() == wxCSS_VALUE_LIGHTER ? wxFONTWEIGHT_LIGHT : wxFONTWEIGHT_NORMAL;
+	wxFont fnt(size, wxFONTFAMILY_DEFAULT, fstyle, weight, false, style.GetFontFamily());
+	HFONT hfont = (HFONT) fnt.GetResourceHandle();
+	
+	cairo_set_font_face(cr, cairo_win32_font_face_create_for_hfont(hfont));
+	cairo_set_font_size(cr, style.GetFontSize());
+	
+	cairo_font_extents_t fextents;
+	cairo_font_extents(cr, &fextents);
+	
+	double maxWidth = 0;
+	if (style.GetTextAnchor() == wxCSS_VALUE_MIDDLE) {
+		wxStringTokenizer tokenzr(text, wxT("\n"));
+		while (tokenzr.HasMoreTokens()) {
+			wxString token = tokenzr.GetNextToken();
+			cairo_text_extents_t extents;
+			cairo_text_extents(cr, (const char*) token.utf8_str(), &extents);
+			if (maxWidth < extents.width)
+				maxWidth = extents.width;
+		}
+	}
+	
+	wxStringTokenizer tokenzr(text, wxT("\n"));
+	double x_advance = 0;
+	double width = 0;
+	double height = 0;
+	double y = 0;
+	while (tokenzr.HasMoreTokens()) {
+		wxString token = tokenzr.GetNextToken();
+		
+		// get text extents
+		cairo_text_extents_t extents;
+		cairo_text_extents(cr, (const char*) token.utf8_str(), &extents);
+		double x = style.GetTextAnchor() == wxCSS_VALUE_END ? maxWidth - extents.width
+				: style.GetTextAnchor() == wxCSS_VALUE_MIDDLE ? (maxWidth - extents.width) / 2 : 0;
+		
+		m_char->path->MoveTo(m_tx + x, m_ty + y);
+		cairo_text_path(cr, (const char*) token.utf8_str());
+		
+		if (x_advance < extents.x_advance)
+			x_advance = extents.x_advance;
+		if (width < extents.width)
+			width = extents.width;
+		height += fextents.height;
+		if (tokenzr.HasMoreTokens())
+			y += fextents.height;
+	}
+	
+	// set bbox
+	m_char->bbox = wxSVGRect(m_tx, m_ty, width, height);
+	
+	// increase current position (m_tx)
+	wxSVGRect bbox = m_char->path->GetResultBBox(style);
+	m_tx += x_advance > bbox.GetWidth() ? x_advance : bbox.GetWidth();
+#else
 	PangoLayout* layout = pango_cairo_create_layout(cr);
 	PangoFontDescription* font = pango_font_description_new();
 	pango_font_description_set_family(font, style.GetFontFamily().ToAscii());
@@ -30,7 +100,8 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 			: PANGO_WEIGHT_NORMAL);
 	pango_font_description_set_style(font, style.GetFontStyle() == wxCSS_VALUE_ITALIC ? PANGO_STYLE_ITALIC
 			: (style.GetFontStyle() == wxCSS_VALUE_OBLIQUE ? PANGO_STYLE_OBLIQUE : PANGO_STYLE_NORMAL));
-	pango_font_description_set_absolute_size(font, style.GetFontSize() * PANGO_SCALE);
+	pango_font_description_set_absolute_size(font, style.GetFontSize());
+
 	PangoContext* ctx = pango_layout_get_context(layout);
 	PangoFont* f = pango_context_load_font(ctx, font);
 	if (f == NULL)
@@ -56,4 +127,5 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 		
 	g_object_unref(layout);
 	pango_font_description_free(font);
+#endif
 }
