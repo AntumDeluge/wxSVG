@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas text
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.5 2011-08-04 19:56:05 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.6 2011-08-04 20:58:33 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -100,7 +100,7 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 			: PANGO_WEIGHT_NORMAL);
 	pango_font_description_set_style(font, style.GetFontStyle() == wxCSS_VALUE_ITALIC ? PANGO_STYLE_ITALIC
 			: (style.GetFontStyle() == wxCSS_VALUE_OBLIQUE ? PANGO_STYLE_OBLIQUE : PANGO_STYLE_NORMAL));
-	pango_font_description_set_absolute_size(font, style.GetFontSize());
+	pango_font_description_set_absolute_size(font, style.GetFontSize() * PANGO_SCALE);
 
 	PangoContext* ctx = pango_layout_get_context(layout);
 	PangoFont* f = pango_context_load_font(ctx, font);
