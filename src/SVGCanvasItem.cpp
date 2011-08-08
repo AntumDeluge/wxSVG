@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.32 2011-08-02 19:03:19 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.33 2011-08-08 06:53:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -850,6 +850,7 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 	m_width = element.GetWidth().GetAnimVal();
 	m_height = element.GetHeight().GetAnimVal();
 	m_href = element.GetHref();
+	m_preserveAspectRatio = element.GetPreserveAspectRatio();
 	m_defHeightScale = 1;
 	wxSVGCanvasImage* prevItem = (wxSVGCanvasImage*) element.GetCanvasItem();
 	if (prevItem != NULL && prevItem->m_href == m_href) {
@@ -929,6 +930,7 @@ void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclarat
 	m_width = element.GetWidth().GetAnimVal();
 	m_height = element.GetHeight().GetAnimVal();
 	m_href = element.GetHref();
+	m_preserveAspectRatio = element.GetPreserveAspectRatio();
 	m_time = ((wxSVGDocument*) element.GetOwnerDocument())->GetCurrentTime();
 	wxSVGCanvasVideo* prevItem = (wxSVGCanvasVideo*) element.GetCanvasItem();
 	if (prevItem != NULL && prevItem->m_href == m_href

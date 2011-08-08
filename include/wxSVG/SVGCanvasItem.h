@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.18 2011-07-24 16:30:12 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.19 2011-08-08 06:53:36 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -153,12 +153,14 @@ public:
 	virtual void Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style);
 	virtual int GetDefaultWidth() { return m_image.Ok() ? m_image.GetWidth() : 0; }
 	virtual int GetDefaultHeight() { return m_image.Ok() ? m_image.GetHeight() * m_defHeightScale : 0; }
+	const wxSVGPreserveAspectRatio& GetPreserveAspectRatio() { return m_preserveAspectRatio; }
 	
 public:
 	double m_x, m_y, m_width, m_height; /** position and size of image */
     wxString m_href; /** link to the image (filename) */
 	wxImage m_image; /** image data */
 	double m_defHeightScale;
+	wxSVGPreserveAspectRatio m_preserveAspectRatio;
 };
 
 /** Canvas item, that saves video (wxSVGVideoElement) */
