@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.16 2010-07-22 20:20:46 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.17 2011-09-18 11:22:05 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -77,7 +77,7 @@ void wxSVGCtrlBase::Refresh(bool eraseBackground, const wxRect* rect) {
 		m_repaintRect.height = y2 - m_repaintRect.y;
 	} else
 		m_repaintRect = rect ? *rect : wxRect();
-	wxControl::Refresh(false, rect);
+	wxControl::Refresh(eraseBackground, rect);
 }
 
 void wxSVGCtrlBase::Refresh(const wxSVGRect* rect) {
