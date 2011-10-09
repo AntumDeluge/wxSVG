@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.17 2011-09-18 11:22:05 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.18 2011-10-09 12:20:48 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -67,7 +67,6 @@ bool wxSVGCtrlBase::Load(const wxString& filename) {
 }
 
 void wxSVGCtrlBase::Refresh(bool eraseBackground, const wxRect* rect) {
-	m_repaint = true;
 	if (rect && m_repaintRect.width > 0 && m_repaintRect.height > 0) {
 		int x2 = wxMax(m_repaintRect.x+m_repaintRect.width, rect->x+rect->width);
 		int y2 = wxMax(m_repaintRect.y+m_repaintRect.height, rect->y+rect->height);
@@ -76,7 +75,8 @@ void wxSVGCtrlBase::Refresh(bool eraseBackground, const wxRect* rect) {
 		m_repaintRect.width = x2 - m_repaintRect.x;
 		m_repaintRect.height = y2 - m_repaintRect.y;
 	} else
-		m_repaintRect = rect ? *rect : wxRect();
+		m_repaintRect = rect && !m_repaint ? *rect : wxRect();
+	m_repaint = true;
 	wxControl::Refresh(eraseBackground, rect);
 }
 
@@ -95,7 +95,6 @@ void wxSVGCtrlBase::OnPaint(wxPaintEvent& event) {
 		m_buffer = wxBitmap();
 	else if (m_repaint)
 		RepaintBuffer();
-
 	wxPaintDC dc(this);
 
 #ifdef __WXMSW__
