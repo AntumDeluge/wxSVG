@@ -548,7 +548,8 @@
   x %Coordinate; #IMPLIED
   y %Coordinate; #IMPLIED
   width %Length; #REQUIRED
-  height %Length; #REQUIRED >
+  height %Length; #REQUIRED
+  %animTimingAttrs; >
 						       
 
 <!ENTITY % switchExt "" >
