@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.11 2010-02-22 20:00:41 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.12 2011-10-31 18:48:13 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -78,10 +78,8 @@ BEGIN_EVENT_TABLE(MySVGCanvas, wxSVGCtrl)
 END_EVENT_TABLE()
 
 
-MainFrame::MainFrame(wxWindow *parent, const wxString& title,
-  const wxPoint& pos, const wxSize& size, long style):
-  wxFrame(parent, wxID_ANY, title, pos, size, style)
-{
+MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos, const wxSize& size, long style):
+		wxFrame(parent, wxID_ANY, title, pos, size, style) {
     // Make a menubar
     wxMenu *fileMenu = new wxMenu;
     fileMenu->Append(wxID_OPEN, _T("&Open..."));
@@ -89,7 +87,7 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title,
     fileMenu->AppendSeparator();
     fileMenu->Append(wxID_EXIT, _T("&Close"));
     fileMenu->AppendSeparator();
-    fileMenu->AppendCheckItem(wxID_FIT, _T("&FitToFrame"));
+    fileMenu->AppendCheckItem(wxID_FIT, _T("&FitToFrame"))->Check();
     fileMenu->AppendCheckItem(wxID_HITTEST, _T("&Hit-Test"));
     
     wxMenuBar *menuBar = new wxMenuBar;
