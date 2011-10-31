@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.13 2011-08-08 06:53:13 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.14 2011-10-31 07:53:48 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -129,7 +129,7 @@ void wxSVGCanvasCairo::DrawItem(wxSVGCanvasItem& item, wxSVGMatrix& matrix,
 	}
 }
 
-void wxSVGCanvasCairo::SetPaint(const wxSVGPaint& paint, float opacity, wxSVGCanvasPathCairo& canvasPath,
+void wxSVGCanvasCairo::SetPaint(cairo_t* cr, const wxSVGPaint& paint, float opacity, wxSVGCanvasPathCairo& canvasPath,
 		wxSVGSVGElement& svgElem) {
 	if (paint.GetPaintType() >= wxSVG_PAINTTYPE_URI_NONE && paint.GetPaintType() <= wxSVG_PAINTTYPE_URI) {
 		wxSVGGradientElement* gradElem = GetGradientElement(svgElem, paint.GetUri());
@@ -171,7 +171,7 @@ void wxSVGCanvasCairo::SetPaint(const wxSVGPaint& paint, float opacity, wxSVGCan
 			if (m_pattern != NULL) {
 				int nstops = GetGradientStops(svgElem, gradElem, opacity);
 				if (nstops) {
-					cairo_set_source(m_cr, m_pattern);
+					cairo_set_source(cr, m_pattern);
 				} else {
 					cairo_pattern_destroy(m_pattern);
 					m_pattern = NULL;
@@ -180,7 +180,7 @@ void wxSVGCanvasCairo::SetPaint(const wxSVGPaint& paint, float opacity, wxSVGCan
 		}
 	} else {
 		wxRGBColor color = paint.GetRGBColor();
-		cairo_set_source_rgba(m_cr, color.Red() / 255.0, color.Green() / 255.0, color.Blue() / 255.0, opacity);
+		cairo_set_source_rgba(cr, color.Red() / 255.0, color.Green() / 255.0, color.Blue() / 255.0, opacity);
 	}
 }
 
@@ -195,18 +195,80 @@ void wxSVGCanvasCairo::AllocateGradientStops(unsigned int stop_count) {
 	// nothing to do
 }
 
-void wxSVGCanvasCairo::DrawCanvasPath(wxSVGCanvasPathCairo& canvasPath,
-		wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem) {
+/**
+ * Steve Hanov, 2009
+ * Released into the public domain.
+ */
+void cairo_image_surface_blur(cairo_surface_t* surface, double radius) {
+	// get width, height
+	int width = cairo_image_surface_get_width(surface);
+	int height = cairo_image_surface_get_height(surface);
+	unsigned char* dst = (unsigned char*) malloc(width * height * 4);
+	unsigned* precalc = (unsigned*) malloc(width * height * sizeof(unsigned));
+	unsigned char* src = cairo_image_surface_get_data(surface);
+	double mul = 1.f / ((radius * 2) * (radius * 2));
+	
+	// The number of times to perform the averaging. According to wikipedia,
+	// three iterations is good enough to pass for a gaussian.
+	const int MAX_ITERATIONS = 3;
+	
+	memcpy(dst, src, width * height * 4);
+	for (int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
+		for (int channel = 0; channel < 4; channel++) {
+			// precomputation step.
+			unsigned char* pix = src;
+			unsigned* pre = precalc;
+			
+			pix += channel;
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
+					int tot = pix[0];
+					if (x > 0)
+						tot += pre[-1];
+					if (y > 0)
+						tot += pre[-width];
+					if (x > 0 && y > 0)
+						tot -= pre[-width - 1];
+					*pre++ = tot;
+					pix += 4;
+				}
+			}
+
+			// blur step.
+			pix = dst + (int) radius * width * 4 + (int) radius * 4 + channel;
+			for (int y = radius; y < height - radius; y++) {
+				for (int x = radius; x < width - radius; x++) {
+					int l = x < radius ? 0 : x - radius;
+					int t = y < radius ? 0 : y - radius;
+					int r = x + radius >= width ? width - 1 : x + radius;
+					int b = y + radius >= height ? height - 1 : y + radius;
+					int tot = precalc[r + b * width] + precalc[l + t * width] - precalc[l + b * width]
+							- precalc[r + t* width];
+					*pix = (unsigned char) (tot * mul);
+					pix += 4;
+				}
+				pix += (int) radius * 2 * 4;
+			}
+		}
+		memcpy(src, dst, width * height * 4);
+	}
+
+	free(dst);
+	free(precalc);
+}
+
+void wxSVGCanvasCairo::DrawPath(cairo_t* cr, wxSVGCanvasPathCairo& canvasPath, wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style,
+		wxSVGSVGElement& svgElem) {
 	cairo_matrix_t mat;
 	cairo_matrix_init(&mat, matrix.GetA(), matrix.GetB(), matrix.GetC(), matrix.GetD(), matrix.GetE(), matrix.GetF());
-	cairo_set_matrix(m_cr, &mat);
+	cairo_set_matrix(cr, &mat);
 	
 	// Filling
 	if (canvasPath.GetFill() && style.GetFill().Ok() && style.GetFill().GetPaintType() != wxSVG_PAINTTYPE_NONE) {
 		cairo_path_t* path = canvasPath.GetPath();
-		cairo_append_path(m_cr, path);
-		SetPaint(style.GetFill(), style.GetOpacity()*style.GetFillOpacity(), canvasPath, svgElem);
-		cairo_fill(m_cr);
+		cairo_append_path(cr, path);
+		SetPaint(cr, style.GetFill(), style.GetOpacity()*style.GetFillOpacity(), canvasPath, svgElem);
+		cairo_fill(cr);
 		cairo_path_destroy(path);
 	}
 	
@@ -214,12 +276,55 @@ void wxSVGCanvasCairo::DrawCanvasPath(wxSVGCanvasPathCairo& canvasPath,
 	if (style.GetStroke().Ok() && style.GetStrokeWidth() > 0
 			&& style.GetStroke().GetPaintType() != wxSVG_PAINTTYPE_NONE) {
 		cairo_path_t* path = canvasPath.GetPath();
-		cairo_append_path(m_cr, path);
-		SetPaint(style.GetStroke(), style.GetOpacity()*style.GetStrokeOpacity(), canvasPath, svgElem);
-		wxSVGCanvasPathCairo::ApplyStrokeStyle(m_cr, style);
-		cairo_stroke(m_cr);
+		cairo_append_path(cr, path);
+		SetPaint(cr, style.GetStroke(), style.GetOpacity()*style.GetStrokeOpacity(), canvasPath, svgElem);
+		wxSVGCanvasPathCairo::ApplyStrokeStyle(cr, style);
+		cairo_stroke(cr);
 		cairo_path_destroy(path);
 	}
+}
+
+void wxSVGCanvasCairo::DrawCanvasPath(wxSVGCanvasPathCairo& canvasPath, wxSVGMatrix& matrix,
+		const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem) {
+	// check Filter
+	if (style.GetFilter().GetCSSPrimitiveType() == wxCSS_URI && style.GetFilter().GetStringValue().length() > 1) {
+		wxString filterId = style.GetFilter().GetStringValue().substr(1);
+		wxSVGElement* filterElem = (wxSVGSVGElement*) svgElem.GetElementById(filterId);
+		// feGaussianBlur
+		if (filterElem && filterElem->GetDtd() == wxSVG_FILTER_ELEMENT && filterElem->GetFirstChild() != NULL
+				&& ((wxSVGSVGElement*) filterElem->GetFirstChild())->GetDtd() == wxSVG_FEGAUSSIANBLUR_ELEMENT) {
+			float radius = ((wxSVGFEGaussianBlurElement*) filterElem->GetFirstChild())->GetStdDeviationX().GetAnimVal();
+			wxSVGRect rect = canvasPath.GetResultBBox(style, matrix.Inverse());
+			rect.SetX(rect.GetX() - radius*2);
+			rect.SetY(rect.GetY() - radius*2);
+			rect.SetWidth(rect.GetWidth() + radius*4);
+			rect.SetHeight(rect.GetHeight() + radius*4);
+			int width = (int) rect.GetWidth();
+			int height = (int) rect.GetHeight();
+			cairo_surface_t* surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+			cairo_t* cr = cairo_create(surface);
+			wxSVGMatrix matrix2 = wxSVGMatrix(1, 0, 0, 1, - rect.GetX(), - rect.GetY()).Multiply(matrix);
+			DrawPath(cr, canvasPath, matrix2, style, svgElem);
+			cairo_image_surface_blur(surface, radius);
+			
+			// draw surface
+			cairo_save(m_cr);
+			cairo_matrix_t mat;
+			cairo_matrix_init(&mat, 1, 0, 0, 1, rect.GetX(), rect.GetY());
+			cairo_set_matrix(m_cr, &mat);
+			
+			cairo_pattern_t* pattern = cairo_pattern_create_for_surface(surface);
+			cairo_set_source(m_cr, pattern);
+			cairo_rectangle(m_cr, 0, 0, width, height);
+			cairo_paint(m_cr); // fill the rectangle using the pattern
+			cairo_new_path(m_cr);
+			cairo_restore(m_cr);
+			cairo_destroy(cr);
+			cairo_surface_destroy(surface);
+			return;
+		}
+	}
+	DrawPath(m_cr, canvasPath, matrix, style, svgElem);
 }
 
 void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImage& canvasImage, cairo_pattern_t* cairoPattern,

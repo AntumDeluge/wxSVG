@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.8 2011-08-02 06:49:56 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.9 2011-10-31 07:53:48 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -51,7 +51,10 @@ private:
 	cairo_pattern_t* m_pattern;
     bool m_alpha;
     void Destroy();
-    void SetPaint(const wxSVGPaint & paint, float opacity, wxSVGCanvasPathCairo& canvasPath, wxSVGSVGElement& svgElem);
+    void SetPaint(cairo_t* cr,const wxSVGPaint & paint, float opacity, wxSVGCanvasPathCairo& canvasPath,
+    		wxSVGSVGElement& svgElem);
+	void DrawPath(cairo_t* cr, wxSVGCanvasPathCairo& canvasPath, wxSVGMatrix& matrix,
+			const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem);
 };
 
 #endif // WX_SVG_CANVAS_CAIRO_H
