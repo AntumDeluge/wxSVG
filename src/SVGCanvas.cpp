@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.14 2011-07-03 20:51:58 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.15 2011-11-01 06:52:59 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -17,11 +17,10 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #define WX_SVG_CREATE_USING_PATH(elem_name)\
-wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVG##elem_name##Element* element)\
-{\
-  wxSVGCanvasPath* canvasItem = CreateCanvasPath();\
-  canvasItem->Init(*element);\
-  return canvasItem;\
+wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVG##elem_name##Element* element) {\
+	wxSVGCanvasPath* canvasItem = CreateCanvasPath();\
+	canvasItem->Init(*element);\
+	return canvasItem;\
 }
 
 WX_SVG_CREATE_USING_PATH(Line)
@@ -33,12 +32,10 @@ WX_SVG_CREATE_USING_PATH(Ellipse)
 WX_SVG_CREATE_USING_PATH(Path)
 
 #define WX_SVG_CREATE(elem_name)\
-wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVG##elem_name##Element* element,\
- const wxCSSStyleDeclaration* style)\
-{\
-  wxSVGCanvas##elem_name* canvasItem = new wxSVGCanvas##elem_name;\
-  canvasItem->Init(*element, style != NULL ? *style : (wxCSSStyleDeclaration&) element->GetStyle());\
-  return canvasItem;\
+wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVG##elem_name##Element* element, const wxCSSStyleDeclaration* style) {\
+	wxSVGCanvas##elem_name* canvasItem = new wxSVGCanvas##elem_name;\
+	canvasItem->Init(*element, style != NULL ? *style : (wxCSSStyleDeclaration&) element->GetStyle());\
+	return canvasItem;\
 }
 
 WX_SVG_CREATE(Image)
@@ -49,18 +46,17 @@ WX_SVG_CREATE(Video)
 //////////////////////////////////////////////////////////////////////////////
 
 #define WX_SVG_DRAW(elem_name)\
-void wxSVGCanvas::Draw##elem_name(wxSVG##elem_name##Element* element,\
-  wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style)\
-{\
-  wxSVGCanvasItem* canvasItem = CreateItem(element);\
-  if (style == NULL)\
-	style = &element->GetStyle();\
-  if (style->GetDisplay() == wxCSS_VALUE_INLINE)\
-  	DrawItem(*canvasItem, *matrix, *style, *element->GetOwnerSVGElement());\
-  if (IsItemsCached())\
-	element->SetCanvasItem(canvasItem);\
-  else\
-	delete canvasItem;\
+void wxSVGCanvas::Draw##elem_name(wxSVG##elem_name##Element* element, wxSVGMatrix* matrix,\
+		const wxCSSStyleDeclaration* style) {\
+	wxSVGCanvasItem* canvasItem = CreateItem(element);\
+	if (style == NULL)\
+		style = &element->GetStyle();\
+	if (style->GetDisplay() == wxCSS_VALUE_INLINE)\
+		DrawItem(*canvasItem, *matrix, *style, *element->GetOwnerSVGElement());\
+	if (IsItemsCached())\
+		element->SetCanvasItem(canvasItem);\
+	else\
+		delete canvasItem;\
 }
 
 WX_SVG_DRAW(Line)
@@ -70,8 +66,32 @@ WX_SVG_DRAW(Rect)
 WX_SVG_DRAW(Circle)
 WX_SVG_DRAW(Ellipse)
 WX_SVG_DRAW(Path)
-WX_SVG_DRAW(Image)
 WX_SVG_DRAW(Video)
+
+void wxSVGCanvas::DrawImage(wxSVGImageElement* element, wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style,
+		const wxSVGRect* rect) {
+	wxSVGCanvasImage* canvasItem = (wxSVGCanvasImage*) CreateItem(element);
+	if (style == NULL)
+		style = &element->GetStyle();
+	if (style->GetDisplay() == wxCSS_VALUE_INLINE) {
+		if (canvasItem->GetSvgImage() != NULL) {
+			wxSVGGElement* gElem = new wxSVGGElement();
+			gElem->Translate(canvasItem->m_x, canvasItem->m_y);
+			wxSVGSVGElement* svgElem = canvasItem->GetSvgImage();
+			svgElem->SetWidth(canvasItem->m_width);
+			svgElem->SetHeight(canvasItem->m_height);
+			gElem->AddChild(svgElem);
+			RenderElement(gElem, rect, matrix, style, element->GetOwnerSVGElement(), element->GetViewportElement());
+			gElem->RemoveChild(gElem->GetFirstChild());
+			delete gElem;
+		} else
+			DrawItem(*canvasItem, *matrix, *style, *element->GetOwnerSVGElement());
+	}
+	if (IsItemsCached())
+		element->SetCanvasItem(canvasItem);
+	else
+		delete canvasItem;
+}
 
 void wxSVGCanvas::DrawText(wxSVGTextElement* element,
   wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style)
@@ -213,4 +233,236 @@ void wxSVGCanvas::GetRadialGradientTransform(wxSVGPoint& focus,
 	// Change Focus reference to gradient reference
 	focus.SetX((fx - cx) / r);
 	focus.SetY((fy - cy) / r);
+}
+//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////// Render /////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+void wxSVGCanvas::LoadImages(wxSVGElement* parent1, wxSVGElement* parent2) {
+	wxSVGElement* elem1 = (wxSVGElement*) parent1->GetChildren();
+	wxSVGElement* elem2 = (wxSVGElement*) parent2->GetChildren();
+	while (elem1 && elem2) {
+		if (elem1->GetType() == wxSVGXML_ELEMENT_NODE && elem1->GetDtd() == wxSVG_IMAGE_ELEMENT
+				&& elem2->GetType() == wxSVGXML_ELEMENT_NODE && elem2->GetDtd() == wxSVG_IMAGE_ELEMENT) {
+			wxSVGImageElement* img1 = (wxSVGImageElement*) elem1;
+			if (img1->GetHref().GetAnimVal().length()) {
+				if (img1->GetCanvasItem() == NULL
+						|| ((wxSVGCanvasImage*) img1->GetCanvasItem())->m_href != img1->GetHref())
+					img1->SetCanvasItem(CreateItem(img1));
+				((wxSVGImageElement*) elem2)->SetCanvasItem(CreateItem(img1));
+			}
+		} else if (elem1->GetChildren())
+			LoadImages(elem1, elem2);
+		elem1 = (wxSVGElement*) elem1->GetNext();
+		elem2 = (wxSVGElement*) elem2->GetNext();
+	}
+}
+
+void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const wxSVGMatrix* parentMatrix,
+		const wxCSSStyleDeclaration* parentStyle, wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement) {
+	wxSVGMatrix matrix(*parentMatrix);
+	wxCSSStyleRef style(*parentStyle);
+	elem->SetOwnerSVGElement(ownerSVGElement);
+	elem->SetViewportElement(viewportElement);
+
+	switch (elem->GetDtd()) {
+	case wxSVG_SVG_ELEMENT: {
+		wxSVGSVGElement* element = (wxSVGSVGElement*) elem;
+		if (element->GetWidth().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
+			((wxSVGAnimatedLength&) element->GetWidth()).SetAnimVal( wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
+		if (element->GetHeight().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
+			((wxSVGAnimatedLength&) element->GetHeight()).SetAnimVal( wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
+		element->UpdateMatrix(matrix);
+		if (rect && element->GetParent()) {
+			wxSVGRect rect2 = *rect;
+			wxSVGElement* parent = (wxSVGElement*) element->GetParent();
+			wxSVGTransformable* transformable = wxSVGTransformable::GetSVGTransformable(*parent);
+			if (transformable)
+				rect2 = rect2.MatrixTransform(transformable->GetCTM().Inverse());
+			RenderChilds(elem, &rect2, &matrix, &style, element, element);
+		} else
+			RenderChilds(elem, rect, &matrix, &style, element, element);
+		break;
+	}
+	case wxSVG_G_ELEMENT: {
+		wxSVGGElement* element = (wxSVGGElement*) elem;
+		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+		RenderChilds(elem, rect, &matrix, &style, ownerSVGElement, viewportElement);
+		break;
+	}
+	case wxSVG_LINE_ELEMENT: {
+		wxSVGLineElement* element = (wxSVGLineElement*) elem;
+		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+		DrawLine(element, &matrix, &style);
+		break;
+	}
+	case wxSVG_POLYLINE_ELEMENT: {
+		wxSVGPolylineElement* element = (wxSVGPolylineElement*) elem;
+		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+		DrawPolyline(element, &matrix, &style);
+		break;
+	}
+	case wxSVG_POLYGON_ELEMENT: {
+		wxSVGPolygonElement* element = (wxSVGPolygonElement*) elem;
+		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+		DrawPolygon(element, &matrix, &style);
+		break;
+	}
+	case wxSVG_RECT_ELEMENT: {
+		wxSVGRectElement* element = (wxSVGRectElement*) elem;
+		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+		DrawRect(element, &matrix, &style);
+		break;
+	}
+	case wxSVG_CIRCLE_ELEMENT: {
+		wxSVGCircleElement* element = (wxSVGCircleElement*) elem;
+		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+		DrawCircle(element, &matrix, &style);
+		break;
+	}
+	case wxSVG_ELLIPSE_ELEMENT: {
+		wxSVGEllipseElement* element = (wxSVGEllipseElement*) elem;
+		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+		DrawEllipse(element, &matrix, &style);
+		break;
+	}
+	case wxSVG_PATH_ELEMENT: {
+		wxSVGPathElement* element = (wxSVGPathElement*) elem;
+		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+		DrawPath(element, &matrix, &style);
+		break;
+	}
+	case wxSVG_TSPAN_ELEMENT:
+		break;
+	case wxSVG_TEXT_ELEMENT: {
+		wxSVGTextElement* element = (wxSVGTextElement*) elem;
+		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+		DrawText(element, &matrix, &style);
+		break;
+	}
+	case wxSVG_IMAGE_ELEMENT: {
+		wxSVGImageElement* element = (wxSVGImageElement*) elem;
+		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+		DrawImage(element, &matrix, &style, rect);
+		break;
+	}
+	case wxSVG_VIDEO_ELEMENT: {
+		wxSVGVideoElement* element = (wxSVGVideoElement*) elem;
+		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+#ifdef USE_FFMPEG
+		DrawVideo(element, &matrix, &style);
+#else
+		wxSVGGElement* gElem = new wxSVGGElement();
+		gElem->SetOwnerSVGElement(ownerSVGElement);
+		gElem->SetViewportElement(viewportElement);
+		gElem->SetStyle(element->GetStyle());
+		wxSVGRectElement* rectElem = new wxSVGRectElement();
+		rectElem->SetX(element->GetX().GetAnimVal());
+		rectElem->SetY(element->GetY().GetAnimVal());
+		rectElem->SetWidth(element->GetWidth().GetAnimVal());
+		rectElem->SetHeight(element->GetHeight().GetAnimVal());
+		rectElem->SetFill(wxSVGPaint(0,0,0));
+		gElem->AppendChild(rectElem);
+		wxSVGTextElement* textElem = new wxSVGTextElement;
+		textElem->SetX((double)element->GetX().GetAnimVal());
+		textElem->SetY(element->GetY().GetAnimVal()+(double)element->GetHeight().GetAnimVal()/10);
+		textElem->SetFontSize((double)element->GetHeight().GetAnimVal()/15);
+		textElem->SetFill(wxSVGPaint(255,255,255));
+		textElem->SetStroke(wxSVGPaint(255,255,255));
+		textElem->AddChild(new wxSvgXmlNode(wxSVGXML_TEXT_NODE, wxT(""), wxT(" [") + element->GetHref() + wxT("]")));
+		gElem->AppendChild(textElem);
+
+		// render
+		RenderElement(gElem, rect, &matrix, &style, ownerSVGElement, viewportElement);
+		// delete shadow tree
+		delete gElem;
+#endif
+		break;
+	}
+	case wxSVG_USE_ELEMENT: {
+		wxSVGUseElement* element = (wxSVGUseElement*) elem;
+		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+		// test if visible
+		if (element->GetWidth().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN
+				&& element->GetHeight().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN) {
+			if (rect && !ownerSVGElement->CheckIntersection(*elem, *rect))
+				break;
+			wxSVGPoint point(element->GetX().GetAnimVal() + element->GetWidth().GetAnimVal(),
+					element->GetY().GetAnimVal() + element->GetHeight().GetAnimVal());
+			point = point.MatrixTransform(matrix);
+			if (point.GetX() < 0 || point.GetY() < 0)
+				break;
+		}
+		// get ref element
+		wxString href = element->GetHref();
+		if (href.length() == 0 || href.GetChar(0) != wxT('#'))
+			break;
+		href.Remove(0, 1);
+		wxSVGElement* refElem = (wxSVGElement*) ownerSVGElement->GetElementById(href);
+		if (!refElem)
+			break;
+
+		// create shadow tree
+		wxSVGGElement* gElem = new wxSVGGElement();
+		gElem->SetOwnerSVGElement(ownerSVGElement);
+		gElem->SetViewportElement(viewportElement);
+		gElem->SetStyle(element->GetStyle());
+		if (element->GetX().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+			gElem->Translate(element->GetX().GetAnimVal(), element->GetY().GetAnimVal());
+		if (refElem->GetDtd() == wxSVG_SYMBOL_ELEMENT || refElem->GetDtd() == wxSVG_SVG_ELEMENT) {
+			wxSVGSVGElement* svgElem;
+			if (refElem->GetDtd() == wxSVG_SVG_ELEMENT)
+				svgElem = (wxSVGSVGElement*) refElem->CloneNode();
+			else {
+				svgElem = new wxSVGSVGElement();
+				wxSvgXmlElement* child = refElem->GetChildren();
+				while (child) {
+					svgElem->AddChild(child->CloneNode());
+					child = child->GetNext();
+				}
+				svgElem->SetViewBox(((wxSVGSymbolElement*) refElem)->GetViewBox());
+				svgElem->SetPreserveAspectRatio(((wxSVGSymbolElement*) refElem)->GetPreserveAspectRatio());
+			}
+			if (element->GetWidth().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+				svgElem->SetWidth(element->GetWidth().GetAnimVal());
+			if (element->GetHeight().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+				svgElem->SetHeight(element->GetHeight().GetAnimVal());
+			gElem->AddChild(svgElem);
+			LoadImages(refElem, svgElem);
+		} else
+			gElem->AddChild(refElem->CloneNode());
+		// render
+		RenderElement(gElem, rect, &matrix, &style, ownerSVGElement, viewportElement);
+		// delete shadow tree
+		delete gElem;
+		break;
+	}
+	default:
+	  break;
+  }
+}
+
+void wxSVGCanvas::RenderChilds(wxSVGElement* parent, const wxSVGRect* rect, const wxSVGMatrix* parentMatrix,
+		const wxCSSStyleDeclaration* parentStyle, wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement) {
+  if (parentStyle->GetDisplay() == wxCSS_VALUE_INLINE) {
+		wxSVGElement* elem = (wxSVGElement*) parent->GetChildren();
+		while (elem) {
+			if (elem->GetType() == wxSVGXML_ELEMENT_NODE) {
+				//if (!rect || ownerSVGElement->CheckIntersection(*elem, *rect))
+				RenderElement(elem, rect, parentMatrix, parentStyle, ownerSVGElement, viewportElement);
+			}
+			elem = (wxSVGElement*) elem->GetNext();
+		}
+	}
 }

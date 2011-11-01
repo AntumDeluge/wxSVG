@@ -59,6 +59,7 @@ class wxSVGDocument:
       wxSvgXmlDocument(filename, encoding) { Init(); }
     wxSVGDocument(wxInputStream& stream, const wxString& encoding = wxT("UTF-8")):
       wxSvgXmlDocument(stream, encoding) { Init(); }
+    wxSVGDocument(const wxSVGDocument& doc);
     virtual ~wxSVGDocument();
     
     void Init();
