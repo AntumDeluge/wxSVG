@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.19 2011-08-08 06:53:36 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.20 2011-11-01 06:56:06 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -147,13 +147,14 @@ class wxSVGCanvasText: public wxSVGCanvasItem
 /** Canvas item, that saves image (SVGImageElement) */
 class wxSVGCanvasImage: public wxSVGCanvasItem {
 public:
-	wxSVGCanvasImage(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_IMAGE) {}
-	wxSVGCanvasImage(wxSVGCanvasItemType type): wxSVGCanvasItem(type) {}
-	virtual ~wxSVGCanvasImage() {}
+	wxSVGCanvasImage(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_IMAGE), m_svgImage(NULL) {}
+	wxSVGCanvasImage(wxSVGCanvasItemType type): wxSVGCanvasItem(type), m_svgImage(NULL) {}
+	virtual ~wxSVGCanvasImage();
 	virtual void Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style);
-	virtual int GetDefaultWidth() { return m_image.Ok() ? m_image.GetWidth() : 0; }
-	virtual int GetDefaultHeight() { return m_image.Ok() ? m_image.GetHeight() * m_defHeightScale : 0; }
+	virtual int GetDefaultWidth();
+	virtual int GetDefaultHeight();
 	const wxSVGPreserveAspectRatio& GetPreserveAspectRatio() { return m_preserveAspectRatio; }
+	wxSVGSVGElement* GetSvgImage() { return m_svgImage; }
 	
 public:
 	double m_x, m_y, m_width, m_height; /** position and size of image */
@@ -161,6 +162,7 @@ public:
 	wxImage m_image; /** image data */
 	double m_defHeightScale;
 	wxSVGPreserveAspectRatio m_preserveAspectRatio;
+	wxSVGSVGElement* m_svgImage;
 };
 
 /** Canvas item, that saves video (wxSVGVideoElement) */

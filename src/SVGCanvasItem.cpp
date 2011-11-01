@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.33 2011-08-08 06:53:14 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.34 2011-11-01 06:56:06 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -843,6 +843,10 @@ double wxSVGCanvasText::GetRotationOfChar(unsigned long charnum)
 //////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// wxSVGCanvasImage //////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
+wxSVGCanvasImage::~wxSVGCanvasImage() {
+	if (m_svgImage)
+		delete m_svgImage;
+}
 
 void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style) {
 	m_x = element.GetX().GetAnimVal();
@@ -856,15 +860,27 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 	if (prevItem != NULL && prevItem->m_href == m_href) {
 		m_image = prevItem->m_image;
 		m_defHeightScale = prevItem->m_defHeightScale;
+		m_svgImage = prevItem->m_svgImage != NULL ? new wxSVGSVGElement(*prevItem->m_svgImage) : NULL;
 	} else if (m_href.length()) {
 		long pos = 0;
 		wxString filename = m_href;
-		if (m_href.Find(wxT('#')) != wxNOT_FOUND) {
+		if (!wxFileExists(filename) && m_href.Find(wxT('#')) != wxNOT_FOUND && m_href.After(wxT('#')).ToLong(&pos))
 			filename = m_href.Before(wxT('#'));
-			m_href.After(wxT('#')).ToLong(&pos);
-		}
 		if (!wxFileExists(filename)) {
 			wxLogError(_("Can't load image from file '%s': file does not exist."), filename.c_str());
+			return;
+		}
+		if (element.GetHref().GetAnimVal().EndsWith(wxT(".svg"))) {
+			wxSVGDocument imgDoc;
+			if (imgDoc.Load(filename) && imgDoc.GetRootElement() != NULL) {
+				m_svgImage = imgDoc.GetRootElement();
+				imgDoc.RemoveChild(m_svgImage);
+				if (m_svgImage->GetViewBox().GetBaseVal().IsEmpty()
+						&& m_svgImage->GetWidth().GetBaseVal().GetValue() > 0
+						&& m_svgImage->GetWidth().GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_PERCENTAGE)
+					m_svgImage->SetViewBox(
+							wxSVGRect(0, 0, m_svgImage->GetWidth().GetBaseVal(), m_svgImage->GetHeight().GetBaseVal()));
+			}
 			return;
 		}
 #ifdef USE_FFMPEG
@@ -904,6 +920,19 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 #endif
 	}
 }
+
+int wxSVGCanvasImage::GetDefaultWidth() {
+	if (GetSvgImage() != NULL && !GetSvgImage()->GetViewBox().GetBaseVal().IsEmpty())
+		return GetSvgImage()->GetViewBox().GetBaseVal().GetWidth();
+	return  m_image.Ok() ? m_image.GetWidth() : 0;
+}
+
+int wxSVGCanvasImage::GetDefaultHeight() {
+	if (GetSvgImage() != NULL && !GetSvgImage()->GetViewBox().GetBaseVal().IsEmpty())
+		return GetSvgImage()->GetViewBox().GetBaseVal().GetHeight();
+	return m_image.Ok() ? m_image.GetHeight() * m_defHeightScale : 0;
+}
+
 
 //////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// wxSVGCanvasVideo //////////////////////////////
