@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.14 2011-10-31 07:53:48 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.15 2011-11-13 20:43:45 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -195,66 +195,150 @@ void wxSVGCanvasCairo::AllocateGradientStops(unsigned int stop_count) {
 	// nothing to do
 }
 
+void boxBlurH(unsigned char *aInput, unsigned char *aOutput, int aStride, const wxRect &aRegion, unsigned int leftLobe,
+		unsigned int rightLobe, const unsigned char *prediv) {
+	int boxSize = leftLobe + rightLobe + 1;
+	int posStart = aRegion.x - leftLobe;
+	
+	for (int y = aRegion.y; y < aRegion.height; y++) {
+		unsigned int sums[4] = { 0, 0, 0, 0 };
+		int lineIndex = aStride * y;
+		for (int i = 0; i < boxSize; i++) {
+			int pos = posStart + i;
+			pos = wxMax(pos, aRegion.x);
+			pos = wxMin(pos, aRegion.width - 1);
+			int index = lineIndex + (pos << 2);
+			sums[0] += aInput[index];
+			sums[1] += aInput[index + 1];
+			sums[2] += aInput[index + 2];
+			sums[3] += aInput[index + 3];
+		}
+		for (int x = aRegion.x; x < aRegion.width; x++) {
+			int index = lineIndex + (x << 2);
+			aOutput[index] = prediv[sums[0]];
+			aOutput[index + 1] = prediv[sums[1]];
+			aOutput[index + 2] = prediv[sums[2]];
+			aOutput[index + 3] = prediv[sums[3]];
+			
+			int tmp = x - leftLobe;
+			int last = wxMax(tmp, aRegion.x);
+			int next = wxMin(tmp + boxSize, aRegion.width - 1);
+			int index2 = lineIndex + (next << 2);
+			int index3 = lineIndex + (last << 2);
+			sums[0] += aInput[index2] - aInput[index3];
+			sums[1] += aInput[index2 + 1] - aInput[index3 + 1];
+			sums[2] += aInput[index2 + 2] - aInput[index3 + 2];
+			sums[3] += aInput[index2 + 3] - aInput[index3 + 3];
+		}
+	}
+}
+
+void boxBlurV(unsigned char *aInput, unsigned char *aOutput, int aStride, const wxRect &aRegion, unsigned int topLobe,
+		unsigned int bottomLobe, const unsigned char *prediv) {
+	int boxSize = topLobe + bottomLobe + 1;
+	int posStart = aRegion.y - topLobe;
+	
+	for (int x = aRegion.x; x < aRegion.width; x++) {
+		unsigned int sums[4] = { 0, 0, 0, 0 };
+		int fourX = x << 2;
+		for (int i = 0; i < boxSize; i++) {
+			int pos = posStart + i;
+			pos = wxMax(pos, aRegion.y);
+			pos = wxMin(pos, aRegion.height - 1);
+			int index = aStride * pos + fourX;
+			sums[0] += aInput[index];
+			sums[1] += aInput[index + 1];
+			sums[2] += aInput[index + 2];
+			sums[3] += aInput[index + 3];
+		}
+		for (int y = aRegion.y; y < aRegion.height; y++) {
+			int index = aStride * y + fourX;
+			aOutput[index] = prediv[sums[0]];
+			aOutput[index + 1] = prediv[sums[1]];
+			aOutput[index + 2] = prediv[sums[2]];
+			aOutput[index + 3] = prediv[sums[3]];
+			
+			int tmp = y - topLobe;
+			int last = wxMax(tmp, aRegion.y);
+			int next = wxMin(tmp + boxSize, aRegion.height - 1);
+			int index2 = aStride * next + fourX;
+			int index3 = aStride * last + fourX;
+			sums[0] += aInput[index2] - aInput[index3];
+			sums[1] += aInput[index2 + 1] - aInput[index3 + 1];
+			sums[2] += aInput[index2 + 2] - aInput[index3 + 2];
+			sums[3] += aInput[index2 + 3] - aInput[index3 + 3];
+		}
+	}
+}
+
+unsigned char* setupPredivide(int size) {
+	unsigned char *result = new unsigned char[size * 256];
+    for (int i = 0; i < 256; i++)
+      memset(result + i * size, i, size);
+    return result;
+}
+
 /**
- * Steve Hanov, 2009
- * Released into the public domain.
+ * Uses code from Mozilla (nsSVGFilters.cpp)
  */
-void cairo_image_surface_blur(cairo_surface_t* surface, double radius) {
-	// get width, height
+void gaussianBlur(cairo_surface_t* surface, int dx, int dy) {
+	unsigned char* buffer = cairo_image_surface_get_data(surface);
+	
+	int stride = cairo_image_surface_get_stride(surface);
 	int width = cairo_image_surface_get_width(surface);
 	int height = cairo_image_surface_get_height(surface);
-	unsigned char* dst = (unsigned char*) malloc(width * height * 4);
-	unsigned* precalc = (unsigned*) malloc(width * height * sizeof(unsigned));
-	unsigned char* src = cairo_image_surface_get_data(surface);
-	double mul = 1.f / ((radius * 2) * (radius * 2));
+	wxRect rect(0, 0, width, height);
 	
-	// The number of times to perform the averaging. According to wikipedia,
-	// three iterations is good enough to pass for a gaussian.
-	const int MAX_ITERATIONS = 3;
+	// Create temporary buffer
+	unsigned char* tempBuffer = (unsigned char*) calloc((size_t)(stride * height), 1);
+	if (tempBuffer == NULL)
+		return;
 	
-	memcpy(dst, src, width * height * 4);
-	for (int iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
-		for (int channel = 0; channel < 4; channel++) {
-			// precomputation step.
-			unsigned char* pix = src;
-			unsigned* pre = precalc;
-			
-			pix += channel;
-			for (int y = 0; y < height; y++) {
-				for (int x = 0; x < width; x++) {
-					int tot = pix[0];
-					if (x > 0)
-						tot += pre[-1];
-					if (y > 0)
-						tot += pre[-width];
-					if (x > 0 && y > 0)
-						tot -= pre[-width - 1];
-					*pre++ = tot;
-					pix += 4;
-				}
-			}
-
-			// blur step.
-			pix = dst + (int) radius * width * 4 + (int) radius * 4 + channel;
-			for (int y = radius; y < height - radius; y++) {
-				for (int x = radius; x < width - radius; x++) {
-					int l = x < radius ? 0 : x - radius;
-					int t = y < radius ? 0 : y - radius;
-					int r = x + radius >= width ? width - 1 : x + radius;
-					int b = y + radius >= height ? height - 1 : y + radius;
-					int tot = precalc[r + b * width] + precalc[l + t * width] - precalc[l + b * width]
-							- precalc[r + t* width];
-					*pix = (unsigned char) (tot * mul);
-					pix += 4;
-				}
-				pix += (int) radius * 2 * 4;
-			}
+	if (dx & 1) {
+		// odd
+		unsigned char* prediv = setupPredivide(2 * (dx / 2) + 1);
+		boxBlurH(buffer, tempBuffer, stride, rect, dx / 2, dx / 2, prediv);
+		boxBlurH(tempBuffer, buffer, stride, rect, dx / 2, dx / 2, prediv);
+		boxBlurH(buffer, tempBuffer, stride, rect, dx / 2, dx / 2, prediv);
+		free(prediv);
+	} else {
+		// even
+		if (dx == 0) {
+			memcpy(tempBuffer, buffer, (size_t)(stride * height));
+		} else {
+			unsigned char* prediv = setupPredivide(2 * (dx / 2) + 1);
+			unsigned char* prediv2 = setupPredivide(2 * (dx / 2));
+			boxBlurH(buffer, tempBuffer, stride, rect, dx / 2, dx / 2 - 1, prediv2);
+			boxBlurH(tempBuffer, buffer, stride, rect, dx / 2 - 1, dx / 2, prediv2);
+			boxBlurH(buffer, tempBuffer, stride, rect, dx / 2, dx / 2, prediv);
+			free(prediv);
+			free(prediv2);
 		}
-		memcpy(src, dst, width * height * 4);
 	}
 
-	free(dst);
-	free(precalc);
+	if (dy & 1) {
+		// odd
+		unsigned char* prediv = setupPredivide(2 * (dy / 2) + 1);
+		boxBlurV(tempBuffer, buffer, stride, rect, dy / 2, dy / 2, prediv);
+		boxBlurV(buffer, tempBuffer, stride, rect, dy / 2, dy / 2, prediv);
+		boxBlurV(tempBuffer, buffer, stride, rect, dy / 2, dy / 2, prediv);
+		free(prediv);
+	} else {
+		// even
+		if (dy == 0) {
+			memcpy(buffer, tempBuffer, (size_t)(stride * height));
+		} else {
+			unsigned char* prediv = setupPredivide(2 * (dy / 2) + 1);
+			unsigned char* prediv2 = setupPredivide(2 * (dy / 2));
+			boxBlurV(tempBuffer, buffer, stride, rect, dy / 2, dy / 2 - 1, prediv2);
+			boxBlurV(buffer, tempBuffer, stride, rect, dy / 2 - 1, dy / 2, prediv2);
+			boxBlurV(tempBuffer, buffer, stride, rect, dy / 2, dy / 2, prediv);
+			free(prediv);
+			free(prediv2);
+		}
+	}
+	
+	free(tempBuffer);
 }
 
 void wxSVGCanvasCairo::DrawPath(cairo_t* cr, wxSVGCanvasPathCairo& canvasPath, wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style,
@@ -293,26 +377,32 @@ void wxSVGCanvasCairo::DrawCanvasPath(wxSVGCanvasPathCairo& canvasPath, wxSVGMat
 		// feGaussianBlur
 		if (filterElem && filterElem->GetDtd() == wxSVG_FILTER_ELEMENT && filterElem->GetFirstChild() != NULL
 				&& ((wxSVGSVGElement*) filterElem->GetFirstChild())->GetDtd() == wxSVG_FEGAUSSIANBLUR_ELEMENT) {
-			float radius = ((wxSVGFEGaussianBlurElement*) filterElem->GetFirstChild())->GetStdDeviationX().GetAnimVal();
+			float stdX = ((wxSVGFEGaussianBlurElement*) filterElem->GetFirstChild())->GetStdDeviationX().GetAnimVal();
+			float stdY = ((wxSVGFEGaussianBlurElement*) filterElem->GetFirstChild())->GetStdDeviationY().GetAnimVal();
+			if (stdX <= 0 || stdY <= 0)
+				return;
+			int dx = int(floor(stdX * 3 * sqrt(2 * M_PI) / 4 + 0.5));
+			int dy = int(floor(stdY * 3 * sqrt(2 * M_PI) / 4 + 0.5));
+			
 			wxSVGRect rect = canvasPath.GetResultBBox(style, matrix.Inverse());
-			rect.SetX(rect.GetX() - radius*2);
-			rect.SetY(rect.GetY() - radius*2);
-			rect.SetWidth(rect.GetWidth() + radius*4);
-			rect.SetHeight(rect.GetHeight() + radius*4);
+			rect.SetX(rect.GetX() - dx);
+			rect.SetY(rect.GetY() - dy);
+			rect.SetWidth(rect.GetWidth() + 2*dx);
+			rect.SetHeight(rect.GetHeight() + 2*dy);
+			
 			int width = (int) rect.GetWidth();
 			int height = (int) rect.GetHeight();
 			cairo_surface_t* surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
 			cairo_t* cr = cairo_create(surface);
 			wxSVGMatrix matrix2 = wxSVGMatrix(1, 0, 0, 1, - rect.GetX(), - rect.GetY()).Multiply(matrix);
 			DrawPath(cr, canvasPath, matrix2, style, svgElem);
-			cairo_image_surface_blur(surface, radius);
+			gaussianBlur(surface, dx, dy);
 			
 			// draw surface
 			cairo_save(m_cr);
 			cairo_matrix_t mat;
 			cairo_matrix_init(&mat, 1, 0, 0, 1, rect.GetX(), rect.GetY());
 			cairo_set_matrix(m_cr, &mat);
-			
 			cairo_pattern_t* pattern = cairo_pattern_create_for_surface(surface);
 			cairo_set_source(m_cr, pattern);
 			cairo_rectangle(m_cr, 0, 0, width, height);
