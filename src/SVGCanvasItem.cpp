@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.34 2011-11-01 06:56:06 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.35 2011-11-13 22:35:13 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -864,8 +864,8 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 	} else if (m_href.length()) {
 		long pos = 0;
 		wxString filename = m_href;
-		if (!wxFileExists(filename) && m_href.Find(wxT('#')) != wxNOT_FOUND && m_href.After(wxT('#')).ToLong(&pos))
-			filename = m_href.Before(wxT('#'));
+		if (!wxFileExists(filename) && m_href.Find(wxT('#')) != wxNOT_FOUND && m_href.AfterLast(wxT('#')).ToLong(&pos))
+			filename = m_href.BeforeLast(wxT('#'));
 		if (!wxFileExists(filename)) {
 			wxLogError(_("Can't load image from file '%s': file does not exist."), filename.c_str());
 			return;
