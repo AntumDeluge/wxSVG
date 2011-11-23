@@ -3,7 +3,7 @@
 ## Purpose:     generates CSSStyleDeclaration
 ## Author:      Alex Thuering
 ## Created:     2005/06/06
-## RCS-ID:      $Id: genCSS.py,v 1.14 2011-06-23 11:27:04 ntalex Exp $
+## RCS-ID:      $Id: genCSS.py,v 1.15 2011-11-23 23:07:15 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 
@@ -13,7 +13,8 @@ import cpp
 import cppHeader
 import cppImpl
 import sys
-from xml.dom.ext.reader import Sax2
+import xml.dom.minidom
+from xml.dom.minidom import Node
 
 def generate():
     if len(cssProperties) == 0:
@@ -36,8 +37,7 @@ class Property:
 
 # loads SVG11CSSpropidx.xhtml and fills cssProperties list
 def parseCSSProps():
-    reader = Sax2.Reader()
-    doc = reader.fromStream(config.share_dir + "/SVG11CSSpropidx.xhtml")
+    doc = xml.dom.minidom.parse(config.share_dir + "/SVG11CSSpropidx.xhtml")
     tbody = doc.getElementsByTagName('html')[0].getElementsByTagName('body')[0].getElementsByTagName('table')[0].getElementsByTagName('tbody')[0]
     for tr in tbody.childNodes:
         if tr.nodeName == "tr":

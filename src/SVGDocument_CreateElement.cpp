@@ -22,8 +22,8 @@ wxSvgXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespaceURI,
     res = new wxSVGTextElement();
   else if (qualifiedName == wxT("image"))
     res = new wxSVGImageElement();
-  else if (qualifiedName == wxT("font-face-uri"))
-    res = new wxSVGFontFaceUriElement();
+  else if (qualifiedName == wxT("hkern"))
+    res = new wxSVGHKernElement();
   else if (qualifiedName == wxT("missing-glyph"))
     res = new wxSVGMissingGlyphElement();
   else if (qualifiedName == wxT("font-face"))
@@ -32,8 +32,8 @@ wxSvgXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespaceURI,
     res = new wxSVGSetElement();
   else if (qualifiedName == wxT("video"))
     res = new wxSVGVideoElement();
-  else if (qualifiedName == wxT("hkern"))
-    res = new wxSVGHKernElement();
+  else if (qualifiedName == wxT("animateMotion"))
+    res = new wxSVGAnimateMotionElement();
   else if (qualifiedName == wxT("marker"))
     res = new wxSVGMarkerElement();
   else if (qualifiedName == wxT("altGlyph"))
@@ -62,6 +62,8 @@ wxSvgXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespaceURI,
     res = new wxSVGDefinitionSrcElement();
   else if (qualifiedName == wxT("tspan"))
     res = new wxSVGTSpanElement();
+  else if (qualifiedName == wxT("font-face-uri"))
+    res = new wxSVGFontFaceUriElement();
   else if (qualifiedName == wxT("feFlood"))
     res = new wxSVGFEFloodElement();
   else if (qualifiedName == wxT("tbreak"))
@@ -140,8 +142,6 @@ wxSvgXmlElement* wxSVGDocument::CreateElementNS(const wxString& namespaceURI,
     res = new wxSVGGElement();
   else if (qualifiedName == wxT("feMorphology"))
     res = new wxSVGFEMorphologyElement();
-  else if (qualifiedName == wxT("animateMotion"))
-    res = new wxSVGAnimateMotionElement();
   else if (qualifiedName == wxT("svg"))
     res = new wxSVGSVGElement();
   else if (qualifiedName == wxT("feDiffuseLighting"))

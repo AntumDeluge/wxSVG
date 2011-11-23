@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.30 2011-07-24 16:30:12 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.31 2011-11-23 23:07:15 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -398,6 +398,7 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
       wxSvgXmlDocument(filename, encoding) { Init(); }
     wxSVGDocument(wxInputStream& stream, const wxString& encoding = wxT("UTF-8")):
       wxSvgXmlDocument(stream, encoding) { Init(); }
+    wxSVGDocument(const wxSVGDocument& doc);
     virtual ~wxSVGDocument();
     
     void Init();

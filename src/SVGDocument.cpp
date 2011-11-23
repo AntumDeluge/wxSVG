@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.39 2011-11-01 06:52:59 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.40 2011-11-23 23:08:24 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -51,12 +51,11 @@ wxSVGElement* wxSVGDocument::GetElementById(const wxString& id) {
 }
 
 double wxSVGDocument::GetDuration(wxSVGElement* parent) {
-  float result = 0;
+	float result = 0;
 	wxSVGElement* elem = (wxSVGElement*) parent->GetChildren();
 	while (elem) {
 		float duration = 0;
-		if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd()
-				== wxSVG_VIDEO_ELEMENT)
+		if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd() == wxSVG_VIDEO_ELEMENT)
 			duration = ((wxSVGVideoElement*) elem)->GetDuration();
 		else if (elem->GetChildren())
 			duration = GetDuration(elem);
