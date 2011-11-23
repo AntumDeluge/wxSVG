@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.15 2011-11-01 06:52:59 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.16 2011-11-23 22:15:16 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -243,12 +243,21 @@ void wxSVGCanvas::LoadImages(wxSVGElement* parent1, wxSVGElement* parent2) {
 	while (elem1 && elem2) {
 		if (elem1->GetType() == wxSVGXML_ELEMENT_NODE && elem1->GetDtd() == wxSVG_IMAGE_ELEMENT
 				&& elem2->GetType() == wxSVGXML_ELEMENT_NODE && elem2->GetDtd() == wxSVG_IMAGE_ELEMENT) {
-			wxSVGImageElement* img1 = (wxSVGImageElement*) elem1;
-			if (img1->GetHref().GetAnimVal().length()) {
-				if (img1->GetCanvasItem() == NULL
-						|| ((wxSVGCanvasImage*) img1->GetCanvasItem())->m_href != img1->GetHref())
-					img1->SetCanvasItem(CreateItem(img1));
-				((wxSVGImageElement*) elem2)->SetCanvasItem(CreateItem(img1));
+			wxSVGImageElement* imgElem1 = (wxSVGImageElement*) elem1;
+			if (imgElem1->GetHref().GetAnimVal().length()) {
+				if (imgElem1->GetCanvasItem() == NULL
+						|| ((wxSVGCanvasImage*) imgElem1->GetCanvasItem())->m_href != imgElem1->GetHref())
+					imgElem1->SetCanvasItem(CreateItem(imgElem1));
+				((wxSVGImageElement*) elem2)->SetCanvasItem(CreateItem(imgElem1));
+			}
+		} else if (elem1->GetType() == wxSVGXML_ELEMENT_NODE && elem1->GetDtd() == wxSVG_VIDEO_ELEMENT
+				&& elem2->GetType() == wxSVGXML_ELEMENT_NODE && elem2->GetDtd() == wxSVG_VIDEO_ELEMENT) {
+			wxSVGVideoElement* vElem1 = (wxSVGVideoElement*) elem1;
+			if (vElem1->GetHref().GetAnimVal().length()) {
+				if (vElem1->GetCanvasItem() == NULL
+						|| ((wxSVGCanvasVideo*) vElem1->GetCanvasItem())->m_href != vElem1->GetHref())
+					vElem1->SetCanvasItem(CreateItem(vElem1));
+				((wxSVGVideoElement*) elem2)->SetCanvasItem(CreateItem(vElem1));
 			}
 		} else if (elem1->GetChildren())
 			LoadImages(elem1, elem2);
@@ -415,6 +424,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 
 		// create shadow tree
 		wxSVGGElement* gElem = new wxSVGGElement();
+		gElem->SetOwnerDocument(elem->GetOwnerDocument());
 		gElem->SetOwnerSVGElement(ownerSVGElement);
 		gElem->SetViewportElement(viewportElement);
 		gElem->SetStyle(element->GetStyle());
