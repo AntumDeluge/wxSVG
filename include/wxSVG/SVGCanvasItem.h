@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.20 2011-11-01 06:56:06 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.21 2011-11-23 22:14:53 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -165,24 +165,36 @@ public:
 	wxSVGSVGElement* m_svgImage;
 };
 
-/** Canvas item, that saves video (wxSVGVideoElement) */
-#ifdef USE_FFMPEG
 class wxFfmpegMediaDecoder;
-#endif
-class wxSVGCanvasVideo: public wxSVGCanvasImage
-{
-  public:
+
+/** CanvasVideoData */
+class wxSVGCanvasVideoData {
+public:
+	wxSVGCanvasVideoData(wxFfmpegMediaDecoder* mediaDecoder);
+	~wxSVGCanvasVideoData();
+	
+	void IncRef() { m_count++; }
+	int DecRef() { return (--m_count); }
+	
+	wxFfmpegMediaDecoder* GetMediaDecoder() { return m_mediaDecoder; }
+	
+private:
+	int m_count;
+	wxFfmpegMediaDecoder* m_mediaDecoder;
+};
+
+/** Canvas item, that saves video (wxSVGVideoElement) */
+class wxSVGCanvasVideo: public wxSVGCanvasImage {
+public:
 	wxSVGCanvasVideo();
 	virtual ~wxSVGCanvasVideo();
 	virtual void Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style);
-    double GetDuration() { return m_duration; }
-  
-  public:
+	double GetDuration() { return m_duration; }
+	
+public:
 	double m_time; /** time of the loaded frame */
 	double m_duration;
-#ifdef USE_FFMPEG
-	wxFfmpegMediaDecoder* m_mediaDecoder;
-#endif
+	wxSVGCanvasVideoData* m_videoData;
 };
 
 #endif // WX_SVG_CANVAS_ITEM_H

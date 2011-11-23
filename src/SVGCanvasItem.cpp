@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.36 2011-11-23 20:23:52 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.37 2011-11-23 22:14:54 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -945,20 +945,25 @@ int wxSVGCanvasImage::GetDefaultHeight() {
 //////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// wxSVGCanvasVideo //////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
-
-wxSVGCanvasVideo::wxSVGCanvasVideo(): wxSVGCanvasImage(wxSVG_CANVAS_ITEM_VIDEO)
-{
-#ifdef USE_FFMPEG
-  m_mediaDecoder = NULL;
-#endif
+wxSVGCanvasVideoData::wxSVGCanvasVideoData(wxFfmpegMediaDecoder* mediaDecoder) {
+	m_count = 1;
+	m_mediaDecoder = mediaDecoder;
 }
 
-wxSVGCanvasVideo::~wxSVGCanvasVideo()
-{
+wxSVGCanvasVideoData::~wxSVGCanvasVideoData() {
 #ifdef USE_FFMPEG
-  if (m_mediaDecoder)
-    delete m_mediaDecoder;
+	if (m_mediaDecoder)
+		delete m_mediaDecoder;
 #endif
+}
+	
+wxSVGCanvasVideo::wxSVGCanvasVideo(): wxSVGCanvasImage(wxSVG_CANVAS_ITEM_VIDEO), m_videoData(NULL) {
+	// nothing to do
+}
+
+wxSVGCanvasVideo::~wxSVGCanvasVideo() {
+	if (m_videoData != NULL && m_videoData->DecRef() == 0)
+		delete m_videoData;
 }
 
 void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style) {
@@ -968,59 +973,54 @@ void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclarat
 	m_height = element.GetHeight().GetAnimVal();
 	m_href = element.GetHref();
 	m_preserveAspectRatio = element.GetPreserveAspectRatio();
-	m_time = ((wxSVGDocument*) element.GetOwnerDocument())->GetCurrentTime();
+	m_time = element.GetOwnerDocument() != NULL ? ((wxSVGDocument*) element.GetOwnerDocument())->GetCurrentTime() : 0;
+#ifdef USE_FFMPEG
 	wxSVGCanvasVideo* prevItem = (wxSVGCanvasVideo*) element.GetCanvasItem();
-	if (prevItem != NULL && prevItem->m_href == m_href
-#ifdef USE_FFMPEG
-			&& prevItem->m_mediaDecoder != NULL
-#endif
-			) {
-#ifdef USE_FFMPEG
-		m_mediaDecoder = prevItem->m_mediaDecoder;
-		prevItem->m_mediaDecoder = NULL;
-#endif
+	if (prevItem != NULL && prevItem->m_href == m_href && prevItem->m_videoData != NULL) {
+		m_videoData = prevItem->m_videoData;
+		m_videoData->IncRef();
 		m_duration = prevItem->m_duration;
-#ifdef USE_FFMPEG
-		double ftime = m_mediaDecoder->GetFps() != -1 ? 1.0 / m_mediaDecoder->GetFps() : 0.04;
-		double currTime = m_mediaDecoder->GetPosition();
-		if (currTime != m_time && (m_time < currTime || m_time - currTime >= ftime - 0.001)) {
-			if (m_time < currTime || m_time - currTime > 50*ftime)
-				m_mediaDecoder->SetPosition(m_time > 1.0 ? m_time - 1.0 : 0.0);
-			for (int i = 0; i < 60; i++) {
-				m_image = m_mediaDecoder->GetNextFrame();
-				currTime = m_mediaDecoder->GetPosition();
-				if (currTime >= m_time - 0.001 || currTime < 0)
-					break;
-			}
-		} else
-#endif
-			m_image = prevItem->m_image;
+		wxFfmpegMediaDecoder* decoder = m_videoData->GetMediaDecoder();
+		if (decoder != NULL) {
+			double ftime = decoder->GetFps() != -1 ? 1.0 / decoder->GetFps() : 0.04;
+			double currTime = decoder->GetPosition();
+			if (currTime != m_time && (m_time < currTime || m_time - currTime >= ftime - 0.001)) {
+				if (m_time < currTime || m_time - currTime > 50*ftime)
+					decoder->SetPosition(m_time > 1.0 ? m_time - 1.0 : 0.0);
+				for (int i = 0; i < 60; i++) {
+					m_image = decoder->GetNextFrame();
+					currTime = decoder->GetPosition();
+					if (currTime >= m_time - 0.001 || currTime < 0)
+						break;
+				}
+			} else
+				m_image = prevItem->m_image;
+		}
 	} else if (m_href.length()) {
-#ifdef USE_FFMPEG
-		m_mediaDecoder = new wxFfmpegMediaDecoder();
-		if (m_mediaDecoder->Load(m_href)) {
-			m_duration = m_mediaDecoder->GetDuration();
+		wxFfmpegMediaDecoder* decoder = new wxFfmpegMediaDecoder();
+		if (decoder->Load(m_href)) {
+			m_duration = decoder->GetDuration();
 			if (m_time > 0) {
-				m_image = m_mediaDecoder->GetNextFrame();
-				if (!m_mediaDecoder->SetPosition(m_time > 1.0 ? m_time - 1.0 : 0.0)) {
+				m_image = decoder->GetNextFrame();
+				if (!decoder->SetPosition(m_time > 1.0 ? m_time - 1.0 : 0.0)) {
 					wxLog* oldLog = wxLog::SetActiveTarget(new wxLogStderr());
 					wxLogError(wxT("decoder.GetDuration(): %f"), m_duration);
 					wxLogError(wxT("decoder.SetPosition(%f) failed"), m_time > 1.0 ? m_time - 1.0 : m_time);
 					delete wxLog::SetActiveTarget(oldLog);
 				}
 				for (int i = 0; i < 60; i++) {
-					m_image = m_mediaDecoder->GetNextFrame();
-					double currTime = m_mediaDecoder->GetPosition();
+					m_image = decoder->GetNextFrame();
+					double currTime = decoder->GetPosition();
 					if (currTime >= m_time || currTime < 0)
 						break;
 				}
 			} else
-				m_image = m_mediaDecoder->GetNextFrame();
+				m_image = decoder->GetNextFrame();
+			m_videoData = new wxSVGCanvasVideoData(decoder);
 		} else {
-			delete m_mediaDecoder;
-			m_mediaDecoder = NULL;
+			delete decoder;
 			m_duration = 0;
 		}
-#endif
 	}
+#endif
 }
