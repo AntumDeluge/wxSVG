@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.35 2011-11-13 22:35:13 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.36 2011-11-23 20:23:52 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -567,11 +567,19 @@ void wxSVGCanvasText::InitChildren(wxSVGTextPositioningElement& element, const w
 	wxSVGElement* elem = (wxSVGElement*) element.GetChildren();
 	while (elem) {
 		if (elem->GetType() == wxSVGXML_TEXT_NODE) {
-			wxStringTokenizer tokenizer(elem->GetContent());
-			while (tokenizer.HasMoreTokens()) {
-				text += tokenizer.GetNextToken();
-				if (tokenizer.HasMoreTokens())
-					text += wxT(" ");
+			if (element.GetXmlspace() == wxT("preserve")) {
+				wxString t = elem->GetContent();
+				for (unsigned int i = 0; i< t.length(); i++)
+					if (t[i] == wxT('\t') || t[i] == wxT('\n') || t[i] == wxT('\r'))
+						t[i] = wxT('\t');
+				text += t;
+			} else {
+				wxStringTokenizer tokenizer(elem->GetContent());
+				while (tokenizer.HasMoreTokens()) {
+					text += tokenizer.GetNextToken();
+					if (tokenizer.HasMoreTokens())
+						text += wxT(" ");
+				}
 			}
 		} else if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd() == wxSVG_TBREAK_ELEMENT)
 			text += wxT("\n");
