@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.cpp,v 1.3 2010-03-07 15:54:33 ntalex Exp $
+// RCS-ID:      $Id: svgxml.cpp,v 1.4 2011-11-23 20:33:13 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -821,7 +821,7 @@ static void OutputNode(wxOutputStream& stream, wxSvgXmlNode *node, int indent,
                 n = node->GetChildren();
                 while (n)
                 {
-                    if (n && n->GetType() != wxSVGXML_TEXT_NODE)
+                    if (n && n->GetType() != wxSVGXML_TEXT_NODE && node->GetAttribute(wxT("xml:space")) != wxT("preserve"))
                         OutputIndentation(stream, indent + 1);
                     OutputNode(stream, n, indent + 1, convMem, convFile);
                     prev = n;
