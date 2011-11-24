@@ -1757,11 +1757,11 @@ module svg
     readonly attribute SVGAnimatedLength width;
     readonly attribute SVGAnimatedLength height;
     readonly attribute SVGAnimatedPreserveAspectRatio preserveAspectRatio;
-
-    float getStartTime (  );
-    float getCurrentTime (  );
-    float getSimpleDuration (  )
-                    raises( DOMException );
+    
+    readonly attribute float begin;
+    readonly attribute float dur;
+    readonly attribute float clipBegin;
+    readonly attribute float clipEnd;
   };
 };
 

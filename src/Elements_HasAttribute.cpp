@@ -962,6 +962,10 @@ bool wxSVGVideoElement::HasAttribute(const wxString& attrName)
     attrName == wxT("width") ||
     attrName == wxT("height") ||
     attrName == wxT("preserveAspectRatio") ||
+    attrName == wxT("begin") ||
+    attrName == wxT("dur") ||
+    attrName == wxT("clipBegin") ||
+    attrName == wxT("clipEnd") ||
     wxSVGElement::HasAttribute(attrName) ||
     wxSVGURIReference::HasAttribute(attrName) ||
     wxSVGLangSpace::HasAttribute(attrName) ||

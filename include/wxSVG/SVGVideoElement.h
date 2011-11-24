@@ -35,6 +35,10 @@ class wxSVGVideoElement:
     wxSVGAnimatedLength m_width;
     wxSVGAnimatedLength m_height;
     wxSVGAnimatedPreserveAspectRatio m_preserveAspectRatio;
+    double m_begin;
+    double m_dur;
+    double m_clipBegin;
+    double m_clipEnd;
 
   public:
     inline const wxSVGAnimatedLength& GetX() const { WX_SVG_ANIM_LENGTH_CALC_WIDTH(m_x, GetViewportElement()); return m_x; }
@@ -57,6 +61,18 @@ class wxSVGVideoElement:
     inline void SetPreserveAspectRatio(const wxSVGAnimatedPreserveAspectRatio& n) { m_preserveAspectRatio = n; }
     inline void SetPreserveAspectRatio(const wxSVGPreserveAspectRatio& n) { m_preserveAspectRatio.SetBaseVal(n); }
 
+    inline double GetBegin() const { return m_begin; }
+    inline void SetBegin(double n) { m_begin = n; }
+
+    inline double GetDur() const { return m_dur; }
+    inline void SetDur(double n) { m_dur = n; }
+
+    inline double GetClipBegin() const { return m_clipBegin; }
+    inline void SetClipBegin(double n) { m_clipBegin = n; }
+
+    inline double GetClipEnd() const { return m_clipEnd; }
+    inline void SetClipEnd(double n) { m_clipEnd = n; }
+
   protected:
     wxSVGCanvasItem* m_canvasItem;
   public:
@@ -65,7 +81,7 @@ class wxSVGVideoElement:
 
   public:
     wxSVGVideoElement(wxString tagName = wxT("video")):
-      wxSVGElement(tagName), m_canvasItem(NULL) {}
+      wxSVGElement(tagName), m_begin(0), m_dur(0), m_clipBegin(0), m_clipEnd(0), m_canvasItem(NULL) {}
     wxSVGVideoElement(wxSVGVideoElement& src);
     virtual ~wxSVGVideoElement();
     wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGVideoElement(*this); }

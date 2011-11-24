@@ -1382,6 +1382,8 @@
   end CDATA #IMPLIED
   min CDATA #IMPLIED
   max CDATA #IMPLIED
+  clipBegin CDATA #IMPLIED
+  clipEnd CDATA #IMPLIED
   restart (always | never | whenNotActive) 'always'
   repeatCount CDATA #IMPLIED 
   repeatDur CDATA #IMPLIED

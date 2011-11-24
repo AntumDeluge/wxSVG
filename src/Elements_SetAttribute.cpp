@@ -1954,6 +1954,30 @@ bool wxSVGVideoElement::SetAttribute(const wxString& attrName, const wxString& a
     m_height.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("preserveAspectRatio"))
     m_preserveAspectRatio.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("begin"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_begin = value;
+  }
+  else if (attrName == wxT("dur"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_dur = value;
+  }
+  else if (attrName == wxT("clipBegin"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_clipBegin = value;
+  }
+  else if (attrName == wxT("clipEnd"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_clipEnd = value;
+  }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));

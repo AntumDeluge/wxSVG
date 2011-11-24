@@ -224,6 +224,10 @@ wxSVGVideoElement::wxSVGVideoElement(wxSVGVideoElement& src):
   m_width = src.m_width;
   m_height = src.m_height;
   m_preserveAspectRatio = src.m_preserveAspectRatio;
+  m_begin = src.m_begin;
+  m_dur = src.m_dur;
+  m_clipBegin = src.m_clipBegin;
+  m_clipEnd = src.m_clipEnd;
   m_canvasItem = NULL;
 }
 

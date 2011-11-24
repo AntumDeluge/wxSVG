@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.37 2011-11-23 22:14:54 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.38 2011-11-24 00:02:55 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -974,6 +974,12 @@ void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclarat
 	m_href = element.GetHref();
 	m_preserveAspectRatio = element.GetPreserveAspectRatio();
 	m_time = element.GetOwnerDocument() != NULL ? ((wxSVGDocument*) element.GetOwnerDocument())->GetCurrentTime() : 0;
+	if (element.GetBegin() > 0)
+		m_time = m_time > element.GetBegin() ? m_time - element.GetBegin() : 0;
+	double dur = element.GetDur() > 0 ? element.GetDur() : element.GetClipEnd() - element.GetClipBegin();
+	if (dur > 0 && m_time > dur)
+		m_time = dur;
+	m_time += element.GetClipBegin();
 #ifdef USE_FFMPEG
 	wxSVGCanvasVideo* prevItem = (wxSVGCanvasVideo*) element.GetCanvasItem();
 	if (prevItem != NULL && prevItem->m_href == m_href && prevItem->m_videoData != NULL) {

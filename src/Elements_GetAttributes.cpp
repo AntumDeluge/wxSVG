@@ -277,8 +277,10 @@ wxSvgXmlAttrHash wxSVGFEOffsetElement::GetAttributes() const
   wxSvgXmlAttrHash attrs;
   if (!m_in1.GetBaseVal().IsEmpty())
     attrs.Add(wxT("in"), m_in1.GetBaseVal());
-  attrs.Add(wxT("dx"), wxString::Format(wxT("%g"), m_dx.GetBaseVal()));
-  attrs.Add(wxT("dy"), wxString::Format(wxT("%g"), m_dy.GetBaseVal()));
+  if (m_dx.GetBaseVal() > 0)
+    attrs.Add(wxT("dx"), wxString::Format(wxT("%g"), m_dx.GetBaseVal()));
+  if (m_dy.GetBaseVal() > 0)
+    attrs.Add(wxT("dy"), wxString::Format(wxT("%g"), m_dy.GetBaseVal()));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGFilterPrimitiveStandardAttributes::GetAttributes());
   return attrs;
@@ -378,10 +380,14 @@ wxSvgXmlAttrHash wxSVGFECompositeElement::GetAttributes() const
     attrs.Add(wxT("in2"), m_in2.GetBaseVal());
   if (m_operator.GetBaseVal() != 0)
     attrs.Add(wxT("operator"), wxString::Format(wxT("%d"), (char) m_operator.GetBaseVal()));
-  attrs.Add(wxT("k1"), wxString::Format(wxT("%g"), m_k1.GetBaseVal()));
-  attrs.Add(wxT("k2"), wxString::Format(wxT("%g"), m_k2.GetBaseVal()));
-  attrs.Add(wxT("k3"), wxString::Format(wxT("%g"), m_k3.GetBaseVal()));
-  attrs.Add(wxT("k4"), wxString::Format(wxT("%g"), m_k4.GetBaseVal()));
+  if (m_k1.GetBaseVal() > 0)
+    attrs.Add(wxT("k1"), wxString::Format(wxT("%g"), m_k1.GetBaseVal()));
+  if (m_k2.GetBaseVal() > 0)
+    attrs.Add(wxT("k2"), wxString::Format(wxT("%g"), m_k2.GetBaseVal()));
+  if (m_k3.GetBaseVal() > 0)
+    attrs.Add(wxT("k3"), wxString::Format(wxT("%g"), m_k3.GetBaseVal()));
+  if (m_k4.GetBaseVal() > 0)
+    attrs.Add(wxT("k4"), wxString::Format(wxT("%g"), m_k4.GetBaseVal()));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGFilterPrimitiveStandardAttributes::GetAttributes());
   return attrs;
@@ -433,9 +439,12 @@ wxSvgXmlAttrHash wxSVGTextElement::GetAttributes() const
 wxSvgXmlAttrHash wxSVGFEPointLightElement::GetAttributes() const
 {
   wxSvgXmlAttrHash attrs;
-  attrs.Add(wxT("x"), wxString::Format(wxT("%g"), m_x.GetBaseVal()));
-  attrs.Add(wxT("y"), wxString::Format(wxT("%g"), m_y.GetBaseVal()));
-  attrs.Add(wxT("z"), wxString::Format(wxT("%g"), m_z.GetBaseVal()));
+  if (m_x.GetBaseVal() > 0)
+    attrs.Add(wxT("x"), wxString::Format(wxT("%g"), m_x.GetBaseVal()));
+  if (m_y.GetBaseVal() > 0)
+    attrs.Add(wxT("y"), wxString::Format(wxT("%g"), m_y.GetBaseVal()));
+  if (m_z.GetBaseVal() > 0)
+    attrs.Add(wxT("z"), wxString::Format(wxT("%g"), m_z.GetBaseVal()));
   attrs.Add(wxSVGElement::GetAttributes());
   return attrs;
 }
@@ -452,7 +461,8 @@ wxSvgXmlAttrHash wxSVGHKernElement::GetAttributes() const
 wxSvgXmlAttrHash wxSVGStopElement::GetAttributes() const
 {
   wxSvgXmlAttrHash attrs;
-  attrs.Add(wxT("offset"), wxString::Format(wxT("%g"), m_offset.GetBaseVal()));
+  if (m_offset.GetBaseVal() > 0)
+    attrs.Add(wxT("offset"), wxString::Format(wxT("%g"), m_offset.GetBaseVal()));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGStylable::GetAttributes());
   return attrs;
@@ -466,7 +476,8 @@ wxSvgXmlAttrHash wxSVGFEDisplacementMapElement::GetAttributes() const
     attrs.Add(wxT("in"), m_in1.GetBaseVal());
   if (!m_in2.GetBaseVal().IsEmpty())
     attrs.Add(wxT("in2"), m_in2.GetBaseVal());
-  attrs.Add(wxT("scale"), wxString::Format(wxT("%g"), m_scale.GetBaseVal()));
+  if (m_scale.GetBaseVal() > 0)
+    attrs.Add(wxT("scale"), wxString::Format(wxT("%g"), m_scale.GetBaseVal()));
   if (m_xChannelSelector.GetBaseVal() != 0)
     attrs.Add(wxT("xChannelSelector"), wxString::Format(wxT("%d"), (char) m_xChannelSelector.GetBaseVal()));
   if (m_yChannelSelector.GetBaseVal() != 0)
@@ -879,8 +890,10 @@ wxSvgXmlAttrHash wxSVGFilterPrimitiveStandardAttributes::GetAttributes() const
 wxSvgXmlAttrHash wxSVGFEDistantLightElement::GetAttributes() const
 {
   wxSvgXmlAttrHash attrs;
-  attrs.Add(wxT("azimuth"), wxString::Format(wxT("%g"), m_azimuth.GetBaseVal()));
-  attrs.Add(wxT("elevation"), wxString::Format(wxT("%g"), m_elevation.GetBaseVal()));
+  if (m_azimuth.GetBaseVal() > 0)
+    attrs.Add(wxT("azimuth"), wxString::Format(wxT("%g"), m_azimuth.GetBaseVal()));
+  if (m_elevation.GetBaseVal() > 0)
+    attrs.Add(wxT("elevation"), wxString::Format(wxT("%g"), m_elevation.GetBaseVal()));
   attrs.Add(wxSVGElement::GetAttributes());
   return attrs;
 }
@@ -891,8 +904,10 @@ wxSvgXmlAttrHash wxSVGFEDiffuseLightingElement::GetAttributes() const
   wxSvgXmlAttrHash attrs;
   if (!m_in1.GetBaseVal().IsEmpty())
     attrs.Add(wxT("in"), m_in1.GetBaseVal());
-  attrs.Add(wxT("surfaceScale"), wxString::Format(wxT("%g"), m_surfaceScale.GetBaseVal()));
-  attrs.Add(wxT("diffuseConstant"), wxString::Format(wxT("%g"), m_diffuseConstant.GetBaseVal()));
+  if (m_surfaceScale.GetBaseVal() > 0)
+    attrs.Add(wxT("surfaceScale"), wxString::Format(wxT("%g"), m_surfaceScale.GetBaseVal()));
+  if (m_diffuseConstant.GetBaseVal() > 0)
+    attrs.Add(wxT("diffuseConstant"), wxString::Format(wxT("%g"), m_diffuseConstant.GetBaseVal()));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGFilterPrimitiveStandardAttributes::GetAttributes());
   return attrs;
@@ -969,10 +984,14 @@ wxSvgXmlAttrHash wxSVGGlyphRefElement::GetAttributes() const
     attrs.Add(wxT("glyphRef"), m_glyphRef);
   if (!m_format.IsEmpty())
     attrs.Add(wxT("format"), m_format);
-  attrs.Add(wxT("x"), wxString::Format(wxT("%g"), m_x));
-  attrs.Add(wxT("y"), wxString::Format(wxT("%g"), m_y));
-  attrs.Add(wxT("dx"), wxString::Format(wxT("%g"), m_dx));
-  attrs.Add(wxT("dy"), wxString::Format(wxT("%g"), m_dy));
+  if (m_x > 0)
+    attrs.Add(wxT("x"), wxString::Format(wxT("%g"), m_x));
+  if (m_y > 0)
+    attrs.Add(wxT("y"), wxString::Format(wxT("%g"), m_y));
+  if (m_dx > 0)
+    attrs.Add(wxT("dx"), wxString::Format(wxT("%g"), m_dx));
+  if (m_dy > 0)
+    attrs.Add(wxT("dy"), wxString::Format(wxT("%g"), m_dy));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGURIReference::GetAttributes());
   attrs.Add(wxSVGStylable::GetAttributes());
@@ -983,14 +1002,22 @@ wxSvgXmlAttrHash wxSVGGlyphRefElement::GetAttributes() const
 wxSvgXmlAttrHash wxSVGFESpotLightElement::GetAttributes() const
 {
   wxSvgXmlAttrHash attrs;
-  attrs.Add(wxT("x"), wxString::Format(wxT("%g"), m_x.GetBaseVal()));
-  attrs.Add(wxT("y"), wxString::Format(wxT("%g"), m_y.GetBaseVal()));
-  attrs.Add(wxT("z"), wxString::Format(wxT("%g"), m_z.GetBaseVal()));
-  attrs.Add(wxT("pointsAtX"), wxString::Format(wxT("%g"), m_pointsAtX.GetBaseVal()));
-  attrs.Add(wxT("pointsAtY"), wxString::Format(wxT("%g"), m_pointsAtY.GetBaseVal()));
-  attrs.Add(wxT("pointsAtZ"), wxString::Format(wxT("%g"), m_pointsAtZ.GetBaseVal()));
-  attrs.Add(wxT("specularExponent"), wxString::Format(wxT("%g"), m_specularExponent.GetBaseVal()));
-  attrs.Add(wxT("limitingConeAngle"), wxString::Format(wxT("%g"), m_limitingConeAngle.GetBaseVal()));
+  if (m_x.GetBaseVal() > 0)
+    attrs.Add(wxT("x"), wxString::Format(wxT("%g"), m_x.GetBaseVal()));
+  if (m_y.GetBaseVal() > 0)
+    attrs.Add(wxT("y"), wxString::Format(wxT("%g"), m_y.GetBaseVal()));
+  if (m_z.GetBaseVal() > 0)
+    attrs.Add(wxT("z"), wxString::Format(wxT("%g"), m_z.GetBaseVal()));
+  if (m_pointsAtX.GetBaseVal() > 0)
+    attrs.Add(wxT("pointsAtX"), wxString::Format(wxT("%g"), m_pointsAtX.GetBaseVal()));
+  if (m_pointsAtY.GetBaseVal() > 0)
+    attrs.Add(wxT("pointsAtY"), wxString::Format(wxT("%g"), m_pointsAtY.GetBaseVal()));
+  if (m_pointsAtZ.GetBaseVal() > 0)
+    attrs.Add(wxT("pointsAtZ"), wxString::Format(wxT("%g"), m_pointsAtZ.GetBaseVal()));
+  if (m_specularExponent.GetBaseVal() > 0)
+    attrs.Add(wxT("specularExponent"), wxString::Format(wxT("%g"), m_specularExponent.GetBaseVal()));
+  if (m_limitingConeAngle.GetBaseVal() > 0)
+    attrs.Add(wxT("limitingConeAngle"), wxString::Format(wxT("%g"), m_limitingConeAngle.GetBaseVal()));
   attrs.Add(wxSVGElement::GetAttributes());
   return attrs;
 }
@@ -1018,7 +1045,8 @@ wxSvgXmlAttrHash wxSVGFETurbulenceElement::GetAttributes() const
 {
   wxSvgXmlAttrHash attrs;
   attrs.Add(wxT("numOctaves"), wxString::Format(wxT("%d"), (long int) m_numOctaves.GetBaseVal()));
-  attrs.Add(wxT("seed"), wxString::Format(wxT("%g"), m_seed.GetBaseVal()));
+  if (m_seed.GetBaseVal() > 0)
+    attrs.Add(wxT("seed"), wxString::Format(wxT("%g"), m_seed.GetBaseVal()));
   if (m_stitchTiles.GetBaseVal() != 0)
     attrs.Add(wxT("stitchTiles"), wxString::Format(wxT("%d"), (char) m_stitchTiles.GetBaseVal()));
   if (m_type.GetBaseVal() != 0)
@@ -1036,11 +1064,16 @@ wxSvgXmlAttrHash wxSVGComponentTransferFunctionElement::GetAttributes() const
     attrs.Add(wxT("type"), wxString::Format(wxT("%d"), (char) m_type.GetBaseVal()));
   if (!m_tableValues.GetBaseVal().IsEmpty())
     attrs.Add(wxT("tableValues"), m_tableValues.GetBaseVal().GetValueAsString());
-  attrs.Add(wxT("slope"), wxString::Format(wxT("%g"), m_slope.GetBaseVal()));
-  attrs.Add(wxT("intercept"), wxString::Format(wxT("%g"), m_intercept.GetBaseVal()));
-  attrs.Add(wxT("amplitude"), wxString::Format(wxT("%g"), m_amplitude.GetBaseVal()));
-  attrs.Add(wxT("exponent"), wxString::Format(wxT("%g"), m_exponent.GetBaseVal()));
-  attrs.Add(wxT("offset"), wxString::Format(wxT("%g"), m_offset.GetBaseVal()));
+  if (m_slope.GetBaseVal() > 0)
+    attrs.Add(wxT("slope"), wxString::Format(wxT("%g"), m_slope.GetBaseVal()));
+  if (m_intercept.GetBaseVal() > 0)
+    attrs.Add(wxT("intercept"), wxString::Format(wxT("%g"), m_intercept.GetBaseVal()));
+  if (m_amplitude.GetBaseVal() > 0)
+    attrs.Add(wxT("amplitude"), wxString::Format(wxT("%g"), m_amplitude.GetBaseVal()));
+  if (m_exponent.GetBaseVal() > 0)
+    attrs.Add(wxT("exponent"), wxString::Format(wxT("%g"), m_exponent.GetBaseVal()));
+  if (m_offset.GetBaseVal() > 0)
+    attrs.Add(wxT("offset"), wxString::Format(wxT("%g"), m_offset.GetBaseVal()));
   attrs.Add(wxSVGElement::GetAttributes());
   return attrs;
 }
@@ -1282,6 +1315,14 @@ wxSvgXmlAttrHash wxSVGVideoElement::GetAttributes() const
     attrs.Add(wxT("height"), m_height.GetBaseVal().GetValueAsString());
   if (m_preserveAspectRatio.GetBaseVal().GetAlign() != wxSVG_PRESERVEASPECTRATIO_UNKNOWN && m_preserveAspectRatio.GetBaseVal().GetMeetOrSlice() != wxSVG_MEETORSLICE_UNKNOWN)
     attrs.Add(wxT("preserveAspectRatio"), m_preserveAspectRatio.GetBaseVal().GetValueAsString());
+  if (m_begin > 0)
+    attrs.Add(wxT("begin"), wxString::Format(wxT("%g"), m_begin));
+  if (m_dur > 0)
+    attrs.Add(wxT("dur"), wxString::Format(wxT("%g"), m_dur));
+  if (m_clipBegin > 0)
+    attrs.Add(wxT("clipBegin"), wxString::Format(wxT("%g"), m_clipBegin));
+  if (m_clipEnd > 0)
+    attrs.Add(wxT("clipEnd"), wxString::Format(wxT("%g"), m_clipEnd));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGURIReference::GetAttributes());
   attrs.Add(wxSVGLangSpace::GetAttributes());
@@ -1333,8 +1374,10 @@ wxSvgXmlAttrHash wxSVGFEConvolveMatrixElement::GetAttributes() const
   wxSvgXmlAttrHash attrs;
   if (!m_kernelMatrix.GetBaseVal().IsEmpty())
     attrs.Add(wxT("kernelMatrix"), m_kernelMatrix.GetBaseVal().GetValueAsString());
-  attrs.Add(wxT("divisor"), wxString::Format(wxT("%g"), m_divisor.GetBaseVal()));
-  attrs.Add(wxT("bias"), wxString::Format(wxT("%g"), m_bias.GetBaseVal()));
+  if (m_divisor.GetBaseVal() > 0)
+    attrs.Add(wxT("divisor"), wxString::Format(wxT("%g"), m_divisor.GetBaseVal()));
+  if (m_bias.GetBaseVal() > 0)
+    attrs.Add(wxT("bias"), wxString::Format(wxT("%g"), m_bias.GetBaseVal()));
   attrs.Add(wxT("targetX"), wxString::Format(wxT("%d"), (long int) m_targetX.GetBaseVal()));
   attrs.Add(wxT("targetY"), wxString::Format(wxT("%d"), (long int) m_targetY.GetBaseVal()));
   if (m_edgeMode.GetBaseVal() != 0)
@@ -1409,9 +1452,12 @@ wxSvgXmlAttrHash wxSVGFESpecularLightingElement::GetAttributes() const
   wxSvgXmlAttrHash attrs;
   if (!m_in1.GetBaseVal().IsEmpty())
     attrs.Add(wxT("in"), m_in1.GetBaseVal());
-  attrs.Add(wxT("surfaceScale"), wxString::Format(wxT("%g"), m_surfaceScale.GetBaseVal()));
-  attrs.Add(wxT("specularConstant"), wxString::Format(wxT("%g"), m_specularConstant.GetBaseVal()));
-  attrs.Add(wxT("specularExponent"), wxString::Format(wxT("%g"), m_specularExponent.GetBaseVal()));
+  if (m_surfaceScale.GetBaseVal() > 0)
+    attrs.Add(wxT("surfaceScale"), wxString::Format(wxT("%g"), m_surfaceScale.GetBaseVal()));
+  if (m_specularConstant.GetBaseVal() > 0)
+    attrs.Add(wxT("specularConstant"), wxString::Format(wxT("%g"), m_specularConstant.GetBaseVal()));
+  if (m_specularExponent.GetBaseVal() > 0)
+    attrs.Add(wxT("specularExponent"), wxString::Format(wxT("%g"), m_specularExponent.GetBaseVal()));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGFilterPrimitiveStandardAttributes::GetAttributes());
   return attrs;
