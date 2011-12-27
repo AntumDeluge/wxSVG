@@ -3,7 +3,7 @@
 // Purpose:     SVG Image Handler
 // Author:      Alex Thuering
 // Created:     2011/11/22
-// RCS-ID:      $Id: imagsvg.cpp,v 1.1 2011-11-22 20:08:35 ntalex Exp $
+// RCS-ID:      $Id: imagsvg.cpp,v 1.2 2011-12-27 08:20:32 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@ IMPLEMENT_DYNAMIC_CLASS(wxSVGHandler, wxImageHandler)
 wxSVGHandler::wxSVGHandler() {
 	m_name = wxT("SVG file");
 	m_extension = wxT("svg");
-	m_type = wxBITMAP_TYPE_SVG;
+	m_type = (wxBitmapType) wxBITMAP_TYPE_SVG;
 	m_mime = wxT("image/svg");
 }
 
