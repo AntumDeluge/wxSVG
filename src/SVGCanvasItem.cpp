@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.38 2011-11-24 00:02:55 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.39 2012-01-06 03:12:45 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -956,7 +956,7 @@ wxSVGCanvasVideoData::~wxSVGCanvasVideoData() {
 		delete m_mediaDecoder;
 #endif
 }
-	
+
 wxSVGCanvasVideo::wxSVGCanvasVideo(): wxSVGCanvasImage(wxSVG_CANVAS_ITEM_VIDEO), m_videoData(NULL) {
 	// nothing to do
 }
@@ -973,6 +973,7 @@ void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclarat
 	m_height = element.GetHeight().GetAnimVal();
 	m_href = element.GetHref();
 	m_preserveAspectRatio = element.GetPreserveAspectRatio();
+	m_defHeightScale = 1;
 	m_time = element.GetOwnerDocument() != NULL ? ((wxSVGDocument*) element.GetOwnerDocument())->GetCurrentTime() : 0;
 	if (element.GetBegin() > 0)
 		m_time = m_time > element.GetBegin() ? m_time - element.GetBegin() : 0;
@@ -986,6 +987,7 @@ void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclarat
 		m_videoData = prevItem->m_videoData;
 		m_videoData->IncRef();
 		m_duration = prevItem->m_duration;
+		m_defHeightScale = prevItem->m_defHeightScale;
 		wxFfmpegMediaDecoder* decoder = m_videoData->GetMediaDecoder();
 		if (decoder != NULL) {
 			double ftime = decoder->GetFps() != -1 ? 1.0 / decoder->GetFps() : 0.04;
@@ -1023,6 +1025,8 @@ void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclarat
 			} else
 				m_image = decoder->GetNextFrame();
 			m_videoData = new wxSVGCanvasVideoData(decoder);
+			if (m_image.Ok() && decoder->GetFrameAspectRatio() > 0)
+				m_defHeightScale = ((double)m_image.GetWidth())/m_image.GetHeight()/decoder->GetFrameAspectRatio();
 		} else {
 			delete decoder;
 			m_duration = 0;

@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.17 2011-11-22 21:09:42 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.18 2012-01-06 03:12:45 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -436,6 +436,7 @@ void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImage& canvasImage, cairo_patt
 	wxSVG_PRESERVEASPECTRATIO align = canvasImage.GetPreserveAspectRatio().GetAlign();
 	bool alignX = false;
 	if (align > wxSVG_PRESERVEASPECTRATIO_NONE) {
+		scaleY = canvasImage.m_height / canvasImage.GetDefaultHeight();
 		if (canvasImage.GetPreserveAspectRatio().GetMeetOrSlice() != wxSVG_MEETORSLICE_SLICE) {
 			alignX = scaleX > scaleY;
 		} else {
@@ -448,22 +449,23 @@ void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImage& canvasImage, cairo_patt
 			if (align == wxSVG_PRESERVEASPECTRATIO_XMIDYMIN
 					|| align == wxSVG_PRESERVEASPECTRATIO_XMIDYMID
 					|| align == wxSVG_PRESERVEASPECTRATIO_XMIDYMAX)
-				x += (canvasImage.m_width - canvasImage.m_image.GetWidth() * scaleX) / 2;
+				x += (canvasImage.m_width - canvasImage.GetDefaultWidth() * scaleX) / 2;
 			else if (align == wxSVG_PRESERVEASPECTRATIO_XMAXYMIN
 					|| align == wxSVG_PRESERVEASPECTRATIO_XMAXYMID
 					|| align == wxSVG_PRESERVEASPECTRATIO_XMAXYMAX)
-				x += canvasImage.m_width - canvasImage.m_image.GetWidth() * scaleX;
+				x += canvasImage.m_width - canvasImage.GetDefaultWidth() * scaleX;
 		} else {
 			scaleY = scaleX;
 			if (align == wxSVG_PRESERVEASPECTRATIO_XMINYMID
 					|| align == wxSVG_PRESERVEASPECTRATIO_XMIDYMID
 					|| align == wxSVG_PRESERVEASPECTRATIO_XMAXYMID)
-				y += (canvasImage.m_height - canvasImage.m_image.GetHeight() * scaleY) / 2;
+				y += (canvasImage.m_height - canvasImage.GetDefaultHeight() * scaleY) / 2;
 			else if (align == wxSVG_PRESERVEASPECTRATIO_XMINYMAX
 					|| align == wxSVG_PRESERVEASPECTRATIO_XMIDYMAX
 					|| align == wxSVG_PRESERVEASPECTRATIO_XMAXYMAX)
-				y += canvasImage.m_height - canvasImage.m_image.GetHeight() * scaleY;
+				y += canvasImage.m_height - canvasImage.GetDefaultHeight() * scaleY;
 		}
+		scaleY = scaleY * canvasImage.GetDefaultHeight() / canvasImage.m_image.GetHeight();
 	}
 	cairo_translate(m_cr, x, y);
 	cairo_scale(m_cr, scaleX, scaleY);
