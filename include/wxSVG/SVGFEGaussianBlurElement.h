@@ -27,6 +27,7 @@ class wxSVGFEGaussianBlurElement:
     bool HasCustomAttribute(const wxString& name);
     wxString GetCustomAttribute(const wxString& name);
     bool SetCustomAttribute(const wxString& name, const wxString& value);
+    wxSvgXmlAttrHash GetCustomAttributes() const;
 
   public:
     inline const wxSVGAnimatedString& GetIn1() const { return m_in1; }

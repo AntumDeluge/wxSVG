@@ -573,6 +573,7 @@ wxSvgXmlAttrHash wxSVGStylable::GetAttributes() const
     attrs.Add(wxT("class"), m_className.GetBaseVal());
   if (!m_style.empty())
     attrs.Add(wxT("style"), m_style.GetCSSText());
+  attrs.Add(GetCustomAttributes());
   return attrs;
 }
 
@@ -1395,6 +1396,7 @@ wxSvgXmlAttrHash wxSVGFEGaussianBlurElement::GetAttributes() const
   wxSvgXmlAttrHash attrs;
   if (!m_in1.GetBaseVal().IsEmpty())
     attrs.Add(wxT("in"), m_in1.GetBaseVal());
+  attrs.Add(GetCustomAttributes());
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGFilterPrimitiveStandardAttributes::GetAttributes());
   return attrs;

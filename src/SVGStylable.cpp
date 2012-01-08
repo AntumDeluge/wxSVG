@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGStylable.cpp,v 1.5 2007-05-24 08:59:09 etisserant Exp $
+// RCS-ID:      $Id: SVGStylable.cpp,v 1.6 2012-01-08 02:42:15 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -36,6 +36,11 @@ bool wxSVGStylable::SetCustomAttribute(const wxString& name, const wxString& val
 	
   m_style.SetProperty(name, value);
   return true;
+}
+
+wxSvgXmlAttrHash wxSVGStylable::GetCustomAttributes() const {
+	wxSvgXmlAttrHash attrs;
+	return attrs;
 }
 
 wxCSSStyleDeclaration wxSVGStylable::GetResultStyle(const wxSVGElement& element)
