@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.16 2011-11-23 22:15:16 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.17 2012-01-08 02:40:58 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -276,6 +276,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	switch (elem->GetDtd()) {
 	case wxSVG_SVG_ELEMENT: {
 		wxSVGSVGElement* element = (wxSVGSVGElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
 		if (element->GetWidth().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
 			((wxSVGAnimatedLength&) element->GetWidth()).SetAnimVal( wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
 		if (element->GetHeight().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
@@ -294,6 +296,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	}
 	case wxSVG_G_ELEMENT: {
 		wxSVGGElement* element = (wxSVGGElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
 		RenderChilds(elem, rect, &matrix, &style, ownerSVGElement, viewportElement);
@@ -301,6 +305,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	}
 	case wxSVG_LINE_ELEMENT: {
 		wxSVGLineElement* element = (wxSVGLineElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
 		DrawLine(element, &matrix, &style);
@@ -308,6 +314,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	}
 	case wxSVG_POLYLINE_ELEMENT: {
 		wxSVGPolylineElement* element = (wxSVGPolylineElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
 		DrawPolyline(element, &matrix, &style);
@@ -315,6 +323,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	}
 	case wxSVG_POLYGON_ELEMENT: {
 		wxSVGPolygonElement* element = (wxSVGPolygonElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
 		DrawPolygon(element, &matrix, &style);
@@ -322,6 +332,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	}
 	case wxSVG_RECT_ELEMENT: {
 		wxSVGRectElement* element = (wxSVGRectElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
 		DrawRect(element, &matrix, &style);
@@ -329,6 +341,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	}
 	case wxSVG_CIRCLE_ELEMENT: {
 		wxSVGCircleElement* element = (wxSVGCircleElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
 		DrawCircle(element, &matrix, &style);
@@ -336,6 +350,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	}
 	case wxSVG_ELLIPSE_ELEMENT: {
 		wxSVGEllipseElement* element = (wxSVGEllipseElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
 		DrawEllipse(element, &matrix, &style);
@@ -343,6 +359,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	}
 	case wxSVG_PATH_ELEMENT: {
 		wxSVGPathElement* element = (wxSVGPathElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
 		DrawPath(element, &matrix, &style);
@@ -352,6 +370,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 		break;
 	case wxSVG_TEXT_ELEMENT: {
 		wxSVGTextElement* element = (wxSVGTextElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
 		DrawText(element, &matrix, &style);
@@ -359,6 +379,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	}
 	case wxSVG_IMAGE_ELEMENT: {
 		wxSVGImageElement* element = (wxSVGImageElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
 		DrawImage(element, &matrix, &style, rect);
@@ -366,6 +388,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	}
 	case wxSVG_VIDEO_ELEMENT: {
 		wxSVGVideoElement* element = (wxSVGVideoElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
 #ifdef USE_FFMPEG
@@ -400,6 +424,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	}
 	case wxSVG_USE_ELEMENT: {
 		wxSVGUseElement* element = (wxSVGUseElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
 		// test if visible
