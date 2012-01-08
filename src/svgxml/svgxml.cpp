@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.cpp,v 1.4 2011-11-23 20:33:13 ntalex Exp $
+// RCS-ID:      $Id: svgxml.cpp,v 1.5 2012-01-08 16:20:10 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -454,8 +454,11 @@ void wxSvgXmlDocument::DoCopy(const wxSvgXmlDocument& doc)
     m_root = new wxSvgXmlNode(*doc.m_root);
 }
 
-bool wxSvgXmlDocument::Load(const wxString& filename, const wxString& encoding)
-{
+bool wxSvgXmlDocument::Load(const wxString& filename, const wxString& encoding) {
+	if (!wxFile::Exists(filename)) {
+		wxLogError(_("File %s doesn't exist."), filename.c_str());
+		return false;
+	}
     wxFileInputStream stream(filename);
     return Load(stream, encoding);
 }

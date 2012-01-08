@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.12 2011-10-31 18:48:13 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.13 2012-01-08 16:20:09 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -82,10 +82,10 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos
 		wxFrame(parent, wxID_ANY, title, pos, size, style) {
     // Make a menubar
     wxMenu *fileMenu = new wxMenu;
-    fileMenu->Append(wxID_OPEN, _T("&Open..."));
-    fileMenu->Append(wxID_SAVE, _T("&Save as..."));
+    fileMenu->Append(wxID_OPEN, _T("&Open...\tCtrl-O"));
+    fileMenu->Append(wxID_SAVE, _T("&Save as...\tCtrl-S"));
     fileMenu->AppendSeparator();
-    fileMenu->Append(wxID_EXIT, _T("&Close"));
+    fileMenu->Append(wxID_EXIT, _T("&Exit\tAlt-X"));
     fileMenu->AppendSeparator();
     fileMenu->AppendCheckItem(wxID_FIT, _T("&FitToFrame"))->Check();
     fileMenu->AppendCheckItem(wxID_HITTEST, _T("&Hit-Test"));
