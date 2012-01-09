@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.15 2011-08-02 06:48:14 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.16 2012-01-09 15:58:44 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -27,9 +27,11 @@ extern "C" {
 #ifdef HAVE_FFMPEG_AVUTIL_H
 #include <avformat.h>
 #include <swscale.h>
+#include <avutil.h>
 #else
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
+#include <libavutil/avutil.h>
 #endif
 }
 
@@ -61,7 +63,7 @@ bool wxFfmpegMediaDecoder::Load(const wxString& fileName) {
 		wxLogError(wxT("%s: no such file or directory"), fileName.c_str());
 		return false;
 	}
-	int err = av_open_input_file(&m_formatCtx, fileName.mb_str(), NULL, 0, NULL);
+	int err = avformat_open_input(&m_formatCtx, fileName.mb_str(), NULL, NULL);
 	if (err != 0) {
 		PrintError(fileName, err);
 		return false;
