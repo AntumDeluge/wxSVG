@@ -26,7 +26,7 @@ class wxSVGStylable
     wxString GetCustomAttribute(const wxString& name);
     bool SetCustomAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetCustomAttributes() const;
-    
+
   public:
     inline const wxSVGAnimatedString& GetClassName() const { return m_className; }
     inline void SetClassName(const wxSVGAnimatedString& n) { m_className = n; }

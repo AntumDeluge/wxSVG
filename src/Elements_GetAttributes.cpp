@@ -571,6 +571,7 @@ wxSvgXmlAttrHash wxSVGStylable::GetAttributes() const
   wxSvgXmlAttrHash attrs;
   if (!m_className.GetBaseVal().IsEmpty())
     attrs.Add(wxT("class"), m_className.GetBaseVal());
+  attrs.Add(GetCustomAttributes());
   if (!m_style.empty())
     attrs.Add(wxT("style"), m_style.GetCSSText());
   attrs.Add(GetCustomAttributes());
