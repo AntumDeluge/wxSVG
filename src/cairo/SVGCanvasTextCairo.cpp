@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas text
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.6 2011-08-04 20:58:33 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.7 2012-01-21 14:08:27 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -14,8 +14,10 @@
 #include <wx/font.h>
 #include <wx/tokenzr.h>
 #include <cairo/cairo.h>
-#ifdef __WXMSW__
+#if defined(__WXMSW__)
 #include <cairo/cairo-win32.h>
+#elif defined(__WXMAC__) 
+#include <cairo/cairo-quartz.h>
 #else
 #include <pango/pangocairo.h>
 #endif
@@ -32,7 +34,7 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 	// create path from text
 	cairo_t* cr = ((wxSVGCanvasPathCairo*) m_char->path)->GetCr();
 	
-#ifdef __WXMSW__
+#if defined(_WXMSW__) || defined(__WXMAC__)
 	int size = (int) style.GetFontSize();
 	int fstyle = style.GetFontStyle() == wxCSS_VALUE_ITALIC ? wxFONTSTYLE_ITALIC
 			: (style.GetFontStyle() == wxCSS_VALUE_OBLIQUE ? wxFONTSTYLE_SLANT : wxFONTSTYLE_NORMAL);
@@ -40,9 +42,13 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 			: style.GetFontWeight() == wxCSS_VALUE_BOLDER ? wxFONTWEIGHT_MAX
 			: style.GetFontWeight() == wxCSS_VALUE_LIGHTER ? wxFONTWEIGHT_LIGHT : wxFONTWEIGHT_NORMAL;
 	wxFont fnt(size, wxFONTFAMILY_DEFAULT, fstyle, weight, false, style.GetFontFamily());
+#ifdef __WXMSW__
 	HFONT hfont = (HFONT) fnt.GetResourceHandle();
-	
 	cairo_set_font_face(cr, cairo_win32_font_face_create_for_hfont(hfont));
+#else
+	wxUint32 atsuFontId = fnt.MacGetATSUFontID();
+	cairo_set_font_face(cr, cairo_quartz_font_face_create_for_atsu_font_id(atsuFontId));
+#endif	
 	cairo_set_font_size(cr, style.GetFontSize());
 	
 	cairo_font_extents_t fextents;
