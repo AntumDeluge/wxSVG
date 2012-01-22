@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.16 2012-01-09 15:58:44 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.17 2012-01-22 20:21:05 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -162,10 +162,9 @@ int wxFfmpegMediaDecoder::GetBitrate(unsigned int streamIndex) {
 	return m_formatCtx ? m_formatCtx->streams[streamIndex]->codec->bit_rate : -1;
 }
 
-double wxFfmpegMediaDecoder::GetDuration()
-{
-    return m_formatCtx != NULL && m_formatCtx->duration != (int)AV_NOPTS_VALUE ?
-      m_formatCtx->duration / AV_TIME_BASE : -1;
+double wxFfmpegMediaDecoder::GetDuration() {
+	return m_formatCtx != NULL && m_formatCtx->duration != (int)AV_NOPTS_VALUE ?
+			((double)m_formatCtx->duration) / AV_TIME_BASE : -1;
 }
 
 bool wxFfmpegMediaDecoder::OpenVideoDecoder() {
