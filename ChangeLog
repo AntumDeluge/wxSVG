@@ -1,3 +1,8 @@
+CVS
+---
+
+  * wxFfmpegMediaDecoder: fixed GetDuration()
+
 Version 1.1.6 <2012.01.13>
 --------------------------
   
