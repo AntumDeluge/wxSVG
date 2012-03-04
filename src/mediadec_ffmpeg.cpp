@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.17 2012-01-22 20:21:05 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.18 2012-03-04 17:35:42 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -28,10 +28,12 @@ extern "C" {
 #include <avformat.h>
 #include <swscale.h>
 #include <avutil.h>
+#include <mathematics.h>
 #else
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 #include <libavutil/avutil.h>
+#include <libavutil/mathematics.h>
 #endif
 }
 
