@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.19 2012-01-08 02:44:12 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.20 2012-03-13 19:42:20 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -162,7 +162,17 @@ void wxSVGCanvasCairo::SetPaint(cairo_t* cr, const wxSVGPaint& paint, float opac
 					fx = bbox.GetX() + fx * bbox.GetWidth();
 					fy = bbox.GetY() + fy * bbox.GetHeight();
 				}
-				m_pattern = cairo_pattern_create_radial(fx, fy, 0.0, cx, cy, r); 
+				m_pattern = cairo_pattern_create_radial(fx, fy, 0.0, cx, cy, r);
+				const wxSVGTransformList& transforms =  gradElem->GetGradientTransform().GetAnimVal();
+				if (transforms.GetCount() > 0) {
+					wxSVGMatrix matrix;
+					for (unsigned int i = 0; i < transforms.GetCount(); i++)
+						matrix = matrix.Multiply(transforms[i].GetMatrix());
+					matrix = matrix.Inverse();
+					cairo_matrix_t mat;
+					cairo_matrix_init(&mat, matrix.GetA(), matrix.GetB(), matrix.GetC(), matrix.GetD(), matrix.GetE(), matrix.GetF());
+					cairo_pattern_set_matrix(m_pattern, &mat);
+				}
 				break;
 			}
 			default:
