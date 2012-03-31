@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.cpp,v 1.5 2012-01-08 16:20:10 ntalex Exp $
+// RCS-ID:      $Id: svgxml.cpp,v 1.6 2012-03-31 11:34:30 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -189,7 +189,8 @@ void wxSvgXmlNode::AddChild(wxSvgXmlNode *child)
 
 void wxSvgXmlNode::InsertChild(wxSvgXmlNode *child, wxSvgXmlNode *before_node)
 {
-    wxASSERT_MSG(before_node->GetParent() == this, wxT("wxSvgXmlNode::InsertChild - the node has incorrect parent"));
+    wxASSERT_MSG(before_node == NULL || before_node->GetParent() == this,
+    		wxT("wxSvgXmlNode::InsertChild - the node has incorrect parent"));
 
     if (m_children == before_node)
        m_children = child;
