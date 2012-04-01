@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.39 2012-01-06 03:12:45 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.40 2012-04-01 19:58:57 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -15,7 +15,7 @@
 #include <math.h>
 #include <wx/log.h>
 
-#ifdef USE_FFMPEG
+#ifdef USE_LIBAV
 #include <wxSVG/mediadec_ffmpeg.h>
 #endif
 
@@ -891,7 +891,7 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 			}
 			return;
 		}
-#ifdef USE_FFMPEG
+#ifdef USE_LIBAV
 		bool log = wxLog::EnableLogging(false);
 		m_image.LoadFile(filename);
 		wxLog::EnableLogging(log);
@@ -951,7 +951,7 @@ wxSVGCanvasVideoData::wxSVGCanvasVideoData(wxFfmpegMediaDecoder* mediaDecoder) {
 }
 
 wxSVGCanvasVideoData::~wxSVGCanvasVideoData() {
-#ifdef USE_FFMPEG
+#ifdef USE_LIBAV
 	if (m_mediaDecoder)
 		delete m_mediaDecoder;
 #endif
@@ -981,7 +981,7 @@ void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclarat
 	if (dur > 0 && m_time > dur)
 		m_time = dur;
 	m_time += element.GetClipBegin();
-#ifdef USE_FFMPEG
+#ifdef USE_LIBAV
 	wxSVGCanvasVideo* prevItem = (wxSVGCanvasVideo*) element.GetCanvasItem();
 	if (prevItem != NULL && prevItem->m_href == m_href && prevItem->m_videoData != NULL) {
 		m_videoData = prevItem->m_videoData;

@@ -21,8 +21,8 @@ TEXT_DIR =
 TEXT_LIB = 
 endif
 
-if USE_FFMPEG
-FFMPEG_SRC = mediadec_ffmpeg.cpp
+if USE_LIBAV
+LIBAV_SRC = mediadec_ffmpeg.cpp
 endif
 
 SUBDIRS = svgxml $(TEXT_DIR) $(RENDER_DIR)
@@ -44,7 +44,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp imagsvg.cpp\
   Elements_CopyConstructors.cpp Elements_HasAttribute.cpp\
   Elements_GetAttribute.cpp Elements_GetAttributes.cpp Elements_SetAttribute.cpp\
   CSSValue.cpp CSSStyleDeclaration.cpp\
-  SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp $(FFMPEG_SRC)
+  SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp $(LIBAV_SRC)
 
 libwxsvg_la_LIBADD = svgxml/libwxsvgxml.la $(RENDER_LIB) $(TEXT_LIB)
 libwxsvg_la_LDFLAGS = -no-undefined -version-info @LIBRARY_VERSION@

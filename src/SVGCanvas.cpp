@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.17 2012-01-08 02:40:58 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.18 2012-04-01 19:58:57 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -392,7 +392,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
-#ifdef USE_FFMPEG
+#ifdef USE_LIBAV
 		DrawVideo(element, &matrix, &style);
 #else
 		wxSVGGElement* gElem = new wxSVGGElement();
