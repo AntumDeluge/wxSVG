@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.13 2012-01-08 16:20:09 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.14 2012-04-01 20:37:00 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -30,7 +30,7 @@
 
 #include "svgview.h"
 #include <wxSVG/svg.h>
-#ifdef USE_FFMPEG
+#ifdef USE_LIBAV
 #include <wxSVG/mediadec_ffmpeg.h>
 #endif
 
@@ -47,7 +47,7 @@ bool SVGViewApp::OnInit()
 #endif
   //wxLog::SetActiveTarget(new wxLogStderr);
   wxInitAllImageHandlers();
-#ifdef USE_FFMPEG
+#ifdef USE_LIBAV
   wxFfmpegMediaDecoder::Init();
 #endif
   
