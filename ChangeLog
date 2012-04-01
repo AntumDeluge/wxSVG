@@ -1,7 +1,9 @@
-CVS
----
+Version 1.1.7 <2012.04.01>
+--------------------------
 
   * wxFfmpegMediaDecoder: fixed GetDuration()
+  * fixed rendering of radial gradients (thanks to frustum)
+  * added support of libav
 
 Version 1.1.6 <2012.01.13>
 --------------------------
