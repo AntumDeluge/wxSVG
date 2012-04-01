@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.20 2012-03-13 19:42:20 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.21 2012-04-01 20:36:08 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -147,11 +147,11 @@ void wxSVGCanvasCairo::SetPaint(cairo_t* cr, const wxSVGPaint& paint, float opac
 			}
 			case wxSVG_RADIALGRADIENT_ELEMENT: {
 				wxSVGRadialGradientElement* radialGradElem = (wxSVGRadialGradientElement*) gradElem;
-				double r = radialGradElem->GetR().GetAnimVal();
-				double cx = radialGradElem->GetCx().GetAnimVal();
-				double cy = radialGradElem->GetCy().GetAnimVal();
-				double fx = radialGradElem->GetFx().GetAnimVal();
-				double fy = radialGradElem->GetFy().GetAnimVal();
+				double r = radialGradElem->GetQualifiedR();
+				double cx = radialGradElem->GetQualifiedCx();
+				double cy = radialGradElem->GetQualifiedCy();
+				double fx = radialGradElem->GetQualifiedFx();
+				double fy = radialGradElem->GetQualifiedFy();
 				
 				if (gradElem->GetGradientUnits().GetAnimVal() == wxSVG_UNIT_TYPE_UNKNOWN
 						|| gradElem->GetGradientUnits().GetAnimVal() == wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX) {

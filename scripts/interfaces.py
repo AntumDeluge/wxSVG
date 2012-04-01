@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.31 2011-11-23 23:07:15 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.32 2012-04-01 20:36:25 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -378,6 +378,17 @@ inter = interface()
 interfaces["SVGTextPositioningElement"]=inter
 inter.include_methods.append('    inline void SetX(const wxSVGLength& n) { wxSVGLengthList list; list.Add(n); SetX(list); }\n')
 inter.include_methods.append('    inline void SetY(const wxSVGLength& n) { wxSVGLengthList list; list.Add(n); SetY(list); }\n')
+
+# SVGRadialGradientElement
+inter = interface()
+interfaces["SVGRadialGradientElement"]=inter
+inter.include_methods.append('''
+    double GetQualifiedR() const;
+    double GetQualifiedCx() const;
+    double GetQualifiedCy() const;
+    double GetQualifiedFx() const;
+    double GetQualifiedFy() const;\n
+''')
 
 # SVGDocument
 inter = interface()

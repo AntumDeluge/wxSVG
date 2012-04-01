@@ -51,6 +51,13 @@ class wxSVGRadialGradientElement:
       wxSVGGradientElement(tagName) {}
     virtual ~wxSVGRadialGradientElement() {}
     wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGRadialGradientElement(*this); }
+
+    double GetQualifiedR() const;
+    double GetQualifiedCx() const;
+    double GetQualifiedCy() const;
+    double GetQualifiedFx() const;
+    double GetQualifiedFy() const;
+
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);

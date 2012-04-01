@@ -32,7 +32,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp imagsvg.cpp\
   SVGAnimationElement.cpp SVGCircleElement.cpp SVGEllipseElement.cpp\
   SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp SVGImageElement.cpp\
   SVGLineElement.cpp SVGLocatable.cpp SVGMarkerElement.cpp SVGPathElement.cpp\
-  SVGPolylineElement.cpp SVGPolygonElement.cpp SVGRectElement.cpp\
+  SVGPolylineElement.cpp SVGPolygonElement.cpp SVGRectElement.cpp SVGRadialGradientElement.cpp\
   SVGSVGElement.cpp SVGTextContentElement.cpp SVGTextElement.cpp\
   SVGUseElement.cpp SVGVideoElement.cpp\
   SVGAngle.cpp SVGColor.cpp GetSVGDocument.cpp SVGLength.cpp\

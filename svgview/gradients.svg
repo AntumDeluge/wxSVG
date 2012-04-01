@@ -178,6 +178,10 @@
        r="167.13416"
        gradientTransform="matrix(1.000000,0.000000,0.000000,7.039102e-2,0.000000,262.6215)"
        gradientUnits="userSpaceOnUse" />
+    <radialGradient id="gradient_1" cx="80.0" cy="81.0" r="30.0" gradientUnits="userSpaceOnUse">
+		<stop offset="0.0" style="stop-color:#FFFFFF"/>
+		<stop offset="1.0" style="stop-color:#800000"/>
+	</radialGradient>
   </defs>
   <sodipodi:namedview
      inkscape:window-y="0"
@@ -354,5 +358,6 @@
        sodipodi:ry="51.51778"
        d="M 145.46197 382.8223 A 55.053314 51.51778 0 1 1  35.355339,382.8223 A 55.053314 51.51778 0 1 1  145.46197 382.8223 z"
        transform="matrix(0.694344,0.719643,-0.167630,0.161737,328.1821,312.9174)" />
+	<circle fill="url(#gradient_1)" cx="90" cy="95" r="40"/>
   </g>
 </svg>
