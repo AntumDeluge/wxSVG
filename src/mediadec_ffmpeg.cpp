@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.18 2012-03-04 17:35:42 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.19 2012-04-09 11:29:36 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -12,29 +12,13 @@
 #include <wx/wx.h>
 #include <errno.h>
 
-#define INT64_C(val) val##LL
-#define UINT64_C(val) val##ULL
-#ifndef int64_t_C
-#define int64_t_C(c)     (c ## LL)
-#define uint64_t_C(c)    (c ## ULL)
-#endif
-#ifndef INT64_MAX
-#define INT64_MAX int64_t_C(0x7fffffffffffffff)
-#endif
 extern "C" {
 #define __STDC_CONSTANT_MACROS
 #define __STDC_LIMIT_MACROS
-#ifdef HAVE_FFMPEG_AVUTIL_H
-#include <avformat.h>
-#include <swscale.h>
-#include <avutil.h>
-#include <mathematics.h>
-#else
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 #include <libavutil/avutil.h>
 #include <libavutil/mathematics.h>
-#endif
 }
 
 wxFfmpegMediaDecoder::wxFfmpegMediaDecoder(): m_formatCtx(NULL), m_codecCtx(NULL), m_frame(NULL) {

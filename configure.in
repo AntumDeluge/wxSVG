@@ -183,6 +183,9 @@ if test x$enable_libav = xyes; then
   PKG_CHECK_MODULES(LIBAV, [libavformat >= 50.0.0 libavcodec >= 51.0.0 libavutil >= 49.0.0 libswscale])
   CXXFLAGS="$CXXFLAGS -DUSE_LIBAV $LIBAV_CFLAGS"
   LIBS="$LIBS $LIBAV_LIBS"
+  AC_CHECK_HEADER([libavformat/avformat.h],[],[AC_MSG_ERROR([*** missing libav library])],[
+#define __STDC_CONSTANT_MACROS
+#define __STDC_LIMIT_MACROS])
 fi
 
 # vars
