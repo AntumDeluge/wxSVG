@@ -1,7 +1,6 @@
 TODO: wrtite this file.
 
-Cygwin --> mingw
-
-./autogen.sh
-CC="gcc -mno-cygwin -mwindows" CXX="g++ -mno-cygwin -mwindows" LDFLAGS="-mno-cygwin -mwindows" ./configure --build=i686-pc-mingw32 --host=i686-pc-mingw32 --prefix=/opt/wxsvg/1.0/ --enable-render=agg --with-libagg=/opt/agg/2.5/ --with-wxdir=/opt/wx/2.8/bin
+Mingw:
+	./autogen.sh
+	CC="gcc -mno-cygwin -mwindows" CXX="g++ -mno-cygwin -mwindows" LDFLAGS="-mno-cygwin -mwindows" ./configure
 
