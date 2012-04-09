@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.21 2012-04-01 20:36:08 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.22 2012-04-09 12:17:00 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -419,6 +419,8 @@ void wxSVGCanvasCairo::DrawCanvasPath(wxSVGCanvasPathCairo& canvasPath, wxSVGMat
 			cairo_paint(m_cr); // fill the rectangle using the pattern
 			cairo_new_path(m_cr);
 			cairo_restore(m_cr);
+			
+			cairo_pattern_destroy(pattern);
 			cairo_destroy(cr);
 			cairo_surface_destroy(surface);
 			return;
