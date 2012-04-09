@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.cpp,v 1.6 2012-03-31 11:34:30 ntalex Exp $
+// RCS-ID:      $Id: svgxml.cpp,v 1.7 2012-04-09 12:20:07 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -314,66 +314,50 @@ bool wxSvgXmlNode::DeleteProperty(const wxString& name)
     }
 }
 
-wxString wxSvgXmlNode::GetAttribute(const wxString& name)
-{
-  wxString val;
-  GetPropVal(name, &val);
-  return val;
+wxString wxSvgXmlNode::GetAttribute(const wxString& name) {
+	wxString val;
+	GetPropVal(name, &val);
+	return val;
 }
 
-wxString wxSvgXmlNode::GetAttributeNS(const wxString& namespaceURI, 
-								   const wxString& localName)
-{
-  return GetAttribute(localName);
+wxString wxSvgXmlNode::GetAttributeNS(const wxString& namespaceURI, const wxString& localName) {
+	return GetAttribute(localName);
 }
 
-bool wxSvgXmlNode::SetAttribute(const wxString& name, const wxString& value)
-{
-  wxSvgXmlProperty *prop = GetProperties();
-  while (prop)
-  {
-	if (prop->GetName() == name)
-	{
-	  prop->SetValue(value);
-	  return true;
+bool wxSvgXmlNode::SetAttribute(const wxString& name, const wxString& value) {
+	wxSvgXmlProperty *prop = GetProperties();
+	while (prop) {
+		if (prop->GetName() == name) {
+			prop->SetValue(value);
+			return true;
+		}
+		prop = prop->GetNext();
 	}
-	prop = prop->GetNext();
-  }
-  AddProperty(name, value);
-  return true;
+	AddProperty(name, value);
+	return true;
 }
 
-bool wxSvgXmlNode::SetAttributeNS(const wxString& namespaceURI, 
-							   const wxString& qualifiedName, 
-							   const wxString& value)
-{
-  return SetAttribute(qualifiedName, value);
+bool wxSvgXmlNode::SetAttributeNS(const wxString& namespaceURI, const wxString& qualifiedName, const wxString& value) {
+	return SetAttribute(qualifiedName, value);
 }
 
-void wxSvgXmlNode::RemoveAttribute(const wxString& name)
-{
-  DeleteProperty(name);
+void wxSvgXmlNode::RemoveAttribute(const wxString& name) {
+	DeleteProperty(name);
 }
 
-void wxSvgXmlNode::RemoveAttributeNS(const wxString& namespaceURI, 
-								  const wxString& localName)
-{
-  RemoveAttribute(localName);
+void wxSvgXmlNode::RemoveAttributeNS(const wxString& namespaceURI, const wxString& localName) {
+	RemoveAttribute(localName);
 }
 
-bool wxSvgXmlNode::HasAttribute(const wxString& name)
-{
+bool wxSvgXmlNode::HasAttribute(const wxString& name) {
   return HasProp(name);
 }
 
-bool wxSvgXmlNode::HasAttributeNS(const wxString& namespaceURI, 
-							   const wxString& localName)
-{
+bool wxSvgXmlNode::HasAttributeNS(const wxString& namespaceURI, const wxString& localName) {
   return HasAttribute(localName);
 }
 
-wxSvgXmlAttrHash wxSvgXmlNode::GetAttributes() const
-{
+wxSvgXmlAttrHash wxSvgXmlNode::GetAttributes() const {
   wxSvgXmlAttrHash attributes;
   wxSvgXmlProperty *prop = GetProperties();
   while (prop)
@@ -808,13 +792,9 @@ static void OutputNode(wxOutputStream& stream, wxSvgXmlNode *node, int indent,
             OutputString(stream, node->GetName(), NULL, NULL);
 
             attributes = node->GetAttributes();
-            for (wxSvgXmlAttrHash::iterator it = attributes.begin();
-                 it != attributes.end(); ++it)
-            {
-                OutputString(stream, wxT(" ") + it->first +  wxT("=\""),
-                             NULL, NULL);
-                OutputStringEnt(stream, it->second, NULL, NULL,
-                                true/*escapeQuotes*/);
+            for (wxSvgXmlAttrHash::iterator it = attributes.begin(); it != attributes.end(); ++it) {
+                OutputString(stream, wxT(" ") + it->GetName() +  wxT("=\""), NULL, NULL);
+                OutputStringEnt(stream, it->GetValue(), NULL, NULL, true/*escapeQuotes*/);
                 OutputString(stream, wxT("\""), NULL, NULL);
             }
 

@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.h,v 1.4 2010-02-22 20:00:42 ntalex Exp $
+// RCS-ID:      $Id: svgxml.h,v 1.5 2012-04-09 12:20:07 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -19,6 +19,7 @@
 #include <wx/object.h>
 #include <wx/list.h>
 #include <wx/hashmap.h>
+#include <vector>
 
 class wxSvgXmlNode;
 class wxSvgXmlProperty;
@@ -75,20 +76,33 @@ private:
     wxSvgXmlProperty *m_next;
 };
 
+class wxSvgXmlAttribute {
+public:
+	wxSvgXmlAttribute() {}
+	wxSvgXmlAttribute(const wxString& name, const wxString& value): m_name(name), m_value(value) {}
 
-WX_DECLARE_STRING_HASH_MAP(wxString, wxSvgXmlAttrHashBase);
-class wxSvgXmlAttrHash: public wxSvgXmlAttrHashBase
-{
-  public:
-    void Add(wxString key, wxString value) { (*this)[key] = value; }
-    void Add(const wxSvgXmlAttrHash& value)
-    {
-      wxSvgXmlAttrHash::const_iterator it; 
-      for(it = value.begin(); it != value.end(); ++it)
-        insert(*it);
-    }
+    wxString GetName() const { return m_name; }
+    wxString GetValue() const { return m_value; }
+
+    void SetName(const wxString& name) { m_name = name; }
+    void SetValue(const wxString& value) { m_value = value; }
+
+private:
+    wxString m_name;
+    wxString m_value;
 };
 
+class wxSvgXmlAttrHash: public std::vector<wxSvgXmlAttribute> {
+public:
+    void Add(wxString name, wxString value) {
+		push_back(wxSvgXmlAttribute(name, value));
+	}
+	void Add(const wxSvgXmlAttrHash& value) {
+		wxSvgXmlAttrHash::const_iterator it;
+		for (it = value.begin(); it != value.end(); ++it)
+			push_back(*it);
+	}
+};
 
 // Represents node in XML document. Node has name and may have content
 // and properties. Most common node types are wxSVGXML_TEXT_NODE (name and props
