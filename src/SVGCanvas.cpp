@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.18 2012-04-01 19:58:57 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.19 2012-04-09 11:44:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -246,7 +246,7 @@ void wxSVGCanvas::LoadImages(wxSVGElement* parent1, wxSVGElement* parent2) {
 			wxSVGImageElement* imgElem1 = (wxSVGImageElement*) elem1;
 			if (imgElem1->GetHref().GetAnimVal().length()) {
 				if (imgElem1->GetCanvasItem() == NULL
-						|| ((wxSVGCanvasImage*) imgElem1->GetCanvasItem())->m_href != imgElem1->GetHref())
+						|| ((wxSVGCanvasImage*) imgElem1->GetCanvasItem())->m_href != imgElem1->GetHref().GetAnimVal())
 					imgElem1->SetCanvasItem(CreateItem(imgElem1));
 				((wxSVGImageElement*) elem2)->SetCanvasItem(CreateItem(imgElem1));
 			}
@@ -255,7 +255,7 @@ void wxSVGCanvas::LoadImages(wxSVGElement* parent1, wxSVGElement* parent2) {
 			wxSVGVideoElement* vElem1 = (wxSVGVideoElement*) elem1;
 			if (vElem1->GetHref().GetAnimVal().length()) {
 				if (vElem1->GetCanvasItem() == NULL
-						|| ((wxSVGCanvasVideo*) vElem1->GetCanvasItem())->m_href != vElem1->GetHref())
+						|| ((wxSVGCanvasVideo*) vElem1->GetCanvasItem())->m_href != vElem1->GetHref().GetAnimVal())
 					vElem1->SetCanvasItem(CreateItem(vElem1));
 				((wxSVGVideoElement*) elem2)->SetCanvasItem(CreateItem(vElem1));
 			}
