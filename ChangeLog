@@ -1,3 +1,9 @@
+Version 1.1.8 <2012.04.12>
+--------------------------
+
+  * fixed memory leak
+  * fixed storing of xml file
+
 Version 1.1.7 <2012.04.01>
 --------------------------
 
