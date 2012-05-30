@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.20 2012-04-11 20:50:33 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.21 2012-05-30 18:17:56 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -56,7 +56,7 @@ bool wxFfmpegMediaDecoder::Load(const wxString& fileName) {
 		return false;
 	}
 	// Retrieve stream information
-	if (av_find_stream_info(m_formatCtx)<0) {
+	if (avformat_find_stream_info(m_formatCtx, NULL) < 0) {
 		wxLogError(wxT("%s: could not find codec parameters"), fileName.c_str());
 		return false;
 	}
@@ -66,8 +66,7 @@ bool wxFfmpegMediaDecoder::Load(const wxString& fileName) {
 void wxFfmpegMediaDecoder::Close() {
 	EndDecode();
 	if (m_formatCtx)
-		av_close_input_file(m_formatCtx);
-	m_formatCtx = NULL;
+		avformat_close_input(&m_formatCtx);
 }
 
 unsigned int wxFfmpegMediaDecoder::GetStreamCount() {
@@ -171,7 +170,7 @@ bool wxFfmpegMediaDecoder::OpenVideoDecoder() {
 	m_codecCtx = m_formatCtx->streams[m_videoStream]->codec;
 	// find and open the decoder for the video stream 
 	AVCodec* codec = avcodec_find_decoder(m_codecCtx->codec_id);
-	if (!codec || avcodec_open(m_codecCtx, codec)<0) {
+	if (!codec || avcodec_open2(m_codecCtx, codec, NULL) < 0) {
 		m_codecCtx = NULL;
 		return false;
 	}
