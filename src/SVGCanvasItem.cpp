@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.40 2012-04-01 19:58:57 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.41 2012-06-24 22:36:58 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -872,24 +872,30 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 	} else if (m_href.length()) {
 		long pos = 0;
 		wxString filename = m_href;
-		if (!wxFileExists(filename) && m_href.Find(wxT('#')) != wxNOT_FOUND && m_href.AfterLast(wxT('#')).ToLong(&pos))
-			filename = m_href.BeforeLast(wxT('#'));
-		if (!wxFileExists(filename)) {
-			wxLogError(_("Can't load image from file '%s': file does not exist."), filename.c_str());
-			return;
-		}
-		if (element.GetHref().GetAnimVal().EndsWith(wxT(".svg"))) {
-			wxSVGDocument imgDoc;
-			if (imgDoc.Load(filename) && imgDoc.GetRootElement() != NULL) {
-				m_svgImage = imgDoc.GetRootElement();
-				imgDoc.RemoveChild(m_svgImage);
-				if (m_svgImage->GetViewBox().GetBaseVal().IsEmpty()
-						&& m_svgImage->GetWidth().GetBaseVal().GetValue() > 0
-						&& m_svgImage->GetWidth().GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_PERCENTAGE)
-					m_svgImage->SetViewBox(
-							wxSVGRect(0, 0, m_svgImage->GetWidth().GetBaseVal(), m_svgImage->GetHeight().GetBaseVal()));
+		if (filename.StartsWith(wxT("concat:"))) {
+			if (filename.Find(wxT('#')) != wxNOT_FOUND && filename.AfterLast(wxT('#')).ToLong(&pos))
+				filename = filename.BeforeLast(wxT('#'));
+		} else {
+			if (!wxFileExists(filename) && filename.Find(wxT('#')) != wxNOT_FOUND
+					&& filename.AfterLast(wxT('#')).ToLong(&pos))
+				filename = filename.BeforeLast(wxT('#'));
+			if (!wxFileExists(filename)) {
+				wxLogError(_("Can't load image from file '%s': file does not exist."), filename.c_str());
+				return;
 			}
-			return;
+			if (element.GetHref().GetAnimVal().EndsWith(wxT(".svg"))) {
+				wxSVGDocument imgDoc;
+				if (imgDoc.Load(filename) && imgDoc.GetRootElement() != NULL) {
+					m_svgImage = imgDoc.GetRootElement();
+					imgDoc.RemoveChild(m_svgImage);
+					if (m_svgImage->GetViewBox().GetBaseVal().IsEmpty()
+							&& m_svgImage->GetWidth().GetBaseVal().GetValue() > 0
+							&& m_svgImage->GetWidth().GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_PERCENTAGE)
+						m_svgImage->SetViewBox(
+								wxSVGRect(0, 0, m_svgImage->GetWidth().GetBaseVal(), m_svgImage->GetHeight().GetBaseVal()));
+				}
+				return;
+			}
 		}
 #ifdef USE_LIBAV
 		bool log = wxLog::EnableLogging(false);
