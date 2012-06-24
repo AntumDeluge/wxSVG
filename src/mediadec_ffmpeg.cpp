@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.21 2012-05-30 18:17:56 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.22 2012-06-24 22:35:42 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -46,7 +46,9 @@ void PrintError(const wxString& msg, int err) {
 
 bool wxFfmpegMediaDecoder::Load(const wxString& fileName) {
 	Close();
-	if (!wxFileExists(fileName)) {
+	if ((fileName.Find(wxT(':')) <= 0 || fileName.Find(wxT(':')) >= 8
+			|| fileName.GetChar(fileName.Find(wxT(':')) - 1) == wxT('\\'))
+			&& !wxFileExists(fileName)) {
 		wxLogError(wxT("%s: no such file or directory"), fileName.c_str());
 		return false;
 	}
