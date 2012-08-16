@@ -1,2 +1,2 @@
 pkgincludedir = @includedir@/wxSVG
-pkginclude_HEADERS = *.h
+pkginclude_HEADERS = $(top_srcdir)/include/wxSVG/*.h

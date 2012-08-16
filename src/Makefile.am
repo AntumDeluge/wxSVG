@@ -49,4 +49,4 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp imagsvg.cpp\
 libwxsvg_la_LIBADD = svgxml/libwxsvgxml.la $(RENDER_LIB) $(TEXT_LIB)
 libwxsvg_la_LDFLAGS = -no-undefined -version-info @LIBRARY_VERSION@
 
-INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/wxSVG
+INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)/include/wxSVG
