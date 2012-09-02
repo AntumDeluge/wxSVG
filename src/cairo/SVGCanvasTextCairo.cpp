@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas text
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.8 2012-01-21 15:06:50 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.9 2012-09-02 14:47:28 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -46,8 +46,8 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 	HFONT hfont = (HFONT) fnt.GetResourceHandle();
 	cairo_set_font_face(cr, cairo_win32_font_face_create_for_hfont(hfont));
 #else
-	wxUint32 atsuFontId = fnt.MacGetATSUFontID();
-	cairo_set_font_face(cr, cairo_quartz_font_face_create_for_atsu_font_id(atsuFontId));
+	CGFontRef cgFont = fnt.OSXGetCGFont();
+	cairo_set_font_face(cr, cairo_quartz_font_face_create_for_cgfont(cgFont));
 #endif	
 	cairo_set_font_size(cr, style.GetFontSize());
 	
