@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.22 2012-06-24 22:35:42 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.23 2013-01-09 10:44:42 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,8 @@ extern "C" {
 #include <libavutil/mathematics.h>
 }
 
-wxFfmpegMediaDecoder::wxFfmpegMediaDecoder(): m_formatCtx(NULL), m_codecCtx(NULL), m_frame(NULL) {
+wxFfmpegMediaDecoder::wxFfmpegMediaDecoder(): m_formatCtx(NULL), m_codecCtx(NULL), m_frame(NULL),
+		m_width(0), m_height(0) {
 	// nothing to do
 }
 
@@ -151,7 +152,7 @@ int wxFfmpegMediaDecoder::GetBitrate(unsigned int streamIndex) {
 }
 
 double wxFfmpegMediaDecoder::GetDuration() {
-	return m_formatCtx != NULL && m_formatCtx->duration != (int)AV_NOPTS_VALUE ?
+	return m_formatCtx != NULL && m_formatCtx->duration != (int64_t)AV_NOPTS_VALUE ?
 			((double)m_formatCtx->duration) / AV_TIME_BASE : -1;
 }
 
@@ -217,7 +218,7 @@ bool wxFfmpegMediaDecoder::SetPosition(double pos, bool keyFrame) {
     if (m_formatCtx == NULL)
         return false;
     int64_t timestamp = (int64_t) (pos * AV_TIME_BASE);
-    if (m_formatCtx->start_time != (int)AV_NOPTS_VALUE)
+    if (m_formatCtx->start_time != (int64_t)AV_NOPTS_VALUE)
         timestamp += m_formatCtx->start_time;
     return av_seek_frame(m_formatCtx, -1, timestamp,
     		keyFrame ? AVSEEK_FLAG_BACKWARD : AVSEEK_FLAG_ANY|AVSEEK_FLAG_BACKWARD) >= 0;
@@ -231,10 +232,10 @@ double wxFfmpegMediaDecoder::GetPosition() {
 		return -1;
 	AVStream *st = m_formatCtx->streams[streamIndex];
 	int64_t timestamp = st->cur_dts;
-	if (timestamp == (int)AV_NOPTS_VALUE)
+	if (timestamp == (int64_t)AV_NOPTS_VALUE)
 		return -1;
 	timestamp = av_rescale(timestamp, AV_TIME_BASE * (int64_t)st->time_base.num, st->time_base.den);
-	if (m_formatCtx->start_time != (int)AV_NOPTS_VALUE)
+	if (m_formatCtx->start_time != (int64_t)AV_NOPTS_VALUE)
 		timestamp -= m_formatCtx->start_time;
 	return ((double)timestamp)/AV_TIME_BASE;
 }
