@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.22 2012-04-09 12:17:00 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.23 2013-01-09 10:45:19 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -112,17 +112,17 @@ wxSVGCanvasItem* wxSVGCanvasCairo::CreateItem(wxSVGVideoElement* element, const 
 void wxSVGCanvasCairo::DrawItem(wxSVGCanvasItem& item, wxSVGMatrix& matrix,
 		const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem) {
 	switch (item.GetType()) {
-	case wxSVGCanvasItem::wxSVG_CANVAS_ITEM_PATH:
+	case wxSVG_CANVAS_ITEM_PATH:
 		DrawCanvasPath((wxSVGCanvasPathCairo&) item, matrix, style, svgElem);
 		break;
-	case wxSVGCanvasItem::wxSVG_CANVAS_ITEM_TEXT:
+	case wxSVG_CANVAS_ITEM_TEXT:
 		DrawCanvasText((wxSVGCanvasText&) item, matrix, style, svgElem);
 		break;
-	case wxSVGCanvasItem::wxSVG_CANVAS_ITEM_IMAGE:
+	case wxSVG_CANVAS_ITEM_IMAGE:
 		DrawCanvasImage((wxSVGCanvasImage&) item, ((wxSVGCanvasImageCairo&) item).GetCairoPattern(),
 				matrix, style, svgElem);
 		break;
-	case wxSVGCanvasItem::wxSVG_CANVAS_ITEM_VIDEO:
+	case wxSVG_CANVAS_ITEM_VIDEO:
 		DrawCanvasImage((wxSVGCanvasImage&) item, ((wxSVGCanvasVideoCairo&) item).GetCairoPattern(),
 				matrix, style, svgElem);
 		break;

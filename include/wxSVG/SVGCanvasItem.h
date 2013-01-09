@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.22 2012-01-06 03:12:45 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.23 2013-01-09 10:45:19 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -14,18 +14,17 @@
 #include "svg.h"
 #include <wx/dynarray.h>
 
+enum wxSVGCanvasItemType {
+	wxSVG_CANVAS_ITEM_PATH,
+	wxSVG_CANVAS_ITEM_TEXT,
+	wxSVG_CANVAS_ITEM_IMAGE,
+	wxSVG_CANVAS_ITEM_VIDEO
+};
+
 /** Base class for canvas items */
 class wxSVGCanvasItem
 {
   public:
-	enum wxSVGCanvasItemType
-	{
-	  wxSVG_CANVAS_ITEM_PATH,
-	  wxSVG_CANVAS_ITEM_TEXT,
-	  wxSVG_CANVAS_ITEM_IMAGE,
-	  wxSVG_CANVAS_ITEM_VIDEO
-	};
-	
 	wxSVGCanvasItem(wxSVGCanvasItemType type) { m_type = type; }
 	virtual ~wxSVGCanvasItem() {}
 	wxSVGCanvasItemType GetType() { return m_type; }
@@ -147,8 +146,10 @@ class wxSVGCanvasText: public wxSVGCanvasItem
 /** Canvas item, that saves image (SVGImageElement) */
 class wxSVGCanvasImage: public wxSVGCanvasItem {
 public:
-	wxSVGCanvasImage(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_IMAGE), m_defHeightScale(1), m_svgImage(NULL) {}
-	wxSVGCanvasImage(wxSVGCanvasItemType type): wxSVGCanvasItem(type), m_defHeightScale(1), m_svgImage(NULL) {}
+	wxSVGCanvasImage(): wxSVGCanvasItem(wxSVG_CANVAS_ITEM_IMAGE), m_x(0), m_y(0), m_width(0), m_height(0),
+		m_defHeightScale(1), m_svgImage(NULL) {}
+	wxSVGCanvasImage(wxSVGCanvasItemType type): wxSVGCanvasItem(type), m_x(0), m_y(0), m_width(0), m_height(0),
+		m_defHeightScale(1), m_svgImage(NULL) {}
 	virtual ~wxSVGCanvasImage();
 	virtual void Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style);
 	virtual int GetDefaultWidth();
