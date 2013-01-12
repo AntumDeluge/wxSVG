@@ -1,3 +1,9 @@
+Version 1.1.10 <2012.01.12>
+---------------------------
+
+  * wxFfmpegMediaDecoder: fixed GetPosition()
+  * MacOSX: added support of quartz fonts
+
 Version 1.1.9 <2012.06.25>
 --------------------------
 
