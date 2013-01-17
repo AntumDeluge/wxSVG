@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas path
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasPathCairo.h,v 1.4 2011-07-15 14:00:48 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasPathCairo.h,v 1.5 2013-01-17 00:01:57 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -17,12 +17,10 @@
 class wxSVGCanvasPathCairo: public wxSVGCanvasPath {
 protected:
 	cairo_t* m_cr;
-	cairo_surface_t* m_surface;
-	cairo_path_t* m_cairo_path;
 	double m_curx, m_cury, m_cubicx, m_cubicy, m_quadx, m_quady;
 
 public:
-	wxSVGCanvasPathCairo();
+	wxSVGCanvasPathCairo(cairo_surface_t* surface, cairo_matrix_t* matrix = NULL);
 	virtual ~wxSVGCanvasPathCairo();
 	
 	void End();

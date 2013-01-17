@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas path
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasPathCairo.cpp,v 1.7 2012-01-08 02:43:09 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasPathCairo.cpp,v 1.8 2013-01-17 00:01:57 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -11,15 +11,15 @@
 #include "SVGCanvasPathCairo.h"
 #include <wx/log.h>
 
-wxSVGCanvasPathCairo::wxSVGCanvasPathCairo() {
-	m_surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, 1, 1);
-	m_cr = cairo_create(m_surface);
+wxSVGCanvasPathCairo::wxSVGCanvasPathCairo(cairo_surface_t* surface, cairo_matrix_t* matrix) {
+	m_cr = cairo_create(surface);
+	if (matrix)
+		cairo_set_matrix(m_cr, matrix); // for correct checking of surface size when text is rendered using PangaCairo 
 	m_curx = m_cury = m_cubicx = m_cubicy = m_quadx = m_quady = 0;
 }
 
 wxSVGCanvasPathCairo::~wxSVGCanvasPathCairo() {
 	cairo_destroy(m_cr);
-	cairo_surface_destroy(m_surface);
 }
 
 void wxSVGCanvasPathCairo::End() {

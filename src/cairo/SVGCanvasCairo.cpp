@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.23 2013-01-09 10:45:19 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.24 2013-01-17 00:01:57 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -88,7 +88,14 @@ void wxSVGCanvasCairo::Clear(wxRGBColor color) {
 }
 
 wxSVGCanvasPath* wxSVGCanvasCairo::CreateCanvasPath() {
-	return new wxSVGCanvasPathCairo();
+	if (m_surface == NULL)
+		m_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 1, 1);
+	if (m_cr) {
+		cairo_matrix_t mat;
+		cairo_get_matrix(m_cr, &mat);
+		return new wxSVGCanvasPathCairo(m_surface, &mat);
+	}
+	return new wxSVGCanvasPathCairo(m_surface);
 }
 
 wxSVGCanvasItem* wxSVGCanvasCairo::CreateItem(wxSVGTextElement* element, const wxCSSStyleDeclaration* style) {
