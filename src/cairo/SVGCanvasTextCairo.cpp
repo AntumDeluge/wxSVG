@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas text
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.9 2012-09-02 14:47:28 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.10 2013-01-19 18:26:28 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -28,8 +28,8 @@ wxSVGCanvasTextCairo::wxSVGCanvasTextCairo(wxSVGCanvas* canvas): wxSVGCanvasText
 wxSVGCanvasTextCairo::~wxSVGCanvasTextCairo() {
 }
 
-void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclaration& style) {
-	BeginChar();
+void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclaration& style, wxSVGMatrix* matrix) {
+	BeginChar(matrix);
 	
 	// create path from text
 	cairo_t* cr = ((wxSVGCanvasPathCairo*) m_char->path)->GetCr();

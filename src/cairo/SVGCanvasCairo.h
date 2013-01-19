@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.9 2011-10-31 07:53:48 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.10 2013-01-19 18:26:28 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -29,8 +29,9 @@ public:
     wxImage GetImage();
 	void Clear(wxRGBColor color = wxRGBColor(0xFF,0xFF,0xFF));
 	
-	wxSVGCanvasPath* CreateCanvasPath();
-    wxSVGCanvasItem* CreateItem(wxSVGTextElement* element, const wxCSSStyleDeclaration* style = NULL);
+	wxSVGCanvasPath* CreateCanvasPath(wxSVGMatrix* matrix = NULL);
+    wxSVGCanvasItem* CreateItem(wxSVGTextElement* element, const wxCSSStyleDeclaration* style = NULL,
+    		wxSVGMatrix* matrix = NULL);
 	wxSVGCanvasItem* CreateItem(wxSVGImageElement* element, const wxCSSStyleDeclaration* style = NULL);
 	wxSVGCanvasItem* CreateItem(wxSVGVideoElement* element, const wxCSSStyleDeclaration* style = NULL);
     

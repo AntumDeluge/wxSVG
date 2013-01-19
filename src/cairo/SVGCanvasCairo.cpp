@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.24 2013-01-17 00:01:57 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.25 2013-01-19 18:26:28 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -87,20 +87,16 @@ void wxSVGCanvasCairo::Clear(wxRGBColor color) {
 	cairo_fill(m_cr);
 }
 
-wxSVGCanvasPath* wxSVGCanvasCairo::CreateCanvasPath() {
+wxSVGCanvasPath* wxSVGCanvasCairo::CreateCanvasPath(wxSVGMatrix* matrix) {
 	if (m_surface == NULL)
 		m_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 1, 1);
-	if (m_cr) {
-		cairo_matrix_t mat;
-		cairo_get_matrix(m_cr, &mat);
-		return new wxSVGCanvasPathCairo(m_surface, &mat);
-	}
-	return new wxSVGCanvasPathCairo(m_surface);
+	return new wxSVGCanvasPathCairo(m_surface, matrix);
 }
 
-wxSVGCanvasItem* wxSVGCanvasCairo::CreateItem(wxSVGTextElement* element, const wxCSSStyleDeclaration* style) {
+wxSVGCanvasItem* wxSVGCanvasCairo::CreateItem(wxSVGTextElement* element, const wxCSSStyleDeclaration* style,
+		wxSVGMatrix* matrix) {
 	wxSVGCanvasTextCairo* canvasText = new wxSVGCanvasTextCairo(this);
-	canvasText->Init(*element, style != NULL ? *style : (wxCSSStyleDeclaration&) element->GetStyle());
+	canvasText->Init(*element, style != NULL ? *style : (wxCSSStyleDeclaration&) element->GetStyle(), matrix);
 	return canvasText;
 }
 

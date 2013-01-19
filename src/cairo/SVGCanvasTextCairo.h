@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas text
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasTextCairo.h,v 1.5 2011-08-04 19:56:05 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasTextCairo.h,v 1.6 2013-01-19 18:26:28 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@ public:
 	~wxSVGCanvasTextCairo();
 
 public:
-	virtual void InitText(const wxString& text, const wxCSSStyleDeclaration& style);
+	virtual void InitText(const wxString& text, const wxCSSStyleDeclaration& style, wxSVGMatrix* matrix);
 };
 
 #endif // WX_SVG_CANVAS_TEXT_CAIRO_H

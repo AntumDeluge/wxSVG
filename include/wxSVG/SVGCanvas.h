@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/02
-// RCS-ID:      $Id: SVGCanvas.h,v 1.12 2011-11-01 06:52:59 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.h,v 1.13 2013-01-19 18:26:28 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ public:
 	virtual wxImage GetImage() = 0;
 	virtual void Clear(wxRGBColor color = wxRGBColor(0xFF,0xFF,0xFF)) = 0;
 	
-	virtual wxSVGCanvasPath* CreateCanvasPath() = 0;
+	virtual wxSVGCanvasPath* CreateCanvasPath(wxSVGMatrix* matrix = NULL) = 0;
 	wxSVGCanvasItem* CreateItem(wxSVGLineElement* element);
 	wxSVGCanvasItem* CreateItem(wxSVGPolylineElement* element);
 	wxSVGCanvasItem* CreateItem(wxSVGPolygonElement* element);
@@ -35,7 +35,8 @@ public:
 	wxSVGCanvasItem* CreateItem(wxSVGCircleElement* element);
 	wxSVGCanvasItem* CreateItem(wxSVGEllipseElement* element);
 	wxSVGCanvasItem* CreateItem(wxSVGPathElement* element);
-	virtual wxSVGCanvasItem* CreateItem(wxSVGTextElement* element, const wxCSSStyleDeclaration* style = NULL) = 0;
+	virtual wxSVGCanvasItem* CreateItem(wxSVGTextElement* element, const wxCSSStyleDeclaration* style = NULL,
+			wxSVGMatrix* matrix = NULL) = 0;
 	virtual wxSVGCanvasItem* CreateItem(wxSVGImageElement* element, const wxCSSStyleDeclaration* style = NULL);
 	virtual wxSVGCanvasItem* CreateItem(wxSVGVideoElement* element, const wxCSSStyleDeclaration* style = NULL);
 	

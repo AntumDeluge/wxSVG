@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.23 2013-01-09 10:45:19 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.24 2013-01-19 18:26:28 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -109,7 +109,7 @@ class wxSVGCanvasText: public wxSVGCanvasItem
 	wxSVGCanvasText(wxSVGCanvas* canvas);
 	virtual ~wxSVGCanvasText();
 	
-	virtual void Init(wxSVGTextElement& element, const wxCSSStyleDeclaration& style);
+	virtual void Init(wxSVGTextElement& element, const wxCSSStyleDeclaration& style, wxSVGMatrix* matrix);
     virtual wxSVGRect GetBBox(const wxSVGMatrix& matrix = *(wxSVGMatrix*)NULL);
 	virtual long GetNumberOfChars();
     virtual double GetComputedTextLength();
@@ -132,15 +132,16 @@ class wxSVGCanvasText: public wxSVGCanvasItem
 	double m_textAnchorBeginPos; /** x-coordinate of text with current text anchor */
 	wxCSS_VALUE m_dominantBaseline; /** current dominant baseline */
     int m_dominantBaselineBeginIndex; /** index of first chunk with current baseline */
-	virtual void Init(wxSVGTSpanElement& element, const wxCSSStyleDeclaration& style);
-	virtual void InitChildren(wxSVGTextPositioningElement& element, const wxCSSStyleDeclaration& style);
-	virtual void AddChunk(const wxString& text, const wxCSSStyleDeclaration& style);
-	virtual void BeginChar();
+	virtual void Init(wxSVGTSpanElement& element, const wxCSSStyleDeclaration& style, wxSVGMatrix* matrix);
+	virtual void InitChildren(wxSVGTextPositioningElement& element, const wxCSSStyleDeclaration& style,
+			wxSVGMatrix* matrix);
+	virtual void AddChunk(const wxString& text, const wxCSSStyleDeclaration& style, wxSVGMatrix* matrix);
+	virtual void BeginChar(wxSVGMatrix* matrix);
 	virtual void EndChar();
 	virtual void EndTextAnchor();
 	wxSVGCanvasTextChunk* GetChunk(unsigned long& charnum);
     /** Converts text in path and saves in current chunk (m_chunk->path) */
-    virtual void InitText(const wxString& text, const wxCSSStyleDeclaration& style) = 0;
+    virtual void InitText(const wxString& text, const wxCSSStyleDeclaration& style, wxSVGMatrix* matrix) = 0;
 };
 
 /** Canvas item, that saves image (SVGImageElement) */
