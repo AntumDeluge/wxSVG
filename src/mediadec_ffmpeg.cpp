@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.23 2013-01-09 10:44:42 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.24 2013-02-13 14:38:11 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ extern "C" {
 #include <libavutil/mathematics.h>
 }
 
-wxFfmpegMediaDecoder::wxFfmpegMediaDecoder(): m_formatCtx(NULL), m_codecCtx(NULL), m_frame(NULL),
+wxFfmpegMediaDecoder::wxFfmpegMediaDecoder(): m_formatCtx(NULL), m_videoStream(-1), m_codecCtx(NULL), m_frame(NULL),
 		m_width(0), m_height(0) {
 	// nothing to do
 }
