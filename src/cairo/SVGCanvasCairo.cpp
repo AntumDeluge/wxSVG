@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.25 2013-01-19 18:26:28 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.26 2013-02-13 14:35:59 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -356,9 +356,7 @@ void gaussianBlur(cairo_surface_t* surface, int dx, int dy) {
 
 void wxSVGCanvasCairo::DrawPath(cairo_t* cr, wxSVGCanvasPathCairo& canvasPath, wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style,
 		wxSVGSVGElement& svgElem) {
-	cairo_matrix_t mat;
-	cairo_matrix_init(&mat, matrix.GetA(), matrix.GetB(), matrix.GetC(), matrix.GetD(), matrix.GetE(), matrix.GetF());
-	cairo_set_matrix(cr, &mat);
+	SetMatrix(cr, matrix);
 	
 	// Filling
 	if (canvasPath.GetFill() && style.GetFill().Ok() && style.GetFill().GetPaintType() != wxSVG_PAINTTYPE_NONE) {
@@ -413,9 +411,7 @@ void wxSVGCanvasCairo::DrawCanvasPath(wxSVGCanvasPathCairo& canvasPath, wxSVGMat
 			
 			// draw surface
 			cairo_save(m_cr);
-			cairo_matrix_t mat;
-			cairo_matrix_init(&mat, 1, 0, 0, 1, rect.GetX(), rect.GetY());
-			cairo_set_matrix(m_cr, &mat);
+			SetMatrix(m_cr, wxSVGMatrix(1, 0, 0, 1, rect.GetX(), rect.GetY()));
 			cairo_pattern_t* pattern = cairo_pattern_create_for_surface(surface);
 			cairo_set_source(m_cr, pattern);
 			cairo_rectangle(m_cr, 0, 0, width, height);
@@ -432,6 +428,69 @@ void wxSVGCanvasCairo::DrawCanvasPath(wxSVGCanvasPathCairo& canvasPath, wxSVGMat
 	DrawPath(m_cr, canvasPath, matrix, style, svgElem);
 }
 
+void wxSVGCanvasCairo::SetMatrix(cairo_t* cr, const wxSVGMatrix& matrix) {
+	cairo_matrix_t mat;
+	cairo_matrix_init(&mat, matrix.GetA(), matrix.GetB(), matrix.GetC(),
+			matrix.GetD(), matrix.GetE(), matrix.GetF());
+	cairo_set_matrix(cr, &mat);
+}
+
+void wxSVGCanvasCairo::SetClipPath(wxSVGElement* clipPathElem, wxSVGMatrix matrix) {
+	SetMatrix(m_cr, matrix);
+	wxSVGElement* elem = (wxSVGElement*) (clipPathElem->GetFirstChild());
+	while (elem != NULL) {
+		elem->SetOwnerSVGElement(clipPathElem->GetOwnerSVGElement());
+		elem->SetViewportElement(clipPathElem->GetViewportElement());
+		wxSVGDocument* doc = (wxSVGDocument*) elem->GetOwnerDocument();
+		wxSVGCanvasItem* canvasItem = NULL;
+		switch (elem->GetDtd()) {
+		case wxSVG_G_ELEMENT: {
+			wxSVGGElement* gElement = (wxSVGGElement*) elem;
+			if (gElement->GetVisibility() == wxCSS_VALUE_HIDDEN)
+				break;
+			wxSVGMatrix gMatrix(matrix);
+			gElement->UpdateMatrix(gMatrix);
+			SetClipPath(elem, gMatrix);
+			SetMatrix(m_cr, matrix);
+			break;
+		}
+		case wxSVG_LINE_ELEMENT:
+			canvasItem = doc->GetCanvas()->CreateItem((wxSVGLineElement*) elem);
+			break;
+		case wxSVG_POLYLINE_ELEMENT:
+			canvasItem = doc->GetCanvas()->CreateItem((wxSVGPolylineElement*) elem);
+			break;
+		case wxSVG_POLYGON_ELEMENT:
+			canvasItem = doc->GetCanvas()->CreateItem((wxSVGPolygonElement*) elem);
+			break;
+		case wxSVG_RECT_ELEMENT:
+			canvasItem = doc->GetCanvas()->CreateItem((wxSVGRectElement*) elem);
+			break;
+		case wxSVG_CIRCLE_ELEMENT:
+			canvasItem = doc->GetCanvas()->CreateItem((wxSVGCircleElement*) elem);
+			break;
+		case wxSVG_ELLIPSE_ELEMENT: {
+			canvasItem = doc->GetCanvas()->CreateItem((wxSVGEllipseElement*) elem);
+			break;
+		}
+		case wxSVG_PATH_ELEMENT:
+			canvasItem = doc->GetCanvas()->CreateItem((wxSVGPathElement*) elem);
+			break;
+		default:
+			break;
+		}
+		if (canvasItem != NULL) {
+			cairo_path_t* path =
+					((wxSVGCanvasPathCairo*) canvasItem)->GetPath();
+			cairo_append_path(m_cr, path);
+			cairo_clip(m_cr);
+			//cairo_path_destroy(path);
+			delete canvasItem;
+		}
+		elem = (wxSVGElement*) elem->GetNextSibling();
+	}
+}
+
 void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImage& canvasImage, cairo_pattern_t* cairoPattern,
 		wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem) {
 	if (cairoPattern == NULL)
@@ -439,60 +498,20 @@ void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImage& canvasImage, cairo_patt
 	
 	cairo_save(m_cr);
 	
-	cairo_matrix_t mat;
-	cairo_matrix_init(&mat, matrix.GetA(), matrix.GetB(), matrix.GetC(), matrix.GetD(), matrix.GetE(), matrix.GetF());
-	cairo_set_matrix(m_cr, &mat);
-	
 	// ClipPath
 	if (style.GetClipPath().GetCSSPrimitiveType() == wxCSS_URI && style.GetClipPath().GetStringValue().length() > 1) {
 		wxString clipPathId = style.GetClipPath().GetStringValue().substr(1);
-		wxSVGElement* clipPathElem = (wxSVGElement*) svgElem.GetElementById(clipPathId);
+		wxSVGClipPathElement* clipPathElem = (wxSVGClipPathElement*) svgElem.GetElementById(clipPathId);
 		if (clipPathElem && clipPathElem->GetDtd() == wxSVG_CLIPPATH_ELEMENT) {
-			wxSVGElement* elem = (wxSVGElement*) clipPathElem->GetFirstChild();
-			while (elem != NULL) {
-				if (elem->GetOwnerSVGElement() == NULL)
-					elem->SetOwnerSVGElement(&svgElem);
-				if (elem->GetViewportElement() == NULL)
-					elem->SetViewportElement(&svgElem);
-				wxSVGDocument* doc = (wxSVGDocument*) elem->GetOwnerDocument();
-				wxSVGCanvasItem* canvasItem = NULL;
-				switch (elem->GetDtd()) {
-				case wxSVG_LINE_ELEMENT:
-					canvasItem = doc->GetCanvas()->CreateItem((wxSVGLineElement*) elem);
-					break;
-				case wxSVG_POLYLINE_ELEMENT:
-					canvasItem = doc->GetCanvas()->CreateItem((wxSVGPolylineElement*) elem);
-					break;
-				case wxSVG_POLYGON_ELEMENT:
-					canvasItem = doc->GetCanvas()->CreateItem((wxSVGPolygonElement*) elem);
-					break;
-				case wxSVG_RECT_ELEMENT:
-					canvasItem = doc->GetCanvas()->CreateItem((wxSVGRectElement*) elem);
-					break;
-				case wxSVG_CIRCLE_ELEMENT:
-					canvasItem = doc->GetCanvas()->CreateItem((wxSVGCircleElement*) elem);
-					break;
-				case wxSVG_ELLIPSE_ELEMENT: {
-					canvasItem = doc->GetCanvas()->CreateItem((wxSVGEllipseElement*) elem);
-					break;
-				}
-				case wxSVG_PATH_ELEMENT:
-					canvasItem = doc->GetCanvas()->CreateItem((wxSVGPathElement*) elem);
-					break;
-				default:
-					break;
-				}
-				if (canvasItem != NULL) {
-					cairo_path_t* path = ((wxSVGCanvasPathCairo*) canvasItem)->GetPath();
-					cairo_append_path(m_cr, path);
-					cairo_clip(m_cr);
-					//cairo_path_destroy(path);
-					delete canvasItem;
-				}
-				elem = (wxSVGElement*) elem->GetNextSibling();
-			}
+			clipPathElem->SetOwnerSVGElement(&svgElem);
+			clipPathElem->SetViewportElement(&svgElem);
+			wxSVGMatrix clipMatrix(matrix);
+			clipPathElem->UpdateMatrix(clipMatrix);
+			SetClipPath(clipPathElem, clipMatrix);
 		}
 	}
+	
+	SetMatrix(m_cr, matrix);
 	
 	// scale context
 	double x = canvasImage.m_x;
