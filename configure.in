@@ -110,7 +110,14 @@ cairo)
   PKG_CHECK_MODULES(CAIRO, cairo)
   CXXFLAGS="$CXXFLAGS $CAIRO_CFLAGS -DUSE_RENDER_CAIRO"
   LIBS="$LIBS $CAIRO_LIBS"
-  font_engine=pango
+  case $host_os in
+	*darwin*)
+		font_engine=
+		;;
+	*)
+		font_engine=pango
+		;;
+  esac
   ;;
 *)
   AC_MSG_ERROR([*** Unknown render "$USE_RENDER"])

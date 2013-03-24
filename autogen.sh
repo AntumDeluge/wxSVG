@@ -1,5 +1,5 @@
 #!/bin/sh
-libtoolize --copy --force
+glibtoolize --copy --force
 aclocal -I .
 automake --foreign -a -c
 autoconf
