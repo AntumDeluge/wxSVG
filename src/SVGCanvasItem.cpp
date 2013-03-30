@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.42 2013-01-19 18:26:28 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.43 2013-03-30 17:02:43 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -18,6 +18,8 @@
 #ifdef USE_LIBAV
 #include <wxSVG/mediadec_ffmpeg.h>
 #endif
+
+#undef GetCurrentTime
 
 //////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// wxSVGCanvasPath //////////////////////////////
@@ -532,7 +534,10 @@ wxSVGCanvasText::wxSVGCanvasText(wxSVGCanvas* canvas) :
 	m_char = NULL;
 	m_tx = m_ty = 0;
 	m_textAnchor = wxCSS_VALUE_START;
+	m_textAnchorBeginIndex = 0;
+	m_textAnchorBeginPos = 0;
 	m_dominantBaseline = wxCSS_VALUE_AUTO;
+	m_dominantBaselineBeginIndex = 0;
 }
 
 wxSVGCanvasText::~wxSVGCanvasText() {
@@ -964,8 +969,10 @@ wxSVGCanvasVideoData::~wxSVGCanvasVideoData() {
 #endif
 }
 
-wxSVGCanvasVideo::wxSVGCanvasVideo(): wxSVGCanvasImage(wxSVG_CANVAS_ITEM_VIDEO), m_videoData(NULL) {
-	// nothing to do
+wxSVGCanvasVideo::wxSVGCanvasVideo(): wxSVGCanvasImage(wxSVG_CANVAS_ITEM_VIDEO) {
+	m_time = 0;
+	m_duration = 0;
+	m_videoData = NULL;
 }
 
 wxSVGCanvasVideo::~wxSVGCanvasVideo() {
@@ -1005,7 +1012,7 @@ void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclarat
 				for (int i = 0; i < 60; i++) {
 					m_image = decoder->GetNextFrame();
 					currTime = decoder->GetPosition();
-					if (currTime >= m_time - 0.001 || currTime < 0)
+					if (currTime >= m_time - ftime/2 || currTime < 0)
 						break;
 				}
 			} else
