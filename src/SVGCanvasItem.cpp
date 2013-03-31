@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.43 2013-03-30 17:02:43 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.44 2013-03-31 14:10:45 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -1004,16 +1004,18 @@ void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclarat
 		m_defHeightScale = prevItem->m_defHeightScale;
 		wxFfmpegMediaDecoder* decoder = m_videoData->GetMediaDecoder();
 		if (decoder != NULL) {
-			double ftime = decoder->GetFps() != -1 ? 1.0 / decoder->GetFps() : 0.04;
+			double ftime = decoder->GetFps() >= 1 ? 1.0 / decoder->GetFps() : 0.04;
 			double currTime = decoder->GetPosition();
-			if (currTime != m_time && (m_time < currTime || m_time - currTime >= ftime - 0.001)) {
-				if (m_time < currTime || m_time - currTime > 50*ftime)
+			if (currTime != m_time && (currTime >= m_time + ftime/2 || m_time - currTime > ftime/2)) {
+				if (currTime > m_time || m_time - currTime > 50*ftime) {
 					decoder->SetPosition(m_time > 1.0 ? m_time - 1.0 : 0.0);
+				}
 				for (int i = 0; i < 60; i++) {
 					m_image = decoder->GetNextFrame();
 					currTime = decoder->GetPosition();
-					if (currTime >= m_time - ftime/2 || currTime < 0)
+					if (currTime >= m_time - ftime/2 || currTime < 0) {
 						break;
+					}
 				}
 			} else
 				m_image = prevItem->m_image;
