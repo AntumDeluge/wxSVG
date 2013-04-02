@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas text
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.10 2013-01-19 18:26:28 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.11 2013-04-02 06:29:19 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 	cairo_font_extents(cr, &fextents);
 	
 	double maxWidth = 0;
-	if (style.GetTextAnchor() == wxCSS_VALUE_MIDDLE) {
+	if (style.GetTextAnchor() == wxCSS_VALUE_MIDDLE || style.GetTextAnchor() == wxCSS_VALUE_END) {
 		wxStringTokenizer tokenzr(text, wxT("\n"));
 		while (tokenzr.HasMoreTokens()) {
 			wxString token = tokenzr.GetNextToken();
