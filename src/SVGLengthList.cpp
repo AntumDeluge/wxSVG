@@ -21,6 +21,7 @@ wxString wxSVGLengthList::GetValueAsString() const
 
 void wxSVGLengthList::SetValueAsString(const wxString& value)
 {
+  Clear();
   wxStringTokenizer tkz(value, wxT(", \t"));
   while (tkz.HasMoreTokens())
   {
