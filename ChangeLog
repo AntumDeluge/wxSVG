@@ -1,3 +1,11 @@
+Version 1.1.14 <2013-04-06>
+---------------------------
+
+  * fixed wxSVGPathSegList::GetValueAsString()
+  * fixed wxSVGLengthList::SetValueAsString()
+  * fixed rendering of text if text-anchor is set to end
+  * fixed rendering of wxSVGCanvasVideo
+
 Version 1.1.13 <2013-02-13>
 ---------------------------
 
