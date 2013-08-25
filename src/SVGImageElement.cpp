@@ -3,7 +3,7 @@
 // Purpose:     SVG image element
 // Author:      Alex Thuering
 // Created:     2005/05/30
-// RCS-ID:      $Id: SVGImageElement.cpp,v 1.5 2006-01-08 12:44:30 ntalex Exp $
+// RCS-ID:      $Id: SVGImageElement.cpp,v 1.6 2013-08-25 12:53:33 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -32,13 +32,13 @@ void wxSVGImageElement::SetCanvasItem(wxSVGCanvasItem* canvasItem)
   m_canvasItem = canvasItem;
 }
 
-int wxSVGImageElement::GetDefaultWidth()
+int wxSVGImageElement::GetDefaultWidth(wxProgressDialog* progressDlg)
 {
   if (!GetOwnerDocument())
     return 0;
   wxSVGDocument* doc = (wxSVGDocument*) GetOwnerDocument();
   if (m_canvasItem == NULL)
-    m_canvasItem = doc->GetCanvas()->CreateItem(this);
+    m_canvasItem = doc->GetCanvas()->CreateItem(this, NULL, NULL);
   int res = ((wxSVGCanvasImage*)m_canvasItem)->GetDefaultWidth();
   if (!doc->GetCanvas()->IsItemsCached())
   {
@@ -48,13 +48,13 @@ int wxSVGImageElement::GetDefaultWidth()
   return res;
 }
 
-int wxSVGImageElement::GetDefaultHeight()
+int wxSVGImageElement::GetDefaultHeight(wxProgressDialog* progressDlg)
 {
   if (!GetOwnerDocument())
     return 0;
   wxSVGDocument* doc = (wxSVGDocument*) GetOwnerDocument();
   if (m_canvasItem == NULL)
-	m_canvasItem = doc->GetCanvas()->CreateItem(this);
+	m_canvasItem = doc->GetCanvas()->CreateItem(this, NULL, progressDlg);
   int res = ((wxSVGCanvasImage*)m_canvasItem)->GetDefaultHeight();
   if (!doc->GetCanvas()->IsItemsCached())
   {
@@ -64,13 +64,13 @@ int wxSVGImageElement::GetDefaultHeight()
   return res;
 }
 
-void wxSVGImageElement::SetDefaultSize()
+void wxSVGImageElement::SetDefaultSize(wxProgressDialog* progressDlg)
 {
   if (!GetOwnerDocument())
     return;
   wxSVGDocument* doc = (wxSVGDocument*) GetOwnerDocument();
   if (m_canvasItem == NULL)
-	m_canvasItem = doc->GetCanvas()->CreateItem(this);
+	m_canvasItem = doc->GetCanvas()->CreateItem(this, NULL, progressDlg);
   SetWidth(((wxSVGCanvasImage*)m_canvasItem)->GetDefaultWidth());
   SetHeight(((wxSVGCanvasImage*)m_canvasItem)->GetDefaultHeight());
   if (!doc->GetCanvas()->IsItemsCached())

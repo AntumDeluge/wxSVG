@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas image
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasImageCairo.h,v 1.2 2011-07-03 14:53:18 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasImageCairo.h,v 1.3 2013-08-25 12:53:34 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -36,7 +36,7 @@ public:
 	wxSVGCanvasImageCairo();
 	wxSVGCanvasImageCairo(wxSVGCanvasItemType type);
 	virtual ~wxSVGCanvasImageCairo();
-	virtual void Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style);
+	virtual void Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style, wxProgressDialog* progressDlg);
 	virtual cairo_pattern_t* GetCairoPattern() { return m_data != NULL ? m_data->GetPattern() : NULL; }
 	
 private:
@@ -47,7 +47,7 @@ class wxSVGCanvasVideoCairo: public wxSVGCanvasVideo {
 public:
 	wxSVGCanvasVideoCairo();
 	virtual ~wxSVGCanvasVideoCairo();
-	virtual void Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style);
+	virtual void Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style, wxProgressDialog* progressDlg);
 	virtual cairo_pattern_t* GetCairoPattern() { return m_data != NULL ? m_data->GetPattern() : NULL; }
 	
 private:

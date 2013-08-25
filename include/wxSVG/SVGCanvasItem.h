@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.24 2013-01-19 18:26:28 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.25 2013-08-25 12:53:34 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -152,7 +152,7 @@ public:
 	wxSVGCanvasImage(wxSVGCanvasItemType type): wxSVGCanvasItem(type), m_x(0), m_y(0), m_width(0), m_height(0),
 		m_defHeightScale(1), m_svgImage(NULL) {}
 	virtual ~wxSVGCanvasImage();
-	virtual void Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style);
+	virtual void Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style, wxProgressDialog* progressDlg);
 	virtual int GetDefaultWidth();
 	virtual int GetDefaultHeight();
 	const wxSVGPreserveAspectRatio& GetPreserveAspectRatio() { return m_preserveAspectRatio; }
@@ -190,7 +190,7 @@ class wxSVGCanvasVideo: public wxSVGCanvasImage {
 public:
 	wxSVGCanvasVideo();
 	virtual ~wxSVGCanvasVideo();
-	virtual void Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style);
+	virtual void Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style, wxProgressDialog* progressDlg);
 	double GetDuration() { return m_duration; }
 	
 public:

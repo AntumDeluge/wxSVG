@@ -3,7 +3,7 @@
 // Purpose:     SVG image element
 // Author:      Alex Thuering
 // Created:     2005/11/23
-// RCS-ID:      $Id: SVGVideoElement.cpp,v 1.4 2011-11-24 00:02:55 ntalex Exp $
+// RCS-ID:      $Id: SVGVideoElement.cpp,v 1.5 2013-08-25 12:53:33 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -30,14 +30,18 @@ void wxSVGVideoElement::SetCanvasItem(wxSVGCanvasItem* canvasItem) {
 	m_canvasItem = canvasItem;
 }
 
-double wxSVGVideoElement::GetDuration() {
+double wxSVGVideoElement::GetDuration(wxProgressDialog* progressDlg) {
 	if (GetDur() > 0)
 		return GetDur();
 	if (GetClipEnd() > 0)
 		return GetClipEnd() > GetClipBegin() ? GetClipEnd() - GetClipBegin() : 0;
-	WX_SVG_CREATE_M_CANVAS_ITEM
+	if (m_canvasItem == NULL)
+		m_canvasItem = ((wxSVGDocument*) GetOwnerDocument())->GetCanvas()->CreateItem(this, NULL, progressDlg);
 	double duration = ((wxSVGCanvasVideo*) m_canvasItem)->GetDuration();
-	WX_SVG_CLEAR_M_CANVAS_ITEM
+	if (!((wxSVGDocument*) GetOwnerDocument())->GetCanvas()->IsItemsCached()) {
+		delete m_canvasItem;
+		m_canvasItem = NULL;
+	}
 	if (GetClipBegin() > 0)
 		duration = duration > GetClipBegin() ? duration - GetClipBegin() : 0;
 	return duration;

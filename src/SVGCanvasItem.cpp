@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.44 2013-03-31 14:10:45 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.45 2013-08-25 12:53:33 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -14,6 +14,7 @@
 #include "SVGCanvas.h"
 #include <math.h>
 #include <wx/log.h>
+#include <wx/progdlg.h>
 
 #ifdef USE_LIBAV
 #include <wxSVG/mediadec_ffmpeg.h>
@@ -862,7 +863,8 @@ wxSVGCanvasImage::~wxSVGCanvasImage() {
 		delete m_svgImage;
 }
 
-void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style) {
+void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style,
+		wxProgressDialog* progressDlg) {
 	m_x = element.GetX().GetAnimVal();
 	m_y = element.GetY().GetAnimVal();
 	m_width = element.GetWidth().GetAnimVal();
@@ -910,6 +912,10 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 		if (!m_image.Ok()) {
 			wxFfmpegMediaDecoder decoder;
 			if (decoder.Load(filename)) {
+				if (progressDlg) {
+					progressDlg->Pulse();
+					wxYield();
+				}
 				double duration = decoder.GetDuration();
 				if (duration > 0 || pos > 0) {
 					m_image = decoder.GetNextFrame();
@@ -925,6 +931,10 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 						double dpos1 = decoder.GetPosition();
 						if (dpos1 >= dpos || dpos1 < 0)
 							break;
+						if (progressDlg) {
+							progressDlg->Pulse();
+							wxYield();
+						}
 					}
 				} else {
 					for (int i = 0; i < 30; i++)
@@ -980,7 +990,8 @@ wxSVGCanvasVideo::~wxSVGCanvasVideo() {
 		delete m_videoData;
 }
 
-void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style) {
+void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style,
+		wxProgressDialog* progressDlg) {
 	m_x = element.GetX().GetAnimVal();
 	m_y = element.GetY().GetAnimVal();
 	m_width = element.GetWidth().GetAnimVal();

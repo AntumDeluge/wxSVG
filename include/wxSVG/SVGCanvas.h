@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/02
-// RCS-ID:      $Id: SVGCanvas.h,v 1.13 2013-01-19 18:26:28 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.h,v 1.14 2013-08-25 12:53:34 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -37,8 +37,10 @@ public:
 	wxSVGCanvasItem* CreateItem(wxSVGPathElement* element);
 	virtual wxSVGCanvasItem* CreateItem(wxSVGTextElement* element, const wxCSSStyleDeclaration* style = NULL,
 			wxSVGMatrix* matrix = NULL) = 0;
-	virtual wxSVGCanvasItem* CreateItem(wxSVGImageElement* element, const wxCSSStyleDeclaration* style = NULL);
-	virtual wxSVGCanvasItem* CreateItem(wxSVGVideoElement* element, const wxCSSStyleDeclaration* style = NULL);
+	virtual wxSVGCanvasItem* CreateItem(wxSVGImageElement* element, const wxCSSStyleDeclaration* style = NULL,
+			wxProgressDialog* progressDlg = NULL) = 0;
+	virtual wxSVGCanvasItem* CreateItem(wxSVGVideoElement* element, const wxCSSStyleDeclaration* style = NULL,
+			wxProgressDialog* progressDlg = NULL) = 0;
 	
 	virtual void DrawItem(wxSVGCanvasItem& item, wxSVGMatrix& matrix,
       const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem) = 0;
@@ -52,11 +54,13 @@ public:
 	void DrawPath(wxSVGPathElement* element, wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style = NULL);
 	void DrawText(wxSVGTextElement* element, wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style = NULL);
 	void DrawImage(wxSVGImageElement* element, wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style = NULL,
-			const wxSVGRect* rect = NULL);
-	void DrawVideo(wxSVGVideoElement* element, wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style = NULL);
+			const wxSVGRect* rect = NULL, wxProgressDialog* progressDlg = NULL);
+	void DrawVideo(wxSVGVideoElement* element, wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style = NULL,
+			wxProgressDialog* progressDlg = NULL);
 	
 	void RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const wxSVGMatrix* parentMatrix,
-		const wxCSSStyleDeclaration* parentStyle, wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement);
+		const wxCSSStyleDeclaration* parentStyle, wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement,
+		wxProgressDialog* progressDlg);
 	
 	bool IsItemsCached() { return m_itemsCached; }
 	void EnableItemsCache(bool enable = true) { m_itemsCached = enable; }
@@ -75,8 +79,9 @@ protected:
 	void GetRadialGradientTransform(wxSVGPoint& Focus, wxSVGMatrix& matrix, const wxSVGRadialGradientElement& gradElem,
 		wxSVGCanvasPath& path, bool scale = false);
 	void RenderChilds(wxSVGElement* parent, const wxSVGRect* rect, const wxSVGMatrix* parentMatrix,
-		const wxCSSStyleDeclaration* parentStyle, wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement);
-	void LoadImages(wxSVGElement* parent1, wxSVGElement* parent2);
+		const wxCSSStyleDeclaration* parentStyle, wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement,
+		wxProgressDialog* progressDlg);
+	void LoadImages(wxSVGElement* parent1, wxSVGElement* parent2, wxProgressDialog* progressDlg);
 };
 
 #define WX_SVG_CREATE_M_CANVAS_ITEM \

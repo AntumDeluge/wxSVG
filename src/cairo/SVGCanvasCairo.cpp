@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.26 2013-02-13 14:35:59 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.27 2013-08-25 12:53:34 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -100,15 +100,17 @@ wxSVGCanvasItem* wxSVGCanvasCairo::CreateItem(wxSVGTextElement* element, const w
 	return canvasText;
 }
 
-wxSVGCanvasItem* wxSVGCanvasCairo::CreateItem(wxSVGImageElement* element, const wxCSSStyleDeclaration* style) {
+wxSVGCanvasItem* wxSVGCanvasCairo::CreateItem(wxSVGImageElement* element, const wxCSSStyleDeclaration* style,
+		wxProgressDialog* progressDlg) {
 	wxSVGCanvasImageCairo* canvasImage = new wxSVGCanvasImageCairo();
-	canvasImage->Init(*element, style != NULL ? *style : (wxCSSStyleDeclaration&) element->GetStyle());
+	canvasImage->Init(*element, style != NULL ? *style : (wxCSSStyleDeclaration&) element->GetStyle(), progressDlg);
 	return canvasImage;
 }
 
-wxSVGCanvasItem* wxSVGCanvasCairo::CreateItem(wxSVGVideoElement* element, const wxCSSStyleDeclaration* style) {
+wxSVGCanvasItem* wxSVGCanvasCairo::CreateItem(wxSVGVideoElement* element, const wxCSSStyleDeclaration* style,
+		wxProgressDialog* progressDlg) {
 	wxSVGCanvasVideoCairo* canvasVideo = new wxSVGCanvasVideoCairo();
-	canvasVideo->Init(*element, style != NULL ? *style : (wxCSSStyleDeclaration&) element->GetStyle());
+	canvasVideo->Init(*element, style != NULL ? *style : (wxCSSStyleDeclaration&) element->GetStyle(), progressDlg);
 	return canvasVideo;
 }
 

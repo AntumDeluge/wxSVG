@@ -12,6 +12,7 @@
 class wxSVGSVGElement;
 class wxSVGElement;
 class wxSVGCanvas;
+class wxProgressDialog;
 
 #include "Document.h"
 #include "DocumentEvent.h"
@@ -82,7 +83,7 @@ class wxSVGDocument:
     void SetCurrentTime(double seconds);
     
     wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL, bool preserveAspectRatio = true,
-		bool alpha = false);
+		bool alpha = false, wxProgressDialog* progressDlg = NULL);
     wxImage RenderElementById(const wxString& id);
   private:
       DECLARE_DYNAMIC_CLASS(wxSVGDocument)

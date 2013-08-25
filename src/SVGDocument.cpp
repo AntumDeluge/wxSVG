@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.41 2011-11-24 00:02:55 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.42 2013-08-25 12:53:33 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -74,7 +74,8 @@ void wxSVGDocument::SetCurrentTime(double seconds) {
 	m_time = seconds;
 }
 
-wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool preserveAspectRatio, bool alpha) {
+wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool preserveAspectRatio, bool alpha,
+		wxProgressDialog* progressDlg) {
 	if (!GetRootElement())
 		return wxImage();
 	
@@ -141,7 +142,8 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool
 	m_canvas->Init(width, height, alpha);
 	if (!alpha)
 		m_canvas->Clear(*wxWHITE);
-	GetCanvas()->RenderElement(GetRootElement(), rect, &m_screenCTM, &GetRootElement()->GetStyle(), NULL, NULL);
+	GetCanvas()->RenderElement(GetRootElement(), rect, &m_screenCTM, &GetRootElement()->GetStyle(), NULL, NULL,
+			progressDlg);
 
 	return m_canvas->GetImage();
 }
@@ -153,6 +155,6 @@ wxImage wxSVGDocument::RenderElementById(const wxString& id) {
 	m_screenCTM = m_screenCTM.Translate(-10, -10);
 	
 	m_canvas->Clear();
-	GetCanvas()->RenderElement(element, rect, &m_screenCTM, &GetRootElement()->GetStyle(), NULL, NULL);
+	GetCanvas()->RenderElement(element, rect, &m_screenCTM, &GetRootElement()->GetStyle(), NULL, NULL, NULL);
 	return m_canvas->GetImage();
 }

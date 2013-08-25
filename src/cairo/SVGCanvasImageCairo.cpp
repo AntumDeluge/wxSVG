@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas image
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasImageCairo.cpp,v 1.4 2011-08-02 06:50:28 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasImageCairo.cpp,v 1.5 2013-08-25 12:53:34 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -76,8 +76,9 @@ wxSVGCanvasImageCairo::~wxSVGCanvasImageCairo() {
 		delete m_data;
 }
 
-void wxSVGCanvasImageCairo::Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style) {
-	wxSVGCanvasImage::Init(element, style);
+void wxSVGCanvasImageCairo::Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style,
+		wxProgressDialog* progressDlg) {
+	wxSVGCanvasImage::Init(element, style, progressDlg);
 	
 	wxSVGCanvasImageCairo* prevItem = (wxSVGCanvasImageCairo*) element.GetCanvasItem();
 	if (prevItem != NULL && prevItem->m_href == m_href && prevItem->m_data != NULL) {
@@ -102,8 +103,9 @@ wxSVGCanvasVideoCairo::~wxSVGCanvasVideoCairo() {
 		delete m_data;
 }
 
-void wxSVGCanvasVideoCairo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style) {
-	wxSVGCanvasVideo::Init(element, style);
+void wxSVGCanvasVideoCairo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style,
+		wxProgressDialog* progressDlg) {
+	wxSVGCanvasVideo::Init(element, style, progressDlg);
 	
 	wxSVGCanvasVideoCairo* prevItem = (wxSVGCanvasVideoCairo*) element.GetCanvasItem();
 	if (prevItem != NULL && prevItem->m_href == m_href && prevItem->m_time == m_time && prevItem->m_data != NULL) {

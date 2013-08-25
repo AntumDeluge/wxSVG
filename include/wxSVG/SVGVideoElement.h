@@ -10,6 +10,7 @@
 #define WX_SVG_VIDEO_ELEMENT_H
 
 class wxSVGCanvasItem;
+class wxProgressDialog;
 
 #include "SVGElement.h"
 #include "SVGURIReference.h"
@@ -89,7 +90,7 @@ class wxSVGVideoElement:
     wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);
     wxSVGMatrix GetCTM() { return wxSVGLocatable::GetCTM(this); }
     wxSVGMatrix GetScreenCTM() { return wxSVGLocatable::GetScreenCTM(this); }
-    double GetDuration();
+    double GetDuration(wxProgressDialog* progressDlg = NULL);
     bool HasAttribute(const wxString& name);
     wxString GetAttribute(const wxString& name);
     bool SetAttribute(const wxString& name, const wxString& value);

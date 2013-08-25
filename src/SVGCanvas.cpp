@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.20 2013-01-19 18:26:28 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.21 2013-08-25 12:53:33 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -31,16 +31,6 @@ WX_SVG_CREATE_USING_PATH(Circle)
 WX_SVG_CREATE_USING_PATH(Ellipse)
 WX_SVG_CREATE_USING_PATH(Path)
 
-#define WX_SVG_CREATE(elem_name)\
-wxSVGCanvasItem* wxSVGCanvas::CreateItem(wxSVG##elem_name##Element* element, const wxCSSStyleDeclaration* style) {\
-	wxSVGCanvas##elem_name* canvasItem = new wxSVGCanvas##elem_name;\
-	canvasItem->Init(*element, style != NULL ? *style : (wxCSSStyleDeclaration&) element->GetStyle());\
-	return canvasItem;\
-}
-
-WX_SVG_CREATE(Image)
-WX_SVG_CREATE(Video)
-
 //////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// Draw functions ////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -66,11 +56,10 @@ WX_SVG_DRAW(Rect)
 WX_SVG_DRAW(Circle)
 WX_SVG_DRAW(Ellipse)
 WX_SVG_DRAW(Path)
-WX_SVG_DRAW(Video)
 
 void wxSVGCanvas::DrawImage(wxSVGImageElement* element, wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style,
-		const wxSVGRect* rect) {
-	wxSVGCanvasImage* canvasItem = (wxSVGCanvasImage*) CreateItem(element);
+		const wxSVGRect* rect, wxProgressDialog* progressDlg) {
+	wxSVGCanvasImage* canvasItem = (wxSVGCanvasImage*) CreateItem(element, NULL, progressDlg);
 	if (style == NULL)
 		style = &element->GetStyle();
 	if (style->GetDisplay() == wxCSS_VALUE_INLINE) {
@@ -81,7 +70,8 @@ void wxSVGCanvas::DrawImage(wxSVGImageElement* element, wxSVGMatrix* matrix, con
 			svgElem->SetWidth(canvasItem->m_width);
 			svgElem->SetHeight(canvasItem->m_height);
 			gElem->AddChild(svgElem);
-			RenderElement(gElem, rect, matrix, style, element->GetOwnerSVGElement(), element->GetViewportElement());
+			RenderElement(gElem, rect, matrix, style, element->GetOwnerSVGElement(), element->GetViewportElement(),
+					progressDlg);
 			gElem->RemoveChild(gElem->GetFirstChild());
 			delete gElem;
 		} else
@@ -92,6 +82,20 @@ void wxSVGCanvas::DrawImage(wxSVGImageElement* element, wxSVGMatrix* matrix, con
 	else
 		delete canvasItem;
 }
+
+void wxSVGCanvas::DrawVideo(wxSVGVideoElement* element, wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style,
+		wxProgressDialog* progressDlg) {
+	wxSVGCanvasItem* canvasItem = CreateItem(element, style, progressDlg);
+	if (style == NULL)
+		style = &element->GetStyle();
+	if (style->GetDisplay() == wxCSS_VALUE_INLINE)
+		DrawItem(*canvasItem, *matrix, *style, *element->GetOwnerSVGElement());
+	if (IsItemsCached())
+		element->SetCanvasItem(canvasItem);
+	else
+		delete canvasItem;
+}
+
 
 void wxSVGCanvas::DrawText(wxSVGTextElement* element,
   wxSVGMatrix* matrix, const wxCSSStyleDeclaration* style)
@@ -237,7 +241,7 @@ void wxSVGCanvas::GetRadialGradientTransform(wxSVGPoint& focus,
 //////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// Render /////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
-void wxSVGCanvas::LoadImages(wxSVGElement* parent1, wxSVGElement* parent2) {
+void wxSVGCanvas::LoadImages(wxSVGElement* parent1, wxSVGElement* parent2, wxProgressDialog* progressDlg) {
 	wxSVGElement* elem1 = (wxSVGElement*) parent1->GetChildren();
 	wxSVGElement* elem2 = (wxSVGElement*) parent2->GetChildren();
 	while (elem1 && elem2) {
@@ -247,8 +251,8 @@ void wxSVGCanvas::LoadImages(wxSVGElement* parent1, wxSVGElement* parent2) {
 			if (imgElem1->GetHref().GetAnimVal().length()) {
 				if (imgElem1->GetCanvasItem() == NULL
 						|| ((wxSVGCanvasImage*) imgElem1->GetCanvasItem())->m_href != imgElem1->GetHref().GetAnimVal())
-					imgElem1->SetCanvasItem(CreateItem(imgElem1));
-				((wxSVGImageElement*) elem2)->SetCanvasItem(CreateItem(imgElem1));
+					imgElem1->SetCanvasItem(CreateItem(imgElem1, NULL, progressDlg));
+				((wxSVGImageElement*) elem2)->SetCanvasItem(CreateItem(imgElem1, NULL, progressDlg));
 			}
 		} else if (elem1->GetType() == wxSVGXML_ELEMENT_NODE && elem1->GetDtd() == wxSVG_VIDEO_ELEMENT
 				&& elem2->GetType() == wxSVGXML_ELEMENT_NODE && elem2->GetDtd() == wxSVG_VIDEO_ELEMENT) {
@@ -256,18 +260,19 @@ void wxSVGCanvas::LoadImages(wxSVGElement* parent1, wxSVGElement* parent2) {
 			if (vElem1->GetHref().GetAnimVal().length()) {
 				if (vElem1->GetCanvasItem() == NULL
 						|| ((wxSVGCanvasVideo*) vElem1->GetCanvasItem())->m_href != vElem1->GetHref().GetAnimVal())
-					vElem1->SetCanvasItem(CreateItem(vElem1));
-				((wxSVGVideoElement*) elem2)->SetCanvasItem(CreateItem(vElem1));
+					vElem1->SetCanvasItem(CreateItem(vElem1, NULL, progressDlg));
+				((wxSVGVideoElement*) elem2)->SetCanvasItem(CreateItem(vElem1, NULL, progressDlg));
 			}
 		} else if (elem1->GetChildren())
-			LoadImages(elem1, elem2);
+			LoadImages(elem1, elem2, progressDlg);
 		elem1 = (wxSVGElement*) elem1->GetNext();
 		elem2 = (wxSVGElement*) elem2->GetNext();
 	}
 }
 
 void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const wxSVGMatrix* parentMatrix,
-		const wxCSSStyleDeclaration* parentStyle, wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement) {
+		const wxCSSStyleDeclaration* parentStyle, wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement,
+		wxProgressDialog* progressDlg) {
 	wxSVGMatrix matrix(*parentMatrix);
 	wxCSSStyleRef style(*parentStyle);
 	elem->SetOwnerSVGElement(ownerSVGElement);
@@ -289,9 +294,9 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			wxSVGTransformable* transformable = wxSVGTransformable::GetSVGTransformable(*parent);
 			if (transformable)
 				rect2 = rect2.MatrixTransform(transformable->GetCTM().Inverse());
-			RenderChilds(elem, &rect2, &matrix, &style, element, element);
+			RenderChilds(elem, &rect2, &matrix, &style, element, element, progressDlg);
 		} else
-			RenderChilds(elem, rect, &matrix, &style, element, element);
+			RenderChilds(elem, rect, &matrix, &style, element, element, progressDlg);
 		break;
 	}
 	case wxSVG_G_ELEMENT: {
@@ -300,7 +305,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
-		RenderChilds(elem, rect, &matrix, &style, ownerSVGElement, viewportElement);
+		RenderChilds(elem, rect, &matrix, &style, ownerSVGElement, viewportElement, progressDlg);
 		break;
 	}
 	case wxSVG_LINE_ELEMENT: {
@@ -383,7 +388,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
-		DrawImage(element, &matrix, &style, rect);
+		DrawImage(element, &matrix, &style, rect, progressDlg);
 		break;
 	}
 	case wxSVG_VIDEO_ELEMENT: {
@@ -416,7 +421,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 		gElem->AppendChild(textElem);
 
 		// render
-		RenderElement(gElem, rect, &matrix, &style, ownerSVGElement, viewportElement);
+		RenderElement(gElem, rect, &matrix, &style, ownerSVGElement, viewportElement, progressDlg);
 		// delete shadow tree
 		delete gElem;
 #endif
@@ -475,11 +480,11 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			if (element->GetHeight().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
 				svgElem->SetHeight(element->GetHeight().GetAnimVal());
 			gElem->AddChild(svgElem);
-			LoadImages(refElem, svgElem);
+			LoadImages(refElem, svgElem, progressDlg);
 		} else
 			gElem->AddChild(refElem->CloneNode());
 		// render
-		RenderElement(gElem, rect, &matrix, &style, ownerSVGElement, viewportElement);
+		RenderElement(gElem, rect, &matrix, &style, ownerSVGElement, viewportElement, progressDlg);
 		// delete shadow tree
 		delete gElem;
 		break;
@@ -490,13 +495,14 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 }
 
 void wxSVGCanvas::RenderChilds(wxSVGElement* parent, const wxSVGRect* rect, const wxSVGMatrix* parentMatrix,
-		const wxCSSStyleDeclaration* parentStyle, wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement) {
+		const wxCSSStyleDeclaration* parentStyle, wxSVGSVGElement* ownerSVGElement, wxSVGElement* viewportElement,
+		wxProgressDialog* progressDlg) {
   if (parentStyle->GetDisplay() == wxCSS_VALUE_INLINE) {
 		wxSVGElement* elem = (wxSVGElement*) parent->GetChildren();
 		while (elem) {
 			if (elem->GetType() == wxSVGXML_ELEMENT_NODE) {
 				//if (!rect || ownerSVGElement->CheckIntersection(*elem, *rect))
-				RenderElement(elem, rect, parentMatrix, parentStyle, ownerSVGElement, viewportElement);
+				RenderElement(elem, rect, parentMatrix, parentStyle, ownerSVGElement, viewportElement, progressDlg);
 			}
 			elem = (wxSVGElement*) elem->GetNext();
 		}
