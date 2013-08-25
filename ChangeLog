@@ -1,3 +1,8 @@
+Version 1.1.16 <2013-08-25>
+---------------------------
+
+  *  rendering: added support of wxProgressDialog
+
 Version 1.1.15 <2013-05-01>
 ---------------------------
 
