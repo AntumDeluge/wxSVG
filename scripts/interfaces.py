@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.32 2012-04-01 20:36:25 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.33 2013-09-12 08:44:24 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -352,9 +352,10 @@ for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
 
 # SVGImageElement
 inter = interfaces["SVGImageElement"]
-inter.include_methods.append('    int GetDefaultWidth();\n')
-inter.include_methods.append('    int GetDefaultHeight();\n')
-inter.include_methods.append('    void SetDefaultSize();\n')
+inter.include_fwd_decls = [""wxProgressDialog"]
+inter.include_methods.append('    int GetDefaultWidth(wxProgressDialog* progressDlg = NULL);\n')
+inter.include_methods.append('    int GetDefaultHeight(wxProgressDialog* progressDlg = NULL);\n')
+inter.include_methods.append('    void SetDefaultSize(wxProgressDialog* progressDlg = NULL);\n')
 
 # SVGVideElement
 inter = interfaces["SVGVideoElement"]
@@ -432,12 +433,12 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     void SetCurrentTime(double seconds);
     
     wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL, bool preserveAspectRatio = true,
-		bool alpha = false);
+		bool alpha = false, wxProgressDialog* progressDlg = NULL);
     wxImage RenderElementById(const wxString& id);
   private:
       DECLARE_DYNAMIC_CLASS(wxSVGDocument)
 ''')
-inter.include_fwd_decls = ["SVGSVGElement","SVGElement","SVGCanvas"]
+inter.include_fwd_decls = ["SVGSVGElement","SVGElement","SVGCanvas","wxProgressDialog"]
 inter.include_includes = ["SVGRect","SVGMatrix","<wx/image.h>"]
 inter.user_defined_contructor=1
 inter.user_defined_destructor=1
