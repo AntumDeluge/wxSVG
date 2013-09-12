@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas image
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasImageCairo.cpp,v 1.5 2013-08-25 12:53:34 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasImageCairo.cpp,v 1.6 2013-09-12 08:46:01 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -54,11 +54,9 @@ wxSVGCanvasImageCairoData::wxSVGCanvasImageCairoData(wxImage image) {
 			}
 		}
 	}
-	m_pattern = cairo_pattern_create_for_surface(m_surface);
 }
 
 wxSVGCanvasImageCairoData::~wxSVGCanvasImageCairoData() {
-	cairo_pattern_destroy(m_pattern);
 	cairo_surface_destroy(m_surface);
 	delete[] m_buffer;
 }

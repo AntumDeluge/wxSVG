@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas image
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasImageCairo.h,v 1.3 2013-08-25 12:53:34 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasImageCairo.h,v 1.4 2013-09-12 08:46:01 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -22,13 +22,12 @@ public:
 	void IncRef() { m_count++; }
 	int DecRef() { return (--m_count); }
 	
-	cairo_pattern_t* GetPattern() { return m_pattern; }
+	inline cairo_surface_t* GetSurface() { return m_surface; }
 	
 private:
     int m_count;
 	unsigned char* m_buffer;
 	cairo_surface_t* m_surface;
-	cairo_pattern_t* m_pattern;
 };
 
 class wxSVGCanvasImageCairo: public wxSVGCanvasImage {
@@ -37,7 +36,7 @@ public:
 	wxSVGCanvasImageCairo(wxSVGCanvasItemType type);
 	virtual ~wxSVGCanvasImageCairo();
 	virtual void Init(wxSVGImageElement& element, const wxCSSStyleDeclaration& style, wxProgressDialog* progressDlg);
-	virtual cairo_pattern_t* GetCairoPattern() { return m_data != NULL ? m_data->GetPattern() : NULL; }
+	virtual cairo_surface_t* GetCairoSurface() { return m_data != NULL ? m_data->GetSurface() : NULL; }
 	
 private:
 	wxSVGCanvasImageCairoData* m_data;
@@ -48,7 +47,7 @@ public:
 	wxSVGCanvasVideoCairo();
 	virtual ~wxSVGCanvasVideoCairo();
 	virtual void Init(wxSVGVideoElement& element, const wxCSSStyleDeclaration& style, wxProgressDialog* progressDlg);
-	virtual cairo_pattern_t* GetCairoPattern() { return m_data != NULL ? m_data->GetPattern() : NULL; }
+	virtual cairo_surface_t* GetCairoSurface() { return m_data != NULL ? m_data->GetSurface() : NULL; }
 	
 private:
 	wxSVGCanvasImageCairoData* m_data;

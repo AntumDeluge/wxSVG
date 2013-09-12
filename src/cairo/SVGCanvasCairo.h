@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.12 2013-08-25 12:53:34 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.13 2013-09-12 08:46:01 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -45,8 +45,8 @@ protected:
 			wxSVGSVGElement& svgElem);
     void SetStopValue(unsigned int index, float offset, float opacity, const wxRGBColor& rgbColor);
 	void AllocateGradientStops(unsigned int stop_count);
-	void DrawCanvasImage(wxSVGCanvasImage& canvasImage, cairo_pattern_t* cairoPattern, wxSVGMatrix& matrix,
-			const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem);
+	void DrawCanvasImage(wxSVGCanvasImage& canvasImage, cairo_surface_t* cairoSurface,
+			wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem);
 
 private:
 	cairo_t* m_cr;
@@ -56,10 +56,12 @@ private:
     void Destroy();
     void SetPaint(cairo_t* cr,const wxSVGPaint & paint, float opacity, wxSVGCanvasPathCairo& canvasPath,
     		wxSVGSVGElement& svgElem);
-	void DrawPath(cairo_t* cr, wxSVGCanvasPathCairo& canvasPath, wxSVGMatrix& matrix,
+	void DrawPath(cairo_t* cr, wxSVGCanvasPathCairo& canvasPath, const wxSVGMatrix& matrix,
 			const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem);
 	void SetMatrix(cairo_t* cr, const wxSVGMatrix& matrix);
 	void SetClipPath(wxSVGElement* clipPathElem, wxSVGMatrix matrix);
+	void DrawMask(cairo_t* cr, wxSVGElement* maskElem, const wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style,
+			wxSVGSVGElement& svgElem);
 };
 
 #endif // WX_SVG_CANVAS_CAIRO_H
