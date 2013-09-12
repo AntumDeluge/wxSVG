@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.42 2013-08-25 12:53:33 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.43 2013-09-12 08:42:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -70,8 +70,28 @@ double wxSVGDocument::GetDuration() {
 	return GetDuration(GetRootElement());
 }
 
+void ApplyAnimation(wxSVGElement* parent) {
+	wxSVGElement* elem = (wxSVGElement*) parent->GetChildren();
+	while (elem) {
+		if (elem->GetType() == wxSVGXML_ELEMENT_NODE) {
+			switch (elem->GetDtd()) {
+				case wxSVG_ANIMATE_ELEMENT:
+					((wxSVGAnimateElement*) elem)->ApplyAnimation();
+					break;
+				default:
+					ApplyAnimation(elem);
+					break;
+			}
+		}
+		elem = (wxSVGElement*) elem->GetNext();
+	}
+}
+
 void wxSVGDocument::SetCurrentTime(double seconds) {
 	m_time = seconds;
+	// animation
+	if (GetRootElement())
+		ApplyAnimation(GetRootElement());
 }
 
 wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool preserveAspectRatio, bool alpha,

@@ -1677,6 +1677,11 @@ module svg
                 events::EventTarget { 
 
     readonly attribute SVGElement targetElement;
+    readonly attribute DOMString attributeName;
+    readonly attribute float begin;
+    readonly attribute float dur;
+    readonly attribute SVGLength from;
+    readonly attribute SVGLength to;
 
     float getStartTime (  );
     float getCurrentTime (  );

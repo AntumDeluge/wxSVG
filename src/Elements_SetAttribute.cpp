@@ -1524,7 +1524,13 @@ bool wxSVGFESpotLightElement::SetAttribute(const wxString& attrName, const wxStr
 // wxSVGAnimationElement
 bool wxSVGAnimationElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  if (attrName == wxT("attributeName"))
+	m_attributeName = attrValue;
+  else if (attrName == wxT("from"))
+	m_from.SetValueAsString(attrValue);
+  else if (attrName == wxT("to"))
+	m_to.SetValueAsString(attrValue);
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
   else 
