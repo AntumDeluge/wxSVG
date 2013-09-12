@@ -3,7 +3,7 @@
 ## Purpose:     parses idl file
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: parse_idl.py,v 1.3 2011-07-24 16:30:12 ntalex Exp $
+## RCS-ID:      $Id: parse_idl.py,v 1.4 2013-09-12 08:44:37 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -63,7 +63,7 @@ while 1:
 			realname = string.strip(i)
 			plaininherits.append(realname)
 
-       	the_class_decl.inherits = plaininherits
+		the_class_decl.inherits = plaininherits
 
 	end_interface = get_close_bracket(content)
 
@@ -93,7 +93,7 @@ while 1:
 			if first_enum==0: # new enum
 				plain_enums.append(theenum)				
 				theenum=idl.enum_decl(class_decl=the_class_decl)
-                                theenum.const_decls=[] # ?? why ?????!!!!!!
+				theenum.const_decls=[] # ?? why ?????!!!!!!
                                 
 			first_enum=0
 			pos = string.rfind(const_name, '_')
@@ -175,6 +175,6 @@ while 1:
 		plain_methods.append(themeth)
 		
 
-       	the_class_decl.methods = plain_methods
+		the_class_decl.methods = plain_methods
 	content=content[end_interface:]
 

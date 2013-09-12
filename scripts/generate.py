@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.21 2012-01-08 02:42:14 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.22 2013-09-12 08:44:37 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -160,8 +160,8 @@ if len(parse_idl.class_decls):
                                     break
                                 else:
                                     tmp = "0"
-                        print "enum_map.py is not up-to-date. Please remove it, copy and paste what's dumped by this script in enum_map.py then rerun again"
-                        print '"'+classname+'::'+attr.name +'": "' + tmp + '" ,'
+                        print("enum_map.py is not up-to-date. Please remove it, copy and paste what's dumped by this script in enum_map.py then rerun again")
+                        print('"'+classname+'::'+attr.name +'": "' + tmp + '" ,')
 
                 elif typename=="DOMString":
                     if "String_wxsvg" not in includes:
@@ -242,7 +242,7 @@ if len(parse_idl.class_decls):
                         calc = 'WX_SVG_ANIM_LENGTH%s_CALC_SIZE(%s, GetViewportElement()); '%(l,attrname_cpp)
                     else:
                         calc = 'WX_SVG_ANIM_LENGTH%s_CALC_SIZE(%s, GetViewportElement()); '%(l,attrname_cpp)
-                        print "Warning: unknown lengthtype of attribute " + classname + '::' + attrname
+                        print("Warning: unknown lengthtype of attribute " + classname + '::' + attrname)
                 #if classname[-7:] == "Element" and typestr == "wxSVGAnimatedLengthList":
                 #    print classname + " - " + typestr
                 public = public + '    inline %s %s() const { %sreturn %s; }\n'%(ret_type,methodName,calc,attrname_cpp)
@@ -570,7 +570,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.21 2012-01-08 02:42:14 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.22 2013-09-12 08:44:37 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

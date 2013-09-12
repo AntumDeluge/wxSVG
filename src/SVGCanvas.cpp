@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.21 2013-08-25 12:53:33 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.22 2013-09-12 08:46:38 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -384,7 +384,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	}
 	case wxSVG_IMAGE_ELEMENT: {
 		wxSVGImageElement* element = (wxSVGImageElement*) elem;
-		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN || element->GetOpacity() == 0)
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
@@ -393,7 +393,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 	}
 	case wxSVG_VIDEO_ELEMENT: {
 		wxSVGVideoElement* element = (wxSVGVideoElement*) elem;
-		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN || element->GetOpacity() == 0)
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
