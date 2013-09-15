@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.cpp,v 1.7 2012-04-09 12:20:07 ntalex Exp $
+// RCS-ID:      $Id: svgxml.cpp,v 1.8 2013-09-15 10:18:26 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -64,7 +64,7 @@ wxSvgXmlNode::wxSvgXmlNode(wxSvgXmlNodeType type, const wxString& name,
                      const wxString& content)
     : m_type(type), m_name(name), m_content(content),
       m_properties(NULL), m_parent(NULL),
-      m_children(NULL), m_next(NULL)
+      m_children(NULL), m_next(NULL), m_ownerDocument(NULL)
 {}
 
 wxSvgXmlNode::wxSvgXmlNode(const wxSvgXmlNode& node)
