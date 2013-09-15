@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.43 2013-09-12 08:42:50 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.44 2013-09-15 10:18:08 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -40,15 +40,47 @@ void wxSVGDocument::Init() {
 	m_time = 0;
 }
 
+wxString wxSVGDocument::GetTitle() {
+	wxSVGElement* elem = (wxSVGElement*) GetRootElement()->GetChildren();
+	while (elem) {
+		if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd() == wxSVG_TITLE_ELEMENT) {
+			if (elem->GetChildren() && elem->GetFirstChild()->GetType() == wxSVGXML_TEXT_NODE) {
+				return elem->GetFirstChild()->GetContent();
+			}
+		}
+		elem = (wxSVGElement*) elem->GetNext();
+	}
+	return wxT("");
+}
+
+void wxSVGDocument::SetTitle(const wxString& title) {
+	wxSVGTitleElement* titleElem = NULL;
+	wxSVGElement* elem = (wxSVGElement*) GetRootElement()->GetChildren();
+	while (elem) {
+		if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd() == wxSVG_TITLE_ELEMENT) {
+			titleElem = (wxSVGTitleElement*) elem;
+		}
+		elem = (wxSVGElement*) elem->GetNext();
+	}
+	if (titleElem == NULL) {
+		titleElem = new wxSVGTitleElement;
+		GetRootElement()->AppendChild(titleElem);
+	}
+	if (titleElem->GetChildren() && elem->GetFirstChild()->GetType() == wxSVGXML_TEXT_NODE)
+		elem->GetFirstChild()->SetContent(title);
+	else
+		elem->AddChild(new wxSvgXmlNode(wxSVGXML_TEXT_NODE, wxEmptyString, title));
+}
+
+wxSVGElement* wxSVGDocument::GetElementById(const wxString& id) {
+	return GetRootElement() ? (wxSVGElement*) GetRootElement()->GetElementById(id) : NULL;
+}
+
 wxSvgXmlElement* wxSVGDocument::CreateElement(const wxString& tagName) {
 	return CreateElementNS(wxT(""), tagName);
 }
 
 #include "SVGDocument_CreateElement.cpp"
-
-wxSVGElement* wxSVGDocument::GetElementById(const wxString& id) {
-	return GetRootElement() ? (wxSVGElement*) GetRootElement()->GetElementById(id) : NULL;
-}
 
 double wxSVGDocument::GetDuration(wxSVGElement* parent) {
 	float result = 0;

@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.33 2013-09-12 08:44:24 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.34 2013-09-15 10:18:08 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -395,7 +395,7 @@ inter.include_methods.append('''
 inter = interface()
 interfaces["SVGDocument"]=inter
 
-inter.exclude_attributes = ["rootElement"]
+inter.exclude_attributes = ["rootElement", "title"]
 inter.include_attributes.append('''
   protected:
     wxSVGCanvas* m_canvas;
@@ -420,13 +420,16 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     inline double GetScaleY() { return m_scaleY > 0 ? m_scaleY : m_scale; }
     const wxSVGMatrix& GetScreenCTM() { return m_screenCTM; }
     
-    wxSvgXmlElement* CreateElement(const wxString& tagName);
-    wxSvgXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
+    wxString GetTitle();
+    void SetTitle(const wxString& n);
     
     wxSVGSVGElement* GetRootElement() { return (wxSVGSVGElement*) GetRoot(); }
     void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxSvgXmlElement*) n); }
     
     wxSVGElement* GetElementById(const wxString& id);
+    
+    wxSvgXmlElement* CreateElement(const wxString& tagName);
+    wxSvgXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
     
     double GetDuration();
     double GetCurrentTime() { return m_time; }

@@ -32,9 +32,6 @@ class wxSVGDocument:
     wxString m_URL;
 
   public:
-    inline const wxString& GetTitle() const { return m_title; }
-    inline void SetTitle(const wxString& n) { m_title = n; }
-
     inline const wxString& GetReferrer() const { return m_referrer; }
     inline void SetReferrer(const wxString& n) { m_referrer = n; }
 
@@ -70,13 +67,16 @@ class wxSVGDocument:
     inline double GetScaleY() { return m_scaleY > 0 ? m_scaleY : m_scale; }
     const wxSVGMatrix& GetScreenCTM() { return m_screenCTM; }
     
-    wxSvgXmlElement* CreateElement(const wxString& tagName);
-    wxSvgXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
+    wxString GetTitle();
+    void SetTitle(const wxString& n);
     
     wxSVGSVGElement* GetRootElement() { return (wxSVGSVGElement*) GetRoot(); }
     void SetRootElement(wxSVGSVGElement* n) { SetRoot((wxSvgXmlElement*) n); }
     
     wxSVGElement* GetElementById(const wxString& id);
+    
+    wxSvgXmlElement* CreateElement(const wxString& tagName);
+    wxSvgXmlElement* CreateElementNS(const wxString& namespaceURI, const wxString& qualifiedName);
     
     double GetDuration();
     double GetCurrentTime() { return m_time; }
