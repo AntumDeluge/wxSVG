@@ -26,7 +26,6 @@ class wxSVGDocument:
   public wxDocumentEvent
 {
   protected:
-    wxString m_title;
     wxString m_referrer;
     wxString m_domain;
     wxString m_URL;

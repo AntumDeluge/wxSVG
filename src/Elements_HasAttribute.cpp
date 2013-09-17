@@ -753,7 +753,12 @@ bool wxSVGFESpotLightElement::HasAttribute(const wxString& attrName)
 // wxSVGAnimationElement
 bool wxSVGAnimationElement::HasAttribute(const wxString& attrName)
 {
-  return wxSVGElement::HasAttribute(attrName) ||
+  return attrName == wxT("attributeName") ||
+    attrName == wxT("begin") ||
+    attrName == wxT("dur") ||
+    attrName == wxT("from") ||
+    attrName == wxT("to") ||
+    wxSVGElement::HasAttribute(attrName) ||
     wxSVGTests::HasAttribute(attrName) ||
     wxSVGExternalResourcesRequired::HasAttribute(attrName);
 }      

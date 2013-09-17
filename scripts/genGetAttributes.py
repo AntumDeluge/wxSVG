@@ -4,7 +4,7 @@
 ##              -> GetAttributes() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttributes.py,v 1.9 2012-01-13 18:57:10 ntalex Exp $
+## RCS-ID:      $Id: genGetAttributes.py,v 1.10 2013-09-17 10:56:51 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -83,8 +83,8 @@ def process(classdecl):
         elif typestr == "css::CSSStyleDeclaration":
             check = '!%s.empty()'%get_attr
             get_attr = '%s.GetCSSText()'%get_attr
-        elif typestr in ["Length", "Rect", "PreserveAspectRatio"]  or typestr[-4:] == "List":
-            if typestr == "Length":
+        elif typestr in ["SVGLength", "Length", "Rect", "PreserveAspectRatio"]  or typestr[-4:] == "List":
+            if typestr == "Length" or typestr == "SVGLength":
                 check = '%s.GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN'%get_attr
             elif typestr == "PreserveAspectRatio":
                 check = '%s.GetAlign() != wxSVG_PRESERVEASPECTRATIO_UNKNOWN && %s.GetMeetOrSlice() != wxSVG_MEETORSLICE_UNKNOWN'%(get_attr,get_attr)

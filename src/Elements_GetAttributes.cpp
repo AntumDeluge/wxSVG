@@ -1028,6 +1028,16 @@ wxSvgXmlAttrHash wxSVGFESpotLightElement::GetAttributes() const
 wxSvgXmlAttrHash wxSVGAnimationElement::GetAttributes() const
 {
   wxSvgXmlAttrHash attrs;
+  if (!m_attributeName.IsEmpty())
+    attrs.Add(wxT("attributeName"), m_attributeName);
+  if (m_begin > 0)
+    attrs.Add(wxT("begin"), wxString::Format(wxT("%g"), m_begin));
+  if (m_dur > 0)
+    attrs.Add(wxT("dur"), wxString::Format(wxT("%g"), m_dur));
+  if (m_from.GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+    attrs.Add(wxT("from"), m_from.GetValueAsString());
+  if (m_to.GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+    attrs.Add(wxT("to"), m_to.GetValueAsString());
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGTests::GetAttributes());
   attrs.Add(wxSVGExternalResourcesRequired::GetAttributes());

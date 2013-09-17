@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.34 2013-09-15 10:18:08 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.35 2013-09-17 10:56:51 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -352,14 +352,15 @@ for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
 
 # SVGImageElement
 inter = interfaces["SVGImageElement"]
-inter.include_fwd_decls = [""wxProgressDialog"]
+inter.include_fwd_decls.append("ProgressDialog")
 inter.include_methods.append('    int GetDefaultWidth(wxProgressDialog* progressDlg = NULL);\n')
 inter.include_methods.append('    int GetDefaultHeight(wxProgressDialog* progressDlg = NULL);\n')
 inter.include_methods.append('    void SetDefaultSize(wxProgressDialog* progressDlg = NULL);\n')
 
 # SVGVideElement
 inter = interfaces["SVGVideoElement"]
-inter.include_methods.append('    double GetDuration();\n')
+inter.include_fwd_decls.append("ProgressDialog")
+inter.include_methods.append('    double GetDuration(wxProgressDialog* progressDlg = NULL);\n')
 
 # SVGTextElement
 inter = interfaces["SVGTextElement"]
@@ -389,6 +390,13 @@ inter.include_methods.append('''
     double GetQualifiedCy() const;
     double GetQualifiedFx() const;
     double GetQualifiedFy() const;\n
+''')
+# SVGRadialGradientElement
+
+inter = interface()
+interfaces["SVGAnimationElement"]=inter
+inter.include_methods.append('''
+    void ApplyAnimation();\n
 ''')
 
 # SVGDocument
@@ -441,7 +449,7 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
   private:
       DECLARE_DYNAMIC_CLASS(wxSVGDocument)
 ''')
-inter.include_fwd_decls = ["SVGSVGElement","SVGElement","SVGCanvas","wxProgressDialog"]
+inter.include_fwd_decls = ["SVGSVGElement","SVGElement","SVGCanvas","ProgressDialog"]
 inter.include_includes = ["SVGRect","SVGMatrix","<wx/image.h>"]
 inter.user_defined_contructor=1
 inter.user_defined_destructor=1

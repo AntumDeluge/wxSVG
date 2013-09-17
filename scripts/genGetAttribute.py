@@ -4,7 +4,7 @@
 ##              -> GetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttribute.py,v 1.6 2011-06-23 11:27:04 ntalex Exp $
+## RCS-ID:      $Id: genGetAttribute.py,v 1.7 2013-09-17 10:56:51 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -80,7 +80,7 @@ def process(classdecl):
             get_attr = '    return wxString::Format(wxT("%%g"), %s);'%get_attr
         elif typestr == "css::CSSStyleDeclaration":
             get_attr = '    return %s.GetCSSText();'%get_attr
-        elif typestr in ["Length", "Rect", "PreserveAspectRatio"]  or typestr[-4:] == "List":
+        elif typestr in ["SVGLength", "Length", "Rect", "PreserveAspectRatio"]  or typestr[-4:] == "List":
             get_attr = '    return %s.GetValueAsString();'%get_attr
         else:
             get_attr = '    return ' + get_attr + ';'

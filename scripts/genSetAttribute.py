@@ -4,7 +4,7 @@
 ##              -> SetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSetAttribute.py,v 1.12 2011-06-23 11:27:04 ntalex Exp $
+## RCS-ID:      $Id: genSetAttribute.py,v 1.13 2013-09-17 10:56:51 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -101,7 +101,7 @@ def process(classdecl):
   }'''%(calc_proc,set_attr)
         elif typestr == "css::CSSStyleDeclaration":
             set_attr = '    %s.SetCSSText(attrValue);'%set_attr
-        elif typestr in ["Length", "Rect", "PreserveAspectRatio"] or typestr[-4:] == "List":
+        elif typestr in ["SVGLength", "Length", "Rect", "PreserveAspectRatio"] or typestr[-4:] == "List":
             set_attr = '    %s.SetValueAsString(attrValue);'%set_attr
         else:
             set_attr = '\t' + set_attr + ' = attrValue;'

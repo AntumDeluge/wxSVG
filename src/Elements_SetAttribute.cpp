@@ -1526,10 +1526,22 @@ bool wxSVGAnimationElement::SetAttribute(const wxString& attrName, const wxStrin
 {
   if (attrName == wxT("attributeName"))
 	m_attributeName = attrValue;
+  else if (attrName == wxT("begin"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_begin = value;
+  }
+  else if (attrName == wxT("dur"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_dur = value;
+  }
   else if (attrName == wxT("from"))
-	m_from.SetValueAsString(attrValue);
+    m_from.SetValueAsString(attrValue);
   else if (attrName == wxT("to"))
-	m_to.SetValueAsString(attrValue);
+    m_to.SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));

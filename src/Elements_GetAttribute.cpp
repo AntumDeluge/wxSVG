@@ -1330,7 +1330,17 @@ wxString wxSVGFESpotLightElement::GetAttribute(const wxString& attrName)
 // wxSVGAnimationElement
 wxString wxSVGAnimationElement::GetAttribute(const wxString& attrName)
 {
-  if (wxSVGElement::HasAttribute(attrName))
+  if (attrName == wxT("attributeName"))
+    return m_attributeName;
+  else if (attrName == wxT("begin"))
+    return wxString::Format(wxT("%g"), m_begin);
+  else if (attrName == wxT("dur"))
+    return wxString::Format(wxT("%g"), m_dur);
+  else if (attrName == wxT("from"))
+    return m_from.GetValueAsString();
+  else if (attrName == wxT("to"))
+    return m_to.GetValueAsString();
+  else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGTests::HasAttribute(attrName))
     return wxSVGTests::GetAttribute(attrName);
