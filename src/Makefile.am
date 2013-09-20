@@ -1,31 +1,8 @@
-if USE_RENDER_AGG
-RENDER_DIR = agg
-RENDER_LIB = agg/libwxsvg_agg.la
-else
-if USE_RENDER_CAIRO
-RENDER_DIR = cairo
-RENDER_LIB = cairo/libwxsvg_cairo.la
-else
-if USE_RENDER_LIBART
-RENDER_DIR = libart
-RENDER_LIB = libart/libwxsvg_libart.la
-endif
-endif
-endif
-
-if USE_FREETYPE
-TEXT_DIR = freetype
-TEXT_LIB = freetype/libwxsvg_freetype.la
-else
-TEXT_DIR = 
-TEXT_LIB = 
-endif
+SUBDIRS = svgxml cairo
 
 if USE_LIBAV
 LIBAV_SRC = mediadec_ffmpeg.cpp
 endif
-
-SUBDIRS = svgxml $(TEXT_DIR) $(RENDER_DIR)
 
 lib_LTLIBRARIES = libwxsvg.la
 libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp imagsvg.cpp\
@@ -46,7 +23,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp imagsvg.cpp\
   CSSValue.cpp CSSStyleDeclaration.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp $(LIBAV_SRC)
 
-libwxsvg_la_LIBADD = svgxml/libwxsvgxml.la $(RENDER_LIB) $(TEXT_LIB)
+libwxsvg_la_LIBADD = svgxml/libwxsvgxml.la cairo/libwxsvg_cairo.la $(CAIRO_LIBS)
 libwxsvg_la_LDFLAGS = -no-undefined -version-info @LIBRARY_VERSION@
 
 INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)/include/wxSVG

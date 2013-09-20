@@ -23,9 +23,6 @@ AM_OPTIONS_WXCONFIG
 AC_ARG_ENABLE(debug,
  [  --enable-debug          Enable debugging information],
  USE_DEBUG="$enableval", USE_DEBUG="no")
-AC_ARG_ENABLE(render,
- [  --enable-render[=render]          Specify the render: cairo (default), libart or agg],
- [USE_RENDER=$enableval], [USE_RENDER=cairo])
 AC_ARG_ENABLE(libav,
  [  --enable-libav         Enable libav decoder support (default: enabled)],
  [enable_libav=$enableval],[enable_libav=yes])
@@ -70,102 +67,29 @@ yes)
   ;;
 esac
 
-# render
-AM_CONDITIONAL(USE_RENDER_AGG, [test "$USE_RENDER" = "agg"])
-AM_CONDITIONAL(USE_RENDER_CAIRO, [test "$USE_RENDER" = "cairo"])
-AM_CONDITIONAL(USE_RENDER_LIBART, [test "$USE_RENDER" = "libart"])
-case "$USE_RENDER" in
-libart)
-  # check for libart library
-  AC_CHECK_PROG(LIBART_CONFIG, libart2-config, yes, no)
-  if test $LIBART_CONFIG = no; then
-    AC_MSG_ERROR([
-      wxSVG requires libart library.
-      Please check that libart2-config is in path.
-    ])
-  fi
-  LIBART_CFLAGS="`libart2-config --cflags` $CXXFLAGS"
-  LIBART_LIBS="`libart2-config --libs` $LIBS"
-  AC_SUBST(LIBART_CFLAGS)
-  AC_SUBST(LIBART_LIBS)
-  CXXFLAGS="$CXXFLAGS -DUSE_RENDER_LIBART"
-  font_engine=freetype
-  ;;
-agg)
-  # check for agg
-  AC_CHECK_LIBAGG( 2.5, [], [AC_MSG_ERROR([*** missing library AGG])])
-  CXXFLAGS="$CXXFLAGS -DUSE_RENDER_AGG $LIBAGG_CFLAGS"
-  LDFLAGS="$LDFLAGS $LIBAGG_LIBS"
-  case "$host" in
-    *mingw*)
-    font_engine=fontwin32tt_agg
-    ;;
-    *)
-    font_engine=freetype
-    ;;
-  esac
-  ;;
-cairo)
-  # check for cairo
-  PKG_CHECK_MODULES(CAIRO, cairo)
-  CXXFLAGS="$CXXFLAGS $CAIRO_CFLAGS -DUSE_RENDER_CAIRO"
-  LIBS="$LIBS $CAIRO_LIBS"
-  case $host_os in
+# check for cairo
+PKG_CHECK_MODULES(CAIRO, cairo)
+CXXFLAGS="$CXXFLAGS $CAIRO_CFLAGS -DUSE_RENDER_CAIRO"
+LIBS="$LIBS $CAIRO_LIBS"
+case $host_os in
 	*darwin*)
 		font_engine=
 		;;
 	*)
 		font_engine=pango
 		;;
-  esac
-  ;;
-*)
-  AC_MSG_ERROR([*** Unknown render "$USE_RENDER"])
-  ;;
 esac
 
 # Font_engine
 case "$font_engine" in
-freetype)
-  # check for pango and freetype library
-  PKG_CHECK_MODULES(PANGO, pangoft2)
-  PKG_CHECK_MODULES(FONTCONFIG, fontconfig)
-  AC_CHECK_PROG(FREETYPE_CONFIG, freetype-config, yes, no)
-  if test $FREETYPE_CONFIG = no; then
-    AC_MSG_ERROR([
-      wxSVG requires freetype library.
-      Please check that freetype-config is in path.
-    ])
-  fi
-  FREETYPE_CFLAGS="`freetype-config --cflags` $CXXFLAGS $FONTCONFIG_CFLAGS $PANGO_CFLAGS"
-  FREETYPE_LIBS="`freetype-config --libs` $LIBS $FONTCONFIG_LIBS $PANGO_LIBS"
-  AC_SUBST(FREETYPE_CFLAGS)
-  AC_SUBST(FREETYPE_LIBS)
-  ;;
-fontfreetype_agg)
-  AC_CHECK_PROG(FREETYPE_CONFIG, freetype-config, yes, no)
-  if test $FREETYPE_CONFIG = no; then
-    AC_MSG_ERROR([
-      wxSVG requires freetype library.
-      Please check that freetype-config is in path.
-    ])
-  fi
-  FREETYPE_CFLAGS="`freetype-config --cflags`"
-  CXXFLAGS="$CXXFLAGS $FREETYPE_CFLAGS"
-  LIBS="$LIBS -laggfontfreetype"
-  ;;
-fontwin32tt_agg)
-  LIBS="$LIBS -laggfontwin32tt"
-  ;;
 pango)
-  PKG_CHECK_MODULES(PANGO, pango)
+  PKG_CHECK_MODULES(PANGO, pangocairo)
   CXXFLAGS="$CXXFLAGS $PANGO_CFLAGS"
   LIBS="$LIBS $PANGO_LIBS"
   ;;
 *)
   ;;
 esac
-AM_CONDITIONAL(USE_FREETYPE, [test "$font_engine" = "freetype"])
 
 # check wxWidgets >= 2.6.3
 WX_CONFIG_CHECK(2.6.3, WXFOUND=1)
@@ -210,9 +134,6 @@ AC_OUTPUT([
   include/wxSVG/Makefile
   src/svgxml/Makefile
   src/Makefile
-  src/agg/Makefile
   src/cairo/Makefile
-  src/libart/Makefile
-  src/freetype/Makefile
   svgview/Makefile
 ])
