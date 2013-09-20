@@ -1,8 +1,10 @@
-Version 1.2 <2013-09-17>
+Version 1.2 <2013-09-20>
 ------------------------
 
   * added initial support of animations
   * added support of mask for image element
+  * removed obsolete backends (libart and agg)
+  * removed svgui classes 
 
 Version 1.1.16 <2013-08-25>
 ---------------------------
