@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.45 2013-09-20 16:52:52 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.46 2013-09-21 08:08:37 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -86,24 +86,24 @@ double wxSVGDocument::GetDuration(wxSVGElement* parent) {
 	double result = 0;
 	wxSVGElement* elem = (wxSVGElement*) parent->GetChildren();
 	while (elem) {
-		double duration = 0;
-		if (elem->GetType() != wxSVGXML_ELEMENT_NODE)
-			continue;
-		switch (elem->GetDtd()) {
-			case wxSVG_VIDEO_ELEMENT:
-				duration = ((wxSVGVideoElement*) elem)->GetBegin() + ((wxSVGVideoElement*) elem)->GetDuration();
-				break;
-			case wxSVG_ANIMATE_ELEMENT:
-				duration = ((wxSVGAnimateElement*) elem)->GetBegin() + ((wxSVGAnimateElement*) elem)->GetDur();
-				break;
-			default:
-				if (elem->GetChildren()) {
-					duration = GetDuration(elem);
-				}
-				break;
-		}
-		if (result < duration) {
-			result = duration;
+		if (elem->GetType() == wxSVGXML_ELEMENT_NODE) {
+			double duration = 0;
+			switch (elem->GetDtd()) {
+				case wxSVG_VIDEO_ELEMENT:
+					duration = ((wxSVGVideoElement*) elem)->GetBegin() + ((wxSVGVideoElement*) elem)->GetDuration();
+					break;
+				case wxSVG_ANIMATE_ELEMENT:
+					duration = ((wxSVGAnimateElement*) elem)->GetBegin() + ((wxSVGAnimateElement*) elem)->GetDur();
+					break;
+				default:
+					if (elem->GetChildren()) {
+						duration = GetDuration(elem);
+					}
+					break;
+			}
+			if (result < duration) {
+				result = duration;
+			}
 		}
 		elem = (wxSVGElement*) elem->GetNext();
 	}
