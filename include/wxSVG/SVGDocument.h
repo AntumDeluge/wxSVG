@@ -29,6 +29,7 @@ class wxSVGDocument:
     wxString m_referrer;
     wxString m_domain;
     wxString m_URL;
+    wxString m_path;
 
   public:
     inline const wxString& GetReferrer() const { return m_referrer; }
@@ -40,6 +41,8 @@ class wxSVGDocument:
     inline const wxString& GetURL() const { return m_URL; }
     inline void SetURL(const wxString& n) { m_URL = n; }
 
+    inline const wxString& GetPath() const { return m_path; }
+    inline void SetPath(const wxString& n) { m_path = n; }
 
   protected:
     wxSVGCanvas* m_canvas;
@@ -59,6 +62,9 @@ class wxSVGDocument:
     wxSVGDocument(const wxSVGDocument& doc);
     virtual ~wxSVGDocument();
     
+    virtual bool Load(const wxString& filename, const wxString& encoding = wxT("UTF-8"));
+    virtual bool Load(wxInputStream& stream, const wxString& encoding = wxT("UTF-8"));
+
     void Init();
     inline wxSVGCanvas* GetCanvas() { return m_canvas; }
     inline double GetScale() { return m_scale; }

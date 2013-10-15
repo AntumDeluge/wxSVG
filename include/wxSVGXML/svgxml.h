@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.h,v 1.6 2013-09-15 10:17:22 ntalex Exp $
+// RCS-ID:      $Id: svgxml.h,v 1.7 2013-10-15 19:25:51 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -235,9 +235,9 @@ public:
 
     // Parses .xml file and loads data. Returns TRUE on success, FALSE
     // otherwise.
-    bool Load(const wxString& filename,
+    virtual bool Load(const wxString& filename,
               const wxString& encoding = wxT("UTF-8"));
-    bool Load(wxInputStream& stream,
+    virtual bool Load(wxInputStream& stream,
               const wxString& encoding = wxT("UTF-8"));
     
     // Saves document as .xml file.

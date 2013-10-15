@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.45 2013-08-25 12:53:33 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.46 2013-10-15 19:25:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -15,6 +15,7 @@
 #include <math.h>
 #include <wx/log.h>
 #include <wx/progdlg.h>
+#include <wx/filename.h>
 
 #ifdef USE_LIBAV
 #include <wxSVG/mediadec_ffmpeg.h>
@@ -884,6 +885,15 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 			if (filename.Find(wxT('#')) != wxNOT_FOUND && filename.AfterLast(wxT('#')).ToLong(&pos))
 				filename = filename.BeforeLast(wxT('#'));
 		} else {
+			wxFileName fn(filename);
+			if (fn.IsRelative() && element.GetOwnerDocument() != NULL) {
+				wxString path = ((wxSVGDocument*) element.GetOwnerDocument())->GetPath();
+				if (path.length() && (wxFileExists(path + wxFILE_SEP_PATH + filename)
+						|| (filename.Find(wxT('#')) != wxNOT_FOUND
+								&& wxFileExists(path + wxFILE_SEP_PATH + filename.BeforeLast(wxT('#')))))) {
+					filename = path + wxFILE_SEP_PATH + filename;
+				}
+			}
 			if (!wxFileExists(filename) && filename.Find(wxT('#')) != wxNOT_FOUND
 					&& filename.AfterLast(wxT('#')).ToLong(&pos))
 				filename = filename.BeforeLast(wxT('#'));

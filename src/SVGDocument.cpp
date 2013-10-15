@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.46 2013-09-21 08:08:37 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.47 2013-10-15 19:25:50 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -31,6 +31,18 @@ wxSVGDocument::wxSVGDocument(const wxSVGDocument& doc): wxSvgXmlDocument(doc) {
 
 wxSVGDocument::~wxSVGDocument() {
 	delete m_canvas;
+}
+
+bool wxSVGDocument::Load(const wxString& filename, const wxString& encoding) {
+	bool result = wxSvgXmlDocument::Load(filename, encoding);
+	if (result) {
+		m_path =  wxPathOnly(filename);
+	}
+	return result;
+}
+
+bool wxSVGDocument::Load(wxInputStream& stream, const wxString& encoding) {
+	return wxSvgXmlDocument::Load(stream, encoding);
 }
 
 void wxSVGDocument::Init() {
