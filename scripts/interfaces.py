@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.35 2013-09-17 10:56:51 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.36 2013-10-15 19:30:41 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -404,8 +404,7 @@ inter = interface()
 interfaces["SVGDocument"]=inter
 
 inter.exclude_attributes = ["rootElement", "title"]
-inter.include_attributes.append('''
-  protected:
+inter.include_attributes.append('''  protected:
     wxSVGCanvas* m_canvas;
     double m_scale;
     double m_scaleY;\n
@@ -421,6 +420,9 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     wxSVGDocument(const wxSVGDocument& doc);
     virtual ~wxSVGDocument();
     
+    virtual bool Load(const wxString& filename, const wxString& encoding = wxT("UTF-8"));
+    virtual bool Load(wxInputStream& stream, const wxString& encoding = wxT("UTF-8"));
+
     void Init();
     inline wxSVGCanvas* GetCanvas() { return m_canvas; }
     inline double GetScale() { return m_scale; }

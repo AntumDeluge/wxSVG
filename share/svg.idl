@@ -401,6 +401,7 @@ module svg
     readonly attribute DOMString     referrer;
     readonly attribute DOMString      domain;
     readonly attribute DOMString      URL;
+    readonly attribute DOMString      path;
     readonly attribute SVGSVGElement rootElement;
   };
 
