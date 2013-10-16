@@ -1,3 +1,8 @@
+Version 1.2.1 <2013-10-16>
+--------------------------
+
+  * fixed loading images with relative path
+
 Version 1.2 <2013-09-20>
 ------------------------
 
