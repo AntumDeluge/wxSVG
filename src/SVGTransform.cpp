@@ -3,13 +3,13 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGTransform.cpp,v 1.6 2008-02-17 19:03:46 ntalex Exp $
+// RCS-ID:      $Id: SVGTransform.cpp,v 1.7 2013-10-19 10:54:45 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGTransform.h"
-#include <math.h>
+#include <wx/math.h>
 #include <wx/tokenzr.h>
 
 void wxSVGTransform::SetTranslate(double tx, double ty)

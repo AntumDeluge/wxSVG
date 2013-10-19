@@ -3,13 +3,13 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/05
-// RCS-ID:      $Id: SVGMatrix.cpp,v 1.4 2006-01-08 12:39:50 ntalex Exp $
+// RCS-ID:      $Id: SVGMatrix.cpp,v 1.5 2013-10-19 10:54:44 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGMatrix.h"
-#include <math.h>
+#include <wx/math.h>
 
 wxSVGMatrix wxSVGMatrix::Multiply(const wxSVGMatrix& secondMatrix)
 {
