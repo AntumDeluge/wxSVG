@@ -108,7 +108,7 @@ LIBS="$LIBS $WX_LIBS"
 AC_CHECK_LIB([expat],[XML_ParserCreate],[],[AC_MSG_ERROR([*** missing expat library])])
 AC_CHECK_HEADER([expat.h],[],[AC_MSG_ERROR([*** missing expat library])])
 
-# check ffmpg
+# check ffmpeg
 AM_CONDITIONAL(USE_LIBAV, [test x$enable_libav = xyes])
 if test x$enable_libav = xyes; then
   PKG_CHECK_MODULES(LIBAV, [libavformat >= 50.0.0 libavcodec >= 51.0.0 libavutil >= 49.0.0 libswscale])
