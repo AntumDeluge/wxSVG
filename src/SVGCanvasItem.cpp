@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.46 2013-10-15 19:25:50 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.47 2014-03-03 17:08:26 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -589,10 +589,12 @@ void wxSVGCanvasText::InitChildren(wxSVGTextPositioningElement& element, const w
 						text += wxT(" ");
 				}
 			}
-		} else if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd() == wxSVG_TBREAK_ELEMENT)
+		} else if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd() == wxSVG_TBREAK_ELEMENT) {
 			text += wxT("\n");
-		else if (text.length())
+		} else if (text.length()) {
 			AddChunk(text, style, matrix);
+			text = wxT("");
+		}
 		
 		if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd() == wxSVG_TSPAN_ELEMENT) {
 			wxSVGTSpanElement& tElem = (wxSVGTSpanElement&) *elem;
