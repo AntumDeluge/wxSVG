@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.36 2013-10-15 19:30:41 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.37 2014-03-18 13:08:39 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -391,12 +391,19 @@ inter.include_methods.append('''
     double GetQualifiedFx() const;
     double GetQualifiedFy() const;\n
 ''')
-# SVGRadialGradientElement
 
+# SVGAnimationElement
 inter = interface()
 interfaces["SVGAnimationElement"]=inter
 inter.include_methods.append('''
-    void ApplyAnimation();\n
+    virtual void ApplyAnimation();\n
+''')
+
+# SVGAnimateTransformElement
+inter = interface()
+interfaces["SVGAnimateTransformElement"]=inter
+inter.include_methods.append('''
+    virtual void ApplyAnimation();\n
 ''')
 
 # SVGDocument

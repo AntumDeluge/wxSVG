@@ -4,7 +4,7 @@
 ##              -> SetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSetAttribute.py,v 1.13 2013-09-17 10:56:51 ntalex Exp $
+## RCS-ID:      $Id: genSetAttribute.py,v 1.14 2014-03-18 13:08:39 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -16,6 +16,7 @@ import config
 import genFile
 import cpp
 import cppImpl
+import enum_map
 
 customParser = ["SVGStylable", "SVGFEGaussianBlurElement"] ##TODO["SVGMarkerElement"]
 
@@ -48,7 +49,7 @@ def process(classdecl):
         set_attr = cpp.make_attr_name(attr.name)
         typestr =attr.type.name
         anim_pos = string.find(typestr, 'Animated')
-        if anim_pos>=0: # SVGAnimatedTypename
+        if anim_pos>=0 and typestr != "SVGAnimatedType": # SVGAnimatedTypename
             typestr = typestr[anim_pos+len('Animated'):]
             if typestr not in ["float", "Number", "Integer", "Boolean", "Enumeration", "unsigned short"]:
                 set_attr = set_attr + '.GetBaseVal()'
@@ -61,7 +62,7 @@ def process(classdecl):
             elif typestr == "Boolean":
                 etype = '(bool) '
             elif typestr == "Enumeration":
-                etype = '(char) '
+                etype = '(unsigned char) '
             elif typestr == "unsigned short":
                 if classdecl.name == "SVGZoomAndPan":
                     etype = '(wxSVG_ZOOMANDPAN) '
@@ -80,12 +81,23 @@ def process(classdecl):
         value = wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX;
     %s;
   }'''%set_attr
+            elif enum_map.enum_map.has_key(classdecl.name + '::' + attr.name):
+                set_attr2 = ''
+                for enum in classdecl.enums:
+                    if enum.name == enum_map.enum_map[classdecl.name + '::' + attr.name] and len(enum.const_decls):
+                        set_attr2 = '  {\n    %s value = %s;\n'%(cpp.fix_typename(enum.name), cpp.fix_typename('%s'%enum.const_decls[0].name))
+                        for const_decl in enum.const_decls[1:]:
+                            set_attr2 = set_attr2 + '    '
+                            if const_decl.name != enum.const_decls[1].name:
+                                set_attr2 = set_attr2 + 'else '
+                            set_attr2 = set_attr2 + 'if (attrValue.Lower() == wxT("%s"))\n'%(string.lower(const_decl.name.split('_')[-1]))
+                            set_attr2 = set_attr2 + '      value = %s;\n'%(cpp.fix_typename('%s'%const_decl.name))
+                        set_attr = set_attr2 + '    %s;\n  }'%set_attr
+                        break
+                if (not len(set_attr2)):
+                    set_attr = '  {\n    long value;\n    if (attrValue.ToLong(&value))\n      %s;\n  }'%set_attr
             else:
-                set_attr = '''  {
-    long value;
-    if (attrValue.ToLong(&value))
-      %s;
-  }'''%set_attr
+                set_attr = '  {\n    long value;\n    if (attrValue.ToLong(&value))\n      %s;\n  }'%set_attr
         elif typestr in ["float", "Number"]:
             if anim_pos>=0:
                 set_attr = '%s.SetBaseVal(value)'%set_attr
@@ -101,7 +113,7 @@ def process(classdecl):
   }'''%(calc_proc,set_attr)
         elif typestr == "css::CSSStyleDeclaration":
             set_attr = '    %s.SetCSSText(attrValue);'%set_attr
-        elif typestr in ["SVGLength", "Length", "Rect", "PreserveAspectRatio"] or typestr[-4:] == "List":
+        elif typestr in ["SVGLength", "Length", "Rect", "PreserveAspectRatio", "SVGAnimatedType"] or typestr[-4:] == "List":
             set_attr = '    %s.SetValueAsString(attrValue);'%set_attr
         else:
             set_attr = '\t' + set_attr + ' = attrValue;'

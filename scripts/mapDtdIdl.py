@@ -3,14 +3,13 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: mapDtdIdl.py,v 1.1.1.1 2005-05-10 17:51:25 ntalex Exp $
+## RCS-ID:      $Id: mapDtdIdl.py,v 1.2 2014-03-18 13:08:39 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
 
 import idl
 import parse_idl
-import enum_map
 import parse_dtd
 import string
 

@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.22 2013-09-12 08:44:37 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.23 2014-03-18 13:08:39 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -124,7 +124,6 @@ if len(parse_idl.class_decls):
             if (attr.name in exclude_attributes):
                 continue
             typename = attr.type.name
-            pos = string.find(attr.type.name, 'Animated')
             
             # is Attribute an Element ?
             ispointer = False
@@ -209,7 +208,7 @@ if len(parse_idl.class_decls):
                 animated = 0
                 typestrBase = ""
                 pos = string.find(typestr, 'Animated')
-                if pos>=0: # SVGAnimatedTypename
+                if pos>=0 and typestr != "wxSVGAnimatedType": # SVGAnimatedTypename
                     typestrBase = typestr[pos+len('Animated'):]
                     animated = 1
                 
@@ -459,8 +458,8 @@ if len(parse_idl.class_decls):
         
         has_dtd_attributes=find_dtd_attr_in_inherit(classdecl)
         if has_dtd_attributes==1 and "SetAttribute" not in exclude_methods:
-            methods_str = methods_str + '    bool HasAttribute(const wxString& name);\n';
-            methods_str = methods_str + '    wxString GetAttribute(const wxString& name);\n';
+            methods_str = methods_str + '    bool HasAttribute(const wxString& name) const;\n';
+            methods_str = methods_str + '    wxString GetAttribute(const wxString& name) const;\n';
             methods_str = methods_str + '    bool SetAttribute(const wxString& name, const wxString& value);\n';
             methods_str = methods_str + '    wxSvgXmlAttrHash GetAttributes() const;\n';
             if "String_wxsvg" not in includes:
@@ -469,8 +468,8 @@ if len(parse_idl.class_decls):
                 includes.append("Element")
             doGetAttrByName=1
             if classname in ["SVGStylable", "SVGFEGaussianBlurElement"]: #genSetAttribute.customParser
-                protected = protected + '    bool HasCustomAttribute(const wxString& name);\n';
-                protected = protected + '    wxString GetCustomAttribute(const wxString& name);\n';
+                protected = protected + '    bool HasCustomAttribute(const wxString& name) const;\n';
+                protected = protected + '    wxString GetCustomAttribute(const wxString& name) const;\n';
                 protected = protected + '    bool SetCustomAttribute(const wxString& name, const wxString& value);\n';
                 protected = protected + '    wxSvgXmlAttrHash GetCustomAttributes() const;\n';
 
@@ -570,7 +569,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.22 2013-09-12 08:44:37 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.23 2014-03-18 13:08:39 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

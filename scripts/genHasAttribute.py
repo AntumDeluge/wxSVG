@@ -4,7 +4,7 @@
 ##              -> HasAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genHasAttribute.py,v 1.5 2011-06-23 11:27:04 ntalex Exp $
+## RCS-ID:      $Id: genHasAttribute.py,v 1.6 2014-03-18 13:08:39 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -70,8 +70,7 @@ def process(classdecl):
             func_body = func_body + ' ||\n    HasCustomAttribute(attrName)'
         output_cpp = '''
 // wx%s
-bool wx%s::HasAttribute(const wxString& attrName)
-{
+bool wx%s::HasAttribute(const wxString& attrName) const {
   return %s;
 }      
 '''%(classdecl.name, classdecl.name, func_body)

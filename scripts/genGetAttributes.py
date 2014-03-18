@@ -4,7 +4,7 @@
 ##              -> GetAttributes() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttributes.py,v 1.10 2013-09-17 10:56:51 ntalex Exp $
+## RCS-ID:      $Id: genGetAttributes.py,v 1.11 2014-03-18 13:08:39 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -16,6 +16,7 @@ import config
 import genFile
 import cpp
 import cppImpl
+import enum_map
 
 customParser = ["SVGStylable", "SVGFEGaussianBlurElement"] ##TODO["SVGMarkerElement"]
 
@@ -48,7 +49,7 @@ def process(classdecl):
         get_attr = cpp.make_attr_name(attr.name)
         typestr =attr.type.name
         anim_pos = string.find(typestr, 'Animated')
-        if anim_pos>=0: # SVGAnimatedTypename
+        if anim_pos>=0 and typestr != "SVGAnimatedType": # SVGAnimatedTypename
             typestr = typestr[anim_pos+len('Animated'):]
             get_attr = get_attr + '.GetBaseVal()'
         
@@ -73,7 +74,19 @@ def process(classdecl):
                 elif classdecl.name == "SVGColorProfileElement":
                     etype = '(wxRENDERING_INTENT) '
             if classdecl.name == "SVGGradientElement" and attr.name == "gradientUnits":
-                get_attr = '%s == wxSVG_UNIT_TYPE_USERSPACEONUSE ? wxT("userSpaceOnUse") : wxT("objectBoundingBox")'%get_attr
+                check = '%s != wxSVG_UNIT_TYPE_UNKNOWN && %s != wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX'%(get_attr,get_attr)
+                get_attr = 'wxT("userSpaceOnUse")'
+            elif enum_map.enum_map.has_key(classdecl.name + '::' + attr.name):
+                def_enum = ''
+                for enum in classdecl.enums:
+                    if enum.name == enum_map.enum_map[classdecl.name + '::' + attr.name] and len(enum.const_decls):
+                        def_enum = cpp.fix_typename('%s'%enum.const_decls[0].name)
+                if (len(def_enum)):
+                    check = '%s != %s'%(get_attr,def_enum)
+                    get_attr = 'GetAttribute(wxT("%s"))'%attr.name
+                else:
+                    get_attr = etype + get_attr
+                    get_attr = 'wxString::Format(wxT("%%d"), %s)'%get_attr
             else:
                 get_attr = etype + get_attr
                 get_attr = 'wxString::Format(wxT("%%d"), %s)'%get_attr
@@ -83,11 +96,13 @@ def process(classdecl):
         elif typestr == "css::CSSStyleDeclaration":
             check = '!%s.empty()'%get_attr
             get_attr = '%s.GetCSSText()'%get_attr
-        elif typestr in ["SVGLength", "Length", "Rect", "PreserveAspectRatio"]  or typestr[-4:] == "List":
+        elif typestr in ["SVGLength", "Length", "Rect", "PreserveAspectRatio", "SVGAnimatedType"]  or typestr[-4:] == "List":
             if typestr == "Length" or typestr == "SVGLength":
                 check = '%s.GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN'%get_attr
             elif typestr == "PreserveAspectRatio":
                 check = '%s.GetAlign() != wxSVG_PRESERVEASPECTRATIO_UNKNOWN && %s.GetMeetOrSlice() != wxSVG_MEETORSLICE_UNKNOWN'%(get_attr,get_attr)
+            elif typestr == "SVGAnimatedType":
+                check = '%s.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN'%get_attr
             else:
                 check = '!%s.IsEmpty()'%get_attr
             get_attr = '%s.GetValueAsString()'%get_attr

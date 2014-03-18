@@ -1681,8 +1681,8 @@ module svg
     readonly attribute DOMString attributeName;
     readonly attribute float begin;
     readonly attribute float dur;
-    readonly attribute SVGLength from;
-    readonly attribute SVGLength to;
+    readonly attribute SVGAnimatedType from;
+    readonly attribute SVGAnimatedType to;
 
     float getStartTime (  );
     float getCurrentTime (  );
@@ -1703,7 +1703,16 @@ module svg
 
   interface SVGAnimateColorElement : SVGAnimationElement {};
 
-  interface SVGAnimateTransformElement : SVGAnimationElement {};
+  interface SVGAnimateTransformElement : SVGAnimationElement {
+    // Animate Transform Types
+    const unsigned short SVG_ANIMATETRANSFORM_TRANSLATE = 0;
+    const unsigned short SVG_ANIMATETRANSFORM_SCALE     = 1;
+    const unsigned short SVG_ANIMATETRANSFORM_ROTATE    = 2;
+    const unsigned short SVG_ANIMATETRANSFORM_SKEWX     = 3;
+    const unsigned short SVG_ANIMATETRANSFORM_SKEWY     = 4;
+
+  	readonly attribute unsigned short type;
+  };
 
   interface SVGFontElement : 
                 SVGElement,

@@ -4,7 +4,7 @@
 ##              -> GetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttribute.py,v 1.7 2013-09-17 10:56:51 ntalex Exp $
+## RCS-ID:      $Id: genGetAttribute.py,v 1.8 2014-03-18 13:08:39 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -16,6 +16,7 @@ import config
 import genFile
 import cpp
 import cppImpl
+import enum_map
 
 customParser = ["SVGStylable", "SVGFEGaussianBlurElement"] ##TODO["SVGMarkerElement"]
 
@@ -46,9 +47,9 @@ def process(classdecl):
         nattr = nattr + 1
         
         get_attr = cpp.make_attr_name(attr.name)
-        typestr =attr.type.name
+        typestr = attr.type.name
         anim_pos = string.find(typestr, 'Animated')
-        if anim_pos>=0: # SVGAnimatedTypename
+        if anim_pos>=0 and typestr != "SVGAnimatedType": # SVGAnimatedTypename
             typestr = typestr[anim_pos+len('Animated'):]
             get_attr = get_attr + '.GetBaseVal()'
         
@@ -72,7 +73,23 @@ def process(classdecl):
       return wxT("userSpaceOnUse");
     else if (%s == wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX)
       return wxT("objectBoundingBox");
+    return wxT("");
   }'''%(get_attr,get_attr)
+            elif enum_map.enum_map.has_key(classdecl.name + '::' + attr.name):
+                get_attr2 = ''
+                for enum in classdecl.enums:
+                    if enum.name == enum_map.enum_map[classdecl.name + '::' + attr.name]:
+                        get_attr2 = "    switch (%s) {\n"%get_attr
+                        for const_decl in enum.const_decls:
+                            enum_str = string.lower(const_decl.name.split('_')[-1])
+                            if enum_str != 'unknown':
+                                get_attr2 = get_attr2 + '    case %s:\n'%(cpp.fix_typename('%s'%const_decl.name))
+                                get_attr2 = get_attr2 + '      return wxT("%s");\n'%(enum_str)
+                        get_attr = get_attr2 + '    default:\n      return wxT("");\n    }'
+                        break
+                if (not len(get_attr2)):
+                    get_attr = etype + get_attr
+                    get_attr = '    return wxString::Format(wxT("%%d"), %s);'%get_attr
             else:
                 get_attr = etype + get_attr
                 get_attr = '    return wxString::Format(wxT("%%d"), %s);'%get_attr
@@ -80,7 +97,7 @@ def process(classdecl):
             get_attr = '    return wxString::Format(wxT("%%g"), %s);'%get_attr
         elif typestr == "css::CSSStyleDeclaration":
             get_attr = '    return %s.GetCSSText();'%get_attr
-        elif typestr in ["SVGLength", "Length", "Rect", "PreserveAspectRatio"]  or typestr[-4:] == "List":
+        elif typestr in ["SVGLength", "Length", "Rect", "PreserveAspectRatio", "SVGAnimatedType"] or typestr[-4:] == "List":
             get_attr = '    return %s.GetValueAsString();'%get_attr
         else:
             get_attr = '    return ' + get_attr + ';'
@@ -115,8 +132,7 @@ def process(classdecl):
 
         output_cpp = '''
 // wx%s
-wxString wx%s::GetAttribute(const wxString& attrName)
-{
+wxString wx%s::GetAttribute(const wxString& attrName) const {
   %s
   return wxT("");
 }      

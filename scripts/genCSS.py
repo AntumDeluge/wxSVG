@@ -3,7 +3,7 @@
 ## Purpose:     generates CSSStyleDeclaration
 ## Author:      Alex Thuering
 ## Created:     2005/06/06
-## RCS-ID:      $Id: genCSS.py,v 1.15 2011-11-23 23:07:15 ntalex Exp $
+## RCS-ID:      $Id: genCSS.py,v 1.16 2014-03-18 13:08:39 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 
@@ -281,6 +281,8 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     static wxSVGColor* s_emptySVGColor;
     static wxSVGPaint* s_emptySVGPaint;
     static wxSVGPaint* s_blackSVGPaint;
+
+  public:
     static double ParseNumber(const wxString& value);
     static wxRGBColor ParseColor(const wxString& value);
     static void ParseSVGPaint(wxSVGPaint& paint, const wxString& value);
