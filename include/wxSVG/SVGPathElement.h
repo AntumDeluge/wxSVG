@@ -99,8 +99,8 @@ class wxSVGPathElement:
     virtual wxSVGPathSegCurvetoCubicSmoothRel CreateSVGPathSegCurvetoCubicSmoothRel(double x, double y, double x2, double y2);
     virtual wxSVGPathSegCurvetoQuadraticSmoothAbs CreateSVGPathSegCurvetoQuadraticSmoothAbs(double x, double y);
     virtual wxSVGPathSegCurvetoQuadraticSmoothRel CreateSVGPathSegCurvetoQuadraticSmoothRel(double x, double y);
-    bool HasAttribute(const wxString& name);
-    wxString GetAttribute(const wxString& name);
+    bool HasAttribute(const wxString& name) const;
+    wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_PATH_ELEMENT; }

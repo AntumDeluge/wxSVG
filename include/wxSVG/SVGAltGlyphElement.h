@@ -34,8 +34,8 @@ class wxSVGAltGlyphElement:
       wxSVGTextPositioningElement(tagName) {}
     virtual ~wxSVGAltGlyphElement() {}
     wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGAltGlyphElement(*this); }
-    bool HasAttribute(const wxString& name);
-    wxString GetAttribute(const wxString& name);
+    bool HasAttribute(const wxString& name) const;
+    wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_ALTGLYPH_ELEMENT; }

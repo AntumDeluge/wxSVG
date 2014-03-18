@@ -184,8 +184,8 @@ wxSvgXmlAttrHash wxSVGFEMorphologyElement::GetAttributes() const
   wxSvgXmlAttrHash attrs;
   if (!m_in1.GetBaseVal().IsEmpty())
     attrs.Add(wxT("in"), m_in1.GetBaseVal());
-  if (m_operator.GetBaseVal() != 0)
-    attrs.Add(wxT("operator"), wxString::Format(wxT("%d"), (char) m_operator.GetBaseVal()));
+  if (m_operator.GetBaseVal() != wxSVG_MORPHOLOGY_OPERATOR_UNKNOWN)
+    attrs.Add(wxT("operator"), GetAttribute(wxT("operator")));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGFilterPrimitiveStandardAttributes::GetAttributes());
   return attrs;
@@ -199,8 +199,8 @@ wxSvgXmlAttrHash wxSVGMarkerElement::GetAttributes() const
     attrs.Add(wxT("refX"), m_refX.GetBaseVal().GetValueAsString());
   if (m_refY.GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
     attrs.Add(wxT("refY"), m_refY.GetBaseVal().GetValueAsString());
-  if (m_markerUnits.GetBaseVal() != 0)
-    attrs.Add(wxT("markerUnits"), wxString::Format(wxT("%d"), (char) m_markerUnits.GetBaseVal()));
+  if (m_markerUnits.GetBaseVal() != wxSVG_MARKERUNITS_UNKNOWN)
+    attrs.Add(wxT("markerUnits"), GetAttribute(wxT("markerUnits")));
   if (m_markerWidth.GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
     attrs.Add(wxT("markerWidth"), m_markerWidth.GetBaseVal().GetValueAsString());
   if (m_markerHeight.GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
@@ -254,8 +254,8 @@ wxSvgXmlAttrHash wxSVGFEColorMatrixElement::GetAttributes() const
   wxSvgXmlAttrHash attrs;
   if (!m_in1.GetBaseVal().IsEmpty())
     attrs.Add(wxT("in"), m_in1.GetBaseVal());
-  if (m_type.GetBaseVal() != 0)
-    attrs.Add(wxT("type"), wxString::Format(wxT("%d"), (char) m_type.GetBaseVal()));
+  if (m_type.GetBaseVal() != wxSVG_FECOLORMATRIX_TYPE_UNKNOWN)
+    attrs.Add(wxT("type"), GetAttribute(wxT("type")));
   if (!m_values.GetBaseVal().IsEmpty())
     attrs.Add(wxT("values"), m_values.GetBaseVal().GetValueAsString());
   attrs.Add(wxSVGElement::GetAttributes());
@@ -378,8 +378,8 @@ wxSvgXmlAttrHash wxSVGFECompositeElement::GetAttributes() const
     attrs.Add(wxT("in"), m_in1.GetBaseVal());
   if (!m_in2.GetBaseVal().IsEmpty())
     attrs.Add(wxT("in2"), m_in2.GetBaseVal());
-  if (m_operator.GetBaseVal() != 0)
-    attrs.Add(wxT("operator"), wxString::Format(wxT("%d"), (char) m_operator.GetBaseVal()));
+  if (m_operator.GetBaseVal() != wxSVG_FECOMPOSITE_OPERATOR_UNKNOWN)
+    attrs.Add(wxT("operator"), GetAttribute(wxT("operator")));
   if (m_k1.GetBaseVal() > 0)
     attrs.Add(wxT("k1"), wxString::Format(wxT("%g"), m_k1.GetBaseVal()));
   if (m_k2.GetBaseVal() > 0)
@@ -397,12 +397,12 @@ wxSvgXmlAttrHash wxSVGFECompositeElement::GetAttributes() const
 wxSvgXmlAttrHash wxSVGGradientElement::GetAttributes() const
 {
   wxSvgXmlAttrHash attrs;
-  if (m_gradientUnits.GetBaseVal() != 0)
-    attrs.Add(wxT("gradientUnits"), m_gradientUnits.GetBaseVal() == wxSVG_UNIT_TYPE_USERSPACEONUSE ? wxT("userSpaceOnUse") : wxT("objectBoundingBox"));
+  if (m_gradientUnits.GetBaseVal() != wxSVG_UNIT_TYPE_UNKNOWN && m_gradientUnits.GetBaseVal() != wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX)
+    attrs.Add(wxT("gradientUnits"), wxT("userSpaceOnUse"));
   if (!m_gradientTransform.GetBaseVal().IsEmpty())
     attrs.Add(wxT("gradientTransform"), m_gradientTransform.GetBaseVal().GetValueAsString());
-  if (m_spreadMethod.GetBaseVal() != 0)
-    attrs.Add(wxT("spreadMethod"), wxString::Format(wxT("%d"), (char) m_spreadMethod.GetBaseVal()));
+  if (m_spreadMethod.GetBaseVal() != wxSVG_SPREADMETHOD_UNKNOWN)
+    attrs.Add(wxT("spreadMethod"), GetAttribute(wxT("spreadMethod")));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGURIReference::GetAttributes());
   attrs.Add(wxSVGExternalResourcesRequired::GetAttributes());
@@ -478,10 +478,10 @@ wxSvgXmlAttrHash wxSVGFEDisplacementMapElement::GetAttributes() const
     attrs.Add(wxT("in2"), m_in2.GetBaseVal());
   if (m_scale.GetBaseVal() > 0)
     attrs.Add(wxT("scale"), wxString::Format(wxT("%g"), m_scale.GetBaseVal()));
-  if (m_xChannelSelector.GetBaseVal() != 0)
-    attrs.Add(wxT("xChannelSelector"), wxString::Format(wxT("%d"), (char) m_xChannelSelector.GetBaseVal()));
-  if (m_yChannelSelector.GetBaseVal() != 0)
-    attrs.Add(wxT("yChannelSelector"), wxString::Format(wxT("%d"), (char) m_yChannelSelector.GetBaseVal()));
+  if (m_xChannelSelector.GetBaseVal() != wxSVG_CHANNEL_UNKNOWN)
+    attrs.Add(wxT("xChannelSelector"), GetAttribute(wxT("xChannelSelector")));
+  if (m_yChannelSelector.GetBaseVal() != wxSVG_CHANNEL_UNKNOWN)
+    attrs.Add(wxT("yChannelSelector"), GetAttribute(wxT("yChannelSelector")));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGFilterPrimitiveStandardAttributes::GetAttributes());
   return attrs;
@@ -695,6 +695,8 @@ wxSvgXmlAttrHash wxSVGURIReference::GetAttributes() const
 wxSvgXmlAttrHash wxSVGAnimateTransformElement::GetAttributes() const
 {
   wxSvgXmlAttrHash attrs;
+  if (m_type != wxSVG_ANIMATETRANSFORM_TRANSLATE)
+    attrs.Add(wxT("type"), GetAttribute(wxT("type")));
   attrs.Add(wxSVGAnimationElement::GetAttributes());
   return attrs;
 }
@@ -718,8 +720,8 @@ wxSvgXmlAttrHash wxSVGFEBlendElement::GetAttributes() const
     attrs.Add(wxT("in"), m_in1.GetBaseVal());
   if (!m_in2.GetBaseVal().IsEmpty())
     attrs.Add(wxT("in2"), m_in2.GetBaseVal());
-  if (m_mode.GetBaseVal() != 0)
-    attrs.Add(wxT("mode"), wxString::Format(wxT("%d"), (char) m_mode.GetBaseVal()));
+  if (m_mode.GetBaseVal() != wxSVG_FEBLEND_MODE_UNKNOWN)
+    attrs.Add(wxT("mode"), GetAttribute(wxT("mode")));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGFilterPrimitiveStandardAttributes::GetAttributes());
   return attrs;
@@ -937,7 +939,7 @@ wxSvgXmlAttrHash wxSVGZoomAndPan::GetAttributes() const
 {
   wxSvgXmlAttrHash attrs;
   if (m_zoomAndPan != wxSVG_ZOOMANDPAN_UNKNOWN)
-    attrs.Add(wxT("zoomAndPan"), wxString::Format(wxT("%d"), (wxSVG_ZOOMANDPAN) m_zoomAndPan));
+    attrs.Add(wxT("zoomAndPan"), GetAttribute(wxT("zoomAndPan")));
   return attrs;
 }
 
@@ -1034,9 +1036,9 @@ wxSvgXmlAttrHash wxSVGAnimationElement::GetAttributes() const
     attrs.Add(wxT("begin"), wxString::Format(wxT("%g"), m_begin));
   if (m_dur > 0)
     attrs.Add(wxT("dur"), wxString::Format(wxT("%g"), m_dur));
-  if (m_from.GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+  if (m_from.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN)
     attrs.Add(wxT("from"), m_from.GetValueAsString());
-  if (m_to.GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+  if (m_to.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN)
     attrs.Add(wxT("to"), m_to.GetValueAsString());
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGTests::GetAttributes());
@@ -1059,10 +1061,10 @@ wxSvgXmlAttrHash wxSVGFETurbulenceElement::GetAttributes() const
   attrs.Add(wxT("numOctaves"), wxString::Format(wxT("%d"), (long int) m_numOctaves.GetBaseVal()));
   if (m_seed.GetBaseVal() > 0)
     attrs.Add(wxT("seed"), wxString::Format(wxT("%g"), m_seed.GetBaseVal()));
-  if (m_stitchTiles.GetBaseVal() != 0)
-    attrs.Add(wxT("stitchTiles"), wxString::Format(wxT("%d"), (char) m_stitchTiles.GetBaseVal()));
-  if (m_type.GetBaseVal() != 0)
-    attrs.Add(wxT("type"), wxString::Format(wxT("%d"), (char) m_type.GetBaseVal()));
+  if (m_stitchTiles.GetBaseVal() != wxSVG_STITCHTYPE_UNKNOWN)
+    attrs.Add(wxT("stitchTiles"), GetAttribute(wxT("stitchTiles")));
+  if (m_type.GetBaseVal() != wxSVG_TURBULENCE_TYPE_UNKNOWN)
+    attrs.Add(wxT("type"), GetAttribute(wxT("type")));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGFilterPrimitiveStandardAttributes::GetAttributes());
   return attrs;
@@ -1072,8 +1074,8 @@ wxSvgXmlAttrHash wxSVGFETurbulenceElement::GetAttributes() const
 wxSvgXmlAttrHash wxSVGComponentTransferFunctionElement::GetAttributes() const
 {
   wxSvgXmlAttrHash attrs;
-  if (m_type.GetBaseVal() != 0)
-    attrs.Add(wxT("type"), wxString::Format(wxT("%d"), (char) m_type.GetBaseVal()));
+  if (m_type.GetBaseVal() != wxSVG_FECOMPONENTTRANSFER_TYPE_UNKNOWN)
+    attrs.Add(wxT("type"), GetAttribute(wxT("type")));
   if (!m_tableValues.GetBaseVal().IsEmpty())
     attrs.Add(wxT("tableValues"), m_tableValues.GetBaseVal().GetValueAsString());
   if (m_slope.GetBaseVal() > 0)
@@ -1200,8 +1202,8 @@ wxSvgXmlAttrHash wxSVGTextContentElement::GetAttributes() const
   wxSvgXmlAttrHash attrs;
   if (m_textLength.GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
     attrs.Add(wxT("textLength"), m_textLength.GetBaseVal().GetValueAsString());
-  if (m_lengthAdjust.GetBaseVal() != 0)
-    attrs.Add(wxT("lengthAdjust"), wxString::Format(wxT("%d"), (char) m_lengthAdjust.GetBaseVal()));
+  if (m_lengthAdjust.GetBaseVal() != wxLENGTHADJUST_UNKNOWN)
+    attrs.Add(wxT("lengthAdjust"), GetAttribute(wxT("lengthAdjust")));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGTests::GetAttributes());
   attrs.Add(wxSVGLangSpace::GetAttributes());
@@ -1283,10 +1285,10 @@ wxSvgXmlAttrHash wxSVGTextPathElement::GetAttributes() const
   wxSvgXmlAttrHash attrs;
   if (m_startOffset.GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
     attrs.Add(wxT("startOffset"), m_startOffset.GetBaseVal().GetValueAsString());
-  if (m_method.GetBaseVal() != 0)
-    attrs.Add(wxT("method"), wxString::Format(wxT("%d"), (char) m_method.GetBaseVal()));
-  if (m_spacing.GetBaseVal() != 0)
-    attrs.Add(wxT("spacing"), wxString::Format(wxT("%d"), (char) m_spacing.GetBaseVal()));
+  if (m_method.GetBaseVal() != wxTEXTPATH_METHODTYPE_UNKNOWN)
+    attrs.Add(wxT("method"), GetAttribute(wxT("method")));
+  if (m_spacing.GetBaseVal() != wxTEXTPATH_SPACINGTYPE_UNKNOWN)
+    attrs.Add(wxT("spacing"), GetAttribute(wxT("spacing")));
   attrs.Add(wxSVGTextContentElement::GetAttributes());
   attrs.Add(wxSVGURIReference::GetAttributes());
   return attrs;
@@ -1392,8 +1394,8 @@ wxSvgXmlAttrHash wxSVGFEConvolveMatrixElement::GetAttributes() const
     attrs.Add(wxT("bias"), wxString::Format(wxT("%g"), m_bias.GetBaseVal()));
   attrs.Add(wxT("targetX"), wxString::Format(wxT("%d"), (long int) m_targetX.GetBaseVal()));
   attrs.Add(wxT("targetY"), wxString::Format(wxT("%d"), (long int) m_targetY.GetBaseVal()));
-  if (m_edgeMode.GetBaseVal() != 0)
-    attrs.Add(wxT("edgeMode"), wxString::Format(wxT("%d"), (char) m_edgeMode.GetBaseVal()));
+  if (m_edgeMode.GetBaseVal() != wxSVG_EDGEMODE_UNKNOWN)
+    attrs.Add(wxT("edgeMode"), GetAttribute(wxT("edgeMode")));
   if (m_preserveAlpha.GetBaseVal())
     attrs.Add(wxT("preserveAlpha"), wxString::Format(wxT("%d"), (bool) m_preserveAlpha.GetBaseVal()));
   attrs.Add(wxSVGElement::GetAttributes());

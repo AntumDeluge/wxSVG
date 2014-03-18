@@ -37,8 +37,8 @@ class wxSVGTransformable:
     void UpdateMatrix(wxSVGMatrix& matrix) const;
     static wxSVGTransformable* GetSVGTransformable(wxSVGElement& element);
     static const wxSVGTransformable* GetSVGTransformable(const wxSVGElement& element);
-    bool HasAttribute(const wxString& name);
-    wxString GetAttribute(const wxString& name);
+    bool HasAttribute(const wxString& name) const;
+    wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
 };

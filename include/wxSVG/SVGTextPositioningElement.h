@@ -53,8 +53,8 @@ class wxSVGTextPositioningElement:
     virtual ~wxSVGTextPositioningElement() {}
     inline void SetX(const wxSVGLength& n) { wxSVGLengthList list; list.Add(n); SetX(list); }
     inline void SetY(const wxSVGLength& n) { wxSVGLengthList list; list.Add(n); SetY(list); }
-    bool HasAttribute(const wxString& name);
-    wxString GetAttribute(const wxString& name);
+    bool HasAttribute(const wxString& name) const;
+    wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
 };

@@ -21,8 +21,8 @@ class wxSVGTSpanElement:
       wxSVGTextPositioningElement(tagName) {}
     virtual ~wxSVGTSpanElement() {}
     wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGTSpanElement(*this); }
-    bool HasAttribute(const wxString& name);
-    wxString GetAttribute(const wxString& name);
+    bool HasAttribute(const wxString& name) const;
+    wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_TSPAN_ELEMENT; }

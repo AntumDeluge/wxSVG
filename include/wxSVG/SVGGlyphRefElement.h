@@ -52,8 +52,8 @@ class wxSVGGlyphRefElement:
       wxSVGElement(tagName), m_x(0), m_y(0), m_dx(0), m_dy(0) {}
     virtual ~wxSVGGlyphRefElement() {}
     wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGGlyphRefElement(*this); }
-    bool HasAttribute(const wxString& name);
-    wxString GetAttribute(const wxString& name);
+    bool HasAttribute(const wxString& name) const;
+    wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_GLYPHREF_ELEMENT; }

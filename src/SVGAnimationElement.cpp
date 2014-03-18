@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGAnimationElement.cpp,v 1.3 2013-09-12 08:42:50 ntalex Exp $
+// RCS-ID:      $Id: SVGAnimationElement.cpp,v 1.4 2014-03-18 13:12:11 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -30,10 +30,12 @@ void wxSVGAnimationElement::ApplyAnimation() {
 	if (GetTargetElement() == NULL)
 		SetTargetElement((wxSVGElement*) GetParent());
 	if (GetCurrentTime() >= GetStartTime() + GetDur())
-		GetTargetElement()->SetAttribute(GetAttributeName(), m_to.GetValueAsString());
-	else if (GetCurrentTime() >= GetStartTime()) {
-		wxSVGLength val(m_to.GetUnitType(), GetFrom().GetValue()
-				+ (GetTo().GetValue() - GetFrom().GetValue())*(GetCurrentTime() - GetStartTime())/GetDur());
+		GetTargetElement()->SetAttribute(GetAttributeName(), GetTo().GetValueAsString());
+	else if (GetCurrentTime() >= GetStartTime() && GetFrom().GetPropertyType() == wxSVG_ANIMATED_LENGTH
+			&& GetTo().GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+		wxSVGLength val(GetTo().GetLength().GetUnitType(), GetFrom().GetLength().GetValue()
+				+ (GetTo().GetLength().GetValue() - GetFrom().GetLength().GetValue())*
+				(GetCurrentTime() - GetStartTime())/GetDur());
 		GetTargetElement()->SetAttribute(GetAttributeName(), val.GetValueAsString());
 	}
 }

@@ -65,8 +65,8 @@ class wxSVGTextContentElement:
     virtual double GetRotationOfChar(unsigned long charnum);
     virtual long GetCharNumAtPosition(const wxSVGPoint& point);
     virtual void SelectSubString(unsigned long charnum, unsigned long nchars);
-    bool HasAttribute(const wxString& name);
-    wxString GetAttribute(const wxString& name);
+    bool HasAttribute(const wxString& name) const;
+    wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
 };

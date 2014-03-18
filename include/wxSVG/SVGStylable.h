@@ -22,8 +22,8 @@ class wxSVGStylable
     wxSVGAnimatedString m_className;
     wxCSSStyleDeclaration m_style;
     wxCSSStyleDeclaration m_animStyle;
-    bool HasCustomAttribute(const wxString& name);
-    wxString GetCustomAttribute(const wxString& name);
+    bool HasCustomAttribute(const wxString& name) const;
+    wxString GetCustomAttribute(const wxString& name) const;
     bool SetCustomAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetCustomAttributes() const;
 
@@ -282,8 +282,8 @@ class wxSVGStylable
     static const wxCSSStyleDeclaration& GetElementStyle(const wxSVGElement& element);
     static wxCSSStyleDeclaration GetResultStyle(const wxSVGElement& element);
     virtual const wxCSSValue& GetPresentationAttribute(const wxString& name);
-    bool HasAttribute(const wxString& name);
-    wxString GetAttribute(const wxString& name);
+    bool HasAttribute(const wxString& name) const;
+    wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
 };

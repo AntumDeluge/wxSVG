@@ -30,8 +30,8 @@ class wxSVGFEMergeNodeElement:
       wxSVGElement(tagName) {}
     virtual ~wxSVGFEMergeNodeElement() {}
     wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGFEMergeNodeElement(*this); }
-    bool HasAttribute(const wxString& name);
-    wxString GetAttribute(const wxString& name);
+    bool HasAttribute(const wxString& name) const;
+    wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_FEMERGENODE_ELEMENT; }

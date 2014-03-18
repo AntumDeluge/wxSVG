@@ -110,8 +110,7 @@
 #include "SVGViewSpec.h"
 
 // wxSVGAnimateMotionElement
-wxString wxSVGAnimateMotionElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGAnimateMotionElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGAnimationElement::HasAttribute(attrName))
     return wxSVGAnimationElement::GetAttribute(attrName);
   else 
@@ -121,8 +120,7 @@ wxString wxSVGAnimateMotionElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFontFaceUriElement
-wxString wxSVGFontFaceUriElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFontFaceUriElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -132,8 +130,7 @@ wxString wxSVGFontFaceUriElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFontFaceElement
-wxString wxSVGFontFaceElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFontFaceElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -143,8 +140,7 @@ wxString wxSVGFontFaceElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEFuncBElement
-wxString wxSVGFEFuncBElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEFuncBElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGComponentTransferFunctionElement::HasAttribute(attrName))
     return wxSVGComponentTransferFunctionElement::GetAttribute(attrName);
   else 
@@ -154,8 +150,7 @@ wxString wxSVGFEFuncBElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEFuncAElement
-wxString wxSVGFEFuncAElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEFuncAElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGComponentTransferFunctionElement::HasAttribute(attrName))
     return wxSVGComponentTransferFunctionElement::GetAttribute(attrName);
   else 
@@ -165,8 +160,7 @@ wxString wxSVGFEFuncAElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEFuncRElement
-wxString wxSVGFEFuncRElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEFuncRElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGComponentTransferFunctionElement::HasAttribute(attrName))
     return wxSVGComponentTransferFunctionElement::GetAttribute(attrName);
   else 
@@ -176,8 +170,7 @@ wxString wxSVGFEFuncRElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGForeignObjectElement
-wxString wxSVGForeignObjectElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGForeignObjectElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("x"))
     return m_x.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("y"))
@@ -205,12 +198,18 @@ wxString wxSVGForeignObjectElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEMorphologyElement
-wxString wxSVGFEMorphologyElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEMorphologyElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (attrName == wxT("operator"))
-    return wxString::Format(wxT("%d"), (char) m_operator.GetBaseVal());
+    switch (m_operator.GetBaseVal()) {
+    case wxSVG_MORPHOLOGY_OPERATOR_ERODE:
+      return wxT("erode");
+    case wxSVG_MORPHOLOGY_OPERATOR_DILATE:
+      return wxT("dilate");
+    default:
+      return wxT("");
+    }
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName))
@@ -222,14 +221,20 @@ wxString wxSVGFEMorphologyElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGMarkerElement
-wxString wxSVGMarkerElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGMarkerElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("refX"))
     return m_refX.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("refY"))
     return m_refY.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("markerUnits"))
-    return wxString::Format(wxT("%d"), (char) m_markerUnits.GetBaseVal());
+    switch (m_markerUnits.GetBaseVal()) {
+    case wxSVG_MARKERUNITS_USERSPACEONUSE:
+      return wxT("userspaceonuse");
+    case wxSVG_MARKERUNITS_STROKEWIDTH:
+      return wxT("strokewidth");
+    default:
+      return wxT("");
+    }
   else if (attrName == wxT("markerWidth"))
     return m_markerWidth.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("markerHeight"))
@@ -251,8 +256,7 @@ wxString wxSVGMarkerElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFETileElement
-wxString wxSVGFETileElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFETileElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (wxSVGElement::HasAttribute(attrName))
@@ -266,8 +270,7 @@ wxString wxSVGFETileElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGPathElement
-wxString wxSVGPathElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGPathElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("pathLength"))
     return wxString::Format(wxT("%g"), m_pathLength.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
@@ -291,8 +294,7 @@ wxString wxSVGPathElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGTSpanElement
-wxString wxSVGTSpanElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGTSpanElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGTextPositioningElement::HasAttribute(attrName))
     return wxSVGTextPositioningElement::GetAttribute(attrName);
   else 
@@ -302,12 +304,22 @@ wxString wxSVGTSpanElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEColorMatrixElement
-wxString wxSVGFEColorMatrixElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEColorMatrixElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (attrName == wxT("type"))
-    return wxString::Format(wxT("%d"), (char) m_type.GetBaseVal());
+    switch (m_type.GetBaseVal()) {
+    case wxSVG_FECOLORMATRIX_TYPE_MATRIX:
+      return wxT("matrix");
+    case wxSVG_FECOLORMATRIX_TYPE_SATURATE:
+      return wxT("saturate");
+    case wxSVG_FECOLORMATRIX_TYPE_HUEROTATE:
+      return wxT("huerotate");
+    case wxSVG_FECOLORMATRIX_TYPE_LUMINANCETOALPHA:
+      return wxT("luminancetoalpha");
+    default:
+      return wxT("");
+    }
   else if (attrName == wxT("values"))
     return m_values.GetBaseVal().GetValueAsString();
   else if (wxSVGElement::HasAttribute(attrName))
@@ -321,8 +333,7 @@ wxString wxSVGFEColorMatrixElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFontFaceFormatElement
-wxString wxSVGFontFaceFormatElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFontFaceFormatElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -332,8 +343,7 @@ wxString wxSVGFontFaceFormatElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEOffsetElement
-wxString wxSVGFEOffsetElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEOffsetElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (attrName == wxT("dx"))
@@ -351,8 +361,7 @@ wxString wxSVGFEOffsetElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGSymbolElement
-wxString wxSVGSymbolElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGSymbolElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGLangSpace::HasAttribute(attrName))
@@ -370,8 +379,7 @@ wxString wxSVGSymbolElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEMergeNodeElement
-wxString wxSVGFEMergeNodeElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEMergeNodeElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (wxSVGElement::HasAttribute(attrName))
@@ -383,8 +391,7 @@ wxString wxSVGFEMergeNodeElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGTBreakElement
-wxString wxSVGTBreakElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGTBreakElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -394,8 +401,7 @@ wxString wxSVGTBreakElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGTransformable
-wxString wxSVGTransformable::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGTransformable::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("transform"))
     return m_transform.GetBaseVal().GetValueAsString();
   else 
@@ -405,8 +411,7 @@ wxString wxSVGTransformable::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGStyleElement
-wxString wxSVGStyleElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGStyleElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("xml:space"))
     return m_xmlspace;
   else if (attrName == wxT("type"))
@@ -424,8 +429,7 @@ wxString wxSVGStyleElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGPolygonElement
-wxString wxSVGPolygonElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGPolygonElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGTests::HasAttribute(attrName))
@@ -447,8 +451,7 @@ wxString wxSVGPolygonElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGCursorElement
-wxString wxSVGCursorElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGCursorElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("x"))
     return m_x.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("y"))
@@ -468,14 +471,28 @@ wxString wxSVGCursorElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFECompositeElement
-wxString wxSVGFECompositeElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFECompositeElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (attrName == wxT("in2"))
     return m_in2.GetBaseVal();
   else if (attrName == wxT("operator"))
-    return wxString::Format(wxT("%d"), (char) m_operator.GetBaseVal());
+    switch (m_operator.GetBaseVal()) {
+    case wxSVG_FECOMPOSITE_OPERATOR_OVER:
+      return wxT("over");
+    case wxSVG_FECOMPOSITE_OPERATOR_IN:
+      return wxT("in");
+    case wxSVG_FECOMPOSITE_OPERATOR_OUT:
+      return wxT("out");
+    case wxSVG_FECOMPOSITE_OPERATOR_ATOP:
+      return wxT("atop");
+    case wxSVG_FECOMPOSITE_OPERATOR_XOR:
+      return wxT("xor");
+    case wxSVG_FECOMPOSITE_OPERATOR_ARITHMETIC:
+      return wxT("arithmetic");
+    default:
+      return wxT("");
+    }
   else if (attrName == wxT("k1"))
     return wxString::Format(wxT("%g"), m_k1.GetBaseVal());
   else if (attrName == wxT("k2"))
@@ -495,19 +512,28 @@ wxString wxSVGFECompositeElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGGradientElement
-wxString wxSVGGradientElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGGradientElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("gradientUnits"))
   {
     if (m_gradientUnits.GetBaseVal() == wxSVG_UNIT_TYPE_USERSPACEONUSE)
       return wxT("userSpaceOnUse");
     else if (m_gradientUnits.GetBaseVal() == wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX)
       return wxT("objectBoundingBox");
+    return wxT("");
   }
   else if (attrName == wxT("gradientTransform"))
     return m_gradientTransform.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("spreadMethod"))
-    return wxString::Format(wxT("%d"), (char) m_spreadMethod.GetBaseVal());
+    switch (m_spreadMethod.GetBaseVal()) {
+    case wxSVG_SPREADMETHOD_PAD:
+      return wxT("pad");
+    case wxSVG_SPREADMETHOD_REFLECT:
+      return wxT("reflect");
+    case wxSVG_SPREADMETHOD_REPEAT:
+      return wxT("repeat");
+    default:
+      return wxT("");
+    }
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGURIReference::HasAttribute(attrName))
@@ -523,8 +549,7 @@ wxString wxSVGGradientElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGLinearGradientElement
-wxString wxSVGLinearGradientElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGLinearGradientElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("x1"))
     return m_x1.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("y1"))
@@ -542,8 +567,7 @@ wxString wxSVGLinearGradientElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGTextElement
-wxString wxSVGTextElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGTextElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGTextPositioningElement::HasAttribute(attrName))
     return wxSVGTextPositioningElement::GetAttribute(attrName);
   else if (wxSVGTransformable::HasAttribute(attrName))
@@ -555,8 +579,7 @@ wxString wxSVGTextElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEPointLightElement
-wxString wxSVGFEPointLightElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEPointLightElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("x"))
     return wxString::Format(wxT("%g"), m_x.GetBaseVal());
   else if (attrName == wxT("y"))
@@ -572,8 +595,7 @@ wxString wxSVGFEPointLightElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGHKernElement
-wxString wxSVGHKernElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGHKernElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -583,8 +605,7 @@ wxString wxSVGHKernElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGStopElement
-wxString wxSVGStopElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGStopElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("offset"))
     return wxString::Format(wxT("%g"), m_offset.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
@@ -598,8 +619,7 @@ wxString wxSVGStopElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEDisplacementMapElement
-wxString wxSVGFEDisplacementMapElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEDisplacementMapElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (attrName == wxT("in2"))
@@ -607,9 +627,31 @@ wxString wxSVGFEDisplacementMapElement::GetAttribute(const wxString& attrName)
   else if (attrName == wxT("scale"))
     return wxString::Format(wxT("%g"), m_scale.GetBaseVal());
   else if (attrName == wxT("xChannelSelector"))
-    return wxString::Format(wxT("%d"), (char) m_xChannelSelector.GetBaseVal());
+    switch (m_xChannelSelector.GetBaseVal()) {
+    case wxSVG_CHANNEL_R:
+      return wxT("r");
+    case wxSVG_CHANNEL_G:
+      return wxT("g");
+    case wxSVG_CHANNEL_B:
+      return wxT("b");
+    case wxSVG_CHANNEL_A:
+      return wxT("a");
+    default:
+      return wxT("");
+    }
   else if (attrName == wxT("yChannelSelector"))
-    return wxString::Format(wxT("%d"), (char) m_yChannelSelector.GetBaseVal());
+    switch (m_yChannelSelector.GetBaseVal()) {
+    case wxSVG_CHANNEL_R:
+      return wxT("r");
+    case wxSVG_CHANNEL_G:
+      return wxT("g");
+    case wxSVG_CHANNEL_B:
+      return wxT("b");
+    case wxSVG_CHANNEL_A:
+      return wxT("a");
+    default:
+      return wxT("");
+    }
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName))
@@ -621,8 +663,7 @@ wxString wxSVGFEDisplacementMapElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGLineElement
-wxString wxSVGLineElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGLineElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("x1"))
     return m_x1.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("y1"))
@@ -650,8 +691,7 @@ wxString wxSVGLineElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFontFaceNameElement
-wxString wxSVGFontFaceNameElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFontFaceNameElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -661,8 +701,7 @@ wxString wxSVGFontFaceNameElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGPatternElement
-wxString wxSVGPatternElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGPatternElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("patternUnits"))
     return wxString::Format(wxT("%d"), (char) m_patternUnits.GetBaseVal());
   else if (attrName == wxT("patternContentUnits"))
@@ -698,8 +737,7 @@ wxString wxSVGPatternElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGExternalResourcesRequired
-wxString wxSVGExternalResourcesRequired::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGExternalResourcesRequired::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("externalResourcesRequired"))
     return wxString::Format(wxT("%d"), (bool) m_externalResourcesRequired.GetBaseVal());
   else 
@@ -709,8 +747,7 @@ wxString wxSVGExternalResourcesRequired::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGScriptElement
-wxString wxSVGScriptElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGScriptElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("type"))
     return m_type;
   else if (wxSVGElement::HasAttribute(attrName))
@@ -726,8 +763,7 @@ wxString wxSVGScriptElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGStylable
-wxString wxSVGStylable::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGStylable::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("class"))
     return m_className.GetBaseVal();
   else if (attrName == wxT("style"))
@@ -741,8 +777,7 @@ wxString wxSVGStylable::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFitToViewBox
-wxString wxSVGFitToViewBox::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFitToViewBox::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("viewBox"))
     return m_viewBox.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("preserveAspectRatio"))
@@ -754,8 +789,7 @@ wxString wxSVGFitToViewBox::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGTests
-wxString wxSVGTests::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGTests::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("requiredFeatures"))
     return m_requiredFeatures.GetValueAsString();
   else if (attrName == wxT("requiredExtensions"))
@@ -769,8 +803,7 @@ wxString wxSVGTests::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGSVGElement
-wxString wxSVGSVGElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGSVGElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("x"))
     return m_x.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("y"))
@@ -804,8 +837,7 @@ wxString wxSVGSVGElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGViewSpec
-wxString wxSVGViewSpec::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGViewSpec::GetAttribute(const wxString& attrName) const {
   if (wxSVGZoomAndPan::HasAttribute(attrName))
     return wxSVGZoomAndPan::GetAttribute(attrName);
   else if (wxSVGFitToViewBox::HasAttribute(attrName))
@@ -817,8 +849,7 @@ wxString wxSVGViewSpec::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGVKernElement
-wxString wxSVGVKernElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGVKernElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -828,8 +859,7 @@ wxString wxSVGVKernElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGMetadataElement
-wxString wxSVGMetadataElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGMetadataElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -839,8 +869,7 @@ wxString wxSVGMetadataElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGAElement
-wxString wxSVGAElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGAElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("target"))
     return m_target.GetBaseVal();
   else if (wxSVGElement::HasAttribute(attrName))
@@ -864,8 +893,7 @@ wxString wxSVGAElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGAltGlyphElement
-wxString wxSVGAltGlyphElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGAltGlyphElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("glyphRef"))
     return m_glyphRef;
   else if (attrName == wxT("format"))
@@ -881,8 +909,7 @@ wxString wxSVGAltGlyphElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGURIReference
-wxString wxSVGURIReference::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGURIReference::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("xlink:href"))
     return m_href.GetBaseVal();
   else 
@@ -892,9 +919,23 @@ wxString wxSVGURIReference::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGAnimateTransformElement
-wxString wxSVGAnimateTransformElement::GetAttribute(const wxString& attrName)
-{
-  if (wxSVGAnimationElement::HasAttribute(attrName))
+wxString wxSVGAnimateTransformElement::GetAttribute(const wxString& attrName) const {
+  if (attrName == wxT("type"))
+    switch (m_type) {
+    case wxSVG_ANIMATETRANSFORM_TRANSLATE:
+      return wxT("translate");
+    case wxSVG_ANIMATETRANSFORM_SCALE:
+      return wxT("scale");
+    case wxSVG_ANIMATETRANSFORM_ROTATE:
+      return wxT("rotate");
+    case wxSVG_ANIMATETRANSFORM_SKEWX:
+      return wxT("skewx");
+    case wxSVG_ANIMATETRANSFORM_SKEWY:
+      return wxT("skewy");
+    default:
+      return wxT("");
+    }
+  else if (wxSVGAnimationElement::HasAttribute(attrName))
     return wxSVGAnimationElement::GetAttribute(attrName);
   else 
     return wxT("");
@@ -903,8 +944,7 @@ wxString wxSVGAnimateTransformElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEComponentTransferElement
-wxString wxSVGFEComponentTransferElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEComponentTransferElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (wxSVGElement::HasAttribute(attrName))
@@ -918,14 +958,26 @@ wxString wxSVGFEComponentTransferElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEBlendElement
-wxString wxSVGFEBlendElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEBlendElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (attrName == wxT("in2"))
     return m_in2.GetBaseVal();
   else if (attrName == wxT("mode"))
-    return wxString::Format(wxT("%d"), (char) m_mode.GetBaseVal());
+    switch (m_mode.GetBaseVal()) {
+    case wxSVG_FEBLEND_MODE_NORMAL:
+      return wxT("normal");
+    case wxSVG_FEBLEND_MODE_MULTIPLY:
+      return wxT("multiply");
+    case wxSVG_FEBLEND_MODE_SCREEN:
+      return wxT("screen");
+    case wxSVG_FEBLEND_MODE_DARKEN:
+      return wxT("darken");
+    case wxSVG_FEBLEND_MODE_LIGHTEN:
+      return wxT("lighten");
+    default:
+      return wxT("");
+    }
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName))
@@ -937,8 +989,7 @@ wxString wxSVGFEBlendElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEMergeElement
-wxString wxSVGFEMergeElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEMergeElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName))
@@ -950,8 +1001,7 @@ wxString wxSVGFEMergeElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGTextPositioningElement
-wxString wxSVGTextPositioningElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGTextPositioningElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("x"))
     return m_x.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("y"))
@@ -971,8 +1021,7 @@ wxString wxSVGTextPositioningElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGEllipseElement
-wxString wxSVGEllipseElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGEllipseElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("cx"))
     return m_cx.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("cy"))
@@ -1000,8 +1049,7 @@ wxString wxSVGEllipseElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFilterElement
-wxString wxSVGFilterElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFilterElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("filterUnits"))
     return wxString::Format(wxT("%d"), (char) m_filterUnits.GetBaseVal());
   else if (attrName == wxT("primitiveUnits"))
@@ -1031,8 +1079,7 @@ wxString wxSVGFilterElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGClipPathElement
-wxString wxSVGClipPathElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGClipPathElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("clipPathUnits"))
     return wxString::Format(wxT("%d"), (char) m_clipPathUnits.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
@@ -1054,8 +1101,7 @@ wxString wxSVGClipPathElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGSwitchElement
-wxString wxSVGSwitchElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGSwitchElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGTests::HasAttribute(attrName))
@@ -1075,8 +1121,7 @@ wxString wxSVGSwitchElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGMaskElement
-wxString wxSVGMaskElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGMaskElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("maskUnits"))
     return wxString::Format(wxT("%d"), (char) m_maskUnits.GetBaseVal());
   else if (attrName == wxT("maskContentUnits"))
@@ -1106,8 +1151,7 @@ wxString wxSVGMaskElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGViewElement
-wxString wxSVGViewElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGViewElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("viewTarget"))
     return m_viewTarget.GetValueAsString();
   else if (wxSVGElement::HasAttribute(attrName))
@@ -1125,8 +1169,7 @@ wxString wxSVGViewElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGDefinitionSrcElement
-wxString wxSVGDefinitionSrcElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGDefinitionSrcElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -1136,8 +1179,7 @@ wxString wxSVGDefinitionSrcElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFilterPrimitiveStandardAttributes
-wxString wxSVGFilterPrimitiveStandardAttributes::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFilterPrimitiveStandardAttributes::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("x"))
     return m_x.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("y"))
@@ -1157,8 +1199,7 @@ wxString wxSVGFilterPrimitiveStandardAttributes::GetAttribute(const wxString& at
 }      
 
 // wxSVGFEDistantLightElement
-wxString wxSVGFEDistantLightElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEDistantLightElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("azimuth"))
     return wxString::Format(wxT("%g"), m_azimuth.GetBaseVal());
   else if (attrName == wxT("elevation"))
@@ -1172,8 +1213,7 @@ wxString wxSVGFEDistantLightElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEDiffuseLightingElement
-wxString wxSVGFEDiffuseLightingElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEDiffuseLightingElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (attrName == wxT("surfaceScale"))
@@ -1191,8 +1231,7 @@ wxString wxSVGFEDiffuseLightingElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGAnimatedPathData
-wxString wxSVGAnimatedPathData::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGAnimatedPathData::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("d"))
     return m_pathSegList.GetValueAsString();
   else 
@@ -1202,8 +1241,7 @@ wxString wxSVGAnimatedPathData::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFontFaceSrcElement
-wxString wxSVGFontFaceSrcElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFontFaceSrcElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -1213,10 +1251,16 @@ wxString wxSVGFontFaceSrcElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGZoomAndPan
-wxString wxSVGZoomAndPan::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGZoomAndPan::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("zoomAndPan"))
-    return wxString::Format(wxT("%d"), (wxSVG_ZOOMANDPAN) m_zoomAndPan);
+    switch (m_zoomAndPan) {
+    case wxSVG_ZOOMANDPAN_DISABLE:
+      return wxT("disable");
+    case wxSVG_ZOOMANDPAN_MAGNIFY:
+      return wxT("magnify");
+    default:
+      return wxT("");
+    }
   else 
     return wxT("");
 
@@ -1224,8 +1268,7 @@ wxString wxSVGZoomAndPan::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGDescElement
-wxString wxSVGDescElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGDescElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGLangSpace::HasAttribute(attrName))
@@ -1239,8 +1282,7 @@ wxString wxSVGDescElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGSetElement
-wxString wxSVGSetElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGSetElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGAnimationElement::HasAttribute(attrName))
     return wxSVGAnimationElement::GetAttribute(attrName);
   else 
@@ -1250,8 +1292,7 @@ wxString wxSVGSetElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGAnimateElement
-wxString wxSVGAnimateElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGAnimateElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGAnimationElement::HasAttribute(attrName))
     return wxSVGAnimationElement::GetAttribute(attrName);
   else 
@@ -1261,8 +1302,7 @@ wxString wxSVGAnimateElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGLangSpace
-wxString wxSVGLangSpace::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGLangSpace::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("xml:lang"))
     return m_xmllang;
   else if (attrName == wxT("xml:space"))
@@ -1274,8 +1314,7 @@ wxString wxSVGLangSpace::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGGlyphRefElement
-wxString wxSVGGlyphRefElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGGlyphRefElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("glyphRef"))
     return m_glyphRef;
   else if (attrName == wxT("format"))
@@ -1301,8 +1340,7 @@ wxString wxSVGGlyphRefElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFESpotLightElement
-wxString wxSVGFESpotLightElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFESpotLightElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("x"))
     return wxString::Format(wxT("%g"), m_x.GetBaseVal());
   else if (attrName == wxT("y"))
@@ -1328,8 +1366,7 @@ wxString wxSVGFESpotLightElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGAnimationElement
-wxString wxSVGAnimationElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGAnimationElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("attributeName"))
     return m_attributeName;
   else if (attrName == wxT("begin"))
@@ -1353,8 +1390,7 @@ wxString wxSVGAnimationElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGAltGlyphDefElement
-wxString wxSVGAltGlyphDefElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGAltGlyphDefElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -1364,16 +1400,29 @@ wxString wxSVGAltGlyphDefElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFETurbulenceElement
-wxString wxSVGFETurbulenceElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFETurbulenceElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("numOctaves"))
     return wxString::Format(wxT("%d"), (long int) m_numOctaves.GetBaseVal());
   else if (attrName == wxT("seed"))
     return wxString::Format(wxT("%g"), m_seed.GetBaseVal());
   else if (attrName == wxT("stitchTiles"))
-    return wxString::Format(wxT("%d"), (char) m_stitchTiles.GetBaseVal());
+    switch (m_stitchTiles.GetBaseVal()) {
+    case wxSVG_STITCHTYPE_STITCH:
+      return wxT("stitch");
+    case wxSVG_STITCHTYPE_NOSTITCH:
+      return wxT("nostitch");
+    default:
+      return wxT("");
+    }
   else if (attrName == wxT("type"))
-    return wxString::Format(wxT("%d"), (char) m_type.GetBaseVal());
+    switch (m_type.GetBaseVal()) {
+    case wxSVG_TURBULENCE_TYPE_FRACTALNOISE:
+      return wxT("fractalnoise");
+    case wxSVG_TURBULENCE_TYPE_TURBULENCE:
+      return wxT("turbulence");
+    default:
+      return wxT("");
+    }
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName))
@@ -1385,10 +1434,22 @@ wxString wxSVGFETurbulenceElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGComponentTransferFunctionElement
-wxString wxSVGComponentTransferFunctionElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGComponentTransferFunctionElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("type"))
-    return wxString::Format(wxT("%d"), (char) m_type.GetBaseVal());
+    switch (m_type.GetBaseVal()) {
+    case wxSVG_FECOMPONENTTRANSFER_TYPE_IDENTITY:
+      return wxT("identity");
+    case wxSVG_FECOMPONENTTRANSFER_TYPE_TABLE:
+      return wxT("table");
+    case wxSVG_FECOMPONENTTRANSFER_TYPE_DISCRETE:
+      return wxT("discrete");
+    case wxSVG_FECOMPONENTTRANSFER_TYPE_LINEAR:
+      return wxT("linear");
+    case wxSVG_FECOMPONENTTRANSFER_TYPE_GAMMA:
+      return wxT("gamma");
+    default:
+      return wxT("");
+    }
   else if (attrName == wxT("tableValues"))
     return m_tableValues.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("slope"))
@@ -1410,8 +1471,7 @@ wxString wxSVGComponentTransferFunctionElement::GetAttribute(const wxString& att
 }      
 
 // wxSVGMPathElement
-wxString wxSVGMPathElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGMPathElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGURIReference::HasAttribute(attrName))
@@ -1425,8 +1485,7 @@ wxString wxSVGMPathElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGDefsElement
-wxString wxSVGDefsElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGDefsElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGTests::HasAttribute(attrName))
@@ -1446,8 +1505,7 @@ wxString wxSVGDefsElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGRectElement
-wxString wxSVGRectElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGRectElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("x"))
     return m_x.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("y"))
@@ -1479,8 +1537,7 @@ wxString wxSVGRectElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGPolylineElement
-wxString wxSVGPolylineElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGPolylineElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGTests::HasAttribute(attrName))
@@ -1502,8 +1559,7 @@ wxString wxSVGPolylineElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGColorProfileElement
-wxString wxSVGColorProfileElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGColorProfileElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("local"))
     return m_local;
   else if (attrName == wxT("name"))
@@ -1521,8 +1577,7 @@ wxString wxSVGColorProfileElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGAnimatedPoints
-wxString wxSVGAnimatedPoints::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGAnimatedPoints::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("points"))
     return m_points.GetValueAsString();
   else 
@@ -1532,8 +1587,7 @@ wxString wxSVGAnimatedPoints::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGCircleElement
-wxString wxSVGCircleElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGCircleElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("cx"))
     return m_cx.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("cy"))
@@ -1559,12 +1613,18 @@ wxString wxSVGCircleElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGTextContentElement
-wxString wxSVGTextContentElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGTextContentElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("textLength"))
     return m_textLength.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("lengthAdjust"))
-    return wxString::Format(wxT("%d"), (char) m_lengthAdjust.GetBaseVal());
+    switch (m_lengthAdjust.GetBaseVal()) {
+    case wxLENGTHADJUST_SPACING:
+      return wxT("spacing");
+    case wxLENGTHADJUST_SPACINGANDGLYPHS:
+      return wxT("spacingandglyphs");
+    default:
+      return wxT("");
+    }
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGTests::HasAttribute(attrName))
@@ -1582,8 +1642,7 @@ wxString wxSVGTextContentElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGUseElement
-wxString wxSVGUseElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGUseElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("x"))
     return m_x.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("y"))
@@ -1613,8 +1672,7 @@ wxString wxSVGUseElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGMissingGlyphElement
-wxString wxSVGMissingGlyphElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGMissingGlyphElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGStylable::HasAttribute(attrName))
@@ -1626,8 +1684,7 @@ wxString wxSVGMissingGlyphElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGImageElement
-wxString wxSVGImageElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGImageElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("x"))
     return m_x.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("y"))
@@ -1659,8 +1716,7 @@ wxString wxSVGImageElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEImageElement
-wxString wxSVGFEImageElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEImageElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGURIReference::HasAttribute(attrName))
@@ -1678,14 +1734,27 @@ wxString wxSVGFEImageElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGTextPathElement
-wxString wxSVGTextPathElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGTextPathElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("startOffset"))
     return m_startOffset.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("method"))
-    return wxString::Format(wxT("%d"), (char) m_method.GetBaseVal());
+    switch (m_method.GetBaseVal()) {
+    case wxTEXTPATH_METHODTYPE_ALIGN:
+      return wxT("align");
+    case wxTEXTPATH_METHODTYPE_STRETCH:
+      return wxT("stretch");
+    default:
+      return wxT("");
+    }
   else if (attrName == wxT("spacing"))
-    return wxString::Format(wxT("%d"), (char) m_spacing.GetBaseVal());
+    switch (m_spacing.GetBaseVal()) {
+    case wxTEXTPATH_SPACINGTYPE_AUTO:
+      return wxT("auto");
+    case wxTEXTPATH_SPACINGTYPE_EXACT:
+      return wxT("exact");
+    default:
+      return wxT("");
+    }
   else if (wxSVGTextContentElement::HasAttribute(attrName))
     return wxSVGTextContentElement::GetAttribute(attrName);
   else if (wxSVGURIReference::HasAttribute(attrName))
@@ -1697,8 +1766,7 @@ wxString wxSVGTextPathElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEFloodElement
-wxString wxSVGFEFloodElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEFloodElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (wxSVGElement::HasAttribute(attrName))
@@ -1712,8 +1780,7 @@ wxString wxSVGFEFloodElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFontElement
-wxString wxSVGFontElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFontElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGExternalResourcesRequired::HasAttribute(attrName))
@@ -1727,8 +1794,7 @@ wxString wxSVGFontElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGVideoElement
-wxString wxSVGVideoElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGVideoElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("x"))
     return m_x.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("y"))
@@ -1764,8 +1830,7 @@ wxString wxSVGVideoElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGRadialGradientElement
-wxString wxSVGRadialGradientElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGRadialGradientElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("cx"))
     return m_cx.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("cy"))
@@ -1785,8 +1850,7 @@ wxString wxSVGRadialGradientElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGElement
-wxString wxSVGElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("id"))
     return m_id;
   else 
@@ -1796,8 +1860,7 @@ wxString wxSVGElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGTitleElement
-wxString wxSVGTitleElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGTitleElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGLangSpace::HasAttribute(attrName))
@@ -1811,8 +1874,7 @@ wxString wxSVGTitleElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEConvolveMatrixElement
-wxString wxSVGFEConvolveMatrixElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEConvolveMatrixElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("kernelMatrix"))
     return m_kernelMatrix.GetBaseVal().GetValueAsString();
   else if (attrName == wxT("divisor"))
@@ -1824,7 +1886,16 @@ wxString wxSVGFEConvolveMatrixElement::GetAttribute(const wxString& attrName)
   else if (attrName == wxT("targetY"))
     return wxString::Format(wxT("%d"), (long int) m_targetY.GetBaseVal());
   else if (attrName == wxT("edgeMode"))
-    return wxString::Format(wxT("%d"), (char) m_edgeMode.GetBaseVal());
+    switch (m_edgeMode.GetBaseVal()) {
+    case wxSVG_EDGEMODE_DUPLICATE:
+      return wxT("duplicate");
+    case wxSVG_EDGEMODE_WRAP:
+      return wxT("wrap");
+    case wxSVG_EDGEMODE_NONE:
+      return wxT("none");
+    default:
+      return wxT("");
+    }
   else if (attrName == wxT("preserveAlpha"))
     return wxString::Format(wxT("%d"), (bool) m_preserveAlpha.GetBaseVal());
   else if (wxSVGElement::HasAttribute(attrName))
@@ -1838,8 +1909,7 @@ wxString wxSVGFEConvolveMatrixElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEGaussianBlurElement
-wxString wxSVGFEGaussianBlurElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEGaussianBlurElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (wxSVGElement::HasAttribute(attrName))
@@ -1855,8 +1925,7 @@ wxString wxSVGFEGaussianBlurElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGGlyphElement
-wxString wxSVGGlyphElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGGlyphElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGStylable::HasAttribute(attrName))
@@ -1868,8 +1937,7 @@ wxString wxSVGGlyphElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGGElement
-wxString wxSVGGElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGGElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGTests::HasAttribute(attrName))
@@ -1889,8 +1957,7 @@ wxString wxSVGGElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGAnimateColorElement
-wxString wxSVGAnimateColorElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGAnimateColorElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGAnimationElement::HasAttribute(attrName))
     return wxSVGAnimationElement::GetAttribute(attrName);
   else 
@@ -1900,8 +1967,7 @@ wxString wxSVGAnimateColorElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEFuncGElement
-wxString wxSVGFEFuncGElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFEFuncGElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGComponentTransferFunctionElement::HasAttribute(attrName))
     return wxSVGComponentTransferFunctionElement::GetAttribute(attrName);
   else 
@@ -1911,8 +1977,7 @@ wxString wxSVGFEFuncGElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGAltGlyphItemElement
-wxString wxSVGAltGlyphItemElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGAltGlyphItemElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else 
@@ -1922,8 +1987,7 @@ wxString wxSVGAltGlyphItemElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGFESpecularLightingElement
-wxString wxSVGFESpecularLightingElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGFESpecularLightingElement::GetAttribute(const wxString& attrName) const {
   if (attrName == wxT("in"))
     return m_in1.GetBaseVal();
   else if (attrName == wxT("surfaceScale"))
@@ -1943,8 +2007,7 @@ wxString wxSVGFESpecularLightingElement::GetAttribute(const wxString& attrName)
 }      
 
 // wxSVGTRefElement
-wxString wxSVGTRefElement::GetAttribute(const wxString& attrName)
-{
+wxString wxSVGTRefElement::GetAttribute(const wxString& attrName) const {
   if (wxSVGTextPositioningElement::HasAttribute(attrName))
     return wxSVGTextPositioningElement::GetAttribute(attrName);
   else if (wxSVGURIReference::HasAttribute(attrName))

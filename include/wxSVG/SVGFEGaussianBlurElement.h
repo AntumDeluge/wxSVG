@@ -24,8 +24,8 @@ class wxSVGFEGaussianBlurElement:
     wxSVGAnimatedString m_in1;
     wxSVGAnimatedNumber m_stdDeviationX;
     wxSVGAnimatedNumber m_stdDeviationY;
-    bool HasCustomAttribute(const wxString& name);
-    wxString GetCustomAttribute(const wxString& name);
+    bool HasCustomAttribute(const wxString& name) const;
+    wxString GetCustomAttribute(const wxString& name) const;
     bool SetCustomAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetCustomAttributes() const;
 
@@ -48,8 +48,8 @@ class wxSVGFEGaussianBlurElement:
     virtual ~wxSVGFEGaussianBlurElement() {}
     wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGFEGaussianBlurElement(*this); }
     virtual void SetStdDeviation(double stdDeviationX, double stdDeviationY);
-    bool HasAttribute(const wxString& name);
-    wxString GetAttribute(const wxString& name);
+    bool HasAttribute(const wxString& name) const;
+    wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_FEGAUSSIANBLUR_ELEMENT; }

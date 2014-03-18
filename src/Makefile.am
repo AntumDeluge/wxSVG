@@ -6,8 +6,8 @@ endif
 
 lib_LTLIBRARIES = libwxsvg.la
 libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp imagsvg.cpp\
-  SVGAnimationElement.cpp SVGCircleElement.cpp SVGEllipseElement.cpp\
-  SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp SVGImageElement.cpp\
+  SVGAnimatedType.cpp SVGAnimationElement.cpp SVGAnimateTransformElement.cpp SVGCircleElement.cpp\
+  SVGEllipseElement.cpp SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp SVGImageElement.cpp\
   SVGLineElement.cpp SVGLocatable.cpp SVGMarkerElement.cpp SVGPathElement.cpp\
   SVGPolylineElement.cpp SVGPolygonElement.cpp SVGRectElement.cpp SVGRadialGradientElement.cpp\
   SVGSVGElement.cpp SVGTextContentElement.cpp SVGTextElement.cpp\
@@ -26,4 +26,4 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp imagsvg.cpp\
 libwxsvg_la_LIBADD = svgxml/libwxsvgxml.la cairo/libwxsvg_cairo.la $(CAIRO_LIBS)
 libwxsvg_la_LDFLAGS = -no-undefined -version-info @LIBRARY_VERSION@
 
-INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)/include/wxSVG
+AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/include/wxSVG

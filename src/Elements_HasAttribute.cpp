@@ -110,44 +110,37 @@
 #include "SVGViewSpec.h"
 
 // wxSVGAnimateMotionElement
-bool wxSVGAnimateMotionElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGAnimateMotionElement::HasAttribute(const wxString& attrName) const {
   return wxSVGAnimationElement::HasAttribute(attrName);
 }      
 
 // wxSVGFontFaceUriElement
-bool wxSVGFontFaceUriElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFontFaceUriElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGFontFaceElement
-bool wxSVGFontFaceElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFontFaceElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGFEFuncBElement
-bool wxSVGFEFuncBElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEFuncBElement::HasAttribute(const wxString& attrName) const {
   return wxSVGComponentTransferFunctionElement::HasAttribute(attrName);
 }      
 
 // wxSVGFEFuncAElement
-bool wxSVGFEFuncAElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEFuncAElement::HasAttribute(const wxString& attrName) const {
   return wxSVGComponentTransferFunctionElement::HasAttribute(attrName);
 }      
 
 // wxSVGFEFuncRElement
-bool wxSVGFEFuncRElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEFuncRElement::HasAttribute(const wxString& attrName) const {
   return wxSVGComponentTransferFunctionElement::HasAttribute(attrName);
 }      
 
 // wxSVGForeignObjectElement
-bool wxSVGForeignObjectElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGForeignObjectElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("x") ||
     attrName == wxT("y") ||
     attrName == wxT("width") ||
@@ -161,8 +154,7 @@ bool wxSVGForeignObjectElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEMorphologyElement
-bool wxSVGFEMorphologyElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEMorphologyElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("in") ||
     attrName == wxT("operator") ||
     wxSVGElement::HasAttribute(attrName) ||
@@ -170,8 +162,7 @@ bool wxSVGFEMorphologyElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGMarkerElement
-bool wxSVGMarkerElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGMarkerElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("refX") ||
     attrName == wxT("refY") ||
     attrName == wxT("markerUnits") ||
@@ -185,16 +176,14 @@ bool wxSVGMarkerElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGFETileElement
-bool wxSVGFETileElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFETileElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("in") ||
     wxSVGElement::HasAttribute(attrName) ||
     wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName);
 }      
 
 // wxSVGPathElement
-bool wxSVGPathElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGPathElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("pathLength") ||
     wxSVGElement::HasAttribute(attrName) ||
     wxSVGTests::HasAttribute(attrName) ||
@@ -206,14 +195,12 @@ bool wxSVGPathElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGTSpanElement
-bool wxSVGTSpanElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGTSpanElement::HasAttribute(const wxString& attrName) const {
   return wxSVGTextPositioningElement::HasAttribute(attrName);
 }      
 
 // wxSVGFEColorMatrixElement
-bool wxSVGFEColorMatrixElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEColorMatrixElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("in") ||
     attrName == wxT("type") ||
     attrName == wxT("values") ||
@@ -222,14 +209,12 @@ bool wxSVGFEColorMatrixElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGFontFaceFormatElement
-bool wxSVGFontFaceFormatElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFontFaceFormatElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGFEOffsetElement
-bool wxSVGFEOffsetElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEOffsetElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("in") ||
     attrName == wxT("dx") ||
     attrName == wxT("dy") ||
@@ -238,8 +223,7 @@ bool wxSVGFEOffsetElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGSymbolElement
-bool wxSVGSymbolElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGSymbolElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGLangSpace::HasAttribute(attrName) ||
     wxSVGExternalResourcesRequired::HasAttribute(attrName) ||
@@ -248,27 +232,23 @@ bool wxSVGSymbolElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEMergeNodeElement
-bool wxSVGFEMergeNodeElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEMergeNodeElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("in") ||
     wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGTBreakElement
-bool wxSVGTBreakElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGTBreakElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGTransformable
-bool wxSVGTransformable::HasAttribute(const wxString& attrName)
-{
+bool wxSVGTransformable::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("transform");
 }      
 
 // wxSVGStyleElement
-bool wxSVGStyleElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGStyleElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("xml:space") ||
     attrName == wxT("type") ||
     attrName == wxT("media") ||
@@ -277,8 +257,7 @@ bool wxSVGStyleElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGPolygonElement
-bool wxSVGPolygonElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGPolygonElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGTests::HasAttribute(attrName) ||
     wxSVGLangSpace::HasAttribute(attrName) ||
@@ -289,8 +268,7 @@ bool wxSVGPolygonElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGCursorElement
-bool wxSVGCursorElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGCursorElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("x") ||
     attrName == wxT("y") ||
     wxSVGElement::HasAttribute(attrName) ||
@@ -300,8 +278,7 @@ bool wxSVGCursorElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGFECompositeElement
-bool wxSVGFECompositeElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFECompositeElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("in") ||
     attrName == wxT("in2") ||
     attrName == wxT("operator") ||
@@ -314,8 +291,7 @@ bool wxSVGFECompositeElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGGradientElement
-bool wxSVGGradientElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGGradientElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("gradientUnits") ||
     attrName == wxT("gradientTransform") ||
     attrName == wxT("spreadMethod") ||
@@ -326,8 +302,7 @@ bool wxSVGGradientElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGLinearGradientElement
-bool wxSVGLinearGradientElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGLinearGradientElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("x1") ||
     attrName == wxT("y1") ||
     attrName == wxT("x2") ||
@@ -336,15 +311,13 @@ bool wxSVGLinearGradientElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGTextElement
-bool wxSVGTextElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGTextElement::HasAttribute(const wxString& attrName) const {
   return wxSVGTextPositioningElement::HasAttribute(attrName) ||
     wxSVGTransformable::HasAttribute(attrName);
 }      
 
 // wxSVGFEPointLightElement
-bool wxSVGFEPointLightElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEPointLightElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("x") ||
     attrName == wxT("y") ||
     attrName == wxT("z") ||
@@ -352,22 +325,19 @@ bool wxSVGFEPointLightElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGHKernElement
-bool wxSVGHKernElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGHKernElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGStopElement
-bool wxSVGStopElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGStopElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("offset") ||
     wxSVGElement::HasAttribute(attrName) ||
     wxSVGStylable::HasAttribute(attrName);
 }      
 
 // wxSVGFEDisplacementMapElement
-bool wxSVGFEDisplacementMapElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEDisplacementMapElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("in") ||
     attrName == wxT("in2") ||
     attrName == wxT("scale") ||
@@ -378,8 +348,7 @@ bool wxSVGFEDisplacementMapElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGLineElement
-bool wxSVGLineElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGLineElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("x1") ||
     attrName == wxT("y1") ||
     attrName == wxT("x2") ||
@@ -393,14 +362,12 @@ bool wxSVGLineElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGFontFaceNameElement
-bool wxSVGFontFaceNameElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFontFaceNameElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGPatternElement
-bool wxSVGPatternElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGPatternElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("patternUnits") ||
     attrName == wxT("patternContentUnits") ||
     attrName == wxT("patternTransform") ||
@@ -418,14 +385,12 @@ bool wxSVGPatternElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGExternalResourcesRequired
-bool wxSVGExternalResourcesRequired::HasAttribute(const wxString& attrName)
-{
+bool wxSVGExternalResourcesRequired::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("externalResourcesRequired");
 }      
 
 // wxSVGScriptElement
-bool wxSVGScriptElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGScriptElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("type") ||
     wxSVGElement::HasAttribute(attrName) ||
     wxSVGURIReference::HasAttribute(attrName) ||
@@ -433,31 +398,27 @@ bool wxSVGScriptElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGStylable
-bool wxSVGStylable::HasAttribute(const wxString& attrName)
-{
+bool wxSVGStylable::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("class") ||
     attrName == wxT("style") ||
     HasCustomAttribute(attrName);
 }      
 
 // wxSVGFitToViewBox
-bool wxSVGFitToViewBox::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFitToViewBox::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("viewBox") ||
     attrName == wxT("preserveAspectRatio");
 }      
 
 // wxSVGTests
-bool wxSVGTests::HasAttribute(const wxString& attrName)
-{
+bool wxSVGTests::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("requiredFeatures") ||
     attrName == wxT("requiredExtensions") ||
     attrName == wxT("systemLanguage");
 }      
 
 // wxSVGSVGElement
-bool wxSVGSVGElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGSVGElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("x") ||
     attrName == wxT("y") ||
     attrName == wxT("width") ||
@@ -474,27 +435,23 @@ bool wxSVGSVGElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGViewSpec
-bool wxSVGViewSpec::HasAttribute(const wxString& attrName)
-{
+bool wxSVGViewSpec::HasAttribute(const wxString& attrName) const {
   return wxSVGZoomAndPan::HasAttribute(attrName) ||
     wxSVGFitToViewBox::HasAttribute(attrName);
 }      
 
 // wxSVGVKernElement
-bool wxSVGVKernElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGVKernElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGMetadataElement
-bool wxSVGMetadataElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGMetadataElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGAElement
-bool wxSVGAElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGAElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("target") ||
     wxSVGElement::HasAttribute(attrName) ||
     wxSVGURIReference::HasAttribute(attrName) ||
@@ -506,8 +463,7 @@ bool wxSVGAElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGAltGlyphElement
-bool wxSVGAltGlyphElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGAltGlyphElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("glyphRef") ||
     attrName == wxT("format") ||
     wxSVGTextPositioningElement::HasAttribute(attrName) ||
@@ -515,28 +471,25 @@ bool wxSVGAltGlyphElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGURIReference
-bool wxSVGURIReference::HasAttribute(const wxString& attrName)
-{
+bool wxSVGURIReference::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("xlink:href");
 }      
 
 // wxSVGAnimateTransformElement
-bool wxSVGAnimateTransformElement::HasAttribute(const wxString& attrName)
-{
-  return wxSVGAnimationElement::HasAttribute(attrName);
+bool wxSVGAnimateTransformElement::HasAttribute(const wxString& attrName) const {
+  return attrName == wxT("type") ||
+    wxSVGAnimationElement::HasAttribute(attrName);
 }      
 
 // wxSVGFEComponentTransferElement
-bool wxSVGFEComponentTransferElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEComponentTransferElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("in") ||
     wxSVGElement::HasAttribute(attrName) ||
     wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName);
 }      
 
 // wxSVGFEBlendElement
-bool wxSVGFEBlendElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEBlendElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("in") ||
     attrName == wxT("in2") ||
     attrName == wxT("mode") ||
@@ -545,15 +498,13 @@ bool wxSVGFEBlendElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEMergeElement
-bool wxSVGFEMergeElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEMergeElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName);
 }      
 
 // wxSVGTextPositioningElement
-bool wxSVGTextPositioningElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGTextPositioningElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("x") ||
     attrName == wxT("y") ||
     attrName == wxT("dx") ||
@@ -563,8 +514,7 @@ bool wxSVGTextPositioningElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGEllipseElement
-bool wxSVGEllipseElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGEllipseElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("cx") ||
     attrName == wxT("cy") ||
     attrName == wxT("rx") ||
@@ -578,8 +528,7 @@ bool wxSVGEllipseElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGFilterElement
-bool wxSVGFilterElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFilterElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("filterUnits") ||
     attrName == wxT("primitiveUnits") ||
     attrName == wxT("x") ||
@@ -594,8 +543,7 @@ bool wxSVGFilterElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGClipPathElement
-bool wxSVGClipPathElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGClipPathElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("clipPathUnits") ||
     wxSVGElement::HasAttribute(attrName) ||
     wxSVGTests::HasAttribute(attrName) ||
@@ -606,8 +554,7 @@ bool wxSVGClipPathElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGSwitchElement
-bool wxSVGSwitchElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGSwitchElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGTests::HasAttribute(attrName) ||
     wxSVGLangSpace::HasAttribute(attrName) ||
@@ -617,8 +564,7 @@ bool wxSVGSwitchElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGMaskElement
-bool wxSVGMaskElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGMaskElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("maskUnits") ||
     attrName == wxT("maskContentUnits") ||
     attrName == wxT("x") ||
@@ -633,8 +579,7 @@ bool wxSVGMaskElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGViewElement
-bool wxSVGViewElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGViewElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("viewTarget") ||
     wxSVGElement::HasAttribute(attrName) ||
     wxSVGExternalResourcesRequired::HasAttribute(attrName) ||
@@ -643,14 +588,12 @@ bool wxSVGViewElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGDefinitionSrcElement
-bool wxSVGDefinitionSrcElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGDefinitionSrcElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGFilterPrimitiveStandardAttributes
-bool wxSVGFilterPrimitiveStandardAttributes::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFilterPrimitiveStandardAttributes::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("x") ||
     attrName == wxT("y") ||
     attrName == wxT("width") ||
@@ -660,16 +603,14 @@ bool wxSVGFilterPrimitiveStandardAttributes::HasAttribute(const wxString& attrNa
 }      
 
 // wxSVGFEDistantLightElement
-bool wxSVGFEDistantLightElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEDistantLightElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("azimuth") ||
     attrName == wxT("elevation") ||
     wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGFEDiffuseLightingElement
-bool wxSVGFEDiffuseLightingElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEDiffuseLightingElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("in") ||
     attrName == wxT("surfaceScale") ||
     attrName == wxT("diffuseConstant") ||
@@ -678,53 +619,45 @@ bool wxSVGFEDiffuseLightingElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGAnimatedPathData
-bool wxSVGAnimatedPathData::HasAttribute(const wxString& attrName)
-{
+bool wxSVGAnimatedPathData::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("d");
 }      
 
 // wxSVGFontFaceSrcElement
-bool wxSVGFontFaceSrcElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFontFaceSrcElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGZoomAndPan
-bool wxSVGZoomAndPan::HasAttribute(const wxString& attrName)
-{
+bool wxSVGZoomAndPan::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("zoomAndPan");
 }      
 
 // wxSVGDescElement
-bool wxSVGDescElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGDescElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGLangSpace::HasAttribute(attrName) ||
     wxSVGStylable::HasAttribute(attrName);
 }      
 
 // wxSVGSetElement
-bool wxSVGSetElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGSetElement::HasAttribute(const wxString& attrName) const {
   return wxSVGAnimationElement::HasAttribute(attrName);
 }      
 
 // wxSVGAnimateElement
-bool wxSVGAnimateElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGAnimateElement::HasAttribute(const wxString& attrName) const {
   return wxSVGAnimationElement::HasAttribute(attrName);
 }      
 
 // wxSVGLangSpace
-bool wxSVGLangSpace::HasAttribute(const wxString& attrName)
-{
+bool wxSVGLangSpace::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("xml:lang") ||
     attrName == wxT("xml:space");
 }      
 
 // wxSVGGlyphRefElement
-bool wxSVGGlyphRefElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGGlyphRefElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("glyphRef") ||
     attrName == wxT("format") ||
     attrName == wxT("x") ||
@@ -737,8 +670,7 @@ bool wxSVGGlyphRefElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGFESpotLightElement
-bool wxSVGFESpotLightElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFESpotLightElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("x") ||
     attrName == wxT("y") ||
     attrName == wxT("z") ||
@@ -751,8 +683,7 @@ bool wxSVGFESpotLightElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGAnimationElement
-bool wxSVGAnimationElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGAnimationElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("attributeName") ||
     attrName == wxT("begin") ||
     attrName == wxT("dur") ||
@@ -764,14 +695,12 @@ bool wxSVGAnimationElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGAltGlyphDefElement
-bool wxSVGAltGlyphDefElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGAltGlyphDefElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGFETurbulenceElement
-bool wxSVGFETurbulenceElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFETurbulenceElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("numOctaves") ||
     attrName == wxT("seed") ||
     attrName == wxT("stitchTiles") ||
@@ -781,8 +710,7 @@ bool wxSVGFETurbulenceElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGComponentTransferFunctionElement
-bool wxSVGComponentTransferFunctionElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGComponentTransferFunctionElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("type") ||
     attrName == wxT("tableValues") ||
     attrName == wxT("slope") ||
@@ -794,16 +722,14 @@ bool wxSVGComponentTransferFunctionElement::HasAttribute(const wxString& attrNam
 }      
 
 // wxSVGMPathElement
-bool wxSVGMPathElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGMPathElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGURIReference::HasAttribute(attrName) ||
     wxSVGExternalResourcesRequired::HasAttribute(attrName);
 }      
 
 // wxSVGDefsElement
-bool wxSVGDefsElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGDefsElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGTests::HasAttribute(attrName) ||
     wxSVGLangSpace::HasAttribute(attrName) ||
@@ -813,8 +739,7 @@ bool wxSVGDefsElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGRectElement
-bool wxSVGRectElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGRectElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("x") ||
     attrName == wxT("y") ||
     attrName == wxT("width") ||
@@ -830,8 +755,7 @@ bool wxSVGRectElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGPolylineElement
-bool wxSVGPolylineElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGPolylineElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGTests::HasAttribute(attrName) ||
     wxSVGLangSpace::HasAttribute(attrName) ||
@@ -842,8 +766,7 @@ bool wxSVGPolylineElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGColorProfileElement
-bool wxSVGColorProfileElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGColorProfileElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("local") ||
     attrName == wxT("name") ||
     attrName == wxT("rendering-intent") ||
@@ -852,14 +775,12 @@ bool wxSVGColorProfileElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGAnimatedPoints
-bool wxSVGAnimatedPoints::HasAttribute(const wxString& attrName)
-{
+bool wxSVGAnimatedPoints::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("points");
 }      
 
 // wxSVGCircleElement
-bool wxSVGCircleElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGCircleElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("cx") ||
     attrName == wxT("cy") ||
     attrName == wxT("r") ||
@@ -872,8 +793,7 @@ bool wxSVGCircleElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGTextContentElement
-bool wxSVGTextContentElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGTextContentElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("textLength") ||
     attrName == wxT("lengthAdjust") ||
     wxSVGElement::HasAttribute(attrName) ||
@@ -884,8 +804,7 @@ bool wxSVGTextContentElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGUseElement
-bool wxSVGUseElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGUseElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("x") ||
     attrName == wxT("y") ||
     attrName == wxT("width") ||
@@ -900,15 +819,13 @@ bool wxSVGUseElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGMissingGlyphElement
-bool wxSVGMissingGlyphElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGMissingGlyphElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGStylable::HasAttribute(attrName);
 }      
 
 // wxSVGImageElement
-bool wxSVGImageElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGImageElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("x") ||
     attrName == wxT("y") ||
     attrName == wxT("width") ||
@@ -924,8 +841,7 @@ bool wxSVGImageElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEImageElement
-bool wxSVGFEImageElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEImageElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGURIReference::HasAttribute(attrName) ||
     wxSVGLangSpace::HasAttribute(attrName) ||
@@ -934,8 +850,7 @@ bool wxSVGFEImageElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGTextPathElement
-bool wxSVGTextPathElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGTextPathElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("startOffset") ||
     attrName == wxT("method") ||
     attrName == wxT("spacing") ||
@@ -944,24 +859,21 @@ bool wxSVGTextPathElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEFloodElement
-bool wxSVGFEFloodElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEFloodElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("in") ||
     wxSVGElement::HasAttribute(attrName) ||
     wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName);
 }      
 
 // wxSVGFontElement
-bool wxSVGFontElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFontElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGExternalResourcesRequired::HasAttribute(attrName) ||
     wxSVGStylable::HasAttribute(attrName);
 }      
 
 // wxSVGVideoElement
-bool wxSVGVideoElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGVideoElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("x") ||
     attrName == wxT("y") ||
     attrName == wxT("width") ||
@@ -979,8 +891,7 @@ bool wxSVGVideoElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGRadialGradientElement
-bool wxSVGRadialGradientElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGRadialGradientElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("cx") ||
     attrName == wxT("cy") ||
     attrName == wxT("r") ||
@@ -990,22 +901,19 @@ bool wxSVGRadialGradientElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGElement
-bool wxSVGElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("id");
 }      
 
 // wxSVGTitleElement
-bool wxSVGTitleElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGTitleElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGLangSpace::HasAttribute(attrName) ||
     wxSVGStylable::HasAttribute(attrName);
 }      
 
 // wxSVGFEConvolveMatrixElement
-bool wxSVGFEConvolveMatrixElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEConvolveMatrixElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("kernelMatrix") ||
     attrName == wxT("divisor") ||
     attrName == wxT("bias") ||
@@ -1018,8 +926,7 @@ bool wxSVGFEConvolveMatrixElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGFEGaussianBlurElement
-bool wxSVGFEGaussianBlurElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEGaussianBlurElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("in") ||
     wxSVGElement::HasAttribute(attrName) ||
     wxSVGFilterPrimitiveStandardAttributes::HasAttribute(attrName) ||
@@ -1027,15 +934,13 @@ bool wxSVGFEGaussianBlurElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGGlyphElement
-bool wxSVGGlyphElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGGlyphElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGStylable::HasAttribute(attrName);
 }      
 
 // wxSVGGElement
-bool wxSVGGElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGGElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName) ||
     wxSVGTests::HasAttribute(attrName) ||
     wxSVGLangSpace::HasAttribute(attrName) ||
@@ -1045,26 +950,22 @@ bool wxSVGGElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGAnimateColorElement
-bool wxSVGAnimateColorElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGAnimateColorElement::HasAttribute(const wxString& attrName) const {
   return wxSVGAnimationElement::HasAttribute(attrName);
 }      
 
 // wxSVGFEFuncGElement
-bool wxSVGFEFuncGElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFEFuncGElement::HasAttribute(const wxString& attrName) const {
   return wxSVGComponentTransferFunctionElement::HasAttribute(attrName);
 }      
 
 // wxSVGAltGlyphItemElement
-bool wxSVGAltGlyphItemElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGAltGlyphItemElement::HasAttribute(const wxString& attrName) const {
   return wxSVGElement::HasAttribute(attrName);
 }      
 
 // wxSVGFESpecularLightingElement
-bool wxSVGFESpecularLightingElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGFESpecularLightingElement::HasAttribute(const wxString& attrName) const {
   return attrName == wxT("in") ||
     attrName == wxT("surfaceScale") ||
     attrName == wxT("specularConstant") ||
@@ -1074,8 +975,7 @@ bool wxSVGFESpecularLightingElement::HasAttribute(const wxString& attrName)
 }      
 
 // wxSVGTRefElement
-bool wxSVGTRefElement::HasAttribute(const wxString& attrName)
-{
+bool wxSVGTRefElement::HasAttribute(const wxString& attrName) const {
   return wxSVGTextPositioningElement::HasAttribute(attrName) ||
     wxSVGURIReference::HasAttribute(attrName);
 }      

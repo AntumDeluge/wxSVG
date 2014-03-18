@@ -13,16 +13,36 @@
 #include "String_wxsvg.h"
 #include "Element.h"
 
+
+enum wxSVG_ANIMATETRANSFORM
+{
+  wxSVG_ANIMATETRANSFORM_TRANSLATE = 0,
+  wxSVG_ANIMATETRANSFORM_SCALE = 1,
+  wxSVG_ANIMATETRANSFORM_ROTATE = 2,
+  wxSVG_ANIMATETRANSFORM_SKEWX = 3,
+  wxSVG_ANIMATETRANSFORM_SKEWY = 4
+};
+
 class wxSVGAnimateTransformElement:
   public wxSVGAnimationElement
 {
+  protected:
+    wxSVG_ANIMATETRANSFORM m_type;
+
+  public:
+    inline wxSVG_ANIMATETRANSFORM GetType() const { return m_type; }
+    inline void SetType(const wxSVG_ANIMATETRANSFORM& n) { m_type = n; }
+
   public:
     wxSVGAnimateTransformElement(wxString tagName = wxT("animateTransform")):
-      wxSVGAnimationElement(tagName) {}
+      wxSVGAnimationElement(tagName), m_type(wxSVG_ANIMATETRANSFORM(0)) {}
     virtual ~wxSVGAnimateTransformElement() {}
     wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGAnimateTransformElement(*this); }
-    bool HasAttribute(const wxString& name);
-    wxString GetAttribute(const wxString& name);
+
+    virtual void ApplyAnimation();
+
+    bool HasAttribute(const wxString& name) const;
+    wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
     virtual wxSVGDTD GetDtd() const { return wxSVG_ANIMATETRANSFORM_ELEMENT; }

@@ -3,24 +3,23 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGFEGaussianBlurElement.cpp,v 1.5 2012-01-08 02:42:15 ntalex Exp $
+// RCS-ID:      $Id: SVGFEGaussianBlurElement.cpp,v 1.6 2014-03-18 13:11:55 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGFEGaussianBlurElement.h"
 
-void wxSVGFEGaussianBlurElement::SetStdDeviation(double stdDeviationX, double stdDeviationY)
-{
-  SetStdDeviationX(stdDeviationX);
-  SetStdDeviationY(stdDeviationY);
+void wxSVGFEGaussianBlurElement::SetStdDeviation(double stdDeviationX, double stdDeviationY) {
+	SetStdDeviationX(stdDeviationX);
+	SetStdDeviationY(stdDeviationY);
 }
 
-bool wxSVGFEGaussianBlurElement::HasCustomAttribute(const wxString& name) {
+bool wxSVGFEGaussianBlurElement::HasCustomAttribute(const wxString& name) const {
 	return name == wxT("stdDeviation");
 }
 
-wxString wxSVGFEGaussianBlurElement::GetCustomAttribute(const wxString& name) {
+wxString wxSVGFEGaussianBlurElement::GetCustomAttribute(const wxString& name) const {
 	return name == wxT("stdDeviation") ? wxString::Format(wxT("%g"), m_stdDeviationX.GetBaseVal()) : wxT("");
 }
 

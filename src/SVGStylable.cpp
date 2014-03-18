@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGStylable.cpp,v 1.6 2012-01-08 02:42:15 ntalex Exp $
+// RCS-ID:      $Id: SVGStylable.cpp,v 1.7 2014-03-18 13:11:55 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,23 +12,19 @@
 #include "svg.h"
 #include <wx/log.h>
 
-const wxCSSValue& wxSVGStylable::GetPresentationAttribute(const wxString& name)
-{
+const wxCSSValue& wxSVGStylable::GetPresentationAttribute(const wxString& name) {
   return m_style.GetPropertyCSSValue(name);
 }
 
-bool wxSVGStylable::HasCustomAttribute(const wxString& name)
-{
+bool wxSVGStylable::HasCustomAttribute(const wxString& name) const {
   return wxCSSStyleDeclaration::GetPropertyId(name) != wxCSS_PROPERTY_UNKNOWN;
 }
 
-wxString wxSVGStylable::GetCustomAttribute(const wxString& name)
-{
+wxString wxSVGStylable::GetCustomAttribute(const wxString& name) const {
   return m_style.GetPropertyValue(name);
 }
 
-bool wxSVGStylable::SetCustomAttribute(const wxString& name, const wxString& value)
-{
+bool wxSVGStylable::SetCustomAttribute(const wxString& name, const wxString& value) {
   wxCSS_PROPERTY id = wxCSSStyleDeclaration::GetPropertyId(name);
   
   if (id == wxCSS_PROPERTY_UNKNOWN)
@@ -43,8 +39,7 @@ wxSvgXmlAttrHash wxSVGStylable::GetCustomAttributes() const {
 	return attrs;
 }
 
-wxCSSStyleDeclaration wxSVGStylable::GetResultStyle(const wxSVGElement& element)
-{
+wxCSSStyleDeclaration wxSVGStylable::GetResultStyle(const wxSVGElement& element) {
   wxCSSStyleDeclaration style;
   if (element.GetParent())
     style = GetResultStyle(*(wxSVGElement*)element.GetParent());
@@ -61,12 +56,10 @@ wxCSSStyleDeclaration wxSVGStylable::GetResultStyle(const wxSVGElement& element)
 case the_dtd:\
   return &((the_class&) element);
   
-wxSVGStylable* wxSVGStylable::GetSVGStylable(wxSVGElement& element)
-{
+wxSVGStylable* wxSVGStylable::GetSVGStylable(wxSVGElement& element) {
   if (element.GetType() != wxSVGXML_ELEMENT_NODE)
     return NULL;
-  switch (element.GetDtd())
-  {
+  switch (element.GetDtd()) {
     GET_STYLABLE(wxSVG_A_ELEMENT, wxSVGAElement)
     GET_STYLABLE(wxSVG_ALTGLYPH_ELEMENT, wxSVGAltGlyphElement)
     GET_STYLABLE(wxSVG_CIRCLE_ELEMENT, wxSVGCircleElement)
@@ -123,13 +116,11 @@ wxSVGStylable* wxSVGStylable::GetSVGStylable(wxSVGElement& element)
   return NULL;
 }
 
-const wxSVGStylable* wxSVGStylable::GetSVGStylable(const wxSVGElement& element)
-{
+const wxSVGStylable* wxSVGStylable::GetSVGStylable(const wxSVGElement& element) {
   return GetSVGStylable((wxSVGElement&)element);
 }
 
-const wxCSSStyleDeclaration& wxSVGStylable::GetElementStyle(const wxSVGElement& element)
-{
+const wxCSSStyleDeclaration& wxSVGStylable::GetElementStyle(const wxSVGElement& element) {
   static wxCSSStyleDeclaration emptyStyle;
   const wxSVGStylable* stylable = GetSVGStylable(element);
   if (!stylable)

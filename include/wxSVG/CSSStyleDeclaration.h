@@ -1137,6 +1137,8 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     static wxSVGColor* s_emptySVGColor;
     static wxSVGPaint* s_emptySVGPaint;
     static wxSVGPaint* s_blackSVGPaint;
+
+  public:
     static double ParseNumber(const wxString& value);
     static wxRGBColor ParseColor(const wxString& value);
     static void ParseSVGPaint(wxSVGPaint& paint, const wxString& value);
