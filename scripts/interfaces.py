@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.37 2014-03-18 13:08:39 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.38 2014-03-21 21:15:36 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -283,7 +283,7 @@ inter.user_defined_destructor=1
 inter = interface()
 interfaces["SVGTransform"]=inter
 inter.include_get_set_attributes = [["double", "cx", False, False], ["double", "cy", False, False]]
-inter.include_methods.append('    wxSVGTransform(const wxSVGMatrix& matrix): m_type(wxSVG_TRANSFORM_MATRIX), m_matrix(matrix), m_angle(0) {}\n')
+inter.include_methods.append('    wxSVGTransform(const wxSVGMatrix& matrix): m_type(wxSVG_TRANSFORM_MATRIX), m_matrix(matrix), m_angle(0), m_cx(0), m_cy(0) {}\n')
 inter.include_methods.append('    virtual ~wxSVGTransform() {}\n')
 inter.include_methods.append('    \n')
 inter.include_methods.append('    wxString GetValueAsString() const;\n')

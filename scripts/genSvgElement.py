@@ -3,7 +3,7 @@
 ## Purpose:     generates svg.h, SVGDTD.h and SVGDocument_CreateElement.cpp
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSvgElement.py,v 1.6 2011-07-24 16:30:12 ntalex Exp $
+## RCS-ID:      $Id: genSvgElement.py,v 1.7 2014-03-21 21:15:36 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -29,11 +29,11 @@ translate_to_classname = {
 def make_cppname(name):
     beg=0
     while 1:
-        pos = string.find(name, '-', beg)
+        pos = name.find('-', beg)
         if pos==-1:
-            pos = string.find(name, '-', beg)
+            pos = name.find('-', beg)
         if pos>0:
-            res = name[:pos]+ string.upper(name[pos+1]) + name[pos+2:]
+            res = name[:pos]+ name[pos+1].upper() + name[pos+2:]
             name=res
             beg=pos
         else:
@@ -60,13 +60,13 @@ includes =''
 create = ''
 dtdenum = ''
 
-for element_dtd_name in all_elements:
-    classname = string.upper(element_dtd_name[0])+element_dtd_name[1:]
+for element_dtd_name in sorted(all_elements):
+    classname = element_dtd_name[0].upper()+element_dtd_name[1:]
     classname = make_cppname(classname)
-    dtdname = string.replace(element_dtd_name, '-', '_')
-    dtdname = string.replace(dtdname, ':', '_')
+    dtdname = element_dtd_name.replace('-', '_')
+    dtdname = dtdname.replace(':', '_')
     includes = includes + '#include "SVG%sElement.h"\n'%(classname)
-    dtdenum = dtdenum + '  wxSVG_%s_ELEMENT,\n'%(string.upper(dtdname))
+    dtdenum = dtdenum + '  wxSVG_%s_ELEMENT,\n'%(dtdname.upper())
     create = create + '''if (qualifiedName == wxT("%s"))
     res = new wxSVG%sElement();
   else '''%(element_dtd_name, classname)

@@ -43,7 +43,7 @@ class wxSVGTransform
 
   public:
     wxSVGTransform(): m_type(wxSVG_TRANSFORM(0)), m_angle(0), m_cx(0), m_cy(0) {}
-    wxSVGTransform(const wxSVGMatrix& matrix): m_type(wxSVG_TRANSFORM_MATRIX), m_matrix(matrix), m_angle(0) {}
+    wxSVGTransform(const wxSVGMatrix& matrix): m_type(wxSVG_TRANSFORM_MATRIX), m_matrix(matrix), m_angle(0), m_cx(0), m_cy(0) {}
     virtual ~wxSVGTransform() {}
     
     wxString GetValueAsString() const;

@@ -4,7 +4,7 @@
 ##              -> HasAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genHasAttribute.py,v 1.6 2014-03-18 13:08:39 ntalex Exp $
+## RCS-ID:      $Id: genHasAttribute.py,v 1.7 2014-03-21 21:15:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -35,7 +35,7 @@ def process(classdecl):
         try:
             entity_name = mapDtdIdl.attributes_idl_dtd[attr]
         except KeyError:
-            #print classdecl.name, attr ###### TODO
+            #print(classdecl.name, attr) ###### TODO
             #print classdecl
             #print mapDtdIdl.attributes_idl_dtd
             #raise ""
@@ -72,7 +72,7 @@ def process(classdecl):
 // wx%s
 bool wx%s::HasAttribute(const wxString& attrName) const {
   return %s;
-}      
+}
 '''%(classdecl.name, classdecl.name, func_body)
         output_cpps[classdecl.name]=output_cpp
 
@@ -82,14 +82,13 @@ bool wx%s::HasAttribute(const wxString& attrName) const {
 
 if len(parse_idl.class_decls):
     cnames = parse_idl.class_decls.keys()
-    cnames.sort()
     for name in cnames:
         process(parse_idl.class_decls[name])
 
 output_cpp=""
 if len(output_cpps):
-    for value in output_cpps.values():
-        output_cpp = output_cpp + value
+    for name in sorted(output_cpps.keys()):
+        output_cpp = output_cpp + output_cpps[name]
 
 includestr=''
 for i in includes:

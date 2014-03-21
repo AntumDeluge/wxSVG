@@ -4,7 +4,7 @@
 ##              -> GetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttribute.py,v 1.8 2014-03-18 13:08:39 ntalex Exp $
+## RCS-ID:      $Id: genGetAttribute.py,v 1.9 2014-03-21 21:15:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -48,7 +48,7 @@ def process(classdecl):
         
         get_attr = cpp.make_attr_name(attr.name)
         typestr = attr.type.name
-        anim_pos = string.find(typestr, 'Animated')
+        anim_pos = typestr.find('Animated')
         if anim_pos>=0 and typestr != "SVGAnimatedType": # SVGAnimatedTypename
             typestr = typestr[anim_pos+len('Animated'):]
             get_attr = get_attr + '.GetBaseVal()'
@@ -75,13 +75,13 @@ def process(classdecl):
       return wxT("objectBoundingBox");
     return wxT("");
   }'''%(get_attr,get_attr)
-            elif enum_map.enum_map.has_key(classdecl.name + '::' + attr.name):
+            elif (classdecl.name + '::' + attr.name) in enum_map.enum_map:
                 get_attr2 = ''
                 for enum in classdecl.enums:
                     if enum.name == enum_map.enum_map[classdecl.name + '::' + attr.name]:
                         get_attr2 = "    switch (%s) {\n"%get_attr
                         for const_decl in enum.const_decls:
-                            enum_str = string.lower(const_decl.name.split('_')[-1])
+                            enum_str = const_decl.name.split('_')[-1].lower()
                             if enum_str != 'unknown':
                                 get_attr2 = get_attr2 + '    case %s:\n'%(cpp.fix_typename('%s'%const_decl.name))
                                 get_attr2 = get_attr2 + '      return wxT("%s");\n'%(enum_str)
@@ -125,7 +125,7 @@ def process(classdecl):
             func_body = func_body + 'if (HasCustomAttribute(attrName))\n'
             func_body = func_body + '    return GetCustomAttribute(attrName);\n'
             func_body = func_body + '  else'
-        if mapDtdIdl.elements_idl_dtd.has_key(classdecl):
+        if classdecl in mapDtdIdl.elements_idl_dtd:
             func_body = func_body + '\n    return wxT("");\n' #wxLogDebug(wxT("unknown attribute %s::") + attrName);%(classdecl.name)
         else:
             func_body = func_body + '\n    return wxT("");\n'
@@ -146,14 +146,13 @@ wxString wx%s::GetAttribute(const wxString& attrName) const {
 
 if len(parse_idl.class_decls):
     cnames = parse_idl.class_decls.keys()
-    cnames.sort()
     for name in cnames:
         process(parse_idl.class_decls[name])
 
 output_cpp=""
 if len(output_cpps):
-    for value in output_cpps.values():
-        output_cpp = output_cpp + value
+    for name in sorted(output_cpps.keys()):
+        output_cpp = output_cpp + output_cpps[name]
 
 includestr=''
 for i in includes:

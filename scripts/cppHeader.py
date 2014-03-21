@@ -3,7 +3,7 @@
 ## Purpose:     generates c++ header and saves it
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: cppHeader.py,v 1.3 2005-06-07 22:07:05 ntalex Exp $
+## RCS-ID:      $Id: cppHeader.py,v 1.4 2014-03-21 21:15:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -17,19 +17,19 @@ def make_header_name(name):
 	if name[0:3] in ["SVG", "CSS"]:
 		pos = 3
 	while len(name)>pos:
-		if name[pos] == string.upper(name[pos]):
+		if name[pos] == name[pos].upper():
 			if pos>0:
 				name = name[0:pos] + "_" + name[pos:]
 				pos = pos + 1
 			pos = pos + 1
-			if len(name)>pos and name[pos] == string.upper(name[pos]):
-				while len(name)>pos and name[pos] == string.upper(name[pos]):
+			if len(name)>pos and name[pos] == name[pos].upper():
+				while len(name)>pos and name[pos] == name[pos].upper():
 					pos = pos + 1
 				name = name[0:pos-1] + "_" + name[pos-1:]
 				pos = pos + 1
 		else:
 			pos = pos +1
-	return string.upper(name)
+	return name.upper()
 
 class Header:
 	def __init__(self, name, script_name, prefix="WX"):
@@ -66,5 +66,5 @@ class Header:
 '''%(self.name, self.script_name, self.guard, self.guard, self.content, self.guard)
 
 		filename = os.path.join(path, self.name+'.h')
-		f = genFile.gfopen(filename,'w')
+		f = genFile.gfopen(filename,'wb')
 		f.write(data)

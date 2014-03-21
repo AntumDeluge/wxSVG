@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: cpp.py,v 1.5 2007-05-23 15:15:18 etisserant Exp $
+## RCS-ID:      $Id: cpp.py,v 1.6 2014-03-21 21:15:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -15,15 +15,15 @@ number_types = ["float", "double", "int", "unsigned long", "long", "unsigned sho
 
 def make_name(name):
     tmp=name
-    tmp = string.replace(tmp,'-','_')
-    tmp = string.replace(tmp,':','_')
+    tmp = tmp.replace('-','_')
+    tmp = tmp.replace(':','_')
     return tmp
 
 def make_attr_name(name):
     return 'm_' + make_name(name)
 
 def fix_typename(name):
-    pos = string.find(name, "::")
+    pos = name.find("::")
     if pos>0:
         name = name[pos+2:]
     if name == "boolean":

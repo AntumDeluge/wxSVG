@@ -4,7 +4,7 @@
 ##              -> SetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSetAttribute.py,v 1.14 2014-03-18 13:08:39 ntalex Exp $
+## RCS-ID:      $Id: genSetAttribute.py,v 1.15 2014-03-21 21:15:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -48,7 +48,7 @@ def process(classdecl):
         
         set_attr = cpp.make_attr_name(attr.name)
         typestr =attr.type.name
-        anim_pos = string.find(typestr, 'Animated')
+        anim_pos = typestr.find('Animated')
         if anim_pos>=0 and typestr != "SVGAnimatedType": # SVGAnimatedTypename
             typestr = typestr[anim_pos+len('Animated'):]
             if typestr not in ["float", "Number", "Integer", "Boolean", "Enumeration", "unsigned short"]:
@@ -81,7 +81,7 @@ def process(classdecl):
         value = wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX;
     %s;
   }'''%set_attr
-            elif enum_map.enum_map.has_key(classdecl.name + '::' + attr.name):
+            elif (classdecl.name + '::' + attr.name) in enum_map.enum_map:
                 set_attr2 = ''
                 for enum in classdecl.enums:
                     if enum.name == enum_map.enum_map[classdecl.name + '::' + attr.name] and len(enum.const_decls):
@@ -90,7 +90,7 @@ def process(classdecl):
                             set_attr2 = set_attr2 + '    '
                             if const_decl.name != enum.const_decls[1].name:
                                 set_attr2 = set_attr2 + 'else '
-                            set_attr2 = set_attr2 + 'if (attrValue.Lower() == wxT("%s"))\n'%(string.lower(const_decl.name.split('_')[-1]))
+                            set_attr2 = set_attr2 + 'if (attrValue.Lower() == wxT("%s"))\n'%(const_decl.name.split('_')[-1].lower())
                             set_attr2 = set_attr2 + '      value = %s;\n'%(cpp.fix_typename('%s'%const_decl.name))
                         set_attr = set_attr2 + '    %s;\n  }'%set_attr
                         break
@@ -142,8 +142,8 @@ def process(classdecl):
   else'''
 
         #if it's an element
-        #if string.find(classdecl.name,"Element")>0 and classdecl.name != "SVGElement":
-        if mapDtdIdl.elements_idl_dtd.has_key(classdecl):
+        #if classdecl.name.find("Element")>0 and classdecl.name != "SVGElement":
+        if classdecl in mapDtdIdl.elements_idl_dtd:
             func_body = func_body + '''
   {
     //wxLogDebug(wxT("unknown attribute %s::") + attrName);
@@ -173,14 +173,13 @@ bool wx%s::SetAttribute(const wxString& attrName, const wxString& attrValue)
 
 if len(parse_idl.class_decls):
     cnames = parse_idl.class_decls.keys()
-    cnames.sort()
     for name in cnames:
         process(parse_idl.class_decls[name])
 
 output_cpp=""
 if len(output_cpps):
-    for value in output_cpps.values():
-        output_cpp = output_cpp + value
+    for name in sorted(output_cpps.keys()):
+        output_cpp = output_cpp + output_cpps[name]
 
 includestr=''
 for i in includes:

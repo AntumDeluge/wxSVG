@@ -3,7 +3,7 @@
 ## Purpose:     parses idl file
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: parse_idl.py,v 1.4 2013-09-12 08:44:37 ntalex Exp $
+## RCS-ID:      $Id: parse_idl.py,v 1.5 2014-03-21 21:15:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -12,8 +12,14 @@ import re
 import string
 import os.path
 import idl
-import cPickle
 import config
+import collections
+
+try:
+	import cPickle as pickle
+except:
+	import pickle
+
 
 interface_re = re.compile("interface\s+(\w+)\s+(:\s+[^{]+)?{")
 attribute_re = re.compile("(readonly)?\s+attribute\s+([^;]+);")
@@ -58,9 +64,9 @@ while 1:
 	inherits_names = []
 	plaininherits = []
 	if inherits!=None:
-		tmp = string.split(inherits[1:], ',')
+		tmp = inherits[1:].split(',')
 		for i in tmp:
-			realname = string.strip(i)
+			realname = i.strip()
 			plaininherits.append(realname)
 
 		the_class_decl.inherits = plaininherits
@@ -96,7 +102,7 @@ while 1:
 				theenum.const_decls=[] # ?? why ?????!!!!!!
                                 
 			first_enum=0
-			pos = string.rfind(const_name, '_')
+			pos = const_name.rfind('_')
 			theenum.name = const_name[:pos]
 		theenum.const_decls.append(idl.const_decl(const_name, str(const_value)))
 
@@ -118,10 +124,10 @@ while 1:
 		beg=m.end()
 		readonly=m.group(1)
 		attr_type_and_name = m.group(2)
-		attr_spec = string.split(attr_type_and_name)
-		attr_type=string.strip(string.join(attr_spec[:-1],' '))
+		attr_spec = attr_type_and_name.split()
+		attr_type=' '.join(attr_spec[:-1]).strip()
 
-		attr_name=string.strip(attr_spec[-1])
+		attr_name=attr_spec[-1].strip()
 		tmpconst=0
 		if readonly=='readonly':
 			tmpconst=1
@@ -142,31 +148,31 @@ while 1:
 		if m==None:
 			break
 		beg=m.end()
-		return_type_and_name = string.strip(m.group(1))
-		tmp = string.split(return_type_and_name)
+		return_type_and_name = m.group(1).strip()
+		tmp = return_type_and_name.split()
 		meth_name = tmp[-1]
-		return_type = string.strip(string.join(tmp[:-1],' '))
+		return_type = ' '.join(tmp[:-1]).strip()
 
 		themeth = idl.method_decl(name = meth_name, return_type=idl.type_decl(name=return_type))
 
-		args = string.strip(m.group(2))
+		args = m.group(2).strip()
 		raises=[]
 		if (m.group(4)):
-			tmp = string.split(m.group(4),',')
+			tmp = m.group(4).split(',')
 			for i in tmp:
-				raises.append(string.strip(i))
+				raises.append(i.strip())
 		themeth.exceptions=raises
 
 		theargs=[]
 		if len(args):
-			args=string.split(args,',')
+			args=args.split(',')
 			for arg in args:
-				spec = string.split(arg)
+				spec = arg.split()
 
-				inout = string.strip(spec[0])
-				typename = string.join(spec[1:-1],' ')
+				inout = spec[0].strip()
+				typename = ' '.join(spec[1:-1])
 				savtypename = typename
-				varname = string.strip(spec[len(spec)-1])
+				varname = spec[len(spec)-1].strip()
 
 				theargs.append(idl.arg_decl(name=varname, inout=inout, type=idl.type_decl(name=savtypename )))
 
@@ -177,4 +183,4 @@ while 1:
 
 		the_class_decl.methods = plain_methods
 	content=content[end_interface:]
-
+class_decls = collections.OrderedDict(sorted(class_decls.items()))

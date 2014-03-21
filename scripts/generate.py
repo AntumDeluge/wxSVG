@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.23 2014-03-18 13:08:39 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.24 2014-03-21 21:15:36 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -44,7 +44,7 @@ copy_constructor_includes = ['SVGCanvasItem']
 def find_dtd_attr_in_inherit(classdecl):
     if len(classdecl.attributes):
         for attr in classdecl.attributes:
-            if mapDtdIdl.attributes_idl_dtd.has_key(attr):
+            if attr in mapDtdIdl.attributes_idl_dtd:
                 return 1
 
     for inh in classdecl.inherits:
@@ -59,10 +59,10 @@ def find_dtd_attr_in_inherit(classdecl):
 
 if len(parse_idl.class_decls):
     for (classname, classdecl) in parse_idl.class_decls.items():
-        if string.find(classname, "Animated") >=0 and classname not in ["SVGAnimatedPathData","SVGAnimatedPoints"]:
+        if classname.find("Animated") >=0 and classname not in ["SVGAnimatedPathData","SVGAnimatedPoints"]:
             used_animated.append(classname)
             continue
-        if string.find(classname, "List") >=0:
+        if classname.find("List") >=0:
             used_lists.append(classname)
             continue
 
@@ -92,7 +92,7 @@ if len(parse_idl.class_decls):
         if len(classdecl.inherits):
             first = 1
             for inherit in classdecl.inherits:
-                pos = string.find(inherit, "::")
+                pos = inherit.find("::")
                 if pos>0:
                     inherit = inherit[pos+2:]
                 if first:
@@ -128,25 +128,25 @@ if len(parse_idl.class_decls):
             # is Attribute an Element ?
             ispointer = False
             isenum = False
-            pos = string.find(attr.type.name, 'Element')
+            pos = attr.type.name.find('Element')
             if pos > 0:
                 fwd_decls.append(typename)
                 typename = typename+'*'
                 ispointer=1
             else:
-                if attr.type.name=="unsigned short":# or string.find(attr.type.name, 'Enumeration')>=0:
+                if attr.type.name=="unsigned short":# or attr.type.name.find('Enumeration')>=0:
                     try:
                         enumname = enum_map.enum_map[classname+'::'+attr.name]
                         isenum = True
                         if attr.type.name=="unsigned short":
                             typename = enumname
                         else:
-                            pos = string.find(attr.type.name, 'Animated')
+                            pos = attr.type.name.find('Animated')
                             if pos >= 0:
                                 typename = 'SVGAnimated%s'%enumname
                                 isenum = False
                             else:
-                                typename = string.replace(typename, 'Enumeration', enumname)
+                                typename = typename.replace('Enumeration', enumname)
                             # typename = classdecl.enums[numtype].name
                     except KeyError: # gen enum_map
                         try:
@@ -207,13 +207,13 @@ if len(parse_idl.class_decls):
             for (typestr, attrname, ispointer, isenum) in attributes:
                 animated = 0
                 typestrBase = ""
-                pos = string.find(typestr, 'Animated')
+                pos = typestr.find('Animated')
                 if pos>=0 and typestr != "wxSVGAnimatedType": # SVGAnimatedTypename
                     typestrBase = typestr[pos+len('Animated'):]
                     animated = 1
                 
                 # get
-                methodName = 'Get' + string.upper(attrname[0])+attrname[1:]
+                methodName = 'Get' + attrname[0].upper()+attrname[1:]
                 if(methodName in exclude_methods):
                     continue
                 exclude_methods.append(methodName)
@@ -247,7 +247,7 @@ if len(parse_idl.class_decls):
                 public = public + '    inline %s %s() const { %sreturn %s; }\n'%(ret_type,methodName,calc,attrname_cpp)
                     
                 # set
-                methodName = 'Set' + string.upper(attrname[0])+attrname[1:]
+                methodName = 'Set' + attrname[0].upper()+attrname[1:]
                 if(methodName in exclude_methods):
                     continue
                 exclude_methods.append(methodName)
@@ -321,23 +321,23 @@ if len(parse_idl.class_decls):
             except KeyError:
                 pass
             cname = cpp.fix_typename(classname)
-            if string.find(classname, "Element")>0:
+            if classname.find("Element")>0:
                 # first find the directly inherited "Element" class
                 # generally SVGElement, but it can be  SVGGradientElement for ex.
                 element_inherit=None
                 for inh in classdecl.inherits:
-                    if string.find(inh, "Element")>0:
+                    if inh.find("Element")>0:
                         element_inherit=cpp.fix_typename(inh)
                         break
                 element_string=''
-                if mapDtdIdl.elements_idl_dtd.has_key(classdecl):
+                if classdecl in mapDtdIdl.elements_idl_dtd:
                     element_string=mapDtdIdl.elements_idl_dtd[classdecl]
                 methods_str = methods_str + '    %s(wxString tagName = wxT("%s")):\n      %s(tagName)%s {}\n'%(cname, element_string, element_inherit, init_attibutes)
             elif classname[0:10] == "SVGPathSeg" and len(classname)>10:
-                seg_type = string.upper(classname[10:])
+                seg_type = classname[10:].upper()
                 strs = ["ABS", "REL", "HORIZONTAL", "VERTICAL", "CUBIC", "QUADRATIC", "SMOOTH"]
                 for s in strs:
-                    pos = string.find(seg_type, s)
+                    pos = seg_type.find(s)
                     if pos>0:
                         seg_type = seg_type[:pos] + "_" + seg_type[pos:]  
                 seg_type = "wxPATHSEG_" + seg_type
@@ -385,7 +385,7 @@ if len(parse_idl.class_decls):
                 methods_str = methods_str + '    virtual ~%s();\n'%cname
         
         ################# CloneNode #######################
-        if string.find(classname, "Element")>0 and mapDtdIdl.elements_idl_dtd.has_key(classdecl):
+        if classname.find("Element")>0 and classdecl in mapDtdIdl.elements_idl_dtd:
             methods_str = methods_str + '    wxSvgXmlNode* CloneNode(bool deep = true) { return new %s(*this); }\n'%cpp.fix_typename(classname)
         
         ################### methods #########################
@@ -412,7 +412,7 @@ if len(parse_idl.class_decls):
             else:
                 method_ret = return_type + ' '
             
-            method_name = string.upper(meth.name[0]) + meth.name[1:];
+            method_name = meth.name[0].upper() + meth.name[1:];
             if method_name in exclude_methods:
                 continue
             method_decl = method_name + '('
@@ -446,7 +446,7 @@ if len(parse_idl.class_decls):
             method_decl = cpp.fix_typename(classname) + "::" + method_decl;
             cpp_output = cpp_output + method_ret + method_decl + '\n{\n';
             if return_type != "void":
-                if string.find(method_ret, "*") < 0:
+                if method_ret.find("*") < 0:
                     cpp_output = cpp_output + '  ' + method_ret + 'res'
                     if return_type in cpp.builtin_types:
                         cpp_output = cpp_output + ' = 0';
@@ -474,10 +474,10 @@ if len(parse_idl.class_decls):
                 protected = protected + '    wxSvgXmlAttrHash GetCustomAttributes() const;\n';
 
         element_string=None
-        if mapDtdIdl.elements_idl_dtd.has_key(classdecl):
+        if classdecl in mapDtdIdl.elements_idl_dtd:
             element_string=mapDtdIdl.elements_idl_dtd[classdecl]
             typename = cpp.fix_typename("SVGDTD")
-            dtdname = "SVG_" + string.upper(element_string) + "_ELEMENT"
+            dtdname = "SVG_" + element_string.upper() + "_ELEMENT"
             dtdname = cpp.fix_typename(cpp.make_name(dtdname))
             methods_str = methods_str + '    virtual %s GetDtd() const { return %s; }\n'%(typename,dtdname)
         
@@ -515,7 +515,7 @@ if len(parse_idl.class_decls):
             if inc==classname:
                 continue
             realname = inc
-            pos = string.find(inc, "::")
+            pos = inc.find("::")
             if pos>0:
                 realname = inc[pos+2:]
             includestr = includestr + "#include \"%s.h\"\n"%(realname)
@@ -534,10 +534,10 @@ if len(parse_idl.class_decls):
         
         fwd_decls_namespace = { "svg":[] }
         for i in fwd_decls:
-            pos = string.find(i, "::")
+            pos = i.find("::")
             nspace = i[:pos]
             if pos>=0:
-                if fwd_decls_namespace.has_key(nspace):
+                if nspace in fwd_decls_namespace:
                     fwd_decls_namespace[nspace].append(i[pos+2:])
                 else:
                     fwd_decls_namespace[nspace]=[i[pos+2:]]
@@ -562,14 +562,14 @@ if len(parse_idl.class_decls):
         
         
         ############## write cpp files (disabled) ############################
-        if cpp_output != '' and string.find(classname, "List") < 0:
+        if cpp_output != '' and classname.find("List") < 0:
             cpp_output = '''
 /////////////////////////////////////////////////////////////////////////////
 // Name:        %s.cpp
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.23 2014-03-18 13:08:39 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.24 2014-03-21 21:15:36 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -589,10 +589,10 @@ impl.dump(path=config.src_dir)
 
 ###################### Generate animated, lists, setattribute, ... ##########
 for i in used_animated:
-    genAnimated.generate(string.replace(i,'SVGAnimated',''))
+    genAnimated.generate(i.replace('SVGAnimated',''))
 
 for i in used_lists:
-    name = string.replace(string.replace(i,'List',''),'SVG','')
+    name = i.replace('List','').replace('SVG','')
     genList.generate(name)
 
 genCSS.generate()

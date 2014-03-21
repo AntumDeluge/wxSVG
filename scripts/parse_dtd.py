@@ -4,7 +4,7 @@
 ##              names or the other way round
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: parse_dtd.py,v 1.3 2011-07-24 16:30:12 ntalex Exp $
+## RCS-ID:      $Id: parse_dtd.py,v 1.4 2014-03-21 21:15:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		It must be rewritten, because can't parse dtd file from svg 1.1
 ##              Now it use dtd file from svg 1.0
@@ -60,7 +60,7 @@ while 1:
 	if m==None:
 		break
 	beg = m.end()
-	name = string.strip(m.group(1))
+	name = m.group(1).strip()
 	defi = m.group(2)
 	attributes=parse_attr.parse_attr(defi)
 	entity_common_attrs[name]=attributes
@@ -73,7 +73,7 @@ while 1:
 		break
 	beg = m.end()
 
-	name = string.strip(m.group(1))
+	name = m.group(1).strip()
 	elements[name]=m.group(2)
 
 beg=0
@@ -83,17 +83,17 @@ while 1:
 		break
 	beg = m.end()
 
-	name = string.strip(m.group(1))
+	name = m.group(1).strip()
 	defi = m.group(2)
 
 	attributes=parse_attr.parse_attr(defi)
 	attlists[name] = attributes
 
 	continue
-	print '---'
-	print name
+	print('---')
+	print(name)
 	for i in attributes:
 		l = i.expand(entity_type_decls, entity_common_attrs)
 		for j in l:
-			print j
+			print(j)
 

@@ -4,7 +4,7 @@
 ##              -> GetAttributes() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttributes.py,v 1.11 2014-03-18 13:08:39 ntalex Exp $
+## RCS-ID:      $Id: genGetAttributes.py,v 1.12 2014-03-21 21:15:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -48,7 +48,7 @@ def process(classdecl):
         
         get_attr = cpp.make_attr_name(attr.name)
         typestr =attr.type.name
-        anim_pos = string.find(typestr, 'Animated')
+        anim_pos = typestr.find('Animated')
         if anim_pos>=0 and typestr != "SVGAnimatedType": # SVGAnimatedTypename
             typestr = typestr[anim_pos+len('Animated'):]
             get_attr = get_attr + '.GetBaseVal()'
@@ -76,7 +76,7 @@ def process(classdecl):
             if classdecl.name == "SVGGradientElement" and attr.name == "gradientUnits":
                 check = '%s != wxSVG_UNIT_TYPE_UNKNOWN && %s != wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX'%(get_attr,get_attr)
                 get_attr = 'wxT("userSpaceOnUse")'
-            elif enum_map.enum_map.has_key(classdecl.name + '::' + attr.name):
+            elif (classdecl.name + '::' + attr.name) in enum_map.enum_map:
                 def_enum = ''
                 for enum in classdecl.enums:
                     if enum.name == enum_map.enum_map[classdecl.name + '::' + attr.name] and len(enum.const_decls):
@@ -144,14 +144,13 @@ wxSvgXmlAttrHash wx%s::GetAttributes() const
 
 if len(parse_idl.class_decls):
     cnames = parse_idl.class_decls.keys()
-    cnames.sort()
     for name in cnames:
         process(parse_idl.class_decls[name])
 
 output_cpp=""
 if len(output_cpps):
-    for value in output_cpps.values():
-        output_cpp = output_cpp + value
+    for name in sorted(output_cpps.keys()):
+        output_cpp = output_cpp + output_cpps[name]
 
 includestr=''
 for i in includes:

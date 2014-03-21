@@ -7,16 +7,109 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGCanvasItem.h"
+#include "SVGCircleElement.h"
+#include "SVGEllipseElement.h"
+#include "SVGImageElement.h"
+#include "SVGLineElement.h"
 #include "SVGPathElement.h"
 #include "SVGPolygonElement.h"
-#include "SVGTextElement.h"
-#include "SVGLineElement.h"
-#include "SVGEllipseElement.h"
-#include "SVGRectElement.h"
 #include "SVGPolylineElement.h"
-#include "SVGCircleElement.h"
-#include "SVGImageElement.h"
+#include "SVGRectElement.h"
+#include "SVGTextElement.h"
 #include "SVGVideoElement.h"
+
+// wxSVGCircleElement
+wxSVGCircleElement::wxSVGCircleElement(wxSVGCircleElement& src):
+  wxSVGElement(src),
+  wxSVGTests(src),
+  wxSVGLangSpace(src),
+  wxSVGExternalResourcesRequired(src),
+  wxSVGStylable(src),
+  wxSVGTransformable(src),
+  wxEventTarget(src)
+{
+  m_cx = src.m_cx;
+  m_cy = src.m_cy;
+  m_r = src.m_r;
+  m_canvasItem = NULL;
+}
+
+wxSVGCircleElement::~wxSVGCircleElement()
+{
+  if (m_canvasItem)
+    delete m_canvasItem;
+}
+
+// wxSVGEllipseElement
+wxSVGEllipseElement::wxSVGEllipseElement(wxSVGEllipseElement& src):
+  wxSVGElement(src),
+  wxSVGTests(src),
+  wxSVGLangSpace(src),
+  wxSVGExternalResourcesRequired(src),
+  wxSVGStylable(src),
+  wxSVGTransformable(src),
+  wxEventTarget(src)
+{
+  m_cx = src.m_cx;
+  m_cy = src.m_cy;
+  m_rx = src.m_rx;
+  m_ry = src.m_ry;
+  m_canvasItem = NULL;
+}
+
+wxSVGEllipseElement::~wxSVGEllipseElement()
+{
+  if (m_canvasItem)
+    delete m_canvasItem;
+}
+
+// wxSVGImageElement
+wxSVGImageElement::wxSVGImageElement(wxSVGImageElement& src):
+  wxSVGElement(src),
+  wxSVGURIReference(src),
+  wxSVGTests(src),
+  wxSVGLangSpace(src),
+  wxSVGExternalResourcesRequired(src),
+  wxSVGStylable(src),
+  wxSVGTransformable(src),
+  wxEventTarget(src)
+{
+  m_x = src.m_x;
+  m_y = src.m_y;
+  m_width = src.m_width;
+  m_height = src.m_height;
+  m_preserveAspectRatio = src.m_preserveAspectRatio;
+  m_canvasItem = NULL;
+}
+
+wxSVGImageElement::~wxSVGImageElement()
+{
+  if (m_canvasItem)
+    delete m_canvasItem;
+}
+
+// wxSVGLineElement
+wxSVGLineElement::wxSVGLineElement(wxSVGLineElement& src):
+  wxSVGElement(src),
+  wxSVGTests(src),
+  wxSVGLangSpace(src),
+  wxSVGExternalResourcesRequired(src),
+  wxSVGStylable(src),
+  wxSVGTransformable(src),
+  wxEventTarget(src)
+{
+  m_x1 = src.m_x1;
+  m_y1 = src.m_y1;
+  m_x2 = src.m_x2;
+  m_y2 = src.m_y2;
+  m_canvasItem = NULL;
+}
+
+wxSVGLineElement::~wxSVGLineElement()
+{
+  if (m_canvasItem)
+    delete m_canvasItem;
+}
 
 // wxSVGPathElement
 wxSVGPathElement::wxSVGPathElement(wxSVGPathElement& src):
@@ -59,61 +152,21 @@ wxSVGPolygonElement::~wxSVGPolygonElement()
     delete m_canvasItem;
 }
 
-// wxSVGTextElement
-wxSVGTextElement::wxSVGTextElement(wxSVGTextElement& src):
-  wxSVGTextPositioningElement(src),
-  wxSVGTransformable(src)
-{
-  m_canvasItem = NULL;
-}
-
-wxSVGTextElement::~wxSVGTextElement()
-{
-  if (m_canvasItem)
-    delete m_canvasItem;
-}
-
-// wxSVGLineElement
-wxSVGLineElement::wxSVGLineElement(wxSVGLineElement& src):
+// wxSVGPolylineElement
+wxSVGPolylineElement::wxSVGPolylineElement(wxSVGPolylineElement& src):
   wxSVGElement(src),
   wxSVGTests(src),
   wxSVGLangSpace(src),
   wxSVGExternalResourcesRequired(src),
   wxSVGStylable(src),
   wxSVGTransformable(src),
-  wxEventTarget(src)
+  wxEventTarget(src),
+  wxSVGAnimatedPoints(src)
 {
-  m_x1 = src.m_x1;
-  m_y1 = src.m_y1;
-  m_x2 = src.m_x2;
-  m_y2 = src.m_y2;
   m_canvasItem = NULL;
 }
 
-wxSVGLineElement::~wxSVGLineElement()
-{
-  if (m_canvasItem)
-    delete m_canvasItem;
-}
-
-// wxSVGEllipseElement
-wxSVGEllipseElement::wxSVGEllipseElement(wxSVGEllipseElement& src):
-  wxSVGElement(src),
-  wxSVGTests(src),
-  wxSVGLangSpace(src),
-  wxSVGExternalResourcesRequired(src),
-  wxSVGStylable(src),
-  wxSVGTransformable(src),
-  wxEventTarget(src)
-{
-  m_cx = src.m_cx;
-  m_cy = src.m_cy;
-  m_rx = src.m_rx;
-  m_ry = src.m_ry;
-  m_canvasItem = NULL;
-}
-
-wxSVGEllipseElement::~wxSVGEllipseElement()
+wxSVGPolylineElement::~wxSVGPolylineElement()
 {
   if (m_canvasItem)
     delete m_canvasItem;
@@ -144,68 +197,15 @@ wxSVGRectElement::~wxSVGRectElement()
     delete m_canvasItem;
 }
 
-// wxSVGPolylineElement
-wxSVGPolylineElement::wxSVGPolylineElement(wxSVGPolylineElement& src):
-  wxSVGElement(src),
-  wxSVGTests(src),
-  wxSVGLangSpace(src),
-  wxSVGExternalResourcesRequired(src),
-  wxSVGStylable(src),
-  wxSVGTransformable(src),
-  wxEventTarget(src),
-  wxSVGAnimatedPoints(src)
+// wxSVGTextElement
+wxSVGTextElement::wxSVGTextElement(wxSVGTextElement& src):
+  wxSVGTextPositioningElement(src),
+  wxSVGTransformable(src)
 {
   m_canvasItem = NULL;
 }
 
-wxSVGPolylineElement::~wxSVGPolylineElement()
-{
-  if (m_canvasItem)
-    delete m_canvasItem;
-}
-
-// wxSVGCircleElement
-wxSVGCircleElement::wxSVGCircleElement(wxSVGCircleElement& src):
-  wxSVGElement(src),
-  wxSVGTests(src),
-  wxSVGLangSpace(src),
-  wxSVGExternalResourcesRequired(src),
-  wxSVGStylable(src),
-  wxSVGTransformable(src),
-  wxEventTarget(src)
-{
-  m_cx = src.m_cx;
-  m_cy = src.m_cy;
-  m_r = src.m_r;
-  m_canvasItem = NULL;
-}
-
-wxSVGCircleElement::~wxSVGCircleElement()
-{
-  if (m_canvasItem)
-    delete m_canvasItem;
-}
-
-// wxSVGImageElement
-wxSVGImageElement::wxSVGImageElement(wxSVGImageElement& src):
-  wxSVGElement(src),
-  wxSVGURIReference(src),
-  wxSVGTests(src),
-  wxSVGLangSpace(src),
-  wxSVGExternalResourcesRequired(src),
-  wxSVGStylable(src),
-  wxSVGTransformable(src),
-  wxEventTarget(src)
-{
-  m_x = src.m_x;
-  m_y = src.m_y;
-  m_width = src.m_width;
-  m_height = src.m_height;
-  m_preserveAspectRatio = src.m_preserveAspectRatio;
-  m_canvasItem = NULL;
-}
-
-wxSVGImageElement::~wxSVGImageElement()
+wxSVGTextElement::~wxSVGTextElement()
 {
   if (m_canvasItem)
     delete m_canvasItem;

@@ -3,13 +3,14 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: parse_attr.py,v 1.1.1.1 2005-05-10 17:51:25 ntalex Exp $
+## RCS-ID:      $Id: parse_attr.py,v 1.2 2014-03-21 21:15:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
 
 import re, string
 import cpp
+import collections
 
 parenthesis_re = re.compile('\(|\)')
 
@@ -77,14 +78,15 @@ class attr_entity_ref (attribute_def):
 		return '%' + self.entity_name + ';'
 
 	def expand(self, entity_type_decls={}, entity_common_attrs={} ):
-		
-		if entity_type_decls.has_key(self.entity_name):
+		if self.entity_name in entity_type_decls:
 			return entity_type_decls[self.entity_name]
-		else:
+		elif self.entity_name in entity_common_attrs:
 			entities = entity_common_attrs[self.entity_name]
 			l=[]
 			for i in entities:
-				l.extend(i.expand(entity_type_decls, entity_common_attrs))
+				l2 = i.expand(entity_type_decls, entity_common_attrs)
+				if isinstance(l2, collections.Iterable):
+					l.extend(l2)
 			return l
 
 
@@ -104,6 +106,9 @@ class attr_named_entity_ref (attr_named, attr_entity_ref):
 
 	def __str__(self):
 		return attr_named.__str__(self) + ' ' + attr_entity_ref.__str__(self)
+	
+	def expand(self, entity_type_decls={}, entity_common_attrs={} ):
+		return [self]
 
 
 class attr_named_simple_type (attr_named):
@@ -157,15 +162,15 @@ def get_attr_typedef(content):
 				if m:
 					return attr_type_default_value(m.group(1))
 				else:
-					raise "error attr type", content
+					raise("error attr type", content)
 
 
 def get_enums(content, beg=0):
 	pos=get_parenthesis_expr(content, beg)
-	tmp=string.split(content[beg:pos-1],'|')
+	tmp=content[beg:pos-1].split('|')
 	enums=[]
 	for i in tmp:
-		enums.append(string.strip(i))
+		enums.append(i.strip())
 	#print enums
 	return enums, pos
 

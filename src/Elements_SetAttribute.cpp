@@ -109,6 +109,97 @@
 #include "SVGViewElement.h"
 #include "SVGViewSpec.h"
 
+// wxSVGAElement
+bool wxSVGAElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("target"))
+	m_target.GetBaseVal() = attrValue;
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGAElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGAltGlyphDefElement
+bool wxSVGAltGlyphDefElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGAltGlyphDefElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGAltGlyphElement
+bool wxSVGAltGlyphElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("glyphRef"))
+	m_glyphRef = attrValue;
+  else if (attrName == wxT("format"))
+	m_format = attrValue;
+  else if (wxSVGTextPositioningElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGAltGlyphElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGAltGlyphItemElement
+bool wxSVGAltGlyphItemElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGAltGlyphItemElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGAnimateColorElement
+bool wxSVGAnimateColorElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGAnimationElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGAnimateColorElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGAnimateElement
+bool wxSVGAnimateElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGAnimationElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGAnimateElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
 // wxSVGAnimateMotionElement
 bool wxSVGAnimateMotionElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
@@ -122,82 +213,301 @@ bool wxSVGAnimateMotionElement::SetAttribute(const wxString& attrName, const wxS
   return true;
 }      
 
-// wxSVGFontFaceUriElement
-bool wxSVGFontFaceUriElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGAnimateTransformElement
+bool wxSVGAnimateTransformElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  if (attrName == wxT("type"))
+  {
+    wxSVG_ANIMATETRANSFORM value = wxSVG_ANIMATETRANSFORM_TRANSLATE;
+    if (attrValue.Lower() == wxT("scale"))
+      value = wxSVG_ANIMATETRANSFORM_SCALE;
+    else if (attrValue.Lower() == wxT("rotate"))
+      value = wxSVG_ANIMATETRANSFORM_ROTATE;
+    else if (attrValue.Lower() == wxT("skewx"))
+      value = wxSVG_ANIMATETRANSFORM_SKEWX;
+    else if (attrValue.Lower() == wxT("skewy"))
+      value = wxSVG_ANIMATETRANSFORM_SKEWY;
+    m_type = value;
+  }
+  else if (wxSVGAnimationElement::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGFontFaceUriElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGAnimateTransformElement::") + attrName);
     return false;
   }
 
   return true;
 }      
 
-// wxSVGFontFaceElement
-bool wxSVGFontFaceElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGAnimatedPathData
+bool wxSVGAnimatedPathData::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  if (attrName == wxT("d"))
+    m_pathSegList.SetValueAsString(attrValue);
+  else 
+      return false;
+
+  return true;
+}      
+
+// wxSVGAnimatedPoints
+bool wxSVGAnimatedPoints::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("points"))
+    m_points.SetValueAsString(attrValue);
+  else 
+      return false;
+
+  return true;
+}      
+
+// wxSVGAnimationElement
+bool wxSVGAnimationElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("attributeName"))
+	m_attributeName = attrValue;
+  else if (attrName == wxT("begin"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_begin = value;
+  }
+  else if (attrName == wxT("dur"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_dur = value;
+  }
+  else if (attrName == wxT("from"))
+    m_from.SetValueAsString(attrValue);
+  else if (attrName == wxT("to"))
+    m_to.SetValueAsString(attrValue);
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else 
+      return false;
+
+  return true;
+}      
+
+// wxSVGCircleElement
+bool wxSVGCircleElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("cx"))
+    m_cx.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("cy"))
+    m_cy.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("r"))
+    m_r.GetBaseVal().SetValueAsString(attrValue);
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGFontFaceElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGCircleElement::") + attrName);
     return false;
   }
 
   return true;
 }      
 
-// wxSVGFEFuncBElement
-bool wxSVGFEFuncBElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGClipPathElement
+bool wxSVGClipPathElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (wxSVGComponentTransferFunctionElement::SetAttribute(attrName, attrValue));
+  if (attrName == wxT("clipPathUnits"))
+  {
+    long value;
+    if (attrValue.ToLong(&value))
+      m_clipPathUnits.SetBaseVal((unsigned char) value);
+  }
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGFEFuncBElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGClipPathElement::") + attrName);
     return false;
   }
 
   return true;
 }      
 
-// wxSVGFEFuncAElement
-bool wxSVGFEFuncAElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGColorProfileElement
+bool wxSVGColorProfileElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (wxSVGComponentTransferFunctionElement::SetAttribute(attrName, attrValue));
+  if (attrName == wxT("local"))
+	m_local = attrValue;
+  else if (attrName == wxT("name"))
+	m_name = attrValue;
+  else if (attrName == wxT("rendering-intent"))
+  {
+    long value;
+    if (attrValue.ToLong(&value))
+      m_renderingIntent = (wxRENDERING_INTENT) value;
+  }
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGFEFuncAElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGColorProfileElement::") + attrName);
     return false;
   }
 
   return true;
 }      
 
-// wxSVGFEFuncRElement
-bool wxSVGFEFuncRElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGComponentTransferFunctionElement
+bool wxSVGComponentTransferFunctionElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (wxSVGComponentTransferFunctionElement::SetAttribute(attrName, attrValue));
-  else 
+  if (attrName == wxT("type"))
   {
-    //wxLogDebug(wxT("unknown attribute SVGFEFuncRElement::") + attrName);
-    return false;
+    wxSVG_FECOMPONENTTRANSFER_TYPE value = wxSVG_FECOMPONENTTRANSFER_TYPE_UNKNOWN;
+    if (attrValue.Lower() == wxT("identity"))
+      value = wxSVG_FECOMPONENTTRANSFER_TYPE_IDENTITY;
+    else if (attrValue.Lower() == wxT("table"))
+      value = wxSVG_FECOMPONENTTRANSFER_TYPE_TABLE;
+    else if (attrValue.Lower() == wxT("discrete"))
+      value = wxSVG_FECOMPONENTTRANSFER_TYPE_DISCRETE;
+    else if (attrValue.Lower() == wxT("linear"))
+      value = wxSVG_FECOMPONENTTRANSFER_TYPE_LINEAR;
+    else if (attrValue.Lower() == wxT("gamma"))
+      value = wxSVG_FECOMPONENTTRANSFER_TYPE_GAMMA;
+    m_type.SetBaseVal((unsigned char) value);
   }
+  else if (attrName == wxT("tableValues"))
+    m_tableValues.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("slope"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_slope.SetBaseVal(value);
+  }
+  else if (attrName == wxT("intercept"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_intercept.SetBaseVal(value);
+  }
+  else if (attrName == wxT("amplitude"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_amplitude.SetBaseVal(value);
+  }
+  else if (attrName == wxT("exponent"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_exponent.SetBaseVal(value);
+  }
+  else if (attrName == wxT("offset"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_offset.SetBaseVal(value);
+  }
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+      return false;
 
   return true;
 }      
 
-// wxSVGForeignObjectElement
-bool wxSVGForeignObjectElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGCursorElement
+bool wxSVGCursorElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("x"))
     m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
     m_y.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("width"))
-    m_width.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("height"))
-    m_height.GetBaseVal().SetValueAsString(attrValue);
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGCursorElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGDefinitionSrcElement
+bool wxSVGDefinitionSrcElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGDefinitionSrcElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGDefsElement
+bool wxSVGDefsElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGDefsElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGDescElement
+bool wxSVGDescElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGDescElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGElement
+bool wxSVGElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("id"))
+	m_id = attrValue;
+  else 
+      return false;
+
+  return true;
+}      
+
+// wxSVGEllipseElement
+bool wxSVGEllipseElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("cx"))
+    m_cx.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("cy"))
+    m_cy.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("rx"))
+    m_rx.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("ry"))
+    m_ry.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -206,120 +516,55 @@ bool wxSVGForeignObjectElement::SetAttribute(const wxString& attrName, const wxS
   else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGForeignObjectElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGEllipseElement::") + attrName);
     return false;
   }
 
   return true;
 }      
 
-// wxSVGFEMorphologyElement
-bool wxSVGFEMorphologyElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGExternalResourcesRequired
+bool wxSVGExternalResourcesRequired::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("externalResourcesRequired"))
+  {
+    long value;
+    if (attrValue.ToLong(&value))
+      m_externalResourcesRequired.SetBaseVal((bool) value);
+  }
+  else 
+      return false;
+
+  return true;
+}      
+
+// wxSVGFEBlendElement
+bool wxSVGFEBlendElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
-  else if (attrName == wxT("operator"))
+  else if (attrName == wxT("in2"))
+	m_in2.GetBaseVal() = attrValue;
+  else if (attrName == wxT("mode"))
   {
-    wxSVG_MORPHOLOGY_OPERATOR value = wxSVG_MORPHOLOGY_OPERATOR_UNKNOWN;
-    if (attrValue.Lower() == wxT("erode"))
-      value = wxSVG_MORPHOLOGY_OPERATOR_ERODE;
-    else if (attrValue.Lower() == wxT("dilate"))
-      value = wxSVG_MORPHOLOGY_OPERATOR_DILATE;
-    m_operator.SetBaseVal((unsigned char) value);
+    wxSVG_FEBLEND_MODE value = wxSVG_FEBLEND_MODE_UNKNOWN;
+    if (attrValue.Lower() == wxT("normal"))
+      value = wxSVG_FEBLEND_MODE_NORMAL;
+    else if (attrValue.Lower() == wxT("multiply"))
+      value = wxSVG_FEBLEND_MODE_MULTIPLY;
+    else if (attrValue.Lower() == wxT("screen"))
+      value = wxSVG_FEBLEND_MODE_SCREEN;
+    else if (attrValue.Lower() == wxT("darken"))
+      value = wxSVG_FEBLEND_MODE_DARKEN;
+    else if (attrValue.Lower() == wxT("lighten"))
+      value = wxSVG_FEBLEND_MODE_LIGHTEN;
+    m_mode.SetBaseVal((unsigned char) value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGFEMorphologyElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGMarkerElement
-bool wxSVGMarkerElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("refX"))
-    m_refX.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("refY"))
-    m_refY.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("markerUnits"))
-  {
-    wxSVG_MARKERUNITS value = wxSVG_MARKERUNITS_UNKNOWN;
-    if (attrValue.Lower() == wxT("userspaceonuse"))
-      value = wxSVG_MARKERUNITS_USERSPACEONUSE;
-    else if (attrValue.Lower() == wxT("strokewidth"))
-      value = wxSVG_MARKERUNITS_STROKEWIDTH;
-    m_markerUnits.SetBaseVal((unsigned char) value);
-  }
-  else if (attrName == wxT("markerWidth"))
-    m_markerWidth.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("markerHeight"))
-    m_markerHeight.GetBaseVal().SetValueAsString(attrValue);
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGMarkerElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFETileElement
-bool wxSVGFETileElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("in"))
-	m_in1.GetBaseVal() = attrValue;
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFETileElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGPathElement
-bool wxSVGPathElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("pathLength"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_pathLength.SetBaseVal(value);
-  }
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
-  else if (wxSVGAnimatedPathData::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGPathElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGTSpanElement
-bool wxSVGTSpanElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGTextPositioningElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGTSpanElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGFEBlendElement::") + attrName);
     return false;
   }
 
@@ -357,157 +602,16 @@ bool wxSVGFEColorMatrixElement::SetAttribute(const wxString& attrName, const wxS
   return true;
 }      
 
-// wxSVGFontFaceFormatElement
-bool wxSVGFontFaceFormatElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFontFaceFormatElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFEOffsetElement
-bool wxSVGFEOffsetElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGFEComponentTransferElement
+bool wxSVGFEComponentTransferElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
-  else if (attrName == wxT("dx"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_dx.SetBaseVal(value);
-  }
-  else if (attrName == wxT("dy"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_dy.SetBaseVal(value);
-  }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGFEOffsetElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGSymbolElement
-bool wxSVGSymbolElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGSymbolElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFEMergeNodeElement
-bool wxSVGFEMergeNodeElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("in"))
-	m_in1.GetBaseVal() = attrValue;
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFEMergeNodeElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGTBreakElement
-bool wxSVGTBreakElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGTBreakElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGTransformable
-bool wxSVGTransformable::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("transform"))
-    m_transform.GetBaseVal().SetValueAsString(attrValue);
-  else 
-      return false;
-
-  return true;
-}      
-
-// wxSVGStyleElement
-bool wxSVGStyleElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("xml:space"))
-	m_xmlspace = attrValue;
-  else if (attrName == wxT("type"))
-	m_type = attrValue;
-  else if (attrName == wxT("media"))
-	m_media = attrValue;
-  else if (attrName == wxT("title"))
-	m_title = attrValue;
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGStyleElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGPolygonElement
-bool wxSVGPolygonElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
-  else if (wxSVGAnimatedPoints::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGPolygonElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGCursorElement
-bool wxSVGCursorElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("x"))
-    m_x.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("y"))
-    m_y.GetBaseVal().SetValueAsString(attrValue);
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGCursorElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGFEComponentTransferElement::") + attrName);
     return false;
   }
 
@@ -573,139 +677,85 @@ bool wxSVGFECompositeElement::SetAttribute(const wxString& attrName, const wxStr
   return true;
 }      
 
-// wxSVGGradientElement
-bool wxSVGGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGFEConvolveMatrixElement
+bool wxSVGFEConvolveMatrixElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (attrName == wxT("gradientUnits"))
-  {
-    wxSVG_UNIT_TYPE value = wxSVG_UNIT_TYPE_UNKNOWN;
-    if (attrValue.Lower() == wxT("userspaceonuse"))
-        value = wxSVG_UNIT_TYPE_USERSPACEONUSE;
-    else if (attrValue.Lower() == wxT("objectboundingbox"))
-        value = wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX;
-    m_gradientUnits.SetBaseVal((unsigned char) value);
-  }
-  else if (attrName == wxT("gradientTransform"))
-    m_gradientTransform.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("spreadMethod"))
-  {
-    wxSVG_SPREADMETHOD value = wxSVG_SPREADMETHOD_UNKNOWN;
-    if (attrValue.Lower() == wxT("pad"))
-      value = wxSVG_SPREADMETHOD_PAD;
-    else if (attrValue.Lower() == wxT("reflect"))
-      value = wxSVG_SPREADMETHOD_REFLECT;
-    else if (attrValue.Lower() == wxT("repeat"))
-      value = wxSVG_SPREADMETHOD_REPEAT;
-    m_spreadMethod.SetBaseVal((unsigned char) value);
-  }
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else 
-      return false;
-
-  return true;
-}      
-
-// wxSVGLinearGradientElement
-bool wxSVGLinearGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("x1"))
-    m_x1.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("y1"))
-    m_y1.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("x2"))
-    m_x2.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("y2"))
-    m_y2.GetBaseVal().SetValueAsString(attrValue);
-  else if (wxSVGGradientElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGLinearGradientElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGTextElement
-bool wxSVGTextElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGTextPositioningElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGTextElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFEPointLightElement
-bool wxSVGFEPointLightElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("x"))
+  if (attrName == wxT("kernelMatrix"))
+    m_kernelMatrix.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("divisor"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_x.SetBaseVal(value);
+      m_divisor.SetBaseVal(value);
   }
-  else if (attrName == wxT("y"))
+  else if (attrName == wxT("bias"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_y.SetBaseVal(value);
+      m_bias.SetBaseVal(value);
   }
-  else if (attrName == wxT("z"))
+  else if (attrName == wxT("targetX"))
   {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_z.SetBaseVal(value);
+    long value;
+    if (attrValue.ToLong(&value))
+      m_targetX.SetBaseVal((long int) value);
+  }
+  else if (attrName == wxT("targetY"))
+  {
+    long value;
+    if (attrValue.ToLong(&value))
+      m_targetY.SetBaseVal((long int) value);
+  }
+  else if (attrName == wxT("edgeMode"))
+  {
+    wxSVG_EDGEMODE value = wxSVG_EDGEMODE_UNKNOWN;
+    if (attrValue.Lower() == wxT("duplicate"))
+      value = wxSVG_EDGEMODE_DUPLICATE;
+    else if (attrValue.Lower() == wxT("wrap"))
+      value = wxSVG_EDGEMODE_WRAP;
+    else if (attrValue.Lower() == wxT("none"))
+      value = wxSVG_EDGEMODE_NONE;
+    m_edgeMode.SetBaseVal((unsigned char) value);
+  }
+  else if (attrName == wxT("preserveAlpha"))
+  {
+    long value;
+    if (attrValue.ToLong(&value))
+      m_preserveAlpha.SetBaseVal((bool) value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGFEPointLightElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGFEConvolveMatrixElement::") + attrName);
     return false;
   }
 
   return true;
 }      
 
-// wxSVGHKernElement
-bool wxSVGHKernElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGFEDiffuseLightingElement
+bool wxSVGFEDiffuseLightingElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGHKernElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGStopElement
-bool wxSVGStopElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("offset"))
+  if (attrName == wxT("in"))
+	m_in1.GetBaseVal() = attrValue;
+  else if (attrName == wxT("surfaceScale"))
   {
     double value;
-    if (attrValue.Last() == wxT('%') && attrValue.Left(attrValue.Length()-1).ToDouble(&value))
-    {
-      value = value/100;
-      m_offset.SetBaseVal(value);
-    }
-    else if (attrValue.ToDouble(&value))
-      m_offset.SetBaseVal(value);
+    if (attrValue.ToDouble(&value))
+      m_surfaceScale.SetBaseVal(value);
+  }
+  else if (attrName == wxT("diffuseConstant"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_diffuseConstant.SetBaseVal(value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGStopElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGFEDiffuseLightingElement::") + attrName);
     return false;
   }
 
@@ -762,580 +812,6 @@ bool wxSVGFEDisplacementMapElement::SetAttribute(const wxString& attrName, const
   return true;
 }      
 
-// wxSVGLineElement
-bool wxSVGLineElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("x1"))
-    m_x1.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("y1"))
-    m_y1.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("x2"))
-    m_x2.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("y2"))
-    m_y2.GetBaseVal().SetValueAsString(attrValue);
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGLineElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFontFaceNameElement
-bool wxSVGFontFaceNameElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFontFaceNameElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGPatternElement
-bool wxSVGPatternElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("patternUnits"))
-  {
-    long value;
-    if (attrValue.ToLong(&value))
-      m_patternUnits.SetBaseVal((unsigned char) value);
-  }
-  else if (attrName == wxT("patternContentUnits"))
-  {
-    long value;
-    if (attrValue.ToLong(&value))
-      m_patternContentUnits.SetBaseVal((unsigned char) value);
-  }
-  else if (attrName == wxT("patternTransform"))
-    m_patternTransform.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("x"))
-    m_x.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("y"))
-    m_y.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("width"))
-    m_width.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("height"))
-    m_height.GetBaseVal().SetValueAsString(attrValue);
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGPatternElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGExternalResourcesRequired
-bool wxSVGExternalResourcesRequired::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("externalResourcesRequired"))
-  {
-    long value;
-    if (attrValue.ToLong(&value))
-      m_externalResourcesRequired.SetBaseVal((bool) value);
-  }
-  else 
-      return false;
-
-  return true;
-}      
-
-// wxSVGScriptElement
-bool wxSVGScriptElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("type"))
-	m_type = attrValue;
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGScriptElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGStylable
-bool wxSVGStylable::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("class"))
-	m_className.GetBaseVal() = attrValue;
-  else if (attrName == wxT("style"))
-    m_style.SetCSSText(attrValue);
-  else if (SetCustomAttribute(attrName, attrValue));
-  else
-      return false;
-
-  return true;
-}      
-
-// wxSVGFitToViewBox
-bool wxSVGFitToViewBox::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("viewBox"))
-    m_viewBox.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("preserveAspectRatio"))
-    m_preserveAspectRatio.GetBaseVal().SetValueAsString(attrValue);
-  else 
-      return false;
-
-  return true;
-}      
-
-// wxSVGTests
-bool wxSVGTests::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("requiredFeatures"))
-    m_requiredFeatures.SetValueAsString(attrValue);
-  else if (attrName == wxT("requiredExtensions"))
-    m_requiredExtensions.SetValueAsString(attrValue);
-  else if (attrName == wxT("systemLanguage"))
-    m_systemLanguage.SetValueAsString(attrValue);
-  else 
-      return false;
-
-  return true;
-}      
-
-// wxSVGSVGElement
-bool wxSVGSVGElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("x"))
-    m_x.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("y"))
-    m_y.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("width"))
-    m_width.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("height"))
-    m_height.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("contentScriptType"))
-	m_contentScriptType = attrValue;
-  else if (attrName == wxT("contentStyleType"))
-	m_contentStyleType = attrValue;
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
-  else if (wxSVGZoomAndPan::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGSVGElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGViewSpec
-bool wxSVGViewSpec::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGZoomAndPan::SetAttribute(attrName, attrValue));
-  else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
-  else 
-      return false;
-
-  return true;
-}      
-
-// wxSVGVKernElement
-bool wxSVGVKernElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGVKernElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGMetadataElement
-bool wxSVGMetadataElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGMetadataElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGAElement
-bool wxSVGAElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("target"))
-	m_target.GetBaseVal() = attrValue;
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGAElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGAltGlyphElement
-bool wxSVGAltGlyphElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("glyphRef"))
-	m_glyphRef = attrValue;
-  else if (attrName == wxT("format"))
-	m_format = attrValue;
-  else if (wxSVGTextPositioningElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGAltGlyphElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGURIReference
-bool wxSVGURIReference::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("xlink:href"))
-	m_href.GetBaseVal() = attrValue;
-  else 
-      return false;
-
-  return true;
-}      
-
-// wxSVGAnimateTransformElement
-bool wxSVGAnimateTransformElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("type"))
-  {
-    wxSVG_ANIMATETRANSFORM value = wxSVG_ANIMATETRANSFORM_TRANSLATE;
-    if (attrValue.Lower() == wxT("scale"))
-      value = wxSVG_ANIMATETRANSFORM_SCALE;
-    else if (attrValue.Lower() == wxT("rotate"))
-      value = wxSVG_ANIMATETRANSFORM_ROTATE;
-    else if (attrValue.Lower() == wxT("skewx"))
-      value = wxSVG_ANIMATETRANSFORM_SKEWX;
-    else if (attrValue.Lower() == wxT("skewy"))
-      value = wxSVG_ANIMATETRANSFORM_SKEWY;
-    m_type = value;
-  }
-  else if (wxSVGAnimationElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGAnimateTransformElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFEComponentTransferElement
-bool wxSVGFEComponentTransferElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("in"))
-	m_in1.GetBaseVal() = attrValue;
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFEComponentTransferElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFEBlendElement
-bool wxSVGFEBlendElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("in"))
-	m_in1.GetBaseVal() = attrValue;
-  else if (attrName == wxT("in2"))
-	m_in2.GetBaseVal() = attrValue;
-  else if (attrName == wxT("mode"))
-  {
-    wxSVG_FEBLEND_MODE value = wxSVG_FEBLEND_MODE_UNKNOWN;
-    if (attrValue.Lower() == wxT("normal"))
-      value = wxSVG_FEBLEND_MODE_NORMAL;
-    else if (attrValue.Lower() == wxT("multiply"))
-      value = wxSVG_FEBLEND_MODE_MULTIPLY;
-    else if (attrValue.Lower() == wxT("screen"))
-      value = wxSVG_FEBLEND_MODE_SCREEN;
-    else if (attrValue.Lower() == wxT("darken"))
-      value = wxSVG_FEBLEND_MODE_DARKEN;
-    else if (attrValue.Lower() == wxT("lighten"))
-      value = wxSVG_FEBLEND_MODE_LIGHTEN;
-    m_mode.SetBaseVal((unsigned char) value);
-  }
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFEBlendElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFEMergeElement
-bool wxSVGFEMergeElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFEMergeElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGTextPositioningElement
-bool wxSVGTextPositioningElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("x"))
-    m_x.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("y"))
-    m_y.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("dx"))
-    m_dx.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("dy"))
-    m_dy.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("rotate"))
-    m_rotate.GetBaseVal().SetValueAsString(attrValue);
-  else if (wxSVGTextContentElement::SetAttribute(attrName, attrValue));
-  else 
-      return false;
-
-  return true;
-}      
-
-// wxSVGEllipseElement
-bool wxSVGEllipseElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("cx"))
-    m_cx.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("cy"))
-    m_cy.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("rx"))
-    m_rx.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("ry"))
-    m_ry.GetBaseVal().SetValueAsString(attrValue);
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGEllipseElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFilterElement
-bool wxSVGFilterElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("filterUnits"))
-  {
-    long value;
-    if (attrValue.ToLong(&value))
-      m_filterUnits.SetBaseVal((unsigned char) value);
-  }
-  else if (attrName == wxT("primitiveUnits"))
-  {
-    long value;
-    if (attrValue.ToLong(&value))
-      m_primitiveUnits.SetBaseVal((unsigned char) value);
-  }
-  else if (attrName == wxT("x"))
-    m_x.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("y"))
-    m_y.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("width"))
-    m_width.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("height"))
-    m_height.GetBaseVal().SetValueAsString(attrValue);
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFilterElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGClipPathElement
-bool wxSVGClipPathElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("clipPathUnits"))
-  {
-    long value;
-    if (attrValue.ToLong(&value))
-      m_clipPathUnits.SetBaseVal((unsigned char) value);
-  }
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGClipPathElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGSwitchElement
-bool wxSVGSwitchElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGSwitchElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGMaskElement
-bool wxSVGMaskElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("maskUnits"))
-  {
-    long value;
-    if (attrValue.ToLong(&value))
-      m_maskUnits.SetBaseVal((unsigned char) value);
-  }
-  else if (attrName == wxT("maskContentUnits"))
-  {
-    long value;
-    if (attrValue.ToLong(&value))
-      m_maskContentUnits.SetBaseVal((unsigned char) value);
-  }
-  else if (attrName == wxT("x"))
-    m_x.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("y"))
-    m_y.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("width"))
-    m_width.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("height"))
-    m_height.GetBaseVal().SetValueAsString(attrValue);
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGMaskElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGViewElement
-bool wxSVGViewElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("viewTarget"))
-    m_viewTarget.SetValueAsString(attrValue);
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
-  else if (wxSVGZoomAndPan::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGViewElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGDefinitionSrcElement
-bool wxSVGDefinitionSrcElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGDefinitionSrcElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFilterPrimitiveStandardAttributes
-bool wxSVGFilterPrimitiveStandardAttributes::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("x"))
-    m_x.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("y"))
-    m_y.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("width"))
-    m_width.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("height"))
-    m_height.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("result"))
-	m_result.GetBaseVal() = attrValue;
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else 
-      return false;
-
-  return true;
-}      
-
 // wxSVGFEDistantLightElement
 bool wxSVGFEDistantLightElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
@@ -1361,8 +837,223 @@ bool wxSVGFEDistantLightElement::SetAttribute(const wxString& attrName, const wx
   return true;
 }      
 
-// wxSVGFEDiffuseLightingElement
-bool wxSVGFEDiffuseLightingElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGFEFloodElement
+bool wxSVGFEFloodElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("in"))
+	m_in1.GetBaseVal() = attrValue;
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFEFloodElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFEFuncAElement
+bool wxSVGFEFuncAElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGComponentTransferFunctionElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFEFuncAElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFEFuncBElement
+bool wxSVGFEFuncBElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGComponentTransferFunctionElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFEFuncBElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFEFuncGElement
+bool wxSVGFEFuncGElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGComponentTransferFunctionElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFEFuncGElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFEFuncRElement
+bool wxSVGFEFuncRElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGComponentTransferFunctionElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFEFuncRElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFEGaussianBlurElement
+bool wxSVGFEGaussianBlurElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("in"))
+	m_in1.GetBaseVal() = attrValue;
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
+  else if (SetCustomAttribute(attrName, attrValue));
+  else
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFEGaussianBlurElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFEImageElement
+bool wxSVGFEImageElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFEImageElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFEMergeElement
+bool wxSVGFEMergeElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFEMergeElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFEMergeNodeElement
+bool wxSVGFEMergeNodeElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("in"))
+	m_in1.GetBaseVal() = attrValue;
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFEMergeNodeElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFEMorphologyElement
+bool wxSVGFEMorphologyElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("in"))
+	m_in1.GetBaseVal() = attrValue;
+  else if (attrName == wxT("operator"))
+  {
+    wxSVG_MORPHOLOGY_OPERATOR value = wxSVG_MORPHOLOGY_OPERATOR_UNKNOWN;
+    if (attrValue.Lower() == wxT("erode"))
+      value = wxSVG_MORPHOLOGY_OPERATOR_ERODE;
+    else if (attrValue.Lower() == wxT("dilate"))
+      value = wxSVG_MORPHOLOGY_OPERATOR_DILATE;
+    m_operator.SetBaseVal((unsigned char) value);
+  }
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFEMorphologyElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFEOffsetElement
+bool wxSVGFEOffsetElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("in"))
+	m_in1.GetBaseVal() = attrValue;
+  else if (attrName == wxT("dx"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_dx.SetBaseVal(value);
+  }
+  else if (attrName == wxT("dy"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_dy.SetBaseVal(value);
+  }
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFEOffsetElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFEPointLightElement
+bool wxSVGFEPointLightElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("x"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_x.SetBaseVal(value);
+  }
+  else if (attrName == wxT("y"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_y.SetBaseVal(value);
+  }
+  else if (attrName == wxT("z"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_z.SetBaseVal(value);
+  }
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFEPointLightElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFESpecularLightingElement
+bool wxSVGFESpecularLightingElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
@@ -1372,156 +1063,23 @@ bool wxSVGFEDiffuseLightingElement::SetAttribute(const wxString& attrName, const
     if (attrValue.ToDouble(&value))
       m_surfaceScale.SetBaseVal(value);
   }
-  else if (attrName == wxT("diffuseConstant"))
+  else if (attrName == wxT("specularConstant"))
   {
     double value;
     if (attrValue.ToDouble(&value))
-      m_diffuseConstant.SetBaseVal(value);
+      m_specularConstant.SetBaseVal(value);
+  }
+  else if (attrName == wxT("specularExponent"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_specularExponent.SetBaseVal(value);
   }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGFEDiffuseLightingElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGAnimatedPathData
-bool wxSVGAnimatedPathData::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("d"))
-    m_pathSegList.SetValueAsString(attrValue);
-  else 
-      return false;
-
-  return true;
-}      
-
-// wxSVGFontFaceSrcElement
-bool wxSVGFontFaceSrcElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFontFaceSrcElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGZoomAndPan
-bool wxSVGZoomAndPan::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("zoomAndPan"))
-  {
-    wxSVG_ZOOMANDPAN value = wxSVG_ZOOMANDPAN_UNKNOWN;
-    if (attrValue.Lower() == wxT("disable"))
-      value = wxSVG_ZOOMANDPAN_DISABLE;
-    else if (attrValue.Lower() == wxT("magnify"))
-      value = wxSVG_ZOOMANDPAN_MAGNIFY;
-    m_zoomAndPan = (wxSVG_ZOOMANDPAN) value;
-  }
-  else 
-      return false;
-
-  return true;
-}      
-
-// wxSVGDescElement
-bool wxSVGDescElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGDescElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGSetElement
-bool wxSVGSetElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGAnimationElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGSetElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGAnimateElement
-bool wxSVGAnimateElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGAnimationElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGAnimateElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGLangSpace
-bool wxSVGLangSpace::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("xml:lang"))
-	m_xmllang = attrValue;
-  else if (attrName == wxT("xml:space"))
-	m_xmlspace = attrValue;
-  else 
-      return false;
-
-  return true;
-}      
-
-// wxSVGGlyphRefElement
-bool wxSVGGlyphRefElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("glyphRef"))
-	m_glyphRef = attrValue;
-  else if (attrName == wxT("format"))
-	m_format = attrValue;
-  else if (attrName == wxT("x"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_x = value;
-  }
-  else if (attrName == wxT("y"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_y = value;
-  }
-  else if (attrName == wxT("dx"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_dx = value;
-  }
-  else if (attrName == wxT("dy"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_dy = value;
-  }
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGGlyphRefElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGFESpecularLightingElement::") + attrName);
     return false;
   }
 
@@ -1589,43 +1147,16 @@ bool wxSVGFESpotLightElement::SetAttribute(const wxString& attrName, const wxStr
   return true;
 }      
 
-// wxSVGAnimationElement
-bool wxSVGAnimationElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGFETileElement
+bool wxSVGFETileElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (attrName == wxT("attributeName"))
-	m_attributeName = attrValue;
-  else if (attrName == wxT("begin"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_begin = value;
-  }
-  else if (attrName == wxT("dur"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_dur = value;
-  }
-  else if (attrName == wxT("from"))
-    m_from.SetValueAsString(attrValue);
-  else if (attrName == wxT("to"))
-    m_to.SetValueAsString(attrValue);
+  if (attrName == wxT("in"))
+	m_in1.GetBaseVal() = attrValue;
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else 
-      return false;
-
-  return true;
-}      
-
-// wxSVGAltGlyphDefElement
-bool wxSVGAltGlyphDefElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGAltGlyphDefElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGFETileElement::") + attrName);
     return false;
   }
 
@@ -1676,59 +1207,390 @@ bool wxSVGFETurbulenceElement::SetAttribute(const wxString& attrName, const wxSt
   return true;
 }      
 
-// wxSVGComponentTransferFunctionElement
-bool wxSVGComponentTransferFunctionElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGFilterElement
+bool wxSVGFilterElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (attrName == wxT("type"))
+  if (attrName == wxT("filterUnits"))
   {
-    wxSVG_FECOMPONENTTRANSFER_TYPE value = wxSVG_FECOMPONENTTRANSFER_TYPE_UNKNOWN;
-    if (attrValue.Lower() == wxT("identity"))
-      value = wxSVG_FECOMPONENTTRANSFER_TYPE_IDENTITY;
-    else if (attrValue.Lower() == wxT("table"))
-      value = wxSVG_FECOMPONENTTRANSFER_TYPE_TABLE;
-    else if (attrValue.Lower() == wxT("discrete"))
-      value = wxSVG_FECOMPONENTTRANSFER_TYPE_DISCRETE;
-    else if (attrValue.Lower() == wxT("linear"))
-      value = wxSVG_FECOMPONENTTRANSFER_TYPE_LINEAR;
-    else if (attrValue.Lower() == wxT("gamma"))
-      value = wxSVG_FECOMPONENTTRANSFER_TYPE_GAMMA;
-    m_type.SetBaseVal((unsigned char) value);
+    long value;
+    if (attrValue.ToLong(&value))
+      m_filterUnits.SetBaseVal((unsigned char) value);
   }
-  else if (attrName == wxT("tableValues"))
-    m_tableValues.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("slope"))
+  else if (attrName == wxT("primitiveUnits"))
   {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_slope.SetBaseVal(value);
+    long value;
+    if (attrValue.ToLong(&value))
+      m_primitiveUnits.SetBaseVal((unsigned char) value);
   }
-  else if (attrName == wxT("intercept"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_intercept.SetBaseVal(value);
-  }
-  else if (attrName == wxT("amplitude"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_amplitude.SetBaseVal(value);
-  }
-  else if (attrName == wxT("exponent"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_exponent.SetBaseVal(value);
-  }
-  else if (attrName == wxT("offset"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_offset.SetBaseVal(value);
-  }
+  else if (attrName == wxT("x"))
+    m_x.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y"))
+    m_y.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("width"))
+    m_width.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("height"))
+    m_height.GetBaseVal().SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFilterElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFilterPrimitiveStandardAttributes
+bool wxSVGFilterPrimitiveStandardAttributes::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("x"))
+    m_x.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y"))
+    m_y.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("width"))
+    m_width.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("height"))
+    m_height.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("result"))
+	m_result.GetBaseVal() = attrValue;
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
   else 
       return false;
+
+  return true;
+}      
+
+// wxSVGFitToViewBox
+bool wxSVGFitToViewBox::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("viewBox"))
+    m_viewBox.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("preserveAspectRatio"))
+    m_preserveAspectRatio.GetBaseVal().SetValueAsString(attrValue);
+  else 
+      return false;
+
+  return true;
+}      
+
+// wxSVGFontElement
+bool wxSVGFontElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFontElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFontFaceElement
+bool wxSVGFontFaceElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFontFaceElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFontFaceFormatElement
+bool wxSVGFontFaceFormatElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFontFaceFormatElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFontFaceNameElement
+bool wxSVGFontFaceNameElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFontFaceNameElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFontFaceSrcElement
+bool wxSVGFontFaceSrcElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFontFaceSrcElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGFontFaceUriElement
+bool wxSVGFontFaceUriElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGFontFaceUriElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGForeignObjectElement
+bool wxSVGForeignObjectElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("x"))
+    m_x.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y"))
+    m_y.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("width"))
+    m_width.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("height"))
+    m_height.GetBaseVal().SetValueAsString(attrValue);
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGForeignObjectElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGGElement
+bool wxSVGGElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGGElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGGlyphElement
+bool wxSVGGlyphElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGGlyphElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGGlyphRefElement
+bool wxSVGGlyphRefElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("glyphRef"))
+	m_glyphRef = attrValue;
+  else if (attrName == wxT("format"))
+	m_format = attrValue;
+  else if (attrName == wxT("x"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_x = value;
+  }
+  else if (attrName == wxT("y"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_y = value;
+  }
+  else if (attrName == wxT("dx"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_dx = value;
+  }
+  else if (attrName == wxT("dy"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_dy = value;
+  }
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGGlyphRefElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGGradientElement
+bool wxSVGGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("gradientUnits"))
+  {
+    wxSVG_UNIT_TYPE value = wxSVG_UNIT_TYPE_UNKNOWN;
+    if (attrValue.Lower() == wxT("userspaceonuse"))
+        value = wxSVG_UNIT_TYPE_USERSPACEONUSE;
+    else if (attrValue.Lower() == wxT("objectboundingbox"))
+        value = wxSVG_UNIT_TYPE_OBJECTBOUNDINGBOX;
+    m_gradientUnits.SetBaseVal((unsigned char) value);
+  }
+  else if (attrName == wxT("gradientTransform"))
+    m_gradientTransform.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("spreadMethod"))
+  {
+    wxSVG_SPREADMETHOD value = wxSVG_SPREADMETHOD_UNKNOWN;
+    if (attrValue.Lower() == wxT("pad"))
+      value = wxSVG_SPREADMETHOD_PAD;
+    else if (attrValue.Lower() == wxT("reflect"))
+      value = wxSVG_SPREADMETHOD_REFLECT;
+    else if (attrValue.Lower() == wxT("repeat"))
+      value = wxSVG_SPREADMETHOD_REPEAT;
+    m_spreadMethod.SetBaseVal((unsigned char) value);
+  }
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else 
+      return false;
+
+  return true;
+}      
+
+// wxSVGHKernElement
+bool wxSVGHKernElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGHKernElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGImageElement
+bool wxSVGImageElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("x"))
+    m_x.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y"))
+    m_y.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("width"))
+    m_width.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("height"))
+    m_height.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("preserveAspectRatio"))
+    m_preserveAspectRatio.GetBaseVal().SetValueAsString(attrValue);
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGImageElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGLangSpace
+bool wxSVGLangSpace::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("xml:lang"))
+	m_xmllang = attrValue;
+  else if (attrName == wxT("xml:space"))
+	m_xmlspace = attrValue;
+  else 
+      return false;
+
+  return true;
+}      
+
+// wxSVGLineElement
+bool wxSVGLineElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("x1"))
+    m_x1.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y1"))
+    m_y1.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("x2"))
+    m_x2.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y2"))
+    m_y2.GetBaseVal().SetValueAsString(attrValue);
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGLineElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGLinearGradientElement
+bool wxSVGLinearGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("x1"))
+    m_x1.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y1"))
+    m_y1.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("x2"))
+    m_x2.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y2"))
+    m_y2.GetBaseVal().SetValueAsString(attrValue);
+  else if (wxSVGGradientElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGLinearGradientElement::") + attrName);
+    return false;
+  }
 
   return true;
 }      
@@ -1748,8 +1610,172 @@ bool wxSVGMPathElement::SetAttribute(const wxString& attrName, const wxString& a
   return true;
 }      
 
-// wxSVGDefsElement
-bool wxSVGDefsElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGMarkerElement
+bool wxSVGMarkerElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("refX"))
+    m_refX.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("refY"))
+    m_refY.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("markerUnits"))
+  {
+    wxSVG_MARKERUNITS value = wxSVG_MARKERUNITS_UNKNOWN;
+    if (attrValue.Lower() == wxT("userspaceonuse"))
+      value = wxSVG_MARKERUNITS_USERSPACEONUSE;
+    else if (attrValue.Lower() == wxT("strokewidth"))
+      value = wxSVG_MARKERUNITS_STROKEWIDTH;
+    m_markerUnits.SetBaseVal((unsigned char) value);
+  }
+  else if (attrName == wxT("markerWidth"))
+    m_markerWidth.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("markerHeight"))
+    m_markerHeight.GetBaseVal().SetValueAsString(attrValue);
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGMarkerElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGMaskElement
+bool wxSVGMaskElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("maskUnits"))
+  {
+    long value;
+    if (attrValue.ToLong(&value))
+      m_maskUnits.SetBaseVal((unsigned char) value);
+  }
+  else if (attrName == wxT("maskContentUnits"))
+  {
+    long value;
+    if (attrValue.ToLong(&value))
+      m_maskContentUnits.SetBaseVal((unsigned char) value);
+  }
+  else if (attrName == wxT("x"))
+    m_x.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y"))
+    m_y.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("width"))
+    m_width.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("height"))
+    m_height.GetBaseVal().SetValueAsString(attrValue);
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGMaskElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGMetadataElement
+bool wxSVGMetadataElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGMetadataElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGMissingGlyphElement
+bool wxSVGMissingGlyphElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGMissingGlyphElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGPathElement
+bool wxSVGPathElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("pathLength"))
+  {
+    double value;
+    if (attrValue.ToDouble(&value))
+      m_pathLength.SetBaseVal(value);
+  }
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
+  else if (wxSVGAnimatedPathData::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGPathElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGPatternElement
+bool wxSVGPatternElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("patternUnits"))
+  {
+    long value;
+    if (attrValue.ToLong(&value))
+      m_patternUnits.SetBaseVal((unsigned char) value);
+  }
+  else if (attrName == wxT("patternContentUnits"))
+  {
+    long value;
+    if (attrValue.ToLong(&value))
+      m_patternContentUnits.SetBaseVal((unsigned char) value);
+  }
+  else if (attrName == wxT("patternTransform"))
+    m_patternTransform.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("x"))
+    m_x.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y"))
+    m_y.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("width"))
+    m_width.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("height"))
+    m_height.GetBaseVal().SetValueAsString(attrValue);
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGPatternElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGPolygonElement
+bool wxSVGPolygonElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
@@ -1757,9 +1783,52 @@ bool wxSVGDefsElement::SetAttribute(const wxString& attrName, const wxString& at
   else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
   else if (wxSVGStylable::SetAttribute(attrName, attrValue));
   else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
+  else if (wxSVGAnimatedPoints::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGDefsElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGPolygonElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGPolylineElement
+bool wxSVGPolylineElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
+  else if (wxSVGAnimatedPoints::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGPolylineElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGRadialGradientElement
+bool wxSVGRadialGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("cx"))
+    m_cx.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("cy"))
+    m_cy.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("r"))
+    m_r.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("fx"))
+    m_fx.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("fy"))
+    m_fy.GetBaseVal().SetValueAsString(attrValue);
+  else if (wxSVGGradientElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGRadialGradientElement::") + attrName);
     return false;
   }
 
@@ -1796,8 +1865,129 @@ bool wxSVGRectElement::SetAttribute(const wxString& attrName, const wxString& at
   return true;
 }      
 
-// wxSVGPolylineElement
-bool wxSVGPolylineElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGSVGElement
+bool wxSVGSVGElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("x"))
+    m_x.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y"))
+    m_y.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("width"))
+    m_width.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("height"))
+    m_height.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("contentScriptType"))
+	m_contentScriptType = attrValue;
+  else if (attrName == wxT("contentStyleType"))
+	m_contentStyleType = attrValue;
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
+  else if (wxSVGZoomAndPan::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGSVGElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGScriptElement
+bool wxSVGScriptElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("type"))
+	m_type = attrValue;
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGScriptElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGSetElement
+bool wxSVGSetElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGAnimationElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGSetElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGStopElement
+bool wxSVGStopElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("offset"))
+  {
+    double value;
+    if (attrValue.Last() == wxT('%') && attrValue.Left(attrValue.Length()-1).ToDouble(&value))
+    {
+      value = value/100;
+      m_offset.SetBaseVal(value);
+    }
+    else if (attrValue.ToDouble(&value))
+      m_offset.SetBaseVal(value);
+  }
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGStopElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGStylable
+bool wxSVGStylable::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("class"))
+	m_className.GetBaseVal() = attrValue;
+  else if (attrName == wxT("style"))
+    m_style.SetCSSText(attrValue);
+  else if (SetCustomAttribute(attrName, attrValue));
+  else
+      return false;
+
+  return true;
+}      
+
+// wxSVGStyleElement
+bool wxSVGStyleElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("xml:space"))
+	m_xmlspace = attrValue;
+  else if (attrName == wxT("type"))
+	m_type = attrValue;
+  else if (attrName == wxT("media"))
+	m_media = attrValue;
+  else if (attrName == wxT("title"))
+	m_title = attrValue;
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGStyleElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGSwitchElement
+bool wxSVGSwitchElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
@@ -1805,71 +1995,83 @@ bool wxSVGPolylineElement::SetAttribute(const wxString& attrName, const wxString
   else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
   else if (wxSVGStylable::SetAttribute(attrName, attrValue));
   else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
-  else if (wxSVGAnimatedPoints::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGPolylineElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGSwitchElement::") + attrName);
     return false;
   }
 
   return true;
 }      
 
-// wxSVGColorProfileElement
-bool wxSVGColorProfileElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGSymbolElement
+bool wxSVGSymbolElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (attrName == wxT("local"))
-	m_local = attrValue;
-  else if (attrName == wxT("name"))
-	m_name = attrValue;
-  else if (attrName == wxT("rendering-intent"))
-  {
-    long value;
-    if (attrValue.ToLong(&value))
-      m_renderingIntent = (wxRENDERING_INTENT) value;
-  }
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGColorProfileElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGAnimatedPoints
-bool wxSVGAnimatedPoints::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("points"))
-    m_points.SetValueAsString(attrValue);
-  else 
-      return false;
-
-  return true;
-}      
-
-// wxSVGCircleElement
-bool wxSVGCircleElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("cx"))
-    m_cx.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("cy"))
-    m_cy.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("r"))
-    m_r.GetBaseVal().SetValueAsString(attrValue);
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
   else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
   else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
+  else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGCircleElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGSymbolElement::") + attrName);
     return false;
   }
+
+  return true;
+}      
+
+// wxSVGTBreakElement
+bool wxSVGTBreakElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGTBreakElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGTRefElement
+bool wxSVGTRefElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGTextPositioningElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGTRefElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGTSpanElement
+bool wxSVGTSpanElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGTextPositioningElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGTSpanElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGTests
+bool wxSVGTests::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("requiredFeatures"))
+    m_requiredFeatures.SetValueAsString(attrValue);
+  else if (attrName == wxT("requiredExtensions"))
+    m_requiredExtensions.SetValueAsString(attrValue);
+  else if (attrName == wxT("systemLanguage"))
+    m_systemLanguage.SetValueAsString(attrValue);
+  else 
+      return false;
 
   return true;
 }      
@@ -1899,87 +2101,14 @@ bool wxSVGTextContentElement::SetAttribute(const wxString& attrName, const wxStr
   return true;
 }      
 
-// wxSVGUseElement
-bool wxSVGUseElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGTextElement
+bool wxSVGTextElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (attrName == wxT("x"))
-    m_x.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("y"))
-    m_y.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("width"))
-    m_width.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("height"))
-    m_height.GetBaseVal().SetValueAsString(attrValue);
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  if (wxSVGTextPositioningElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGUseElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGMissingGlyphElement
-bool wxSVGMissingGlyphElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGMissingGlyphElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGImageElement
-bool wxSVGImageElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("x"))
-    m_x.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("y"))
-    m_y.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("width"))
-    m_width.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("height"))
-    m_height.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("preserveAspectRatio"))
-    m_preserveAspectRatio.GetBaseVal().SetValueAsString(attrValue);
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGImageElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFEImageElement
-bool wxSVGFEImageElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFEImageElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGTextElement::") + attrName);
     return false;
   }
 
@@ -2020,31 +2149,97 @@ bool wxSVGTextPathElement::SetAttribute(const wxString& attrName, const wxString
   return true;
 }      
 
-// wxSVGFEFloodElement
-bool wxSVGFEFloodElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGTextPositioningElement
+bool wxSVGTextPositioningElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (attrName == wxT("in"))
-	m_in1.GetBaseVal() = attrValue;
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
+  if (attrName == wxT("x"))
+    m_x.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y"))
+    m_y.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("dx"))
+    m_dx.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("dy"))
+    m_dy.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("rotate"))
+    m_rotate.GetBaseVal().SetValueAsString(attrValue);
+  else if (wxSVGTextContentElement::SetAttribute(attrName, attrValue));
+  else 
+      return false;
+
+  return true;
+}      
+
+// wxSVGTitleElement
+bool wxSVGTitleElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
+  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGFEFloodElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGTitleElement::") + attrName);
     return false;
   }
 
   return true;
 }      
 
-// wxSVGFontElement
-bool wxSVGFontElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGTransformable
+bool wxSVGTransformable::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  if (attrName == wxT("transform"))
+    m_transform.GetBaseVal().SetValueAsString(attrValue);
+  else 
+      return false;
+
+  return true;
+}      
+
+// wxSVGURIReference
+bool wxSVGURIReference::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("xlink:href"))
+	m_href.GetBaseVal() = attrValue;
+  else 
+      return false;
+
+  return true;
+}      
+
+// wxSVGUseElement
+bool wxSVGUseElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (attrName == wxT("x"))
+    m_x.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("y"))
+    m_y.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("width"))
+    m_width.GetBaseVal().SetValueAsString(attrValue);
+  else if (attrName == wxT("height"))
+    m_height.GetBaseVal().SetValueAsString(attrValue);
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
+  else if (wxSVGTests::SetAttribute(attrName, attrValue));
+  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
   else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
   else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGFontElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGUseElement::") + attrName);
+    return false;
+  }
+
+  return true;
+}      
+
+// wxSVGVKernElement
+bool wxSVGVKernElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+{
+  if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else 
+  {
+    //wxLogDebug(wxT("unknown attribute SVGVKernElement::") + attrName);
     return false;
   }
 
@@ -2102,244 +2297,49 @@ bool wxSVGVideoElement::SetAttribute(const wxString& attrName, const wxString& a
   return true;
 }      
 
-// wxSVGRadialGradientElement
-bool wxSVGRadialGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGViewElement
+bool wxSVGViewElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (attrName == wxT("cx"))
-    m_cx.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("cy"))
-    m_cy.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("r"))
-    m_r.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("fx"))
-    m_fx.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("fy"))
-    m_fy.GetBaseVal().SetValueAsString(attrValue);
-  else if (wxSVGGradientElement::SetAttribute(attrName, attrValue));
+  if (attrName == wxT("viewTarget"))
+    m_viewTarget.SetValueAsString(attrValue);
+  else if (wxSVGElement::SetAttribute(attrName, attrValue));
+  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
+  else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
+  else if (wxSVGZoomAndPan::SetAttribute(attrName, attrValue));
   else 
   {
-    //wxLogDebug(wxT("unknown attribute SVGRadialGradientElement::") + attrName);
+    //wxLogDebug(wxT("unknown attribute SVGViewElement::") + attrName);
     return false;
   }
 
   return true;
 }      
 
-// wxSVGElement
-bool wxSVGElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGViewSpec
+bool wxSVGViewSpec::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (attrName == wxT("id"))
-	m_id = attrValue;
+  if (wxSVGZoomAndPan::SetAttribute(attrName, attrValue));
+  else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
   else 
       return false;
 
   return true;
 }      
 
-// wxSVGTitleElement
-bool wxSVGTitleElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
+// wxSVGZoomAndPan
+bool wxSVGZoomAndPan::SetAttribute(const wxString& attrName, const wxString& attrValue)
 {
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
+  if (attrName == wxT("zoomAndPan"))
+  {
+    wxSVG_ZOOMANDPAN value = wxSVG_ZOOMANDPAN_UNKNOWN;
+    if (attrValue.Lower() == wxT("disable"))
+      value = wxSVG_ZOOMANDPAN_DISABLE;
+    else if (attrValue.Lower() == wxT("magnify"))
+      value = wxSVG_ZOOMANDPAN_MAGNIFY;
+    m_zoomAndPan = (wxSVG_ZOOMANDPAN) value;
+  }
   else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGTitleElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFEConvolveMatrixElement
-bool wxSVGFEConvolveMatrixElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("kernelMatrix"))
-    m_kernelMatrix.GetBaseVal().SetValueAsString(attrValue);
-  else if (attrName == wxT("divisor"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_divisor.SetBaseVal(value);
-  }
-  else if (attrName == wxT("bias"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_bias.SetBaseVal(value);
-  }
-  else if (attrName == wxT("targetX"))
-  {
-    long value;
-    if (attrValue.ToLong(&value))
-      m_targetX.SetBaseVal((long int) value);
-  }
-  else if (attrName == wxT("targetY"))
-  {
-    long value;
-    if (attrValue.ToLong(&value))
-      m_targetY.SetBaseVal((long int) value);
-  }
-  else if (attrName == wxT("edgeMode"))
-  {
-    wxSVG_EDGEMODE value = wxSVG_EDGEMODE_UNKNOWN;
-    if (attrValue.Lower() == wxT("duplicate"))
-      value = wxSVG_EDGEMODE_DUPLICATE;
-    else if (attrValue.Lower() == wxT("wrap"))
-      value = wxSVG_EDGEMODE_WRAP;
-    else if (attrValue.Lower() == wxT("none"))
-      value = wxSVG_EDGEMODE_NONE;
-    m_edgeMode.SetBaseVal((unsigned char) value);
-  }
-  else if (attrName == wxT("preserveAlpha"))
-  {
-    long value;
-    if (attrValue.ToLong(&value))
-      m_preserveAlpha.SetBaseVal((bool) value);
-  }
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFEConvolveMatrixElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFEGaussianBlurElement
-bool wxSVGFEGaussianBlurElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("in"))
-	m_in1.GetBaseVal() = attrValue;
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
-  else if (SetCustomAttribute(attrName, attrValue));
-  else
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFEGaussianBlurElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGGlyphElement
-bool wxSVGGlyphElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGGlyphElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGGElement
-bool wxSVGGElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGTests::SetAttribute(attrName, attrValue));
-  else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
-  else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else if (wxSVGStylable::SetAttribute(attrName, attrValue));
-  else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGGElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGAnimateColorElement
-bool wxSVGAnimateColorElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGAnimationElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGAnimateColorElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFEFuncGElement
-bool wxSVGFEFuncGElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGComponentTransferFunctionElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFEFuncGElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGAltGlyphItemElement
-bool wxSVGAltGlyphItemElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGAltGlyphItemElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGFESpecularLightingElement
-bool wxSVGFESpecularLightingElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (attrName == wxT("in"))
-	m_in1.GetBaseVal() = attrValue;
-  else if (attrName == wxT("surfaceScale"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_surfaceScale.SetBaseVal(value);
-  }
-  else if (attrName == wxT("specularConstant"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_specularConstant.SetBaseVal(value);
-  }
-  else if (attrName == wxT("specularExponent"))
-  {
-    double value;
-    if (attrValue.ToDouble(&value))
-      m_specularExponent.SetBaseVal(value);
-  }
-  else if (wxSVGElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGFESpecularLightingElement::") + attrName);
-    return false;
-  }
-
-  return true;
-}      
-
-// wxSVGTRefElement
-bool wxSVGTRefElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
-  if (wxSVGTextPositioningElement::SetAttribute(attrName, attrValue));
-  else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
-  else 
-  {
-    //wxLogDebug(wxT("unknown attribute SVGTRefElement::") + attrName);
-    return false;
-  }
+      return false;
 
   return true;
 }      
