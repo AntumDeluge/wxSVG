@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.47 2013-10-15 19:25:50 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.48 2014-03-24 21:17:03 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -133,6 +133,12 @@ void ApplyAnimation(wxSVGElement* parent) {
 			switch (elem->GetDtd()) {
 				case wxSVG_ANIMATE_ELEMENT:
 					((wxSVGAnimateElement*) elem)->ApplyAnimation();
+					break;
+				case wxSVG_ANIMATEMOTION_ELEMENT:
+					((wxSVGAnimateMotionElement*) elem)->ApplyAnimation();
+					break;
+				case wxSVG_ANIMATETRANSFORM_ELEMENT:
+					((wxSVGAnimateTransformElement*) elem)->ApplyAnimation();
 					break;
 				default:
 					ApplyAnimation(elem);
