@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.38 2014-03-21 21:15:36 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.39 2014-03-24 21:13:44 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -81,6 +81,8 @@ inter.include_methods.append('    void SkewY(double angle);\n')
 inter.include_methods.append('    void UpdateMatrix(wxSVGMatrix& matrix) const;\n')
 inter.include_methods.append('    static wxSVGTransformable* GetSVGTransformable(wxSVGElement& element);\n')
 inter.include_methods.append('    static const wxSVGTransformable* GetSVGTransformable(const wxSVGElement& element);\n')
+inter.include_methods_protected.append('    inline wxSVGAnimatedTransformList& GetTransformList() { return m_transform; }\n')
+inter.include_methods_protected.append('    friend class wxSVGAnimateTransformElement;\n')
 
 # SVGFitToViewBox
 inter = interface()
@@ -343,7 +345,7 @@ for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
         inter.include_attributes.append('  public:\n')
         inter.include_attributes.append('    inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }\n')
         inter.include_attributes.append('    void SetCanvasItem(wxSVGCanvasItem* canvasItem);\n\n')
-        inter.include_attributes_init = [["canvasItem", True]]
+        inter.include_attributes_init = [["canvasItem", "NULL"]]
         inter.include_fwd_decls = ["SVGCanvasItem"]
     inter.include_methods.append('    wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
     inter.include_methods.append('    wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
@@ -402,6 +404,11 @@ inter.include_methods.append('''
 # SVGAnimateTransformElement
 inter = interface()
 interfaces["SVGAnimateTransformElement"]=inter
+inter.include_attributes.append('''  protected:
+    int m_transformIdx;
+
+''')
+inter.include_attributes_init = [["transformIdx", "-1"]]
 inter.include_methods.append('''
     virtual void ApplyAnimation();\n
 ''')
@@ -460,6 +467,6 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
 ''')
 inter.include_fwd_decls = ["SVGSVGElement","SVGElement","SVGCanvas","ProgressDialog"]
 inter.include_includes = ["SVGRect","SVGMatrix","<wx/image.h>"]
-inter.user_defined_contructor=1
+inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 

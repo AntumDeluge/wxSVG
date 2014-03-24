@@ -20,6 +20,30 @@ class wxSVGElement;
 #include "SVGAnimatedType.h"
 #include "Element.h"
 
+
+enum wxSVG_ANIMATION_FILL
+{
+  wxSVG_ANIMATION_FILL_UNKNOWN = 0,
+  wxSVG_ANIMATION_FILL_REMOVE = 1,
+  wxSVG_ANIMATION_FILL_FREEZE = 2
+};
+
+
+enum wxSVG_ANIMATION_ADDITIVE
+{
+  wxSVG_ANIMATION_ADDITIVE_UNKNOWN = 0,
+  wxSVG_ANIMATION_ADDITIVE_REPLACE = 1,
+  wxSVG_ANIMATION_ADDITIVE_SUM = 2
+};
+
+
+enum wxSVG_ANIMATION_ACCUMULATE
+{
+  wxSVG_ANIMATION_ACCUMULATE_UNKNOWN = 0,
+  wxSVG_ANIMATION_ACCUMULATE_NONE = 1,
+  wxSVG_ANIMATION_ACCUMULATE_SUM = 2
+};
+
 class wxSVGAnimationElement:
   public wxSVGElement,
   public wxSVGTests,
@@ -34,6 +58,9 @@ class wxSVGAnimationElement:
     double m_dur;
     wxSVGAnimatedType m_from;
     wxSVGAnimatedType m_to;
+    wxSVG_ANIMATION_FILL m_fill;
+    wxSVG_ANIMATION_ADDITIVE m_additive;
+    wxSVG_ANIMATION_ACCUMULATE m_accumulate;
 
   public:
     inline wxSVGElement* GetTargetElement() const { return m_targetElement; }
@@ -54,9 +81,18 @@ class wxSVGAnimationElement:
     inline const wxSVGAnimatedType& GetTo() const { return m_to; }
     inline void SetTo(const wxSVGAnimatedType& n) { m_to = n; }
 
+    inline wxSVG_ANIMATION_FILL GetFill() const { return m_fill; }
+    inline void SetFill(const wxSVG_ANIMATION_FILL& n) { m_fill = n; }
+
+    inline wxSVG_ANIMATION_ADDITIVE GetAdditive() const { return m_additive; }
+    inline void SetAdditive(const wxSVG_ANIMATION_ADDITIVE& n) { m_additive = n; }
+
+    inline wxSVG_ANIMATION_ACCUMULATE GetAccumulate() const { return m_accumulate; }
+    inline void SetAccumulate(const wxSVG_ANIMATION_ACCUMULATE& n) { m_accumulate = n; }
+
   public:
     wxSVGAnimationElement(wxString tagName = wxT("")):
-      wxSVGElement(tagName), m_targetElement(NULL), m_begin(0), m_dur(0) {}
+      wxSVGElement(tagName), m_targetElement(NULL), m_begin(0), m_dur(0), m_fill(wxSVG_ANIMATION_FILL(0)), m_additive(wxSVG_ANIMATION_ADDITIVE(0)), m_accumulate(wxSVG_ANIMATION_ACCUMULATE(0)) {}
     virtual ~wxSVGAnimationElement() {}
 
     virtual void ApplyAnimation();

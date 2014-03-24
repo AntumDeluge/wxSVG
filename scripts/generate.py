@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.24 2014-03-21 21:15:36 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.25 2014-03-24 21:13:44 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -222,6 +222,8 @@ if len(parse_idl.class_decls):
                 if (typestr[0:5] == "wxSVG" or typestr[0:5] == "wxCSS" or typestr == "wxString") and \
                     typestr[0:6] != "wxSVG_" and not ispointer:
                         ret_type = 'const ' + ret_type + '&'
+                #if typestr[0:13] == "wxSVGAnimated":
+                #    protected = protected + '    inline %s& %s() { %sreturn %s; }\n'%(typestr,methodName,calc,attrname_cpp)
 
                 attrname_cpp = cpp.make_attr_name(attrname)
                 calc = ''
@@ -312,12 +314,9 @@ if len(parse_idl.class_decls):
                         init_attibutes = init_attibutes + ", %s(NULL)"%attrname
                     elif isenum:
                         init_attibutes = init_attibutes + ", %s(%s(0))"%(attrname,typestr)
-                for (attrname,ispointer) in interfaces.interfaces[classname].include_attributes_init:
+                for (attrname, init_value) in interfaces.interfaces[classname].include_attributes_init:
                     attrname=cpp.make_attr_name(attrname)
-                    if ispointer:
-                        init_attibutes = init_attibutes + ", %s(NULL)"%attrname
-                    else:
-                        init_attibutes = init_attibutes + ", %s(0)"%attrname
+                    init_attibutes = init_attibutes + ", %s(%s)"%(attrname, init_value)
             except KeyError:
                 pass
             cname = cpp.fix_typename(classname)
@@ -569,7 +568,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.24 2014-03-21 21:15:36 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.25 2014-03-24 21:13:44 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

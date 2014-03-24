@@ -33,9 +33,12 @@ class wxSVGAnimateTransformElement:
     inline wxSVG_ANIMATETRANSFORM GetType() const { return m_type; }
     inline void SetType(const wxSVG_ANIMATETRANSFORM& n) { m_type = n; }
 
+  protected:
+    int m_transformIdx;
+
   public:
     wxSVGAnimateTransformElement(wxString tagName = wxT("animateTransform")):
-      wxSVGAnimationElement(tagName), m_type(wxSVG_ANIMATETRANSFORM(0)) {}
+      wxSVGAnimationElement(tagName), m_type(wxSVG_ANIMATETRANSFORM(0)), m_transformIdx(-1) {}
     virtual ~wxSVGAnimateTransformElement() {}
     wxSvgXmlNode* CloneNode(bool deep = true) { return new wxSVGAnimateTransformElement(*this); }
 

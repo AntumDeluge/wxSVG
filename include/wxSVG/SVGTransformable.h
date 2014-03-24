@@ -41,6 +41,10 @@ class wxSVGTransformable:
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+
+  protected:
+    inline wxSVGAnimatedTransformList& GetTransformList() { return m_transform; }
+    friend class wxSVGAnimateTransformElement;
 };
 
 #endif // WX_SVG_TRANSFORMABLE_H
