@@ -256,6 +256,33 @@ wxString wxSVGAnimationElement::GetAttribute(const wxString& attrName) const {
     return m_from.GetValueAsString();
   else if (attrName == wxT("to"))
     return m_to.GetValueAsString();
+  else if (attrName == wxT("fill"))
+    switch (m_fill) {
+    case wxSVG_ANIMATION_FILL_REMOVE:
+      return wxT("remove");
+    case wxSVG_ANIMATION_FILL_FREEZE:
+      return wxT("freeze");
+    default:
+      return wxT("");
+    }
+  else if (attrName == wxT("additive"))
+    switch (m_additive) {
+    case wxSVG_ANIMATION_ADDITIVE_REPLACE:
+      return wxT("replace");
+    case wxSVG_ANIMATION_ADDITIVE_SUM:
+      return wxT("sum");
+    default:
+      return wxT("");
+    }
+  else if (attrName == wxT("accumulate"))
+    switch (m_accumulate) {
+    case wxSVG_ANIMATION_ACCUMULATE_NONE:
+      return wxT("none");
+    case wxSVG_ANIMATION_ACCUMULATE_SUM:
+      return wxT("sum");
+    default:
+      return wxT("");
+    }
   else if (wxSVGElement::HasAttribute(attrName))
     return wxSVGElement::GetAttribute(attrName);
   else if (wxSVGTests::HasAttribute(attrName))

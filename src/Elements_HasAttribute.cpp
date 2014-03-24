@@ -177,6 +177,9 @@ bool wxSVGAnimationElement::HasAttribute(const wxString& attrName) const {
     attrName == wxT("dur") ||
     attrName == wxT("from") ||
     attrName == wxT("to") ||
+    attrName == wxT("fill") ||
+    attrName == wxT("additive") ||
+    attrName == wxT("accumulate") ||
     wxSVGElement::HasAttribute(attrName) ||
     wxSVGTests::HasAttribute(attrName) ||
     wxSVGExternalResourcesRequired::HasAttribute(attrName);

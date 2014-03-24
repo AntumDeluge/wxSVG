@@ -1675,7 +1675,19 @@ module svg
                 SVGTests,
                 SVGExternalResourcesRequired,
                 smil::ElementTimeControl,
-                events::EventTarget { 
+                events::EventTarget {
+    // Animation Fill Types
+    const unsigned short SVG_ANIMATION_FILL_UNKNOWN = 0;
+    const unsigned short SVG_ANIMATION_FILL_REMOVE = 1;
+    const unsigned short SVG_ANIMATION_FILL_FREEZE = 2;
+    // Animation Additive Types
+    const unsigned short SVG_ANIMATION_ADDITIVE_UNKNOWN = 0;
+    const unsigned short SVG_ANIMATION_ADDITIVE_REPLACE = 1;
+    const unsigned short SVG_ANIMATION_ADDITIVE_SUM = 2;
+    // Animation Accumulate Types
+    const unsigned short SVG_ANIMATION_ACCUMULATE_UNKNOWN = 0;
+    const unsigned short SVG_ANIMATION_ACCUMULATE_NONE = 1;
+    const unsigned short SVG_ANIMATION_ACCUMULATE_SUM = 2;
 
     readonly attribute SVGElement targetElement;
     readonly attribute DOMString attributeName;
@@ -1683,6 +1695,9 @@ module svg
     readonly attribute float dur;
     readonly attribute SVGAnimatedType from;
     readonly attribute SVGAnimatedType to;
+    readonly attribute unsigned short fill;
+    readonly attribute unsigned short additive;
+	readonly attribute unsigned short accumulate;
 
     float getStartTime (  );
     float getCurrentTime (  );

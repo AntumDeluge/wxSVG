@@ -282,6 +282,33 @@ bool wxSVGAnimationElement::SetAttribute(const wxString& attrName, const wxStrin
     m_from.SetValueAsString(attrValue);
   else if (attrName == wxT("to"))
     m_to.SetValueAsString(attrValue);
+  else if (attrName == wxT("fill"))
+  {
+    wxSVG_ANIMATION_FILL value = wxSVG_ANIMATION_FILL_UNKNOWN;
+    if (attrValue.Lower() == wxT("remove"))
+      value = wxSVG_ANIMATION_FILL_REMOVE;
+    else if (attrValue.Lower() == wxT("freeze"))
+      value = wxSVG_ANIMATION_FILL_FREEZE;
+    m_fill = value;
+  }
+  else if (attrName == wxT("additive"))
+  {
+    wxSVG_ANIMATION_ADDITIVE value = wxSVG_ANIMATION_ADDITIVE_UNKNOWN;
+    if (attrValue.Lower() == wxT("replace"))
+      value = wxSVG_ANIMATION_ADDITIVE_REPLACE;
+    else if (attrValue.Lower() == wxT("sum"))
+      value = wxSVG_ANIMATION_ADDITIVE_SUM;
+    m_additive = value;
+  }
+  else if (attrName == wxT("accumulate"))
+  {
+    wxSVG_ANIMATION_ACCUMULATE value = wxSVG_ANIMATION_ACCUMULATE_UNKNOWN;
+    if (attrValue.Lower() == wxT("none"))
+      value = wxSVG_ANIMATION_ACCUMULATE_NONE;
+    else if (attrValue.Lower() == wxT("sum"))
+      value = wxSVG_ANIMATION_ACCUMULATE_SUM;
+    m_accumulate = value;
+  }
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));

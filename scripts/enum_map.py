@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: enum_map.py,v 1.3 2014-03-18 13:08:39 ntalex Exp $
+## RCS-ID:      $Id: enum_map.py,v 1.4 2014-03-24 21:13:32 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -31,6 +31,8 @@ enum_map = {
 "SVGAnimationElement::attributeType": "SVG_ANIMATION_ATTRIBUTE_TYPE",
 "SVGAnimationElement::restart": "SVG_ANIMATION_RESTART",
 "SVGAnimationElement::fill": "SVG_ANIMATION_FILL",
+"SVGAnimationElement::additive": "SVG_ANIMATION_ADDITIVE",
+"SVGAnimationElement::accumulate": "SVG_ANIMATION_ACCUMULATE",
 "SVGAnimateTransformElement::type": "SVG_ANIMATETRANSFORM",
 "SVGZoomAndPan::zoomAndPan": "SVG_ZOOMANDPAN",
 "SVGTransform::type": "SVG_TRANSFORM",

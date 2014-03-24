@@ -220,6 +220,12 @@ wxSvgXmlAttrHash wxSVGAnimationElement::GetAttributes() const
     attrs.Add(wxT("from"), m_from.GetValueAsString());
   if (m_to.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN)
     attrs.Add(wxT("to"), m_to.GetValueAsString());
+  if (m_fill != wxSVG_ANIMATION_FILL_UNKNOWN)
+    attrs.Add(wxT("fill"), GetAttribute(wxT("fill")));
+  if (m_additive != wxSVG_ANIMATION_ADDITIVE_UNKNOWN)
+    attrs.Add(wxT("additive"), GetAttribute(wxT("additive")));
+  if (m_accumulate != wxSVG_ANIMATION_ACCUMULATE_UNKNOWN)
+    attrs.Add(wxT("accumulate"), GetAttribute(wxT("accumulate")));
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGTests::GetAttributes());
   attrs.Add(wxSVGExternalResourcesRequired::GetAttributes());
