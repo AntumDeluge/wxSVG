@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/05
-// RCS-ID:      $Id: SVGTransformable.cpp,v 1.6 2007-07-20 08:27:39 gusstdie Exp $
+// RCS-ID:      $Id: SVGTransformable.cpp,v 1.7 2014-03-24 21:17:21 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,50 +12,43 @@
 #include "svg.h"
 #include <wx/log.h>
 
-void wxSVGTransformable::Transform(const wxSVGMatrix& matrix)
-{
+void wxSVGTransformable::Transform(const wxSVGMatrix& matrix) {
   wxSVGTransformList& transforms = m_transform.GetBaseVal();
   transforms.Add(new wxSVGTransform(matrix));
   m_transform.SetAnimVal(transforms);
 }
 
-void wxSVGTransformable::Translate(double tx, double ty)
-{
+void wxSVGTransformable::Translate(double tx, double ty) {
   wxSVGTransformList& transforms = m_transform.GetBaseVal();
   wxSVGTransform* t = new wxSVGTransform; t->SetTranslate(tx,ty); transforms.Add(t);
   m_transform.SetAnimVal(transforms);
 }
 
-void wxSVGTransformable::Scale(double s)
-{
+void wxSVGTransformable::Scale(double s) {
   wxSVGTransformList& transforms = m_transform.GetBaseVal();
   wxSVGTransform* t = new wxSVGTransform; t->SetScale(s,s); transforms.Add(t);
   m_transform.SetAnimVal(transforms);
 }
 
-void wxSVGTransformable::Scale(double sx, double sy)
-{
+void wxSVGTransformable::Scale(double sx, double sy) {
   wxSVGTransformList& transforms = m_transform.GetBaseVal();
   wxSVGTransform* t = new wxSVGTransform; t->SetScale(sx,sy); transforms.Add(t);
   m_transform.SetAnimVal(transforms);
 }
 
-void wxSVGTransformable::Rotate(double angle, double cx, double cy)
-{
+void wxSVGTransformable::Rotate(double angle, double cx, double cy) {
   wxSVGTransformList& transforms = m_transform.GetBaseVal();
   wxSVGTransform* t = new wxSVGTransform; t->SetRotate(angle, cx,cy); transforms.Add(t);
   m_transform.SetAnimVal(transforms);
 }
 
-void wxSVGTransformable::SkewX(double angle)
-{
+void wxSVGTransformable::SkewX(double angle) {
   wxSVGTransformList& transforms = m_transform.GetBaseVal();
   wxSVGTransform* t = new wxSVGTransform; t->SetSkewX(angle); transforms.Add(t);
   m_transform.SetAnimVal(transforms);
 }
 
-void wxSVGTransformable::SkewY(double angle)
-{
+void wxSVGTransformable::SkewY(double angle) {
   wxSVGTransformList& transforms = m_transform.GetBaseVal();
   wxSVGTransform* t = new wxSVGTransform; t->SetSkewY(angle); transforms.Add(t);
   m_transform.SetAnimVal(transforms);
@@ -65,13 +58,11 @@ void wxSVGTransformable::SkewY(double angle)
 case the_dtd:\
   return &((the_class&)element);
 
-wxSVGTransformable* wxSVGTransformable::GetSVGTransformable(wxSVGElement& element)
-{
-  if (&element == NULL || element.GetType() != wxSVGXML_ELEMENT_NODE){
+wxSVGTransformable* wxSVGTransformable::GetSVGTransformable(wxSVGElement& element) {
+  if (&element == NULL || element.GetType() != wxSVGXML_ELEMENT_NODE) {
       return NULL;
   }
-  switch (element.GetDtd())
-  {
+  switch (element.GetDtd()) {
     GET_TRANSFORMABLE(wxSVG_LINE_ELEMENT, wxSVGLineElement)
     GET_TRANSFORMABLE(wxSVG_POLYLINE_ELEMENT, wxSVGPolylineElement)
     GET_TRANSFORMABLE(wxSVG_POLYGON_ELEMENT, wxSVGPolygonElement)
@@ -88,14 +79,12 @@ wxSVGTransformable* wxSVGTransformable::GetSVGTransformable(wxSVGElement& elemen
   return NULL;
 }
 
-const wxSVGTransformable* wxSVGTransformable::GetSVGTransformable(const wxSVGElement& element)
-{
+const wxSVGTransformable* wxSVGTransformable::GetSVGTransformable(const wxSVGElement& element) {
   return GetSVGTransformable((wxSVGElement&)element);
 }
 
-void wxSVGTransformable::UpdateMatrix(wxSVGMatrix& matrix) const
-{
-  const wxSVGTransformList& transforms = GetTransform().GetBaseVal();
-	for (int i=0; i<(int)transforms.Count(); i++)
+void wxSVGTransformable::UpdateMatrix(wxSVGMatrix& matrix) const {
+  const wxSVGTransformList& transforms = GetTransform().GetAnimVal();
+	for (unsigned int i = 0; i < transforms.Count(); i++)
 		matrix = matrix.Multiply(transforms[i].GetMatrix());
 }
