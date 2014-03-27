@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.cpp,v 1.8 2013-09-15 10:18:26 ntalex Exp $
+// RCS-ID:      $Id: svgxml.cpp,v 1.9 2014-03-27 19:24:49 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -314,13 +314,13 @@ bool wxSvgXmlNode::DeleteProperty(const wxString& name)
     }
 }
 
-wxString wxSvgXmlNode::GetAttribute(const wxString& name) {
+wxString wxSvgXmlNode::GetAttribute(const wxString& name) const {
 	wxString val;
 	GetPropVal(name, &val);
 	return val;
 }
 
-wxString wxSvgXmlNode::GetAttributeNS(const wxString& namespaceURI, const wxString& localName) {
+wxString wxSvgXmlNode::GetAttributeNS(const wxString& namespaceURI, const wxString& localName) const {
 	return GetAttribute(localName);
 }
 
@@ -349,11 +349,11 @@ void wxSvgXmlNode::RemoveAttributeNS(const wxString& namespaceURI, const wxStrin
 	RemoveAttribute(localName);
 }
 
-bool wxSvgXmlNode::HasAttribute(const wxString& name) {
+bool wxSvgXmlNode::HasAttribute(const wxString& name) const {
   return HasProp(name);
 }
 
-bool wxSvgXmlNode::HasAttributeNS(const wxString& namespaceURI, const wxString& localName) {
+bool wxSvgXmlNode::HasAttributeNS(const wxString& namespaceURI, const wxString& localName) const {
   return HasAttribute(localName);
 }
 

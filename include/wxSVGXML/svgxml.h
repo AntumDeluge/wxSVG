@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.h,v 1.7 2013-10-15 19:25:51 ntalex Exp $
+// RCS-ID:      $Id: svgxml.h,v 1.8 2014-03-27 19:24:49 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -185,9 +185,9 @@ public:
     void AddProperty(wxSvgXmlProperty *prop);
 
 public: // W3C DOM Methods
-	virtual wxString GetAttribute(const wxString& name);
+	virtual wxString GetAttribute(const wxString& name) const;
 	virtual wxString GetAttributeNS(const wxString& namespaceURI, 
-									const wxString& localName);
+									const wxString& localName) const;
     virtual bool SetAttribute(const wxString& name, const wxString& value);
 	virtual bool SetAttributeNS(const wxString& namespaceURI, 
 								const wxString& qualifiedName, 
@@ -195,9 +195,9 @@ public: // W3C DOM Methods
     virtual void RemoveAttribute(const wxString& name);
     virtual void RemoveAttributeNS(const wxString& namespaceURI, 
 								 const wxString& localName);
-    virtual bool HasAttribute(const wxString& name);
+    virtual bool HasAttribute(const wxString& name) const;
     virtual bool HasAttributeNS(const wxString& namespaceURI, 
-								const wxString& localName);
+								const wxString& localName) const;
     
     virtual wxSvgXmlAttrHash GetAttributes() const;
                                 
