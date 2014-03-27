@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: idl.py,v 1.1.1.1 2005-05-10 17:51:21 ntalex Exp $
+## RCS-ID:      $Id: idl.py,v 1.2 2014-03-27 08:38:03 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -36,7 +36,6 @@ class class_decl:
             output = output + '\t' + str(i) +'\n'
 
         return output
-
 
 class method_decl:
     def __init__(self, return_type=None, name=None, args=[], exceptions=[], class_decl=None):

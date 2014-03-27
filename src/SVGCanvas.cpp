@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.22 2013-09-12 08:46:38 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.23 2014-03-27 08:42:16 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -305,6 +305,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
 		RenderChilds(elem, rect, &matrix, &style, ownerSVGElement, viewportElement, progressDlg);
 		break;
 	}
@@ -314,6 +315,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
 		DrawLine(element, &matrix, &style);
 		break;
 	}
@@ -323,6 +325,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
 		DrawPolyline(element, &matrix, &style);
 		break;
 	}
@@ -332,6 +335,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
 		DrawPolygon(element, &matrix, &style);
 		break;
 	}
@@ -341,6 +345,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
 		DrawRect(element, &matrix, &style);
 		break;
 	}
@@ -350,6 +355,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
 		DrawCircle(element, &matrix, &style);
 		break;
 	}
@@ -359,6 +365,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
 		DrawEllipse(element, &matrix, &style);
 		break;
 	}
@@ -368,6 +375,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
 		DrawPath(element, &matrix, &style);
 		break;
 	}
@@ -379,6 +387,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
 		DrawText(element, &matrix, &style);
 		break;
 	}
@@ -388,6 +397,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
 		DrawImage(element, &matrix, &style, rect, progressDlg);
 		break;
 	}
@@ -397,6 +407,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
 #ifdef USE_LIBAV
 		DrawVideo(element, &matrix, &style);
 #else
@@ -433,6 +444,7 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			break;
 		element->UpdateMatrix(matrix);
 		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
 		// test if visible
 		if (element->GetWidth().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN
 				&& element->GetHeight().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN) {

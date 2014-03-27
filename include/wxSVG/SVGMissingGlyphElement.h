@@ -13,6 +13,7 @@
 #include "SVGStylable.h"
 #include "String_wxsvg.h"
 #include "Element.h"
+#include "SVGAnimatedType.h"
 
 class wxSVGMissingGlyphElement:
   public wxSVGElement,
@@ -27,6 +28,7 @@ class wxSVGMissingGlyphElement:
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
     virtual wxSVGDTD GetDtd() const { return wxSVG_MISSING_GLYPH_ELEMENT; }
 };
 

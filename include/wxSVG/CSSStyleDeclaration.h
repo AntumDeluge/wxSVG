@@ -12,6 +12,7 @@
 
 #include "CSSValue.h"
 #include "SVGPaint.h"
+#include "SVGAnimatedType.h"
 #include <wx/hashmap.h>
 
 enum wxCSS_PROPERTY
@@ -104,6 +105,9 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     void SetProperty(const wxString& propertyName, const wxString& value)
     { SetProperty(GetPropertyId(propertyName), value); }
     
+    void SetProperty(const wxString& propertyName, const wxSVGAnimatedType& value)
+    { SetProperty(GetPropertyId(propertyName), value); }
+    
     inline bool HasProperty(const wxString& propertyName) const
     { return HasProperty(GetPropertyId(propertyName)); }
     
@@ -118,6 +122,7 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     { const_iterator it = find(propertyId); if (it != end()) return *it->second; return *s_emptyCSSValue; }
     
     void SetProperty(wxCSS_PROPERTY propertyId, const wxString& value);
+    void SetProperty(wxCSS_PROPERTY propertyId, const wxSVGAnimatedType& value);
     inline bool HasProperty(wxCSS_PROPERTY propertyId) const { return find(propertyId) != end(); }
     inline wxString RemoveProperty(wxCSS_PROPERTY propertyId) { erase(propertyId); return wxT(""); }
     

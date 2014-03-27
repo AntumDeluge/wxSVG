@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGStylable.cpp,v 1.7 2014-03-18 13:11:55 ntalex Exp $
+// RCS-ID:      $Id: SVGStylable.cpp,v 1.8 2014-03-27 08:42:16 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -13,25 +13,25 @@
 #include <wx/log.h>
 
 const wxCSSValue& wxSVGStylable::GetPresentationAttribute(const wxString& name) {
-  return m_style.GetPropertyCSSValue(name);
+	return m_style.GetPropertyCSSValue(name);
 }
 
 bool wxSVGStylable::HasCustomAttribute(const wxString& name) const {
-  return wxCSSStyleDeclaration::GetPropertyId(name) != wxCSS_PROPERTY_UNKNOWN;
+	return wxCSSStyleDeclaration::GetPropertyId(name) != wxCSS_PROPERTY_UNKNOWN;
 }
 
 wxString wxSVGStylable::GetCustomAttribute(const wxString& name) const {
-  return m_style.GetPropertyValue(name);
+	return m_style.GetPropertyValue(name);
 }
 
 bool wxSVGStylable::SetCustomAttribute(const wxString& name, const wxString& value) {
-  wxCSS_PROPERTY id = wxCSSStyleDeclaration::GetPropertyId(name);
-  
-  if (id == wxCSS_PROPERTY_UNKNOWN)
-    return false;
-	
-  m_style.SetProperty(name, value);
-  return true;
+	wxCSS_PROPERTY id = wxCSSStyleDeclaration::GetPropertyId(name);
+
+	if (id == wxCSS_PROPERTY_UNKNOWN)
+		return false;
+
+	m_style.SetProperty(name, value);
+	return true;
 }
 
 wxSvgXmlAttrHash wxSVGStylable::GetCustomAttributes() const {
@@ -39,17 +39,26 @@ wxSvgXmlAttrHash wxSVGStylable::GetCustomAttributes() const {
 	return attrs;
 }
 
+bool wxSVGStylable::SetCustomAnimatedValue(const wxString& name, const wxSVGAnimatedType& value) {
+	wxCSS_PROPERTY id = wxCSSStyleDeclaration::GetPropertyId(name);
+	
+	if (id == wxCSS_PROPERTY_UNKNOWN)
+		return false;
+	
+	m_style.SetProperty(name, value);
+	return true;
+}
+
 wxCSSStyleDeclaration wxSVGStylable::GetResultStyle(const wxSVGElement& element) {
-  wxCSSStyleDeclaration style;
-  if (element.GetParent())
-    style = GetResultStyle(*(wxSVGElement*)element.GetParent());
-  const wxSVGStylable* stylable = wxSVGStylable::GetSVGStylable(element);
-  if (stylable)
-  {
-    style.Add(stylable->GetStyle());
-    style.Add(stylable->GetAnimStyle());
-  }
-  return style;
+	wxCSSStyleDeclaration style;
+	if (element.GetParent())
+		style = GetResultStyle(*(wxSVGElement*) element.GetParent());
+	const wxSVGStylable* stylable = wxSVGStylable::GetSVGStylable(element);
+	if (stylable) {
+		style.Add(stylable->GetStyle());
+		style.Add(stylable->GetAnimStyle());
+	}
+	return style;
 }
 
 #define GET_STYLABLE(the_dtd, the_class)\
@@ -117,13 +126,13 @@ wxSVGStylable* wxSVGStylable::GetSVGStylable(wxSVGElement& element) {
 }
 
 const wxSVGStylable* wxSVGStylable::GetSVGStylable(const wxSVGElement& element) {
-  return GetSVGStylable((wxSVGElement&)element);
+	return GetSVGStylable((wxSVGElement&) element);
 }
 
 const wxCSSStyleDeclaration& wxSVGStylable::GetElementStyle(const wxSVGElement& element) {
-  static wxCSSStyleDeclaration emptyStyle;
-  const wxSVGStylable* stylable = GetSVGStylable(element);
-  if (!stylable)
-    return emptyStyle;
-  return stylable->GetStyle();
+	static wxCSSStyleDeclaration emptyStyle;
+	const wxSVGStylable* stylable = GetSVGStylable(element);
+	if (!stylable)
+		return emptyStyle;
+	return stylable->GetStyle();
 }

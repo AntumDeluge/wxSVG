@@ -15,6 +15,7 @@
 #include "SVGAnimatedNumber.h"
 #include "String_wxsvg.h"
 #include "Element.h"
+#include "SVGAnimatedType.h"
 
 
 enum wxSVG_FECOMPONENTTRANSFER_TYPE
@@ -76,6 +77,7 @@ class wxSVGComponentTransferFunctionElement:
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
 };
 
 #endif // WX_SVG_COMPONENT_TRANSFER_FUNCTION_ELEMENT_H

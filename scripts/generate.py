@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.25 2014-03-24 21:13:44 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.26 2014-03-27 08:38:04 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -56,6 +56,21 @@ def find_dtd_attr_in_inherit(classdecl):
             pass
     return 0
 
+def find_anim_dtd_attr_in_inherit(classdecl):
+    if len(classdecl.attributes):
+        for attr in classdecl.attributes:
+            if attr in mapDtdIdl.attributes_idl_dtd and attr.type.name[0:11] == "SVGAnimated" and attr.type.name != "SVGAnimatedType":
+                return 1
+
+    for inh in classdecl.inherits:
+        try:
+            inh_classdecl = parse_idl.class_decls[inh];
+            res = inh_classdecl.name != "SVGExternalResourcesRequired" and find_anim_dtd_attr_in_inherit(inh_classdecl)
+            if res > 0:
+                return 1
+        except KeyError:
+            pass
+    return 0
 
 if len(parse_idl.class_decls):
     for (classname, classdecl) in parse_idl.class_decls.items():
@@ -467,10 +482,17 @@ if len(parse_idl.class_decls):
                 includes.append("Element")
             doGetAttrByName=1
             if classname in ["SVGStylable", "SVGFEGaussianBlurElement"]: #genSetAttribute.customParser
-                protected = protected + '    bool HasCustomAttribute(const wxString& name) const;\n';
-                protected = protected + '    wxString GetCustomAttribute(const wxString& name) const;\n';
-                protected = protected + '    bool SetCustomAttribute(const wxString& name, const wxString& value);\n';
-                protected = protected + '    wxSvgXmlAttrHash GetCustomAttributes() const;\n';
+                protected += '    bool HasCustomAttribute(const wxString& name) const;\n';
+                protected += '    wxString GetCustomAttribute(const wxString& name) const;\n';
+                protected += '    bool SetCustomAttribute(const wxString& name, const wxString& value);\n';
+                protected += '    wxSvgXmlAttrHash GetCustomAttributes() const;\n';
+                protected += '    bool SetCustomAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);\n';
+            if find_anim_dtd_attr_in_inherit(classdecl):
+                methods_str = methods_str + '    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);\n';
+                includes.append("SVGAnimatedType")
+            elif classname == "SVGElement":
+                methods_str = methods_str + '    virtual bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value) { return false; }\n';
+                includes.append("SVGAnimatedType")
 
         element_string=None
         if classdecl in mapDtdIdl.elements_idl_dtd:
@@ -568,7 +590,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.25 2014-03-24 21:13:44 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.26 2014-03-27 08:38:04 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

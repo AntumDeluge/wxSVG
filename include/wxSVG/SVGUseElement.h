@@ -24,6 +24,7 @@ class wxSVGElementInstance;
 #include "SVGSVGElement.h"
 #include "String_wxsvg.h"
 #include "Element.h"
+#include "SVGAnimatedType.h"
 
 class wxSVGUseElement:
   public wxSVGElement,
@@ -79,6 +80,7 @@ class wxSVGUseElement:
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
     virtual wxSVGDTD GetDtd() const { return wxSVG_USE_ELEMENT; }
 };
 

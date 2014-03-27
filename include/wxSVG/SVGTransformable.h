@@ -13,6 +13,7 @@
 #include "SVGAnimatedTransformList.h"
 #include "String_wxsvg.h"
 #include "Element.h"
+#include "SVGAnimatedType.h"
 
 class wxSVGTransformable:
   public wxSVGLocatable
@@ -41,6 +42,7 @@ class wxSVGTransformable:
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
 
   protected:
     inline wxSVGAnimatedTransformList& GetTransformList() { return m_transform; }

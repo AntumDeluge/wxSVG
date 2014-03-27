@@ -15,6 +15,7 @@
 #include "SVGAnimatedNumber.h"
 #include "String_wxsvg.h"
 #include "Element.h"
+#include "SVGAnimatedType.h"
 
 class wxSVGFEGaussianBlurElement:
   public wxSVGElement,
@@ -28,6 +29,7 @@ class wxSVGFEGaussianBlurElement:
     wxString GetCustomAttribute(const wxString& name) const;
     bool SetCustomAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetCustomAttributes() const;
+    bool SetCustomAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
 
   public:
     inline const wxSVGAnimatedString& GetIn1() const { return m_in1; }
@@ -52,6 +54,7 @@ class wxSVGFEGaussianBlurElement:
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
     virtual wxSVGDTD GetDtd() const { return wxSVG_FEGAUSSIANBLUR_ELEMENT; }
 };
 

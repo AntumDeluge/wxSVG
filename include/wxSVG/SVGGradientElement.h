@@ -18,6 +18,7 @@
 #include "SVGAnimatedTransformList.h"
 #include "String_wxsvg.h"
 #include "Element.h"
+#include "SVGAnimatedType.h"
 
 
 enum wxSVG_SPREADMETHOD
@@ -61,6 +62,7 @@ class wxSVGGradientElement:
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
 };
 
 #endif // WX_SVG_GRADIENT_ELEMENT_H

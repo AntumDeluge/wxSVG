@@ -20,6 +20,7 @@
 #include "SVGAnimatedString.h"
 #include "String_wxsvg.h"
 #include "Element.h"
+#include "SVGAnimatedType.h"
 
 class wxSVGAElement:
   public wxSVGElement,
@@ -52,6 +53,7 @@ class wxSVGAElement:
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
     virtual wxSVGDTD GetDtd() const { return wxSVG_A_ELEMENT; }
 };
 

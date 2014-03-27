@@ -23,7 +23,7 @@ class wxSVGAnimatedBoolean
 	inline void SetAnimVal(bool value) { m_animVal = value; }
     
   public:
-    inline operator bool() const { return GetBaseVal(); }
+    inline operator bool() const { return GetAnimVal(); }
     
   protected:
     bool m_baseVal;

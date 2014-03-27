@@ -14,6 +14,7 @@
 #include "CSSValue.h"
 #include "String_wxsvg.h"
 #include "Element.h"
+#include "SVGAnimatedType.h"
 #include "SVGElement.h"
 
 class wxSVGStylable
@@ -26,6 +27,7 @@ class wxSVGStylable
     wxString GetCustomAttribute(const wxString& name) const;
     bool SetCustomAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetCustomAttributes() const;
+    bool SetCustomAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
 
   public:
     inline const wxSVGAnimatedString& GetClassName() const { return m_className; }
@@ -286,6 +288,7 @@ class wxSVGStylable
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
 };
 
 #endif // WX_SVG_STYLABLE_H

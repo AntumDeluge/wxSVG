@@ -110,8 +110,7 @@
 #include "SVGViewSpec.h"
 
 // wxSVGAElement
-bool wxSVGAElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGAElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("target"))
 	m_target.GetBaseVal() = attrValue;
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
@@ -128,11 +127,26 @@ bool wxSVGAElement::SetAttribute(const wxString& attrName, const wxString& attrV
   }
 
   return true;
-}      
+}
+
+bool wxSVGAElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("target")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_target.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_target.ResetAnimVal();
+	}
+  } else if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGAltGlyphDefElement
-bool wxSVGAltGlyphDefElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGAltGlyphDefElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -141,11 +155,10 @@ bool wxSVGAltGlyphDefElement::SetAttribute(const wxString& attrName, const wxStr
   }
 
   return true;
-}      
+}
 
 // wxSVGAltGlyphElement
-bool wxSVGAltGlyphElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGAltGlyphElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("glyphRef"))
 	m_glyphRef = attrValue;
   else if (attrName == wxT("format"))
@@ -159,11 +172,19 @@ bool wxSVGAltGlyphElement::SetAttribute(const wxString& attrName, const wxString
   }
 
   return true;
-}      
+}
+
+bool wxSVGAltGlyphElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGTextPositioningElement::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGAltGlyphItemElement
-bool wxSVGAltGlyphItemElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGAltGlyphItemElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -172,11 +193,10 @@ bool wxSVGAltGlyphItemElement::SetAttribute(const wxString& attrName, const wxSt
   }
 
   return true;
-}      
+}
 
 // wxSVGAnimateColorElement
-bool wxSVGAnimateColorElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGAnimateColorElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGAnimationElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -185,11 +205,10 @@ bool wxSVGAnimateColorElement::SetAttribute(const wxString& attrName, const wxSt
   }
 
   return true;
-}      
+}
 
 // wxSVGAnimateElement
-bool wxSVGAnimateElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGAnimateElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGAnimationElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -198,11 +217,10 @@ bool wxSVGAnimateElement::SetAttribute(const wxString& attrName, const wxString&
   }
 
   return true;
-}      
+}
 
 // wxSVGAnimateMotionElement
-bool wxSVGAnimateMotionElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGAnimateMotionElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGAnimationElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -211,11 +229,10 @@ bool wxSVGAnimateMotionElement::SetAttribute(const wxString& attrName, const wxS
   }
 
   return true;
-}      
+}
 
 // wxSVGAnimateTransformElement
-bool wxSVGAnimateTransformElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGAnimateTransformElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("type"))
   {
     wxSVG_ANIMATETRANSFORM value = wxSVG_ANIMATETRANSFORM_TRANSLATE;
@@ -237,33 +254,30 @@ bool wxSVGAnimateTransformElement::SetAttribute(const wxString& attrName, const 
   }
 
   return true;
-}      
+}
 
 // wxSVGAnimatedPathData
-bool wxSVGAnimatedPathData::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGAnimatedPathData::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("d"))
     m_pathSegList.SetValueAsString(attrValue);
   else 
       return false;
 
   return true;
-}      
+}
 
 // wxSVGAnimatedPoints
-bool wxSVGAnimatedPoints::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGAnimatedPoints::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("points"))
     m_points.SetValueAsString(attrValue);
   else 
       return false;
 
   return true;
-}      
+}
 
 // wxSVGAnimationElement
-bool wxSVGAnimationElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGAnimationElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("attributeName"))
 	m_attributeName = attrValue;
   else if (attrName == wxT("begin"))
@@ -316,11 +330,10 @@ bool wxSVGAnimationElement::SetAttribute(const wxString& attrName, const wxStrin
       return false;
 
   return true;
-}      
+}
 
 // wxSVGCircleElement
-bool wxSVGCircleElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGCircleElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("cx"))
     m_cx.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("cy"))
@@ -340,11 +353,37 @@ bool wxSVGCircleElement::SetAttribute(const wxString& attrName, const wxString& 
   }
 
   return true;
-}      
+}
+
+bool wxSVGCircleElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("cx")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_cx.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_cx.ResetAnimVal();
+	}
+  } else if (attrName == wxT("cy")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_cy.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_cy.ResetAnimVal();
+	}
+  } else if (attrName == wxT("r")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_r.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_r.ResetAnimVal();
+	}
+  } else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGClipPathElement
-bool wxSVGClipPathElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGClipPathElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("clipPathUnits"))
   {
     long value;
@@ -364,11 +403,21 @@ bool wxSVGClipPathElement::SetAttribute(const wxString& attrName, const wxString
   }
 
   return true;
-}      
+}
+
+bool wxSVGClipPathElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("clipPathUnits")) {
+    m_clipPathUnits.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGColorProfileElement
-bool wxSVGColorProfileElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGColorProfileElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("local"))
 	m_local = attrValue;
   else if (attrName == wxT("name"))
@@ -388,11 +437,18 @@ bool wxSVGColorProfileElement::SetAttribute(const wxString& attrName, const wxSt
   }
 
   return true;
-}      
+}
+
+bool wxSVGColorProfileElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGComponentTransferFunctionElement
-bool wxSVGComponentTransferFunctionElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGComponentTransferFunctionElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("type"))
   {
     wxSVG_FECOMPONENTTRANSFER_TYPE value = wxSVG_FECOMPONENTTRANSFER_TYPE_UNKNOWN;
@@ -445,11 +501,41 @@ bool wxSVGComponentTransferFunctionElement::SetAttribute(const wxString& attrNam
       return false;
 
   return true;
-}      
+}
+
+bool wxSVGComponentTransferFunctionElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("type")) {
+    m_type.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("tableValues")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH_LIST) {
+	  wxSVGNumberList list;
+	  for (unsigned int i = 0; i < attrValue.GetLengthList().size(); i++) {
+		list.push_back(attrValue.GetLengthList()[i].GetValue());
+	  }
+	  m_tableValues.SetAnimVal(list);
+	} else if (attrValue.GetPropertyType() == wxSVG_ANIMATED_NUMBER_LIST) {
+	  m_tableValues.SetAnimVal(attrValue.GetNumberList());
+	} else {
+	  m_tableValues.ResetAnimVal();
+	}
+  } else if (attrName == wxT("slope")) {
+    m_slope.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("intercept")) {
+    m_intercept.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("amplitude")) {
+    m_amplitude.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("exponent")) {
+    m_exponent.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("offset")) {
+    m_offset.SetAnimVal(attrValue.GetLength().GetValue());
+  } else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGCursorElement
-bool wxSVGCursorElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGCursorElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("x"))
     m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
@@ -465,11 +551,30 @@ bool wxSVGCursorElement::SetAttribute(const wxString& attrName, const wxString& 
   }
 
   return true;
-}      
+}
+
+bool wxSVGCursorElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("x")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y.ResetAnimVal();
+	}
+  } else if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGDefinitionSrcElement
-bool wxSVGDefinitionSrcElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGDefinitionSrcElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -478,11 +583,10 @@ bool wxSVGDefinitionSrcElement::SetAttribute(const wxString& attrName, const wxS
   }
 
   return true;
-}      
+}
 
 // wxSVGDefsElement
-bool wxSVGDefsElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGDefsElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -496,11 +600,19 @@ bool wxSVGDefsElement::SetAttribute(const wxString& attrName, const wxString& at
   }
 
   return true;
-}      
+}
+
+bool wxSVGDefsElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGDescElement
-bool wxSVGDescElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGDescElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
   else if (wxSVGStylable::SetAttribute(attrName, attrValue));
@@ -511,22 +623,28 @@ bool wxSVGDescElement::SetAttribute(const wxString& attrName, const wxString& at
   }
 
   return true;
-}      
+}
+
+bool wxSVGDescElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGElement
-bool wxSVGElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("id"))
 	m_id = attrValue;
   else 
       return false;
 
   return true;
-}      
+}
 
 // wxSVGEllipseElement
-bool wxSVGEllipseElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGEllipseElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("cx"))
     m_cx.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("cy"))
@@ -548,11 +666,43 @@ bool wxSVGEllipseElement::SetAttribute(const wxString& attrName, const wxString&
   }
 
   return true;
-}      
+}
+
+bool wxSVGEllipseElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("cx")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_cx.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_cx.ResetAnimVal();
+	}
+  } else if (attrName == wxT("cy")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_cy.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_cy.ResetAnimVal();
+	}
+  } else if (attrName == wxT("rx")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_rx.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_rx.ResetAnimVal();
+	}
+  } else if (attrName == wxT("ry")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_ry.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_ry.ResetAnimVal();
+	}
+  } else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGExternalResourcesRequired
-bool wxSVGExternalResourcesRequired::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGExternalResourcesRequired::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("externalResourcesRequired"))
   {
     long value;
@@ -563,11 +713,19 @@ bool wxSVGExternalResourcesRequired::SetAttribute(const wxString& attrName, cons
       return false;
 
   return true;
-}      
+}
+
+bool wxSVGExternalResourcesRequired::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("externalResourcesRequired")) {
+    m_externalResourcesRequired.SetAnimVal((bool) attrValue.GetLength().GetValue());
+  } else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEBlendElement
-bool wxSVGFEBlendElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEBlendElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
   else if (attrName == wxT("in2"))
@@ -596,11 +754,32 @@ bool wxSVGFEBlendElement::SetAttribute(const wxString& attrName, const wxString&
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEBlendElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("in")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in1.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in1.ResetAnimVal();
+	}
+  } else if (attrName == wxT("in2")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in2.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in2.ResetAnimVal();
+	}
+  } else if (attrName == wxT("mode")) {
+    m_mode.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEColorMatrixElement
-bool wxSVGFEColorMatrixElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEColorMatrixElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
   else if (attrName == wxT("type"))
@@ -627,11 +806,38 @@ bool wxSVGFEColorMatrixElement::SetAttribute(const wxString& attrName, const wxS
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEColorMatrixElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("in")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in1.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in1.ResetAnimVal();
+	}
+  } else if (attrName == wxT("type")) {
+    m_type.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("values")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH_LIST) {
+	  wxSVGNumberList list;
+	  for (unsigned int i = 0; i < attrValue.GetLengthList().size(); i++) {
+		list.push_back(attrValue.GetLengthList()[i].GetValue());
+	  }
+	  m_values.SetAnimVal(list);
+	} else if (attrValue.GetPropertyType() == wxSVG_ANIMATED_NUMBER_LIST) {
+	  m_values.SetAnimVal(attrValue.GetNumberList());
+	} else {
+	  m_values.ResetAnimVal();
+	}
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEComponentTransferElement
-bool wxSVGFEComponentTransferElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEComponentTransferElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
@@ -643,11 +849,24 @@ bool wxSVGFEComponentTransferElement::SetAttribute(const wxString& attrName, con
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEComponentTransferElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("in")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in1.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in1.ResetAnimVal();
+	}
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFECompositeElement
-bool wxSVGFECompositeElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFECompositeElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
   else if (attrName == wxT("in2"))
@@ -702,11 +921,40 @@ bool wxSVGFECompositeElement::SetAttribute(const wxString& attrName, const wxStr
   }
 
   return true;
-}      
+}
+
+bool wxSVGFECompositeElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("in")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in1.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in1.ResetAnimVal();
+	}
+  } else if (attrName == wxT("in2")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in2.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in2.ResetAnimVal();
+	}
+  } else if (attrName == wxT("operator")) {
+    m_operator.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("k1")) {
+    m_k1.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("k2")) {
+    m_k2.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("k3")) {
+    m_k3.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("k4")) {
+    m_k4.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEConvolveMatrixElement
-bool wxSVGFEConvolveMatrixElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEConvolveMatrixElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("kernelMatrix"))
     m_kernelMatrix.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("divisor"))
@@ -759,11 +1007,42 @@ bool wxSVGFEConvolveMatrixElement::SetAttribute(const wxString& attrName, const 
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEConvolveMatrixElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("kernelMatrix")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH_LIST) {
+	  wxSVGNumberList list;
+	  for (unsigned int i = 0; i < attrValue.GetLengthList().size(); i++) {
+		list.push_back(attrValue.GetLengthList()[i].GetValue());
+	  }
+	  m_kernelMatrix.SetAnimVal(list);
+	} else if (attrValue.GetPropertyType() == wxSVG_ANIMATED_NUMBER_LIST) {
+	  m_kernelMatrix.SetAnimVal(attrValue.GetNumberList());
+	} else {
+	  m_kernelMatrix.ResetAnimVal();
+	}
+  } else if (attrName == wxT("divisor")) {
+    m_divisor.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("bias")) {
+    m_bias.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("targetX")) {
+    m_targetX.SetAnimVal((long int) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("targetY")) {
+    m_targetY.SetAnimVal((long int) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("edgeMode")) {
+    m_edgeMode.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("preserveAlpha")) {
+    m_preserveAlpha.SetAnimVal((bool) attrValue.GetLength().GetValue());
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEDiffuseLightingElement
-bool wxSVGFEDiffuseLightingElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEDiffuseLightingElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
   else if (attrName == wxT("surfaceScale"))
@@ -787,11 +1066,28 @@ bool wxSVGFEDiffuseLightingElement::SetAttribute(const wxString& attrName, const
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEDiffuseLightingElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("in")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in1.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in1.ResetAnimVal();
+	}
+  } else if (attrName == wxT("surfaceScale")) {
+    m_surfaceScale.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("diffuseConstant")) {
+    m_diffuseConstant.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEDisplacementMapElement
-bool wxSVGFEDisplacementMapElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEDisplacementMapElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
   else if (attrName == wxT("in2"))
@@ -837,11 +1133,36 @@ bool wxSVGFEDisplacementMapElement::SetAttribute(const wxString& attrName, const
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEDisplacementMapElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("in")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in1.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in1.ResetAnimVal();
+	}
+  } else if (attrName == wxT("in2")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in2.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in2.ResetAnimVal();
+	}
+  } else if (attrName == wxT("scale")) {
+    m_scale.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("xChannelSelector")) {
+    m_xChannelSelector.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("yChannelSelector")) {
+    m_yChannelSelector.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEDistantLightElement
-bool wxSVGFEDistantLightElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEDistantLightElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("azimuth"))
   {
     double value;
@@ -862,11 +1183,21 @@ bool wxSVGFEDistantLightElement::SetAttribute(const wxString& attrName, const wx
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEDistantLightElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("azimuth")) {
+    m_azimuth.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("elevation")) {
+    m_elevation.SetAnimVal(attrValue.GetLength().GetValue());
+  } else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEFloodElement
-bool wxSVGFEFloodElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEFloodElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
@@ -878,11 +1209,24 @@ bool wxSVGFEFloodElement::SetAttribute(const wxString& attrName, const wxString&
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEFloodElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("in")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in1.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in1.ResetAnimVal();
+	}
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEFuncAElement
-bool wxSVGFEFuncAElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEFuncAElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGComponentTransferFunctionElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -891,11 +1235,18 @@ bool wxSVGFEFuncAElement::SetAttribute(const wxString& attrName, const wxString&
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEFuncAElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGComponentTransferFunctionElement::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEFuncBElement
-bool wxSVGFEFuncBElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEFuncBElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGComponentTransferFunctionElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -904,11 +1255,18 @@ bool wxSVGFEFuncBElement::SetAttribute(const wxString& attrName, const wxString&
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEFuncBElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGComponentTransferFunctionElement::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEFuncGElement
-bool wxSVGFEFuncGElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEFuncGElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGComponentTransferFunctionElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -917,11 +1275,18 @@ bool wxSVGFEFuncGElement::SetAttribute(const wxString& attrName, const wxString&
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEFuncGElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGComponentTransferFunctionElement::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEFuncRElement
-bool wxSVGFEFuncRElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEFuncRElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGComponentTransferFunctionElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -930,11 +1295,18 @@ bool wxSVGFEFuncRElement::SetAttribute(const wxString& attrName, const wxString&
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEFuncRElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGComponentTransferFunctionElement::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEGaussianBlurElement
-bool wxSVGFEGaussianBlurElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEGaussianBlurElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
@@ -947,11 +1319,25 @@ bool wxSVGFEGaussianBlurElement::SetAttribute(const wxString& attrName, const wx
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEGaussianBlurElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("in")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in1.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in1.ResetAnimVal();
+	}
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else if (SetCustomAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEImageElement
-bool wxSVGFEImageElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEImageElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -964,11 +1350,19 @@ bool wxSVGFEImageElement::SetAttribute(const wxString& attrName, const wxString&
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEImageElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEMergeElement
-bool wxSVGFEMergeElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEMergeElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGFilterPrimitiveStandardAttributes::SetAttribute(attrName, attrValue));
   else 
@@ -978,11 +1372,18 @@ bool wxSVGFEMergeElement::SetAttribute(const wxString& attrName, const wxString&
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEMergeElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEMergeNodeElement
-bool wxSVGFEMergeNodeElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEMergeNodeElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
@@ -993,11 +1394,23 @@ bool wxSVGFEMergeNodeElement::SetAttribute(const wxString& attrName, const wxStr
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEMergeNodeElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("in")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in1.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in1.ResetAnimVal();
+	}
+  } else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEMorphologyElement
-bool wxSVGFEMorphologyElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEMorphologyElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
   else if (attrName == wxT("operator"))
@@ -1018,11 +1431,26 @@ bool wxSVGFEMorphologyElement::SetAttribute(const wxString& attrName, const wxSt
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEMorphologyElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("in")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in1.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in1.ResetAnimVal();
+	}
+  } else if (attrName == wxT("operator")) {
+    m_operator.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEOffsetElement
-bool wxSVGFEOffsetElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEOffsetElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
   else if (attrName == wxT("dx"))
@@ -1046,11 +1474,28 @@ bool wxSVGFEOffsetElement::SetAttribute(const wxString& attrName, const wxString
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEOffsetElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("in")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in1.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in1.ResetAnimVal();
+	}
+  } else if (attrName == wxT("dx")) {
+    m_dx.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("dy")) {
+    m_dy.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFEPointLightElement
-bool wxSVGFEPointLightElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFEPointLightElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("x"))
   {
     double value;
@@ -1077,11 +1522,23 @@ bool wxSVGFEPointLightElement::SetAttribute(const wxString& attrName, const wxSt
   }
 
   return true;
-}      
+}
+
+bool wxSVGFEPointLightElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("x")) {
+    m_x.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("y")) {
+    m_y.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("z")) {
+    m_z.SetAnimVal(attrValue.GetLength().GetValue());
+  } else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFESpecularLightingElement
-bool wxSVGFESpecularLightingElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFESpecularLightingElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
   else if (attrName == wxT("surfaceScale"))
@@ -1111,11 +1568,30 @@ bool wxSVGFESpecularLightingElement::SetAttribute(const wxString& attrName, cons
   }
 
   return true;
-}      
+}
+
+bool wxSVGFESpecularLightingElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("in")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in1.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in1.ResetAnimVal();
+	}
+  } else if (attrName == wxT("surfaceScale")) {
+    m_surfaceScale.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("specularConstant")) {
+    m_specularConstant.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("specularExponent")) {
+    m_specularExponent.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFESpotLightElement
-bool wxSVGFESpotLightElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFESpotLightElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("x"))
   {
     double value;
@@ -1172,11 +1648,33 @@ bool wxSVGFESpotLightElement::SetAttribute(const wxString& attrName, const wxStr
   }
 
   return true;
-}      
+}
+
+bool wxSVGFESpotLightElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("x")) {
+    m_x.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("y")) {
+    m_y.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("z")) {
+    m_z.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("pointsAtX")) {
+    m_pointsAtX.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("pointsAtY")) {
+    m_pointsAtY.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("pointsAtZ")) {
+    m_pointsAtZ.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("specularExponent")) {
+    m_specularExponent.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("limitingConeAngle")) {
+    m_limitingConeAngle.SetAnimVal(attrValue.GetLength().GetValue());
+  } else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFETileElement
-bool wxSVGFETileElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFETileElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("in"))
 	m_in1.GetBaseVal() = attrValue;
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
@@ -1188,11 +1686,24 @@ bool wxSVGFETileElement::SetAttribute(const wxString& attrName, const wxString& 
   }
 
   return true;
-}      
+}
+
+bool wxSVGFETileElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("in")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_in1.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_in1.ResetAnimVal();
+	}
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFETurbulenceElement
-bool wxSVGFETurbulenceElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFETurbulenceElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("numOctaves"))
   {
     long value;
@@ -1232,11 +1743,26 @@ bool wxSVGFETurbulenceElement::SetAttribute(const wxString& attrName, const wxSt
   }
 
   return true;
-}      
+}
+
+bool wxSVGFETurbulenceElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("numOctaves")) {
+    m_numOctaves.SetAnimVal((long int) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("seed")) {
+    m_seed.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("stitchTiles")) {
+    m_stitchTiles.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("type")) {
+    m_type.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFilterElement
-bool wxSVGFilterElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFilterElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("filterUnits"))
   {
     long value;
@@ -1269,11 +1795,47 @@ bool wxSVGFilterElement::SetAttribute(const wxString& attrName, const wxString& 
   }
 
   return true;
-}      
+}
+
+bool wxSVGFilterElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("filterUnits")) {
+    m_filterUnits.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("primitiveUnits")) {
+    m_primitiveUnits.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("x")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y.ResetAnimVal();
+	}
+  } else if (attrName == wxT("width")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_width.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_width.ResetAnimVal();
+	}
+  } else if (attrName == wxT("height")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_height.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_height.ResetAnimVal();
+	}
+  } else if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFilterPrimitiveStandardAttributes
-bool wxSVGFilterPrimitiveStandardAttributes::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFilterPrimitiveStandardAttributes::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("x"))
     m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
@@ -1289,11 +1851,48 @@ bool wxSVGFilterPrimitiveStandardAttributes::SetAttribute(const wxString& attrNa
       return false;
 
   return true;
-}      
+}
+
+bool wxSVGFilterPrimitiveStandardAttributes::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("x")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y.ResetAnimVal();
+	}
+  } else if (attrName == wxT("width")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_width.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_width.ResetAnimVal();
+	}
+  } else if (attrName == wxT("height")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_height.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_height.ResetAnimVal();
+	}
+  } else if (attrName == wxT("result")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_result.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_result.ResetAnimVal();
+	}
+  } else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFitToViewBox
-bool wxSVGFitToViewBox::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFitToViewBox::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("viewBox"))
     m_viewBox.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("preserveAspectRatio"))
@@ -1302,11 +1901,34 @@ bool wxSVGFitToViewBox::SetAttribute(const wxString& attrName, const wxString& a
       return false;
 
   return true;
-}      
+}
+
+bool wxSVGFitToViewBox::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("viewBox")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH_LIST) {
+	  if (attrValue.GetLengthList().size() >= 4) {
+		const wxSVGLengthList& list = attrValue.GetLengthList();
+		m_viewBox.SetAnimVal(wxSVGRect(list[0], list[1], list[2], list[3]));
+	  }
+	} else {
+	  m_viewBox.ResetAnimVal();
+	}
+  } else if (attrName == wxT("preserveAspectRatio")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_STRING) {
+	  wxSVGPreserveAspectRatio ratio;
+	  ratio.SetValueAsString(attrValue.GetString());
+	  m_preserveAspectRatio.SetAnimVal(ratio);
+	} else {
+	  m_preserveAspectRatio.ResetAnimVal();
+	}
+  } else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFontElement
-bool wxSVGFontElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFontElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
   else if (wxSVGStylable::SetAttribute(attrName, attrValue));
@@ -1317,11 +1939,18 @@ bool wxSVGFontElement::SetAttribute(const wxString& attrName, const wxString& at
   }
 
   return true;
-}      
+}
+
+bool wxSVGFontElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGFontFaceElement
-bool wxSVGFontFaceElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFontFaceElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -1330,11 +1959,10 @@ bool wxSVGFontFaceElement::SetAttribute(const wxString& attrName, const wxString
   }
 
   return true;
-}      
+}
 
 // wxSVGFontFaceFormatElement
-bool wxSVGFontFaceFormatElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFontFaceFormatElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -1343,11 +1971,10 @@ bool wxSVGFontFaceFormatElement::SetAttribute(const wxString& attrName, const wx
   }
 
   return true;
-}      
+}
 
 // wxSVGFontFaceNameElement
-bool wxSVGFontFaceNameElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFontFaceNameElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -1356,11 +1983,10 @@ bool wxSVGFontFaceNameElement::SetAttribute(const wxString& attrName, const wxSt
   }
 
   return true;
-}      
+}
 
 // wxSVGFontFaceSrcElement
-bool wxSVGFontFaceSrcElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFontFaceSrcElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -1369,11 +1995,10 @@ bool wxSVGFontFaceSrcElement::SetAttribute(const wxString& attrName, const wxStr
   }
 
   return true;
-}      
+}
 
 // wxSVGFontFaceUriElement
-bool wxSVGFontFaceUriElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGFontFaceUriElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -1382,11 +2007,10 @@ bool wxSVGFontFaceUriElement::SetAttribute(const wxString& attrName, const wxStr
   }
 
   return true;
-}      
+}
 
 // wxSVGForeignObjectElement
-bool wxSVGForeignObjectElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGForeignObjectElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("x"))
     m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
@@ -1408,11 +2032,43 @@ bool wxSVGForeignObjectElement::SetAttribute(const wxString& attrName, const wxS
   }
 
   return true;
-}      
+}
+
+bool wxSVGForeignObjectElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("x")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y.ResetAnimVal();
+	}
+  } else if (attrName == wxT("width")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_width.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_width.ResetAnimVal();
+	}
+  } else if (attrName == wxT("height")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_height.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_height.ResetAnimVal();
+	}
+  } else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGGElement
-bool wxSVGGElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGGElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -1426,11 +2082,19 @@ bool wxSVGGElement::SetAttribute(const wxString& attrName, const wxString& attrV
   }
 
   return true;
-}      
+}
+
+bool wxSVGGElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGGlyphElement
-bool wxSVGGlyphElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGGlyphElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGStylable::SetAttribute(attrName, attrValue));
   else 
@@ -1440,11 +2104,18 @@ bool wxSVGGlyphElement::SetAttribute(const wxString& attrName, const wxString& a
   }
 
   return true;
-}      
+}
+
+bool wxSVGGlyphElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGGlyphRefElement
-bool wxSVGGlyphRefElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGGlyphRefElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("glyphRef"))
 	m_glyphRef = attrValue;
   else if (attrName == wxT("format"))
@@ -1483,11 +2154,19 @@ bool wxSVGGlyphRefElement::SetAttribute(const wxString& attrName, const wxString
   }
 
   return true;
-}      
+}
+
+bool wxSVGGlyphRefElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGGradientElement
-bool wxSVGGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("gradientUnits"))
   {
     wxSVG_UNIT_TYPE value = wxSVG_UNIT_TYPE_UNKNOWN;
@@ -1518,11 +2197,29 @@ bool wxSVGGradientElement::SetAttribute(const wxString& attrName, const wxString
       return false;
 
   return true;
-}      
+}
+
+bool wxSVGGradientElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("gradientUnits")) {
+    m_gradientUnits.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("gradientTransform")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH_LIST) {
+	  m_gradientTransform.SetAnimVal(attrValue.GetTransformList());
+	} else {
+	  m_gradientTransform.ResetAnimVal();
+	}
+  } else if (attrName == wxT("spreadMethod")) {
+    m_spreadMethod.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGHKernElement
-bool wxSVGHKernElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGHKernElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -1531,11 +2228,10 @@ bool wxSVGHKernElement::SetAttribute(const wxString& attrName, const wxString& a
   }
 
   return true;
-}      
+}
 
 // wxSVGImageElement
-bool wxSVGImageElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGImageElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("x"))
     m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
@@ -1560,11 +2256,52 @@ bool wxSVGImageElement::SetAttribute(const wxString& attrName, const wxString& a
   }
 
   return true;
-}      
+}
+
+bool wxSVGImageElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("x")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y.ResetAnimVal();
+	}
+  } else if (attrName == wxT("width")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_width.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_width.ResetAnimVal();
+	}
+  } else if (attrName == wxT("height")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_height.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_height.ResetAnimVal();
+	}
+  } else if (attrName == wxT("preserveAspectRatio")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_STRING) {
+	  wxSVGPreserveAspectRatio ratio;
+	  ratio.SetValueAsString(attrValue.GetString());
+	  m_preserveAspectRatio.SetAnimVal(ratio);
+	} else {
+	  m_preserveAspectRatio.ResetAnimVal();
+	}
+  } else if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGLangSpace
-bool wxSVGLangSpace::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGLangSpace::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("xml:lang"))
 	m_xmllang = attrValue;
   else if (attrName == wxT("xml:space"))
@@ -1573,11 +2310,10 @@ bool wxSVGLangSpace::SetAttribute(const wxString& attrName, const wxString& attr
       return false;
 
   return true;
-}      
+}
 
 // wxSVGLineElement
-bool wxSVGLineElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGLineElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("x1"))
     m_x1.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y1"))
@@ -1599,11 +2335,43 @@ bool wxSVGLineElement::SetAttribute(const wxString& attrName, const wxString& at
   }
 
   return true;
-}      
+}
+
+bool wxSVGLineElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("x1")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x1.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x1.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y1")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y1.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y1.ResetAnimVal();
+	}
+  } else if (attrName == wxT("x2")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x2.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x2.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y2")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y2.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y2.ResetAnimVal();
+	}
+  } else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGLinearGradientElement
-bool wxSVGLinearGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGLinearGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("x1"))
     m_x1.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y1"))
@@ -1620,11 +2388,42 @@ bool wxSVGLinearGradientElement::SetAttribute(const wxString& attrName, const wx
   }
 
   return true;
-}      
+}
+
+bool wxSVGLinearGradientElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("x1")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x1.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x1.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y1")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y1.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y1.ResetAnimVal();
+	}
+  } else if (attrName == wxT("x2")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x2.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x2.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y2")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y2.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y2.ResetAnimVal();
+	}
+  } else if (wxSVGGradientElement::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGMPathElement
-bool wxSVGMPathElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGMPathElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
   else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
@@ -1635,11 +2434,18 @@ bool wxSVGMPathElement::SetAttribute(const wxString& attrName, const wxString& a
   }
 
   return true;
-}      
+}
+
+bool wxSVGMPathElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGMarkerElement
-bool wxSVGMarkerElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGMarkerElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("refX"))
     m_refX.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("refY"))
@@ -1669,11 +2475,45 @@ bool wxSVGMarkerElement::SetAttribute(const wxString& attrName, const wxString& 
   }
 
   return true;
-}      
+}
+
+bool wxSVGMarkerElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("refX")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_refX.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_refX.ResetAnimVal();
+	}
+  } else if (attrName == wxT("refY")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_refY.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_refY.ResetAnimVal();
+	}
+  } else if (attrName == wxT("markerUnits")) {
+    m_markerUnits.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("markerWidth")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_markerWidth.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_markerWidth.ResetAnimVal();
+	}
+  } else if (attrName == wxT("markerHeight")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_markerHeight.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_markerHeight.ResetAnimVal();
+	}
+  } else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGFitToViewBox::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGMaskElement
-bool wxSVGMaskElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGMaskElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("maskUnits"))
   {
     long value;
@@ -1706,11 +2546,46 @@ bool wxSVGMaskElement::SetAttribute(const wxString& attrName, const wxString& at
   }
 
   return true;
-}      
+}
+
+bool wxSVGMaskElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("maskUnits")) {
+    m_maskUnits.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("maskContentUnits")) {
+    m_maskContentUnits.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("x")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y.ResetAnimVal();
+	}
+  } else if (attrName == wxT("width")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_width.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_width.ResetAnimVal();
+	}
+  } else if (attrName == wxT("height")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_height.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_height.ResetAnimVal();
+	}
+  } else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGMetadataElement
-bool wxSVGMetadataElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGMetadataElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -1719,11 +2594,10 @@ bool wxSVGMetadataElement::SetAttribute(const wxString& attrName, const wxString
   }
 
   return true;
-}      
+}
 
 // wxSVGMissingGlyphElement
-bool wxSVGMissingGlyphElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGMissingGlyphElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGStylable::SetAttribute(attrName, attrValue));
   else 
@@ -1733,11 +2607,18 @@ bool wxSVGMissingGlyphElement::SetAttribute(const wxString& attrName, const wxSt
   }
 
   return true;
-}      
+}
+
+bool wxSVGMissingGlyphElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGPathElement
-bool wxSVGPathElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGPathElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("pathLength"))
   {
     double value;
@@ -1758,11 +2639,21 @@ bool wxSVGPathElement::SetAttribute(const wxString& attrName, const wxString& at
   }
 
   return true;
-}      
+}
+
+bool wxSVGPathElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("pathLength")) {
+    m_pathLength.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGPatternElement
-bool wxSVGPatternElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGPatternElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("patternUnits"))
   {
     long value;
@@ -1799,11 +2690,54 @@ bool wxSVGPatternElement::SetAttribute(const wxString& attrName, const wxString&
   }
 
   return true;
-}      
+}
+
+bool wxSVGPatternElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("patternUnits")) {
+    m_patternUnits.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("patternContentUnits")) {
+    m_patternContentUnits.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("patternTransform")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH_LIST) {
+	  m_patternTransform.SetAnimVal(attrValue.GetTransformList());
+	} else {
+	  m_patternTransform.ResetAnimVal();
+	}
+  } else if (attrName == wxT("x")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y.ResetAnimVal();
+	}
+  } else if (attrName == wxT("width")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_width.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_width.ResetAnimVal();
+	}
+  } else if (attrName == wxT("height")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_height.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_height.ResetAnimVal();
+	}
+  } else if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGFitToViewBox::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGPolygonElement
-bool wxSVGPolygonElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGPolygonElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -1818,11 +2752,19 @@ bool wxSVGPolygonElement::SetAttribute(const wxString& attrName, const wxString&
   }
 
   return true;
-}      
+}
+
+bool wxSVGPolygonElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGPolylineElement
-bool wxSVGPolylineElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGPolylineElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -1837,11 +2779,19 @@ bool wxSVGPolylineElement::SetAttribute(const wxString& attrName, const wxString
   }
 
   return true;
-}      
+}
+
+bool wxSVGPolylineElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGRadialGradientElement
-bool wxSVGRadialGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGRadialGradientElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("cx"))
     m_cx.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("cy"))
@@ -1860,11 +2810,48 @@ bool wxSVGRadialGradientElement::SetAttribute(const wxString& attrName, const wx
   }
 
   return true;
-}      
+}
+
+bool wxSVGRadialGradientElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("cx")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_cx.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_cx.ResetAnimVal();
+	}
+  } else if (attrName == wxT("cy")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_cy.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_cy.ResetAnimVal();
+	}
+  } else if (attrName == wxT("r")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_r.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_r.ResetAnimVal();
+	}
+  } else if (attrName == wxT("fx")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_fx.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_fx.ResetAnimVal();
+	}
+  } else if (attrName == wxT("fy")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_fy.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_fy.ResetAnimVal();
+	}
+  } else if (wxSVGGradientElement::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGRectElement
-bool wxSVGRectElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGRectElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("x"))
     m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
@@ -1890,11 +2877,55 @@ bool wxSVGRectElement::SetAttribute(const wxString& attrName, const wxString& at
   }
 
   return true;
-}      
+}
+
+bool wxSVGRectElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("x")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y.ResetAnimVal();
+	}
+  } else if (attrName == wxT("width")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_width.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_width.ResetAnimVal();
+	}
+  } else if (attrName == wxT("height")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_height.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_height.ResetAnimVal();
+	}
+  } else if (attrName == wxT("rx")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_rx.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_rx.ResetAnimVal();
+	}
+  } else if (attrName == wxT("ry")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_ry.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_ry.ResetAnimVal();
+	}
+  } else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGSVGElement
-bool wxSVGSVGElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGSVGElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("x"))
     m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
@@ -1921,11 +2952,43 @@ bool wxSVGSVGElement::SetAttribute(const wxString& attrName, const wxString& att
   }
 
   return true;
-}      
+}
+
+bool wxSVGSVGElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("x")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y.ResetAnimVal();
+	}
+  } else if (attrName == wxT("width")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_width.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_width.ResetAnimVal();
+	}
+  } else if (attrName == wxT("height")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_height.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_height.ResetAnimVal();
+	}
+  } else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGFitToViewBox::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGScriptElement
-bool wxSVGScriptElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGScriptElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("type"))
 	m_type = attrValue;
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
@@ -1938,11 +3001,18 @@ bool wxSVGScriptElement::SetAttribute(const wxString& attrName, const wxString& 
   }
 
   return true;
-}      
+}
+
+bool wxSVGScriptElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGSetElement
-bool wxSVGSetElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGSetElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGAnimationElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -1951,11 +3021,10 @@ bool wxSVGSetElement::SetAttribute(const wxString& attrName, const wxString& att
   }
 
   return true;
-}      
+}
 
 // wxSVGStopElement
-bool wxSVGStopElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGStopElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("offset"))
   {
     double value;
@@ -1976,11 +3045,20 @@ bool wxSVGStopElement::SetAttribute(const wxString& attrName, const wxString& at
   }
 
   return true;
-}      
+}
+
+bool wxSVGStopElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("offset")) {
+    m_offset.SetAnimVal(attrValue.GetLength().GetValue());
+  } else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGStylable
-bool wxSVGStylable::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGStylable::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("class"))
 	m_className.GetBaseVal() = attrValue;
   else if (attrName == wxT("style"))
@@ -1990,11 +3068,24 @@ bool wxSVGStylable::SetAttribute(const wxString& attrName, const wxString& attrV
       return false;
 
   return true;
-}      
+}
+
+bool wxSVGStylable::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("class")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_className.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_className.ResetAnimVal();
+	}
+  } else if (SetCustomAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGStyleElement
-bool wxSVGStyleElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGStyleElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("xml:space"))
 	m_xmlspace = attrValue;
   else if (attrName == wxT("type"))
@@ -2011,11 +3102,10 @@ bool wxSVGStyleElement::SetAttribute(const wxString& attrName, const wxString& a
   }
 
   return true;
-}      
+}
 
 // wxSVGSwitchElement
-bool wxSVGSwitchElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGSwitchElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
@@ -2029,11 +3119,19 @@ bool wxSVGSwitchElement::SetAttribute(const wxString& attrName, const wxString& 
   }
 
   return true;
-}      
+}
+
+bool wxSVGSwitchElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGSymbolElement
-bool wxSVGSymbolElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGSymbolElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
   else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
@@ -2046,11 +3144,19 @@ bool wxSVGSymbolElement::SetAttribute(const wxString& attrName, const wxString& 
   }
 
   return true;
-}      
+}
+
+bool wxSVGSymbolElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGFitToViewBox::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGTBreakElement
-bool wxSVGTBreakElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGTBreakElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -2059,11 +3165,10 @@ bool wxSVGTBreakElement::SetAttribute(const wxString& attrName, const wxString& 
   }
 
   return true;
-}      
+}
 
 // wxSVGTRefElement
-bool wxSVGTRefElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGTRefElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGTextPositioningElement::SetAttribute(attrName, attrValue));
   else if (wxSVGURIReference::SetAttribute(attrName, attrValue));
   else 
@@ -2073,11 +3178,19 @@ bool wxSVGTRefElement::SetAttribute(const wxString& attrName, const wxString& at
   }
 
   return true;
-}      
+}
+
+bool wxSVGTRefElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGTextPositioningElement::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGTSpanElement
-bool wxSVGTSpanElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGTSpanElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGTextPositioningElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -2086,11 +3199,18 @@ bool wxSVGTSpanElement::SetAttribute(const wxString& attrName, const wxString& a
   }
 
   return true;
-}      
+}
+
+bool wxSVGTSpanElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGTextPositioningElement::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGTests
-bool wxSVGTests::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGTests::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("requiredFeatures"))
     m_requiredFeatures.SetValueAsString(attrValue);
   else if (attrName == wxT("requiredExtensions"))
@@ -2101,11 +3221,10 @@ bool wxSVGTests::SetAttribute(const wxString& attrName, const wxString& attrValu
       return false;
 
   return true;
-}      
+}
 
 // wxSVGTextContentElement
-bool wxSVGTextContentElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGTextContentElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("textLength"))
     m_textLength.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("lengthAdjust"))
@@ -2126,11 +3245,26 @@ bool wxSVGTextContentElement::SetAttribute(const wxString& attrName, const wxStr
       return false;
 
   return true;
-}      
+}
+
+bool wxSVGTextContentElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("textLength")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_textLength.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_textLength.ResetAnimVal();
+	}
+  } else if (attrName == wxT("lengthAdjust")) {
+    m_lengthAdjust.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGTextElement
-bool wxSVGTextElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGTextElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGTextPositioningElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTransformable::SetAttribute(attrName, attrValue));
   else 
@@ -2140,11 +3274,19 @@ bool wxSVGTextElement::SetAttribute(const wxString& attrName, const wxString& at
   }
 
   return true;
-}      
+}
+
+bool wxSVGTextElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGTextPositioningElement::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGTextPathElement
-bool wxSVGTextPathElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGTextPathElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("startOffset"))
     m_startOffset.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("method"))
@@ -2174,11 +3316,29 @@ bool wxSVGTextPathElement::SetAttribute(const wxString& attrName, const wxString
   }
 
   return true;
-}      
+}
+
+bool wxSVGTextPathElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("startOffset")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_startOffset.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_startOffset.ResetAnimVal();
+	}
+  } else if (attrName == wxT("method")) {
+    m_method.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (attrName == wxT("spacing")) {
+    m_spacing.SetAnimVal((unsigned char) attrValue.GetLength().GetValue());
+  } else if (wxSVGTextContentElement::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGTextPositioningElement
-bool wxSVGTextPositioningElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGTextPositioningElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("x"))
     m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
@@ -2194,11 +3354,54 @@ bool wxSVGTextPositioningElement::SetAttribute(const wxString& attrName, const w
       return false;
 
   return true;
-}      
+}
+
+bool wxSVGTextPositioningElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("x")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH_LIST) {
+	  m_x.SetAnimVal(attrValue.GetLengthList());
+	} else {
+	  m_x.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH_LIST) {
+	  m_y.SetAnimVal(attrValue.GetLengthList());
+	} else {
+	  m_y.ResetAnimVal();
+	}
+  } else if (attrName == wxT("dx")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH_LIST) {
+	  m_dx.SetAnimVal(attrValue.GetLengthList());
+	} else {
+	  m_dx.ResetAnimVal();
+	}
+  } else if (attrName == wxT("dy")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH_LIST) {
+	  m_dy.SetAnimVal(attrValue.GetLengthList());
+	} else {
+	  m_dy.ResetAnimVal();
+	}
+  } else if (attrName == wxT("rotate")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH_LIST) {
+	  wxSVGNumberList list;
+	  for (unsigned int i = 0; i < attrValue.GetLengthList().size(); i++) {
+		list.push_back(attrValue.GetLengthList()[i].GetValue());
+	  }
+	  m_rotate.SetAnimVal(list);
+	} else if (attrValue.GetPropertyType() == wxSVG_ANIMATED_NUMBER_LIST) {
+	  m_rotate.SetAnimVal(attrValue.GetNumberList());
+	} else {
+	  m_rotate.ResetAnimVal();
+	}
+  } else if (wxSVGTextContentElement::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGTitleElement
-bool wxSVGTitleElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGTitleElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGLangSpace::SetAttribute(attrName, attrValue));
   else if (wxSVGStylable::SetAttribute(attrName, attrValue));
@@ -2209,33 +3412,64 @@ bool wxSVGTitleElement::SetAttribute(const wxString& attrName, const wxString& a
   }
 
   return true;
-}      
+}
+
+bool wxSVGTitleElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGTransformable
-bool wxSVGTransformable::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGTransformable::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("transform"))
     m_transform.GetBaseVal().SetValueAsString(attrValue);
   else 
       return false;
 
   return true;
-}      
+}
+
+bool wxSVGTransformable::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("transform")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH_LIST) {
+	  m_transform.SetAnimVal(attrValue.GetTransformList());
+	} else {
+	  m_transform.ResetAnimVal();
+	}
+  } else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGURIReference
-bool wxSVGURIReference::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGURIReference::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("xlink:href"))
 	m_href.GetBaseVal() = attrValue;
   else 
       return false;
 
   return true;
-}      
+}
+
+bool wxSVGURIReference::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("xlink:href")) {
+    if (attrValue.GetPropertyType() != wxSVG_ANIMATED_UNKNOWN) {
+	  m_href.SetAnimVal(attrValue.GetString());
+	} else {
+	  m_href.ResetAnimVal();
+	}
+  } else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGUseElement
-bool wxSVGUseElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGUseElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("x"))
     m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
@@ -2258,11 +3492,44 @@ bool wxSVGUseElement::SetAttribute(const wxString& attrName, const wxString& att
   }
 
   return true;
-}      
+}
+
+bool wxSVGUseElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("x")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y.ResetAnimVal();
+	}
+  } else if (attrName == wxT("width")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_width.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_width.ResetAnimVal();
+	}
+  } else if (attrName == wxT("height")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_height.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_height.ResetAnimVal();
+	}
+  } else if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGVKernElement
-bool wxSVGVKernElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGVKernElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGElement::SetAttribute(attrName, attrValue));
   else 
   {
@@ -2271,11 +3538,10 @@ bool wxSVGVKernElement::SetAttribute(const wxString& attrName, const wxString& a
   }
 
   return true;
-}      
+}
 
 // wxSVGVideoElement
-bool wxSVGVideoElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGVideoElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("x"))
     m_x.GetBaseVal().SetValueAsString(attrValue);
   else if (attrName == wxT("y"))
@@ -2322,11 +3588,52 @@ bool wxSVGVideoElement::SetAttribute(const wxString& attrName, const wxString& a
   }
 
   return true;
-}      
+}
+
+bool wxSVGVideoElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (attrName == wxT("x")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_x.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_x.ResetAnimVal();
+	}
+  } else if (attrName == wxT("y")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_y.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_y.ResetAnimVal();
+	}
+  } else if (attrName == wxT("width")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_width.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_width.ResetAnimVal();
+	}
+  } else if (attrName == wxT("height")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_LENGTH) {
+	  m_height.SetAnimVal(attrValue.GetLength().GetValue());
+	} else {
+	  m_height.ResetAnimVal();
+	}
+  } else if (attrName == wxT("preserveAspectRatio")) {
+    if (attrValue.GetPropertyType() == wxSVG_ANIMATED_STRING) {
+	  wxSVGPreserveAspectRatio ratio;
+	  ratio.SetValueAsString(attrValue.GetString());
+	  m_preserveAspectRatio.SetAnimVal(ratio);
+	} else {
+	  m_preserveAspectRatio.ResetAnimVal();
+	}
+  } else if (wxSVGURIReference::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGStylable::SetAnimatedValue(attrName, attrValue));
+  else if (wxSVGTransformable::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGViewElement
-bool wxSVGViewElement::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGViewElement::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("viewTarget"))
     m_viewTarget.SetValueAsString(attrValue);
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
@@ -2340,22 +3647,36 @@ bool wxSVGViewElement::SetAttribute(const wxString& attrName, const wxString& at
   }
 
   return true;
-}      
+}
+
+bool wxSVGViewElement::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGFitToViewBox::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGViewSpec
-bool wxSVGViewSpec::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGViewSpec::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (wxSVGZoomAndPan::SetAttribute(attrName, attrValue));
   else if (wxSVGFitToViewBox::SetAttribute(attrName, attrValue));
   else 
       return false;
 
   return true;
-}      
+}
+
+bool wxSVGViewSpec::SetAnimatedValue(const wxString& attrName, const wxSVGAnimatedType& attrValue) {
+  if (wxSVGFitToViewBox::SetAnimatedValue(attrName, attrValue));
+  else {
+    return false;
+  }
+  return true;
+}
 
 // wxSVGZoomAndPan
-bool wxSVGZoomAndPan::SetAttribute(const wxString& attrName, const wxString& attrValue)
-{
+bool wxSVGZoomAndPan::SetAttribute(const wxString& attrName, const wxString& attrValue) {
   if (attrName == wxT("zoomAndPan"))
   {
     wxSVG_ZOOMANDPAN value = wxSVG_ZOOMANDPAN_UNKNOWN;
@@ -2369,5 +3690,5 @@ bool wxSVGZoomAndPan::SetAttribute(const wxString& attrName, const wxString& att
       return false;
 
   return true;
-}      
+}
 

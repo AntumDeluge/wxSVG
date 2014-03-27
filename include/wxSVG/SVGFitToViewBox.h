@@ -13,6 +13,7 @@
 #include "SVGAnimatedPreserveAspectRatio.h"
 #include "String_wxsvg.h"
 #include "Element.h"
+#include "SVGAnimatedType.h"
 #include "SVGLength.h"
 #include "SVGMatrix.h"
 
@@ -38,6 +39,7 @@ class wxSVGFitToViewBox
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
 };
 
 #endif // WX_SVG_FIT_TO_VIEW_BOX_H

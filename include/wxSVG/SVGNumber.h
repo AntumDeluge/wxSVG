@@ -20,6 +20,7 @@ class wxSVGNumber
 
   public:
     wxSVGNumber(): m_value(0) {}
+    wxSVGNumber(double value): m_value(value) {}
     virtual ~wxSVGNumber() {}
 };
 

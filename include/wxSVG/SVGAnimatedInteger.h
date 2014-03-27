@@ -23,7 +23,7 @@ class wxSVGAnimatedInteger
 	inline void SetAnimVal(long value) { m_animVal = value; }
     
   public:
-    inline operator long() const { return GetBaseVal(); }
+    inline operator long() const { return GetAnimVal(); }
     
   protected:
     long m_baseVal;

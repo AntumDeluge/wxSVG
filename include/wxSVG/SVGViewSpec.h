@@ -16,6 +16,7 @@ class wxSVGElement;
 #include "SVGTransformList.h"
 #include "String_wxsvg.h"
 #include "Element.h"
+#include "SVGAnimatedType.h"
 
 class wxSVGViewSpec:
   public wxSVGZoomAndPan,
@@ -55,6 +56,7 @@ class wxSVGViewSpec:
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
 };
 
 #endif // WX_SVG_VIEW_SPEC_H

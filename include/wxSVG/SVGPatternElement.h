@@ -23,6 +23,7 @@
 #include "SVGSVGElement.h"
 #include "String_wxsvg.h"
 #include "Element.h"
+#include "SVGAnimatedType.h"
 
 class wxSVGPatternElement:
   public wxSVGElement,
@@ -81,6 +82,7 @@ class wxSVGPatternElement:
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
     virtual wxSVGDTD GetDtd() const { return wxSVG_PATTERN_ELEMENT; }
 };
 

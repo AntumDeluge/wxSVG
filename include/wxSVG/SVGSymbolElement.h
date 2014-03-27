@@ -17,6 +17,7 @@
 #include "EventTarget.h"
 #include "String_wxsvg.h"
 #include "Element.h"
+#include "SVGAnimatedType.h"
 
 class wxSVGSymbolElement:
   public wxSVGElement,
@@ -35,6 +36,7 @@ class wxSVGSymbolElement:
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
     virtual wxSVGDTD GetDtd() const { return wxSVG_SYMBOL_ELEMENT; }
 };
 

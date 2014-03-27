@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.39 2014-03-24 21:13:44 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.40 2014-03-27 08:38:04 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -199,6 +199,7 @@ inter.user_defined_destructor=1
 # SVGAngle
 inter = interface()
 interfaces["SVGAngle"]=inter
+inter.include_attributes_init = [["valueInSpecifiedUnits", "0"]]
 inter.include_methods.append('    wxSVGAngle() : m_unitType(wxSVG_ANGLETYPE_UNKNOWN), m_value(0) {}\n')
 inter.include_methods.append('    wxSVGAngle(double v) : m_unitType(wxSVG_ANGLETYPE_UNSPECIFIED), m_value(v) {}\n')
 inter.include_methods.append('    virtual ~wxSVGAngle() {}\n')
@@ -216,6 +217,15 @@ inter.include_methods.append('    \n')
 inter.exclude_methods = ["GetValue", "SetValue", "GetValueInSpecifiedUnits", "GetValueInSpecifiedUnits"]
 inter.exclude_attributes = ["valueAsString"]
 inter.include_includes = ["String_wxsvg"]
+inter.user_defined_constructor=1
+inter.user_defined_destructor=1
+
+# SVGNumber
+inter = interface()
+interfaces["SVGNumber"]=inter
+inter.include_methods.append('    wxSVGNumber(): m_value(0) {}\n')
+inter.include_methods.append('    wxSVGNumber(double value): m_value(value) {}\n')
+inter.include_methods.append('    virtual ~wxSVGNumber() {}\n')
 inter.user_defined_constructor=1
 inter.user_defined_destructor=1
 

@@ -3,7 +3,7 @@
 // Purpose:     Implementation of SVGAnimatedType
 // Author:      Alex Thuering
 // Created:     2014/02/24
-// RCS-ID:      $Id: SVGAnimatedType.cpp,v 1.1 2014-03-18 13:11:17 ntalex Exp $
+// RCS-ID:      $Id: SVGAnimatedType.cpp,v 1.2 2014-03-27 08:42:16 ntalex Exp $
 // Copyright:   (c) 2014 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -25,12 +25,12 @@ void wxSVGAnimatedType::SetValueAsString(const wxString& value) {
 	if (val.length() && (val[0] < wxT('0') || val[0] > wxT('9')) && val[0] != wxT('+')
 			&& val[0] != wxT('-') && val[0] != wxT('.') && val[0] != wxT('E') && val[0] != wxT('e')) {
 		m_color = wxCSSStyleDeclaration::ParseColor(value);
-		m_propertyType = m_color.Ok() || value == wxT("none") ? wxSVG_ANIMATED_COLOR : wxSVG_ANIMATED_STRING;
-	} else if (value.Index(wxT(',')) >= 0) {
+		m_propertyType = m_color.Ok() || val == wxT("none") ? wxSVG_ANIMATED_COLOR : wxSVG_ANIMATED_STRING;
+	} else if ((int) val.Index(wxT(',')) != -1) {
 		m_propertyType = wxSVG_ANIMATED_LENGTH_LIST;
-		m_lengthList.SetValueAsString(value);
+		m_lengthList.SetValueAsString(val);
 	} else {
 		m_propertyType = wxSVG_ANIMATED_LENGTH;
-		m_length.SetValueAsString(value);
+		m_length.SetValueAsString(val);
 	}
 }

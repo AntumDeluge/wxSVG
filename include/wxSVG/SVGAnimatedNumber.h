@@ -23,7 +23,7 @@ class wxSVGAnimatedNumber
 	inline void SetAnimVal(float value) { m_animVal = value; }
     
   public:
-    inline operator float() const { return GetBaseVal(); }
+    inline operator float() const { return GetAnimVal(); }
     
   protected:
     float m_baseVal;

@@ -23,7 +23,7 @@ class wxSVGAnimatedEnumeration
 	inline void SetAnimVal(unsigned char value) { m_animVal = value; }
     
   public:
-    inline operator unsigned char() const { return GetBaseVal(); }
+    inline operator unsigned char() const { return GetAnimVal(); }
     
   protected:
     unsigned char m_baseVal;

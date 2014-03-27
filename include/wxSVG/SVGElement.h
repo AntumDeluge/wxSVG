@@ -15,6 +15,7 @@ class wxSVGDocument;
 
 #include "Element.h"
 #include "String_wxsvg.h"
+#include "SVGAnimatedType.h"
 #include "SVGDTD.h"
 
 class wxSVGElement:
@@ -55,6 +56,7 @@ class wxSVGElement:
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    virtual bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value) { return false; }
 };
 
 #endif // WX_SVG_ELEMENT_H

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGFEGaussianBlurElement.cpp,v 1.6 2014-03-18 13:11:55 ntalex Exp $
+// RCS-ID:      $Id: SVGFEGaussianBlurElement.cpp,v 1.7 2014-03-27 08:42:16 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -38,4 +38,13 @@ wxSvgXmlAttrHash wxSVGFEGaussianBlurElement::GetCustomAttributes() const {
 	if (m_stdDeviationX.GetBaseVal() > 0)
 		attrs.Add(wxT("stdDeviation"), wxString::Format(wxT("%g"), m_stdDeviationX.GetBaseVal()));
 	return attrs;
+}
+
+bool wxSVGFEGaussianBlurElement::SetCustomAnimatedValue(const wxString& name, const wxSVGAnimatedType& value) {
+	if (name == wxT("stdDeviation")) {
+		m_stdDeviationX.SetAnimVal(value.GetLength());
+		m_stdDeviationY.SetAnimVal(value.GetLength());
+		return true;
+	}
+	return false;
 }

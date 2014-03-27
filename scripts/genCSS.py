@@ -3,7 +3,7 @@
 ## Purpose:     generates CSSStyleDeclaration
 ## Author:      Alex Thuering
 ## Created:     2005/06/06
-## RCS-ID:      $Id: genCSS.py,v 1.16 2014-03-18 13:08:39 ntalex Exp $
+## RCS-ID:      $Id: genCSS.py,v 1.17 2014-03-27 08:38:03 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 
@@ -219,6 +219,7 @@ def genCSSStyleDeclaration():
     output = '''
 #include "CSSValue.h"
 #include "SVGPaint.h"
+#include "SVGAnimatedType.h"
 #include <wx/hashmap.h>
 
 enum wxCSS_PROPERTY
@@ -253,6 +254,9 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     void SetProperty(const wxString& propertyName, const wxString& value)
     { SetProperty(GetPropertyId(propertyName), value); }
     
+    void SetProperty(const wxString& propertyName, const wxSVGAnimatedType& value)
+    { SetProperty(GetPropertyId(propertyName), value); }
+    
     inline bool HasProperty(const wxString& propertyName) const
     { return HasProperty(GetPropertyId(propertyName)); }
     
@@ -267,6 +271,7 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     { const_iterator it = find(propertyId); if (it != end()) return *it->second; return *s_emptyCSSValue; }
     
     void SetProperty(wxCSS_PROPERTY propertyId, const wxString& value);
+    void SetProperty(wxCSS_PROPERTY propertyId, const wxSVGAnimatedType& value);
     inline bool HasProperty(wxCSS_PROPERTY propertyId) const { return find(propertyId) != end(); }
     inline wxString RemoveProperty(wxCSS_PROPERTY propertyId) { erase(propertyId); return wxT(""); }
     

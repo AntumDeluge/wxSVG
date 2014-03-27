@@ -3,7 +3,7 @@
 // Purpose:     Implementation of SVGAnimateTransformElement
 // Author:      Alex Thuering
 // Created:     2014/02/24
-// RCS-ID:      $Id: SVGAnimateTransformElement.cpp,v 1.1 2014-03-24 21:15:30 ntalex Exp $
+// RCS-ID:      $Id: SVGAnimateTransformElement.cpp,v 1.2 2014-03-27 08:42:16 ntalex Exp $
 // Copyright:   (c) 2014 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -86,6 +86,10 @@ void wxSVGAnimateTransformElement::ApplyAnimation() {
 			UpdateTransform(transformable->GetTransformList().GetAnimVal()[m_transformIdx], GetType(), values);
 		}
 	} else {
-		GetTargetElement()->SetAttribute(GetAttributeName(), values.GetValueAsString());
+		wxSVGTransformList transforms;
+		wxSVGTransform* transform = new wxSVGTransform();
+		UpdateTransform(*transform, GetType(), values);
+		transforms.Add(transform);
+		GetTargetElement()->SetAnimatedValue(GetAttributeName(), wxSVGAnimatedType(transforms));
 	}
 }

@@ -15,6 +15,7 @@
 #include "SVGAnimatedEnumeration.h"
 #include "String_wxsvg.h"
 #include "Element.h"
+#include "SVGAnimatedType.h"
 
 
 enum wxSVG_FEBLEND_MODE
@@ -58,6 +59,7 @@ class wxSVGFEBlendElement:
     wxString GetAttribute(const wxString& name) const;
     bool SetAttribute(const wxString& name, const wxString& value);
     wxSvgXmlAttrHash GetAttributes() const;
+    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);
     virtual wxSVGDTD GetDtd() const { return wxSVG_FEBLEND_ELEMENT; }
 };
 
