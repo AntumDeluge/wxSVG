@@ -762,7 +762,7 @@ wxSvgXmlAttrHash wxSVGFitToViewBox::GetAttributes() const
   wxSvgXmlAttrHash attrs;
   if (!m_viewBox.GetBaseVal().IsEmpty())
     attrs.Add(wxT("viewBox"), m_viewBox.GetBaseVal().GetValueAsString());
-  if (m_preserveAspectRatio.GetBaseVal().GetAlign() != wxSVG_PRESERVEASPECTRATIO_UNKNOWN && m_preserveAspectRatio.GetBaseVal().GetMeetOrSlice() != wxSVG_MEETORSLICE_UNKNOWN)
+  if (m_preserveAspectRatio.GetBaseVal().GetAlign() != wxSVG_PRESERVEASPECTRATIO_UNKNOWN)
     attrs.Add(wxT("preserveAspectRatio"), m_preserveAspectRatio.GetBaseVal().GetValueAsString());
   return attrs;
 }
@@ -919,7 +919,7 @@ wxSvgXmlAttrHash wxSVGImageElement::GetAttributes() const
     attrs.Add(wxT("width"), m_width.GetBaseVal().GetValueAsString());
   if (m_height.GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
     attrs.Add(wxT("height"), m_height.GetBaseVal().GetValueAsString());
-  if (m_preserveAspectRatio.GetBaseVal().GetAlign() != wxSVG_PRESERVEASPECTRATIO_UNKNOWN && m_preserveAspectRatio.GetBaseVal().GetMeetOrSlice() != wxSVG_MEETORSLICE_UNKNOWN)
+  if (m_preserveAspectRatio.GetBaseVal().GetAlign() != wxSVG_PRESERVEASPECTRATIO_UNKNOWN)
     attrs.Add(wxT("preserveAspectRatio"), m_preserveAspectRatio.GetBaseVal().GetValueAsString());
   attrs.Add(wxSVGElement::GetAttributes());
   attrs.Add(wxSVGURIReference::GetAttributes());
@@ -1444,7 +1444,7 @@ wxSvgXmlAttrHash wxSVGVideoElement::GetAttributes() const
     attrs.Add(wxT("width"), m_width.GetBaseVal().GetValueAsString());
   if (m_height.GetBaseVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
     attrs.Add(wxT("height"), m_height.GetBaseVal().GetValueAsString());
-  if (m_preserveAspectRatio.GetBaseVal().GetAlign() != wxSVG_PRESERVEASPECTRATIO_UNKNOWN && m_preserveAspectRatio.GetBaseVal().GetMeetOrSlice() != wxSVG_MEETORSLICE_UNKNOWN)
+  if (m_preserveAspectRatio.GetBaseVal().GetAlign() != wxSVG_PRESERVEASPECTRATIO_UNKNOWN)
     attrs.Add(wxT("preserveAspectRatio"), m_preserveAspectRatio.GetBaseVal().GetValueAsString());
   if (m_begin > 0)
     attrs.Add(wxT("begin"), wxString::Format(wxT("%g"), m_begin));
