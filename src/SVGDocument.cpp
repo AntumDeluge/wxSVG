@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.48 2014-03-24 21:17:03 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.49 2014-04-06 10:18:15 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -105,6 +105,9 @@ double wxSVGDocument::GetDuration(wxSVGElement* parent) {
 					duration = ((wxSVGVideoElement*) elem)->GetBegin() + ((wxSVGVideoElement*) elem)->GetDuration();
 					break;
 				case wxSVG_ANIMATE_ELEMENT:
+				case wxSVG_ANIMATECOLOR_ELEMENT:
+				case wxSVG_ANIMATEMOTION_ELEMENT:
+				case wxSVG_ANIMATETRANSFORM_ELEMENT:
 					duration = ((wxSVGAnimateElement*) elem)->GetBegin() + ((wxSVGAnimateElement*) elem)->GetDur();
 					break;
 				default:
@@ -133,6 +136,9 @@ void ApplyAnimation(wxSVGElement* parent) {
 			switch (elem->GetDtd()) {
 				case wxSVG_ANIMATE_ELEMENT:
 					((wxSVGAnimateElement*) elem)->ApplyAnimation();
+					break;
+				case wxSVG_ANIMATECOLOR_ELEMENT:
+					((wxSVGAnimateMotionElement*) elem)->ApplyAnimation();
 					break;
 				case wxSVG_ANIMATEMOTION_ELEMENT:
 					((wxSVGAnimateMotionElement*) elem)->ApplyAnimation();
