@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.25 2013-09-28 08:19:04 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.26 2014-04-06 11:02:29 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -113,7 +113,10 @@ float wxFfmpegMediaDecoder::GetFps() {
 	for (unsigned int i = 0; i < m_formatCtx->nb_streams; i++) {
 		AVStream* st = m_formatCtx->streams[i];
 		if (st->codec->codec_type == AVMEDIA_TYPE_VIDEO && st->r_frame_rate.num && st->r_frame_rate.den) {
-			result = ((float) st->r_frame_rate.num) / st->r_frame_rate.den;
+			if (st->r_frame_rate.num > st->r_frame_rate.den)
+				result = ((float) st->r_frame_rate.num) / st->r_frame_rate.den;
+			else
+				result = ((float) st->r_frame_rate.den) / st->r_frame_rate.num;
 			break;
 		}
 	}
