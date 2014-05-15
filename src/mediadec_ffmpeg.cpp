@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.26 2014-04-06 11:02:29 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.27 2014-05-15 19:52:58 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -15,6 +15,10 @@
 #include <wx/wx.h>
 #include <errno.h>
 
+#ifndef INT64_C
+#define INT64_C(val) val##LL
+#define UINT64_C(val) val##ULL
+#endif
 extern "C" {
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
@@ -212,7 +216,11 @@ bool wxFfmpegMediaDecoder::BeginDecode(int width, int height)
         m_height = w < width ? height : h;
     }
     // allocate video frame
+#if LIBAVCODEC_VERSION_MAJOR >= 55
+    m_frame = av_frame_alloc();
+#else
     m_frame = avcodec_alloc_frame();
+#endif
     if (!m_frame) {
         avcodec_close(m_codecCtx);
         m_codecCtx = NULL;
@@ -234,10 +242,7 @@ bool wxFfmpegMediaDecoder::SetPosition(double pos, bool keyFrame) {
 double wxFfmpegMediaDecoder::GetPosition() {
 	if (m_formatCtx == NULL || m_formatCtx->iformat == NULL)
 		return -1;
-	int streamIndex = av_find_default_stream_index(m_formatCtx);
-	if (streamIndex < 0)
-		return -1;
-	AVStream *st = m_formatCtx->streams[streamIndex];
+	AVStream *st = m_formatCtx->streams[m_videoStream];
 	int64_t timestamp = st->cur_dts;
 	if (timestamp == (int64_t)AV_NOPTS_VALUE)
 		return -1;

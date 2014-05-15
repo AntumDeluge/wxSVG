@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.23 2014-03-27 08:42:16 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.24 2014-05-15 19:52:58 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -288,6 +288,8 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 		if (element->GetHeight().GetAnimVal().GetUnitType() == wxSVG_LENGTHTYPE_UNKNOWN)
 			((wxSVGAnimatedLength&) element->GetHeight()).SetAnimVal( wxSVGLength(wxSVG_LENGTHTYPE_PERCENTAGE, 100));
 		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
 		if (rect && element->GetParent()) {
 			wxSVGRect rect2 = *rect;
 			wxSVGElement* parent = (wxSVGElement*) element->GetParent();
