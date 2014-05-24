@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/02
-// RCS-ID:      $Id: SVGCanvas.h,v 1.14 2013-08-25 12:53:34 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.h,v 1.15 2014-05-24 13:03:49 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -70,6 +70,7 @@ protected:
 	
 	virtual void DrawCanvasText(wxSVGCanvasText& canvasText, wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style,
 		wxSVGSVGElement& svgElem);
+	wxSVGPatternElement* GetPatternElement(const wxSVGSVGElement& svgElem, const wxString& href);
 	wxSVGGradientElement* GetGradientElement(const wxSVGSVGElement& svgElem, const wxString& href);
 	unsigned int GetGradientStops(const wxSVGSVGElement& svgElem, wxSVGGradientElement* gradElem, float opacity);
 	virtual void SetStopValue(unsigned int index, float offset, float opacity, const wxRGBColor& RGBColor) = 0;

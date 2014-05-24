@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.24 2014-05-15 19:52:58 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.25 2014-05-24 13:03:49 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -122,6 +122,13 @@ void wxSVGCanvas::DrawCanvasText(wxSVGCanvasText& canvasText,
 	for (unsigned int j=0; j<chunk.chars.Count(); j++)
 		DrawItem(*chunk.chars[j].path, pathMatrix, chunk.style, svgElem);
   }
+}
+
+wxSVGPatternElement* wxSVGCanvas::GetPatternElement(const wxSVGSVGElement& svgElem, const wxString& href) {
+	if (href.length() == 0 || href[0] != wxT('#') || &svgElem == NULL)
+	    return NULL;
+	wxSVGElement* elem = (wxSVGElement*) svgElem.GetElementById(href.substr(1));
+	return elem != NULL && elem->GetDtd() == wxSVG_PATTERN_ELEMENT ? (wxSVGPatternElement*) elem : NULL;
 }
 
 wxSVGGradientElement* wxSVGCanvas::GetGradientElement(const wxSVGSVGElement& svgElem, const wxString& href) {
