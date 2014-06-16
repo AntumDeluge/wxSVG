@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.29 2014-05-24 13:03:49 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.30 2014-06-16 19:38:01 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -546,35 +546,119 @@ void wxSVGCanvasCairo::DrawMask(cairo_t* cr, wxSVGElement* maskElem, const wxSVG
 			DrawMask(cr, elem, matrix, resStyle, svgElem);
 			break;
 		}
-		case wxSVG_LINE_ELEMENT:
-			canvasItem = doc->GetCanvas()->CreateItem((wxSVGLineElement*) elem);
-			resStyle.Add(((wxSVGLineElement*) elem)->GetStyle());
-			break;
-		case wxSVG_POLYLINE_ELEMENT:
-			canvasItem = doc->GetCanvas()->CreateItem((wxSVGPolylineElement*) elem);
-			resStyle.Add(((wxSVGPolylineElement*) elem)->GetStyle());
-			break;
-		case wxSVG_POLYGON_ELEMENT:
-			canvasItem = doc->GetCanvas()->CreateItem((wxSVGPolygonElement*) elem);
-			resStyle.Add(((wxSVGPolygonElement*) elem)->GetStyle());
-			break;
-		case wxSVG_RECT_ELEMENT:
-			canvasItem = doc->GetCanvas()->CreateItem((wxSVGRectElement*) elem);
-			resStyle.Add(((wxSVGRectElement*) elem)->GetStyle());
-			break;
-		case wxSVG_CIRCLE_ELEMENT:
-			canvasItem = doc->GetCanvas()->CreateItem((wxSVGCircleElement*) elem);
-			resStyle.Add(((wxSVGCircleElement*) elem)->GetStyle());
-			break;
-		case wxSVG_ELLIPSE_ELEMENT: {
-			canvasItem = doc->GetCanvas()->CreateItem((wxSVGEllipseElement*) elem);
-			resStyle.Add(((wxSVGEllipseElement*) elem)->GetStyle());
+		case wxSVG_LINE_ELEMENT: {
+			wxSVGLineElement* element = (wxSVGLineElement*) elem;
+			if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+				break;
+			canvasItem = doc->GetCanvas()->CreateItem(element);
+			resStyle.Add(element->GetStyle());
+			resStyle.Add(element->GetAnimStyle());
 			break;
 		}
-		case wxSVG_PATH_ELEMENT:
-			canvasItem = doc->GetCanvas()->CreateItem((wxSVGPathElement*) elem);
-			resStyle.Add(((wxSVGPathElement*) elem)->GetStyle());
+		case wxSVG_POLYLINE_ELEMENT: {
+			wxSVGPolylineElement* element = (wxSVGPolylineElement*) elem;
+			if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+				break;
+			canvasItem = doc->GetCanvas()->CreateItem(element);
+			resStyle.Add(element->GetStyle());
+			resStyle.Add(element->GetAnimStyle());
 			break;
+		}
+		case wxSVG_POLYGON_ELEMENT: {
+			wxSVGPolygonElement* element = (wxSVGPolygonElement*) elem;
+			if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+				break;
+			canvasItem = doc->GetCanvas()->CreateItem(element);
+			resStyle.Add(element->GetStyle());
+			resStyle.Add(element->GetAnimStyle());
+			break;
+		}
+		case wxSVG_RECT_ELEMENT: {
+			wxSVGRectElement* element = (wxSVGRectElement*) elem;
+			if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+				break;
+			canvasItem = doc->GetCanvas()->CreateItem(element);
+			resStyle.Add(element->GetStyle());
+			resStyle.Add(element->GetAnimStyle());
+			break;
+		}
+		case wxSVG_CIRCLE_ELEMENT: {
+			wxSVGCircleElement* element = (wxSVGCircleElement*) elem;
+			if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+				break;
+			canvasItem = doc->GetCanvas()->CreateItem(element);
+			resStyle.Add(element->GetStyle());
+			resStyle.Add(element->GetAnimStyle());
+			break;
+		}
+		case wxSVG_ELLIPSE_ELEMENT: {
+			wxSVGEllipseElement* element = (wxSVGEllipseElement*) elem;
+			if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+				break;
+			canvasItem = doc->GetCanvas()->CreateItem(element);
+			resStyle.Add(element->GetStyle());
+			resStyle.Add(element->GetAnimStyle());
+			break;
+		}
+		case wxSVG_PATH_ELEMENT: {
+			wxSVGPathElement* element = (wxSVGPathElement*) elem;
+			if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+				break;
+			canvasItem = doc->GetCanvas()->CreateItem(element);
+			resStyle.Add(element->GetStyle());
+			resStyle.Add(element->GetAnimStyle());
+			break;
+		}
+		case wxSVG_USE_ELEMENT: {
+			wxSVGUseElement* element = (wxSVGUseElement*) elem;
+			if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+				break;
+			resStyle.Add(element->GetStyle());
+			resStyle.Add(element->GetAnimStyle());
+			// get ref element
+			wxString href = element->GetHref();
+			if (href.length() == 0 || href.GetChar(0) != wxT('#'))
+				break;
+			href.Remove(0, 1);
+			wxSVGElement* refElem = (wxSVGElement*) maskElem->GetOwnerSVGElement()->GetElementById(href);
+			if (!refElem)
+				break;
+
+			// create shadow tree
+			wxSVGGElement* gElem = new wxSVGGElement();
+			gElem->SetOwnerDocument(elem->GetOwnerDocument());
+			gElem->SetOwnerSVGElement(maskElem->GetOwnerSVGElement());
+			gElem->SetViewportElement(maskElem->GetViewportElement());
+			gElem->SetStyle(element->GetStyle());
+			if (element->GetX().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+				gElem->Translate(element->GetX().GetAnimVal(), element->GetY().GetAnimVal());
+			if (refElem->GetDtd() == wxSVG_SYMBOL_ELEMENT || refElem->GetDtd() == wxSVG_SVG_ELEMENT) {
+				wxSVGSVGElement* svgElem;
+				if (refElem->GetDtd() == wxSVG_SVG_ELEMENT)
+					svgElem = (wxSVGSVGElement*) refElem->CloneNode();
+				else {
+					svgElem = new wxSVGSVGElement();
+					wxSvgXmlElement* child = refElem->GetChildren();
+					while (child) {
+						svgElem->AddChild(child->CloneNode());
+						child = child->GetNext();
+					}
+					svgElem->SetViewBox(((wxSVGSymbolElement*) refElem)->GetViewBox());
+					svgElem->SetPreserveAspectRatio(((wxSVGSymbolElement*) refElem)->GetPreserveAspectRatio());
+				}
+				if (element->GetWidth().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+					svgElem->SetWidth(element->GetWidth().GetAnimVal());
+				if (element->GetHeight().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
+					svgElem->SetHeight(element->GetHeight().GetAnimVal());
+				gElem->AddChild(svgElem);
+			} else
+				gElem->AddChild(refElem->CloneNode());
+			// render
+			DrawMask(cr, gElem, matrix, resStyle, svgElem);
+			// delete shadow tree
+			delete gElem;
+			break;
+		}
 		default:
 			break;
 		}
