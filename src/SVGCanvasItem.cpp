@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.47 2014-03-03 17:08:26 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.48 2014-06-16 19:41:03 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -582,11 +582,21 @@ void wxSVGCanvasText::InitChildren(wxSVGTextPositioningElement& element, const w
 						t[i] = wxT('\t');
 				text += t;
 			} else {
+				if (elem->GetPreviousSibling() != NULL) {
+					wxChar ch = elem->GetContent().GetChar(0);
+					if (ch == wxT(' ') || ch == wxT('\t') || ch == wxT('\n') || ch == wxT('\r'))
+						text += wxT(' ');
+				}
 				wxStringTokenizer tokenizer(elem->GetContent());
 				while (tokenizer.HasMoreTokens()) {
 					text += tokenizer.GetNextToken();
-					if (tokenizer.HasMoreTokens())
-						text += wxT(" ");
+					if (tokenizer.HasMoreTokens()) {
+						text += wxT(' ');
+					} else if (elem->GetNext() != NULL) {
+						wxChar ch = elem->GetContent().Last();
+						if (ch == wxT(' ') || ch == wxT('\t') || ch == wxT('\n') || ch == wxT('\r'))
+							text += wxT(' ');
+					}
 				}
 			}
 		} else if (elem->GetType() == wxSVGXML_ELEMENT_NODE && elem->GetDtd() == wxSVG_TBREAK_ELEMENT) {
