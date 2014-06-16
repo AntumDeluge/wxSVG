@@ -1,3 +1,9 @@
+Version 1.4.1 <2014-06-16>
+--------------------------
+
+  * fixed rendering of tspan-element
+  * fixed rendering of use element in pattern and mask elements
+
 Version 1.4 <2014-05-24>
 ------------------------
 

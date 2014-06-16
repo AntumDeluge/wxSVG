@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas text
 // Author:      Alex Thuering
 // Created:     2011/06/23
-// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.12 2014-03-03 17:08:26 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasTextCairo.cpp,v 1.13 2014-06-16 19:40:46 ntalex Exp $
 // Copyright:   (c) 2011 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -20,6 +20,7 @@
 #include <cairo/cairo-quartz.h>
 #else
 #include <pango/pangocairo.h>
+#include <glib-object.h>
 #endif
 
 wxSVGCanvasTextCairo::wxSVGCanvasTextCairo(wxSVGCanvas* canvas): wxSVGCanvasText(canvas) {
@@ -131,8 +132,11 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 	double width = ((double)lwidth / PANGO_SCALE);
 	double height = ((double)lheight / PANGO_SCALE);
 	m_char->bbox = wxSVGRect(m_tx, m_ty, width, height);
-	wxSVGRect bbox = m_char->path->GetResultBBox(style);
-	m_tx += width > bbox.GetWidth() ? width : bbox.GetWidth();
+	if (style.GetTextAnchor() == wxCSS_VALUE_MIDDLE || style.GetTextAnchor() == wxCSS_VALUE_END) {
+		wxSVGRect bbox = m_char->path->GetResultBBox(style);
+		m_tx += width > bbox.GetWidth() ? width : bbox.GetWidth();
+	} else
+		m_tx += width;
 		
 	g_object_unref(layout);
 	pango_font_description_free(font);
