@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.cpp,v 1.12 2010-02-22 20:00:07 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.cpp,v 1.13 2014-06-30 19:06:12 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -190,4 +190,32 @@ void wxCSSPrimitiveValue::CleanUp()
   else if (m_primitiveType == wxCSS_RGBCOLOR)
 	delete m_color;
   m_primitiveType = wxCSS_UNKNOWN;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+/////////////////////////////  wxCSSValueList ////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+wxCSSValueList::wxCSSValueList(const wxCSSValueList& src) {
+	m_values = src.m_values;
+}
+
+wxString wxCSSValueList::GetCSSText() const {
+	wxString result;
+	for (std::vector<double>::const_iterator it = m_values.begin(); it != m_values.end(); ++it) {
+		if (result.length())
+			result += wxT(", ");
+		result += wxString::Format(wxT("%g"), *it);
+	}
+	return result;
+}
+
+void wxCSSValueList::SetCSSText(const wxString& value) {
+	double val;
+	wxStringTokenizer tkz(value, wxT(", \t"));
+	while (tkz.HasMoreTokens()) {
+		wxString token = tkz.GetNextToken();
+		if (token.length() && token.ToDouble(&val))
+			m_values.push_back(val);
+	}
 }

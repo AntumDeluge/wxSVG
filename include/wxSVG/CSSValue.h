@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.h,v 1.9 2005-11-06 17:31:36 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.h,v 1.10 2014-06-30 19:06:11 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -15,9 +15,9 @@
 #include <wx/geometry.h>
 #include "RGBColor.h"
 #include "CSSValues.h"
+#include <vector>
 
-enum wxCSS_VALUE_TYPE
-{
+enum wxCSS_VALUE_TYPE {
   wxCSS_INHERIT = 0,
   wxCSS_PRIMITIVE_VALUE,
   wxCSS_VALUE_LIST,
@@ -26,12 +26,11 @@ enum wxCSS_VALUE_TYPE
   wxCSS_CUSTOM = 3
 };
 
-class wxCSSValue
-{
-  protected:
+class wxCSSValue {
+protected:
 	wxCSS_VALUE_TYPE m_cssValueType;
   
-  public:
+public:
 	wxCSSValue(): m_cssValueType(wxCSS_INHERIT) {}
 	wxCSSValue(wxCSS_VALUE_TYPE cssValueType): m_cssValueType(cssValueType) {}
 	virtual ~wxCSSValue() {}
@@ -42,13 +41,12 @@ class wxCSSValue
 	virtual wxString GetCSSText() const = 0;
 	virtual wxCSSValue* Clone() const = 0;
   
-  public:
+public:
 	static wxCSS_VALUE GetValueId(wxString value);
 	static wxString GetValueString(wxCSS_VALUE value);
 };
 
-enum wxCSS_PRIMITIVE_TYPE
-{
+enum wxCSS_PRIMITIVE_TYPE {
   wxCSS_UNKNOWN    = 0,
   wxCSS_NUMBER     = 1,
   wxCSS_PERCENTAGE = 2,
@@ -77,12 +75,10 @@ enum wxCSS_PRIMITIVE_TYPE
   wxCSS_RGBCOLOR   = 25
 };
 
-class wxCSSPrimitiveValue: public wxCSSValue
-{
-  protected:
+class wxCSSPrimitiveValue: public wxCSSValue {
+protected:
 	wxCSS_PRIMITIVE_TYPE m_primitiveType;
-	union
-	{
+	union {
 	  wxCSS_VALUE m_ident;
 	  double m_number;
 	  wxString* m_string;
@@ -90,7 +86,7 @@ class wxCSSPrimitiveValue: public wxCSSValue
 	  wxRGBColor* m_color;
 	};
   
-  public:
+public:
 	wxCSSPrimitiveValue(): wxCSSValue(wxCSS_PRIMITIVE_VALUE),
       m_primitiveType(wxCSS_UNKNOWN) {}
 	wxCSSPrimitiveValue(double value): wxCSSValue(wxCSS_PRIMITIVE_VALUE),
@@ -105,12 +101,12 @@ class wxCSSPrimitiveValue: public wxCSSValue
       m_primitiveType(wxCSS_IDENT), m_ident(value) {}
 	wxCSSPrimitiveValue(const wxCSSPrimitiveValue& src);
     ~wxCSSPrimitiveValue() { CleanUp(); }
-	wxCSSValue* Clone() const { return new wxCSSPrimitiveValue(*this); }
+    virtual wxCSSValue* Clone() const { return new wxCSSPrimitiveValue(*this); }
 	
 	inline wxCSS_PRIMITIVE_TYPE GetCSSPrimitiveType() const { return m_primitiveType; }
 	inline void SetCSSPrimitiveType(wxCSS_PRIMITIVE_TYPE primitiveType) { m_primitiveType = primitiveType; }
 	
-	wxString GetCSSText() const;
+	virtual wxString GetCSSText() const;
 	
 	void     SetStringValue(wxCSS_PRIMITIVE_TYPE stringType, const wxString& stringValue);
 	wxString GetStringValue() const;
@@ -127,8 +123,25 @@ class wxCSSPrimitiveValue: public wxCSSValue
 	void SetIdentValue(wxCSS_VALUE ident);
 	wxCSS_VALUE GetIdentValue() const;
 	
-  protected:
+protected:
 	void CleanUp();
+};
+
+class wxCSSValueList: public wxCSSValue {
+protected:
+	std::vector<double> m_values;
+
+public:
+	wxCSSValueList() {}
+	wxCSSValueList(const std::vector<double>& values): m_values(values) {}
+	wxCSSValueList(const wxCSSValueList& src);
+	virtual ~wxCSSValueList() {}
+	virtual wxCSSValue* Clone() const { return new wxCSSValueList(*this); }
+	virtual wxString GetCSSText() const;
+	virtual void SetCSSText(const wxString& value);
+	
+	int GetLength() const { return m_values.size(); }
+	wxCSSPrimitiveValue Item(int index) const { return wxCSSPrimitiveValue(m_values[index]); }
 };
 
 #endif //wxSVG_CSS_VALUE_H
