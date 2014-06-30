@@ -907,22 +907,22 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     }
     
 
-    inline const wxCSSPrimitiveValue& GetStrokeDasharray() const
+    inline const wxCSSValueList& GetStrokeDasharray() const
     {
       const_iterator it = find(wxCSS_PROPERTY_STROKE_DASHARRAY);
-      return it != end() ? ((wxCSSPrimitiveValue&)*it->second) : *s_emptyCSSValue;
+      return it != end() ? ((wxCSSValueList&)*it->second) : *s_emptyValueList;
     }
     inline bool HasStrokeDasharray() const { return HasProperty(wxCSS_PROPERTY_STROKE_DASHARRAY); }
-    inline void SetStrokeDasharray(const wxCSSPrimitiveValue& value)
+    inline void SetStrokeDasharray(const wxCSSValueList& value)
     {
       iterator it = find(wxCSS_PROPERTY_STROKE_DASHARRAY);
       if (it != end())
       {
         delete it->second;
-        it->second = new wxCSSPrimitiveValue(value);
+        it->second = new wxCSSValueList(value);
       }
       else
-        (*this)[wxCSS_PROPERTY_STROKE_DASHARRAY] = new wxCSSPrimitiveValue(value);
+        (*this)[wxCSS_PROPERTY_STROKE_DASHARRAY] = new wxCSSValueList(value);
     }
     
 
@@ -1142,6 +1142,7 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     static wxSVGColor* s_emptySVGColor;
     static wxSVGPaint* s_emptySVGPaint;
     static wxSVGPaint* s_blackSVGPaint;
+    static wxCSSValueList* s_emptyValueList;
 
   public:
     static double ParseNumber(const wxString& value);

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.11 2014-03-27 08:42:16 ntalex Exp $
+// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.12 2014-06-30 19:07:49 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -16,6 +16,7 @@ wxCSSPrimitiveValue* wxCSSStyleDeclaration::s_emptyCSSValue = new wxCSSPrimitive
 wxSVGColor* wxCSSStyleDeclaration::s_emptySVGColor = new wxSVGColor;
 wxSVGPaint* wxCSSStyleDeclaration::s_emptySVGPaint = new wxSVGPaint;
 wxSVGPaint* wxCSSStyleDeclaration::s_blackSVGPaint = new wxSVGPaint(0,0,0);
+wxCSSValueList* wxCSSStyleDeclaration::s_emptyValueList = new wxCSSValueList;
 
 wxCSSStyleDeclaration::~wxCSSStyleDeclaration() {
 	for (iterator it = begin(); it != end(); ++it)
@@ -223,7 +224,6 @@ void wxCSSStyleDeclaration::SetProperty(wxCSS_PROPERTY propertyId, const wxStrin
 		break;
 		// string
 	case wxCSS_PROPERTY_FONT_FAMILY:
-	case wxCSS_PROPERTY_STROKE_DASHARRAY:
 		if (!cssValue)
 			cssValue = new wxCSSPrimitiveValue;
 		((wxCSSPrimitiveValue*) cssValue)->SetStringValue(wxCSS_STRING, value);
@@ -242,6 +242,12 @@ void wxCSSStyleDeclaration::SetProperty(wxCSS_PROPERTY propertyId, const wxStrin
 		if (!cssValue)
 			cssValue = new wxSVGPaint;
 		ParseSVGPaint(*(wxSVGPaint*) cssValue, value);
+		break;
+		// <dasharray>
+	case wxCSS_PROPERTY_STROKE_DASHARRAY:
+		if (!cssValue)
+			cssValue = new wxCSSValueList;
+		((wxCSSValueList*) cssValue)->SetCSSText(value);
 		break;
 	}
 	if (it == end())

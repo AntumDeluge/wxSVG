@@ -221,8 +221,8 @@ class wxSVGStylable
     inline const wxSVGPaint& GetStroke() { return m_style.GetStroke(); }
     inline bool HasStroke() { return m_style.HasStroke(); }
     
-    inline void SetStrokeDasharray(const wxCSSPrimitiveValue& value) { m_style.SetStrokeDasharray(value); }
-    inline const wxCSSPrimitiveValue& GetStrokeDasharray() { return m_style.GetStrokeDasharray(); }
+    inline void SetStrokeDasharray(const wxCSSValueList& value) { m_style.SetStrokeDasharray(value); }
+    inline const wxCSSValueList& GetStrokeDasharray() { return m_style.GetStrokeDasharray(); }
     inline bool HasStrokeDasharray() { return m_style.HasStrokeDasharray(); }
     
     inline void SetStrokeDashoffset(double value) { m_style.SetStrokeDashoffset(value); }
