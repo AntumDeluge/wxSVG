@@ -3,7 +3,7 @@
 ## Purpose:     generates CSSStyleDeclaration
 ## Author:      Alex Thuering
 ## Created:     2005/06/06
-## RCS-ID:      $Id: genCSS.py,v 1.17 2014-03-27 08:38:03 ntalex Exp $
+## RCS-ID:      $Id: genCSS.py,v 1.18 2014-06-30 19:10:55 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 
@@ -114,6 +114,9 @@ def setCSSType(prop, propTypes):
     elif 'paint' in propTypes:
         prop.cssType = 'wxSVGPaint'
         prop.valueType = 'wxSVGPaint'
+    elif 'dasharray' in propTypes:
+        prop.cssType = 'wxCSSValueList'
+        prop.valueType = 'wxCSSValueList'
     elif 'opacity-value' in propTypes or 'miterlimit' in propTypes :
         prop.valueType = 'double'
     elif ('length' in propTypes or 'angle' in propTypes) and len(prop.values) == 0:
@@ -137,6 +140,8 @@ def setDefValue(prop, defValue):
             defValue = '*s_blackSVGPaint'
     elif prop.valueType == 'wxSVGColor':
         defValue = '*s_emptySVGColor'
+    elif prop.valueType == 'wxCSSValueList':
+        defValue = '*s_emptyValueList'
     elif prop.valueType == 'wxCSSPrimitiveValue':
         defValue = '*s_emptyCSSValue'
     elif prop.valueType == 'wxString':
@@ -286,6 +291,7 @@ class wxCSSStyleDeclaration: public wxHashMapCSSValue
     static wxSVGColor* s_emptySVGColor;
     static wxSVGPaint* s_emptySVGPaint;
     static wxSVGPaint* s_blackSVGPaint;
+    static wxCSSValueList* s_emptyValueList;
 
   public:
     static double ParseNumber(const wxString& value);
