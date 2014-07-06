@@ -1,3 +1,9 @@
+Version 1.4.2 <2014-07-06>
+--------------------------
+
+  * added support of stroke-dasharray
+  * fixed handling of preserveAspectRatio="none"
+
 Version 1.4.1 <2014-06-16>
 --------------------------
 
