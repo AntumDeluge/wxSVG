@@ -3,7 +3,7 @@
 // Purpose:     Implementation of wxSVGLocatable
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGLocatable.cpp,v 1.12 2014-03-24 21:16:35 ntalex Exp $
+// RCS-ID:      $Id: SVGLocatable.cpp,v 1.13 2014-08-09 11:13:02 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -151,7 +151,7 @@ wxSVGMatrix wxSVGLocatable::GetScreenCTM(const wxSVGElement* element) {
 	return matrix;
 }
 
-wxSVGMatrix wxSVGLocatable::GetTransformToElement(const wxSVGElement& element) {
+wxSVGMatrix wxSVGLocatable::GetTransformToElement(const wxSVGElement& element) const {
 	wxSVGMatrix res;
 	return res;
 }

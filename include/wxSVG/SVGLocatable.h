@@ -42,7 +42,7 @@ class wxSVGLocatable
     static wxSVGMatrix GetCTM(const wxSVGElement* element);
     static wxSVGMatrix GetScreenCTM(const wxSVGElement* element);
     static wxSVGMatrix GetParentMatrix(const wxSVGElement* element);
-    virtual wxSVGMatrix GetTransformToElement(const wxSVGElement& element);
+    virtual wxSVGMatrix GetTransformToElement(const wxSVGElement& element) const;
 
   protected:
     static wxSVGRect GetChildrenBBox(const wxSVGElement* element, wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);

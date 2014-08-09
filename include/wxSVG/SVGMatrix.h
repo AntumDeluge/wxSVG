@@ -43,17 +43,17 @@ class wxSVGMatrix
     wxSVGMatrix(double a, double b, double c, double d, double e, double f):
       m_a(a), m_b(b), m_c(c), m_d(d), m_e(e), m_f(f) {}
     virtual ~wxSVGMatrix() {}
-    virtual wxSVGMatrix Multiply(const wxSVGMatrix& secondMatrix);
-    virtual wxSVGMatrix Inverse();
-    virtual wxSVGMatrix Translate(double x, double y);
-    virtual wxSVGMatrix Scale(double scaleFactor);
-    virtual wxSVGMatrix ScaleNonUniform(double scaleFactorX, double scaleFactorY);
-    virtual wxSVGMatrix Rotate(double angle);
-    virtual wxSVGMatrix RotateFromVector(double x, double y);
-    virtual wxSVGMatrix FlipX();
-    virtual wxSVGMatrix FlipY();
-    virtual wxSVGMatrix SkewX(double angle);
-    virtual wxSVGMatrix SkewY(double angle);
+    virtual wxSVGMatrix Multiply(const wxSVGMatrix& secondMatrix) const;
+    virtual wxSVGMatrix Inverse() const;
+    virtual wxSVGMatrix Translate(double x, double y) const;
+    virtual wxSVGMatrix Scale(double scaleFactor) const;
+    virtual wxSVGMatrix ScaleNonUniform(double scaleFactorX, double scaleFactorY) const;
+    virtual wxSVGMatrix Rotate(double angle) const;
+    virtual wxSVGMatrix RotateFromVector(double x, double y) const;
+    virtual wxSVGMatrix FlipX() const;
+    virtual wxSVGMatrix FlipY() const;
+    virtual wxSVGMatrix SkewX(double angle) const;
+    virtual wxSVGMatrix SkewY(double angle) const;
 };
 
 #endif // WX_SVG_MATRIX_H

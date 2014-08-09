@@ -29,6 +29,11 @@ class wxSVGPoint
     wxSVGPoint(double x, double y): m_x(x), m_y(y) {}
     virtual ~wxSVGPoint() {}
     virtual wxSVGPoint MatrixTransform(const wxSVGMatrix& matrix) const;
+    inline bool operator==(const wxSVGPoint& p) const { return m_x == p.m_x && m_y == p.m_y; }
+    inline bool operator!=(const wxSVGPoint& p) const { return m_x != p.m_x || m_y != p.m_y; }
+    inline wxSVGPoint operator-(const wxSVGPoint& p) const { return wxSVGPoint(m_x - p.m_x,  m_y - p.m_y); }
+    inline wxSVGPoint operator+(const wxSVGPoint& p) const { return wxSVGPoint(m_x + p.m_x,  m_y + p.m_y); }
+    inline wxSVGPoint operator*(double n) const { return wxSVGPoint(m_x*n,  m_y*n); }
 };
 
 #endif // WX_SVG_POINT_H

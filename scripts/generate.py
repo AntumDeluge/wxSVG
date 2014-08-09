@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.26 2014-03-27 08:38:04 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.27 2014-08-09 11:13:02 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -455,7 +455,9 @@ if len(parse_idl.class_decls):
                     method_decl = method_decl + '%s %s'%(arg_type, arg.name)
                 count = count+1
             
-            method_decl = method_decl + ')'
+            method_decl += ')'
+            if return_type == "wxSVGMatrix" or method_name[0:6] == "Create":
+                method_decl += ' const'
             methods_str = methods_str + '    virtual ' + method_ret + method_decl + ';\n';
             method_decl = cpp.fix_typename(classname) + "::" + method_decl;
             cpp_output = cpp_output + method_ret + method_decl + '\n{\n';
@@ -590,7 +592,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.26 2014-03-27 08:38:04 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.27 2014-08-09 11:13:02 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

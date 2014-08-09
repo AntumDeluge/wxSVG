@@ -3,7 +3,7 @@
 // Purpose:     Implementation of wxSVGPathElement
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGPathElement.cpp,v 1.6 2014-03-24 21:16:35 ntalex Exp $
+// RCS-ID:      $Id: SVGPathElement.cpp,v 1.7 2014-08-09 11:13:02 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -52,115 +52,107 @@ unsigned long wxSVGPathElement::GetPathSegAtLength(double distance) {
 	return res;
 }
 
-wxSVGPathSegClosePath wxSVGPathElement::CreateSVGPathSegClosePath() {
+wxSVGPathSegClosePath wxSVGPathElement::CreateSVGPathSegClosePath() const {
 	wxSVGPathSegClosePath res;
 	return res;
 }
 
-wxSVGPathSegMovetoAbs wxSVGPathElement::CreateSVGPathSegMovetoAbs(double x,
-		double y) {
+wxSVGPathSegMovetoAbs wxSVGPathElement::CreateSVGPathSegMovetoAbs(double x, double y) const {
 	wxSVGPathSegMovetoAbs res;
 	return res;
 }
 
-wxSVGPathSegMovetoRel wxSVGPathElement::CreateSVGPathSegMovetoRel(double x,
-		double y) {
+wxSVGPathSegMovetoRel wxSVGPathElement::CreateSVGPathSegMovetoRel(double x, double y) const {
 	wxSVGPathSegMovetoRel res;
 	return res;
 }
 
-wxSVGPathSegLinetoAbs wxSVGPathElement::CreateSVGPathSegLinetoAbs(double x,
-		double y) {
+wxSVGPathSegLinetoAbs wxSVGPathElement::CreateSVGPathSegLinetoAbs(double x, double y) const {
 	wxSVGPathSegLinetoAbs res;
 	return res;
 }
 
-wxSVGPathSegLinetoRel wxSVGPathElement::CreateSVGPathSegLinetoRel(double x,
-		double y) {
+wxSVGPathSegLinetoRel wxSVGPathElement::CreateSVGPathSegLinetoRel(double x, double y) const {
 	wxSVGPathSegLinetoRel res;
 	return res;
 }
 
 wxSVGPathSegCurvetoCubicAbs wxSVGPathElement::CreateSVGPathSegCurvetoCubicAbs(
-		double x, double y, double x1, double y1, double x2, double y2) {
+		double x, double y, double x1, double y1, double x2, double y2) const {
 	wxSVGPathSegCurvetoCubicAbs res;
 	return res;
 }
 
 wxSVGPathSegCurvetoCubicRel wxSVGPathElement::CreateSVGPathSegCurvetoCubicRel(
-		double x, double y, double x1, double y1, double x2, double y2) {
+		double x, double y, double x1, double y1, double x2, double y2) const {
 	wxSVGPathSegCurvetoCubicRel res;
 	return res;
 }
 
 wxSVGPathSegCurvetoQuadraticAbs wxSVGPathElement::CreateSVGPathSegCurvetoQuadraticAbs(
-		double x, double y, double x1, double y1) {
+		double x, double y, double x1, double y1) const {
 	wxSVGPathSegCurvetoQuadraticAbs res;
 	return res;
 }
 
 wxSVGPathSegCurvetoQuadraticRel wxSVGPathElement::CreateSVGPathSegCurvetoQuadraticRel(
-		double x, double y, double x1, double y1) {
+		double x, double y, double x1, double y1) const {
 	wxSVGPathSegCurvetoQuadraticRel res;
 	return res;
 }
 
 wxSVGPathSegArcAbs wxSVGPathElement::CreateSVGPathSegArcAbs(double x, double y,
-		double r1, double r2, double angle, bool largeArcFlag, bool sweepFlag) {
+		double r1, double r2, double angle, bool largeArcFlag, bool sweepFlag) const {
 	wxSVGPathSegArcAbs res;
 	return res;
 }
 
 wxSVGPathSegArcRel wxSVGPathElement::CreateSVGPathSegArcRel(double x, double y,
-		double r1, double r2, double angle, bool largeArcFlag, bool sweepFlag) {
+		double r1, double r2, double angle, bool largeArcFlag, bool sweepFlag) const {
 	wxSVGPathSegArcRel res;
 	return res;
 }
 
-wxSVGPathSegLinetoHorizontalAbs wxSVGPathElement::CreateSVGPathSegLinetoHorizontalAbs(
-		double x) {
+wxSVGPathSegLinetoHorizontalAbs wxSVGPathElement::CreateSVGPathSegLinetoHorizontalAbs(double x) const {
 	wxSVGPathSegLinetoHorizontalAbs res;
 	return res;
 }
 
-wxSVGPathSegLinetoHorizontalRel wxSVGPathElement::CreateSVGPathSegLinetoHorizontalRel(
-		double x) {
+wxSVGPathSegLinetoHorizontalRel wxSVGPathElement::CreateSVGPathSegLinetoHorizontalRel(double x) const {
 	wxSVGPathSegLinetoHorizontalRel res;
 	return res;
 }
 
-wxSVGPathSegLinetoVerticalAbs wxSVGPathElement::CreateSVGPathSegLinetoVerticalAbs(
-		double y) {
+wxSVGPathSegLinetoVerticalAbs wxSVGPathElement::CreateSVGPathSegLinetoVerticalAbs(double y) const {
 	wxSVGPathSegLinetoVerticalAbs res;
 	return res;
 }
 
-wxSVGPathSegLinetoVerticalRel wxSVGPathElement::CreateSVGPathSegLinetoVerticalRel(
-		double y) {
+wxSVGPathSegLinetoVerticalRel wxSVGPathElement::CreateSVGPathSegLinetoVerticalRel(double y) const {
 	wxSVGPathSegLinetoVerticalRel res;
 	return res;
 }
 
 wxSVGPathSegCurvetoCubicSmoothAbs wxSVGPathElement::CreateSVGPathSegCurvetoCubicSmoothAbs(
-		double x, double y, double x2, double y2) {
+		double x, double y, double x2, double y2) const {
 	wxSVGPathSegCurvetoCubicSmoothAbs res;
 	return res;
 }
 
 wxSVGPathSegCurvetoCubicSmoothRel wxSVGPathElement::CreateSVGPathSegCurvetoCubicSmoothRel(
-		double x, double y, double x2, double y2) {
+		double x, double y, double x2, double y2) const {
 	wxSVGPathSegCurvetoCubicSmoothRel res;
 	return res;
 }
 
 wxSVGPathSegCurvetoQuadraticSmoothAbs wxSVGPathElement::CreateSVGPathSegCurvetoQuadraticSmoothAbs(
-		double x, double y) {
+		double x, double y) const {
 	wxSVGPathSegCurvetoQuadraticSmoothAbs res;
 	return res;
 }
 
 wxSVGPathSegCurvetoQuadraticSmoothRel wxSVGPathElement::CreateSVGPathSegCurvetoQuadraticSmoothRel(
-		double x, double y) {
+		double x, double y) const {
 	wxSVGPathSegCurvetoQuadraticSmoothRel res;
 	return res;
 }

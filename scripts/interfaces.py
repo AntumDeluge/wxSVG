@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.40 2014-03-27 08:38:04 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.41 2014-08-09 11:13:02 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -236,6 +236,11 @@ inter.include_methods.append('    wxSVGPoint(): m_x(0), m_y(0) {}\n')
 inter.include_methods.append('    wxSVGPoint(double x, double y): m_x(x), m_y(y) {}\n')
 inter.include_methods.append('    virtual ~wxSVGPoint() {}\n')
 inter.include_methods.append('    virtual wxSVGPoint MatrixTransform(const wxSVGMatrix& matrix) const;\n')
+inter.include_methods.append('    inline bool operator==(const wxSVGPoint& p) const { return m_x == p.m_x && m_y == p.m_y; }\n')
+inter.include_methods.append('    inline bool operator!=(const wxSVGPoint& p) const { return m_x != p.m_x || m_y != p.m_y; }\n')
+inter.include_methods.append('    inline wxSVGPoint operator-(const wxSVGPoint& p) const { return wxSVGPoint(m_x - p.m_x,  m_y - p.m_y); }\n')
+inter.include_methods.append('    inline wxSVGPoint operator+(const wxSVGPoint& p) const { return wxSVGPoint(m_x + p.m_x,  m_y + p.m_y); }\n')
+inter.include_methods.append('    inline wxSVGPoint operator*(double n) const { return wxSVGPoint(m_x*n,  m_y*n); }\n')
 inter.exclude_methods = ["MatrixTransform"]
 inter.include_includes = ["SVGMatrix"]
 inter.user_defined_constructor=1
