@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.25 2013-08-25 12:53:34 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.26 2014-08-09 11:14:34 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -13,6 +13,9 @@
 
 #include "svg.h"
 #include <wx/dynarray.h>
+#include <vector>
+
+using std::vector;
 
 enum wxSVGCanvasItemType {
 	wxSVG_CANVAS_ITEM_PATH,
@@ -21,9 +24,20 @@ enum wxSVGCanvasItemType {
 	wxSVG_CANVAS_ITEM_VIDEO
 };
 
+
+struct wxSVGMark {
+	enum Type {
+		START, MID, END
+	};
+	
+	double x, y, angle;
+	Type type;
+	
+	wxSVGMark(double aX, double aY, double aAngle, Type aType): x(aX), y(aY), angle(aAngle), type(aType) {}
+};
+
 /** Base class for canvas items */
-class wxSVGCanvasItem
-{
+class wxSVGCanvasItem {
   public:
 	wxSVGCanvasItem(wxSVGCanvasItemType type) { m_type = type; }
 	virtual ~wxSVGCanvasItem() {}
@@ -72,7 +86,11 @@ class wxSVGCanvasPath: public wxSVGCanvasItem
 	inline void SetFill(bool fill = true) { m_fill = fill; }
 	inline bool GetFill() { return m_fill; }
     
+    /** returns the marker points */
+    virtual vector<wxSVGMark> GetMarkPoints();
+    
   protected:
+    wxSVGElement* m_element;
 	bool m_fill; /* define, if a path can be filled (disabled for line) */
 	double m_curx, m_cury, m_cubicx, m_cubicy, m_quadx, m_quady, m_begx, m_begy;
 	virtual void MoveToImpl(double x, double y) = 0;
