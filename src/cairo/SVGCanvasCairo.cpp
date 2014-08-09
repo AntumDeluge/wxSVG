@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.30 2014-06-16 19:38:01 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.31 2014-08-09 11:16:21 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -211,13 +211,19 @@ void wxSVGCanvasCairo::SetPaint(cairo_t* cr, const wxSVGPaint& paint, float opac
 					lround(patternElem->GetHeight().GetAnimVal()*scaleY));
 			cairo_t* cr = cairo_create(surface);
 			wxSVGMatrix patMatrix;
-			patMatrix = patMatrix.Scale(scaleX);
+			patMatrix = patMatrix.ScaleNonUniform(scaleX, scaleY);
 			wxCSSStyleDeclaration style;
 			DrawMask(cr, patternElem, patMatrix, style, svgElem);
 			m_pattern = cairo_pattern_create_for_surface(surface);
 			
 			if (patternElem->GetX().GetAnimVal() > 0 || patternElem->GetY().GetAnimVal() > 0) {
 				patMatrix = patMatrix.Translate(patternElem->GetX().GetAnimVal(), patternElem->GetY().GetAnimVal());
+			}
+			if (patternElem->GetPatternTransform().GetAnimVal().size()) {
+				const wxSVGTransformList& transforms = patternElem->GetPatternTransform().GetAnimVal();
+				for (unsigned int i = 0; i < transforms.Count(); i++) {
+					patMatrix = patMatrix.Multiply(transforms[i].GetMatrix().Inverse());
+				}
 			}
 			cairo_matrix_t mat;
 			cairo_matrix_init(&mat, patMatrix.GetA(), patMatrix.GetB(), patMatrix.GetC(), patMatrix.GetD(), patMatrix.GetE(), patMatrix.GetF());
@@ -330,6 +336,7 @@ unsigned char* setupPredivide(int size) {
 }
 
 /**
+ * Draws gaussian blur filter.
  * Uses code from Mozilla (nsSVGFilters.cpp)
  */
 void gaussianBlur(cairo_surface_t* surface, int dx, int dy) {
@@ -414,6 +421,17 @@ void wxSVGCanvasCairo::DrawPath(cairo_t* cr, wxSVGCanvasPathCairo& canvasPath, c
 		wxSVGCanvasPathCairo::ApplyStrokeStyle(cr, style);
 		cairo_stroke(cr);
 		cairo_path_destroy(path);
+	}
+	
+	// marker
+	if (style.HasMarkerStart()) {
+		DrawMarker(style.GetMarkerStart().GetStringValue(), wxSVGMark::START, canvasPath, matrix, style, svgElem);
+	}
+	if (style.HasMarkerMid()) {
+		DrawMarker(style.GetMarkerMid().GetStringValue(), wxSVGMark::MID, canvasPath, matrix, style, svgElem);
+	}
+	if (style.HasMarkerEnd()) {
+		DrawMarker(style.GetMarkerEnd().GetStringValue(), wxSVGMark::END, canvasPath, matrix, style, svgElem);
 	}
 }
 
@@ -761,4 +779,50 @@ void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImage& canvasImage, cairo_surf
 	
 	// clean up
 	cairo_restore(m_cr);
+}
+
+void wxSVGCanvasCairo::DrawMarker(const wxString& uri, wxSVGMark::Type type, wxSVGCanvasPathCairo& canvasPath,
+		const wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem) {
+	wxSVGMarkerElement* markerElem = GetMarkerElement(svgElem, uri);
+	if (markerElem == NULL || markerElem->GetMarkerWidth().GetAnimVal() <= 0
+				|| markerElem->GetMarkerHeight().GetAnimVal() <= 0)
+		return;
+	vector<wxSVGMark> markPoints = canvasPath.GetMarkPoints();
+	for (vector<wxSVGMark>::iterator it = markPoints.begin(); it != markPoints.end(); it++) {
+		if (it->type != type)
+			continue;
+		wxSVGMark& markPoint = *it;
+		double scaleX = matrix.GetA() * style.GetStrokeWidth();
+		double scaleY = matrix.GetD() * style.GetStrokeWidth();
+		markerElem->SetOwnerSVGElement(&svgElem);
+		markerElem->SetViewportElement(&svgElem);
+		cairo_surface_t* surface = cairo_image_surface_create(
+				CAIRO_FORMAT_ARGB32,
+				lround(markerElem->GetMarkerWidth().GetAnimVal() * scaleX),
+				lround(markerElem->GetMarkerHeight().GetAnimVal() * scaleY));
+		cairo_t* cr = cairo_create(surface);
+		wxSVGMatrix markerMatrix;
+		markerMatrix = markerMatrix.ScaleNonUniform(scaleX, scaleY);
+		wxCSSStyleDeclaration style;
+		DrawMask(cr, markerElem, markerMatrix, style, svgElem);
+		// draw surface
+		cairo_save(m_cr);
+		double refX = markerElem->GetRefX().GetAnimVal() * style.GetStrokeWidth();
+		double refY = markerElem->GetRefY().GetAnimVal() * style.GetStrokeWidth();
+		wxSVGPoint point(markPoint.x - refX, markPoint.y - refY);
+		point = point.MatrixTransform(matrix);
+		wxSVGMatrix m;
+		m = m.Translate(point.GetX(), point.GetY());
+		if (markPoint.angle != 0) {
+			refX = markerElem->GetRefX().GetAnimVal() * scaleX;
+			refY = markerElem->GetRefY().GetAnimVal() * scaleY;
+			m = m.Translate(refX, refY).Rotate(markPoint.angle / M_PI * 180).Translate(-refX, -refY);
+		}
+		SetMatrix(m_cr, m);
+		cairo_set_source_surface(m_cr, surface, 0, 0);
+		cairo_paint(m_cr);
+		cairo_restore(m_cr);
+		cairo_destroy(cr);
+		cairo_surface_destroy(surface);
+	}
 }
