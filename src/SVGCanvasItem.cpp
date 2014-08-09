@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.49 2014-08-09 11:14:34 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.50 2014-08-09 11:59:41 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -559,7 +559,7 @@ void GetPolylineMarkPoints(const wxSVGPointList &points, vector<wxSVGMark>& mark
 	
 	marks.push_back(wxSVGMark(px, py, 0, wxSVGMark::START));
 	
-	for (uint32_t i = 1; i < points.size(); ++i) {
+	for (unsigned int i = 1; i < points.size(); ++i) {
 		float x = points[i].GetX();
 		float y = points[i].GetY();
 		float angle = atan2(y-py, x-px);
@@ -597,7 +597,7 @@ void GetPathMarkPoints(const wxSVGPathSegList& segments, vector<wxSVGMark>& mark
 	double prevSegEndAngle = 0.0f;
 	wxSVGPoint prevCP; // if prev seg was a bezier, this was its last control point
 
-	uint32_t i = 0;
+	unsigned int i = 0;
 	while (i < segments.size()) {
 		// info on current segment:
 		wxPATHSEG segType = segments[i].GetPathSegType();
