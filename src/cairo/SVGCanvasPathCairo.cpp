@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas path
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasPathCairo.cpp,v 1.13 2014-07-06 13:12:16 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasPathCairo.cpp,v 1.14 2014-11-23 11:36:16 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -116,11 +116,12 @@ void wxSVGCanvasPathCairo::ApplyStrokeStyle(cairo_t* cr, const wxCSSStyleDeclara
 		break;
 	}
 	if (style.GetStrokeDasharray().GetLength() > 0) {
-		double dashed[style.GetStrokeDasharray().GetLength()];
+		double* dashed = new double[style.GetStrokeDasharray().GetLength()];
 		for (int i = 0; i < style.GetStrokeDasharray().GetLength(); i++) {
 			dashed[i] = style.GetStrokeDasharray().Item(i).GetFloatValue();
 		}
 		cairo_set_dash(cr, dashed, style.GetStrokeDasharray().GetLength(), 0.0);
+		delete dashed;
 	} else
 		cairo_set_dash(cr, NULL, 0, 0);
 }
