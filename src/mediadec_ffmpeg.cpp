@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.28 2014-11-23 11:35:59 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.29 2014-12-14 17:10:00 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -274,6 +274,7 @@ wxImage wxFfmpegMediaDecoder::GetNextFrame() {
 				int rgbStride[3] = { 3 * m_width, 0, 0 };
 				sws_scale(imgConvertCtx, m_frame->data, m_frame->linesize, 0, m_codecCtx->height, rgbSrc, rgbStride);
 				av_free_packet(&packet);
+				sws_freeContext(imgConvertCtx);
 				return img;
 			}
 		}
@@ -283,10 +284,11 @@ wxImage wxFfmpegMediaDecoder::GetNextFrame() {
 	return wxImage();
 }
 
-void wxFfmpegMediaDecoder::EndDecode()
-{
-    if (m_frame)
-        av_free(m_frame);
-    m_frame = NULL;
+void wxFfmpegMediaDecoder::EndDecode() {
+#if LIBAVCODEC_VERSION_MAJOR >= 55
+	av_frame_free(&m_frame);
+#else
+	avcodec_free_frame(&m_frame);
+#endif
     CloseVideoDecoder();
 }
