@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.29 2014-12-14 17:10:00 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.30 2014-12-16 20:07:23 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -25,6 +25,11 @@ extern "C" {
 #include <libavutil/avutil.h>
 #include <libavutil/mathematics.h>
 }
+
+#if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(55, 28, 1)
+#define av_frame_alloc avcodec_alloc_frame
+#define av_frame_free avcodec_free_frame
+#endif
 
 wxFfmpegMediaDecoder::wxFfmpegMediaDecoder(): m_formatCtx(NULL), m_videoStream(-1), m_codecCtx(NULL), m_frame(NULL),
 		m_width(0), m_height(0) {
@@ -216,11 +221,7 @@ bool wxFfmpegMediaDecoder::BeginDecode(int width, int height)
         m_height = w < width ? height : h;
     }
     // allocate video frame
-#if LIBAVCODEC_VERSION_MAJOR >= 55
     m_frame = av_frame_alloc();
-#else
-    m_frame = avcodec_alloc_frame();
-#endif
     if (!m_frame) {
         avcodec_close(m_codecCtx);
         m_codecCtx = NULL;
@@ -285,10 +286,6 @@ wxImage wxFfmpegMediaDecoder::GetNextFrame() {
 }
 
 void wxFfmpegMediaDecoder::EndDecode() {
-#if LIBAVCODEC_VERSION_MAJOR >= 55
 	av_frame_free(&m_frame);
-#else
-	avcodec_free_frame(&m_frame);
-#endif
     CloseVideoDecoder();
 }
