@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.31 2014-08-09 11:16:21 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.32 2014-12-20 20:04:20 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -358,7 +358,7 @@ void gaussianBlur(cairo_surface_t* surface, int dx, int dy) {
 		boxBlurH(buffer, tempBuffer, stride, rect, dx / 2, dx / 2, prediv);
 		boxBlurH(tempBuffer, buffer, stride, rect, dx / 2, dx / 2, prediv);
 		boxBlurH(buffer, tempBuffer, stride, rect, dx / 2, dx / 2, prediv);
-		free(prediv);
+		delete[] prediv;
 	} else {
 		// even
 		if (dx == 0) {
@@ -369,8 +369,8 @@ void gaussianBlur(cairo_surface_t* surface, int dx, int dy) {
 			boxBlurH(buffer, tempBuffer, stride, rect, dx / 2, dx / 2 - 1, prediv2);
 			boxBlurH(tempBuffer, buffer, stride, rect, dx / 2 - 1, dx / 2, prediv2);
 			boxBlurH(buffer, tempBuffer, stride, rect, dx / 2, dx / 2, prediv);
-			free(prediv);
-			free(prediv2);
+			delete[] prediv;
+			delete[] prediv2;
 		}
 	}
 
@@ -380,7 +380,7 @@ void gaussianBlur(cairo_surface_t* surface, int dx, int dy) {
 		boxBlurV(tempBuffer, buffer, stride, rect, dy / 2, dy / 2, prediv);
 		boxBlurV(buffer, tempBuffer, stride, rect, dy / 2, dy / 2, prediv);
 		boxBlurV(tempBuffer, buffer, stride, rect, dy / 2, dy / 2, prediv);
-		free(prediv);
+		delete[] prediv;
 	} else {
 		// even
 		if (dy == 0) {
@@ -391,8 +391,8 @@ void gaussianBlur(cairo_surface_t* surface, int dx, int dy) {
 			boxBlurV(tempBuffer, buffer, stride, rect, dy / 2, dy / 2 - 1, prediv2);
 			boxBlurV(buffer, tempBuffer, stride, rect, dy / 2 - 1, dy / 2, prediv2);
 			boxBlurV(tempBuffer, buffer, stride, rect, dy / 2, dy / 2, prediv);
-			free(prediv);
-			free(prediv2);
+			delete[] prediv;
+			delete[] prediv2;
 		}
 	}
 	
