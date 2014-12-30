@@ -3,7 +3,7 @@
 // Purpose:     FFMPEG Media Decoder
 // Author:      Alex Thuering
 // Created:     21.07.2007
-// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.30 2014-12-16 20:07:23 ntalex Exp $
+// RCS-ID:      $Id: mediadec_ffmpeg.cpp,v 1.31 2014-12-30 12:17:08 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -233,11 +233,16 @@ bool wxFfmpegMediaDecoder::BeginDecode(int width, int height)
 bool wxFfmpegMediaDecoder::SetPosition(double pos, bool keyFrame) {
     if (m_formatCtx == NULL)
         return false;
+	if (!m_frame && !BeginDecode())
+		return false;
     int64_t timestamp = (int64_t) (pos * AV_TIME_BASE);
     if (m_formatCtx->start_time != (int64_t)AV_NOPTS_VALUE)
         timestamp += m_formatCtx->start_time;
-    return av_seek_frame(m_formatCtx, -1, timestamp,
+    avcodec_flush_buffers(m_codecCtx);
+    bool res = av_seek_frame(m_formatCtx, -1, timestamp,
     		keyFrame ? AVSEEK_FLAG_BACKWARD : AVSEEK_FLAG_ANY|AVSEEK_FLAG_BACKWARD) >= 0;
+    avcodec_flush_buffers(m_codecCtx);
+    return res;
 }
 
 double wxFfmpegMediaDecoder::GetPosition() {
@@ -267,8 +272,10 @@ wxImage wxFfmpegMediaDecoder::GetNextFrame() {
 			if (frameFinished) {
 				SwsContext* imgConvertCtx = sws_getContext(m_codecCtx->width, m_codecCtx->height, m_codecCtx->pix_fmt,
 						m_width, m_height, PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
-				if (imgConvertCtx == NULL)
+				if (imgConvertCtx == NULL) {
+					av_free_packet(&packet);
 					return wxImage();
+				}
 
 				wxImage img(m_width, m_height);
 				uint8_t *rgbSrc[3] = { img.GetData(), NULL, NULL };
