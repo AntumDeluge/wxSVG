@@ -1,3 +1,8 @@
+Version 1.5.3 <2015-01-18>
+--------------------------
+
+  * applied patch from Sebastian Vater to fix memory leak
+
 Version 1.5.2 <2014-12-14>
 --------------------------
   
