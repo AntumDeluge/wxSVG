@@ -126,7 +126,7 @@ AC_SUBST(CXXFLAGS)
 AC_SUBST(WX_CONFIG_NAME)
 
 # create Makefiles
-AC_OUTPUT([
+AC_CONFIG_FILES([
   Makefile
   libwxsvg.pc
   include/Makefile
@@ -137,3 +137,4 @@ AC_OUTPUT([
   src/cairo/Makefile
   svgview/Makefile
 ])
+AC_OUTPUT
