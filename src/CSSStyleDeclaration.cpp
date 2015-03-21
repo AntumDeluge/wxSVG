@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.12 2014-06-30 19:07:49 ntalex Exp $
+// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.13 2015-03-21 16:28:23 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -340,11 +340,18 @@ wxRGBColor wxCSSStyleDeclaration::ParseColor(const wxString& value) {
 	if (!value.length() || value == wxT("none"))
 		return wxRGBColor();
 	else if (value.GetChar(0) == wxT('#')) {
-		long r = 0, g = 0, b = 0;
-		value.Mid(1, 2).ToLong(&r, 16);
-		value.Mid(3, 2).ToLong(&g, 16);
-		value.Mid(5, 2).ToLong(&b, 16);
-		return wxRGBColor(r, g, b);
+		long r = 0, g = 0, b = 0, test;
+		if (!value.Mid(4, 1).ToLong(&test, 16)) {
+			value.Mid(1, 1).ToLong(&r, 16);
+			value.Mid(2, 1).ToLong(&g, 16);
+			value.Mid(3, 1).ToLong(&b, 16);
+			return wxRGBColor((r << 4) | r, (g << 4) | g, (b << 4) | b);
+		} else {
+			value.Mid(1, 2).ToLong(&r, 16);
+			value.Mid(3, 2).ToLong(&g, 16);
+			value.Mid(5, 2).ToLong(&b, 16);
+			return wxRGBColor(r, g, b);
+		}
 	} else if (value.Left(3) == wxT("rgb")) {
 		wxStringTokenizer tkz(value.Mid(3), wxT(",()"));
 		long rgb[3] = { 0, 0, 0 };
