@@ -3,37 +3,32 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.15 2015-03-21 18:22:43 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.16 2015-03-21 19:27:52 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation
-#pragma interface
-#endif
-
-// For compilers that support precompilation, includes "wx.h".
-#include "wx/wxprec.h"
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif
-
-#ifndef WX_PRECOMP
-#include "wx/wx.h"
-#endif
-
-#ifndef __WXWINCE__
-#include <locale.h>
-#endif
-
 #include "svgview.h"
+#include "wx/wx.h"
+#include <wx/mstream.h>
 #include <wxSVG/svg.h>
 #ifdef USE_LIBAV
 #include <wxSVG/mediadec_ffmpeg.h>
 #endif
 #include "wxsvg.png.h"
+
+#define wxICON_FROM_MEMORY(name) wxGetIconFromMemory(name##_png, sizeof(name##_png))
+
+inline wxBitmap wxGetBitmapFromMemory(const unsigned char *data, int length) {
+   wxMemoryInputStream is(data, length);
+   return wxBitmap(wxImage(is, wxBITMAP_TYPE_ANY, -1), -1);
+}
+
+inline wxIcon wxGetIconFromMemory(const unsigned char *data, int length) {
+   wxIcon icon;
+   icon.CopyFromBitmap(wxGetBitmapFromMemory(data, length));
+   return icon;
+}
 
 //////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////  Application /////////////////////////////////
@@ -109,7 +104,7 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos
       m_svgCtrl->Load(_T("tiger.svg"));
     
     Center();
-    mainFrame->Show(true);
+    Show(true);
 }
 
 void MainFrame::OnOpen(wxCommandEvent& event)
