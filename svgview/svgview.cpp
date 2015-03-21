@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.14 2012-04-01 20:37:00 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.15 2015-03-21 18:22:43 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -33,6 +33,7 @@
 #ifdef USE_LIBAV
 #include <wxSVG/mediadec_ffmpeg.h>
 #endif
+#include "wxsvg.png.h"
 
 //////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////  Application /////////////////////////////////
@@ -40,8 +41,8 @@
 
 IMPLEMENT_APP(SVGViewApp)
 
-bool SVGViewApp::OnInit()
-{
+bool SVGViewApp::OnInit() {
+	wxGetApp();
 #ifndef __WXWINCE__
   setlocale(LC_NUMERIC, "C");
 #endif
@@ -51,8 +52,9 @@ bool SVGViewApp::OnInit()
   wxFfmpegMediaDecoder::Init();
 #endif
   
-  new MainFrame(NULL, wxT("SVG Viewer"),
-    wxDefaultPosition, wxSize(500, 400));
+  MainFrame* mainFrame = new MainFrame(NULL, wxT("SVG Viewer"), wxDefaultPosition, wxSize(500, 400));
+  SetTopWindow(mainFrame);
+  
   return true;
 }
 
@@ -94,6 +96,12 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos
     menuBar->Append(fileMenu, _T("&File"));
     SetMenuBar(menuBar);
 
+#ifndef __WXMSW__
+	SetIcon(wxICON_FROM_MEMORY(wxsvg));
+#else
+	SetIcon(wxICON(wxsvg));
+#endif
+
     m_svgCtrl = new MySVGCanvas(this);
     if (wxTheApp->argc > 1)
       m_svgCtrl->Load(wxTheApp->argv[1]);
@@ -101,7 +109,7 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos
       m_svgCtrl->Load(_T("tiger.svg"));
     
     Center();
-    Show(true);
+    mainFrame->Show(true);
 }
 
 void MainFrame::OnOpen(wxCommandEvent& event)
