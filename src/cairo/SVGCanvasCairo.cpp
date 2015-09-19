@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.32 2014-12-20 20:04:20 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.cpp,v 1.33 2015-09-19 17:18:23 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -765,9 +765,11 @@ void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImage& canvasImage, cairo_surf
 			maskElem->SetOwnerSVGElement(&svgElem);
 			maskElem->SetViewportElement(&svgElem);
 			cairo_surface_t* surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
-					svgElem.GetWidth().GetAnimVal(), svgElem.GetHeight().GetAnimVal());
+					svgElem.GetWidth().GetAnimVal()/scaleX, svgElem.GetHeight().GetAnimVal()/scaleY);
 			cairo_t* cr = cairo_create(surface);
-			DrawMask(cr, maskElem, matrix, style, svgElem);
+			wxSVGMatrix maskMatrix;
+			maskMatrix = maskMatrix.Translate(x, y).ScaleNonUniform(scaleX, scaleY).Inverse();
+			DrawMask(cr, maskElem, maskMatrix, style, svgElem);
 			cairo_mask_surface(m_cr, surface, 0, 0);
 			cairo_destroy(cr);
 			cairo_surface_destroy(surface);
