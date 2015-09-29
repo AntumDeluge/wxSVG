@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.50 2014-08-09 11:59:41 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.51 2015-09-29 17:03:39 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -1482,6 +1482,26 @@ wxSVGCanvasVideoData::~wxSVGCanvasVideoData() {
 #endif
 }
 
+wxImage wxSVGCanvasVideoData::GetImage(double time) {
+#ifdef USE_LIBAV
+	double currTime = m_mediaDecoder->GetPosition();
+	double ftime = m_mediaDecoder->GetFps() >= 1 ? 1.0 / m_mediaDecoder->GetFps() : 0.04;
+	if (currTime >= time + ftime/2 || currTime < time - ftime/2 || !m_image.IsOk()) {
+		if (currTime > time || time - currTime > 50*ftime) {
+			m_mediaDecoder->SetPosition(time > 1.0 ? time - 1.0 : 0.0);
+		}
+		for (int i = 0; i < 60; i++) {
+			m_image = m_mediaDecoder->GetNextFrame();
+			currTime = m_mediaDecoder->GetPosition();
+			if (currTime >= time - ftime/2 || currTime < 0) {
+				break;
+			}
+		}
+	}
+#endif
+	return m_image;
+}
+
 wxSVGCanvasVideo::wxSVGCanvasVideo(): wxSVGCanvasImage(wxSVG_CANVAS_ITEM_VIDEO) {
 	m_time = 0;
 	m_duration = 0;
@@ -1518,21 +1538,13 @@ void wxSVGCanvasVideo::Init(wxSVGVideoElement& element, const wxCSSStyleDeclarat
 		m_defHeightScale = prevItem->m_defHeightScale;
 		wxFfmpegMediaDecoder* decoder = m_videoData->GetMediaDecoder();
 		if (decoder != NULL) {
+			double prevTime = prevItem->m_time;
 			double ftime = decoder->GetFps() >= 1 ? 1.0 / decoder->GetFps() : 0.04;
-			double currTime = decoder->GetPosition();
-			if (currTime != m_time && (currTime >= m_time + ftime/2 || m_time - currTime > ftime/2)) {
-				if (currTime > m_time || m_time - currTime > 50*ftime) {
-					decoder->SetPosition(m_time > 1.0 ? m_time - 1.0 : 0.0);
-				}
-				for (int i = 0; i < 60; i++) {
-					m_image = decoder->GetNextFrame();
-					currTime = decoder->GetPosition();
-					if (currTime >= m_time - ftime/2 || currTime < 0) {
-						break;
-					}
-				}
-			} else
+			if (prevTime >= m_time + ftime/2 || prevTime < m_time - ftime/2) {
+				m_image = m_videoData->GetImage(m_time);
+			} else {
 				m_image = prevItem->m_image;
+			}
 		}
 	} else if (m_href.length()) {
 		wxFfmpegMediaDecoder* decoder = new wxFfmpegMediaDecoder();
