@@ -2,7 +2,7 @@
 
 # initialization
 AC_PREREQ(2.57)
-AC_INIT([wxsvg], [1.5.4], [wx-svg-users@lists.sourceforge.net])
+AC_INIT([wxsvg], [1.5.5], [wx-svg-users@lists.sourceforge.net])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE(foreign)
 AM_MAINTAINER_MODE

@@ -1,3 +1,10 @@
+Version 1.5.5 <2015-09-30>
+--------------------------
+
+  * fixed rendering image element with mask
+  * wxFfmpegMediaDecoder: added GetFormatName() and GetCodecTag()
+  * wxFfmpegMediaDecoder: fixed wxSVGCanvasVideo
+
 Version 1.5.4 <2015-03-21>
 --------------------------
 
