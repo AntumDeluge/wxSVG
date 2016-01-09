@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.41 2014-08-09 11:13:02 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.42 2016-01-09 23:31:15 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -415,6 +415,10 @@ interfaces["SVGAnimationElement"]=inter
 inter.include_methods.append('''
     virtual void ApplyAnimation();\n
 ''')
+inter.exclude_attributes = ["targetElement"]
+inter.include_attributes.append('''    wxSVGElement* GetTargetElement() const;
+
+''')
 
 # SVGAnimateTransformElement
 inter = interface()
@@ -477,6 +481,8 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL, bool preserveAspectRatio = true,
 		bool alpha = false, wxProgressDialog* progressDlg = NULL);
     wxImage RenderElementById(const wxString& id);
+    
+    static void ApplyAnimation(wxSVGElement* parent);
   private:
       DECLARE_DYNAMIC_CLASS(wxSVGDocument)
 ''')

@@ -90,6 +90,8 @@ class wxSVGDocument:
     wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL, bool preserveAspectRatio = true,
 		bool alpha = false, wxProgressDialog* progressDlg = NULL);
     wxImage RenderElementById(const wxString& id);
+    
+    static void ApplyAnimation(wxSVGElement* parent);
   private:
       DECLARE_DYNAMIC_CLASS(wxSVGDocument)
 };

@@ -210,6 +210,8 @@ wxSvgXmlAttrHash wxSVGAnimatedPoints::GetAttributes() const
 wxSvgXmlAttrHash wxSVGAnimationElement::GetAttributes() const
 {
   wxSvgXmlAttrHash attrs;
+  if (!m_href.IsEmpty())
+    attrs.Add(wxT("xlink:href"), m_href);
   if (!m_attributeName.IsEmpty())
     attrs.Add(wxT("attributeName"), m_attributeName);
   if (m_begin > 0)

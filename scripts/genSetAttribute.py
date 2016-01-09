@@ -4,7 +4,7 @@
 ##              -> SetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSetAttribute.py,v 1.16 2014-03-27 08:38:04 ntalex Exp $
+## RCS-ID:      $Id: genSetAttribute.py,v 1.17 2016-01-09 23:31:15 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -162,7 +162,10 @@ def process(classdecl):
                 set_attr_anim += '\t} else {\n'
                 set_attr_anim += '\t  %s.ResetAnimVal();\n'%attr_name
                 set_attr_anim += '\t}'
-        func_body = func_body + 'if (attrName == wxT("%s"))\n'%entity_name
+        if entity_name == "xlink:href":
+            func_body = func_body + 'if (attrName == wxT("%s") || attrName == wxT("href"))\n'%entity_name
+        else:
+            func_body = func_body + 'if (attrName == wxT("%s"))\n'%entity_name
         func_body = func_body + set_attr + '\n  else '
         if len(set_attr_anim):
             func_body_anim += 'if (attrName == wxT("%s")) {\n'%entity_name

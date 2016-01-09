@@ -172,7 +172,8 @@ bool wxSVGAnimatedPoints::HasAttribute(const wxString& attrName) const {
 
 // wxSVGAnimationElement
 bool wxSVGAnimationElement::HasAttribute(const wxString& attrName) const {
-  return attrName == wxT("attributeName") ||
+  return attrName == wxT("xlink:href") ||
+    attrName == wxT("attributeName") ||
     attrName == wxT("begin") ||
     attrName == wxT("dur") ||
     attrName == wxT("from") ||

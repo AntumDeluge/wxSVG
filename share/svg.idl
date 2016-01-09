@@ -1688,7 +1688,8 @@ module svg
     const unsigned short SVG_ANIMATION_ACCUMULATE_UNKNOWN = 0;
     const unsigned short SVG_ANIMATION_ACCUMULATE_NONE = 1;
     const unsigned short SVG_ANIMATION_ACCUMULATE_SUM = 2;
-
+	
+	readonly attribute DOMString href;
     readonly attribute SVGElement targetElement;
     readonly attribute DOMString attributeName;
     readonly attribute float begin;
