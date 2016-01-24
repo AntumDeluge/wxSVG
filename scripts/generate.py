@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.27 2014-08-09 11:13:02 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.28 2016-01-24 16:58:49 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -215,8 +215,7 @@ if len(parse_idl.class_decls):
             
             # fields
             for (typestr, attrname, ispointer, isenum) in attributes:
-                attrname = cpp.make_attr_name(attrname)
-                protected = protected +'    ' + typestr + ' ' + attrname + ';\n'
+                protected += '    ' + typestr + ' ' + cpp.make_attr_name(attrname) + ';\n'
             
             # get/set methods
             for (typestr, attrname, ispointer, isenum) in attributes:
@@ -284,11 +283,17 @@ if len(parse_idl.class_decls):
                         param_type = 'const ' + param_type + '&'
                     public = public + '    inline void %s(%s n) { %s.SetBaseVal(n);%s }\n'%(methodName,param_type,attrname_cpp,dirty)
                 public = public + '\n'
-    
+        
         try:
-            for i in interfaces.interfaces[classname].include_attributes:
-                public = public+i
+            for (attrname, attrtype, init_value) in interfaces.interfaces[classname].include_attributes:
+                if len(attrtype):
+                    protected += "    %s %s;\n"%(attrtype, cpp.make_attr_name(attrname))
+        except KeyError:
+            pass
             
+        try:
+            for i in interfaces.interfaces[classname].include_attributes_str:
+                public = public+i
         except KeyError:
             pass
         
@@ -329,9 +334,10 @@ if len(parse_idl.class_decls):
                         init_attibutes = init_attibutes + ", %s(NULL)"%attrname
                     elif isenum:
                         init_attibutes = init_attibutes + ", %s(%s(0))"%(attrname,typestr)
-                for (attrname, init_value) in interfaces.interfaces[classname].include_attributes_init:
-                    attrname=cpp.make_attr_name(attrname)
-                    init_attibutes = init_attibutes + ", %s(%s)"%(attrname, init_value)
+                for (attrname, attrtype, init_value) in interfaces.interfaces[classname].include_attributes:
+                    if len(init_value)>0:
+                        attrname=cpp.make_attr_name(attrname)
+                        init_attibutes = init_attibutes + ", %s(%s)"%(attrname, init_value)
             except KeyError:
                 pass
             cname = cpp.fix_typename(classname)
@@ -483,12 +489,17 @@ if len(parse_idl.class_decls):
             if "Element" not in includes:
                 includes.append("Element")
             doGetAttrByName=1
-            if classname in ["SVGStylable", "SVGFEGaussianBlurElement"]: #genSetAttribute.customParser
-                protected += '    bool HasCustomAttribute(const wxString& name) const;\n';
-                protected += '    wxString GetCustomAttribute(const wxString& name) const;\n';
-                protected += '    bool SetCustomAttribute(const wxString& name, const wxString& value);\n';
-                protected += '    wxSvgXmlAttrHash GetCustomAttributes() const;\n';
-                protected += '    bool SetCustomAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);\n';
+            try:
+                custom_parser = interfaces.interfaces[classname].custom_parser
+                if custom_parser:
+                    protected += '    bool HasCustomAttribute(const wxString& name) const;\n';
+                    protected += '    wxString GetCustomAttribute(const wxString& name) const;\n';
+                    protected += '    bool SetCustomAttribute(const wxString& name, const wxString& value);\n';
+                    protected += '    wxSvgXmlAttrHash GetCustomAttributes() const;\n';
+                    if classdecl.name not in ["SVGAnimationElement"]:
+                        protected += '    bool SetCustomAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);\n';
+            except KeyError:
+                pass
             if find_anim_dtd_attr_in_inherit(classdecl):
                 methods_str = methods_str + '    bool SetAnimatedValue(const wxString& name, const wxSVGAnimatedType& value);\n';
                 includes.append("SVGAnimatedType")
@@ -592,7 +603,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.27 2014-08-09 11:13:02 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.28 2016-01-24 16:58:49 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

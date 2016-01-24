@@ -4,7 +4,7 @@
 ##              -> GetAttributes() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttributes.py,v 1.13 2014-03-28 07:51:32 ntalex Exp $
+## RCS-ID:      $Id: genGetAttributes.py,v 1.14 2016-01-24 16:58:49 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -17,8 +17,7 @@ import genFile
 import cpp
 import cppImpl
 import enum_map
-
-customParser = ["SVGStylable", "SVGFEGaussianBlurElement"] ##TODO["SVGMarkerElement"]
+import interfaces
 
 includes = ["String_wxsvg"]
 already_done={}
@@ -109,9 +108,12 @@ def process(classdecl):
         if len(check)>0:
             func_body = func_body + '  if (%s)\n  '%check
         func_body = func_body + '  attrs.Add(wxT("%s"), %s);\n'%(entity_name, get_attr)
-        if classdecl.name in customParser:
+    try:
+        custom_parser = interfaces.interfaces[classdecl.name].custom_parser
+        if custom_parser:
             func_body = func_body + '  attrs.Add(GetCustomAttributes());\n'
-		
+    except KeyError:
+        pass
     for inh in classdecl.inherits:
         if inh in ["Element", "events::EventTarget", "events::DocumentEvent",
                    "css::ViewCSS", "css::DocumentCSS", "css::CSSValue",

@@ -4,7 +4,7 @@
 ##              -> GetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttribute.py,v 1.9 2014-03-21 21:15:35 ntalex Exp $
+## RCS-ID:      $Id: genGetAttribute.py,v 1.10 2016-01-24 16:58:49 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -17,8 +17,7 @@ import genFile
 import cpp
 import cppImpl
 import enum_map
-
-customParser = ["SVGStylable", "SVGFEGaussianBlurElement"] ##TODO["SVGMarkerElement"]
+import interfaces
 
 includes = ["String_wxsvg"]
 already_done={}
@@ -121,10 +120,14 @@ def process(classdecl):
             func_body = func_body + '  else '
 
     if nattr>0:
-        if classdecl.name in customParser:
-            func_body = func_body + 'if (HasCustomAttribute(attrName))\n'
-            func_body = func_body + '    return GetCustomAttribute(attrName);\n'
-            func_body = func_body + '  else'
+        try:
+            custom_parser = interfaces.interfaces[classdecl.name].custom_parser
+            if custom_parser:
+                func_body += 'if (HasCustomAttribute(attrName))\n'
+                func_body += '    return GetCustomAttribute(attrName);\n'
+                func_body += '  else'
+        except KeyError:
+            pass
         if classdecl in mapDtdIdl.elements_idl_dtd:
             func_body = func_body + '\n    return wxT("");\n' #wxLogDebug(wxT("unknown attribute %s::") + attrName);%(classdecl.name)
         else:

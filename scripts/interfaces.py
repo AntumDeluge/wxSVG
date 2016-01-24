@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.42 2016-01-09 23:31:15 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.43 2016-01-24 16:58:49 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -14,9 +14,10 @@ class interface:
         self.exclude_attributes = []
         self.include_methods = []
         self.include_methods_protected = []
+        self.include_attributes_str = []
         self.include_attributes = []
-        self.include_attributes_init = []
         self.include_get_set_attributes = []
+        self.custom_parser=0
         self.include_includes = []
         self.include_fwd_decls = []
         self.user_defined_constructor=0
@@ -28,7 +29,7 @@ interfaces={}
 #SVGElement
 inter = interface()
 interfaces["SVGElement"]=inter
-inter.include_attributes.append('''
+inter.include_attributes_str.append('''
   public:
     virtual wxSVGElement* GetSvgElement(){return this;}
     wxSVGElement(wxString tagName = wxT("")):
@@ -99,6 +100,7 @@ inter.include_methods.append('    static const wxCSSStyleDeclaration& GetElement
 inter.include_methods.append('    static wxCSSStyleDeclaration GetResultStyle(const wxSVGElement& element);\n')
 inter.include_get_set_attributes = [["wxCSSStyleDeclaration", "animStyle", False, False]]
 inter.include_includes=["SVGElement"]
+inter.custom_parser=1
 
 # SVGElementInstance
 inter = interface()
@@ -199,9 +201,8 @@ inter.user_defined_destructor=1
 # SVGAngle
 inter = interface()
 interfaces["SVGAngle"]=inter
-inter.include_attributes_init = [["valueInSpecifiedUnits", "0"]]
-inter.include_methods.append('    wxSVGAngle() : m_unitType(wxSVG_ANGLETYPE_UNKNOWN), m_value(0) {}\n')
-inter.include_methods.append('    wxSVGAngle(double v) : m_unitType(wxSVG_ANGLETYPE_UNSPECIFIED), m_value(v) {}\n')
+inter.include_methods.append('    wxSVGAngle() : m_unitType(wxSVG_ANGLETYPE_UNKNOWN), m_value(0), m_valueInSpecifiedUnits(0) {}\n')
+inter.include_methods.append('    wxSVGAngle(double v) : m_unitType(wxSVG_ANGLETYPE_UNSPECIFIED), m_value(v), m_valueInSpecifiedUnits(0) {}\n')
 inter.include_methods.append('    virtual ~wxSVGAngle() {}\n')
 inter.include_methods.append('    \n')
 inter.include_methods.append('    inline double GetValue() const { return m_value; }\n')
@@ -250,15 +251,9 @@ inter.user_defined_destructor=1
 inter = interface()
 interfaces["SVGRect"]=inter
 inter.exclude_attributes = ['x', 'y', 'width', 'height']
-inter.include_attributes.append('''
-  protected:
-    double m_x;
-    double m_y;
-    double m_width;
-    double m_height;
-    bool m_empty;\n
-''')
-inter.include_methods.append('''\
+inter.include_attributes = [["x", "double", "0"], ["y", "double", "0"],\
+ ["width", "double", "0"], ["height", "double", "0"], ["empty", "bool", "true"]]
+inter.include_attributes_str.append('''\
     inline double GetX() const { return m_x; }
     inline void SetX(double n) { m_x = n; m_empty = false; }
 
@@ -272,10 +267,9 @@ inter.include_methods.append('''\
     inline void SetHeight(double n) { m_height = n; m_empty = false; }
     
     inline bool IsEmpty() const { return m_empty; }
-    inline void Clear() { m_x = m_y = m_width = m_height = 0; m_empty = true; }
-    
-  public:
-    wxSVGRect(): m_x(0), m_y(0), m_width(0), m_height(0), m_empty(true) {}
+    inline void Clear() { m_x = m_y = m_width = m_height = 0; m_empty = true; }\n
+''')
+inter.include_methods.append('''\
     wxSVGRect(double x, double y, double width, double height):
       m_x(x), m_y(y), m_width(width), m_height(height), m_empty(false) {}
     ~wxSVGRect() {}
@@ -284,7 +278,7 @@ inter.include_methods.append('''\
     wxSVGRect MatrixTransform(const wxSVGMatrix& matrix) const;
 ''')
 inter.include_includes = ["String_wxsvg", "SVGMatrix"]
-inter.user_defined_constructor=1
+inter.user_defined_constructor=0
 inter.user_defined_destructor=1
 
 # SVGMatrix
@@ -355,12 +349,10 @@ for name in ["SVGLineElement", "SVGPolylineElement", "SVGPolygonElement",
     interfaces[name]=inter
     if name not in ["SVGUseElement"]:
         inter.has_canvas_item=1
-        inter.include_attributes.append('  protected:\n')
-        inter.include_attributes.append('    wxSVGCanvasItem* m_canvasItem;\n')
-        inter.include_attributes.append('  public:\n')
-        inter.include_attributes.append('    inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }\n')
-        inter.include_attributes.append('    void SetCanvasItem(wxSVGCanvasItem* canvasItem);\n\n')
-        inter.include_attributes_init = [["canvasItem", "NULL"]]
+        inter.include_attributes_str.append('  public:\n')
+        inter.include_attributes_str.append('    inline wxSVGCanvasItem* GetCanvasItem() { return m_canvasItem; }\n')
+        inter.include_attributes_str.append('    void SetCanvasItem(wxSVGCanvasItem* canvasItem);\n\n')
+        inter.include_attributes = [["canvasItem", "wxSVGCanvasItem*", "NULL"]]
         inter.include_fwd_decls = ["SVGCanvasItem"]
     inter.include_methods.append('    wxSVGRect GetBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
     inter.include_methods.append('    wxSVGRect GetResultBBox(wxSVG_COORDINATES coordinates = wxSVG_COORDINATES_USER);\n')
@@ -409,25 +401,33 @@ inter.include_methods.append('''
     double GetQualifiedFy() const;\n
 ''')
 
+# SVGFEGaussianBlurElement
+inter = interface()
+interfaces["SVGFEGaussianBlurElement"]=inter
+inter.custom_parser=1
+
 # SVGAnimationElement
 inter = interface()
 interfaces["SVGAnimationElement"]=inter
 inter.include_methods.append('''
-    virtual void ApplyAnimation();\n
+    virtual void ApplyAnimation();
 ''')
 inter.exclude_attributes = ["targetElement"]
-inter.include_attributes.append('''    wxSVGElement* GetTargetElement() const;
+inter.include_attributes = [["repeatCount", "int", "1"], ["values", "wxSVGStringList", ""]]
+inter.include_methods.append('''    wxSVGElement* GetTargetElement() const;
+''')
+inter.custom_parser=1
 
+# SVGAnimateMotionElement
+inter = interface()
+interfaces["SVGAnimateMotionElement"]=inter
+inter.include_methods.append('''    virtual void ApplyAnimation();
 ''')
 
 # SVGAnimateTransformElement
 inter = interface()
 interfaces["SVGAnimateTransformElement"]=inter
-inter.include_attributes.append('''  protected:
-    int m_transformIdx;
-
-''')
-inter.include_attributes_init = [["transformIdx", "-1"]]
+inter.include_attributes = [["transformIdx", "int", "-1"]]
 inter.include_methods.append('''
     virtual void ApplyAnimation();\n
 ''')
@@ -437,7 +437,7 @@ inter = interface()
 interfaces["SVGDocument"]=inter
 
 inter.exclude_attributes = ["rootElement", "title"]
-inter.include_attributes.append('''  protected:
+inter.include_attributes_str.append('''  protected:
     wxSVGCanvas* m_canvas;
     double m_scale;
     double m_scaleY;\n

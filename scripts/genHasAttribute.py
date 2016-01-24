@@ -4,7 +4,7 @@
 ##              -> HasAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genHasAttribute.py,v 1.7 2014-03-21 21:15:35 ntalex Exp $
+## RCS-ID:      $Id: genHasAttribute.py,v 1.8 2016-01-24 16:58:49 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -16,8 +16,7 @@ import config
 import genFile
 import cpp
 import cppImpl
-
-customParser = ["SVGStylable", "SVGFEGaussianBlurElement"] ##TODO["SVGMarkerElement"]
+import interfaces
 
 includes = ["String_wxsvg"]
 already_done={}
@@ -66,8 +65,12 @@ def process(classdecl):
             func_body = func_body + 'wx%s::HasAttribute(attrName)'%inh
 
     if nattr>0:
-        if classdecl.name in customParser:
-            func_body = func_body + ' ||\n    HasCustomAttribute(attrName)'
+        try:
+            custom_parser = interfaces.interfaces[classdecl.name].custom_parser
+            if custom_parser:
+                func_body = func_body + ' ||\n    HasCustomAttribute(attrName)'
+        except KeyError:
+            pass
         output_cpp = '''
 // wx%s
 bool wx%s::HasAttribute(const wxString& attrName) const {

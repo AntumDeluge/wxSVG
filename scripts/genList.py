@@ -3,7 +3,7 @@
 ## Purpose:     generates all SVG*List.h/cpp
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genList.py,v 1.7 2007-10-30 21:59:23 etisserant Exp $
+## RCS-ID:      $Id: genList.py,v 1.8 2016-01-24 16:58:49 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -24,6 +24,10 @@ def generate(name):
     elif typename not in cpp.builtin_types:
         include = '#include "SVG%s.h"\n'%name
     
+    addParam = ""
+    if name == "String":
+        addParam = ", wxChar delimiter = wxT(',')"
+    
     output = '''%s#include "String_wxsvg.h"
 #include <wx/dynarray.h>
 WX_DECLARE_OBJARRAY(%s, wxSVG%sListBase);
@@ -34,8 +38,9 @@ class wxSVG%sList: public wxSVG%sListBase
     wxSVG%sList() {}
     
     wxString GetValueAsString() const;
-    void SetValueAsString(const wxString& value);
-};'''%(include,typename,name,name,name,name)
+    void SetValueAsString(const wxString& value%s);
+};'''%(include, typename, name, name, name, name, addParam)
+
     header = cppHeader.Header("SVG%sList"%name, "genList.py")
     header.add_content(output)
     header.dump(path=config.include_dir)

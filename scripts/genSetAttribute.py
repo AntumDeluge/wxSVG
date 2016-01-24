@@ -4,7 +4,7 @@
 ##              -> SetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSetAttribute.py,v 1.17 2016-01-09 23:31:15 ntalex Exp $
+## RCS-ID:      $Id: genSetAttribute.py,v 1.18 2016-01-24 16:58:49 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -17,8 +17,7 @@ import genFile
 import cpp
 import cppImpl
 import enum_map
-
-customParser = ["SVGStylable", "SVGFEGaussianBlurElement"] ##TODO["SVGMarkerElement"]
+import interfaces
 
 includes = ["String_wxsvg"]
 already_done={}
@@ -193,9 +192,14 @@ def process(classdecl):
                 func_body_anim += "if (wx%s::SetAnimatedValue(attrName, attrValue));\n  else "%(inh)
 
     if nattr > 0:
-        if classdecl.name in customParser:
-            func_body += "if (SetCustomAttribute(attrName, attrValue));\n  else"
-            func_body_anim += "if (SetCustomAnimatedValue(attrName, attrValue));\n  else "
+        try:
+            custom_parser = interfaces.interfaces[classdecl.name].custom_parser
+            if custom_parser:
+                func_body += "if (SetCustomAttribute(attrName, attrValue));\n  else"
+                if classdecl.name not in ["SVGAnimationElement"]:
+                    func_body_anim += "if (SetCustomAnimatedValue(attrName, attrValue));\n  else "
+        except KeyError:
+            pass
 
         #if it's an element
         #if classdecl.name.find("Element")>0 and classdecl.name != "SVGElement":
