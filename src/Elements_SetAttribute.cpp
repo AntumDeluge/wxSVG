@@ -328,7 +328,8 @@ bool wxSVGAnimationElement::SetAttribute(const wxString& attrName, const wxStrin
   else if (wxSVGElement::SetAttribute(attrName, attrValue));
   else if (wxSVGTests::SetAttribute(attrName, attrValue));
   else if (wxSVGExternalResourcesRequired::SetAttribute(attrName, attrValue));
-  else 
+  else if (SetCustomAttribute(attrName, attrValue));
+  else
       return false;
 
   return true;

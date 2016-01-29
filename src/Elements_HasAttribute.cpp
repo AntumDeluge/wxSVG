@@ -183,7 +183,8 @@ bool wxSVGAnimationElement::HasAttribute(const wxString& attrName) const {
     attrName == wxT("accumulate") ||
     wxSVGElement::HasAttribute(attrName) ||
     wxSVGTests::HasAttribute(attrName) ||
-    wxSVGExternalResourcesRequired::HasAttribute(attrName);
+    wxSVGExternalResourcesRequired::HasAttribute(attrName) ||
+    HasCustomAttribute(attrName);
 }
 
 // wxSVGCircleElement

@@ -59,6 +59,12 @@ class wxSVGAnimationElement:
     wxSVG_ANIMATION_FILL m_fill;
     wxSVG_ANIMATION_ADDITIVE m_additive;
     wxSVG_ANIMATION_ACCUMULATE m_accumulate;
+    int m_repeatCount;
+    wxSVGStringList m_values;
+    bool HasCustomAttribute(const wxString& name) const;
+    wxString GetCustomAttribute(const wxString& name) const;
+    bool SetCustomAttribute(const wxString& name, const wxString& value);
+    wxSvgXmlAttrHash GetCustomAttributes() const;
 
   public:
     inline const wxString& GetHref() const { return m_href; }
@@ -88,15 +94,13 @@ class wxSVGAnimationElement:
     inline wxSVG_ANIMATION_ACCUMULATE GetAccumulate() const { return m_accumulate; }
     inline void SetAccumulate(const wxSVG_ANIMATION_ACCUMULATE& n) { m_accumulate = n; }
 
-    wxSVGElement* GetTargetElement() const;
-
   public:
     wxSVGAnimationElement(wxString tagName = wxT("")):
-      wxSVGElement(tagName), m_begin(0), m_dur(0), m_fill(wxSVG_ANIMATION_FILL(0)), m_additive(wxSVG_ANIMATION_ADDITIVE(0)), m_accumulate(wxSVG_ANIMATION_ACCUMULATE(0)) {}
+      wxSVGElement(tagName), m_begin(0), m_dur(0), m_fill(wxSVG_ANIMATION_FILL(0)), m_additive(wxSVG_ANIMATION_ADDITIVE(0)), m_accumulate(wxSVG_ANIMATION_ACCUMULATE(0)), m_repeatCount(1) {}
     virtual ~wxSVGAnimationElement() {}
 
     virtual void ApplyAnimation();
-
+    wxSVGElement* GetTargetElement() const;
     virtual double GetStartTime();
     virtual double GetCurrentTime();
     virtual double GetSimpleDuration();

@@ -6,9 +6,9 @@ endif
 
 lib_LTLIBRARIES = libwxsvg.la
 libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp imagsvg.cpp\
-  SVGAnimatedType.cpp SVGAnimationElement.cpp SVGAnimateTransformElement.cpp SVGCircleElement.cpp\
-  SVGEllipseElement.cpp SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp SVGImageElement.cpp\
-  SVGLineElement.cpp SVGLocatable.cpp SVGMarkerElement.cpp SVGPathElement.cpp\
+  SVGAnimatedType.cpp SVGAnimationElement.cpp SVGAnimateMotionElement.cpp SVGAnimateTransformElement.cpp\
+  SVGCircleElement.cpp SVGEllipseElement.cpp SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp\
+  SVGImageElement.cpp SVGLineElement.cpp SVGLocatable.cpp SVGMarkerElement.cpp SVGPathElement.cpp\
   SVGPolylineElement.cpp SVGPolygonElement.cpp SVGRectElement.cpp SVGRadialGradientElement.cpp\
   SVGSVGElement.cpp SVGTextContentElement.cpp SVGTextElement.cpp\
   SVGUseElement.cpp SVGVideoElement.cpp\

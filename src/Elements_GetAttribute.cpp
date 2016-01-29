@@ -291,7 +291,9 @@ wxString wxSVGAnimationElement::GetAttribute(const wxString& attrName) const {
     return wxSVGTests::GetAttribute(attrName);
   else if (wxSVGExternalResourcesRequired::HasAttribute(attrName))
     return wxSVGExternalResourcesRequired::GetAttribute(attrName);
-  else 
+  else if (HasCustomAttribute(attrName))
+    return GetCustomAttribute(attrName);
+  else
     return wxT("");
 
   return wxT("");
