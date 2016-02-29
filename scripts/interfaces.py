@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.43 2016-01-24 16:58:49 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.44 2016-02-29 11:09:17 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -29,22 +29,15 @@ interfaces={}
 #SVGElement
 inter = interface()
 interfaces["SVGElement"]=inter
-inter.include_attributes_str.append('''
-  public:
-    virtual wxSVGElement* GetSvgElement(){return this;}
-    wxSVGElement(wxString tagName = wxT("")):
-      wxSvgXmlElement(wxSVGXML_ELEMENT_NODE, tagName),
+inter.include_methods.append('''    wxSVGElement(wxString tagName = wxT("")): wxSvgXmlElement(wxSVGXML_ELEMENT_NODE, tagName),
       m_ownerSVGElement(NULL), m_viewportElement(NULL) { }
     virtual ~wxSVGElement() {}
     
+    virtual wxSVGElement* GetSvgElement() { return this; }
     virtual wxSVGDTD GetDtd() const = 0;
-    virtual void AddProperty(const wxString& name, const wxString& value)
-      { SetAttribute(name, value); }
+
+    virtual void AddProperty(const wxString& name, const wxString& value) { SetAttribute(name, value); }
 ''')
-# , m_dirty(true)
-#    bool m_dirty;
-#    inline bool IsDirty() { return m_dirty; }
-#    inline void SetDirty(bool dirty = true) { m_dirty = dirty; }
 inter.include_fwd_decls=["SVGSVGElement", "SVGDocument"]
 inter.include_includes=["SVGDTD"]
 inter.user_defined_constructor=1
@@ -478,9 +471,9 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     double GetCurrentTime() { return m_time; }
     void SetCurrentTime(double seconds);
     
+    /** Renders SVG to bitmap image */
     wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL, bool preserveAspectRatio = true,
 		bool alpha = false, wxProgressDialog* progressDlg = NULL);
-    wxImage RenderElementById(const wxString& id);
     
     static void ApplyAnimation(wxSVGElement* parent);
   private:

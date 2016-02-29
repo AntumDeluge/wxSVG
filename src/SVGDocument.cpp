@@ -3,7 +3,7 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.50 2016-01-09 23:31:14 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.51 2016-02-29 11:09:17 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -181,6 +181,7 @@ void wxSVGDocument::SetCurrentTime(double seconds) {
 		ApplyAnimation(GetRootElement());
 }
 
+/** Renders SVG to bitmap image */
 wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool preserveAspectRatio, bool alpha,
 		wxProgressDialog* progressDlg) {
 	if (!GetRootElement())
@@ -252,16 +253,5 @@ wxImage wxSVGDocument::Render(int width, int height, const wxSVGRect* rect, bool
 	GetCanvas()->RenderElement(GetRootElement(), rect, &m_screenCTM, &GetRootElement()->GetStyle(), NULL, NULL,
 			progressDlg);
 
-	return m_canvas->GetImage();
-}
-
-wxImage wxSVGDocument::RenderElementById(const wxString& id) {
-	wxSVGElement* element = GetElementById(id);
-	const wxSVGRect* rect = NULL;
-	m_screenCTM = wxSVGMatrix();
-	m_screenCTM = m_screenCTM.Translate(-10, -10);
-	
-	m_canvas->Clear();
-	GetCanvas()->RenderElement(element, rect, &m_screenCTM, &GetRootElement()->GetStyle(), NULL, NULL, NULL);
 	return m_canvas->GetImage();
 }
