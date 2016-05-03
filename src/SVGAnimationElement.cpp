@@ -3,7 +3,7 @@
 // Purpose:     Implementation of wxSVGAnimationElement
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGAnimationElement.cpp,v 1.8 2016-01-29 16:40:01 ntalex Exp $
+// RCS-ID:      $Id: SVGAnimationElement.cpp,v 1.9 2016-05-03 19:43:32 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@ wxString wxSVGAnimationElement::GetCustomAttribute(const wxString& name) const {
 	if (name == wxT("repeatCount"))
 		return m_repeatCount < 0 ? wxT("indefinite") : wxString::Format(wxT("%d"), m_repeatCount);
 	else if (name == wxT("values"))
-		return m_values.GetValueAsString();
+		return m_values.GetValueAsString(wxT(';'));
 	return wxT("");
 }
 
