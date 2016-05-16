@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.17 2016-01-29 16:40:14 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.18 2016-05-16 21:06:40 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -107,7 +107,6 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos
 #endif
 
 	m_timer = new wxTimer(this, TIMER_ID);
-	m_currTime = 0;
 
 	wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -171,8 +170,7 @@ void MainFrame::OnExport(wxCommandEvent& event) {
 }
 
 void MainFrame::OnTimerTimeout(wxTimerEvent& event) {
-	m_currTime += 0.05;
-	m_svgCtrl->GetSVG()->SetCurrentTime(m_currTime);
+	m_svgCtrl->GetSVG()->SetCurrentTime(m_svgCtrl->GetSVG()->GetCurrentTime() + 0.05);
 	m_svgCtrl->Refresh();
 }
 
@@ -197,7 +195,6 @@ void MainFrame::OnStart(wxCommandEvent& event) {
 
 void MainFrame::OnStop(wxCommandEvent& event) {
 	m_timer->Stop();
-	m_currTime = 0;
 	UpdateToolbar();
 }
 

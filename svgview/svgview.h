@@ -3,7 +3,7 @@
 // Purpose:     Widget to display svg documents using svg library
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgview.h,v 1.5 2016-01-29 16:40:14 ntalex Exp $
+// RCS-ID:      $Id: svgview.h,v 1.6 2016-05-16 21:06:40 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,6 @@ private:
     wxToolBar* m_toolbar;
     wxTimer* m_timer;
     double m_duration;
-    double m_currTime;
     bool Open(const wxString& filename);
     void UpdateToolbar();
     void OnOpen(wxCommandEvent& event);
