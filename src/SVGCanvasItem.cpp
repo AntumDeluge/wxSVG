@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.52 2016-01-09 23:31:14 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.53 2016-05-16 21:08:51 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -1504,7 +1504,6 @@ wxSVGSVGElement* wxSVGCanvasImage::GetSvgImage(wxSVGDocument* doc) {
 		} else if (m_svgImageData->GetSvgImage()->GetOwnerDocument() != doc) {
 			wxSVGCanvasSvgImageData* svgImageDataOld = m_svgImageData;
 			m_svgImageData = new wxSVGCanvasSvgImageData(m_svgImageData->GetSvgImage(), doc);
-			wxSVGDocument::ApplyAnimation(m_svgImageData->GetSvgImage());
 			if (svgImageDataOld->DecRef() == 0)
 				delete svgImageDataOld;
 		}

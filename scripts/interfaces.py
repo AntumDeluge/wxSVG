@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.44 2016-02-29 11:09:17 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.45 2016-05-16 21:08:51 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################
@@ -475,7 +475,7 @@ inter.include_methods.append('''    wxSVGDocument() { Init(); }
     wxImage Render(int width = -1, int height = -1, const wxSVGRect* rect = NULL, bool preserveAspectRatio = true,
 		bool alpha = false, wxProgressDialog* progressDlg = NULL);
     
-    static void ApplyAnimation(wxSVGElement* parent);
+    static void ApplyAnimation(wxSVGElement* parent, wxSVGSVGElement* ownerSVGElement);
   private:
       DECLARE_DYNAMIC_CLASS(wxSVGDocument)
 ''')
