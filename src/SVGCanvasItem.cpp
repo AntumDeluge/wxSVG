@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.53 2016-05-16 21:08:51 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.54 2016-07-27 08:54:21 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -1164,12 +1164,12 @@ void wxSVGCanvasText::EndTextAnchor() {
 	}
 }
 
-wxSVGRect wxSVGCanvasTextChunk::GetBBox(const wxSVGMatrix& matrix) {
+wxSVGRect wxSVGCanvasTextChunk::GetBBox(const wxSVGMatrix* matrix) {
 	wxSVGRect bbox;
 	for (int i = 0; i < (int) chars.Count(); i++) {
 		wxSVGRect elemBBox = chars[i].path->GetBBox(matrix);
 		if (elemBBox.IsEmpty())
-			elemBBox = &matrix ? chars[i].bbox.MatrixTransform(matrix) : chars[i].bbox;
+			elemBBox = &matrix ? chars[i].bbox.MatrixTransform(*matrix) : chars[i].bbox;
 		if (i == 0)
 			bbox = elemBBox;
 		else {
@@ -1190,15 +1190,15 @@ wxSVGRect wxSVGCanvasTextChunk::GetBBox(const wxSVGMatrix& matrix) {
 	return bbox;
 }
 
-wxSVGRect wxSVGCanvasText::GetBBox(const wxSVGMatrix& matrix)
+wxSVGRect wxSVGCanvasText::GetBBox(const wxSVGMatrix* matrix)
 {
   wxSVGRect bbox;
   for (int i=0; i<(int)m_chunks.Count(); i++)
   {
     wxSVGMatrix tmpMatrix = m_chunks[i].matrix;
-    if (&matrix)
-      tmpMatrix = ((wxSVGMatrix&) matrix).Multiply(m_chunks[i].matrix);
-    wxSVGRect elemBBox = m_chunks[i].GetBBox(tmpMatrix);
+    if (matrix)
+      tmpMatrix = (*matrix).Multiply(m_chunks[i].matrix);
+    wxSVGRect elemBBox = m_chunks[i].GetBBox(&tmpMatrix);
 	if (i == 0)
 	  bbox = elemBBox;
 	else
