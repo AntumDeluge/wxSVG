@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.55 2016-07-28 09:05:28 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.56 2016-08-09 21:48:52 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -538,12 +538,12 @@ bool IsQuadraticType(wxPATHSEG segType) {
 }
 
 double AngleBisect(float a1, float a2) {
-	double delta = fmod(a2 - a1, 2 * M_PI);
+	double delta = (double) fmod(a2 - a1, 2 * M_PI);
 	if (delta < 0) {
 		delta += 2 * M_PI;
 	}
 	/* delta is now the angle from a1 around to a2, in the range [0, 2*M_PI) */
-	float r = a1 + delta / 2;
+	double r = a1 + delta / 2;
 	if (delta >= M_PI) {
 		/* the arc from a2 to a1 is smaller, so use the ray on that side */
 		r += M_PI;
