@@ -2,7 +2,7 @@
 
 # initialization
 AC_PREREQ(2.57)
-AC_INIT([wxsvg], [1.5.8], [wx-svg-users@lists.sourceforge.net])
+AC_INIT([wxsvg], [1.5.9], [wx-svg-users@lists.sourceforge.net])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE(foreign)
 AM_MAINTAINER_MODE
@@ -15,7 +15,7 @@ AM_MAINTAINER_MODE
 # 4. If any interfaces have been added since the last public release, then increment age.
 # 5. If any interfaces have been removed since the last public release then set age to 0.
 
-LIBRARY_VERSION=13:1:10 # current:revision:age -> libwxsvg.so.(C-A).(A).(R)
+LIBRARY_VERSION=13:2:10 # current:revision:age -> libwxsvg.so.(C-A).(A).(R)
 AC_SUBST(LIBRARY_VERSION)
 
 # options
@@ -105,8 +105,9 @@ CXXFLAGS="$CXXFLAGS $DEBUG_FLAGS $WX_CXXFLAGS "
 LIBS="$LIBS $WX_LIBS"
 
 # check expat
-AC_CHECK_LIB([expat],[XML_ParserCreate],[],[AC_MSG_ERROR([*** missing expat library])])
-AC_CHECK_HEADER([expat.h],[],[AC_MSG_ERROR([*** missing expat library])])
+PKG_CHECK_MODULES(EXPAT, expat)
+CXXFLAGS="$CXXFLAGS $EXPAT_CFLAGS"
+LIBS="$LIBS $EXPAT_LIBS"
 
 # check ffmpeg
 AM_CONDITIONAL(USE_LIBAV, [test x$enable_libav = xyes])
@@ -114,7 +115,7 @@ if test x$enable_libav = xyes; then
   PKG_CHECK_MODULES(LIBAV, [libavformat >= 50.0.0 libavcodec >= 51.0.0 libavutil >= 49.0.0 libswscale])
   CXXFLAGS="$CXXFLAGS -DUSE_LIBAV $LIBAV_CFLAGS"
   LIBS="$LIBS $LIBAV_LIBS"
-  AC_CHECK_HEADER([libavformat/avformat.h],[],[AC_MSG_ERROR([*** missing libav library])],[
+  AC_CHECK_HEADER([libavformat/avformat.h],[],[AC_MSG_ERROR([*** missing ffmpeg library])],[
 #define __STDC_CONSTANT_MACROS
 #define __STDC_LIMIT_MACROS])
 fi
