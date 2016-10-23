@@ -2,7 +2,7 @@
 
 # initialization
 AC_PREREQ(2.57)
-AC_INIT([wxsvg], [1.5.9], [wx-svg-users@lists.sourceforge.net])
+AC_INIT([wxsvg], [1.5.10], [wx-svg-users@lists.sourceforge.net])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE(foreign)
 AM_MAINTAINER_MODE
@@ -15,7 +15,7 @@ AM_MAINTAINER_MODE
 # 4. If any interfaces have been added since the last public release, then increment age.
 # 5. If any interfaces have been removed since the last public release then set age to 0.
 
-LIBRARY_VERSION=13:2:10 # current:revision:age -> libwxsvg.so.(C-A).(A).(R)
+LIBRARY_VERSION=13:3:10 # current:revision:age -> libwxsvg.so.(C-A).(A).(R)
 AC_SUBST(LIBRARY_VERSION)
 
 # options
@@ -108,6 +108,9 @@ LIBS="$LIBS $WX_LIBS"
 PKG_CHECK_MODULES(EXPAT, expat)
 CXXFLAGS="$CXXFLAGS $EXPAT_CFLAGS"
 LIBS="$LIBS $EXPAT_LIBS"
+
+# check libexif
+PKG_CHECK_MODULES(LIBEXIF, libexif, [LIBS="$LIBS $LIBEXIF_LIBS"], [AC_MSG_ERROR([*** missing libexif ***])])
 
 # check ffmpeg
 AM_CONDITIONAL(USE_LIBAV, [test x$enable_libav = xyes])
