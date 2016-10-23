@@ -2,7 +2,7 @@
 // Name:        ExifHandler.cpp
 // Author:      Alex Thuering
 // Created:		30.12.2007
-// RCS-ID:      $Id: ExifHandler.cpp,v 1.1 2016-10-23 18:34:03 ntalex Exp $
+// RCS-ID:      $Id: ExifHandler.cpp,v 1.2 2016-10-23 18:54:56 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ void ExifHandler::rotateImage(const wxString& filename, wxImage& image) {
 	case 3: // rotated 180
 		image = image.Rotate90().Rotate90();
 		break;
-	case 3: // vertically mirror
+	case 4: // vertically mirror
 		image = image.Mirror(false);
 		break;
 	case 5: // 90 CW and horizontally mirror
