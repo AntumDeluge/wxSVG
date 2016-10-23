@@ -5,7 +5,7 @@ LIBAV_SRC = mediadec_ffmpeg.cpp
 endif
 
 lib_LTLIBRARIES = libwxsvg.la
-libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp imagsvg.cpp\
+libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp imagsvg.cpp ExifHandler.cpp\
   SVGAnimatedType.cpp SVGAnimationElement.cpp SVGAnimateMotionElement.cpp SVGAnimateTransformElement.cpp\
   SVGCircleElement.cpp SVGEllipseElement.cpp SVGFEGaussianBlurElement.cpp SVGFilterElement.cpp\
   SVGImageElement.cpp SVGLineElement.cpp SVGLocatable.cpp SVGMarkerElement.cpp SVGPathElement.cpp\

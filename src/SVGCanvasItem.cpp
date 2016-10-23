@@ -1,10 +1,9 @@
 //////////////////////////////////////////////////////////////////////////////
 // Name:        SVGCanvasItem.cpp
-// Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.56 2016-08-09 21:48:52 ntalex Exp $
-// Copyright:   (c) 2005 Alex Thuering
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.57 2016-10-23 18:34:32 ntalex Exp $
+// Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
@@ -12,6 +11,7 @@
 #include <wx/tokenzr.h>
 #include "SVGCanvasItem.h"
 #include "SVGCanvas.h"
+#include "ExifHandler.h"
 #include <math.h>
 #include <wx/log.h>
 #include <wx/progdlg.h>
@@ -1440,6 +1440,7 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 #ifdef USE_LIBAV
 		bool log = wxLog::EnableLogging(false);
 		m_image.LoadFile(filename);
+		ExifHandler::rotateImage(filename, m_image);
 		wxLog::EnableLogging(log);
 		if (!m_image.Ok()) {
 			wxFfmpegMediaDecoder decoder;
@@ -1478,6 +1479,7 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 			}
 		}
 #else
+		ExifHandler::rotateImage(filename, m_image);
 		m_image.LoadFile(filename);
 #endif
 	}
