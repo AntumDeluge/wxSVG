@@ -1,0 +1,18 @@
+#!/bin/sh
+case "$1" in
+		lenny)
+echo "building 2 deb packages for Debian Lenny / Sid"
+fakeroot debian/rules binary
+fakeroot debian/rules clean
+;;
+		ubuntu)
+echo "building 2 deb packages for Ubuntu Hardy Heron"
+patch -p1 -i ubuntuspec.patch
+fakeroot debian/rules binary
+patch -R -p1 -i ubuntuspec.patch
+fakeroot debian/rules clean
+;;
+		*)
+echo "Usage: $0 {lenny|ubuntu}"
+exit 1
+esac

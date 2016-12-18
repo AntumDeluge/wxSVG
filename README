@@ -1,0 +1,10 @@
+Compilation dependencies of wxSVG >= 1.0b10:
+
+    wxGTK >= 2.6.3 (http://www.wxwidgets.org)
+    ffmpeg >= 0.4.9_p20070616 (http://ffmpeg.mplayerhq.hu)
+    libtool >= 1.5.26 (http://www.gnu.org/software/libtool/)
+
+To build wxSVG type
+	./configure && make
+To install wxSVG type
+	make install
