@@ -2,7 +2,7 @@
 // Name:        SVGCanvasItem.cpp
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.57 2016-10-23 18:34:32 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.cpp,v 1.58 2016-12-28 17:59:30 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -1406,7 +1406,7 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 			m_svgImageData->IncRef();
 		}
 	} else if (m_href.length()) {
-		long pos = 0;
+		long pos = -1;
 		wxString filename = m_href;
 		if (filename.StartsWith(wxT("concat:"))) {
 			if (filename.Find(wxT('#')) != wxNOT_FOUND && filename.AfterLast(wxT('#')).ToLong(&pos))
@@ -1452,7 +1452,7 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 				double duration = decoder.GetDuration();
 				if (duration > 0 || pos > 0) {
 					m_image = decoder.GetNextFrame();
-					double dpos = pos > 0 ? ((double)pos)/1000 : (duration < 6000 ? duration * 0.05 : 300);
+					double dpos = pos >= 0 ? ((double)pos)/1000 : (duration < 6000 ? duration * 0.05 : 300);
 					if (!decoder.SetPosition(dpos > 1.0 ? dpos - 1.0 : 0.0)) {
 						wxLog* oldLog = wxLog::SetActiveTarget(new wxLogStderr());
 						wxLogError(wxT("decoder.GetDuration(): %f"), duration);
