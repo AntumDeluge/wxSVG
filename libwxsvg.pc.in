@@ -1,0 +1,11 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libwxsvg
+Description: C++ library to create, manipulate and render SVG files 
+Requires:
+Version: @VERSION@
+Libs: -L${libdir} -lwxsvg
+Cflags: -I${includedir}
