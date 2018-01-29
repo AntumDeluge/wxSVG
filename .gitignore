@@ -14,7 +14,6 @@ libtool
 wxSVG.layout
 Makefile.win
 ltmain.sh.lnk
-.project
 *.bz2
 ftp.sh
 README.txt

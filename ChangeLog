@@ -1,7 +1,15 @@
+Version 1.5.13 <2018-01-29>
+---------------------------
+
+  * added support of <a> element
+  * fixed wxSVGImageElement::GetBBox()
+  * fixed wxSVGUseElement::GetBBox()
+
 Version 1.5.12 <2017-05-01>
 --------------------------
 
   * wxSVGSVGElement: fixed GetIntersectionList()
+  * wxSVGPointList: fixed SetValueAsString()
 
 Version 1.5.11 <2016-12-28>
 --------------------------
