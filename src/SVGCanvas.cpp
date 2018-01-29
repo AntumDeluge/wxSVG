@@ -317,6 +317,16 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			RenderChilds(elem, rect, &matrix, &style, element, element, progressDlg);
 		break;
 	}
+	case wxSVG_A_ELEMENT: {	
+        wxSVGAElement* element = (wxSVGAElement*) elem;
+        if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+            break;
+        element->UpdateMatrix(matrix);
+        style.Add(element->GetStyle());
+        style.Add(element->GetAnimStyle());
+        RenderChilds(elem, rect, &matrix, &style, ownerSVGElement, viewportElement, progressDlg);
+        break;
+    }
 	case wxSVG_G_ELEMENT: {
 		wxSVGGElement* element = (wxSVGGElement*) elem;
 		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
