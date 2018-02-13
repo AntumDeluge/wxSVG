@@ -3,4 +3,4 @@ Makefile.in
 .deps
 .libs
 *.l*
-
+*.o
