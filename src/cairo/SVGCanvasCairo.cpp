@@ -451,8 +451,7 @@ void wxSVGCanvasCairo::DrawCanvasPath(wxSVGCanvasPathCairo& canvasPath, wxSVGMat
 			int dx = int(floor(stdX * 3 * sqrt(2 * M_PI) / 4 + 0.5));
 			int dy = int(floor(stdY * 3 * sqrt(2 * M_PI) / 4 + 0.5));
 			
-			wxSVGMatrix invMatrix = matrix.Inverse();
-			wxSVGRect rect = canvasPath.GetResultBBox(style, &invMatrix);
+			wxSVGRect rect = canvasPath.GetResultBBox(style, &matrix);
 			rect.SetX(rect.GetX() - 2*dx);
 			rect.SetY(rect.GetY() - 2*dy);
 			rect.SetWidth(rect.GetWidth() + 4*dx);

@@ -228,17 +228,21 @@ bool SVGCtrl::Load(const wxString& filename) {
 
 void SVGCtrl::OnMouseLeftUp(wxMouseEvent & event) {
 	if (m_ShowHitPopup) {
-		wxSVGDocument* my_doc = GetSVG();
-		wxSVGSVGElement* my_root = my_doc->GetRootElement();
+		wxSVGDocument* svgDoc = GetSVG();
+		wxSVGSVGElement* root = svgDoc->GetRootElement();
 		wxSVGRect rect(event.m_x / GetScaleX(), event.m_y / GetScaleY(), 1, 1);
-		wxNodeList clicked = my_root->GetIntersectionList(rect, *my_root);
+		wxNodeList clicked = root->GetIntersectionList(rect, *root);
 		wxString message;
-		message.Printf(_T("Click : %d,%d\n"), event.m_x, event.m_y);
+		message.Printf(_T("Click : %d,%d -> %g,%g\n"), event.m_x, event.m_y,
+				event.m_x / GetScaleX(), event.m_y / GetScaleY());
 		for (unsigned int i = 0; i < clicked.GetCount(); i++) {
-			wxString obj_desc;
+			wxString desc;
 			wxSVGElement* obj = clicked.Item(i);
-			obj_desc.Printf(_T("Name : %s, Id : %s\n"), obj->GetName().c_str(), obj->GetId().c_str());
-			message.Append(obj_desc);
+			if (obj->GetId().length())
+				desc.Printf(_T("%s, id: %s\n"), obj->GetName().c_str(), obj->GetId().c_str());
+			else
+				desc.Printf(_T("%s\n"), obj->GetName().c_str());
+			message.Append(desc);
 		}
 		wxMessageBox(message, _T("Hit Test (objects bounding box)"));
 	}

@@ -40,6 +40,7 @@ wxSVGRect wxSVGCanvasPathCairo::GetBBox(const wxSVGMatrix* matrix) {
 		cairo_matrix_t m;
 		cairo_matrix_init(&m, matrix->GetA(), matrix->GetB(), matrix->GetC(), matrix->GetD(),
 				matrix->GetE(), matrix->GetF());
+		cairo_matrix_invert(&m);
 		cairo_set_matrix(m_cr, &m);
 	}
 	double x1, y1, x2, y2;
@@ -57,6 +58,7 @@ wxSVGRect wxSVGCanvasPathCairo::GetResultBBox(const wxCSSStyleDeclaration& style
 		cairo_matrix_t m;
 		cairo_matrix_init(&m, matrix->GetA(), matrix->GetB(), matrix->GetC(), matrix->GetD(),
 				matrix->GetE(), matrix->GetF());
+		cairo_matrix_invert(&m);
 		cairo_set_matrix(m_cr, &m);
 	}
 	ApplyStrokeStyle(m_cr, style);
