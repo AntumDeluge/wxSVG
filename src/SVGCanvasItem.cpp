@@ -16,6 +16,8 @@
 #include <wx/log.h>
 #include <wx/progdlg.h>
 #include <wx/filename.h>
+#include <wx/base64.h>
+#include <wx/mstream.h>
 
 #ifdef USE_LIBAV
 #include <wxSVG/mediadec_ffmpeg.h>
@@ -1408,7 +1410,18 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 	} else if (m_href.length()) {
 		long pos = -1;
 		wxString filename = m_href;
-		if (filename.StartsWith(wxT("concat:"))) {
+		if (filename.StartsWith(wxT("data:"))) {
+			wxString data = filename.substr(5).AfterFirst(wxT(';'));
+			if (data.StartsWith(wxT("base64,"))) {
+				wxMemoryBuffer buf = wxBase64Decode(data.substr(7), wxBase64DecodeMode_SkipWS);
+				wxMemoryInputStream inpStream(buf.GetData(), buf.GetDataLen());
+				if (!m_image.LoadFile(inpStream)) {
+					wxLogError(_("Can't load image data."));
+				}
+				return;
+			} else
+				wxLogError(wxT("Unknown image data: ") + data.substr(0, 6));
+		} if (filename.StartsWith(wxT("concat:"))) {
 			if (filename.Find(wxT('#')) != wxNOT_FOUND && filename.AfterLast(wxT('#')).ToLong(&pos))
 				filename = filename.BeforeLast(wxT('#'));
 		} else {
