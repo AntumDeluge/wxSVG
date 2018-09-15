@@ -1,3 +1,8 @@
+Version 1.5.15 <2018-09-15>
+---------------------------
+
+  * added skia backend (experimental) (thanks to Zicheng Yang)
+
 Version 1.5.14 <2018-07-10>
 ---------------------------
 

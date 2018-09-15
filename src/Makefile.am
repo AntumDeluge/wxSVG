@@ -1,4 +1,13 @@
-SUBDIRS = svgxml cairo
+
+if USE_RENDER_SKIA
+RENDER_DIR = skia
+RENDER_LIB = skia/libwxsvg_skia.la $(SKIA_LIBS)
+else
+RENDER_DIR = cairo
+RENDER_LIB = cairo/libwxsvg_cairo.la $(CAIRO_LIBS)
+endif
+
+SUBDIRS = svgxml $(RENDER_DIR)
 
 if USE_LIBAV
 LIBAV_SRC = mediadec_ffmpeg.cpp
@@ -23,7 +32,7 @@ libwxsvg_la_SOURCES = SVGDocument.cpp svgctrl.cpp imagsvg.cpp ExifHandler.cpp\
   CSSValue.cpp CSSStyleDeclaration.cpp\
   SVGCanvas.cpp SVGCanvasItem.cpp NodeList.cpp $(LIBAV_SRC)
 
-libwxsvg_la_LIBADD = svgxml/libwxsvgxml.la cairo/libwxsvg_cairo.la $(CAIRO_LIBS)
+libwxsvg_la_LIBADD = svgxml/libwxsvgxml.la $(RENDER_LIB)
 libwxsvg_la_LDFLAGS = -no-undefined -version-info @LIBRARY_VERSION@
 
 AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/include/wxSVG
