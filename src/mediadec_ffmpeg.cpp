@@ -46,7 +46,7 @@ wxFfmpegMediaDecoder::~wxFfmpegMediaDecoder() {
 }
 
 void wxFfmpegMediaDecoder::Init() {
-    av_register_all();
+    // nothing to do
 }
 
 void PrintError(const wxString& msg, int err) {
@@ -110,7 +110,7 @@ float wxFfmpegMediaDecoder::GetFrameAspectRatio() {
 	if (st == NULL)
 		return -1;
 	float frame_aspect_ratio = 1;
-	AVCodecContext *enc = st->codec;
+	AVCodecParameters *enc = st->codecpar;
 	if (st->sample_aspect_ratio.num)
 		frame_aspect_ratio = av_q2d(st->sample_aspect_ratio);
 	else if (enc->sample_aspect_ratio.num)
@@ -136,7 +136,7 @@ float wxFfmpegMediaDecoder::GetFps() {
 StreamType wxFfmpegMediaDecoder::GetStreamType(unsigned int streamIndex) {
 	if (m_formatCtx == NULL || streamIndex >= m_formatCtx->nb_streams)
 		return stUNKNOWN;
-	switch (m_formatCtx->streams[streamIndex]->codec->codec_type) {
+	switch (m_formatCtx->streams[streamIndex]->codecpar->codec_type) {
 	case AVMEDIA_TYPE_VIDEO:
 		return stVIDEO;
 	case AVMEDIA_TYPE_AUDIO:
@@ -150,22 +150,23 @@ StreamType wxFfmpegMediaDecoder::GetStreamType(unsigned int streamIndex) {
 }
 
 wxString wxFfmpegMediaDecoder::GetCodecName(unsigned int streamIndex) {
-	char buf[256];
-	avcodec_string(buf, sizeof(buf), m_formatCtx->streams[streamIndex]->codec, false);
-	wxString name = wxString(buf, wxConvLocal).BeforeFirst(wxT(','));
-	return name.Index(wxT(':')) > 0 ? name.AfterFirst(wxT(':')).Trim(false) : name;
+	AVCodec *codec = avcodec_find_decoder(m_formatCtx->streams[streamIndex]->codecpar->codec_id);
+	if (codec) {
+		return wxString(codec->name, wxConvLocal);
+	}
+	return wxT("unknown_codec"); 
 }
 
 int wxFfmpegMediaDecoder::GetChannelNumber(unsigned int streamIndex) {
-	return m_formatCtx ? m_formatCtx->streams[streamIndex]->codec->channels : -1;
+	return m_formatCtx ? m_formatCtx->streams[streamIndex]->codecpar->channels : -1;
 }
 
 int wxFfmpegMediaDecoder::GetSampleRate(unsigned int streamIndex) {
-	return m_formatCtx ? m_formatCtx->streams[streamIndex]->codec->sample_rate : -1;
+	return m_formatCtx ? m_formatCtx->streams[streamIndex]->codecpar->sample_rate : -1;
 }
 
 int wxFfmpegMediaDecoder::GetBitrate(unsigned int streamIndex) {
-	return m_formatCtx ? m_formatCtx->streams[streamIndex]->codec->bit_rate : -1;
+	return m_formatCtx ? m_formatCtx->streams[streamIndex]->codecpar->bit_rate : -1;
 }
 
 double wxFfmpegMediaDecoder::GetDuration() {
@@ -177,21 +178,24 @@ bool wxFfmpegMediaDecoder::OpenVideoDecoder() {
 	if (m_codecCtx)
 		return true;
 	// find the first video stream
-	
 	m_videoStream = -1;
-	for (int i=0; i<(int)m_formatCtx->nb_streams; i++) {
-		if (m_formatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+	for (int i = 0; i < (int) m_formatCtx->nb_streams; i++) {
+		if (m_formatCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
 			m_videoStream = i;
 			break;
 		}
 	}
-	if(m_videoStream == -1)
+	if (m_videoStream == -1)
 		return false;
-	// get a pointer to the codec context for the video stream 
-	m_codecCtx = m_formatCtx->streams[m_videoStream]->codec;
+	
 	// find and open the decoder for the video stream 
-	AVCodec* codec = avcodec_find_decoder(m_codecCtx->codec_id);
-	if (!codec || avcodec_open2(m_codecCtx, codec, NULL) < 0) {
+	AVStream* stream = m_formatCtx->streams[m_videoStream];
+	AVCodec* codec = avcodec_find_decoder(stream->codecpar->codec_id);
+	if (!codec)
+		return false;
+	m_codecCtx = avcodec_alloc_context3(codec);
+	if (avcodec_parameters_to_context(m_codecCtx, stream->codecpar) < 0
+			|| avcodec_open2(m_codecCtx, codec, NULL) < 0) {
 		m_codecCtx = NULL;
 		return false;
 	}
@@ -255,6 +259,27 @@ double wxFfmpegMediaDecoder::GetPosition() {
 	return ((double)timestamp)/AV_TIME_BASE;
 }
 
+int decode(AVCodecContext *avctx, AVFrame *frame, int *got_frame, AVPacket *pkt) {
+	int ret;
+	*got_frame = 0;
+
+	if (pkt) {
+		ret = avcodec_send_packet(avctx, pkt);
+		// In particular, we don't expect AVERROR(EAGAIN), because we read all
+		// decoded frames with avcodec_receive_frame() until done.
+		if (ret < 0)
+			return ret == AVERROR_EOF ? 0 : ret;
+	}
+
+	ret = avcodec_receive_frame(avctx, frame);
+	if (ret < 0 && ret != AVERROR(EAGAIN) && ret != AVERROR_EOF)
+		return ret;
+	if (ret >= 0)
+		*got_frame = 1;
+
+	return 0;
+}
+
 wxImage wxFfmpegMediaDecoder::GetNextFrame() {
 	if (!m_frame && !BeginDecode())
 		return wxImage();
@@ -265,7 +290,7 @@ wxImage wxFfmpegMediaDecoder::GetNextFrame() {
 		// is this a packet from the video stream?
 		if (packet.stream_index == m_videoStream) {
 			// decode video frame
-			avcodec_decode_video2(m_codecCtx, m_frame, &frameFinished, &packet);
+			decode(m_codecCtx, m_frame, &frameFinished, &packet);
 			if (frameFinished) {
 				SwsContext* imgConvertCtx = sws_getContext(m_codecCtx->width, m_codecCtx->height, m_codecCtx->pix_fmt,
 						m_width, m_height, AV_PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
@@ -309,11 +334,10 @@ wxString wxFfmpegMediaDecoder::GetCodecTag(unsigned int streamIndex) {
 	if (m_formatCtx == NULL)
 		return wxT("");
 	AVStream *st = m_formatCtx->streams[streamIndex];
-	if (st->codec == NULL || st->codec->codec_tag == 0)
+	if (st->codecpar == NULL || st->codecpar->codec_tag == 0)
 		return wxT("");
 	char buf[32];
-	if (av_get_codec_tag_string(buf, sizeof(buf), st->codec->codec_tag) <= 0)
-		return wxT("");
+	av_fourcc_make_string(buf, st->codecpar->codec_tag);
 	return wxString(buf, wxConvLocal);
 }
 
