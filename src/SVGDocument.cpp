@@ -10,15 +10,12 @@
 
 #include "SVGDocument.h"
 
-#ifdef USE_RENDER_AGG
-#include "agg/SVGCanvasAgg.h"
-#define WX_SVG_CANVAS wxSVGCanvasAgg
-#elif defined USE_RENDER_CAIRO
+#ifdef HAVE_LIBSKIA
+#include "skia/SVGCanvasSkia.h"
+#define WX_SVG_CANVAS wxSVGCanvasSkia
+#else //USE_RENDER_CAIRO
 #include "cairo/SVGCanvasCairo.h"
 #define WX_SVG_CANVAS wxSVGCanvasCairo
-#else //USE_RENDER_LIBART
-#include "libart/SVGCanvasLibart.h"
-#define WX_SVG_CANVAS wxSVGCanvasLibart
 #endif
 
 #include <wx/log.h>
