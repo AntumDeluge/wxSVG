@@ -74,6 +74,7 @@ wxSVGTransformable* wxSVGTransformable::GetSVGTransformable(wxSVGElement& elemen
 	GET_TRANSFORMABLE(wxSVG_A_ELEMENT, wxSVGAElement)
     GET_TRANSFORMABLE(wxSVG_G_ELEMENT, wxSVGGElement)
     GET_TRANSFORMABLE(wxSVG_USE_ELEMENT, wxSVGUseElement)
+	GET_TRANSFORMABLE(wxSVG_IMAGE_ELEMENT, wxSVGImageElement)
     default:
       break;
   }
