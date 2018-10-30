@@ -182,9 +182,12 @@ unsigned int wxSVGCanvas::GetGradientStops(const wxSVGSVGElement& svgElem, wxSVG
 	stop_elem = (wxSVGStopElement*) gradElem->GetChildren();
 	int i = 0;
 	while (stop_elem) {
-		if (stop_elem->GetDtd() == wxSVG_STOP_ELEMENT)
-			SetStopValue(i++, stop_elem->GetOffset(), stop_elem->GetStopOpacity() * opacity,
-					stop_elem->GetStopColor().GetRGBColor());
+		if (stop_elem->GetDtd() == wxSVG_STOP_ELEMENT) {
+			wxSVGColor color = stop_elem->GetStopColor();
+			if (color.GetColorType() == wxSVG_COLORTYPE_UNKNOWN)
+				color = wxSVGColor(0, 0, 0);
+			SetStopValue(i++, stop_elem->GetOffset(), stop_elem->GetStopOpacity() * opacity, color.GetRGBColor());
+		}
 		stop_elem = (wxSVGStopElement*) stop_elem->GetNext();
 	}
 	return stop_count;
