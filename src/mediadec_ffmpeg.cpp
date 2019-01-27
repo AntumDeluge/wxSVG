@@ -231,7 +231,7 @@ bool wxFfmpegMediaDecoder::BeginDecode(int width, int height) {
     return true;
 }
 
-bool wxFfmpegMediaDecoder::SetPosition(double pos, bool keyFrame) {
+bool wxFfmpegMediaDecoder::SetPosition(double pos, bool keyFrame, bool seekBackward) {
     if (m_formatCtx == NULL)
         return false;
 	if (!m_frame && !BeginDecode())
@@ -240,8 +240,10 @@ bool wxFfmpegMediaDecoder::SetPosition(double pos, bool keyFrame) {
     if (m_formatCtx->start_time != (int64_t)AV_NOPTS_VALUE)
         timestamp += m_formatCtx->start_time;
     avcodec_flush_buffers(m_codecCtx);
-    bool res = av_seek_frame(m_formatCtx, -1, timestamp,
-    		keyFrame ? AVSEEK_FLAG_BACKWARD : AVSEEK_FLAG_ANY|AVSEEK_FLAG_BACKWARD) >= 0;
+    int flags = seekBackward ? AVSEEK_FLAG_BACKWARD : 0;
+    if (!keyFrame)
+    	flags = flags|AVSEEK_FLAG_ANY;
+    bool res = av_seek_frame(m_formatCtx, -1, timestamp, flags) >= 0;
     avcodec_flush_buffers(m_codecCtx);
     return res;
 }

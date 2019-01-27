@@ -49,7 +49,7 @@ public:
 	int GetBitrate(unsigned int streamIndex);
 	
 	double GetDuration();
-	bool SetPosition(double pos, bool keyFrame = true);
+	bool SetPosition(double pos, bool keyFrame = true, bool seekBackward = true);
 	double GetPosition();
 	
 	virtual wxSize GetVideoSize();
