@@ -11,13 +11,31 @@
 #include "SVGUseElement.h"
 
 wxSVGRect wxSVGUseElement::GetBBox(wxSVG_COORDINATES coordinates) {
-	wxSVGRect bbox = wxSVGRect(GetX().GetAnimVal(), GetY().GetAnimVal(), GetWidth().GetAnimVal(),
-			GetHeight().GetAnimVal());
+	wxSVGRect bbox;
+	wxString href = GetHref();
+	if (href.length() == 0 || href.GetChar(0) != wxT('#'))
+		return bbox;
+	href.Remove(0, 1);
+	wxSVGElement* refElem = (wxSVGElement*) GetOwnerSVGElement()->GetElementById(href);
+	if (!refElem)
+		return bbox;
+	bbox = wxSVGLocatable::GetChildrenBBox(refElem, coordinates);
 	if (coordinates != wxSVG_COORDINATES_USER)
 		bbox = bbox.MatrixTransform(GetMatrix(coordinates));
 	return bbox;
 }
 
 wxSVGRect wxSVGUseElement::GetResultBBox(wxSVG_COORDINATES coordinates) {
-	return GetBBox(coordinates);
+	wxSVGRect bbox;
+	wxString href = GetHref();
+	if (href.length() == 0 || href.GetChar(0) != wxT('#'))
+		return bbox;
+	href.Remove(0, 1);
+	wxSVGElement* refElem = (wxSVGElement*) GetOwnerSVGElement()->GetElementById(href);
+	if (!refElem)
+		return bbox;
+	bbox = wxSVGLocatable::GetChildrenResultBBox(refElem, coordinates);
+	if (coordinates != wxSVG_COORDINATES_USER)
+		bbox = bbox.MatrixTransform(GetMatrix(coordinates));
+	return bbox;
 }
