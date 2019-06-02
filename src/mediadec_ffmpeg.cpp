@@ -47,6 +47,7 @@ wxFfmpegMediaDecoder::~wxFfmpegMediaDecoder() {
 
 void wxFfmpegMediaDecoder::Init() {
     // nothing to do
+	av_register_all();
 }
 
 void PrintError(const wxString& msg, int err) {
