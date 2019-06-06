@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/05
-// RCS-ID:      $Id: SVGMatrix.cpp,v 1.6 2014-08-09 11:13:02 ntalex Exp $
+// RCS-ID:      $Id: SVGMatrix.cpp,v 1.6 2014/08/09 11:13:02 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

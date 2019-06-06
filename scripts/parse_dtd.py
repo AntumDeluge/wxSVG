@@ -4,7 +4,7 @@
 ##              names or the other way round
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: parse_dtd.py,v 1.4 2014-03-21 21:15:35 ntalex Exp $
+## RCS-ID:      $Id: parse_dtd.py,v 1.4 2014/03/21 21:15:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		It must be rewritten, because can't parse dtd file from svg 1.1
 ##              Now it use dtd file from svg 1.0

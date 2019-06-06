@@ -3,7 +3,7 @@
 ## Purpose:     generates the most headers from idl, but with some changes
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: generate.py,v 1.28 2016-01-24 16:58:49 ntalex Exp $
+## RCS-ID:      $Id: generate.py,v 1.28 2016/01/24 16:58:49 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
@@ -603,7 +603,7 @@ if len(parse_idl.class_decls):
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: generate.py,v 1.28 2016-01-24 16:58:49 ntalex Exp $
+// RCS-ID:      $Id: generate.py,v 1.28 2016/01/24 16:58:49 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

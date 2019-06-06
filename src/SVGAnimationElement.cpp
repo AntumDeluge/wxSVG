@@ -3,7 +3,7 @@
 // Purpose:     Implementation of wxSVGAnimationElement
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGAnimationElement.cpp,v 1.10 2016-05-16 21:08:52 ntalex Exp $
+// RCS-ID:      $Id: SVGAnimationElement.cpp,v 1.10 2016/05/16 21:08:52 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/04/29
-// RCS-ID:      $Id: SVGLength.cpp,v 1.5 2005-11-07 17:39:59 ntalex Exp $
+// RCS-ID:      $Id: SVGLength.cpp,v 1.5 2005/11/07 17:39:59 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

@@ -3,7 +3,7 @@
 ## Purpose:     generates svg.h, SVGDTD.h and SVGDocument_CreateElement.cpp
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genSvgElement.py,v 1.7 2014-03-21 21:15:36 ntalex Exp $
+## RCS-ID:      $Id: genSvgElement.py,v 1.7 2014/03/21 21:15:36 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################

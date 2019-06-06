@@ -3,7 +3,7 @@
 // Purpose:     SVG Image Handler
 // Author:      Alex Thuering
 // Created:     2011/11/22
-// RCS-ID:      $Id: imagsvg.cpp,v 1.2 2011-12-27 08:20:32 ntalex Exp $
+// RCS-ID:      $Id: imagsvg.cpp,v 1.2 2011/12/27 08:20:32 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

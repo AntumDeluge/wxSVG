@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/01/19
-// RCS-ID:      $Id: String_wxsvg.h,v 1.1 2007-09-21 06:47:34 etisserant Exp $
+// RCS-ID:      $Id: String_wxsvg.h,v 1.1 2007/09/21 06:47:34 etisserant Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

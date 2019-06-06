@@ -3,7 +3,7 @@
 // Purpose:     Implementation of SVGAnimateMotionElement
 // Author:      Alex Thuering
 // Created:     2016-01-17
-// RCS-ID:      $Id: SVGAnimateMotionElement.cpp,v 1.1 2016-01-29 16:40:01 ntalex Exp $
+// RCS-ID:      $Id: SVGAnimateMotionElement.cpp,v 1.1 2016/01/29 16:40:01 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

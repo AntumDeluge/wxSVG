@@ -3,7 +3,7 @@
 //// Purpose:
 //// Author:      Alex Thuering
 //// Created:     2006/01/07
-//// RCS-ID:      $Id: SVGCoordinates.h,v 1.1 2006-01-08 12:31:03 ntalex Exp $
+//// RCS-ID:      $Id: SVGCoordinates.h,v 1.1 2006/01/08 12:31:03 ntalex Exp $
 //// Copyright:   (c) 2006 Alex Thuering
 //// Licence:     wxWindows licence
 ////////////////////////////////////////////////////////////////////////////////

@@ -3,7 +3,7 @@
 // Purpose:     Implementation of SVGAnimatedType
 // Author:      Alex Thuering
 // Created:     2014/02/24
-// RCS-ID:      $Id: SVGAnimatedType.cpp,v 1.2 2014-03-27 08:42:16 ntalex Exp $
+// RCS-ID:      $Id: SVGAnimatedType.cpp,v 1.2 2014/03/27 08:42:16 ntalex Exp $
 // Copyright:   (c) 2014 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

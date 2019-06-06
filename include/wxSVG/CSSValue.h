@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSValue.h,v 1.10 2014-06-30 19:06:11 ntalex Exp $
+// RCS-ID:      $Id: CSSValue.h,v 1.10 2014/06/30 19:06:11 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

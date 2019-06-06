@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: css_colors.cpp,v 1.1 2005-06-09 00:24:35 ntalex Exp $
+// RCS-ID:      $Id: css_colors.cpp,v 1.1 2005/06/09 00:24:35 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

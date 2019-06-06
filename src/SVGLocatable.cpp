@@ -3,7 +3,7 @@
 // Purpose:     Implementation of wxSVGLocatable
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGLocatable.cpp,v 1.13 2014-08-09 11:13:02 ntalex Exp $
+// RCS-ID:      $Id: SVGLocatable.cpp,v 1.13 2014/08/09 11:13:02 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -118,9 +118,14 @@ wxSVGRect wxSVGLocatable::GetChildrenResultBBox(const wxSVGElement* element, wxS
 }
 
 wxSVGMatrix wxSVGLocatable::GetCTM(const wxSVGElement* element) {
-	if (element == NULL || element->GetType() != wxSVGXML_ELEMENT_NODE
-			|| element->GetDtd() == wxSVG_SVG_ELEMENT)
+	if (element == NULL || element->GetType() != wxSVGXML_ELEMENT_NODE) {
 		return wxSVGMatrix();
+	}
+	if (element->GetDtd() == wxSVG_SVG_ELEMENT) {
+		wxSVGMatrix matrix;
+		((wxSVGSVGElement*) element)->UpdateMatrix(matrix);
+		return matrix;
+	}
 	wxSVGMatrix matrix = GetCTM((wxSVGElement*) (element->GetParent()));
 	const wxSVGTransformable* transformable =
 			wxSVGTransformable::GetSVGTransformable(*element);

@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: interfaces.py,v 1.45 2016-05-16 21:08:51 ntalex Exp $
+## RCS-ID:      $Id: interfaces.py,v 1.45 2016/05/16 21:08:51 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################

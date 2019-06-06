@@ -4,7 +4,7 @@
 ##              -> GetAttribute() methods for all svg elements
 ## Author:      Alex Thuering
 ## Created:     2005/09/27
-## RCS-ID:      $Id: genGetAttribute.py,v 1.10 2016-01-24 16:58:49 ntalex Exp $
+## RCS-ID:      $Id: genGetAttribute.py,v 1.10 2016/01/24 16:58:49 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################

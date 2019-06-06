@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     15/01/2005
-// RCS-ID:      $Id: svgview.cpp,v 1.18 2016-05-16 21:06:40 ntalex Exp $
+// RCS-ID:      $Id: svgview.cpp,v 1.20 2017/02/25 10:24:59 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -68,19 +68,22 @@ enum {
 	FIT_ID = 1, HITTEST_ID, TIMER_ID, EXPORT_ID, START_ID, STOP_ID, PAUSE_ID,
 };
 
-BEGIN_EVENT_TABLE(MainFrame, wxFrame) EVT_MENU(wxID_OPEN, MainFrame::OnOpen)
-EVT_MENU(wxID_SAVE, MainFrame::OnSave)
-EVT_MENU(EXPORT_ID, MainFrame::OnExport)
-EVT_MENU(wxID_EXIT, MainFrame::OnExit)
-EVT_MENU(FIT_ID, MainFrame::Fit)
-EVT_MENU(HITTEST_ID, MainFrame::Hittest)
-EVT_MENU(START_ID, MainFrame::OnStart)
-EVT_MENU(STOP_ID, MainFrame::OnStop)
-EVT_MENU(PAUSE_ID, MainFrame::OnPause)
-EVT_TIMER(TIMER_ID, MainFrame::OnTimerTimeout)
+BEGIN_EVENT_TABLE(MainFrame, wxFrame)
+  EVT_MENU(wxID_OPEN, MainFrame::OnOpen)
+  EVT_MENU(wxID_SAVE, MainFrame::OnSave)
+  EVT_MENU(EXPORT_ID, MainFrame::OnExport)
+  EVT_MENU(wxID_EXIT, MainFrame::OnExit)
+  EVT_MENU(FIT_ID, MainFrame::Fit)
+  EVT_MENU(HITTEST_ID, MainFrame::Hittest)
+  EVT_MENU(START_ID, MainFrame::OnStart)
+  EVT_MENU(STOP_ID, MainFrame::OnStop)
+  EVT_MENU(PAUSE_ID, MainFrame::OnPause)
+  EVT_TIMER(TIMER_ID, MainFrame::OnTimerTimeout)
 END_EVENT_TABLE()
 
-BEGIN_EVENT_TABLE(MySVGCanvas, wxSVGCtrl) EVT_LEFT_UP (MySVGCanvas::OnMouseLeftUp)
+BEGIN_EVENT_TABLE(SVGCtrl, wxSVGCtrl)
+  EVT_LEFT_UP(SVGCtrl::OnMouseLeftUp)
+  EVT_KEY_DOWN(SVGCtrl::OnKeyDown)
 END_EVENT_TABLE()
 
 MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos, const wxSize& size, long style) :
@@ -110,7 +113,7 @@ MainFrame::MainFrame(wxWindow *parent, const wxString& title, const wxPoint& pos
 
 	wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 
-	m_svgCtrl = new MySVGCanvas(this);
+	m_svgCtrl = new SVGCtrl(this);
 	mainSizer->Add(m_svgCtrl, 1, wxEXPAND);
 
 	m_toolbar = new wxToolBar(this, -1, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL | wxTB_FLAT | wxTB_BOTTOM);
@@ -170,7 +173,7 @@ void MainFrame::OnExport(wxCommandEvent& event) {
 }
 
 void MainFrame::OnTimerTimeout(wxTimerEvent& event) {
-	m_svgCtrl->GetSVG()->SetCurrentTime(m_svgCtrl->GetSVG()->GetCurrentTime() + 0.05);
+	m_svgCtrl->GetSVG()->SetCurrentTime((double) m_svgCtrl->GetSVG()->GetCurrentTime() + 0.05);
 	m_svgCtrl->Refresh();
 }
 
@@ -180,7 +183,7 @@ void MainFrame::Hittest(wxCommandEvent& event) {
 
 void MainFrame::Fit(wxCommandEvent& event) {
 	m_svgCtrl->SetFitToFrame(event.IsChecked());
-	m_svgCtrl->Update();
+	m_svgCtrl->Refresh();
 }
 
 void MainFrame::OnExit(wxCommandEvent& event) {
@@ -195,6 +198,8 @@ void MainFrame::OnStart(wxCommandEvent& event) {
 
 void MainFrame::OnStop(wxCommandEvent& event) {
 	m_timer->Stop();
+	m_svgCtrl->GetSVG()->SetCurrentTime(0);
+	m_svgCtrl->Refresh();
 	UpdateToolbar();
 }
 
@@ -202,35 +207,57 @@ void MainFrame::OnPause(wxCommandEvent& event) {
 	m_timer->Stop();
 	UpdateToolbar();
 }
-
 void MainFrame::UpdateToolbar() {
 	m_toolbar->EnableTool(START_ID, m_duration > 0 && !m_timer->IsRunning());
 	m_toolbar->EnableTool(STOP_ID, m_duration > 0 && m_timer->IsRunning());
 	m_toolbar->EnableTool(PAUSE_ID, m_duration > 0 && m_timer->IsRunning());
 }
 
-MySVGCanvas::MySVGCanvas(wxWindow* parent) :
+SVGCtrl::SVGCtrl(wxWindow* parent) :
 		wxSVGCtrl(parent), m_ShowHitPopup(false) {
 }
 
-void MySVGCanvas::SetShowHitPopup(bool show) {
+void SVGCtrl::SetShowHitPopup(bool show) {
 	m_ShowHitPopup = show;
 }
 
-void MySVGCanvas::OnMouseLeftUp(wxMouseEvent & event) {
+bool SVGCtrl::Load(const wxString& filename) {
+	m_filename = filename;
+	return wxSVGCtrl::Load(filename);
+}
+
+void SVGCtrl::OnMouseLeftUp(wxMouseEvent & event) {
 	if (m_ShowHitPopup) {
-		wxSVGDocument* my_doc = GetSVG();
-		wxSVGSVGElement* my_root = my_doc->GetRootElement();
-		wxSVGRect rect(event.m_x, event.m_y, 1, 1);
-		wxNodeList clicked = my_root->GetIntersectionList(rect, *my_root);
+		wxSVGDocument* svgDoc = GetSVG();
+		wxSVGSVGElement* root = svgDoc->GetRootElement();
+		wxSVGRect rect(event.m_x / GetScaleX(), event.m_y / GetScaleY(), 1, 1);
+		wxNodeList clicked = root->GetIntersectionList(rect, *root);
 		wxString message;
-		message.Printf(_T("Click : %d,%d                  \n"), event.m_x, event.m_y);
+		message.Printf(_T("Click : %d,%d -> %g,%g\n"), event.m_x, event.m_y,
+				event.m_x / GetScaleX(), event.m_y / GetScaleY());
 		for (unsigned int i = 0; i < clicked.GetCount(); i++) {
-			wxString obj_desc;
+			wxString desc;
 			wxSVGElement* obj = clicked.Item(i);
-			obj_desc.Printf(_T("Name : %s, Id : %s\n"), obj->GetName().c_str(), obj->GetId().c_str());
-			message.Append(obj_desc);
+			if (obj->GetId().length())
+				desc.Printf(_T("%s, id: %s\n"), obj->GetName().c_str(), obj->GetId().c_str());
+			else
+				desc.Printf(_T("%s\n"), obj->GetName().c_str());
+			message.Append(desc);
 		}
 		wxMessageBox(message, _T("Hit Test (objects bounding box)"));
 	}
 }
+
+void SVGCtrl::OnKeyDown(wxKeyEvent& event) {
+	switch (event.GetKeyCode()) {
+		case 'R':
+			if (event.ControlDown() && m_filename.length() > 0) {
+				Load(m_filename);
+			}
+			break;
+		default:
+			event.Skip();
+			break;
+	}
+}
+

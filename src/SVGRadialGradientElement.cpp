@@ -2,7 +2,7 @@
 // Name:        SVGRadialGradientElement.cpp
 // Author:      Alex Thuering
 // Created:     2012/04/01
-// RCS-ID:      $Id: SVGRadialGradientElement.cpp,v 1.1 2012-04-01 20:36:08 ntalex Exp $
+// RCS-ID:      $Id: SVGRadialGradientElement.cpp,v 1.1 2012/04/01 20:36:08 ntalex Exp $
 // Copyright:   (c) 2012 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

@@ -2,7 +2,7 @@
 // Name:        SVGAnimatedType.h
 // Author:      Alex Thuering
 // Created:     2014/02/24
-// RCS-ID:      $Id: SVGAnimatedType.h,v 1.2 2014-03-27 08:39:32 ntalex Exp $
+// RCS-ID:      $Id: SVGAnimatedType.h,v 1.2 2014/03/27 08:39:32 ntalex Exp $
 // Copyright:   (c) 2014 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/03
-// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.13 2015-03-21 16:28:23 ntalex Exp $
+// RCS-ID:      $Id: CSSStyleDeclaration.cpp,v 1.13 2015/03/21 16:28:23 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

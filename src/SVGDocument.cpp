@@ -3,22 +3,19 @@
 // Purpose:     wxSVGDocument - SVG render & data holder class
 // Author:      Alex Thuering
 // Created:     2005/01/17
-// RCS-ID:      $Id: SVGDocument.cpp,v 1.52 2016-05-16 21:08:52 ntalex Exp $
+// RCS-ID:      $Id: SVGDocument.cpp,v 1.52 2016/05/16 21:08:52 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SVGDocument.h"
 
-#ifdef USE_RENDER_AGG
-#include "agg/SVGCanvasAgg.h"
-#define WX_SVG_CANVAS wxSVGCanvasAgg
-#elif defined USE_RENDER_CAIRO
+#ifdef HAVE_LIBSKIA
+#include "skia/SVGCanvasSkia.h"
+#define WX_SVG_CANVAS wxSVGCanvasSkia
+#else //USE_RENDER_CAIRO
 #include "cairo/SVGCanvasCairo.h"
 #define WX_SVG_CANVAS wxSVGCanvasCairo
-#else //USE_RENDER_LIBART
-#include "libart/SVGCanvasLibart.h"
-#define WX_SVG_CANVAS wxSVGCanvasLibart
 #endif
 
 #include <wx/log.h>

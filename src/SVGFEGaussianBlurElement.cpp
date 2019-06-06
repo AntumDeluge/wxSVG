@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGFEGaussianBlurElement.cpp,v 1.7 2014-03-27 08:42:16 ntalex Exp $
+// RCS-ID:      $Id: SVGFEGaussianBlurElement.cpp,v 1.7 2014/03/27 08:42:16 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

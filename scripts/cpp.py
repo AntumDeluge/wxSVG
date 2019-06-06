@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: cpp.py,v 1.6 2014-03-21 21:15:35 ntalex Exp $
+## RCS-ID:      $Id: cpp.py,v 1.6 2014/03/21 21:15:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################

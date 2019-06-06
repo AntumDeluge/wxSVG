@@ -1,8 +1,8 @@
 # Process this file with autoconf to produce a configure script.
 
 # initialization
-AC_PREREQ(2.57)
-AC_INIT([wxsvg], [1.5.11], [wx-svg-users@lists.sourceforge.net])
+AC_PREREQ(2.59)
+AC_INIT([wxsvg], [1.5.18], [http://wxsvg.sourceforge.net/])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE(foreign)
 AM_MAINTAINER_MODE
@@ -15,7 +15,7 @@ AM_MAINTAINER_MODE
 # 4. If any interfaces have been added since the last public release, then increment age.
 # 5. If any interfaces have been removed since the last public release then set age to 0.
 
-LIBRARY_VERSION=13:4:10 # current:revision:age -> libwxsvg.so.(C-A).(A).(R)
+LIBRARY_VERSION=15:2:12 # current:revision:age -> libwxsvg.so.(C-A).(A).(R)
 AC_SUBST(LIBRARY_VERSION)
 
 # options
@@ -26,6 +26,9 @@ AC_ARG_ENABLE(debug,
 AC_ARG_ENABLE(libav,
  [  --enable-libav         Enable libav decoder support (default: enabled)],
  [enable_libav=$enableval],[enable_libav=yes])
+AC_ARG_ENABLE(render,
+ [  --enable-render[=render]          Specify the render: cairo (default) or skia],
+ [USE_RENDER=$enableval], [USE_RENDER=cairo])
 AC_ARG_WITH(datarootdir,
  [  --with-datarootdir=DIR  Use DIR as the data root [[PREFIX/share]]],
  [datarootdir="\${prefix}/$with_datarootdir"], [datarootdir='$(prefix)/share'])
@@ -67,28 +70,50 @@ yes)
   ;;
 esac
 
-# check for cairo
-PKG_CHECK_MODULES(CAIRO, cairo)
-CXXFLAGS="$CXXFLAGS $CAIRO_CFLAGS -DUSE_RENDER_CAIRO"
-LIBS="$LIBS $CAIRO_LIBS"
-case $host_os in
-	*darwin*)
-		font_engine=
-		;;
+dnl render
+AM_CONDITIONAL(USE_RENDER_SKIA, [test "$USE_RENDER" = "skia"])
+AM_CONDITIONAL(USE_RENDER_CAIRO, [test "$USE_RENDER" = "cairo"])
+case "$USE_RENDER" in
+cairo)
+	# check for cairo
+	PKG_CHECK_MODULES(CAIRO, cairo)
+	CXXFLAGS="$CXXFLAGS $CAIRO_CFLAGS -DUSE_RENDER_CAIRO"
+	LIBS="$LIBS $CAIRO_LIBS"
+	case $host_os in
+		*darwin*)
+			font_engine=
+			;;
+		*)
+			font_engine=pango
+			;;
+	esac
+	
+	# Font_engine
+	case "$font_engine" in
+	pango)
+	  PKG_CHECK_MODULES(PANGO, pangocairo)
+	  CXXFLAGS="$CXXFLAGS $PANGO_CFLAGS"
+	  LIBS="$LIBS $PANGO_LIBS"
+	  ;;
 	*)
-		font_engine=pango
-		;;
-esac
-
-# Font_engine
-case "$font_engine" in
-pango)
-  PKG_CHECK_MODULES(PANGO, pangocairo)
-  CXXFLAGS="$CXXFLAGS $PANGO_CFLAGS"
-  LIBS="$LIBS $PANGO_LIBS"
-  ;;
+	  ;;
+	esac
+	;;
+skia)
+	# check skia
+	AC_ARG_WITH([skia-dir],
+		AS_HELP_STRING([--with-skia-dir=PATH], [Set path to the SKIA directory]),
+		[CXXFLAGS+=" -I${withval}/include/ -I${withval}/include/config/ -I${withval}/include/core/ -I${withval}/include/effects/ -I${withval}/include/private -I${withval}/src/core"
+		LIBS+=" -L${withval}/out/Static"],
+		[AC_MSG_ERROR(Missing --with-skia-dir that specifies path to the SKIA directory.)]
+	)
+	AC_CHECK_LIB([skia], [main], [], [AC_MSG_ERROR([Could not find skia library])])
+	AC_CHECK_HEADER([SkUserConfig.h], [], [AC_MSG_ERROR([Could not find skia header files])])
+	AC_CHECK_HEADER([SkCanvas.h], [], [AC_MSG_ERROR([Could not find skia header files])])
+	;;
 *)
-  ;;
+	AC_MSG_ERROR([*** Unknown render "$USE_RENDER"])
+	;;
 esac
 
 # check wxWidgets >= 2.6.3
@@ -139,6 +164,7 @@ AC_CONFIG_FILES([
   src/svgxml/Makefile
   src/Makefile
   src/cairo/Makefile
+  src/skia/Makefile
   svgview/Makefile
 ])
 AC_OUTPUT

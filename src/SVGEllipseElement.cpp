@@ -3,7 +3,7 @@
 // Purpose:     Implementation of wxSVGEllipseElement
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGEllipseElement.cpp,v 1.6 2014-03-24 21:16:35 ntalex Exp $
+// RCS-ID:      $Id: SVGEllipseElement.cpp,v 1.6 2014/03/24 21:16:35 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

@@ -3,7 +3,7 @@
 // Purpose:     wxSvgXmlDocument - XML parser & data holder class
 // Author:      Vaclav Slavik
 // Created:     2000/03/05
-// RCS-ID:      $Id: svgxml.h,v 1.8 2014-03-27 19:24:49 ntalex Exp $
+// RCS-ID:      $Id: svgxml.h,v 1.8 2014/03/27 19:24:49 ntalex Exp $
 // Copyright:   (c) 2000 Vaclav Slavik
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

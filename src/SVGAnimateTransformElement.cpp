@@ -3,7 +3,7 @@
 // Purpose:     Implementation of SVGAnimateTransformElement
 // Author:      Alex Thuering
 // Created:     2014/02/24
-// RCS-ID:      $Id: SVGAnimateTransformElement.cpp,v 1.3 2016-01-09 23:31:14 ntalex Exp $
+// RCS-ID:      $Id: SVGAnimateTransformElement.cpp,v 1.3 2016/01/09 23:31:14 ntalex Exp $
 // Copyright:   (c) 2014 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

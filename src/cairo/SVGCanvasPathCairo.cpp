@@ -3,7 +3,7 @@
 // Purpose:     Cairo canvas path
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasPathCairo.cpp,v 1.15 2016-07-27 08:54:21 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasPathCairo.cpp,v 1.15 2016/07/27 08:54:21 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -40,6 +40,7 @@ wxSVGRect wxSVGCanvasPathCairo::GetBBox(const wxSVGMatrix* matrix) {
 		cairo_matrix_t m;
 		cairo_matrix_init(&m, matrix->GetA(), matrix->GetB(), matrix->GetC(), matrix->GetD(),
 				matrix->GetE(), matrix->GetF());
+		cairo_matrix_invert(&m);
 		cairo_set_matrix(m_cr, &m);
 	}
 	double x1, y1, x2, y2;
@@ -57,6 +58,7 @@ wxSVGRect wxSVGCanvasPathCairo::GetResultBBox(const wxCSSStyleDeclaration& style
 		cairo_matrix_t m;
 		cairo_matrix_init(&m, matrix->GetA(), matrix->GetB(), matrix->GetC(), matrix->GetD(),
 				matrix->GetE(), matrix->GetF());
+		cairo_matrix_invert(&m);
 		cairo_set_matrix(m_cr, &m);
 	}
 	ApplyStrokeStyle(m_cr, style);

@@ -3,7 +3,7 @@
 ## Purpose:     
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: enum_map.py,v 1.4 2014-03-24 21:13:32 ntalex Exp $
+## RCS-ID:      $Id: enum_map.py,v 1.4 2014/03/24 21:13:32 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:		some modules adapted from svgl project
 ##############################################################################

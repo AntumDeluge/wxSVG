@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/09/27
-// RCS-ID:      $Id: SVGPreserveAspectRatio.cpp,v 1.3 2014-04-06 10:17:54 ntalex Exp $
+// RCS-ID:      $Id: SVGPreserveAspectRatio.cpp,v 1.3 2014/04/06 10:17:54 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

@@ -3,7 +3,7 @@
 ## Purpose:     generates all SVG*List.h/cpp
 ## Author:      Alex Thuering
 ## Created:     2005/01/19
-## RCS-ID:      $Id: genList.py,v 1.8 2016-01-24 16:58:49 ntalex Exp $
+## RCS-ID:      $Id: genList.py,v 1.8 2016/01/24 16:58:49 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################

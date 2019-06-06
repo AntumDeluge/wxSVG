@@ -3,7 +3,7 @@
 // Purpose:     
 // Author:      Alex Thuering
 // Created:     2005/09/27
-// RCS-ID:      $Id: SVGRect.cpp,v 1.5 2006-02-26 14:50:01 ntalex Exp $
+// RCS-ID:      $Id: SVGRect.cpp,v 1.5 2006/02/26 14:50:01 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -12,10 +12,8 @@
 #include "SVGPoint.h"
 #include <wx/tokenzr.h>
 
-wxString wxSVGRect::GetValueAsString() const
-{
-  return wxString::Format(wxT("%g %g %g %g"),
-    GetX(), GetY(), GetWidth(), GetHeight());
+wxString wxSVGRect::GetValueAsString() const {
+  return wxString::Format(wxT("%g %g %g %g"), GetX(), GetY(), GetWidth(), GetHeight());
 }
 
 void wxSVGRect::SetValueAsString(const wxString& value)

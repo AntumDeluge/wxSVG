@@ -3,7 +3,7 @@
 // Purpose:     calculate length relative to viewport size 
 // Author:      Alex Thuering
 // Created:     2005/06/19
-// RCS-ID:      $Id: SVGLengthCalculate.h,v 1.1 2005-07-28 13:02:57 ntalex Exp $
+// RCS-ID:      $Id: SVGLengthCalculate.h,v 1.1 2005/07/28 13:02:57 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

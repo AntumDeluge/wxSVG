@@ -3,7 +3,7 @@
 // Purpose:     svg text element
 // Author:      Alex Thuering
 // Created:     2005/05/10
-// RCS-ID:      $Id: SVGTextElement.cpp,v 1.6 2016-07-28 09:05:28 ntalex Exp $
+// RCS-ID:      $Id: SVGTextElement.cpp,v 1.6 2016/07/28 09:05:28 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

@@ -2,7 +2,7 @@
 // Name:        ExifHandler.cpp
 // Author:      Alex Thuering
 // Created:		30.12.2007
-// RCS-ID:      $Id: ExifHandler.cpp,v 1.2 2016-10-23 18:54:56 ntalex Exp $
+// RCS-ID:      $Id: ExifHandler.cpp,v 1.2 2016/10/23 18:54:56 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

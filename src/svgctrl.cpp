@@ -3,7 +3,7 @@
 // Purpose:     svg control widget
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgctrl.cpp,v 1.20 2016-05-07 10:18:27 ntalex Exp $
+// RCS-ID:      $Id: svgctrl.cpp,v 1.20 2016/05/07 10:18:27 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

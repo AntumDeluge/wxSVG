@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/02
-// RCS-ID:      $Id: SVGCanvas.h,v 1.16 2014-08-09 11:13:55 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.h,v 1.16 2014/08/09 11:13:55 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

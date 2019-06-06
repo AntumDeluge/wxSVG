@@ -3,7 +3,7 @@
 // Purpose:     wxSVGCanvas - Base class for SVG renders (backends)
 // Author:      Alex Thuering
 // Created:     2005/05/04
-// RCS-ID:      $Id: SVGCanvas.cpp,v 1.27 2016-01-09 23:31:14 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvas.cpp,v 1.27 2016/01/09 23:31:14 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -182,9 +182,12 @@ unsigned int wxSVGCanvas::GetGradientStops(const wxSVGSVGElement& svgElem, wxSVG
 	stop_elem = (wxSVGStopElement*) gradElem->GetChildren();
 	int i = 0;
 	while (stop_elem) {
-		if (stop_elem->GetDtd() == wxSVG_STOP_ELEMENT)
-			SetStopValue(i++, stop_elem->GetOffset(), stop_elem->GetStopOpacity() * opacity,
-					stop_elem->GetStopColor().GetRGBColor());
+		if (stop_elem->GetDtd() == wxSVG_STOP_ELEMENT) {
+			wxSVGColor color = stop_elem->GetStopColor();
+			if (color.GetColorType() == wxSVG_COLORTYPE_UNKNOWN)
+				color = wxSVGColor(0, 0, 0);
+			SetStopValue(i++, stop_elem->GetOffset(), stop_elem->GetStopOpacity() * opacity, color.GetRGBColor());
+		}
 		stop_elem = (wxSVGStopElement*) stop_elem->GetNext();
 	}
 	return stop_count;
@@ -317,6 +320,16 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			RenderChilds(elem, rect, &matrix, &style, element, element, progressDlg);
 		break;
 	}
+	case wxSVG_A_ELEMENT: {	
+        wxSVGAElement* element = (wxSVGAElement*) elem;
+        if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+            break;
+        element->UpdateMatrix(matrix);
+        style.Add(element->GetStyle());
+        style.Add(element->GetAnimStyle());
+        RenderChilds(elem, rect, &matrix, &style, ownerSVGElement, viewportElement, progressDlg);
+        break;
+    }
 	case wxSVG_G_ELEMENT: {
 		wxSVGGElement* element = (wxSVGGElement*) elem;
 		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)

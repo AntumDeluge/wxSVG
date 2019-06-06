@@ -3,7 +3,7 @@
 ## Purpose:     generates c++ file and saves it
 ## Author:      Alex Thuering
 ## Created:     2005/05/10
-## RCS-ID:      $Id: cppImpl.py,v 1.3 2014-03-21 21:15:35 ntalex Exp $
+## RCS-ID:      $Id: cppImpl.py,v 1.3 2014/03/21 21:15:35 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ## Notes:       some modules adapted from svgl project
 ##############################################################################

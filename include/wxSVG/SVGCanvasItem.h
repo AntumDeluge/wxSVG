@@ -3,7 +3,7 @@
 // Purpose:     Canvas items
 // Author:      Alex Thuering
 // Created:     2005/05/09
-// RCS-ID:      $Id: SVGCanvasItem.h,v 1.29 2016-07-27 08:54:21 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasItem.h,v 1.29 2016/07/27 08:54:21 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

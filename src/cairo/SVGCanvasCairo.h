@@ -3,7 +3,7 @@
 // Purpose:     Cairo render
 // Author:      Alex Thuering
 // Created:     2005/05/12
-// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.15 2014-08-09 11:16:21 ntalex Exp $
+// RCS-ID:      $Id: SVGCanvasCairo.h,v 1.15 2014/08/09 11:16:21 ntalex Exp $
 // Copyright:   (c) 2005 Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////

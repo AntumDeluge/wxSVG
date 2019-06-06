@@ -3,7 +3,7 @@
 ## Purpose:     generates CSSStyleDeclaration
 ## Author:      Alex Thuering
 ## Created:     2005/06/06
-## RCS-ID:      $Id: genCSS.py,v 1.18 2014-06-30 19:10:55 ntalex Exp $
+## RCS-ID:      $Id: genCSS.py,v 1.18 2014/06/30 19:10:55 ntalex Exp $
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 

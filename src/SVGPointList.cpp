@@ -15,7 +15,7 @@ wxString wxSVGPointList::GetValueAsString() const {
 	wxString value;
 	for (int i = 0; i < (int) GetCount(); i++) {
 		if (i > 0) {
-			value += wxT("; ");
+			value += wxT(" ");
 		}
 		value += wxString::Format(wxT("%g,%g"), Item(i).GetX(), Item(i).GetY());
 	}
@@ -25,7 +25,7 @@ wxString wxSVGPointList::GetValueAsString() const {
 void wxSVGPointList::SetValueAsString(const wxString& value) {
 	Clear();
 	double x, y;
-	wxStringTokenizer tkz(value, wxT(";"));
+	wxStringTokenizer tkz(value, wxT(" \t\r\n"));
 	while (tkz.HasMoreTokens()) {
 		wxString token = tkz.GetNextToken().Strip(wxString::both);
 		if (token.length() && token.Find(wxT(',')) > 0

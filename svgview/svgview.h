@@ -3,7 +3,7 @@
 // Purpose:     Widget to display svg documents using svg library
 // Author:      Alex Thuering
 // Created:     2005/05/07
-// RCS-ID:      $Id: svgview.h,v 1.6 2016-05-16 21:06:40 ntalex Exp $
+// RCS-ID:      $Id: svgview.h,v 1.7 2017/01/22 21:03:54 ntalex Exp $
 // Copyright:   (c) Alex Thuering
 // Licence:     wxWindows licence
 //////////////////////////////////////////////////////////////////////////////
@@ -19,15 +19,18 @@ public:
     bool OnInit();
 };
 
-class MySVGCanvas: public wxSVGCtrl
+class SVGCtrl: public wxSVGCtrl
 {
 public:
-    MySVGCanvas(wxWindow* parent);
-    void OnMouseLeftUp(wxMouseEvent & event);
+    SVGCtrl(wxWindow* parent);
+    bool Load(const wxString& filename);
 	void SetShowHitPopup(bool);
 
 private:
 	bool m_ShowHitPopup;
+    wxString m_filename;
+    void OnMouseLeftUp(wxMouseEvent & event);
+    void OnKeyDown(wxKeyEvent& event);
     DECLARE_EVENT_TABLE()
 };
 
@@ -37,7 +40,7 @@ public:
       const wxSize& size, long style = wxDEFAULT_FRAME_STYLE);
 
 private:
-    MySVGCanvas* m_svgCtrl;
+    SVGCtrl* m_svgCtrl;
     wxToolBar* m_toolbar;
     wxTimer* m_timer;
     double m_duration;
