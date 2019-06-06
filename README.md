@@ -1,3 +1,5 @@
+![logo](wxSvgBlocks128.png)
+
                   -------
                    wxSVG
                   -------
