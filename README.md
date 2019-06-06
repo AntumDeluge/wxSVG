@@ -1,11 +1,11 @@
-![logo](wxSvgBlocks128.png)
+![logo](index_files/wxSvgBlocks128.png)
 
                   -------
                    wxSVG
                   -------
 About
 -------
-wxSVG is C++ library to create, manipulate and render Scalable Vector Graphics (SVG) files with the wxWidgets toolkit. 
+wxSVG is C++ library to create, manipulate and render Scalable Vector Graphics (SVG) files with the wxWidgets toolkit.
 
 License
 -------
@@ -21,7 +21,7 @@ Compilation dependencies of wxSVG:
 
 To build wxSVG type
 	./configure && make
-	
+
 To install wxSVG type
 	make install
 
