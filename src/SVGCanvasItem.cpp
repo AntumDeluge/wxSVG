@@ -47,7 +47,6 @@ void wxSVGCanvasPath::Init(wxSVGLineElement& element) {
 
 void wxSVGCanvasPath::Init(wxSVGPolylineElement& element) {
 	m_element = &element;
-	SetFill(false);
 
 	const wxSVGPointList& points = element.GetPoints();
 	if (points.Count())
