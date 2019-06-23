@@ -1,5 +1,5 @@
-git
----
+Version 1.5.18 <2019-06-23>
+---------------------------
 
   * fixed rendering polyline element
   * fixed drawing a cubic Bézier curve if the previous command was not an c or s
