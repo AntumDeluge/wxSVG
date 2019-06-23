@@ -93,6 +93,8 @@ class wxSVGCanvasPath: public wxSVGCanvasItem
     wxSVGElement* m_element;
 	bool m_fill; /* define, if a path can be filled (disabled for line) */
 	double m_curx, m_cury, m_cubicx, m_cubicy, m_quadx, m_quady, m_begx, m_begy;
+	bool m_initCubic; // define, if m_cubicx and m_cubicy are initialized
+	bool m_initQuad; // define, if m_cubicx and m_cubicy are initialized
 	virtual void MoveToImpl(double x, double y) = 0;
 	virtual void LineToImpl(double x, double y) = 0;
 	virtual void CurveToCubicImpl(double x1, double y1, double x2, double y2, double x, double y) = 0;
