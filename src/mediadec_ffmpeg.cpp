@@ -47,6 +47,9 @@ wxFfmpegMediaDecoder::~wxFfmpegMediaDecoder() {
 
 void wxFfmpegMediaDecoder::Init() {
     // nothing to do
+#if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(58, 0, 0)
+	av_register_all();
+#endif
 }
 
 void PrintError(const wxString& msg, int err) {

@@ -1,8 +1,13 @@
-Version 1.5.18 <2019-06-24>
+Version 1.5.19 <2019-06-24>
 ---------------------------
 
   * fixed rendering polyline element
   * fixed drawing a cubic Bézier curve if the previous command was not an c or s
+
+Version 1.5.18 <2019-05-19>
+---------------------------
+
+  * wxFfmpegMediaDecoder: fixed support of ffmpeg 3.4.x
 
 Version 1.5.17 <2019-05-19>
 ---------------------------
