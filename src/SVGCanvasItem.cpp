@@ -33,7 +33,6 @@ wxSVGCanvasPath::wxSVGCanvasPath() : wxSVGCanvasItem(wxSVG_CANVAS_ITEM_PATH) {
 	m_element = NULL;
 	m_fill = true;
 	m_curx = m_cury = m_cubicx = m_cubicy = m_quadx = m_quady = 0;
-	m_initCubic = m_initQuad = false;
 	m_begx = m_begy = 0;
 }
 
@@ -291,9 +290,8 @@ void wxSVGCanvasPath::MoveTo(double x, double y, bool relative) {
 		y += m_cury;
 	}
 	MoveToImpl(x, y);
-	m_begx = m_curx = x;
-	m_begy = m_cury = y;
-	m_initCubic = m_initQuad = false;
+	m_begx = m_curx = m_cubicx = m_quadx = x;
+	m_begy = m_cury = m_cubicy = m_quady = y;
 }
 
 void wxSVGCanvasPath::LineTo(double x, double y, bool relative) {
@@ -302,25 +300,22 @@ void wxSVGCanvasPath::LineTo(double x, double y, bool relative) {
 		y += m_cury;
 	}
 	LineToImpl(x, y);
-	m_curx = x;
-	m_cury = y;
-	m_initCubic = m_initQuad = false;
+	m_curx = m_cubicx = m_quadx = x;
+	m_cury = m_cubicy = m_quady = y;
 }
 
 void wxSVGCanvasPath::LineToHorizontal(double x, bool relative) {
 	if (relative)
 		x += m_curx;
 	LineToImpl(x, m_cury);
-	m_curx = x;
-	m_initCubic = m_initQuad = false;
+	m_curx = m_cubicx = m_quadx = x;
 }
 
 void wxSVGCanvasPath::LineToVertical(double y, bool relative) {
 	if (relative)
 		y += m_cury;
 	LineToImpl(m_curx, y);
-	m_cury = y;
-	m_initCubic = m_initQuad = false;
+	m_cury = m_cubicy = m_quady = y;
 }
 
 void wxSVGCanvasPath::CurveToCubic(double x1, double y1, double x2, double y2, double x, double y, bool relative) {
@@ -333,12 +328,10 @@ void wxSVGCanvasPath::CurveToCubic(double x1, double y1, double x2, double y2, d
 		y += m_cury;
 	}
 	CurveToCubicImpl(x1, y1, x2, y2, x, y);
-	m_curx = x;
-	m_cury = y;
+	m_curx = m_quadx = x;
+	m_cury = m_quady = y;
 	m_cubicx = 2 * m_curx - x2;
 	m_cubicy = 2 * m_cury - y2;
-	m_initCubic = true;
-	m_initQuad = false;
 }
 
 void wxSVGCanvasPath::CurveToCubicSmooth(double x2, double y2, double x, double y, bool relative) {
@@ -348,16 +341,11 @@ void wxSVGCanvasPath::CurveToCubicSmooth(double x2, double y2, double x, double 
 		x += m_curx;
 		y += m_cury;
 	}
-	if (m_initCubic)
-		CurveToCubicImpl(m_cubicx, m_cubicy, x2, y2, x, y);
-	else
-		CurveToCubicImpl(m_curx, m_cury, x2, y2, x, y);
-	m_curx = x;
-	m_cury = y;
+	CurveToCubicImpl(m_cubicx, m_cubicy, x2, y2, x, y);
+	m_curx = m_quadx = x;
+	m_cury = m_quady = y;
 	m_cubicx = 2 * m_curx - x2;
 	m_cubicy = 2 * m_cury - y2;
-	m_initCubic = true;
-	m_initQuad = false;
 }
 
 void wxSVGCanvasPath::CurveToQuadratic(double x1, double y1, double x, double y, bool relative) {
@@ -374,10 +362,8 @@ void wxSVGCanvasPath::CurveToQuadratic(double x1, double y1, double x, double y,
 	x1 = (m_curx + 2 * x1) / 3;
 	y1 = (m_cury + 2 * y1) / 3;
 	CurveToCubicImpl(x1, y1, x2, y2, x, y);
-	m_curx = x;
-	m_cury = y;
-	m_initCubic = false;
-	m_initQuad = true;
+	m_curx = m_cubicx = x;
+	m_cury = m_cubicy = y;
 }
 
 void wxSVGCanvasPath::CurveToQuadraticSmooth(double x, double y, bool relative) {
@@ -385,19 +371,15 @@ void wxSVGCanvasPath::CurveToQuadraticSmooth(double x, double y, bool relative) 
 		x += m_curx;
 		y += m_cury;
 	}
-	double quadx = m_initQuad ? m_quadx : m_curx;
-	double quady = m_initQuad ? m_quady : m_cury;
-	double x1 = (m_curx + 2 * quadx) / 3;
-	double y1 = (m_cury + 2 * quady) / 3;
-	double x2 = (x + 2 * quadx) / 3;
-	double y2 = (y + 2 * quady) / 3;
+	double x1 = (m_curx + 2 * m_quadx) / 3;
+	double y1 = (m_cury + 2 * m_quady) / 3;
+	double x2 = (x + 2 * m_quadx) / 3;
+	double y2 = (y + 2 * m_quady) / 3;
 	CurveToCubicImpl(x1, y1, x2, y2, x, y);
-	m_curx = x;
-	m_cury = y;
-	m_quadx = 2 * x - quadx;
-	m_quady = 2 * y - quady;
-	m_initCubic = false;
-	m_initQuad = true;
+	m_curx = m_cubicx = x;
+	m_cury = m_cubicy = y;
+	m_quadx = 2 * x - m_quadx;
+	m_quady = 2 * y - m_quady;
 }
 
 // This works by converting the SVG arc to "simple" beziers.
@@ -503,8 +485,8 @@ void wxSVGCanvasPath::Arc(double x, double y, double r1, double r2, double angle
 		CurveToCubicImpl(a00 * x1 + a01 * y1, a10 * x1 + a11 * y1, a00 * x2 + a01 * y2, a10 * x2 + a11 * y2,
 				a00 * x3 + a01 * y3, a10 * x3 + a11 * y3);
 	}
-	m_curx = x;
-	m_cury = y;
+	m_curx = m_cubicx = m_quadx = x;
+	m_cury = m_cubicy = m_quady = y;
 }
 
 bool wxSVGCanvasPath::ClosePath() {
