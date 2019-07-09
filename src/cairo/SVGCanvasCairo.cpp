@@ -187,6 +187,10 @@ void wxSVGCanvasCairo::SetPaint(cairo_t* cr, const wxSVGPaint& paint, float opac
 				int nstops = GetGradientStops(svgElem, gradElem, opacity);
 				if (nstops) {
 					cairo_set_source(cr, m_pattern);
+					if (gradElem->GetSpreadMethod() == wxSVG_SPREADMETHOD_REFLECT)
+						cairo_pattern_set_extend(m_pattern, CAIRO_EXTEND_REFLECT);
+					else if (gradElem->GetSpreadMethod() == wxSVG_SPREADMETHOD_REPEAT)
+						cairo_pattern_set_extend(m_pattern, CAIRO_EXTEND_REPEAT);
 				} else {
 					cairo_pattern_destroy(m_pattern);
 					m_pattern = NULL;
