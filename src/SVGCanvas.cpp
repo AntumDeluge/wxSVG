@@ -126,11 +126,19 @@ void wxSVGCanvas::DrawCanvasText(wxSVGCanvasText& canvasText,
   }
 }
 
-wxSVGPatternElement* wxSVGCanvas::GetPatternElement(const wxSVGSVGElement& svgElem, const wxString& href) {
-	if (href.length() == 0 || href[0] != wxT('#') || &svgElem == NULL)
-	    return NULL;
-	wxSVGElement* elem = (wxSVGElement*) svgElem.GetElementById(href.substr(1));
-	return elem != NULL && elem->GetDtd() == wxSVG_PATTERN_ELEMENT ? (wxSVGPatternElement*) elem : NULL;
+wxSVGPatternElement* wxSVGCanvas::GetPatternElement(const wxSVGSVGElement& svgElem, wxString href) {
+	// Search for the most referenced pattern 
+	wxSVGPatternElement* pElem = NULL;
+	while (true) {
+		if (href.length() == 0 || href[0] != wxT('#') || &svgElem == NULL)
+			break;
+		wxSVGElement* elem = (wxSVGElement*) svgElem.GetElementById(href.substr(1));
+		if (elem == NULL || elem->GetDtd() != wxSVG_PATTERN_ELEMENT)
+			break;
+		pElem = (wxSVGPatternElement*) elem;
+		href = pElem->GetHref();
+	}
+	return pElem;
 }
 
 wxSVGMarkerElement* wxSVGCanvas::GetMarkerElement(const wxSVGSVGElement& svgElem, const wxString& href) {

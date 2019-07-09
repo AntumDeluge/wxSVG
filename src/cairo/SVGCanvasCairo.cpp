@@ -213,31 +213,29 @@ void wxSVGCanvasCairo::SetPaint(cairo_t* cr, const wxSVGPaint& paint, float opac
 			cairo_surface_t* surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
 					lround(patternElem->GetWidth().GetAnimVal()*scaleX),
 					lround(patternElem->GetHeight().GetAnimVal()*scaleY));
-			cairo_t* cr = cairo_create(surface);
+			cairo_t* ptCr = cairo_create(surface);
 			wxSVGMatrix patMatrix;
 			patMatrix = patMatrix.ScaleNonUniform(scaleX, scaleY);
 			wxCSSStyleDeclaration style;
 			style.SetOpacity(opacity);
-			DrawMask(cr, patternElem, patMatrix, style, svgElem);
+			DrawMask(ptCr, patternElem, patMatrix, style, svgElem);
 			m_pattern = cairo_pattern_create_for_surface(surface);
 			
 			if (patternElem->GetX().GetAnimVal() > 0 || patternElem->GetY().GetAnimVal() > 0) {
 				patMatrix = patMatrix.Translate(patternElem->GetX().GetAnimVal(), patternElem->GetY().GetAnimVal());
 			}
-			if (patternElem->GetPatternTransform().GetAnimVal().size()) {
-				const wxSVGTransformList& transforms = patternElem->GetPatternTransform().GetAnimVal();
-				for (unsigned int i = 0; i < transforms.Count(); i++) {
-					patMatrix = patMatrix.Multiply(transforms[i].GetMatrix().Inverse());
-				}
+			wxSVGPatternElement* topPattern = (wxSVGPatternElement*) svgElem.GetElementById(paint.GetUri().substr(1));
+			for (int i = topPattern->GetPatternTransform().GetAnimVal().Count()-1; i >= 0 ; i--) {
+				patMatrix = patMatrix.Multiply(topPattern->GetPatternTransform().GetAnimVal()[i].GetMatrix().Inverse());
 			}
 			cairo_matrix_t mat;
 			cairo_matrix_init(&mat, patMatrix.GetA(), patMatrix.GetB(), patMatrix.GetC(), patMatrix.GetD(), patMatrix.GetE(), patMatrix.GetF());
 			cairo_pattern_set_matrix(m_pattern, &mat);
 			
-			cairo_set_source(m_cr, m_pattern);
+			cairo_set_source(cr, m_pattern);
 			cairo_pattern_set_extend(m_pattern, CAIRO_EXTEND_REPEAT);
 			
-			cairo_destroy(cr);
+			cairo_destroy(ptCr);
 			cairo_surface_destroy(surface);
 		}
 	} else {

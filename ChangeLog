@@ -6,6 +6,7 @@ git
   * added handling of clipPath
   * fixed handling of pt units
   * fixed fill pattern with opacity
+  * fixed handling of referenced patterns
 
 Version 1.5.19 <2019-06-24>
 ---------------------------
