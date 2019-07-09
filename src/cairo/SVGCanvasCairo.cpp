@@ -408,6 +408,7 @@ void wxSVGCanvasCairo::DrawPath(cairo_t* cr, wxSVGCanvasPathCairo& canvasPath, c
 		cairo_path_t* path = canvasPath.GetPath();
 		cairo_append_path(cr, path);
 		SetPaint(cr, style.GetFill(), style.GetOpacity()*style.GetFillOpacity(), canvasPath, svgElem, matrix);
+		cairo_set_fill_rule(cr, style.GetFillRule() == wxCSS_VALUE_EVENODD ? CAIRO_FILL_RULE_EVEN_ODD : CAIRO_FILL_RULE_WINDING);
 		cairo_fill(cr);
 		cairo_path_destroy(path);
 	}

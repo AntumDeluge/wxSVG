@@ -1,3 +1,9 @@
+git
+---
+
+  * added handling of fill-rule
+  * fixed handling of pt units
+
 Version 1.5.19 <2019-06-24>
 ---------------------------
 
