@@ -217,6 +217,7 @@ void wxSVGCanvasCairo::SetPaint(cairo_t* cr, const wxSVGPaint& paint, float opac
 			wxSVGMatrix patMatrix;
 			patMatrix = patMatrix.ScaleNonUniform(scaleX, scaleY);
 			wxCSSStyleDeclaration style;
+			style.SetOpacity(opacity);
 			DrawMask(cr, patternElem, patMatrix, style, svgElem);
 			m_pattern = cairo_pattern_create_for_surface(surface);
 			
@@ -442,7 +443,9 @@ void wxSVGCanvasCairo::DrawPath(cairo_t* cr, wxSVGCanvasPathCairo& canvasPath, c
 
 void wxSVGCanvasCairo::DrawCanvasPath(wxSVGCanvasPathCairo& canvasPath, wxSVGMatrix& matrix,
 		const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem) {
-	// check Filter
+	// clipPath
+	SetClipPath(style.GetClipPath(), matrix, svgElem);
+	// filter
 	if (style.GetFilter().GetCSSPrimitiveType() == wxCSS_URI && style.GetFilter().GetStringValue().length() > 1) {
 		wxString filterId = style.GetFilter().GetStringValue().substr(1);
 		wxSVGElement* filterElem = (wxSVGElement*) svgElem.GetElementById(filterId);
@@ -492,6 +495,21 @@ void wxSVGCanvasCairo::SetMatrix(cairo_t* cr, const wxSVGMatrix& matrix) {
 	cairo_matrix_init(&mat, matrix.GetA(), matrix.GetB(), matrix.GetC(),
 			matrix.GetD(), matrix.GetE(), matrix.GetF());
 	cairo_set_matrix(cr, &mat);
+}
+
+void wxSVGCanvasCairo::SetClipPath(const wxCSSPrimitiveValue& clipPath, wxSVGMatrix& matrix, wxSVGSVGElement& svgElem) {
+	cairo_reset_clip(m_cr);
+	if (clipPath.GetCSSPrimitiveType() != wxCSS_URI || clipPath.GetStringValue().length() < 2)
+		return;
+	wxString clipPathId = clipPath.GetStringValue().substr(1);
+	wxSVGClipPathElement* clipPathElem = (wxSVGClipPathElement*) svgElem.GetElementById(clipPathId);
+	if (!clipPathElem && clipPathElem->GetDtd() != wxSVG_CLIPPATH_ELEMENT)
+		return;
+	clipPathElem->SetOwnerSVGElement(&svgElem);
+	clipPathElem->SetViewportElement(&svgElem);
+	wxSVGMatrix clipMatrix(matrix);
+	clipPathElem->UpdateMatrix(clipMatrix);
+	SetClipPath(clipPathElem, clipMatrix);
 }
 
 void wxSVGCanvasCairo::SetClipPath(wxSVGElement* clipPathElem, wxSVGMatrix matrix) {
@@ -700,19 +718,7 @@ void wxSVGCanvasCairo::DrawCanvasImage(wxSVGCanvasImage& canvasImage, cairo_surf
 	
 	cairo_save(m_cr);
 	
-	// ClipPath
-	if (style.GetClipPath().GetCSSPrimitiveType() == wxCSS_URI && style.GetClipPath().GetStringValue().length() > 1) {
-		wxString clipPathId = style.GetClipPath().GetStringValue().substr(1);
-		wxSVGClipPathElement* clipPathElem = (wxSVGClipPathElement*) svgElem.GetElementById(clipPathId);
-		if (clipPathElem && clipPathElem->GetDtd() == wxSVG_CLIPPATH_ELEMENT) {
-			clipPathElem->SetOwnerSVGElement(&svgElem);
-			clipPathElem->SetViewportElement(&svgElem);
-			wxSVGMatrix clipMatrix(matrix);
-			clipPathElem->UpdateMatrix(clipMatrix);
-			SetClipPath(clipPathElem, clipMatrix);
-		}
-	}
-	
+	SetClipPath(style.GetClipPath(), matrix, svgElem);
 	SetMatrix(m_cr, matrix);
 	
 	// scale context

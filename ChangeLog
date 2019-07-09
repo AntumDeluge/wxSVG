@@ -3,7 +3,9 @@ git
 
   * added handling of fill-rule
   * added handling of spreadMethod
+  * added handling of clipPath
   * fixed handling of pt units
+  * fixed fill pattern with opacity
 
 Version 1.5.19 <2019-06-24>
 ---------------------------

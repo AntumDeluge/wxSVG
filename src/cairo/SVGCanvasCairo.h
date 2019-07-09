@@ -59,6 +59,7 @@ private:
 	void DrawPath(cairo_t* cr, wxSVGCanvasPathCairo& canvasPath, const wxSVGMatrix& matrix,
 			const wxCSSStyleDeclaration& style, wxSVGSVGElement& svgElem);
 	void SetMatrix(cairo_t* cr, const wxSVGMatrix& matrix);
+	void SetClipPath(const wxCSSPrimitiveValue& clipPath, wxSVGMatrix& matrix, wxSVGSVGElement& svgElem);
 	void SetClipPath(wxSVGElement* clipPathElem, wxSVGMatrix matrix);
 	void DrawMask(cairo_t* cr, wxSVGElement* maskElem, const wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style,
 			wxSVGSVGElement& svgElem);
