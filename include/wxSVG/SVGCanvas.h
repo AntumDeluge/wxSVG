@@ -70,7 +70,7 @@ protected:
 	
 	virtual void DrawCanvasText(wxSVGCanvasText& canvasText, wxSVGMatrix& matrix, const wxCSSStyleDeclaration& style,
 		wxSVGSVGElement& svgElem);
-	wxSVGPatternElement* GetPatternElement(const wxSVGSVGElement& svgElem, const wxString& href);
+	wxSVGPatternElement* GetPatternElement(const wxSVGSVGElement& svgElem, wxString href);
 	wxSVGMarkerElement* GetMarkerElement(const wxSVGSVGElement& svgElem, const wxString& href);
 	wxSVGGradientElement* GetGradientElement(const wxSVGSVGElement& svgElem, const wxString& href);
 	unsigned int GetGradientStops(const wxSVGSVGElement& svgElem, wxSVGGradientElement* gradElem, float opacity);

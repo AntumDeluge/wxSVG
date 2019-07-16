@@ -12,26 +12,25 @@
 WX_DEFINE_OBJARRAY(wxSVGTransformListBase);
 
 wxString wxSVGTransformList::GetValueAsString() const {
-  wxString value;
-  for (int i = 0; i < (int)GetCount(); i++) {
-  	if (i > 0)
-      value += wxT(" ");
-    value += Item(i).GetValueAsString();
-  }
-  return value;
+	wxString value;
+	for (int i = 0; i < (int) GetCount(); i++) {
+		if (i > 0)
+			value += wxT(" ");
+		value += Item(i).GetValueAsString();
+	}
+	return value;
 }
 
 void wxSVGTransformList::SetValueAsString(const wxString& value) {
-  Clear();
-  wxStringTokenizer tkz(value, wxT(" \t"));
-  while (tkz.HasMoreTokens()) 
-  { 
-    wxString token = tkz.GetNextToken(); 
-    if (token.length() == 0)
-    	continue;
-    wxSVGTransform transform;
-    transform.SetValueAsString(token);
-    if (transform.GetType() != wxSVG_TRANSFORM_UNKNOWN)
-      Add(transform);
-  }
+	Clear();
+	wxStringTokenizer tkz(value, wxT(")"));
+	while (tkz.HasMoreTokens()) {
+		wxString token = tkz.GetNextToken().Strip(wxString::both);
+		if (token.length() == 0)
+			continue;
+		wxSVGTransform transform;
+		transform.SetValueAsString(token + ")");
+		if (transform.GetType() != wxSVG_TRANSFORM_UNKNOWN)
+			Add(transform);
+	}
 }

@@ -124,7 +124,7 @@ void wxSVGCanvasPathCairo::ApplyStrokeStyle(cairo_t* cr, const wxCSSStyleDeclara
 		for (int i = 0; i < style.GetStrokeDasharray().GetLength(); i++) {
 			dashed[i] = style.GetStrokeDasharray().Item(i).GetFloatValue();
 		}
-		cairo_set_dash(cr, dashed, style.GetStrokeDasharray().GetLength(), 0.0);
+		cairo_set_dash(cr, dashed, style.GetStrokeDasharray().GetLength(), style.GetStrokeDashoffset());
 		delete dashed;
 	} else
 		cairo_set_dash(cr, NULL, 0, 0);

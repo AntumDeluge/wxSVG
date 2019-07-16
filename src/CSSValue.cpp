@@ -111,85 +111,70 @@ wxString wxCSSPrimitiveValue::GetStringValue() const
   return wxT("");
 }
 
-void wxCSSPrimitiveValue::SetFloatValue(wxCSS_PRIMITIVE_TYPE unitType, double doubleValue)
-{
-  CleanUp();
-  m_primitiveType =
-	int(unitType) >= int(wxCSS_NUMBER) &&
-	int(unitType) <= int(wxCSS_DIMENSION) ? unitType : wxCSS_NUMBER;
-  m_number = doubleValue;
-}
-
-double wxCSSPrimitiveValue::GetFloatValue(wxCSS_PRIMITIVE_TYPE unitType) const
-{
-  if (int(m_primitiveType) >= int(wxCSS_NUMBER) &&
-	  int(m_primitiveType) <= int(wxCSS_DIMENSION))
-	return m_number;
-  return 0;
-}
-
-void wxCSSPrimitiveValue::SetRectValue(const wxRect& rect)
-{
-  if (m_primitiveType != wxCSS_RECT)
-  {
+void wxCSSPrimitiveValue::SetFloatValue(wxCSS_PRIMITIVE_TYPE unitType, double doubleValue) {
 	CleanUp();
-	m_rect = new wxRect;
-  }
-  m_primitiveType = wxCSS_RECT;
-  *m_rect = rect;
+	m_primitiveType =
+			int(unitType) >= int(wxCSS_NUMBER) && int(unitType) <= int(wxCSS_DIMENSION) ? unitType : wxCSS_NUMBER;
+	m_number = doubleValue;
 }
 
-wxRect wxCSSPrimitiveValue::GetRectValue() const
-{
-  if (m_primitiveType == wxCSS_RECT)
-	return *m_rect;
-  return wxRect();
+double wxCSSPrimitiveValue::GetFloatValue(wxCSS_PRIMITIVE_TYPE unitType) const {
+	if (int(m_primitiveType) >= int(wxCSS_NUMBER) && int(m_primitiveType) <= int(wxCSS_DIMENSION))
+		return m_number;
+	return 0;
 }
 
-void wxCSSPrimitiveValue::SetRGBColorValue(const wxRGBColor& color)
-{
-  if (m_primitiveType != wxCSS_RGBCOLOR)
-  {
-	CleanUp();
-	m_color = new wxRGBColor;
-  }
-  m_primitiveType = wxCSS_RGBCOLOR;
-  *m_color = color;
+void wxCSSPrimitiveValue::SetRectValue(const wxRect& rect) {
+	if (m_primitiveType != wxCSS_RECT) {
+		CleanUp();
+		m_rect = new wxRect;
+	}
+	m_primitiveType = wxCSS_RECT;
+	*m_rect = rect;
 }
 
-wxRGBColor wxCSSPrimitiveValue::GetRGBColorValue() const
-{
-  if (m_primitiveType == wxCSS_RGBCOLOR)
-	return *m_color;
-  return wxRGBColor();
+wxRect wxCSSPrimitiveValue::GetRectValue() const {
+	if (m_primitiveType == wxCSS_RECT)
+		return *m_rect;
+	return wxRect();
 }
 
-void wxCSSPrimitiveValue::SetIdentValue(wxCSS_VALUE ident)
-{
-  if (m_primitiveType != wxCSS_IDENT)
-	CleanUp();
-  m_primitiveType = wxCSS_IDENT;
-  m_ident = ident;
+void wxCSSPrimitiveValue::SetRGBColorValue(const wxRGBColor& color) {
+	if (m_primitiveType != wxCSS_RGBCOLOR) {
+		CleanUp();
+		m_color = new wxRGBColor;
+	}
+	m_primitiveType = wxCSS_RGBCOLOR;
+	*m_color = color;
 }
 
-wxCSS_VALUE wxCSSPrimitiveValue::GetIdentValue() const
-{
-  if (m_primitiveType == wxCSS_IDENT)
-	return m_ident;
-  return wxCSS_VALUE_UNKNOWN;
+wxRGBColor wxCSSPrimitiveValue::GetRGBColorValue() const {
+	if (m_primitiveType == wxCSS_RGBCOLOR)
+		return *m_color;
+	return wxRGBColor();
 }
 
-void wxCSSPrimitiveValue::CleanUp()
-{
-  if (m_primitiveType == wxCSS_STRING ||
-	  m_primitiveType == wxCSS_URI ||
-	  m_primitiveType == wxCSS_ATTR)
-	delete m_string;
-  else if (m_primitiveType == wxCSS_RECT)
-	delete m_rect;
-  else if (m_primitiveType == wxCSS_RGBCOLOR)
-	delete m_color;
-  m_primitiveType = wxCSS_UNKNOWN;
+void wxCSSPrimitiveValue::SetIdentValue(wxCSS_VALUE ident) {
+	if (m_primitiveType != wxCSS_IDENT)
+		CleanUp();
+	m_primitiveType = wxCSS_IDENT;
+	m_ident = ident;
+}
+
+wxCSS_VALUE wxCSSPrimitiveValue::GetIdentValue() const {
+	if (m_primitiveType == wxCSS_IDENT)
+		return m_ident;
+	return wxCSS_VALUE_UNKNOWN;
+}
+
+void wxCSSPrimitiveValue::CleanUp() {
+	if (m_primitiveType == wxCSS_STRING || m_primitiveType == wxCSS_URI || m_primitiveType == wxCSS_ATTR)
+		delete m_string;
+	else if (m_primitiveType == wxCSS_RECT)
+		delete m_rect;
+	else if (m_primitiveType == wxCSS_RGBCOLOR)
+		delete m_color;
+	m_primitiveType = wxCSS_UNKNOWN;
 }
 
 //////////////////////////////////////////////////////////////////////////////
