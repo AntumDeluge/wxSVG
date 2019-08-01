@@ -4,8 +4,9 @@ libdir=@libdir@
 includedir=@includedir@
 
 Name: libwxsvg
-Description: C++ library to create, manipulate and render SVG files 
+Description: C++ library to create, manipulate and render SVG files
 Requires:
+Requires.private: pango, libexif
 Version: @VERSION@
 Libs: -L${libdir} -lwxsvg
 Cflags: -I${includedir}
