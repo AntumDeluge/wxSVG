@@ -1,5 +1,5 @@
-git
----
+Version 1.5.20 <2019-08-02>
+---------------------------
 
   * added handling of fill-rule
   * added handling of spreadMethod
@@ -14,7 +14,7 @@ Version 1.5.19 <2019-06-24>
 ---------------------------
 
   * fixed rendering polyline element
-  * fixed drawing a cubic Bézier curve if the previous command was not an c or s
+  * fixed drawing a cubic BÃ©zier curve if the previous command was not an c or s
 
 Version 1.5.18 <2019-05-19>
 ---------------------------
