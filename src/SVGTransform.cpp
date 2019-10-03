@@ -98,11 +98,14 @@ void wxSVGTransform::SetValueAsString(const wxString& value) {
 		return;
 	double params[6] = { 0, 0, 0, 0, 0, 0 };
 	wxStringTokenizer tkz(value.AfterFirst(wxT('(')).BeforeLast(wxT(')')),
-			wxT(","));
+			wxT(", "));
 	int pi = 0;
 	while (tkz.HasMoreTokens() && pi < 6) {
-		tkz.GetNextToken().ToDouble(&params[pi]);
-		pi++;
+		wxString tk = tkz.GetNextToken();
+		if (tk.length()) {
+			tk.ToDouble(&params[pi]);
+			pi++;
+		}
 	}
 	if (pi == 0)
 		return;
