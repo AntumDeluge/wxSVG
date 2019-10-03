@@ -348,6 +348,16 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 		RenderChilds(elem, rect, &matrix, &style, ownerSVGElement, viewportElement, progressDlg);
 		break;
 	}
+	case wxSVG_SWITCH_ELEMENT: {
+		wxSVGGElement* element = (wxSVGGElement*) elem;
+		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
+			break;
+		element->UpdateMatrix(matrix);
+		style.Add(element->GetStyle());
+		style.Add(element->GetAnimStyle());
+		RenderChilds(elem, rect, &matrix, &style, ownerSVGElement, viewportElement, progressDlg);
+		break;
+	}
 	case wxSVG_LINE_ELEMENT: {
 		wxSVGLineElement* element = (wxSVGLineElement*) elem;
 		if (element->GetVisibility() == wxCSS_VALUE_HIDDEN)
@@ -514,17 +524,19 @@ void wxSVGCanvas::RenderElement(wxSVGElement* elem, const wxSVGRect* rect, const
 			gElem->Translate(element->GetX().GetAnimVal(), element->GetY().GetAnimVal());
 		if (refElem->GetDtd() == wxSVG_SYMBOL_ELEMENT || refElem->GetDtd() == wxSVG_SVG_ELEMENT) {
 			wxSVGSVGElement* svgElem;
-			if (refElem->GetDtd() == wxSVG_SVG_ELEMENT)
+			if (refElem->GetDtd() == wxSVG_SVG_ELEMENT) {
 				svgElem = (wxSVGSVGElement*) refElem->CloneNode();
-			else {
+			} else {
+				wxSVGSymbolElement* symElem = (wxSVGSymbolElement*) refElem;
 				svgElem = new wxSVGSVGElement();
-				wxSvgXmlElement* child = refElem->GetChildren();
+				wxSvgXmlElement* child = symElem->GetChildren();
 				while (child) {
 					svgElem->AddChild(child->CloneNode());
 					child = child->GetNext();
 				}
-				svgElem->SetViewBox(((wxSVGSymbolElement*) refElem)->GetViewBox());
-				svgElem->SetPreserveAspectRatio(((wxSVGSymbolElement*) refElem)->GetPreserveAspectRatio());
+				svgElem->SetViewBox(symElem->GetViewBox());
+				svgElem->SetPreserveAspectRatio(symElem->GetPreserveAspectRatio());
+				svgElem->SetStyle(element->GetStyle());
 			}
 			if (element->GetWidth().GetAnimVal().GetUnitType() != wxSVG_LENGTHTYPE_UNKNOWN)
 				svgElem->SetWidth(element->GetWidth().GetAnimVal());
