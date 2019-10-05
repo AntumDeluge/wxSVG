@@ -455,9 +455,10 @@ void convertMaskRGB2Alpha(cairo_surface_t *img) {
         	double r = (double) (row[x] >> 16 & 0xFF) / 255;
         	double g = (double) (row[x] >> 8 & 0xFF) / 255;
         	double b = (double) (row[x] & 0xFF) / 255;
-        	a = a * (0.299*r + 0.587*g + 0.114*b);
-            uint32_t a1 = a * 255;
-            row[x] = (a1 << 24) + 0xffffff;
+        	double a1 = 0.299*r + 0.587*g + 0.114*b;
+        	a = a < a1 ? a : a1;
+            uint32_t a2 = a * 255;
+            row[x] = (a2 << 24) + 0xffffff;
         }
         current_row += stride;
     }
