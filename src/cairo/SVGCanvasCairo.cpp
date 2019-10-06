@@ -245,6 +245,8 @@ void wxSVGCanvasCairo::SetPaint(cairo_t* cr, const wxSVGPaint& paint, float opac
 		}
 	} else {
 		wxRGBColor color = paint.GetRGBColor();
+		if (color.Alpha() != 255)
+			opacity = opacity * color.Alpha() / 255.0;
 		cairo_set_source_rgba(cr, color.Red() / 255.0, color.Green() / 255.0, color.Blue() / 255.0, opacity);
 	}
 }

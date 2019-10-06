@@ -14,8 +14,9 @@ wxString wxSVGColor::GetCSSText() const
 {
   if (m_colorType == wxSVG_COLORTYPE_UNKNOWN)
 	return wxT("");
-  return wxString::Format(_T("#%02x%02x%02x"),
-	m_rgbColor.Red(), m_rgbColor.Green(), m_rgbColor.Blue());
+  return m_rgbColor.Alpha() == 255 ? wxString::Format(_T("#%02x%02x%02x"),
+	m_rgbColor.Red(), m_rgbColor.Green(), m_rgbColor.Blue())
+  : wxString::Format(_T("#%02x%02x%02x%02x"), m_rgbColor.Red(), m_rgbColor.Green(), m_rgbColor.Blue(), m_rgbColor.Alpha());
 }
 	
 void wxSVGColor::SetRGBColor(const wxRGBColor& rgbColor)

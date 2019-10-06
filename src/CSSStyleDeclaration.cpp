@@ -340,27 +340,47 @@ wxRGBColor wxCSSStyleDeclaration::ParseColor(const wxString& value) {
 	if (!value.length() || value == wxT("none"))
 		return wxRGBColor();
 	else if (value.GetChar(0) == wxT('#')) {
-		long r = 0, g = 0, b = 0, test;
-		if (!value.Mid(4, 1).ToLong(&test, 16)) {
+		long r = 0, g = 0, b = 0, a = 0, test;
+		if (value.length() < 5 || !value.Mid(4, 1).ToLong(&test, 16)) {
 			value.Mid(1, 1).ToLong(&r, 16);
 			value.Mid(2, 1).ToLong(&g, 16);
 			value.Mid(3, 1).ToLong(&b, 16);
 			return wxRGBColor((r << 4) | r, (g << 4) | g, (b << 4) | b);
-		} else {
+		} else if (value.length() < 8 || !value.Mid(7, 2).ToLong(&test, 16)) {
 			value.Mid(1, 2).ToLong(&r, 16);
 			value.Mid(3, 2).ToLong(&g, 16);
 			value.Mid(5, 2).ToLong(&b, 16);
 			return wxRGBColor(r, g, b);
+		} else {
+			value.Mid(1, 2).ToLong(&r, 16);
+			value.Mid(3, 2).ToLong(&g, 16);
+			value.Mid(5, 2).ToLong(&b, 16);
+			value.Mid(7, 2).ToLong(&a, 16);
+			return wxRGBColor(r, g, b, a);
 		}
-	} else if (value.Left(3) == wxT("rgb")) {
-		wxStringTokenizer tkz(value.Mid(3), wxT(",()"));
+	} else if (value.Left(4) == wxT("rgba")) {
+		wxStringTokenizer tkz(value.Mid(4), wxT(",()"));
 		long rgb[3] = { 0, 0, 0 };
-		for (int i = 0; tkz.HasMoreTokens() && i < 3;) {
+		double a;
+		for (int i = 0; tkz.HasMoreTokens() && i < 4;) {
 			wxString token = tkz.GetNextToken().Strip(wxString::both);
-			if (token.length())
-				token.ToLong(&rgb[i++]);
+			if (token.length()) {
+				if (i < 3)
+					token.ToLong(&rgb[i++]);
+				else
+					token.ToDouble(&a);
+			}
 		}
-		return wxRGBColor(rgb[0], rgb[1], rgb[2]);
+		return wxRGBColor(rgb[0], rgb[1], rgb[2], a*255);
+	} else if (value.Left(3) == wxT("rgb")) {
+			wxStringTokenizer tkz(value.Mid(3), wxT(",()"));
+			long rgb[3] = { 0, 0, 0 };
+			for (int i = 0; tkz.HasMoreTokens() && i < 3;) {
+				wxString token = tkz.GetNextToken().Strip(wxString::both);
+				if (token.length())
+					token.ToLong(&rgb[i++]);
+			}
+			return wxRGBColor(rgb[0], rgb[1], rgb[2]);
 	} else {
 		FillCSSColors();
 		int num = s_cssColors->Index(value);

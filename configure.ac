@@ -2,7 +2,7 @@
 
 # initialization
 AC_PREREQ(2.59)
-AC_INIT([wxsvg], [1.5.21], [http://wxsvg.sourceforge.net/])
+AC_INIT([wxsvg], [1.5.22], [http://wxsvg.sourceforge.net/])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE(foreign)
 AM_MAINTAINER_MODE
@@ -15,22 +15,22 @@ AM_MAINTAINER_MODE
 # 4. If any interfaces have been added since the last public release, then increment age.
 # 5. If any interfaces have been removed since the last public release then set age to 0.
 
-LIBRARY_VERSION=15:5:12 # current:revision:age -> libwxsvg.so.(C-A).(A).(R)
+LIBRARY_VERSION=15:6:12 # current:revision:age -> libwxsvg.so.(C-A).(A).(R)
 AC_SUBST(LIBRARY_VERSION)
 
 # options
 AM_OPTIONS_WXCONFIG
 AC_ARG_ENABLE(debug,
- [  --enable-debug          Enable debugging information],
+ [  --enable-debug            Enable debugging information],
  USE_DEBUG="$enableval", USE_DEBUG="no")
 AC_ARG_ENABLE(libav,
- [  --enable-libav         Enable libav decoder support (default: enabled)],
+ [  --enable-libav            Enable libav decoder support (default: enabled)],
  [enable_libav=$enableval],[enable_libav=yes])
 AC_ARG_ENABLE(render,
- [  --enable-render[=render]          Specify the render: cairo (default) or skia],
+ [  --enable-render[=render]  Specify the render: cairo (default) or skia],
  [USE_RENDER=$enableval], [USE_RENDER=cairo])
 AC_ARG_WITH(datarootdir,
- [  --with-datarootdir=DIR  Use DIR as the data root [[PREFIX/share]]],
+ [  --with-datarootdir=DIR    Use DIR as the data root [[PREFIX/share]]],
  [datarootdir="\${prefix}/$with_datarootdir"], [datarootdir='$(prefix)/share'])
 AC_SUBST(datarootdir)
 
