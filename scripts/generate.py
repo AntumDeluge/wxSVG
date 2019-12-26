@@ -29,7 +29,7 @@ import enum_map
 import string
 import mapDtdIdl
 import interfaces
-import config
+import conf
 import genAnimated
 import genList
 import genCSS
@@ -592,7 +592,7 @@ if len(parse_idl.class_decls):
             output = output + '  protected:\n' + protected + '\n'
         output = output + '  public:\n' + public
         header.add_content(fwd_decl_str + includestr + output)
-        header.dump(path=config.include_dir)
+        header.dump(path=conf.include_dir)
         
         
         ############## write cpp files (disabled) ############################
@@ -610,7 +610,7 @@ if len(parse_idl.class_decls):
 
 #include "%s.h"\n
 '''%(classname,classname) + cpp_output
-            #f = genFile.gfopen(os.path.join(config.src_dir, "%s.cpp"%classname),'w')
+            #f = genFile.gfopen(os.path.join(conf.src_dir, "%s.cpp"%classname),'w')
             #f.write(cpp_output)
 
 ###################### Generate copy constructor  ############################
@@ -619,7 +619,7 @@ for include in copy_constructor_includes:
     includes = includes + '#include "%s.h"\n'%include  
 impl = cppImpl.Impl("Elements_CopyConstructors", "generate.py")
 impl.add_content(includes + copy_constructor_impl)
-impl.dump(path=config.src_dir)
+impl.dump(path=conf.src_dir)
 
 ###################### Generate animated, lists, setattribute, ... ##########
 for i in used_animated:

@@ -8,7 +8,7 @@
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
 
-import config
+import conf
 import cpp
 import cppHeader
 
@@ -115,5 +115,5 @@ class wxSVGAnimated%s
     
     header = cppHeader.Header("SVGAnimated%s"%name, "genAnimated.py")
     header.add_content(output)
-    header.dump(path=config.include_dir)
+    header.dump(path=conf.include_dir)
 

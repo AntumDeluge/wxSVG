@@ -358,6 +358,7 @@ inter.include_fwd_decls.append("ProgressDialog")
 inter.include_methods.append('    int GetDefaultWidth(wxProgressDialog* progressDlg = NULL);\n')
 inter.include_methods.append('    int GetDefaultHeight(wxProgressDialog* progressDlg = NULL);\n')
 inter.include_methods.append('    void SetDefaultSize(wxProgressDialog* progressDlg = NULL);\n')
+#inter.custom_parser=1
 
 # SVGVideElement
 inter = interfaces["SVGVideoElement"]

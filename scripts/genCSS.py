@@ -7,7 +7,7 @@
 ## Copyright:   (c) 2005 Alex Thuering
 ##############################################################################
 
-import config
+import conf
 import string
 import cpp
 import cppHeader
@@ -37,7 +37,7 @@ class Property:
 
 # loads SVG11CSSpropidx.xhtml and fills cssProperties list
 def parseCSSProps():
-    doc = xml.dom.minidom.parse(config.share_dir + "/SVG11CSSpropidx.xhtml")
+    doc = xml.dom.minidom.parse(conf.share_dir + "/SVG11CSSpropidx.xhtml")
     tbody = doc.getElementsByTagName('html')[0].getElementsByTagName('body')[0].getElementsByTagName('table')[0].getElementsByTagName('tbody')[0]
     for tr in tbody.childNodes:
         if tr.nodeName == "tr":
@@ -312,7 +312,7 @@ class wxCSSStyleRef: public wxCSSStyleDeclaration
     
     header = cppHeader.Header("CSSStyleDeclaration", "genCSS.py")
     header.add_content(output)
-    header.dump(path=config.include_dir)
+    header.dump(path=conf.include_dir)
 
 def getFunctionName(valueType):
     if valueType == 'wxCSS_VALUE':
@@ -357,7 +357,7 @@ wxString s_cssPropertyStrings[] =
     
     impl = cppImpl.Impl("css_properties", "genCSS.py")
     impl.add_content(output)
-    impl.dump(path=config.src_dir)
+    impl.dump(path=conf.src_dir)
 
 ############################### CSSValues.h ##################################
 def genValues():
@@ -383,7 +383,7 @@ enum wxCSS_VALUE
     
     header = cppHeader.Header("CSSValues", "genCSS.py")
     header.add_content(output)
-    header.dump(path=config.include_dir)
+    header.dump(path=conf.include_dir)
     
     values = ''
     for value in cssValues:
@@ -398,5 +398,5 @@ wxString s_cssValueStrings[] =
 };'''%values
     impl = cppImpl.Impl("css_values", "genCSS.py")
     impl.add_content(output)
-    impl.dump(path=config.src_dir)
+    impl.dump(path=conf.src_dir)
 

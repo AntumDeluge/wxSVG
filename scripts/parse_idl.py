@@ -12,7 +12,7 @@ import re
 import string
 import os.path
 import idl
-import config
+import conf
 import collections
 
 try:
@@ -39,7 +39,7 @@ def get_close_bracket(content):
 			depth=depth-1
 	return m.end()
 
-pathtoidl= config.share_dir+"/svg.idl"
+pathtoidl= conf.share_dir+"/svg.idl"
 
 f=open(pathtoidl, 'r')
 content = f.read()

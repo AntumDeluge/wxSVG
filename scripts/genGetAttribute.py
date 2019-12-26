@@ -12,7 +12,7 @@
 import parse_idl
 import mapDtdIdl
 import string
-import config
+import conf
 import genFile
 import cpp
 import cppImpl
@@ -163,5 +163,5 @@ for i in includes:
 
 impl = cppImpl.Impl("Elements_GetAttribute", "genGetAttribute.py")
 impl.add_content(includestr + output_cpp)
-impl.dump(path=config.src_dir)
+impl.dump(path=conf.src_dir)
 

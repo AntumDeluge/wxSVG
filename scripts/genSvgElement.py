@@ -14,7 +14,7 @@ import parse_dtd
 import cpp
 import cppHeader
 import cppImpl
-import config
+import conf
 
 translate_to_classname = {
   "Tbreak": "TBreak",
@@ -83,14 +83,14 @@ dtdenum = 'enum wxSVGDTD\n{\n' + dtdenum + '  wxSVG_UNKNOWN_ELEMENT\n};'
 
 impl = cppImpl.Impl("SVGDocument_CreateElement", "genSvgElement.py")
 impl.add_content(create)
-impl.dump(path=config.src_dir)
+impl.dump(path=conf.src_dir)
 
 includes = includes + '#include "SVGDocument.h"\n'
 header = cppHeader.Header("svg", "genSvgElement.py")
 header.add_content(includes)
-header.dump(path=config.include_dir)
+header.dump(path=conf.include_dir)
 
 header = cppHeader.Header("SVGDTD", "genSvgElement.py")
 header.add_content(dtdenum)
-header.dump(path=config.include_dir)
+header.dump(path=conf.include_dir)
 

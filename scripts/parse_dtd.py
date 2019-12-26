@@ -14,9 +14,9 @@
 import re, string
 import parse_attr
 import os.path
-import config
+import conf
 
-pathtosvg=os.path.expanduser(config.share_dir + "/svg.dtd")
+pathtosvg=os.path.expanduser(conf.share_dir + "/svg.dtd")
 
 f=open(pathtosvg,'r')
 content=f.read()

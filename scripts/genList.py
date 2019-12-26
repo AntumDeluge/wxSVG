@@ -8,7 +8,7 @@
 ## Notes:       some modules adapted from svgl project
 ##############################################################################
 
-import config
+import conf
 import genAnimated
 import cpp
 import cppHeader
@@ -24,9 +24,11 @@ def generate(name):
     elif typename not in cpp.builtin_types:
         include = '#include "SVG%s.h"\n'%name
     
-    addParam = ""
+    addGetParam = ""
+    addSetParam = ""
     if name == "String":
-        addParam = ", wxChar delimiter = wxT(',')"
+        addGetParam = "wxChar delimiter = wxT(',')"
+        addSetParam = ", wxChar delimiter = wxT(',')"
     
     output = '''%s#include "String_wxsvg.h"
 #include <wx/dynarray.h>
@@ -37,13 +39,13 @@ class wxSVG%sList: public wxSVG%sListBase
   public:
     wxSVG%sList() {}
     
-    wxString GetValueAsString() const;
+    wxString GetValueAsString(%s) const;
     void SetValueAsString(const wxString& value%s);
-};'''%(include, typename, name, name, name, name, addParam)
+};'''%(include, typename, name, name, name, name, addGetParam, addSetParam)
 
     header = cppHeader.Header("SVG%sList"%name, "genList.py")
     header.add_content(output)
-    header.dump(path=config.include_dir)
+    header.dump(path=conf.include_dir)
     
     output = '''#include "SVG%sList.h"
 #include <wx/arrimpl.cpp>
@@ -61,5 +63,5 @@ void wxSVG%sList::SetValueAsString(const wxString& value)
 }'''%(name,name,name,name)
 #    impl = cppImpl.Impl("SVG%sList"%name, "genList.py")
 #    impl.add_content(output)
-#    impl.dump(path=config.src_dir)
+#    impl.dump(path=conf.src_dir)
 
