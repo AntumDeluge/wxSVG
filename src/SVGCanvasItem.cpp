@@ -1430,11 +1430,13 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 			}
 		}
 #ifdef USE_LIBAV
-		bool log = wxLog::EnableLogging(false);
-		m_image.LoadFile(filename);
-		ExifHandler::rotateImage(filename, m_image);
-		wxLog::EnableLogging(log);
-		if (!m_image.Ok()) {
+		wxString videoExt = ".asf;.avi;.avs;.dv;.flv;.m2p;.m2ts;.mkv;.mov;.mp4;.mpeg;.mpg;.mts;.ogg;.ogm;.vob;.vro;.webm;.wmv;.m1v;.m2v;.mpv;.m4v;";
+		if (videoExt.Find("." + filename.AfterLast('.').Lower() + ";") == wxNOT_FOUND) {
+			// Image file
+			m_image.LoadFile(filename);
+			ExifHandler::rotateImage(filename, m_image);
+		} else {
+			// Video file
 			wxFfmpegMediaDecoder decoder;
 			if (decoder.Load(filename)) {
 				if (progressDlg) {
@@ -1471,8 +1473,8 @@ void wxSVGCanvasImage::Init(wxSVGImageElement& element, const wxCSSStyleDeclarat
 			}
 		}
 #else
-		ExifHandler::rotateImage(filename, m_image);
 		m_image.LoadFile(filename);
+		ExifHandler::rotateImage(filename, m_image);
 #endif
 	}
 }
