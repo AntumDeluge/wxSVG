@@ -1,11 +1,7 @@
-Version 1.5.23 <2019-12-26>
+Version 1.5.22 <2019-12-27>
 ---------------------------
 
   * wxSVGImage: fixed loading of video frames
-
-Version 1.5.22 <2019-10-06>
----------------------------
-
   * added support of rgba colors
 
 Version 1.5.21 <2019-10-05>
