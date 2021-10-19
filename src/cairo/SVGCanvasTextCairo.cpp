@@ -85,9 +85,13 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 		cairo_text_path(cr, (const char*) token.utf8_str());
 		
 		// decoration
-		if (style.GetTextDecoration() == wxCSS_VALUE_UNDERLINE) {
+		if (style.GetTextDecoration() == wxCSS_VALUE_UNDERLINE
+				|| style.GetTextDecoration() == wxCSS_VALUE_LINE_THROUGH) {
 			m_char->decorationPath = m_canvas->CreateCanvasPath(matrix);
-			m_char->decorationPath->MoveTo(m_tx + x, m_ty + y + fextents.height/10);
+			if (style.GetTextDecoration() == wxCSS_VALUE_UNDERLINE)
+				m_char->decorationPath->MoveTo(m_tx + x, m_ty + y + fextents.height/10);
+			else
+				m_char->decorationPath->MoveTo(m_tx + x, m_ty + y - extents.height/2);
 		}
 		
 		if (x_advance < extents.x_advance)
@@ -99,7 +103,8 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 			y += fextents.height;
 		
 		// decoration
-		if (style.GetTextDecoration() == wxCSS_VALUE_UNDERLINE) {
+		if (style.GetTextDecoration() == wxCSS_VALUE_UNDERLINE
+				|| style.GetTextDecoration() == wxCSS_VALUE_LINE_THROUGH) {
 			m_char->decorationPath->LineTo(extents.width, 0, true);
 		}
 	}
@@ -144,9 +149,13 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 	double height = ((double)lheight / PANGO_SCALE);
 	
 	// decoration
-	if (style.GetTextDecoration() == wxCSS_VALUE_UNDERLINE) {
+	if (style.GetTextDecoration() == wxCSS_VALUE_UNDERLINE
+			|| style.GetTextDecoration() == wxCSS_VALUE_LINE_THROUGH) {
 		m_char->decorationPath = m_canvas->CreateCanvasPath(matrix);
-		m_char->decorationPath->MoveTo(m_tx, m_ty - ((double)baseline / PANGO_SCALE) + height/10);
+		if (style.GetTextDecoration() == wxCSS_VALUE_UNDERLINE)
+			m_char->decorationPath->MoveTo(m_tx, m_ty - ((double)baseline / PANGO_SCALE) + height/10);
+		else
+			m_char->decorationPath->MoveTo(m_tx, m_ty - height/2);
 		m_char->decorationPath->LineTo(width, 0, true);
 	}
 	
