@@ -1,4 +1,4 @@
-Version 1.5.23 <2021-02-11>
+Version 1.5.23 <2021-11-02>
 ---------------------------
 
   * wxSVGTextElement: added support of text-decoration "underline" and "line-through"
