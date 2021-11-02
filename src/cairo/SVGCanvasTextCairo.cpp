@@ -153,9 +153,9 @@ void wxSVGCanvasTextCairo::InitText(const wxString& text, const wxCSSStyleDeclar
 			|| style.GetTextDecoration() == wxCSS_VALUE_LINE_THROUGH) {
 		m_char->decorationPath = m_canvas->CreateCanvasPath(matrix);
 		if (style.GetTextDecoration() == wxCSS_VALUE_UNDERLINE)
-			m_char->decorationPath->MoveTo(m_tx, m_ty - ((double)baseline / PANGO_SCALE) + height/10);
+			m_char->decorationPath->MoveTo(m_tx, m_ty + height/10);
 		else
-			m_char->decorationPath->MoveTo(m_tx, m_ty - height/2);
+			m_char->decorationPath->MoveTo(m_tx, m_ty - ((double)baseline / PANGO_SCALE / 2) + height/10);
 		m_char->decorationPath->LineTo(width, 0, true);
 	}
 	
