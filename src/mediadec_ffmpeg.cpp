@@ -20,6 +20,7 @@
 #define UINT64_C(val) val##ULL
 #endif
 extern "C" {
+#include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 #include <libavutil/avutil.h>
@@ -153,6 +154,9 @@ StreamType wxFfmpegMediaDecoder::GetStreamType(unsigned int streamIndex) {
 }
 
 wxString wxFfmpegMediaDecoder::GetCodecName(unsigned int streamIndex) {
+#if LIBAVCODEC_VERSION_MAJOR >= 59
+	const
+#endif
 	AVCodec *codec = avcodec_find_decoder(m_formatCtx->streams[streamIndex]->codecpar->codec_id);
 	if (codec) {
 		return wxString(codec->name, wxConvLocal);
@@ -193,6 +197,9 @@ bool wxFfmpegMediaDecoder::OpenVideoDecoder() {
 	
 	// find and open the decoder for the video stream 
 	AVStream* stream = m_formatCtx->streams[m_videoStream];
+#if LIBAVCODEC_VERSION_MAJOR >= 59
+	const
+#endif
 	AVCodec* codec = avcodec_find_decoder(stream->codecpar->codec_id);
 	if (!codec)
 		return false;
@@ -255,7 +262,11 @@ double wxFfmpegMediaDecoder::GetPosition() {
 	AVStream *st = GetVideoStream();
 	if (st == NULL)
 		return -1;
+#if LIBAVCODEC_VERSION_MAJOR >= 59
+	int64_t timestamp = m_cur_dts;
+#else
 	int64_t timestamp = st->cur_dts;
+#endif
 	if (timestamp == (int64_t)AV_NOPTS_VALUE)
 		return -1;
 	timestamp = av_rescale(timestamp, AV_TIME_BASE * (int64_t)st->time_base.num, st->time_base.den);
@@ -308,6 +319,7 @@ wxImage wxFfmpegMediaDecoder::GetNextFrame() {
 				uint8_t *rgbSrc[3] = { img.GetData(), NULL, NULL };
 				int rgbStride[3] = { 3 * m_width, 0, 0 };
 				sws_scale(imgConvertCtx, m_frame->data, m_frame->linesize, 0, m_codecCtx->height, rgbSrc, rgbStride);
+				m_cur_dts = packet.dts;
 				av_packet_unref(&packet);
 				sws_freeContext(imgConvertCtx);
 				return img;

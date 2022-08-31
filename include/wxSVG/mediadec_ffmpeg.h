@@ -81,6 +81,7 @@ private:
 	bool OpenVideoDecoder();
 	void CloseVideoDecoder();
 	AVStream* GetVideoStream();
+	int64_t m_cur_dts;
 };
 
 #endif //FFMPEG_MEDIA_DECODER_H
