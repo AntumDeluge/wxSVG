@@ -1,8 +1,8 @@
 # Process this file with autoconf to produce a configure script.
 
 # initialization
-AC_PREREQ(2.59)
-AC_INIT([wxsvg], [1.5.24], [http://wxsvg.sourceforge.net/])
+AC_PREREQ([2.71])
+AC_INIT([wxsvg],[1.5.24],[http://wxsvg.sourceforge.net/])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE(foreign)
 AM_MAINTAINER_MODE
@@ -48,7 +48,7 @@ prefix=$m_cv_prefix
 
 
 # Checks for programs.
-AC_LANG_CPLUSPLUS
+AC_LANG([C++])
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_CC
@@ -57,8 +57,8 @@ AC_PROG_CXXCPP
 PKG_PROG_PKG_CONFIG()
 
 # Check for libtool
-m4_pattern_allow([AC_PROG_LIBTOOL])
-AC_PROG_LIBTOOL
+m4_pattern_allow([LT_INIT])
+LT_INIT
 
 # debug flags
 case "$USE_DEBUG" in
